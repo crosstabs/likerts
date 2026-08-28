@@ -222,10 +222,6 @@ function AppContent({ uiLocale, setUiLocale }) {
       <header className="public-header">
         <div className="public-header-inner">
           <Brand />
-          <div className="ad-slot" aria-label="Advertisement placement">
-            <span>{t('ad')}</span>
-            <small>{t('adReserved')}</small>
-          </div>
           <div className="header-meta">
             <label className="language-picker">
               <GlobeIcon size={16} />
