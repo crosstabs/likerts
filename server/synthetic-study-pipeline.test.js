@@ -98,6 +98,26 @@ test('AUTO uses two tagged Gateway Exa searches with anonymous attribution and d
   assert.equal(evidence.external.events[0].searches.length, 2);
 });
 
+test('AUTO retains one successful Gateway query when its paired query fails', async () => {
+  let calls = 0;
+  const evidence = await acquireEvidence(input({ market: 'Japan', searchCountry: 'JP' }), {
+    env: { VERCEL_OIDC_TOKEN: 'test-oidc-token' },
+    searchGenerate: async () => {
+      calls += 1;
+      if (calls === 2) throw new Error('second query unavailable');
+      return {
+        toolResults: [{
+          toolName: 'exa_search',
+          output: { requestId: 'partial-search', results: [{ id: 'one', title: 'Usable source', url: 'https://example.com/partial', highlights: ['One bounded query completed.'] }] },
+        }],
+      };
+    },
+  });
+  assert.equal(evidence.mode, 'EXA_GATEWAY');
+  assert.equal(evidence.ledger.length, 1);
+  assert.deepEqual(evidence.external.events[0].searches.map((search) => search.outcome).sort(), ['completed', 'failed']);
+});
+
 test('AUTO uses validated Exa highlights when Firecrawl is unavailable', async () => {
   let calls = 0;
   const evidence = await acquireEvidence(input(), {
