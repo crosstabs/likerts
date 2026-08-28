@@ -15,7 +15,7 @@ export const languageOptions = [
 
 const en = {
   free: 'Free to use · no account required', ad: 'Advertisement', adReserved: 'Reserved ad inventory',
-  hero: 'Build a defensible synthetic study', subhero: 'Ground a directional panel in current sources, population assumptions, and independent model review.',
+  hero: 'Free synthetic market research, grounded in current sources', subhero: 'Test concepts and audience hypotheses with market-aware evidence, explicit assumptions, and multi-model review—no account required.',
   question: 'Research question', audience: 'Audience', audiencePlaceholder: 'e.g. Remote knowledge workers · Ages 25–54', market: 'Market', global: 'Global',
   reportLanguage: 'Report language', sourceLanguage: 'Source language', anyLanguage: 'Any language', units: 'Simulation units', notPeople: 'not surveyed people',
   sources: 'Evidence sources', optionalUrls: 'optional public URLs', addSource: 'Add source', removeSource: 'Remove source', run: 'Run grounded study', running: 'Running research agents…',

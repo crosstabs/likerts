@@ -9,6 +9,7 @@
 - [Methodology](https://likerts.com/methodology/): How the tool separates source context, assumptions, model inference, and methodological model review.
 - [Limitations](https://likerts.com/limitations/): Evidence boundaries and appropriate use.
 - [Examples](https://likerts.com/examples/): Example hypotheses to explore, followed by human validation.
+- [Free synthetic market research](https://likerts.com/synthetic-market-research/): Product capabilities, global workflow, appropriate uses, and evidence boundaries.
 - [Remote MCP endpoint](https://likerts.com/api/mcp): Streamable HTTP interface for validating a brief or running the same evidence-aware synthetic workflow programmatically.
 
 ## Use guidance

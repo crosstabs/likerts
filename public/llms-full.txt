@@ -36,6 +36,7 @@ Use a Likerts output to design interviews, a properly sampled survey, usability 
 ## Public documentation
 
 - App: https://likerts.com/
+- Synthetic market research: https://likerts.com/synthetic-market-research/
 - How it works: https://likerts.com/how-it-works/
 - Methodology: https://likerts.com/methodology/
 - Limitations: https://likerts.com/limitations/

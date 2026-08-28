@@ -266,6 +266,7 @@ function AppContent({ uiLocale, setUiLocale }) {
         <span>Likerts · Synthetic, directional research</span>
         <nav aria-label="Product documentation">
           <a href="/how-it-works/">How it works</a>
+          <a href="/synthetic-market-research/">Synthetic research</a>
           <a href="/methodology/">Methodology</a>
           <a href="/limitations/">Limitations</a>
           <a href="/examples/">Examples</a>
