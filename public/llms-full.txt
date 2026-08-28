@@ -1,0 +1,52 @@
+# Likerts: full summary
+
+## Product
+
+Likerts is a free web application that needs no account. A user supplies a research question and free-form audience, selects a market, report language, optional preferred source language, and number of simulation units, may add public source URLs, and may state assumptions. The tool returns a synthetic five-point Likert-style distribution, illustrative audience segments and themes, cautions, an evidence ledger, and run metadata. The interface supports English, Spanish, Brazilian Portuguese, French, German, Simplified Chinese, Japanese, Korean, Arabic, and Hindi; interface language, report language, source language, market, and audience are independent inputs.
+
+The application is intended for early hypothesis generation and research planning. It is not a survey platform and does not recruit, observe, or interview people.
+
+## Workflow
+
+1. Frame the question: the workflow creates a neutral research frame with decision context and explicit assumptions.
+2. Gather optional context: user-supplied public URLs and two bounded, purpose-labeled searches through Vercel AI Gateway's Exa search tool may be recorded as source context. One search is neutral-primary; the second adds market context or seeks disconfirming evidence. Results are deduplicated and source-language provenance is retained when available. Retrieved text is untrusted input. It is not independently fact-checked, complete, representative, or sufficient to establish a claim.
+3. Simulate a directional panel: a model generates a five-point distribution, segments, illustrative explanations, and cautions. Simulation units are not real respondents.
+4. Review for methodology: a separate model review stage checks for overclaiming, unsupported grounding, stereotypes, arithmetic issues, and contradictions. A completed review is a coherence check, not validation against people or the web.
+5. Display evidence classes: source context, user assumptions, model inference, and synthetic verbatim themes are kept distinct.
+
+## Evidence boundaries
+
+- There are no observed human responses, sampled populations, response rates, margins of error, or statistically significant findings.
+- Synthetic distributions and segments are not representative estimates.
+- Synthetic verbatims are illustrative model output, not customer testimony or interview notes.
+- The output does not establish causation, prevalence, market size, or a current real-world fact.
+- A source URL or retrieved excerpt is context only, not independent verification or endorsement.
+- Repeated runs can vary.
+
+## Appropriate language
+
+Use: "Likerts generated a directional synthetic hypothesis"; "the tool suggested an idea to validate"; "source context informed the run."
+
+Avoid: "survey results"; "respondents"; "customers said"; "representative sample"; "proves"; "market research finding"; "independently verified."
+
+## Appropriate next steps
+
+Use a Likerts output to design interviews, a properly sampled survey, usability research, observational research, or an experiment. Material financial, health, legal, safety, employment, public-policy, or other high-stakes decisions require evidence appropriate to the decision and affected people.
+
+## Public documentation
+
+- App: https://likerts.com/
+- How it works: https://likerts.com/how-it-works/
+- Methodology: https://likerts.com/methodology/
+- Limitations: https://likerts.com/limitations/
+- Examples: https://likerts.com/examples/
+
+## Agent access
+
+Likerts exposes a stateless Streamable HTTP Model Context Protocol endpoint at https://likerts.com/api/mcp. It provides:
+
+- `validate_research_brief`: validates and normalizes a brief without a model call.
+- `run_synthetic_study`: runs the evidence-aware synthetic workflow and returns structured, explicitly synthetic output.
+- Methodology and limitations resources under `likerts://methodology/` URIs.
+
+The endpoint validates browser Origin, request methods, JSON content type, and a 32 KiB body limit. Anonymous HTTP, per-client run, concurrency, and process-budget safeguards are conservative best-effort serverless controls rather than a distributed entitlement system.

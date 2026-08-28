@@ -1,0 +1,17 @@
+{
+  "name": "Likerts — Directional synthetic research",
+  "short_name": "Likerts",
+  "description": "Free, no-account synthetic research for exploring directional audience hypotheses.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#021a38",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

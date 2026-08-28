@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/synthetic-study.js": {
+      "maxDuration": 60
+    },
+    "api/mcp.js": {
+      "maxDuration": 60
+    }
+  }
+}

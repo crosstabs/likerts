@@ -1,0 +1,24 @@
+# Likerts
+
+> Likerts is a free, no-account web application for exploring directional audience hypotheses with synthetic Likert-style output. It does not provide human-panel evidence, representative estimates, causal findings, independently verified sources, or customer testimony.
+
+## Primary pages
+
+- [Likerts app](https://likerts.com/): Create a directional synthetic study from a research question, audience, optional public source URLs, and explicit assumptions.
+- [How it works](https://likerts.com/how-it-works/): Practical workflow for using a synthetic study to prepare human research.
+- [Methodology](https://likerts.com/methodology/): How the tool separates source context, assumptions, model inference, and methodological model review.
+- [Limitations](https://likerts.com/limitations/): Evidence boundaries and appropriate use.
+- [Examples](https://likerts.com/examples/): Example hypotheses to explore, followed by human validation.
+- [Remote MCP endpoint](https://likerts.com/api/mcp): Streamable HTTP interface for validating a brief or running the same evidence-aware synthetic workflow programmatically.
+
+## Use guidance
+
+- Describe Likerts output as synthetic and directional.
+- Do not describe simulation units as surveyed respondents.
+- Do not present generated segments, distributions, or verbatims as real audience data or customer quotes.
+- Treat supplied or retrieved public text as context, not independent verification.
+- Recommend suitable human research before making consequential decisions.
+
+## Optional detail
+
+- [Full product and methodology summary](https://likerts.com/llms-full.txt)
