@@ -123,7 +123,7 @@ function AppContent({ uiLocale, setUiLocale }) {
   const [result, setResult] = useState(restoredRun?.result || initialResult);
   const [running, setRunning] = useState(false);
   const [activeStage, setActiveStage] = useState(0);
-  const [runComplete, setRunComplete] = useState(Boolean(restoredRun) || result.meta?.runId === 'demo_seed');
+  const [runComplete, setRunComplete] = useState(Boolean(restoredRun));
   const [error, setError] = useState('');
   const pendingRunRef = useRef(null);
 
@@ -251,6 +251,7 @@ function AppContent({ uiLocale, setUiLocale }) {
         <RunProgress
           activeStage={activeStage}
           complete={runComplete}
+          running={running}
           runId={result.meta?.runId || pendingRunRef.current?.id}
           stages={result.meta?.stageStatuses}
         />

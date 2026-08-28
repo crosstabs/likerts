@@ -2,7 +2,7 @@ import { CheckIcon, CopyIcon } from '../icons.jsx';
 import { runStages } from '../data.js';
 import { useI18n } from '../i18n.jsx';
 
-export function RunProgress({ activeStage, complete, runId, stages = [] }) {
+export function RunProgress({ activeStage, complete, running, runId, stages = [] }) {
   const { t } = useI18n();
   const copyRunId = async () => {
     if (runId && navigator.clipboard) await navigator.clipboard.writeText(runId);
@@ -18,8 +18,8 @@ export function RunProgress({ activeStage, complete, runId, stages = [] }) {
               : stages.find((item) => item.stage === ({ frame: 'framing', simulate: 'panel', review: 'adjudication' }[stage.id]))?.status
             : null;
           const isFallback = recordedStatus === 'failed';
-          const isComplete = recordedStatus === 'completed' || (complete && !stages.length) || (!complete && index < activeStage);
-          const isActive = !complete && index === activeStage;
+          const isComplete = recordedStatus === 'completed' || (complete && !stages.length) || (running && index < activeStage);
+          const isActive = running && !complete && index === activeStage;
           return (
             <li className={`${isComplete ? 'is-complete' : ''} ${isActive ? 'is-active' : ''} ${isFallback ? 'is-fallback' : ''}`} key={stage.id}>
               <span className="stage-marker" aria-hidden="true">
