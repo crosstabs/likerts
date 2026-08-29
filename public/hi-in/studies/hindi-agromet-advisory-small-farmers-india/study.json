@@ -1,0 +1,437 @@
+{
+  "schemaVersion": "1.0",
+  "brief": {
+    "schemaVersion": "1.0",
+    "stableId": "SS-HI-IN-001",
+    "slug": "hindi-agromet-advisory-small-farmers-india",
+    "locale": "hi-IN",
+    "industry": "agriculture",
+    "title": "भारत के छोटे किसानों के लिए हिंदी कृषि-मौसम सलाह",
+    "description": "समय, भरोसे और कार्रवाई योग्य सलाह पर एक दिशात्मक परिकल्पना।",
+    "researchIntent": "यह जानना कि स्थानीय भाषा, आवाज़ और फसल-स्तरीय प्रासंगिकता सत्यापित कृषि-मौसम सलाह के नियमित उपयोग को कैसे प्रभावित कर सकती है।",
+    "disclosure": "यह मॉडल-जनित संश्लेषित परिणाम है, देखा गया मानव सर्वेक्षण परिणाम नहीं।",
+    "evidenceBoundary": "कृषि जनगणना परिचालन जोतों की रूपरेखा और IMD मौजूदा मौसम व सलाह सेवाओं का संदर्भ दे सकते हैं; ये फोन पहुँच, समझ, नियमित उपयोग, कार्रवाई, उपज, आय या कृषि परिणाम सिद्ध नहीं करते।",
+    "humanValidation": "कम-से-कम तीन राज्यों में सहायक हिंदी साक्षात्कार करें; टेक्स्ट, आवाज़, कम-डेटा और साझा-डिवाइस यात्राएँ जाँचें; एक पूरी फसल अवस्था तक पायलट चलाकर संदेश प्राप्ति, समझ, कार्रवाई, गैर-उपयोग और विस्तार-कर्मी तक पहुँच देखें।",
+    "curatedContextUrls": [
+      "https://mausam.imd.gov.in/responsive/agromet_adv_ser_state_current.php",
+      "https://mausamsankalp.imd.gov.in/",
+      "https://internal.imd.gov.in/press_release/20220824_pr_1790.pdf",
+      "https://www.agcensus.gov.in/AgriCensus/media/Operational%20Guideline%202021-22.pdf"
+    ],
+    "request": {
+      "prompt": "यदि आपके ब्लॉक और फसल के अनुसार सत्यापित मौसम‑कृषि सलाह हिन्दी में, कम डेटा वाले ऐप और आवाज़ दोनों से, सप्ताह में दो बार मुफ़्त मिले, तो आपके उसे नियमित रूप से देखने की कितनी संभावना है?",
+      "audience": "हिंदी-भाषी जिलों के छोटे और सीमांत परिचालन जोत धारक जिनके पास निजी या साझा मोबाइल फोन की पहुँच है",
+      "panelSize": 200,
+      "assumptions": "सेवा मुफ़्त है; सलाह समय-मुद्रित है और IMD या विस्तार स्रोतों से जुड़ी है; आवाज़ कम बैंडविड्थ पर काम करती है; साझा उपकरण समर्थित हैं; सेवा स्थानीय विस्तार सलाह का स्थान नहीं लेती।",
+      "market": "India",
+      "searchLocation": "India",
+      "sourceLanguages": [
+        "hi-IN"
+      ],
+      "searchCountry": "IN",
+      "outputLocale": "hi-IN",
+      "researchMode": "DEEP",
+      "evidencePolicy": "AUTO",
+      "clientRunId": "sample-hindi-agromet-advisory-small-farmers-india"
+    }
+  },
+  "curatedContextCandidates": [
+    {
+      "url": "https://mausam.imd.gov.in/responsive/agromet_adv_ser_state_current.php",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://mausamsankalp.imd.gov.in/",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://internal.imd.gov.in/press_release/20220824_pr_1790.pdf",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://www.agcensus.gov.in/AgriCensus/media/Operational%20Guideline%202021-22.pdf",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    }
+  ],
+  "capture": {
+    "schemaVersion": "1.0",
+    "briefSlug": "hindi-agromet-advisory-small-farmers-india",
+    "stableId": "SS-HI-IN-001",
+    "studyId": "study_2a0e81be-d067-4517-beac-bdd09901e17c",
+    "runId": "run_d7f36d56-3848-4f44-9103-e4e022fd3ec2",
+    "capturedAt": "2026-08-29T02:54:30.884Z",
+    "study": {
+      "title": "ब्लॉक-और-फसल-विशिष्ट हिंदी मौसम-कृषि सलाह के नियमित देखने की संभावना",
+      "summary": "यह एक सिंथेटिक लिकर्ट अध्ययन है, जो हिंदी-भाषी जिलों के छोटे और सीमांत परिचालन जोत धारकों में उस परिकल्पित रुचि को दर्शाता है कि यदि सत्यापित मौसम-कृषि सलाह हिन्दी में, कम डेटा वाले ऐप और आवाज़ दोनों माध्यमों से, सप्ताह में दो बार, मुफ्त और",
+      "takeaway": "कुल मिलाकर झुकाव सकारात्मक है: मुफ्त, स्थानीय-प्रासंगिक, समय-मुद्रित और आवाज़-सक्षम सलाह नियमित देखने की इच्छा बढ़ा सकती है, लेकिन वास्तविक अपनाने की तीव्रता फोन साझा-उपयोग, डिजिटल सुविधा और पहले से सलाह उपयोग की आदत पर काफी निर्भर करती दिखती है.",
+      "distribution": [
+        7,
+        14,
+        26,
+        35,
+        18
+      ],
+      "confidence": "Low",
+      "confidenceNote": "यह सिंथेटिक अनुमान शोध-फ्रेम, दिए गए पैनल आयामों और उपलब्ध द्वितीयक संकेतों पर आधारित है। यह वास्तविक सर्वे-आधारित वितरण नहीं है और न ही किसी जनसंख्या पर प्रतिनिधित्व का दावा करता।",
+      "audienceSummary": {
+        "audienceLabel": "हिंदी-भाषी जिलों के छोटे और सीमांत परिचालन जोत धारक",
+        "contextLabel": "भारत में ब्लॉक-और-फसल-विशिष्ट, सप्ताह में दो बार मिलने वाली मुफ्त मौसम-कृषि सलाह का संभावित उपयोग",
+        "attributes": [
+          {
+            "label": "जोत का आकार",
+            "value": "सीमांत / छोटा प्रधान"
+          },
+          {
+            "label": "फोन पहुँच",
+            "value": "निजी और साझा दोनों प्रासंगिक, साझा पहुँच से अनिश्चितता बढ़ती"
+          },
+          {
+            "label": "डिजिटल सुविधा",
+            "value": "कम से मध्यम सुविधा में रुचि अधिक संवेदनशील दिखाई देती है, उच्च सुविधा पर"
+          }
+        ]
+      },
+      "segments": [
+        {
+          "label": "उच्च-उत्साह, डिजिटल-समर्थ उपयोगकर्ता",
+          "sample": 52,
+          "values": [
+            4,
+            8,
+            19,
+            38,
+            31
+          ]
+        },
+        {
+          "label": "व्यावहारिक पर सावधान, साझा-फोन उपयोगकर्ता",
+          "sample": 58,
+          "values": [
+            5,
+            12,
+            28,
+            36,
+            19
+          ]
+        },
+        {
+          "label": "मध्यम डिजिटल सुविधा, नियमित सलाह-निर्भर किसान",
+          "sample": 46,
+          "values": [
+            2,
+            4,
+            22,
+            44,
+            28
+          ]
+        },
+        {
+          "label": "कम डिजिटल सुविधा, सीमित या अनियमित सलाह-उपयोग",
+          "sample": 44,
+          "values": [
+            50,
+            50,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "responses": [
+        {
+          "score": 5,
+          "profile": "निजी फोन, मध्यम डिजिटल सुविधा, सब्ज़ी/धान पर निर्भर, पहले भी मौसम ऐप देखते रहे हैं",
+          "quote": "अगर सलाह मेरी फसल और ब्लॉक के हिसाब से हो और आवाज़ में भी मिल जाए, तो मैं इसे हफ्ते में दो बार जरूर देखूँगा।"
+        },
+        {
+          "score": 4,
+          "profile": "साझा फोन, कम डेटा पैक, मौसम और दवा-छिड़काव के लिए कभी-कभी सलाह लेने वाला",
+          "quote": "मुफ़्त है और हिंदी में है, इसलिए ठीक लगेगा। बस समय पर मिले और इतना भारी न हो कि डेटा ज्यादा लगे।"
+        },
+        {
+          "score": 3,
+          "profile": "सीमांत जोत, खेती मुख्य आय है, लेकिन फोन घर में साझा है और ऐप का नियमित उपयोग नहीं",
+          "quote": "रुचि तो है, पर फोन हमेशा मेरे पास नहीं रहता। आवाज़ वाली सुविधा मदद करेगी, फिर भी नियमित देखने में दिक्कत हो सकती है।"
+        },
+        {
+          "score": 2,
+          "profile": "कम डिजिटल सुविधा, पहले सलाह को कम उपयोग किया, मोबाइल का उपयोग मुख्यतः कॉल तक सीमित",
+          "quote": "अगर इसे सुनना आसान हो तो ठीक है, लेकिन ऐप खोलना और हर हफ्ते दो बार देखना मेरे लिए अभी मुश्किल लगता है।"
+        }
+      ],
+      "cautions": [
+        "यह वितरण सिंथेटिक है और निर्धारित कोहोर्ट वितरण से निर्मित है; इसे वास्तविक उपयोग-प्रसार के रूप में नहीं पढ़ना चाहिए।",
+        "उपलब्ध स्रोत संकेत केवल दिशा देते हैं; वे इस फ्रेम में न तो सत्यापित प्रभाव, न अपनाने की दर, और न ही कारणात्मक निष्कर्ष स्थापित करते हैं।",
+        "साझा फोन, भाषा, डेटा-लागत और समय-प्रासंगिकता जैसे कारक रुचि को बदल सकते हैं, लेकिन इस अध्ययन से उनके प्रभाव का परिमाण नहीं निकाला जा सकता।",
+        "यहां दी गई उद्धरण-पंक्तियाँ मॉडल-जनित उदाहरण हैं, वास्तविक प्रतिभागी कथन नहीं।"
+      ]
+    },
+    "provenance": {
+      "runtimeVersion": "synthetic-research-v2.4",
+      "researchMode": "DEEP",
+      "inputHash": "5c5147249e6c9dff5ff0658278363c5e8ab068d0e8c94c2c2668f5747cefdb26",
+      "evidenceHash": "9ffd4c752997329f80eccfa39261779b8cc2fe636eacee89951815d3a1628e3c",
+      "promptVersions": {
+        "framing": "framing-v2",
+        "panel": "panel-v4",
+        "respondentCell": "respondent-cell-v3",
+        "adjudication": "evidence-bias-critic-v4"
+      },
+      "schemaVersions": {
+        "framing": "frame-schema-v1",
+        "panel": "study-schema-v1",
+        "respondentCell": "respondent-cell-schema-v2",
+        "adjudication": "critic-schema-v2"
+      },
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+    },
+    "cost": {
+      "currency": "USD",
+      "gatewayCost": {
+        "exactTotalUsd": "0.031876",
+        "reporting": "complete",
+        "reportedCallCount": 9,
+        "eligibleCallCount": 9,
+        "note": "Exact values are reported only when Vercel AI Gateway returned providerMetadata.gateway.cost."
+      },
+      "tokenUsage": {
+        "inputTokens": 15716,
+        "outputTokens": 2694,
+        "totalTokens": 18410,
+        "reasoningTokens": 0,
+        "cachedInputTokens": 0
+      }
+    },
+    "modelLineage": [
+      {
+        "stage": "framing",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "framing-v2",
+        "schemaVersion": "frame-schema-v1",
+        "promptHash": "69dbeedcd950f8b13b9a25592fbc4c2171c59775ad59a7b0de293cdb69b3c048"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_1",
+        "cellIndex": 0,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "4d3e6bd68ad8ebb21b8daa274132d3bfc48ca5b992311d1570613c8d4b5c0b2a"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_2",
+        "cellIndex": 1,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "b686e6939225891777de32bb7ec7cb265bd546139f191271d4faa37ef0e9fbf7"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_3",
+        "cellIndex": 2,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "0cdea2bd5e2964acfc0683b276d4920f79a64279853ed42f95721835a1192b22"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_4",
+        "cellIndex": 3,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "8487a67c8e6b26101b99877c11ed75be2763f56cfc1047a10205ea7ed9f4fb5d"
+      },
+      {
+        "stage": "panel",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "panel-v4",
+        "schemaVersion": "study-schema-v1",
+        "promptHash": "4f43fe23f8a4849fc43ab88c5dc26370edab052f069126498dd12ba8db2173db"
+      },
+      {
+        "stage": "adjudication",
+        "role": "evidence-and-bias-critic",
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "evidence-bias-critic-v4",
+        "schemaVersion": "critic-schema-v2",
+        "promptHash": "b912581b0f9563c026a78be75c019b32fb0a7796e3791eefd428fa17ba5140c1"
+      }
+    ],
+    "evidence": {
+      "mode": "EXA_GATEWAY",
+      "gatewaySearchCompleted": true,
+      "ledger": [
+        {
+          "title": "Digital tools for rural agriculture extension: Impacts of mobile‐based advisories on agricultural practices in Southern India",
+          "url": "https://doi.org/10.1002/jaa2.42",
+          "excerpt": "who received the full suite of ... test whether farmers ... We conducted an RCT and found that combining IVR and SMS services with video‐based extension led to significant increases in farmer knowledge and adoption of new practices. This shows that low‐ cost mobile‐based extensions can play an important role in increasing the reach and quality of extension services. However, for digital extension programs to claim true success, they need to show increases in farmer productivity. This paper failed to conclude improvements in productivity, but it is unclear if this was due to imprecise measurements, inappropriate technology, or the short time frame of the study. Larger and longer studies will be needed to validate the productivity gains (if any) from digital extension programs.",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "760c97c50bcd754c6910a2b13a7cf656da9a65e610f39d55d472be44b7f9851a"
+        },
+        {
+          "title": "A Study of Adaptation of Mobile-Based Agri-Advisory Services by Farmers in Yavatmal District",
+          "url": "https://doi.org/10.55041/ijsrem.ibfe088",
+          "excerpt": "Secondary data were obtained from research papers, journals, reports, and official websites ... The data have been analysed with the help of Excel, using different statistical tools like percentage analysis and mean values, along with regression analysis. The finding reveal strong medium –term adoption of the app, with the most farmers using it for 1-4 years and accessing it mainly on a weekly or monthly basis. ... 1. The study concludes that the Kisan Suvidha App has achieved strong medium-term adoption among farmers, with most users accessing it for 1-4 years. Farmers mainly use the app on a weekly or monthly basis, indicating its relevance for periodic agricultural needs such as weather updates and market prices. However, limited daily usage suggests that the app is not yet fully integrated into routine farm operations, highlighting a gap in continuous engagement.",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "284d9181489f8143068d701c42b9f68e4dd496c8c6a99a6c51bf14ec08415fc9"
+        },
+        {
+          "title": "Effectiveness of mobile application based agromet advisory servict: Case Study in Telangana, India",
+          "url": "https://doi.org/10.5958/2231-6701.2022.00007.0",
+          "excerpt": "/lowest rate, agro-advisories, etc., yet the adaptability is not that high. It means there exist considerable knowledge gaps in understanding climate vulnerability, socio-economic impacts, and suitable ways to build resilience. A study was done to assess the effectiveness and to improve weatherbased location and crop-specific climate-resilient advisories through farmers' feedback. Advisories were disseminated via mobile application (FarmPrecise app) for kharif and rabi seasons of the year 2020-21 for the paddy crop of the Narayanpet district of Telangana. Results indicate that weather-based climate resilient agriculture (CRA) advisories helped to build the resilience of the farming community to climate change and mobile application (FarmPrecise app) is an effective way of their dissemination. Farmers were able to reduce the input cost and increase the net profit for the crops. However,",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "56ddbb1670814dea70ad8e73894073e9eb566fa0563cb18ca9e0e991d47fd370"
+        },
+        {
+          "title": "किसानों का सारथी : कितना उपयोगी ?",
+          "url": "https://www.krishakjagat.org/national-news/a-charioteer-for-farmers-how-useful/",
+          "excerpt": "किए जाएँ। ऐप को और सरल, ऑफलाइन-अनुकूल तथा स्थानीय बोलियों के अनुरूप बनाया जाए। मौसम विभाग, ई-नाम, उपग्रह आधारित फसल निगरानी और कृत्रिम बुद्धिमत्ता (एआई) आधारित रोग पहचान जैसी सुविधाओं का व्यापक एकीकरण किया जाए। साथ ही, किसानों के लिए यह जानना भी आसान होना चाहिए कि उनके द्वारा पूछे गए प्रश्न का समाधान कितने समय में मिलेगा। शिकायत निवारण और",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "4aa11a60d92584a7dbd10ef0be2d04a52a2bcaeecb72d031a9a8319ed3867dea"
+        }
+      ]
+    },
+    "ensemble": {
+      "plannedCells": 4,
+      "completedCells": 4,
+      "failedCells": 0,
+      "aggregation": "deterministic-arithmetic-mean-v1",
+      "distribution": [
+        7,
+        14,
+        26,
+        35,
+        18
+      ]
+    },
+    "stability": {
+      "metricVersion": "stability-v1",
+      "cellCount": 4,
+      "meanJensenShannonDivergence": 0.006493,
+      "maxPercentagePointSpread": 8,
+      "interpretation": "Lower divergence and spread indicate greater agreement among model-generated cells; neither metric measures human certainty."
+    },
+    "verification": {
+      "status": "completed",
+      "role": "evidence-and-bias-critic",
+      "separateModelCall": true,
+      "independentReview": false,
+      "decision": "flagged",
+      "evidenceAlignment": "partially-aligned",
+      "weakClaims": [
+        "कुल मिलाकर झुकाव सकारात्मक है: मुफ्त, स्थानीय-प्रासंगिक, समय-मुद्रित और आवाज़-सक्षम सलाह नियमित देखने की इच्छा बढ़ा सकती है।",
+        "यह वितरण ... से निर्मित है; इसे वास्तविक उपयोग-प्रसार के रूप में नहीं पढ़ना चाहिए।",
+        "उच्च-उत्साह, डिजिटल-समर्थ उपयोगकर्ता",
+        "कम डिजिटल सुविधा, सीमित या अनियमित सलाह-उपयोग"
+      ],
+      "biasSignals": [
+        "हिंदी-भाषी जिलों के छोटे और सीमांत परिचालन जोत धारक पर ध्यान केंद्रित करते हुए अन्य किसान समूहों को सामान्यीकृत करने का जोखिम है।",
+        "साझा फोन, डिजिटल सुविधा और पहले से सलाह उपयोग की आदत को प्रमुख निर्धारक मानकर चयनात्मक फ्रेमिंग की गई है।",
+        "प्रतिभागी उद्धरण मॉडल-जनित हैं; वास्तविक आवाज़ का दावा करने का जोखिम है।",
+        "प्रतिशत-आधारित वितरण को बिना बाह्य सत्यापन के प्रस्तुत करने से अधिक-निश्चितता का संकेत मिल सकता है."
+      ],
+      "critiqueSummary": "प्रस्तुत अध्ययन पूरी तरह सिंथेटिक है और इसका वितरण वास्तविक सर्वे या जनसंख्या-आधारित साक्ष्य से सत्यापित नहीं है। दिए गए स्रोत केवल डिजिटल कृषि-सलाह की उपयोगिता, अपनाने की प्रवृत्ति और सीमाओं पर दिशात्मक संकेत देते हैं; वे प्रस्तावित लिकर्ट-वितरण, प्रतिशतों या विशेष खंडों के लिए नियमित देखने की संभावना को सीधे समर्थन नहीं करते। इसलिए यह निष्कर्ष एक उपयोगी पर",
+      "note": "This is a separate model stage within one pipeline, not independent external verification."
+    }
+  },
+  "status": "automated-qa-passed-human-editorial-review-pending",
+  "htmlUrl": "/hi-in/studies/hindi-agromet-advisory-small-farmers-india/",
+  "dataUrl": "/hi-in/studies/hindi-agromet-advisory-small-farmers-india/study.json",
+  "canonicalUrl": "https://likerts.com/hi-in/studies/hindi-agromet-advisory-small-farmers-india/"
+}

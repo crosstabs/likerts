@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { acquireEvidence, buildEvidenceQueries, collectEvidence, isBcp47Locale, isSafePublicUrl, normalisePercentages, requestSchema, runStudyPipeline, sha256 } from './synthetic-study-pipeline.js';
+import { acquireEvidence, buildEvidenceQueries, collectEvidence, isBcp47Locale, isSafePublicUrl, normalisePercentages, requestSchema, runStudyPipeline, sha256, stageTimeoutMs } from './synthetic-study-pipeline.js';
 
 const input = (extra = {}) => requestSchema.parse({
   prompt: 'Would this audience adopt a shared workspace?',
@@ -15,6 +15,13 @@ test('normalisePercentages always returns five whole percentages totaling 100', 
   assert.equal(values.length, 5);
   assert.equal(values.reduce((sum, value) => sum + value, 0), 100);
   assert.deepEqual(normalisePercentages([0, 0, 0, 0, 0]), [10, 15, 25, 30, 20]);
+});
+
+test('Deep structured-panel generation has enough bounded time for Gateway output', () => {
+  assert.equal(stageTimeoutMs({ stage: 'panel', researchMode: 'DEEP', attemptIndex: 0 }), 22_000);
+  assert.equal(stageTimeoutMs({ stage: 'adjudication', researchMode: 'DEEP', attemptIndex: 0 }), 8_000);
+  assert.equal(stageTimeoutMs({ stage: 'panel', researchMode: 'DEEP', attemptIndex: 1 }), 7_000);
+  assert.equal(stageTimeoutMs({ stage: 'panel', researchMode: 'QUICK', attemptIndex: 0 }), 20_000);
 });
 
 test('request validation rejects private targets and keeps user excerpts auditable', () => {

@@ -1,0 +1,367 @@
+{
+  "schemaVersion": "1.0",
+  "briefSlug": "ai-copilot-pilot-small-business-us",
+  "stableId": "SS-EN-US-001",
+  "studyId": "study_0c4b8c23-f6ba-4ae2-86fe-8bf084f788cd",
+  "runId": "run_ffc2ef74-6cfe-4520-9a96-43752367bfdf",
+  "capturedAt": "2026-08-29T02:50:40.877Z",
+  "study": {
+    "title": "Likelihood to approve a 60-day AI-copilot trial for drafting andinternal",
+    "summary": "Synthetic responses suggest cautious openness to a short, tightly governed AI-copilot trial for drafting and internal knowledge search among U.S. employer businesses with 20–249 employees. Support is concentrated in the middle and upper-mid",
+    "takeaway": "The dominant pattern is conditional approval: respondents are more receptive when the trial is time-limited, human-reviewed, data-protected, and cost-capped, but many still want proof of accuracy, control, and fit before committing broader use.",
+    "distribution": [
+      7,
+      14,
+      25,
+      37,
+      17
+    ],
+    "confidence": "Moderate",
+    "confidenceNote": "This is a synthetic, hypothesis-generating estimate built from the supplied frame and evidence digest. It should not be treated as representative or causal evidence.",
+    "audienceSummary": {
+      "audienceLabel": "Owners and operations leaders, IT decision-makers, or functional decision-makers",
+      "contextLabel": "U.S. employer businesses with 20–249 employees evaluating a low-risk internal AI-copilot trial",
+      "attributes": [
+        {
+          "label": "Market",
+          "value": "United States"
+        },
+        {
+          "label": "Organization size",
+          "value": "20–249 employees"
+        },
+        {
+          "label": "Use case",
+          "value": "Drafting and internal knowledge search with human review"
+        }
+      ]
+    },
+    "segments": [
+      {
+        "label": "Risk-first operators",
+        "sample": 52,
+        "values": [
+          16,
+          19,
+          29,
+          24,
+          12
+        ]
+      },
+      {
+        "label": "Efficiency-seeking pragmatists",
+        "sample": 58,
+        "values": [
+          4,
+          11,
+          24,
+          40,
+          21
+        ]
+      },
+      {
+        "label": "IT and governance gatekeepers",
+        "sample": 44,
+        "values": [
+          8,
+          18,
+          27,
+          31,
+          16
+        ]
+      },
+      {
+        "label": "Function leaders with workflow pressure",
+        "sample": 46,
+        "values": [
+          1,
+          12,
+          20,
+          44,
+          23
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "score": 2,
+        "profile": "An operations owner who likes the idea of faster drafting but assumes internal knowledge,",
+        "quote": "I can see the value, but I would still want a very narrow pilot. If it slips on accuracy even occasionally, the review burden can erase the benefit."
+      },
+      {
+        "score": 3,
+        "profile": "An IT manager focused on access control and policy compliance",
+        "quote": "The trial sounds reasonable if permissions are tight and the outputs stay internal. I am not ready to call it a yes until I see how it handles our real documents."
+      },
+      {
+        "score": 4,
+        "profile": "A functional leader responsible for a small team and repetitive writing work",
+        "quote": "A short trial with mandatory review feels like a practical way to test whether it saves time without exposing us to much downside."
+      },
+      {
+        "score": 5,
+        "profile": "An owner-operator who wants a capped experiment before any broader investment",
+        "quote": "I would likely approve it because the guardrails make it feel contained. A 60-day test is long enough to learn, but short enough to stop if it does not help."
+      }
+    ],
+    "cautions": [
+      "This study is synthetic and intended for hypothesis generation only.",
+      "The distribution is deterministic and should not be interpreted as sampled evidence.",
+      "Responses are illustrative model-generated quotes, not verbatim statements from real participants.",
+      "No claim is made that these results are representative of all U.S. employer businesses with 20–249 employees."
+    ]
+  },
+  "provenance": {
+    "runtimeVersion": "synthetic-research-v2.4",
+    "researchMode": "DEEP",
+    "inputHash": "8c2c2c1a4a64fdfc5974980b527af4b953b840cce00543896763a94a84d46b37",
+    "evidenceHash": "a4598d2370e4eaa170907fec8e3862734a2309722230531177583dbfabae1871",
+    "promptVersions": {
+      "framing": "framing-v2",
+      "panel": "panel-v4",
+      "respondentCell": "respondent-cell-v3",
+      "adjudication": "evidence-bias-critic-v4"
+    },
+    "schemaVersions": {
+      "framing": "frame-schema-v1",
+      "panel": "study-schema-v1",
+      "respondentCell": "respondent-cell-schema-v2",
+      "adjudication": "critic-schema-v2"
+    },
+    "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+  },
+  "cost": {
+    "currency": "USD",
+    "gatewayCost": {
+      "exactTotalUsd": "0.0287197",
+      "reporting": "complete",
+      "reportedCallCount": 9,
+      "eligibleCallCount": 9,
+      "note": "Exact values are reported only when Vercel AI Gateway returned providerMetadata.gateway.cost."
+    },
+    "tokenUsage": {
+      "inputTokens": 15844,
+      "outputTokens": 1927,
+      "totalTokens": 17771,
+      "reasoningTokens": 0,
+      "cachedInputTokens": 0
+    }
+  },
+  "modelLineage": [
+    {
+      "stage": "framing",
+      "role": null,
+      "cellId": null,
+      "cellIndex": null,
+      "status": "completed",
+      "requestedModel": "openai/gpt-5.4-mini",
+      "fallbackModels": [
+        "google/gemini-3.6-flash"
+      ],
+      "modelRoute": [
+        "openai/gpt-5.4-mini",
+        "google/gemini-3.6-flash"
+      ],
+      "resolvedModel": "openai/gpt-5.4-mini",
+      "promptVersion": "framing-v2",
+      "schemaVersion": "frame-schema-v1",
+      "promptHash": "9422fb3ba068d0893bdb828fb7918efd308cd3433cdba10ee4b1b40361a5d304"
+    },
+    {
+      "stage": "respondent-cell",
+      "role": "independent-model-call",
+      "cellId": "cell_1",
+      "cellIndex": 0,
+      "status": "completed",
+      "requestedModel": "openai/gpt-5.4-mini",
+      "fallbackModels": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "modelRoute": [
+        "openai/gpt-5.4-mini",
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "resolvedModel": "openai/gpt-5.4-mini",
+      "promptVersion": "respondent-cell-v3",
+      "schemaVersion": "respondent-cell-schema-v2",
+      "promptHash": "08d3fac9ce9e248df6761c33182826ebee6f515d946c11d61ea4d68cfeda29b8"
+    },
+    {
+      "stage": "respondent-cell",
+      "role": "independent-model-call",
+      "cellId": "cell_2",
+      "cellIndex": 1,
+      "status": "completed",
+      "requestedModel": "google/gemini-3.6-flash",
+      "fallbackModels": [
+        "openai/gpt-5.4-mini",
+        "openai/gpt-5.6-luna"
+      ],
+      "modelRoute": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.4-mini",
+        "openai/gpt-5.6-luna"
+      ],
+      "resolvedModel": "google/gemini-3.6-flash",
+      "promptVersion": "respondent-cell-v3",
+      "schemaVersion": "respondent-cell-schema-v2",
+      "promptHash": "73db1c5ea36526b9e887001eb04b694f61db21ef8a135427720f06be02be56cf"
+    },
+    {
+      "stage": "respondent-cell",
+      "role": "independent-model-call",
+      "cellId": "cell_3",
+      "cellIndex": 2,
+      "status": "completed",
+      "requestedModel": "openai/gpt-5.4-mini",
+      "fallbackModels": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "modelRoute": [
+        "openai/gpt-5.4-mini",
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "resolvedModel": "openai/gpt-5.4-mini",
+      "promptVersion": "respondent-cell-v3",
+      "schemaVersion": "respondent-cell-schema-v2",
+      "promptHash": "14babd2bf8c30cca7109c7b2f641c15247eb0d7442f75a7238fdcd31baf19b76"
+    },
+    {
+      "stage": "respondent-cell",
+      "role": "independent-model-call",
+      "cellId": "cell_4",
+      "cellIndex": 3,
+      "status": "completed",
+      "requestedModel": "google/gemini-3.6-flash",
+      "fallbackModels": [
+        "openai/gpt-5.4-mini",
+        "openai/gpt-5.6-luna"
+      ],
+      "modelRoute": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.4-mini",
+        "openai/gpt-5.6-luna"
+      ],
+      "resolvedModel": "google/gemini-3.6-flash",
+      "promptVersion": "respondent-cell-v3",
+      "schemaVersion": "respondent-cell-schema-v2",
+      "promptHash": "e21c811a0a928b32056e9481fe335c98275710d375907f4d3464ec9931bb2dae"
+    },
+    {
+      "stage": "panel",
+      "role": null,
+      "cellId": null,
+      "cellIndex": null,
+      "status": "completed",
+      "requestedModel": "openai/gpt-5.4-mini",
+      "fallbackModels": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "modelRoute": [
+        "openai/gpt-5.4-mini",
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "resolvedModel": "openai/gpt-5.4-mini",
+      "promptVersion": "panel-v4",
+      "schemaVersion": "study-schema-v1",
+      "promptHash": "52c4d9c60e4b6ed266068220bc9af8f5c31397c0374e97dd86a7fc14c39bcc43"
+    },
+    {
+      "stage": "adjudication",
+      "role": "evidence-and-bias-critic",
+      "cellId": null,
+      "cellIndex": null,
+      "status": "completed",
+      "requestedModel": "google/gemini-3.6-flash",
+      "fallbackModels": [
+        "openai/gpt-5.4-mini",
+        "anthropic/claude-haiku-4.5"
+      ],
+      "modelRoute": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.4-mini",
+        "anthropic/claude-haiku-4.5"
+      ],
+      "resolvedModel": "google/gemini-3.6-flash",
+      "promptVersion": "evidence-bias-critic-v4",
+      "schemaVersion": "critic-schema-v2",
+      "promptHash": "ed896b5c48d3e356ab1a5fc6ff58c38bd22cbbea182b4104e429de5e7be3a1d6"
+    }
+  ],
+  "evidence": {
+    "mode": "EXA_GATEWAY",
+    "gatewaySearchCompleted": true,
+    "ledger": [
+      {
+        "title": "Reimagining Legal Fact Verification with GenAI: Toward Effective Human-AI Collaboration",
+        "url": "https://doi.org/10.1145/3772318.3791088",
+        "excerpt": "acute in fact verification, where the documents that require verifying are often the most sensitive in a case. Similarly, P1 underscored the personal burden lawyers bear in protecting client data, “Anonymization needs to be handled by ourselves. We are extremely concerned about data security issues, because much of this data involves corporate privacy.” To maintain control over sensitive information, some firms ex perimented with internal or on-premise GenAI tools, often coupled with automated redaction or desensitization features. Yet these tools still require manual oversight to satisfy confidentiality obli gations. P10 noted, “Our desensitization tool can remove names and IDs with one click, but it’s not precise enough—manual checks are still needed.” Others, like P11, described taking on additional labor to ensure compliance, “Carry out data desensitization in advance.",
+        "acquisition": "EXA_GATEWAY",
+        "originalLanguage": null,
+        "contentHash": "c782928aaa8aad09142c906efbf4956a1fa3a38eafc991db78f26afc7212f5d2"
+      },
+      {
+        "title": "Survey Insights on M365 Copilot Adoption",
+        "url": "https://doi.org/10.48550/arxiv.2412.16162",
+        "excerpt": "specific needs and challenges unique to each role. 3.1 Pre-Trial Survey The pre-trial survey was designed to gather baseline data on user expectations, existing workflows, and initial attitudes towards M365 Copilot. This structured questionnaire was administered to all participants at the outset of the trial, with 244 responses received. The survey focused on participants' anticipated productivity and efficiency gains, along with their initial thoughts on potential ethical concerns related to the use of AI Copilots. This baseline data set a reference point for understanding how Copilot could impact their work processes. 3.2 Post-Trial Survey The post-trial survey aimed to assess changes in user perceptions after six months of using M365 Copilot. It was administered to all trial participants at the end of the trial, with 177 responses received, mirroring the pre-trial survey to enable a",
+        "acquisition": "EXA_GATEWAY",
+        "originalLanguage": null,
+        "contentHash": "48dcf0637192ed3bbbf7a8705b91a6cd8c84ca67b3815bb77740d42f94220e98"
+      },
+      {
+        "title": "Exploration of Microsoft Copilot Use Cases for Process Optimization in SMEs - a Proof of Concept with syscon Consulting",
+        "url": "https://exa.ai/library/publication/mms2mbtc0x9",
+        "excerpt": ": Copilot's data protection settings were reviewed as per management's request. It did not give away confidential information to the test user, if respective information was secured via a security label or password protection. Copilot's data protection feature is fully dependent on security measures and rules set in the company. Before a company-wide roll-out of Copilot can take place, access rights must be planned on Microsoft ... Since only a fracture of the use cases yielded satisfactory results under test conditions, it remains questionable whether Copilot is a profitable investment. Management would be open to further investigation and preparatory work, if Microsoft offered a more favorably priced trial version that could be tested with multiple users. As of now, Microsoft Copilot requires a one-year commitment per license which is illfounded in the face of its inoperability.",
+        "acquisition": "EXA_GATEWAY",
+        "originalLanguage": null,
+        "contentHash": "7860a7ab8b959c28388aeeb6509325356833766f6212ed59775002bf3bd5d5c7"
+      },
+      {
+        "title": "Consilio | Consilio 2026 Global Survey Finds Legal Teams Under Pressure to Implement AI at Scale as Technology Decisions Overtake Work Volume as Biggest Challenge",
+        "url": "https://www.consilio.com/resource/consilio-2026-global-survey-finds-legal-teams-under-pressure-to-implement-ai-at-scale-as-technology-decisions-overtake-work-volume-as-biggest-challenge",
+        "excerpt": "- 58 percent of respondents cite accuracy and lack of trust as the biggest blocker to broader AI use, and 73 percent say their top concern is incorrect or hallucinated outputs. Concerns about loss of human judgment (53 percent) and data security or confidentiality (53 percent) are also prevalent. ... - Only seven percent of respondents report having a documented AI governance framework that is actively followed, while 14 percent report having no formal AI governance in place. ... - 41 percent of respondents say fragmented tools that do not integrate well are their primary systems issue, and ... - 58 percent of respondents cite accuracy and lack of trust as the biggest blocker to broader AI use, and 73 percent say their top concern is incorrect or hallucinated outputs. Concerns about loss of human judgment (53 percent) and data security or confidentiality (53 percent) are also prevalent.",
+        "acquisition": "EXA_GATEWAY",
+        "originalLanguage": null,
+        "contentHash": "158042a1d9ffa53c92d141e20297e17365e122369d1f3cf0c6075ee2173a8c36"
+      }
+    ]
+  },
+  "ensemble": {
+    "plannedCells": 4,
+    "completedCells": 4,
+    "failedCells": 0,
+    "aggregation": "deterministic-arithmetic-mean-v1",
+    "distribution": [
+      7,
+      14,
+      25,
+      37,
+      17
+    ]
+  },
+  "stability": {
+    "metricVersion": "stability-v1",
+    "cellCount": 4,
+    "meanJensenShannonDivergence": 0.011599,
+    "maxPercentagePointSpread": 11,
+    "interpretation": "Lower divergence and spread indicate greater agreement among model-generated cells; neither metric measures human certainty."
+  },
+  "verification": {
+    "status": "completed",
+    "role": "evidence-and-bias-critic",
+    "separateModelCall": true,
+    "independentReview": false,
+    "decision": "accepted",
+    "evidenceAlignment": "aligned",
+    "weakClaims": [],
+    "biasSignals": [],
+    "critiqueSummary": "The candidate study accurately reflects the directional findings from the context sources, properly framing conditional openness to AI trials given strict governance guardrails (human review, data security, capped costs). All fields align with schema rules and constraints.",
+    "note": "This is a separate model stage within one pipeline, not independent external verification."
+  }
+}

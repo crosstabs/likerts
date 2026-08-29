@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { Client, StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
+import { sampleStudies } from '../content/sample-studies.mjs';
 import { LIMITATIONS_URI, METHODOLOGY_URI } from './mcp-contract.js';
 import { createAnonymousStudyAdmission, McpAdmissionError } from './mcp-abuse-controls.js';
 import { createLikertsMcpHandler } from './mcp-server.js';
+import { SAMPLE_STUDY_CATALOG_URI, sampleStudyResourceUri } from './sample-study-catalog.js';
 
 const validBrief = {
   prompt: 'Would this audience adopt a shared workspace?',
@@ -48,20 +50,28 @@ async function withClient(options, callback) {
 test('MCP advertises the stable public tools and immutable methodology resources', async () => {
   await withClient({ runStudy: async () => mockStudy }, async (client) => {
     const { tools } = await client.listTools();
-    assert.deepEqual(tools.map((tool) => tool.name).sort(), ['run_synthetic_study', 'validate_research_brief']);
+    assert.deepEqual(tools.map((tool) => tool.name).sort(), ['get_sample_study', 'list_sample_studies', 'run_synthetic_study', 'validate_research_brief']);
     const runTool = tools.find((tool) => tool.name === 'run_synthetic_study');
     assert.match(runTool.description, /model-generated/i);
     assert.match(runTool.description, /never surveys humans/i);
     assert.equal(runTool.annotations.openWorldHint, true);
     assert.ok(runTool.outputSchema);
+    const listTool = tools.find((tool) => tool.name === 'list_sample_studies');
+    assert.equal(listTool.annotations.readOnlyHint, true);
+    assert.equal(listTool.annotations.openWorldHint, false);
 
     const { resources } = await client.listResources();
-    assert.deepEqual(resources.map((resource) => resource.uri).sort(), [LIMITATIONS_URI, METHODOLOGY_URI].sort());
+    assert.deepEqual(
+      resources.map((resource) => resource.uri).sort(),
+      [LIMITATIONS_URI, METHODOLOGY_URI, SAMPLE_STUDY_CATALOG_URI, ...sampleStudies.map((study) => sampleStudyResourceUri(study.slug))].sort(),
+    );
 
     const methodology = await client.readResource({ uri: METHODOLOGY_URI });
     assert.match(methodology.contents[0].text, /does not survey or observe people/i);
     const limitations = await client.readResource({ uri: LIMITATIONS_URI });
     assert.match(limitations.contents[0].text, /not a perfect distributed rate or cost limit/i);
+    const sampleCatalog = await client.readResource({ uri: SAMPLE_STUDY_CATALOG_URI });
+    assert.equal(JSON.parse(sampleCatalog.contents[0].text).studies.length, 10);
   });
 });
 
@@ -120,6 +130,44 @@ test('run_synthetic_study returns structured, explicitly synthetic and evidence-
   });
   assert.equal(received.evidencePolicy, 'PRIOR_ONLY');
   assert.equal(releases, 1);
+});
+
+test('sample-study MCP tools list and get frozen studies without model or admission calls', async () => {
+  let modelCalls = 0;
+  let admissionCalls = 0;
+  const admission = {
+    async acquire() {
+      admissionCalls += 1;
+      return () => {};
+    },
+  };
+  await withClient({ runStudy: async () => { modelCalls += 1; return mockStudy; }, admission }, async (client) => {
+    const listed = await client.callTool({ name: 'list_sample_studies', arguments: { locale: 'ja-JP', limit: 3 } });
+    assert.equal(listed.isError, undefined);
+    assert.equal(listed.structuredContent.synthetic, true);
+    assert.equal(listed.structuredContent.generated, false);
+    assert.equal(listed.structuredContent.catalog.studies.length, 1);
+    assert.equal(listed.structuredContent.catalog.studies[0].locale, 'ja-JP');
+    assert.match(listed.content[0].text, /not observed human research/i);
+
+    const slug = sampleStudies[0].slug;
+    const fetched = await client.callTool({ name: 'get_sample_study', arguments: { slug } });
+    assert.equal(fetched.isError, undefined);
+    assert.equal(fetched.structuredContent.study.brief.slug, slug);
+    assert.match(fetched.structuredContent.study.canonicalUrl, /^https:\/\/likerts\.com\//);
+    assert.match(fetched.content[0].text, /No people were surveyed/i);
+  });
+  assert.equal(modelCalls, 0);
+  assert.equal(admissionCalls, 0);
+});
+
+test('get_sample_study reports unknown slugs without leaking internals', async () => {
+  await withClient({ runStudy: async () => mockStudy }, async (client) => {
+    const result = await client.callTool({ name: 'get_sample_study', arguments: { slug: 'missing-study' } });
+    assert.equal(result.isError, true);
+    assert.equal(result.structuredContent.error.code, 'SAMPLE_STUDY_NOT_FOUND');
+    assert.equal(JSON.stringify(result).includes('ENOENT'), false);
+  });
 });
 
 test('run_synthetic_study never exposes unexpected internal errors', async () => {

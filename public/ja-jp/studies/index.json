@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0",
+  "locale": "ja-JP",
+  "studies": [
+    {
+      "slug": "mobile-checkin-business-hotels-japan",
+      "locale": "ja-JP",
+      "localeName": "日本語（日本）",
+      "industry": "travel",
+      "industryName": "Travel",
+      "title": "日本のビジネスホテルにおけるモバイルチェックイン",
+      "description": "時間短縮、本人確認、対面支援に関する方向性の仮説。",
+      "researchIntent": "国内出張者がモバイル事前チェックインとデジタルキーを受け入れる条件を探る。",
+      "evidenceBoundary": "観光庁の統計は宿泊・旅行の状況と観光DXの方針を説明できますが、旅行者の選好、運用上の節約、待ち時間短縮、アクセシビリティ、デジタルキーの成功を証明するものではありません。",
+      "question": "スタッフによる対応も選べ、料金・キャンセル条件・データ利用が事前に明示される場合、次回の国内出張でモバイル事前チェックインとデジタルキーを利用する可能性はどの程度ありますか。",
+      "audience": "過去1年間に国内のビジネスホテルへ2回以上宿泊した成人",
+      "disclosure": "これはモデル生成の合成的な結果であり、観測された調査回答ではありません。",
+      "humanValidation": "到着動線を観察し、年齢と端末習熟度を横断して日本語で面接し、利用選択をA/Bテストして、完了率、対面切替、所要時間、締め出し、アクセシビリティ問題、満足度を測定する。",
+      "canonicalUrl": "https://likerts.com/ja-jp/studies/mobile-checkin-business-hotels-japan/",
+      "detailUrl": "/ja-jp/studies/mobile-checkin-business-hotels-japan/",
+      "dataUrl": "/ja-jp/studies/mobile-checkin-business-hotels-japan/study.json",
+      "runYourOwnUrl": "/?sample=mobile-checkin-business-hotels-japan",
+      "status": "automated-qa-passed-human-editorial-review-pending",
+      "capturedAt": "2026-08-29T02:53:04.269Z",
+      "evidenceMode": "EXA_GATEWAY",
+      "sourceCount": 4,
+      "modelCellCount": 4,
+      "gatewayCostUsd": "0.0359492",
+      "distribution": [
+        10,
+        18,
+        29,
+        28,
+        15
+      ],
+      "confidence": "Low"
+    }
+  ]
+}

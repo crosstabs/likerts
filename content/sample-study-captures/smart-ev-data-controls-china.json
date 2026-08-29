@@ -1,0 +1,377 @@
+{
+  "schemaVersion": "1.0",
+  "briefSlug": "smart-ev-data-controls-china",
+  "stableId": "SS-ZH-CN-001",
+  "studyId": "study_cc7ff1ab-9074-43b4-a728-009e36291e62",
+  "runId": "run_dd4467f5-9b84-43ca-880e-fc8e591d8dfd",
+  "capturedAt": "2026-08-29T02:52:46.718Z",
+  "study": {
+    "title": "中国主要城市潜在新能源汽车购买者对车载语音助手与个性化导航的启用意向：隐私控制条件下的合成李克特研究",
+    "summary": "本合成研究围绕一项中性问题：当智能新能源汽车默认关闭非必要数据采集，并提供车内本地处理、逐项授权和一键删除记录时，受访者对启用语音助手和个性化导航的主观可能性有多大。基于给定面板维度与情境假设，整体结果呈现中等偏积极，但分布明显受隐私关注度、对本地处理机制的理解以及对删除记录功能的信任影响。",
+    "takeaway": "在隐私控制被明确、功能边界清晰且删除记录机制可见时，样本中多数人对启用语音助手和个性化导航表现出不确定到较高的意向；但高隐私敏感群体仍显著更谨慎。",
+    "distribution": [
+      7,
+      15,
+      26,
+      34,
+      18
+    ],
+    "confidence": "Low",
+    "confidenceNote": "这是基于给定研究框架与合成面板生成的偏好意向分布，不是实证抽样结果。由于未引入可核验外部证据，也不用于证明真实人群比例、因果关系或市场规模，因此信心仅为中等。",
+    "audienceSummary": {
+      "audienceLabel": "计划在三年内考虑购买新能源汽车的中国主要城市成年人",
+      "contextLabel": "中国新能源汽车市场中的隐私控制与车载智能功能启用意向评估",
+      "attributes": [
+        {
+          "label": "数据隐私关注度",
+          "value": "从低关注到高关注均有覆盖，高关注者对默认采集最敏感"
+        },
+        {
+          "label": "对车载语音交互的接受度",
+          "value": "总体偏中高，但对打断驾驶、误识别和常开麦克风仍有顾虑"
+        },
+        {
+          "label": "对个性化导航的使用频率预期",
+          "value": "通常高于语音助手本身，前提是路线优化与隐私代价被接受"
+        }
+      ]
+    },
+    "segments": [
+      {
+        "label": "隐私优先型",
+        "sample": 52,
+        "values": [
+          4,
+          11,
+          35,
+          35,
+          15
+        ]
+      },
+      {
+        "label": "功能平衡型",
+        "sample": 68,
+        "values": [
+          3,
+          10,
+          24,
+          40,
+          23
+        ]
+      },
+      {
+        "label": "便利驱动型",
+        "sample": 48,
+        "values": [
+          2,
+          4,
+          17,
+          35,
+          42
+        ]
+      },
+      {
+        "label": "条件接受型",
+        "sample": 32,
+        "values": [
+          6,
+          0,
+          31,
+          38,
+          25
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "score": 5,
+        "profile": "便利驱动型，常用车机功能，认为本地处理和一键删除能显著降低顾虑",
+        "quote": "只要默认不开多余采集，而且能看清楚哪些信息被用来做导航，我愿意直接开语音助手，平时通勤也会用个性化路线。"
+      },
+      {
+        "score": 4,
+        "profile": "功能平衡型，愿意为更顺畅的驾驶体验接受有限的数据使用",
+        "quote": "我会先看说明，如果只是为了导航和语音识别，能逐项授权、还能随时删记录的话，我大概率会试用。"
+      },
+      {
+        "score": 3,
+        "profile": "条件接受型，对功能有兴趣，但对数据流向不够放心",
+        "quote": "听起来比很多车机设置透明，但我还是会先观察一段时间，看看本地处理到底能减少多少上传。"
+      },
+      {
+        "score": 2,
+        "profile": "隐私优先型，对默认关闭非必要采集有一定认可，但仍担心长期累积与误用",
+        "quote": "我能接受必要导航信息，但语音助手涉及的内容太多，除非确认不会留下多余记录，不然我不会轻易开。"
+      }
+    ],
+    "cautions": [
+      "这是合成研究，用于假设生成与问卷设计，不是对真实人群的观察结论。",
+      "分布已按给定聚合结果固定呈现，不能解释为代表性样本或统计显著结果。",
+      "研究情境强调隐私功能可用且按描述运行，但这不等于现实中所有车型都具有相同能力。",
+      "结果反映的是启用意向，而不是实际购买、长期留存或真实使用频率。"
+    ]
+  },
+  "provenance": {
+    "runtimeVersion": "synthetic-research-v2.4",
+    "researchMode": "DEEP",
+    "inputHash": "27fade2f07c8dd58eee528085f42b43f5bc37835be092a9282649193001924a3",
+    "evidenceHash": "0c6f355d311a7f0a54b07eb3f8ca741a152c364f1d982166752eac7529eb932e",
+    "promptVersions": {
+      "framing": "framing-v2",
+      "panel": "panel-v4",
+      "respondentCell": "respondent-cell-v3",
+      "adjudication": "evidence-bias-critic-v4"
+    },
+    "schemaVersions": {
+      "framing": "frame-schema-v1",
+      "panel": "study-schema-v1",
+      "respondentCell": "respondent-cell-schema-v2",
+      "adjudication": "critic-schema-v2"
+    },
+    "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+  },
+  "cost": {
+    "currency": "USD",
+    "gatewayCost": {
+      "exactTotalUsd": "0.0311096",
+      "reporting": "complete",
+      "reportedCallCount": 9,
+      "eligibleCallCount": 9,
+      "note": "Exact values are reported only when Vercel AI Gateway returned providerMetadata.gateway.cost."
+    },
+    "tokenUsage": {
+      "inputTokens": 15238,
+      "outputTokens": 2582,
+      "totalTokens": 17820,
+      "reasoningTokens": 0,
+      "cachedInputTokens": 0
+    }
+  },
+  "modelLineage": [
+    {
+      "stage": "framing",
+      "role": null,
+      "cellId": null,
+      "cellIndex": null,
+      "status": "completed",
+      "requestedModel": "openai/gpt-5.4-mini",
+      "fallbackModels": [
+        "google/gemini-3.6-flash"
+      ],
+      "modelRoute": [
+        "openai/gpt-5.4-mini",
+        "google/gemini-3.6-flash"
+      ],
+      "resolvedModel": "openai/gpt-5.4-mini",
+      "promptVersion": "framing-v2",
+      "schemaVersion": "frame-schema-v1",
+      "promptHash": "764c47e012568be304e5b960843799234efc186bbf9051dd96e0935074b42a67"
+    },
+    {
+      "stage": "respondent-cell",
+      "role": "independent-model-call",
+      "cellId": "cell_1",
+      "cellIndex": 0,
+      "status": "completed",
+      "requestedModel": "openai/gpt-5.4-mini",
+      "fallbackModels": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "modelRoute": [
+        "openai/gpt-5.4-mini",
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "resolvedModel": "openai/gpt-5.4-mini",
+      "promptVersion": "respondent-cell-v3",
+      "schemaVersion": "respondent-cell-schema-v2",
+      "promptHash": "0d066235201634b25492be14af58aef4a742b9fd07fe0e68e0d5f70d08579163"
+    },
+    {
+      "stage": "respondent-cell",
+      "role": "independent-model-call",
+      "cellId": "cell_2",
+      "cellIndex": 1,
+      "status": "completed",
+      "requestedModel": "google/gemini-3.6-flash",
+      "fallbackModels": [
+        "openai/gpt-5.4-mini",
+        "openai/gpt-5.6-luna"
+      ],
+      "modelRoute": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.4-mini",
+        "openai/gpt-5.6-luna"
+      ],
+      "resolvedModel": "google/gemini-3.6-flash",
+      "promptVersion": "respondent-cell-v3",
+      "schemaVersion": "respondent-cell-schema-v2",
+      "promptHash": "1a0ee542fcb90a88c55005e4a5f8244c49f14230e21bb441e96be09dcfce3925"
+    },
+    {
+      "stage": "respondent-cell",
+      "role": "independent-model-call",
+      "cellId": "cell_3",
+      "cellIndex": 2,
+      "status": "completed",
+      "requestedModel": "openai/gpt-5.4-mini",
+      "fallbackModels": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "modelRoute": [
+        "openai/gpt-5.4-mini",
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "resolvedModel": "openai/gpt-5.4-mini",
+      "promptVersion": "respondent-cell-v3",
+      "schemaVersion": "respondent-cell-schema-v2",
+      "promptHash": "484b6add1b8fab7438f7952a426c476b959dc389ef4741c3add5f209868cb5b1"
+    },
+    {
+      "stage": "respondent-cell",
+      "role": "independent-model-call",
+      "cellId": "cell_4",
+      "cellIndex": 3,
+      "status": "completed",
+      "requestedModel": "google/gemini-3.6-flash",
+      "fallbackModels": [
+        "openai/gpt-5.4-mini",
+        "openai/gpt-5.6-luna"
+      ],
+      "modelRoute": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.4-mini",
+        "openai/gpt-5.6-luna"
+      ],
+      "resolvedModel": "google/gemini-3.6-flash",
+      "promptVersion": "respondent-cell-v3",
+      "schemaVersion": "respondent-cell-schema-v2",
+      "promptHash": "cd8931670b84aec84c952726f269680a78b991da00e50eff66ff03eef47f9f5f"
+    },
+    {
+      "stage": "panel",
+      "role": null,
+      "cellId": null,
+      "cellIndex": null,
+      "status": "completed",
+      "requestedModel": "openai/gpt-5.4-mini",
+      "fallbackModels": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "modelRoute": [
+        "openai/gpt-5.4-mini",
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.6-luna"
+      ],
+      "resolvedModel": "openai/gpt-5.4-mini",
+      "promptVersion": "panel-v4",
+      "schemaVersion": "study-schema-v1",
+      "promptHash": "c21772da292300def948022179581be7f1a140355df8bc4952867e27ecc31adb"
+    },
+    {
+      "stage": "adjudication",
+      "role": "evidence-and-bias-critic",
+      "cellId": null,
+      "cellIndex": null,
+      "status": "completed",
+      "requestedModel": "google/gemini-3.6-flash",
+      "fallbackModels": [
+        "openai/gpt-5.4-mini",
+        "anthropic/claude-haiku-4.5"
+      ],
+      "modelRoute": [
+        "google/gemini-3.6-flash",
+        "openai/gpt-5.4-mini",
+        "anthropic/claude-haiku-4.5"
+      ],
+      "resolvedModel": "openai/gpt-5.4-mini",
+      "promptVersion": "evidence-bias-critic-v4",
+      "schemaVersion": "critic-schema-v2",
+      "promptHash": "b2b8ba092d137ab4d7200dd53d693bba3a3d5c4c43ef2a6676afcd45936d310a"
+    }
+  ],
+  "evidence": {
+    "mode": "EXA_GATEWAY",
+    "gatewaySearchCompleted": true,
+    "ledger": [
+      {
+        "title": "Acceptance of Navigate on Autopilot of New Energy Vehicles in China: An Extended Technology Acceptance Model",
+        "url": "https://doi.org/10.3390/systems13090791",
+        "excerpt": "Tesla. It ... Based on technological capabilities, system capability boundaries are communicated to users to enhance transparency. Simultaneously, human-machine interface technologies can be leveraged to translate complex functions into easily understood voice or text prompts for users, thereby improving decision-making efficiency. Moreover, in the event of accidents, promptly disclosing the cause to the public and investigating potential issues in the NOA system process further strengthens user trust and increases public acceptance.",
+        "acquisition": "EXA_GATEWAY",
+        "originalLanguage": null,
+        "contentHash": "e60fdb5895d50080621da0e48468a287923edbaf5b5135f5a85e4dfebc125295"
+      },
+      {
+        "title": "Exploring Factors Affecting People’s Willingness to Use a Voice-Based In-Car Assistant in Electric Cars: An Empirical Study",
+        "url": "https://doi.org/10.3390/wevj14030073",
+        "excerpt": "In addition, the interface style can be designed to change from time to time, to mirror drivers’ moods, weather conditions, and traffic conditions. Personalisation is another critical predictor of user satisfaction towards in-car voice assistants. The ... to the findings for other technology acceptance scenarios [65,82]. This means that regular customers are more willing to use voice assistants than new customers. In that regard, enterprises can enhance the familiarity of voice assistants through activities in experience stores. In addition, we also found that educational level could moderate the relationship between privacy concerns and perceived trust. This indicates that people with high educational levels pay more attention to privacy issues of technology adoption. The finding is in accordance with Yaprakli and Unalan’s (2017) research on smartphone usage [83].",
+        "acquisition": "EXA_GATEWAY",
+        "originalLanguage": null,
+        "contentHash": "f74aceab65b7b9f00266171028a298add6b8064e9effedb9b2cc029d518d9b43"
+      },
+      {
+        "title": "THE IMPACT OF NEW ENERGY VEHICLE SYSTEM FUNCTIONS AND PRIVACY PROTECTION ON PURCHASE INTENTION",
+        "url": "https://doi.org/10.35678/2539-5645.1(50).2025.145-167",
+        "excerpt": ". For instance, the simpler and more intuitive the interface design of the advanced driving assistance system's functions, the easier it is for consumers to use these functions. In terms of voice control, the system functions support voice control, allowing users to switch the shortcut keys through voice control, a feature that significantly enhances user convenience. For example, in terms of personalized settings and real-time feedback prompts, consumers can adjust the sensitivity of lane keeping according to their personal habits and set the following distance requirements, and when necessary, timely issue lane departure warnings, effectively helping customers to take timely response measures to avoid accidents, thereby improving consumers' perceived ease of use of advanced driving assistance system functions. Therefore, the research hypothesis H8 is proposed in this paper. H8:",
+        "acquisition": "EXA_GATEWAY",
+        "originalLanguage": null,
+        "contentHash": "3558d5b493ab70aa364ddcedc4020e2d8f5da89339fb8376c305038e3e75533d"
+      },
+      {
+        "title": "智能网联汽车隐私焦虑何解-瞭望周刊社",
+        "url": "https://lw.xinhuanet.com/20250217/125219a7957c4668a7ba2ca539d8e7c9/c.html",
+        "excerpt": "。中国政法大学传播法研究中心副主任朱巍说，智能网联汽车采集个人信息须经过用户授权，且只能采集对驾驶目的有意义、必要的信息。“比如，汽车如果不采集路途中的位置信息，就无法实现导航功能，这类信息属于必要。但汽车如果访问用户通讯录，对用户在车内的通话录音，通过 ... 隐私友好的智能汽车设计正引起更多关注。2024年11月，中国汽车工业协会发布“汽车隐私保护”标识，授权首批通过测评的20余种车型相应车辆使用该标识。中汽协重点围绕隐私协议、麦克风、车内摄像头、定位信息、车外摄像头和用户体验等六项内容开展汽车隐私保护能力测评，涉及信息收集授权、收集提示、访问授权、数据删除、传输加密等方面，以此提升消费者对汽车的信任感。",
+        "acquisition": "EXA_GATEWAY",
+        "originalLanguage": null,
+        "contentHash": "e2c690b12e6fb1e50a26ea035ef3f65720e384f1159acf359ee6bac0c576e585"
+      }
+    ]
+  },
+  "ensemble": {
+    "plannedCells": 4,
+    "completedCells": 4,
+    "failedCells": 0,
+    "aggregation": "deterministic-arithmetic-mean-v1",
+    "distribution": [
+      7,
+      15,
+      26,
+      34,
+      18
+    ]
+  },
+  "stability": {
+    "metricVersion": "stability-v1",
+    "cellCount": 4,
+    "meanJensenShannonDivergence": 0.023223,
+    "maxPercentagePointSpread": 17,
+    "interpretation": "Lower divergence and spread indicate greater agreement among model-generated cells; neither metric measures human certainty."
+  },
+  "verification": {
+    "status": "completed",
+    "role": "evidence-and-bias-critic",
+    "separateModelCall": true,
+    "independentReview": false,
+    "decision": "flagged",
+    "evidenceAlignment": "partially-aligned",
+    "weakClaims": [
+      "“多数人对启用语音助手和个性化导航表现出不确定到较高的意向”超出了现有摘录能够直接支持的范围。",
+      "“高隐私敏感群体仍显著更谨慎”缺少可核验的统计显著性或分组比较依据。",
+      "“中国主要城市潜在新能源汽车购买者”作为样本对象是设定，并非证据中已经观察到的人群。",
+      "distribution 与 confidence 被写成固定结果，但当前材料不足以验证其数值合理性。"
+    ],
+    "biasSignals": [
+      "存在明显的便利性与隐私友好设计正向偏置，整体叙述更倾向于确认“隐私控制会提升接受度”。",
+      "问卷情境将本地处理、逐项授权、一键删除等功能同时提供，属于理想化高透明条件，可能高估真实市场接受度。",
+      "候选文本将“启用意向”与“偏好”“信任”混合表述，可能掩盖不同心理构念之间的差异。",
+      "引用内容以中国政策与行业倡议为主，可能放大规范导向而弱化用户实际行为差异。"
+    ],
+    "critiqueSummary": "该候选研究明确标注为合成研究，不能被呈现为真实人群的实证结果。其结论“中等偏积极”与给定文献中关于隐私授权、透明度、本地处理、删除记录提升信任的方向大体一致，但证据仅支持方向性判断，无法支撑具体分布、样本构成或“多数人”这类强表述。",
+    "note": "This is a separate model stage within one pipeline, not independent external verification."
+  }
+}

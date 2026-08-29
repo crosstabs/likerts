@@ -150,6 +150,26 @@ function boundedInteger(value, fallback, minimum, maximum) {
   const parsed = Number.parseInt(value ?? '', 10);
   return Number.isFinite(parsed) ? Math.min(maximum, Math.max(minimum, parsed)) : fallback;
 }
+function boundedNumber(value, fallback, minimum, maximum) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? Math.min(maximum, Math.max(minimum, parsed)) : fallback;
+}
+function stageTimeoutMultiplier(env = process.env) {
+  return boundedNumber(env.LIKERTS_STAGE_TIMEOUT_MULTIPLIER, 1, 1, 4);
+}
+export function stageTimeoutMs({ stage, researchMode = 'QUICK', attemptIndex = 0, env = process.env } = {}) {
+  const mode = String(researchMode).toUpperCase();
+  let baseTimeout;
+  if (attemptIndex > 0) baseTimeout = mode === 'DEEP' ? 7_000 : 9_000;
+  else if (mode === 'DEEP') {
+    if (stage === 'panel') baseTimeout = 22_000;
+    else if (stage === 'respondent-cell') baseTimeout = 10_000;
+    else baseTimeout = 8_000;
+  } else if (stage === 'framing') baseTimeout = 12_000;
+  else if (stage === 'adjudication') baseTimeout = 15_000;
+  else baseTimeout = 20_000;
+  return Math.round(baseTimeout * stageTimeoutMultiplier(env));
+}
 export function deepCohortCellCount(env = process.env) {
   const deploymentCap = boundedInteger(env.DEEP_COHORT_MAX_CELLS, 6, 2, DEEP_ABSOLUTE_MAX_CELLS);
   return Math.min(deploymentCap, boundedInteger(env.DEEP_COHORT_CELLS, DEEP_DEFAULT_CELLS, 2, DEEP_ABSOLUTE_MAX_CELLS));
@@ -385,7 +405,7 @@ function upstreamStatus(error) {
   return 502;
 }
 function publicStageError(error) { if (NoObjectGeneratedError.isInstance(error)) return 'Structured output was incomplete.'; if (error instanceof OutputLocaleError) return 'Structured output used an unexpected writing system.'; if (error?.statusCode === 429) return 'The model provider was rate limited.'; if (error?.statusCode === 402) return 'The model provider budget was unavailable.'; if (error?.statusCode === 503) return 'The model provider was unavailable.'; return 'The stage did not complete.'; }
-async function runStage({ stage, plan = MODEL_PLAN[stage], studyId, runId, gatewayUserId, researchMode = 'QUICK', outputLocale = null, prompt, system, output, maxOutputTokens, promptVersion, schemaVersion, extraTags = [], recordContext = {}, generate = generateText }) {
+async function runStage({ stage, plan = MODEL_PLAN[stage], studyId, runId, gatewayUserId, researchMode = 'QUICK', outputLocale = null, prompt, system, output, maxOutputTokens, promptVersion, schemaVersion, extraTags = [], recordContext = {}, generate = generateText, env = process.env }) {
   const startedAt = Date.now();
   const startedAtIso = new Date(startedAt).toISOString();
   const promptHash = sha256(`${system}\n${prompt}`);
@@ -399,8 +419,7 @@ async function runStage({ stage, plan = MODEL_PLAN[stage], studyId, runId, gatew
     const requestedModel = candidates[index];
     // Two bounded evidence calls run concurrently. These stage budgets leave room for one
     // structured-output retry while staying within Vercel's 60-second function limit.
-    const deepTimeout = stage === 'framing' || stage === 'adjudication' ? 8_000 : stage === 'respondent-cell' ? 10_000 : 14_000;
-    const timeout = index > 0 ? researchMode === 'DEEP' ? 6_000 : 9_000 : researchMode === 'DEEP' ? deepTimeout : stage === 'framing' ? 12_000 : stage === 'adjudication' ? 15_000 : 20_000;
+    const timeout = stageTimeoutMs({ stage, researchMode, attemptIndex: index, env });
     try {
       const result = await generate({
         model: gateway(requestedModel),
@@ -458,6 +477,7 @@ export async function runStudyPipeline(input, { generate, searchGenerate, fetchI
   const evidencePromise = acquireEvidence(input, { fetchImpl, env, searchGenerate, studyId, runId, gatewayUserId });
   const framingPromise = runStage({
     stage: 'framing', studyId, runId, gatewayUserId, researchMode, generate,
+    env,
     promptVersion: PROMPT_VERSIONS.framing, schemaVersion: SCHEMA_VERSIONS.framing,
     output: { name: 'LikertResearchFrame', description: 'Neutral framing and explicit boundaries for a synthetic Likert study.', schema: framingSchema },
     maxOutputTokens: 800,
@@ -479,6 +499,7 @@ export async function runStudyPipeline(input, { generate, searchGenerate, fetchI
         stage: 'respondent-cell',
         plan: { primary, fallbacks },
         studyId, runId, gatewayUserId, researchMode, generate,
+        env,
         promptVersion: PROMPT_VERSIONS.respondentCell, schemaVersion: SCHEMA_VERSIONS.respondentCell,
         extraTags: [`cell:${cellIndex}`, `route-provider:${primary.split('/')[0]}`],
         recordContext: { role: 'independent-model-call', cellId: `cell_${cellIndex + 1}`, cellIndex },
@@ -509,6 +530,7 @@ export async function runStudyPipeline(input, { generate, searchGenerate, fetchI
 
   const panel = await runStage({
     stage: 'panel', studyId, runId, gatewayUserId, researchMode, outputLocale: input.outputLocale, generate,
+    env,
     promptVersion: PROMPT_VERSIONS.panel, schemaVersion: SCHEMA_VERSIONS.panel,
     output: { name: 'SyntheticLikertStudy', description: 'A directional, AI-generated Likert study with distribution, segments, illustrative responses, and cautions.', schema: studyOutputSchema },
     maxOutputTokens: 2_100,
@@ -522,6 +544,7 @@ export async function runStudyPipeline(input, { generate, searchGenerate, fetchI
 
   const adjudication = await runStage({
     stage: 'adjudication', studyId, runId, gatewayUserId, researchMode, outputLocale: input.outputLocale, generate,
+    env,
     promptVersion: PROMPT_VERSIONS.adjudication, schemaVersion: SCHEMA_VERSIONS.adjudication,
     recordContext: { role: 'evidence-and-bias-critic' },
     output: { name: 'SyntheticStudyEvidenceBiasReview', description: 'A separate evidence-alignment, weak-claim, and bias review.', schema: adjudicationSchema },

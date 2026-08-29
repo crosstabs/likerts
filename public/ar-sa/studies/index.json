@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0",
+  "locale": "ar-SA",
+  "studies": [
+    {
+      "slug": "arabic-ai-study-assistant-saudi-universities",
+      "locale": "ar-SA",
+      "localeName": "العربية (السعودية)",
+      "industry": "education",
+      "industryName": "Education",
+      "title": "مساعد دراسة بالذكاء الاصطناعي في الجامعات السعودية",
+      "description": "فرضية اتجاهية حول الفائدة الأكاديمية والخصوصية والنزاهة.",
+      "researchIntent": "تحديد شروط الحوكمة والمنتج التي قد تدعم الاستخدام الطوعي لمساعد دراسة جامعي باللغة العربية.",
+      "evidenceBoundary": "قد تحدد مصادر المركز الوطني للتعليم الإلكتروني توقعات الحوكمة والجودة، وقد توضح الهيئة العامة للإحصاء سياق التعليم والاتصال؛ لكنها لا تثبت القبول أو نتائج التعلم أو الدقة أو النزاهة الأكاديمية أو فهم الخصوصية.",
+      "question": "ما مدى احتمال استخدامك مساعد دراسة جامعي باللغة العربية تدعمه المؤسسة، إذا أظهر مصادره، ولم يُستخدم في التقييم، وخضع لإشراف المدرّس، وأتاح لك حذف بياناتك؟",
+      "audience": "طلاب جامعيون بالغون مسجلون في مقررات تُدرّس أساساً بالعربية في السعودية",
+      "disclosure": "هذه نتيجة تركيبيّة مولّدة بالنماذج وليست نتائج استطلاع من أشخاص تمت ملاحظتهم.",
+      "humanValidation": "إجراء مقابلات معرفية بالعربية، ومراجعة من الطلاب وأعضاء هيئة التدريس وإتاحة الوصول والحوكمة، ثم تجربة فصل دراسي مضبوطة تقيس التبني الطوعي والأخطاء والتحقق من المصادر وطلب المساعدة والتعلم وفهم الخصوصية.",
+      "canonicalUrl": "https://likerts.com/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/",
+      "detailUrl": "/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/",
+      "dataUrl": "/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/study.json",
+      "runYourOwnUrl": "/?sample=arabic-ai-study-assistant-saudi-universities",
+      "status": "automated-qa-passed-human-editorial-review-pending",
+      "capturedAt": "2026-08-29T02:54:10.915Z",
+      "evidenceMode": "EXA_GATEWAY",
+      "sourceCount": 4,
+      "modelCellCount": 4,
+      "gatewayCostUsd": "0.0399732",
+      "distribution": [
+        5,
+        11,
+        22,
+        36,
+        26
+      ],
+      "confidence": "Low"
+    }
+  ]
+}

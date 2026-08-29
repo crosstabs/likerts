@@ -1,0 +1,432 @@
+{
+  "schemaVersion": "1.0",
+  "brief": {
+    "schemaVersion": "1.0",
+    "stableId": "SS-JA-JP-001",
+    "slug": "mobile-checkin-business-hotels-japan",
+    "locale": "ja-JP",
+    "industry": "travel",
+    "title": "日本のビジネスホテルにおけるモバイルチェックイン",
+    "description": "時間短縮、本人確認、対面支援に関する方向性の仮説。",
+    "researchIntent": "国内出張者がモバイル事前チェックインとデジタルキーを受け入れる条件を探る。",
+    "disclosure": "これはモデル生成の合成的な結果であり、観測された調査回答ではありません。",
+    "evidenceBoundary": "観光庁の統計は宿泊・旅行の状況と観光DXの方針を説明できますが、旅行者の選好、運用上の節約、待ち時間短縮、アクセシビリティ、デジタルキーの成功を証明するものではありません。",
+    "humanValidation": "到着動線を観察し、年齢と端末習熟度を横断して日本語で面接し、利用選択をA/Bテストして、完了率、対面切替、所要時間、締め出し、アクセシビリティ問題、満足度を測定する。",
+    "curatedContextUrls": [
+      "https://www.mlit.go.jp/kankocho/tokei_hakusyo/shukuhakutokei.html",
+      "https://www.mlit.go.jp/kankocho/seisaku_seido/kihonkeikaku/jizoku_kankochi/kanko-dx.html",
+      "https://www.mlit.go.jp/kankocho/tokei_hakusyo/shohidoko.html"
+    ],
+    "request": {
+      "prompt": "スタッフによる対応も選べ、料金・キャンセル条件・データ利用が事前に明示される場合、次回の国内出張でモバイル事前チェックインとデジタルキーを利用する可能性はどの程度ありますか。",
+      "audience": "過去1年間に国内のビジネスホテルへ2回以上宿泊した成人",
+      "panelSize": 200,
+      "assumptions": "スタッフ支援を引き続き利用できる；本人確認は適用要件を満たす；物理キーの代替がある；料金・キャンセル・データ利用を開示する；デジタル化が常に待ち時間を減らすとは仮定しない。",
+      "market": "Japan",
+      "searchLocation": "Japan",
+      "sourceLanguages": [
+        "ja-JP"
+      ],
+      "searchCountry": "JP",
+      "outputLocale": "ja-JP",
+      "researchMode": "DEEP",
+      "evidencePolicy": "AUTO",
+      "clientRunId": "sample-mobile-checkin-business-hotels-japan"
+    }
+  },
+  "curatedContextCandidates": [
+    {
+      "url": "https://www.mlit.go.jp/kankocho/tokei_hakusyo/shukuhakutokei.html",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://www.mlit.go.jp/kankocho/seisaku_seido/kihonkeikaku/jizoku_kankochi/kanko-dx.html",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://www.mlit.go.jp/kankocho/tokei_hakusyo/shohidoko.html",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    }
+  ],
+  "capture": {
+    "schemaVersion": "1.0",
+    "briefSlug": "mobile-checkin-business-hotels-japan",
+    "stableId": "SS-JA-JP-001",
+    "studyId": "study_51415455-b4de-4325-b02d-efa27914b04e",
+    "runId": "run_8ad238ad-f2e2-459e-8d0e-9ae3f4ad0cd8",
+    "capturedAt": "2026-08-29T02:53:04.269Z",
+    "study": {
+      "title": "国内ビジネスホテルでのモバイル事前チェックインとデジタルキー利用意向",
+      "summary": "国内のビジネスホテルでの次回宿泊を想定し、スタッフ対応の選択可否、料金・キャンセル条件・データ利用の事前明示、本人確認要件への適合、物理キー代替の有無を前提に、モバイル事前チェックインとデジタルキーの利用可能性を5段階で自己申告してもらう想定の合成結果です。全体としては「やや利用する」側に重心がありつつも、対面支援の継続や条件の明示がある場合に受容が高まり、デジタル化による利便性を評価する一方で、手続きが必ずしも待ち時間短縮につながるとは限らないという慎重な見方も含まれます。",
+      "takeaway": "利用意向は中程度以上が中心で、条件の透明性とスタッフ支援の残存が受容を押し上げる一方、全面的な無人化には慎重さが残る、という方向です。",
+      "distribution": [
+        10,
+        18,
+        29,
+        28,
+        15
+      ],
+      "confidence": "Low",
+      "confidenceNote": "外部実地データではなく、提示条件と一般的な研究設計に基づく合成結果です。分布は指定された集計値に固定されており、代表性や因果関係を示すものではありません。",
+      "audienceSummary": {
+        "audienceLabel": "過去1年間に国内のビジネスホテルへ2回以上宿泊した成人",
+        "contextLabel": "国内のビジネスホテルでの次回宿泊に関する仮想的な選好評価",
+        "attributes": [
+          {
+            "label": "市場",
+            "value": "日本"
+          },
+          {
+            "label": "利用文脈",
+            "value": "次回の国内出張・宿泊選択"
+          },
+          {
+            "label": "主要条件",
+            "value": "スタッフ対応の選択可否、料金・キャンセル条件・データ利用の事前開示、本人確認適合、物理キー代替の有無"
+          }
+        ]
+      },
+      "segments": [
+        {
+          "label": "利便性重視だが条件確認も重視する層",
+          "sample": 62,
+          "values": [
+            6,
+            15,
+            35,
+            31,
+            13
+          ]
+        },
+        {
+          "label": "中立的・保留的な層",
+          "sample": 54,
+          "values": [
+            8,
+            13,
+            33,
+            33,
+            13
+          ]
+        },
+        {
+          "label": "対面支援を残せば受け入れやすい層",
+          "sample": 43,
+          "values": [
+            2,
+            5,
+            19,
+            46,
+            28
+          ]
+        },
+        {
+          "label": "デジタル手続きに積極的な層",
+          "sample": 41,
+          "values": [
+            2,
+            0,
+            29,
+            37,
+            32
+          ]
+        }
+      ],
+      "responses": [
+        {
+          "score": 1,
+          "profile": "対面での確認を好み、出張先では手間より安心感を優先するタイプ",
+          "quote": "スタッフに聞けるなら使ってもいいですが、全部スマホで済ませるのはまだ不安です。"
+        },
+        {
+          "score": 2,
+          "profile": "利便性は理解するが、条件やトラブル時の戻り先を気にするタイプ",
+          "quote": "事前に説明が明確なら試せますが、急な変更や確認が必要なときに少し面倒そうです。"
+        },
+        {
+          "score": 3,
+          "profile": "状況次第で判断する実務重視タイプ",
+          "quote": "待ち時間が短くなるなら使いたいです。ただ、必ずしも早くなるとは限らないので、現時点では半々です。"
+        },
+        {
+          "score": 5,
+          "profile": "デジタル化の手軽さを高く評価し、非対面手続きを歓迎するタイプ",
+          "quote": "条件が見えていて、物理キーの代わりもあるなら、次回はかなり使いたいです。チェックインが楽になるのは魅力です。"
+        }
+      ],
+      "cautions": [
+        "本結果は合成データであり、実測の顧客分布や市場全体の意見を表しません。",
+        "指定分布を反映した設計上の要約であり、推計誤差や統計的有意性は示していません。",
+        "対象条件が明確なため、一般宿泊者全体や他の宿泊形態へはそのまま外挿できません。",
+        "デジタル化の評価は利便性だけでなく、安心感、対面支援、条件の透明性に左右されるため、単純な因果解釈は避ける必要があります。"
+      ]
+    },
+    "provenance": {
+      "runtimeVersion": "synthetic-research-v2.4",
+      "researchMode": "DEEP",
+      "inputHash": "140d2fcbde47714561113fe6c698c0fc351e82d3f0bec9ad15e30fc212a39b53",
+      "evidenceHash": "85823b23430ff504cf84b538e003056f2632cad6ba410b7ec299b22ec0384bdc",
+      "promptVersions": {
+        "framing": "framing-v2",
+        "panel": "panel-v4",
+        "respondentCell": "respondent-cell-v3",
+        "adjudication": "evidence-bias-critic-v4"
+      },
+      "schemaVersions": {
+        "framing": "frame-schema-v1",
+        "panel": "study-schema-v1",
+        "respondentCell": "respondent-cell-schema-v2",
+        "adjudication": "critic-schema-v2"
+      },
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+    },
+    "cost": {
+      "currency": "USD",
+      "gatewayCost": {
+        "exactTotalUsd": "0.0359492",
+        "reporting": "complete",
+        "reportedCallCount": 10,
+        "eligibleCallCount": 10,
+        "note": "Exact values are reported only when Vercel AI Gateway returned providerMetadata.gateway.cost."
+      },
+      "tokenUsage": {
+        "inputTokens": 19437,
+        "outputTokens": 3007,
+        "totalTokens": 22444,
+        "reasoningTokens": 0,
+        "cachedInputTokens": 0
+      }
+    },
+    "modelLineage": [
+      {
+        "stage": "framing",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "framing-v2",
+        "schemaVersion": "frame-schema-v1",
+        "promptHash": "4c32bf2f850ff081a8b7fed3fd5987e0f8612a50b95221ff09cc1d1ad34c6e30"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_1",
+        "cellIndex": 0,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "6cae3ec881669d24d44bc8b0bda76fa6e09e32c21bb5857dffecd4d2c59639ba"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_2",
+        "cellIndex": 1,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "a50d93c8d57bb701ed2bc26c18debe685552acb4f4fc8b50d5499fb0c6c6d493"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_3",
+        "cellIndex": 2,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "0c4103f4f6b35d181f956b3fcf74d9ce44b62bde9ff3d962f5715f530fc63420"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_4",
+        "cellIndex": 3,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "37d7cbfeebc3a8161dda2f476b5a12f1e22be35066cde940246e54680e1c4267"
+      },
+      {
+        "stage": "panel",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "panel-v4",
+        "schemaVersion": "study-schema-v1",
+        "promptHash": "e18c135dabbe82f82314a9c7c9377bdab6c1c5f235c4a6a69124b89b86fd344e"
+      },
+      {
+        "stage": "adjudication",
+        "role": "evidence-and-bias-critic",
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "evidence-bias-critic-v4",
+        "schemaVersion": "critic-schema-v2",
+        "promptHash": "aefae915f971f966b1130e1fde854a47bcf9fc39356a4465a4f87b4ba712d02a"
+      }
+    ],
+    "evidence": {
+      "mode": "EXA_GATEWAY",
+      "gatewaySearchCompleted": true,
+      "ledger": [
+        {
+          "title": "Service Customization through “High-Touch” and “High-Tech”",
+          "url": "https://doi.org/10.7222/marketing.2020.031",
+          "excerpt": "タッ チもハイテクも提供されているが，データ上捕捉された すべての利用機会でハイタッチのみを利用している回答 者を「ハイタッチ経験者」として定義している。 (1)研究 1 各変数の主効果，ならびにハイテクとの交互作用効果 を表 3 にまとめた。表中の数値は標準化偏回帰係数であ り，5％水準で有意であったものには下線を付した 3) (以 降の表も同様) 。 顧客期待は全業種でプラスの主効果を示し，H1-1 は支 持された。一方，ハイテクの主効果はどの業種でも見ら れず，H1-2 は支持されなかった。業種を問わず，ハイテ クを利用したというだけではサービス品質評価には何ら 影響は見られない。しかし，H1-3 の顧客期待とハイテク",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "019c51601c1d58d903d9b7dd7c1878926e64b5b0f43c498099126bc1e915bb84"
+        },
+        {
+          "title": "Business Models Induced by a New Business Model",
+          "url": "https://exa.ai/library/publication/02dzwnkfkgm",
+          "excerpt": "ワンウェイの連携としては、宿泊予約サイトからの予約情報 ... される。しかし ... 予約（例：電話） ... ツーウェイの連携としては、宿泊予約サイト経由の予約連携に加え、PMS からサイトコントローラー ... の残室（時には料金も）がコントロールできる。サイトコントローラーの画面を開かなくても、PMS ... だけで在庫、料金がコントロールできるようになる。 ... 第 4 に、宿泊施設は、宿泊予約サイトとサイトコント ... の両方に利用 ... を払っている。ちなみ ... 型が多く、10 ... 従って宿泊施設は、「宿泊 ... サイトもサイト ... ローラーも使わないで済むのであれば、",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "599061ea5f8a560fd258c5a108fb34086de90647e8fbf5696c2020eef6772451"
+        },
+        {
+          "title": "旅館・ホテル宿泊者の口コミデータによる顧客満足度要因分析",
+          "url": "https://exa.ai/library/publication/8p36tyxx45g",
+          "excerpt": "。 以上の ... し仮説を⽴案する。 ... 4 という⾼評価を得る可能性が⾮常に⾼いことが⽰された。このことか ら、顧客が宿泊施設を評価する際には、スタッフの対応やサービスの質が⼤きな 決定要因となることがうかがえる。これは、接客に対する満⾜度が宿泊体験全体 の印象を左右しやすいことを反映していると考えられる。宿泊施設においては、 スタッフの接客態度やサービスの質を向上させることが、顧客満⾜度を⾼める 可能性が⾼い。 ⼀⽅で、部屋や館内設備に関する⾔及は、低評価に結びつきやすいことが明ら かになった。特に、部屋の清潔感や⼤浴場の設備など、物理的な環境に関する不 満が低評価の原因となることが多い",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "9b71e7ab0f32142fa364d8ef61d64e33cc5cc8d5a0e085829630ab2d1cc72b44"
+        },
+        {
+          "title": "スマートフォンの利用と旅行消費に関する調査（2025） - JTB総合研究所",
+          "url": "https://www.tourism.jp/research-reports/smartphone-2025/",
+          "excerpt": "人サービス」 ... 利用意向 ... 、「自動会計（32.0％）」、「タブレットなど ... 自動化（1 ... 、手続きを効率化できるサービスが、「旅行プランの作成（ ... りました。性年代 ... 昨年からの急速な生成AIの浸透で、これまでの「検索する ... 情報収集から、生成AIに「相談する」行動に大きくシフトしました。企業等のサイトを訪 ... ことなく、生成AIの中で情報収集が ... 結し、訪問者数が ... 減するサイトも少なくありません。自分たちが伝えたい情報をストレートに伝えていく ... 難しい状況ではありますが、一方で、旅行者がこれまで想像していなかったような選択肢を提供していく ... でもあるともとらえられます。",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "b76445626a39305987cf28e288a92cc6ce52cef6928537bc765cc5475a314b44"
+        }
+      ]
+    },
+    "ensemble": {
+      "plannedCells": 4,
+      "completedCells": 4,
+      "failedCells": 0,
+      "aggregation": "deterministic-arithmetic-mean-v1",
+      "distribution": [
+        10,
+        18,
+        29,
+        28,
+        15
+      ]
+    },
+    "stability": {
+      "metricVersion": "stability-v1",
+      "cellCount": 4,
+      "meanJensenShannonDivergence": 0.004817,
+      "maxPercentagePointSpread": 5,
+      "interpretation": "Lower divergence and spread indicate greater agreement among model-generated cells; neither metric measures human certainty."
+    },
+    "verification": {
+      "status": "completed",
+      "role": "evidence-and-bias-critic",
+      "separateModelCall": true,
+      "independentReview": false,
+      "decision": "flagged",
+      "evidenceAlignment": "partially-aligned",
+      "weakClaims": [
+        "「次回はかなり使いたい」といった利用意向の強さを一般市場に近い事実として扱うこと",
+        "スタッフ対応の選択可否や料金・キャンセル条件・データ利用の明示が利用意向を押し上げるという因果的表現",
+        "5段階分布を需要予測や市場代表値のように解釈すること",
+        "本人確認要件適合や物理キー代替の有無を前提にした受容が日本国内の全出張者に当てはまるとみなすこと"
+      ],
+      "biasSignals": [
+        "合成データを実測調査のように見せるリスク",
+        "対象を国内ビジネスホテル利用者に限定しているため、他宿泊形態への一般化が過大になりやすい",
+        "条件が整う前提を置いているため、利便性バイアスが強い",
+        "対面支援を残す層とデジタル積極層の両方を想定しており、セグメント設定が仮説主導で恣意的になりやすい"
+      ],
+      "critiqueSummary": "提示された合成結果は、条件の透明性やスタッフ支援が受容を高めるという方向性としては自然ですが、実測データではなく合成分布に基づくため、研究知見としての強い主張はできません。エビデンス断片は宿泊体験におけるスタッフ対応や手続き効率化への関心を示唆しますが、モバイル事前チェックインとデジタルキーの利用意向を直接支持するものは限定的です。",
+      "note": "This is a separate model stage within one pipeline, not independent external verification."
+    }
+  },
+  "status": "automated-qa-passed-human-editorial-review-pending",
+  "htmlUrl": "/ja-jp/studies/mobile-checkin-business-hotels-japan/",
+  "dataUrl": "/ja-jp/studies/mobile-checkin-business-hotels-japan/study.json",
+  "canonicalUrl": "https://likerts.com/ja-jp/studies/mobile-checkin-business-hotels-japan/"
+}

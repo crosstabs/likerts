@@ -62,21 +62,21 @@ const reportUiTranslations = {
 
 const supplementalKeys = [
   'interfaceLanguage', 'notMeasured', 'modelReview', 'modelReviewed', 'copyRunId', 'copied',
-  'howItWorks', 'syntheticResearch', 'methodology', 'limitations', 'examples', 'agentDocs',
+  'howItWorks', 'syntheticResearch', 'methodology', 'limitations', 'examples', 'studies', 'agentDocs',
   'productDocs', 'sourceRecords', 'veryUnlikely', 'notSure', 'veryLikely',
 ];
 
 const supplementalValues = {
-  'en-US': ['Interface language', 'Not measured', 'Model review', 'Model reviewed', 'Copy run ID', 'Copied', 'How it works', 'Synthetic research', 'Methodology', 'Limitations', 'Examples', 'Agent docs', 'Product documentation', 'source records', 'Very unlikely', 'Not sure', 'Very likely'],
-  'es-ES': ['Idioma de la interfaz', 'No medido', 'Revisión del modelo', 'Revisado por el modelo', 'Copiar ID de ejecución', 'Copiado', 'Cómo funciona', 'Investigación sintética', 'Metodología', 'Limitaciones', 'Ejemplos', 'Docs para agentes', 'Documentación del producto', 'registros de fuentes', 'Muy improbable', 'No sabe', 'Muy probable'],
-  'pt-BR': ['Idioma da interface', 'Não medido', 'Revisão do modelo', 'Revisado pelo modelo', 'Copiar ID da execução', 'Copiado', 'Como funciona', 'Pesquisa sintética', 'Metodologia', 'Limitações', 'Exemplos', 'Docs para agentes', 'Documentação do produto', 'registros de fontes', 'Muito improvável', 'Não sabe', 'Muito provável'],
-  'fr-FR': ['Langue de l’interface', 'Non mesuré', 'Revue du modèle', 'Revu par le modèle', 'Copier l’ID d’exécution', 'Copié', 'Fonctionnement', 'Recherche synthétique', 'Méthodologie', 'Limites', 'Exemples', 'Docs agents', 'Documentation produit', 'fiches de sources', 'Très improbable', 'Ne sait pas', 'Très probable'],
-  'de-DE': ['Oberflächensprache', 'Nicht gemessen', 'Modellprüfung', 'Vom Modell geprüft', 'Lauf-ID kopieren', 'Kopiert', 'So funktioniert es', 'Synthetische Forschung', 'Methodik', 'Einschränkungen', 'Beispiele', 'Agent-Dokumentation', 'Produktdokumentation', 'Quelleneinträge', 'Sehr unwahrscheinlich', 'Unentschieden', 'Sehr wahrscheinlich'],
-  'zh-CN': ['界面语言', '未测量', '模型审查', '已由模型审查', '复制运行 ID', '已复制', '工作原理', '合成研究', '方法论', '局限', '示例', '代理文档', '产品文档', '来源记录', '非常不可能', '不确定', '非常可能'],
-  'ja-JP': ['表示言語', '未測定', 'モデルレビュー', 'モデルレビュー済み', '実行 ID をコピー', 'コピーしました', '仕組み', '合成調査', '方法論', '制約', '例', 'エージェント向け資料', '製品ドキュメント', '情報源レコード', 'まったく可能性なし', 'わからない', '非常に可能性あり'],
-  'ko-KR': ['인터페이스 언어', '측정 안 됨', '모델 검토', '모델 검토 완료', '실행 ID 복사', '복사됨', '작동 방식', '합성 연구', '방법론', '제한 사항', '예시', '에이전트 문서', '제품 문서', '출처 기록', '전혀 가능성 없음', '잘 모르겠음', '매우 가능성 있음'],
-  'ar-SA': ['لغة الواجهة', 'غير مقاس', 'مراجعة النموذج', 'تمت مراجعة النموذج', 'نسخ معرّف التشغيل', 'تم النسخ', 'كيف يعمل', 'البحث التركيبي', 'المنهجية', 'القيود', 'أمثلة', 'وثائق الوكلاء', 'وثائق المنتج', 'سجلات المصادر', 'غير مرجّح إطلاقًا', 'غير متأكد', 'مرجّح جدًا'],
-  'hi-IN': ['इंटरफ़ेस भाषा', 'मापा नहीं गया', 'मॉडल समीक्षा', 'मॉडल द्वारा समीक्षित', 'रन ID कॉपी करें', 'कॉपी किया गया', 'यह कैसे काम करता है', 'सिंथेटिक शोध', 'पद्धति', 'सीमाएँ', 'उदाहरण', 'एजेंट दस्तावेज़', 'उत्पाद दस्तावेज़', 'स्रोत रिकॉर्ड', 'बिल्कुल असंभावित', 'निश्चित नहीं', 'बहुत संभावित'],
+  'en-US': ['Interface language', 'Not measured', 'Model review', 'Model reviewed', 'Copy run ID', 'Copied', 'How it works', 'Synthetic research', 'Methodology', 'Limitations', 'Examples', 'Sample studies', 'Agent docs', 'Product documentation', 'source records', 'Very unlikely', 'Not sure', 'Very likely'],
+  'es-ES': ['Idioma de la interfaz', 'No medido', 'Revisión del modelo', 'Revisado por el modelo', 'Copiar ID de ejecución', 'Copiado', 'Cómo funciona', 'Investigación sintética', 'Metodología', 'Limitaciones', 'Ejemplos', 'Estudios de ejemplo', 'Docs para agentes', 'Documentación del producto', 'registros de fuentes', 'Muy improbable', 'No sabe', 'Muy probable'],
+  'pt-BR': ['Idioma da interface', 'Não medido', 'Revisão do modelo', 'Revisado pelo modelo', 'Copiar ID da execução', 'Copiado', 'Como funciona', 'Pesquisa sintética', 'Metodologia', 'Limitações', 'Exemplos', 'Estudos de exemplo', 'Docs para agentes', 'Documentação do produto', 'registros de fontes', 'Muito improvável', 'Não sabe', 'Muito provável'],
+  'fr-FR': ['Langue de l’interface', 'Non mesuré', 'Revue du modèle', 'Revu par le modèle', 'Copier l’ID d’exécution', 'Copié', 'Fonctionnement', 'Recherche synthétique', 'Méthodologie', 'Limites', 'Exemples', 'Études exemples', 'Docs agents', 'Documentation produit', 'fiches de sources', 'Très improbable', 'Ne sait pas', 'Très probable'],
+  'de-DE': ['Oberflächensprache', 'Nicht gemessen', 'Modellprüfung', 'Vom Modell geprüft', 'Lauf-ID kopieren', 'Kopiert', 'So funktioniert es', 'Synthetische Forschung', 'Methodik', 'Einschränkungen', 'Beispiele', 'Beispielstudien', 'Agent-Dokumentation', 'Produktdokumentation', 'Quelleneinträge', 'Sehr unwahrscheinlich', 'Unentschieden', 'Sehr wahrscheinlich'],
+  'zh-CN': ['界面语言', '未测量', '模型审查', '已由模型审查', '复制运行 ID', '已复制', '工作原理', '合成研究', '方法论', '局限', '示例', '示例研究', '代理文档', '产品文档', '来源记录', '非常不可能', '不确定', '非常可能'],
+  'ja-JP': ['表示言語', '未測定', 'モデルレビュー', 'モデルレビュー済み', '実行 ID をコピー', 'コピーしました', '仕組み', '合成調査', '方法論', '制約', '例', 'サンプル調査', 'エージェント向け資料', '製品ドキュメント', '情報源レコード', 'まったく可能性なし', 'わからない', '非常に可能性あり'],
+  'ko-KR': ['인터페이스 언어', '측정 안 됨', '모델 검토', '모델 검토 완료', '실행 ID 복사', '복사됨', '작동 방식', '합성 연구', '방법론', '제한 사항', '예시', '예시 연구', '에이전트 문서', '제품 문서', '출처 기록', '전혀 가능성 없음', '잘 모르겠음', '매우 가능성 있음'],
+  'ar-SA': ['لغة الواجهة', 'غير مقاس', 'مراجعة النموذج', 'تمت مراجعة النموذج', 'نسخ معرّف التشغيل', 'تم النسخ', 'كيف يعمل', 'البحث التركيبي', 'المنهجية', 'القيود', 'أمثلة', 'دراسات نموذجية', 'وثائق الوكلاء', 'وثائق المنتج', 'سجلات المصادر', 'غير مرجّح إطلاقًا', 'غير متأكد', 'مرجّح جدًا'],
+  'hi-IN': ['इंटरफ़ेस भाषा', 'मापा नहीं गया', 'मॉडल समीक्षा', 'मॉडल द्वारा समीक्षित', 'रन ID कॉपी करें', 'कॉपी किया गया', 'यह कैसे काम करता है', 'सिंथेटिक शोध', 'पद्धति', 'सीमाएँ', 'उदाहरण', 'नमूना अध्ययन', 'एजेंट दस्तावेज़', 'उत्पाद दस्तावेज़', 'स्रोत रिकॉर्ड', 'बिल्कुल असंभावित', 'निश्चित नहीं', 'बहुत संभावित'],
 };
 
 const supplementalUiTranslations = Object.fromEntries(

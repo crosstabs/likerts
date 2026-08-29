@@ -1,0 +1,437 @@
+{
+  "schemaVersion": "1.0",
+  "brief": {
+    "schemaVersion": "1.0",
+    "stableId": "SS-KO-KR-001",
+    "slug": "ad-supported-ott-plan-south-korea",
+    "locale": "ko-KR",
+    "industry": "media",
+    "title": "한국의 광고 기반 OTT 요금제 선택",
+    "description": "가격, 광고 경험, 해지 조건에 관한 방향성 가설입니다.",
+    "researchIntent": "더 저렴한 광고형 OTT 요금제로 전환할 때의 가격·광고·해지 절충을 탐색합니다.",
+    "disclosure": "이는 모델이 생성한 합성 결과이며 관찰된 사람 설문 결과가 아닙니다.",
+    "evidenceBoundary": "KISDI와 방송통신위원회 자료는 미디어 이용 및 구독 맥락을 설명할 수 있지만, 그 수치를 합성 결과로 재사용할 수 없으며 전환·이탈·광고 수용도·요금제 선호를 입증하지 않습니다.",
+    "humanValidation": "현재 유료 이용자를 인터뷰하고 가격·광고량 컨조인트를 실시하며, 동의 기반 요금제 제안 실험에서 전환, 시청 시간, 광고 이탈, 해지, 취소, 불만 비율을 관찰합니다.",
+    "curatedContextUrls": [
+      "https://kisdi.re.kr/report/view.do?arrMasterId=3934581&artId=1862836&key=m2101113024973&masterId=3934581",
+      "https://kisdi.re.kr/bbs/view.do?bbsSn=114726&key=m2101113055776",
+      "https://stat.kisdi.re.kr/main.html",
+      "https://m.kcc.go.kr/user.do?boardId=1058&boardSeq=65045&cp=2&dc=E04010000&mode=view&page=E04010000"
+    ],
+    "request": {
+      "prompt": "광고가 시간당 최대 4분이고 아동 콘텐츠에는 광고가 없으며 언제든 해지할 수 있다면, 현재 가장 많이 쓰는 유료 OTT 요금제를 30% 저렴한 광고형 요금제로 바꿀 가능성은 얼마나 됩니까?",
+      "audience": "최근 3개월 동안 유료 OTT 서비스를 이용한 20–49세 성인",
+      "panelSize": 200,
+      "assumptions": "콘텐츠 목록과 화질은 동일하다; 30% 할인은 실제다; 명시된 광고량은 지켜진다; 아동 콘텐츠에는 광고가 없다; 해지는 월 단위로 가능하다.",
+      "market": "South Korea",
+      "searchLocation": "South Korea",
+      "sourceLanguages": [
+        "ko-KR"
+      ],
+      "searchCountry": "KR",
+      "outputLocale": "ko-KR",
+      "researchMode": "DEEP",
+      "evidencePolicy": "AUTO",
+      "clientRunId": "sample-ad-supported-ott-plan-south-korea"
+    }
+  },
+  "curatedContextCandidates": [
+    {
+      "url": "https://kisdi.re.kr/report/view.do?arrMasterId=3934581&artId=1862836&key=m2101113024973&masterId=3934581",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://kisdi.re.kr/bbs/view.do?bbsSn=114726&key=m2101113055776",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://stat.kisdi.re.kr/main.html",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://m.kcc.go.kr/user.do?boardId=1058&boardSeq=65045&cp=2&dc=E04010000&mode=view&page=E04010000",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    }
+  ],
+  "capture": {
+    "schemaVersion": "1.0",
+    "briefSlug": "ad-supported-ott-plan-south-korea",
+    "stableId": "SS-KO-KR-001",
+    "studyId": "study_bad331d0-f0b3-4adf-937f-00630ace3d2f",
+    "runId": "run_53587d47-c456-45f4-91fb-db700e0a40f2",
+    "capturedAt": "2026-08-29T02:53:26.404Z",
+    "study": {
+      "title": "광고형 OTT 요금제 전환 의향에 대한 가상 Likert 조사",
+      "summary": "최근 3개월 내 유료 OTT를 이용한 20–49세 성인을 대상으로, 현재 이용 중인 요금제와 비교해 광고형 요금제로 전환할 가능성을 묻는 5점 Likert 응답을 가정한 합성 연구입니다. 조건은 광고가 시간당 최대 4분, 아동 콘텐츠 무광고, 언제든지 월 단위 해지 가능, 현재 요금제 대비 30% 저렴함으로 제시되었습니다. 전체 분포는 중립과 긍정 응답이 우세하되, 광고 수용도와 가격 민감도에 따라 응답이 갈리는 형태로 구성하",
+      "takeaway": "가격 절감과 해지 유연성이 전환 의향을 끌어올리지만, 광고에 대한 거부감과 고빈도 시청자는 여전히 신중합니다.",
+      "distribution": [
+        9,
+        18,
+        26,
+        30,
+        17
+      ],
+      "confidence": "Low",
+      "confidenceNote": "제공된 연구 단서와 사용자가 지정한 집계 분포를 바탕으로 한 합성 결과이므로, 방향성 해석에는 무리가 없지만 실제 모집단 추정으로 일반화할 수는 없습니다.",
+      "audienceSummary": {
+        "audienceLabel": "최근 3개월 내 유료 OTT 이용 성인",
+        "contextLabel": "한국 시장의 광고형 OTT 요금제 전환 의향 가정 조사",
+        "attributes": [
+          {
+            "label": "연령",
+            "value": "20–49세"
+          },
+          {
+            "label": "이용 조건",
+            "value": "최근 3개월 동안 유료 OTT 서비스 이용"
+          },
+          {
+            "label": "비교 대상",
+            "value": "현재 사용 중인 유료 OTT 요금제 대비 광고형 요금제"
+          }
+        ]
+      },
+      "segments": [
+        {
+          "label": "가격 민감도 높음 · 광고 수용도 보통 이상",
+          "sample": 56,
+          "values": [
+            5,
+            13,
+            27,
+            34,
+            21
+          ]
+        },
+        {
+          "label": "광고 수용도 낮음 · 고빈도 시청",
+          "sample": 48,
+          "values": [
+            21,
+            31,
+            25,
+            17,
+            6
+          ]
+        },
+        {
+          "label": "가구 내 아동 콘텐츠 이용 있음 · 조건 면밀 검토",
+          "sample": 44,
+          "values": [
+            9,
+            16,
+            29,
+            32,
+            14
+          ]
+        },
+        {
+          "label": "현재 고가 요금제 이용 · 전환 유연성 높음",
+          "sample": 52,
+          "values": [
+            4,
+            8,
+            21,
+            29,
+            38
+          ]
+        }
+      ],
+      "responses": [
+        {
+          "score": 1,
+          "profile": "광고에 매우 민감하고 몰입형 시청을 선호하는 고빈도 이용자",
+          "quote": "시간당 4분이라도 콘텐츠 흐름이 끊기는 느낌이 커서 전환할 생각은 거의 없습니다."
+        },
+        {
+          "score": 2,
+          "profile": "현재 요금제 만족도가 높고 추가 혜택을 더 중시하는 이용자",
+          "quote": "30% 저렴한 건 보이지만, 광고가 들어가는 대신 바꿀 만큼의 차이는 아직 잘 모르겠습니다."
+        },
+        {
+          "score": 4,
+          "profile": "가격 부담을 줄이고 싶어 조건을 비교하는 실용형 이용자",
+          "quote": "광고가 많지 않고 아동 콘텐츠는 제외된다면, 지금보다 저렴한 쪽으로 옮겨볼 수 있을 것 같습니다."
+        },
+        {
+          "score": 5,
+          "profile": "요금 절감과 월 단위 해지를 가장 크게 보는 민감형 이용자",
+          "quote": "현재보다 30% 싸고 언제든 해지할 수 있다면, 광고가 조금 있어도 충분히 전환할 의향이 있습니다."
+        }
+      ],
+      "cautions": [
+        "이 결과는 합성된 설문 프레임이며 실제 응답을 관측한 증거가 아닙니다.",
+        "제시된 분포는 사용자가 제공한 집계값을 그대로 반영한 구성으로, 표본 대표성이나 통계적 유의성을 주장하지 않습니다.",
+        "광고 수용도, 가격 민감도, 시청 빈도, 아동 콘텐츠 이용 여부는 전환 의향을 설명하는 가설적 세분화 변수로만 해석해야 합니다.",
+        "제공된 근거는 연구 프레임 설계를 돕는 참고 단서일 뿐, 인과 효과나 시장 전체의 확정적 결론으로 읽어서는 안 됩니다."
+      ]
+    },
+    "provenance": {
+      "runtimeVersion": "synthetic-research-v2.4",
+      "researchMode": "DEEP",
+      "inputHash": "ff28464ec64ff4365fd66f00f31be142eda91767936169b432c5b969b7bb02d7",
+      "evidenceHash": "84e583e38d19e64450677a389f36689da083342736c28a494133e66268b1c076",
+      "promptVersions": {
+        "framing": "framing-v2",
+        "panel": "panel-v4",
+        "respondentCell": "respondent-cell-v3",
+        "adjudication": "evidence-bias-critic-v4"
+      },
+      "schemaVersions": {
+        "framing": "frame-schema-v1",
+        "panel": "study-schema-v1",
+        "respondentCell": "respondent-cell-schema-v2",
+        "adjudication": "critic-schema-v2"
+      },
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+    },
+    "cost": {
+      "currency": "USD",
+      "gatewayCost": {
+        "exactTotalUsd": "0.03730255",
+        "reporting": "complete",
+        "reportedCallCount": 10,
+        "eligibleCallCount": 10,
+        "note": "Exact values are reported only when Vercel AI Gateway returned providerMetadata.gateway.cost."
+      },
+      "tokenUsage": {
+        "inputTokens": 20925,
+        "outputTokens": 3142,
+        "totalTokens": 24067,
+        "reasoningTokens": 273,
+        "cachedInputTokens": 0
+      }
+    },
+    "modelLineage": [
+      {
+        "stage": "framing",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "framing-v2",
+        "schemaVersion": "frame-schema-v1",
+        "promptHash": "85242145afe3caae25c4b71767e6fc4c3ad59281924ed73764e55a4c650dcd55"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_1",
+        "cellIndex": 0,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "dea6ed6fb48d8830dc3acc2df9286a77123731a2b83e9e70491e6ccb2664b0de"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_2",
+        "cellIndex": 1,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "845d8e1c92446818d3effcb60b3ccfcbbb207a0bf911c4e5ae2f646a8ebd44cf"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_3",
+        "cellIndex": 2,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "1d563b1623fbf64d52b3758843d1740729c5a4fb11e547c13cab9b2641d53479"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_4",
+        "cellIndex": 3,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "7100d0a732451672c856d1770475f301aca1043e8acbf79542966b882c9e6c3d"
+      },
+      {
+        "stage": "panel",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "panel-v4",
+        "schemaVersion": "study-schema-v1",
+        "promptHash": "6c344ad87b816c5d6d0f2a10586f1e7d40ac4b51092c5d682ee13aa266356f8d"
+      },
+      {
+        "stage": "adjudication",
+        "role": "evidence-and-bias-critic",
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "evidence-bias-critic-v4",
+        "schemaVersion": "critic-schema-v2",
+        "promptHash": "5bb1bf565fb37c6695d19c6a24353c1eaed04bac12cedd4cf58c62b13ee8aa4e"
+      }
+    ],
+    "evidence": {
+      "mode": "EXA_GATEWAY",
+      "gatewaySearchCompleted": true,
+      "ledger": [
+        {
+          "title": "The Effect of OTT Service Characteristics on Continuous Use Intention through Technology Acceptance Model",
+          "url": "https://doi.org/10.47116/apjcri.2025.10.07",
+          "excerpt": ". 가 설 경 로 | 표준화 계수(β) | t-값 | 채택 유무 H1-1 : 콘텐츠 다양성 → 인지된 유용성 | 0.200 | 1.991* | 채택 H1-2 : 콘텐츠 다양성 → 인지된 용이성 | 0.157 | 1.313 | 기각 H1-3 : 요금제 적절성 → 인지된 유용성 | 0.216 | 2.14* | 채택 H1-4 : 요금제 적절성 → 인지된 용이성 | 0.129 | 1.373 | 기각 H1-5 : 신뢰성 → 인지된 유용성 | 0.279 | 2.8** | 채택 H2-1 : 신뢰성 → 인지된 용이성 | 0.410 | 3.819*** | 채택 H2-2 : 인지된 유용성 → 지속 이용의도 | 0.405 | 5.425 | 채택 H2-3 : 인지된 용이성 → 지속 이용의도 | 0.530 | 7.85*** | 채택 t≥1.96* (p<0.05), t≥2.58** (p<0.01), t≥3.30*** (p<0.001) 5. 결론 지속 사용하는 요인을 살펴보았다. 본 조사에서 도출한 콘텐츠 다양성, 요금제 적절성, 신뢰성, 기술 수용이론의 지각된",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "a7118958b894378433e181c01b926a3f64d179646277aaab2f6e892614cd0a1c"
+        },
+        {
+          "title": "A Study on the Factors Affecting the Continuous Intention to Use Digital Content Over-the-Top Service",
+          "url": "https://doi.org/10.7469/jksqm.2022.50.1.105",
+          "excerpt": "나타났다. 위와 같이 본 연구는 OTT서비스의 주요 특성과 지속사용의도간의 관계를 정보시스템 성공모형, 기대-충족이론 과 후기수용 모델(PAM)의 통합적 구조를 통해 실증적으로 분석하였다는데 학문적 의의와 실무적 시사점을 갖는다. 즉, 시스템 품질(이용용이성, 검색), 콘텐츠 품질(다양성, 최신성, 유희성), 이용요금의 차원으로 이용자의 인지를 높 일 수 있는 서비스를 강화할 필요가 있다는 점과 매력적이라고 판단되는 정보 품질(개인화, 이해가능성)은 기대충족 에 미치지 못했다는 점에서 향후 정보 품질 특성을 새로운 방향으로 접근해야 하는 점을 시사하고 있는 바 OTT서비 스 특성에 대한 탐색적 연구로서의 가치를 나타낸다. 또한, 이용자 기대충족과 후기수용모델을",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "290e8d9c15a4f352aaf85cacb5c98a3bfc02ead566d79f0caeeca71cfac415fa"
+        },
+        {
+          "title": "OTT 서비스의 다양성과 시장경쟁이 OTT 서비스 복수구독에 미치는 영향에 관한 연구",
+          "url": "https://exa.ai/library/publication/1l66qyx3vxn",
+          "excerpt": "스 요금제에 따른 최대 이용 가능 인원수 때문이다. OTT 서비스 기업들은 최대 4 ... 명이 동시에 이용 가능한 요금제를 제공하고 있다. 넷 ... 2022 ... 2015년 ... 2016년 12월 전 세계에서 다섯 번째로 한국에 도입되었다. 유튜 브 ... 미엄 서비스는 ... 앱 백그 ... 드 영상 재생, 유튜브 뮤직 등의 기능과 함께 ... 오리지널 콘텐츠를 제공하는 등 여러 기능을 포함한 다. 그러나 2019년을 기점으로 유튜브 오리지널 드라마는 제작이 중단되었으며, 2022년에는 아동용을 제외하고 ... 널 사업을 철회하였다. ... 넷플 ... 스 등 다수의 주요 SVOD의 경우에는 ... 를 통해 저렴 ... 한 금액에 OTT 서비스를 이용할 수 있는 옵션을 제공함으로써 OTT",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "f60ecca17137e303f176fca6161a62c52317a7176bd9a60eb3895956ad3de7fd"
+        },
+        {
+          "title": "구독료 1만 원도 아깝다…계정 공유·광고 요금제로 향하는 OTT 이용자들",
+          "url": "https://www.asiae.co.kr/article/2026032000181152827",
+          "excerpt": ".8개 ... 하다고 여기는 ... 는 79 ... 1만4342 ... 실제로 넷플릭스·티빙 이용자 가운데 광고 요금제를 선택한 비율은 34.8%로, 전년(24.6%)보다 10.2%포인트 급증했다. 광고 요금제 이용자의 87.3%는 앞으로도 계속 이용하겠다고 답했다. 2024년 조사에서 85.2%였던 것과 비교하면 광고 수용도가 오히려 높아지고 있다. ... 팡 와우 멤버십에 포함 ... 서비스로 인식 ... 광고형 전환 ... 비용 부담 감소로 직결된다 ... 이처럼 광고 요금제는 불편한 대안이라는 초기 우려를 씻고 합리적 소비 전략으로 완전히 자리 잡았다. 플랫폼들도 광고 수익과 가입자 유지를 동시에 달성하는 주요 수익원으로 활용한다.",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "8978112051af4389ca29298ea2c868cc7d73b25329dd19101225da88a3539370"
+        }
+      ]
+    },
+    "ensemble": {
+      "plannedCells": 4,
+      "completedCells": 4,
+      "failedCells": 0,
+      "aggregation": "deterministic-arithmetic-mean-v1",
+      "distribution": [
+        9,
+        18,
+        26,
+        30,
+        17
+      ]
+    },
+    "stability": {
+      "metricVersion": "stability-v1",
+      "cellCount": 4,
+      "meanJensenShannonDivergence": 0.025218,
+      "maxPercentagePointSpread": 12,
+      "interpretation": "Lower divergence and spread indicate greater agreement among model-generated cells; neither metric measures human certainty."
+    },
+    "verification": {
+      "status": "completed",
+      "role": "evidence-and-bias-critic",
+      "separateModelCall": true,
+      "independentReview": false,
+      "decision": "flagged",
+      "evidenceAlignment": "partially-aligned",
+      "weakClaims": [
+        "30% 저렴함과 월 단위 해지 가능성이 전환 의향을 얼마나 끌어올리는지에 대한 정량적 근거가 제시되지 않았습니다.",
+        "‘현재 가장 많이 쓰는 유료 OTT 요금제’를 특정하지 않아 비교 기준이 불명확합니다.",
+        "광고가 시간당 최대 4분이라는 조건의 수용성이 아동 콘텐츠 무광고 조건보다 더 중요하다는 근거는 없습니다.",
+        "제시된 분포는 합성된 응답 가정치로, 실제 한국 성인 유료 OTT 이용자 비율을 의미하지 않습니다."
+      ],
+      "biasSignals": [
+        "가격 절감이 전환을 크게 좌우한다는 방향으로 설계된 조건부 질문 편향이 있습니다.",
+        "광고 거부감이 있는 집단보다 가격 민감 집단을 상대적으로 유리하게 반영하는 세분화가 포함되어 있습니다.",
+        "아동 콘텐츠 무광고 조건은 특정 가구에만 유리한 프레이밍으로, 전체 시장 평균 효과를 과대평가할 수 있습니다.",
+        "기사형 단서가 포함되어 있으나 시점과 맥락상 검증된 시장 통계로 보기 어렵습니다."
+      ],
+      "critiqueSummary": "제시된 결과는 한국 OTT 시장에서 광고형 요금제 전환 의향을 탐색하는 합성 가설로는 읽을 수 있으나, 실제 관측 자료가 아닌 가상 Likert 조사이므로 모집단 추정이나 전환 가능성의 크기를 검증했다고 보기 어렵습니다. 핵심 조건인 30% 저렴함, 시간당 최대 4분 광고, 아동 콘텐츠 무광고, 언제든 해지 가능은 전환 의향을 높일 수 있는 요인으로 설정되었지만, 근거는 주로 요금제 적절성·이용요금과 지속이용의도 간의 일반적 관련성과 제한적 기사성 단서에 머뭅니다. 따라서 방향성은 부분적으로만 지지되며, 수치 분포를 실제 시장 비율처럼 해석하면 과도합니다.",
+      "note": "This is a separate model stage within one pipeline, not independent external verification."
+    }
+  },
+  "status": "automated-qa-passed-human-editorial-review-pending",
+  "htmlUrl": "/ko-kr/studies/ad-supported-ott-plan-south-korea/",
+  "dataUrl": "/ko-kr/studies/ad-supported-ott-plan-south-korea/study.json",
+  "canonicalUrl": "https://likerts.com/ko-kr/studies/ad-supported-ott-plan-south-korea/"
+}

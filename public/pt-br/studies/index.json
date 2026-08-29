@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0",
+  "locale": "pt-BR",
+  "studies": [
+    {
+      "slug": "assinatura-pix-automatico-microempresas-brasil",
+      "locale": "pt-BR",
+      "localeName": "Português (Brasil)",
+      "industry": "financial-services",
+      "industryName": "Financial services",
+      "title": "Assinaturas com Pix Automático entre microempresas brasileiras",
+      "description": "Uma hipótese direcional sobre fluxo de caixa, confiança e configuração.",
+      "researchIntent": "Testar quais avisos de autorização e cancelamento podem sustentar a confiança em assinaturas empresariais recorrentes via Pix Automático.",
+      "evidenceBoundary": "Estatísticas e regras do Banco Central podem definir uso, operação, autorização e cancelamento do Pix; não comprovam disposição para assinar, confiança, compreensão, conversão, retenção ou preferência por uma interface.",
+      "question": "Qual é a probabilidade de você contratar uma assinatura empresarial via Pix Automático se o valor, a frequência, o aviso antes da cobrança e o cancelamento imediato forem mostrados antes da autorização?",
+      "audience": "MEI e donos de pequenas empresas que já usam Pix em transações comerciais",
+      "disclosure": "Estimativa sintética gerada por modelos, não uma pesquisa observada com pessoas.",
+      "humanValidation": "Realizar entrevistas de compreensão em português; testar variações de aviso, notificação, cancelamento e preço; observar autorização, falhas, cancelamentos, disputas e contatos de suporte em um piloto limitado.",
+      "canonicalUrl": "https://likerts.com/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/",
+      "detailUrl": "/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/",
+      "dataUrl": "/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/study.json",
+      "runYourOwnUrl": "/?sample=assinatura-pix-automatico-microempresas-brasil",
+      "status": "automated-qa-passed-human-editorial-review-pending",
+      "capturedAt": "2026-08-29T02:51:59.163Z",
+      "evidenceMode": "EXA_GATEWAY",
+      "sourceCount": 4,
+      "modelCellCount": 4,
+      "gatewayCostUsd": "0.0326004",
+      "distribution": [
+        9,
+        14,
+        23,
+        33,
+        21
+      ],
+      "confidence": "Moderate"
+    }
+  ]
+}

@@ -5,13 +5,41 @@
 ## Primary pages
 
 - [Likerts app](https://likerts.com/): Create a directional synthetic study from a research question, audience, optional public source URLs, and explicit assumptions.
+- [Sample study library](https://likerts.com/studies/): 10 curated global sample studies, 10 currently published from frozen captures, with JSON records, source ledgers, model disagreement, cost provenance, and human-validation guidance.
 - [How it works](https://likerts.com/how-it-works/): Practical workflow for using a synthetic study to prepare human research.
 - [Methodology](https://likerts.com/methodology/): How the tool separates source context, assumptions, model inference, and methodological model review.
 - [Research standards](https://likerts.com/research-standards/): Quick and Deep modes, repeatability, run receipts, evaluation boundaries, and operating safeguards.
+- [Human-survey benchmark roadmap](https://likerts.com/research-standards/benchmark-manifest.json): Machine-readable plan for future validation against observed human survey data; not yet a completed benchmark.
 - [Limitations](https://likerts.com/limitations/): Evidence boundaries and appropriate use.
-- [Examples](https://likerts.com/examples/): Example hypotheses to explore, followed by human validation.
 - [Free synthetic market research](https://likerts.com/synthetic-market-research/): Product capabilities, global workflow, appropriate uses, and evidence boundaries.
-- [Remote MCP endpoint](https://likerts.com/api/mcp): Streamable HTTP interface for validating a brief or running the same evidence-aware synthetic workflow programmatically.
+- [Remote MCP endpoint](https://likerts.com/api/mcp): Streamable HTTP interface for validating a brief, running the evidence-aware synthetic workflow, or reading sample-study catalog resources.
+
+## Sample studies
+
+- [한국의 광고 기반 OTT 요금제 선택](https://likerts.com/ko-kr/studies/ad-supported-ott-plan-south-korea/): 한국어(대한민국); Media; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/ko-kr/studies/ad-supported-ott-plan-south-korea/study.json
+- [AI copilot pilot adoption among US small businesses](https://likerts.com/en-us/studies/ai-copilot-pilot-small-business-us/): English (US); Workplace AI; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/en-us/studies/ai-copilot-pilot-small-business-us/study.json
+- [مساعد دراسة بالذكاء الاصطناعي في الجامعات السعودية](https://likerts.com/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/): العربية (السعودية); Education; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/study.json
+- [Assinaturas com Pix Automático entre microempresas brasileiras](https://likerts.com/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/): Português (Brasil); Financial services; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/study.json
+- [Recarga de coche eléctrico en garajes comunitarios de España](https://likerts.com/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/): Español (España); Electric mobility; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/study.json
+- [Consigne de bouteilles réemployables en supermarché français](https://likerts.com/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/): Français (France); Consumer products; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/study.json
+- [भारत के छोटे किसानों के लिए हिंदी कृषि-मौसम सलाह](https://likerts.com/hi-in/studies/hindi-agromet-advisory-small-farmers-india/): हिन्दी (भारत); Agriculture; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/hi-in/studies/hindi-agromet-advisory-small-farmers-india/study.json
+- [日本のビジネスホテルにおけるモバイルチェックイン](https://likerts.com/ja-jp/studies/mobile-checkin-business-hotels-japan/): 日本語（日本）; Travel; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/ja-jp/studies/mobile-checkin-business-hotels-japan/study.json
+- [中国智能电动车的数据控制偏好](https://likerts.com/zh-cn/studies/smart-ev-data-controls-china/): 中文（中国）; Electric mobility; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/zh-cn/studies/smart-ev-data-controls-china/study.json
+- [Wärmepumpen-Angebot für Bestandsheime in Deutschland](https://likerts.com/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/): Deutsch (Deutschland); Home energy; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/study.json
+
+## MCP tools and resources
+
+- `validate_research_brief`: validate a brief without model calls.
+- `run_synthetic_study`: run a bounded synthetic study; may call models and retrieval.
+- `list_sample_studies`: list frozen sample-study records without model calls.
+- `get_sample_study`: fetch one frozen sample-study record by slug without model calls.
+- `likerts://sample-studies/catalog`: machine-readable sample-study catalog.
+- `likerts://sample-studies/{slug}`: machine-readable individual sample-study record.
+
+## Research modes
+
+- Quick mode: a bounded, lower-cost synthetic run for early hypothesis exploration.
+- Deep mode: a multi-call synthetic cohort with model disagreement, critic review, run receipt, and Gateway cost provenance where available.
 
 ## Use guidance
 

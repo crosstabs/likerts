@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0",
+  "locale": "fr-FR",
+  "studies": [
+    {
+      "slug": "consigne-bouteille-reemployable-supermarche-france",
+      "locale": "fr-FR",
+      "localeName": "Français (France)",
+      "industry": "consumer-products",
+      "industryName": "Consumer products",
+      "title": "Consigne de bouteilles réemployables en supermarché français",
+      "description": "Une hypothèse directionnelle sur le prix, le retour et la disponibilité.",
+      "researchIntent": "Explorer les conditions de commodité et de consigne susceptibles d’encourager l’essai d’un emballage en verre réemployable.",
+      "evidenceBoundary": "L’ADEME peut établir définitions, objectifs, contexte mesuré et analyses environnementales propres à un scénario; ces sources ne permettent ni de généraliser les avantages ni d’inférer achat, retour ou réachat.",
+      "question": "Dans quelle mesure seriez-vous susceptible d’acheter régulièrement une boisson dans une bouteille en verre réemployable avec une consigne de 1 €, si le retour se faisait dans votre supermarché habituel et que le prix du produit restait identique ?",
+      "audience": "Adultes de 25 à 64 ans achetant des boissons emballées en supermarché au moins chaque semaine",
+      "disclosure": "Cette sortie synthétique est générée par des modèles, pas par des personnes interrogées.",
+      "humanValidation": "Mener des entretiens en magasin et sur le parcours de retour; tester conjointement montant, lieu et commodité; puis mesurer achat, retour, casse, remboursement et réachat dans un essai en magasin.",
+      "canonicalUrl": "https://likerts.com/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/",
+      "detailUrl": "/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/",
+      "dataUrl": "/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/study.json",
+      "runYourOwnUrl": "/?sample=consigne-bouteille-reemployable-supermarche-france",
+      "status": "automated-qa-passed-human-editorial-review-pending",
+      "capturedAt": "2026-08-29T02:52:12.511Z",
+      "evidenceMode": "EXA_GATEWAY",
+      "sourceCount": 4,
+      "modelCellCount": 4,
+      "gatewayCostUsd": "0.0300194",
+      "distribution": [
+        7,
+        15,
+        23,
+        35,
+        20
+      ],
+      "confidence": "Moderate"
+    }
+  ]
+}

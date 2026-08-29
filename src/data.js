@@ -13,6 +13,7 @@ export const markets = [
   { value: 'Canada', region: 'CA', searchCountry: 'CA', searchLocation: 'Canada' },
   { value: 'Brazil', region: 'BR', searchCountry: 'BR', searchLocation: 'Brazil' },
   { value: 'Mexico', region: 'MX', searchCountry: 'MX', searchLocation: 'Mexico' },
+  { value: 'Spain', region: 'ES', searchCountry: 'ES', searchLocation: 'Spain' },
   { value: 'France', region: 'FR', searchCountry: 'FR', searchLocation: 'France' },
   { value: 'Germany', region: 'DE', searchCountry: 'DE', searchLocation: 'Germany' },
   { value: 'India', region: 'IN', searchCountry: 'IN', searchLocation: 'India' },
@@ -21,6 +22,7 @@ export const markets = [
   { value: 'South Korea', region: 'KR', searchCountry: 'KR', searchLocation: 'South Korea' },
   { value: 'Singapore', region: 'SG', searchCountry: 'SG', searchLocation: 'Singapore' },
   { value: 'Australia', region: 'AU', searchCountry: 'AU', searchLocation: 'Australia' },
+  { value: 'Saudi Arabia', region: 'SA', searchCountry: 'SA', searchLocation: 'Saudi Arabia' },
   { value: 'United Arab Emirates', region: 'AE', searchCountry: 'AE', searchLocation: 'United Arab Emirates' },
   { value: 'South Africa', region: 'ZA', searchCountry: 'ZA', searchLocation: 'South Africa' },
 ];

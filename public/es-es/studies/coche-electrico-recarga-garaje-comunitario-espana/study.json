@@ -1,0 +1,414 @@
+{
+  "schemaVersion": "1.0",
+  "brief": {
+    "schemaVersion": "1.0",
+    "stableId": "SS-ES-ES-001",
+    "slug": "coche-electrico-recarga-garaje-comunitario-espana",
+    "locale": "es-ES",
+    "industry": "electric-mobility",
+    "title": "Recarga de coche eléctrico en garajes comunitarios de España",
+    "description": "Una hipótesis direccional sobre permisos, coste y facilidad de instalación.",
+    "researchIntent": "Explorar si una propuesta que incluye la instalación de recarga reduce la incertidumbre de quienes viven en pisos y consideran un vehículo eléctrico.",
+    "disclosure": "Resultado sintético generado por modelos; no son respuestas de una encuesta observada.",
+    "evidenceBoundary": "Los datos de DGT y MITECO pueden describir infraestructura y cuestiones documentadas de recarga; no establecen intención de compra, viabilidad privada, aprobación comunitaria, sensibilidad al precio ni preferencia por esta propuesta.",
+    "humanValidation": "Entrevistar a residentes, administradores de fincas, concesionarios e instaladores; probar precio, instalación, plazo y aprobación en una encuesta de elección; validar con leads cualificados y evaluaciones de recarga completadas.",
+    "curatedContextUrls": [
+      "https://nap.dgt.es/es/dataset/0d1f0fbe-504d-4cc3-a09e-bdf6b248e8b8",
+      "https://revista.dgt.es/images/PRESENTACION-ENCUESTA-RESUMEN.pdf",
+      "https://www.idae.es/tecnologias/eficiencia-energetica/transporte/grupo-de-trabajo-de-infraestructuras-de-recarga-del-vehiculo-electrico-gtirve"
+    ],
+    "request": {
+      "prompt": "¿Qué probabilidad habría de que eligiera un coche eléctrico como próximo vehículo si el precio incluyera la instalación del punto de recarga en su plaza de garaje comunitario, con coste total y plazos por escrito?",
+      "audience": "Conductores de ciudades españolas que viven en edificios con aparcamiento comunitario y prevén sustituir su coche en 24–36 meses",
+      "panelSize": 200,
+      "assumptions": "Existe una plaza privada; la instalación es técnicamente viable; las aprobaciones comunitarias, eléctricas y del edificio siguen siendo restricciones reales; el alcance y plazo constan por escrito; no se afirma un ahorro total general.",
+      "market": "Spain",
+      "searchLocation": "Spain",
+      "sourceLanguages": [
+        "es-ES"
+      ],
+      "searchCountry": "ES",
+      "outputLocale": "es-ES",
+      "researchMode": "DEEP",
+      "evidencePolicy": "AUTO",
+      "clientRunId": "sample-coche-electrico-recarga-garaje-comunitario-espana"
+    }
+  },
+  "curatedContextCandidates": [
+    {
+      "url": "https://nap.dgt.es/es/dataset/0d1f0fbe-504d-4cc3-a09e-bdf6b248e8b8",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://revista.dgt.es/images/PRESENTACION-ENCUESTA-RESUMEN.pdf",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://www.idae.es/tecnologias/eficiencia-energetica/transporte/grupo-de-trabajo-de-infraestructuras-de-recarga-del-vehiculo-electrico-gtirve",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    }
+  ],
+  "capture": {
+    "schemaVersion": "1.0",
+    "briefSlug": "coche-electrico-recarga-garaje-comunitario-espana",
+    "stableId": "SS-ES-ES-001",
+    "studyId": "study_d7516743-98c2-43f5-84b4-f15a08ac9621",
+    "runId": "run_e24f40b1-f0e1-490a-a2db-71fed2de7587",
+    "capturedAt": "2026-08-29T02:51:44.380Z",
+    "study": {
+      "title": "Probabilidad declarada de elegir un coche eléctrico con instalación de r",
+      "summary": "Estudio sintético para hipótesis sobre la intención declarada de elegir un coche eléctrico como próximo vehículo cuando la oferta incluye la instalación del punto de recarga en una plaza de garaje comunitario, con coste total y plazos por c",
+      "takeaway": "La distribución sugiere una predisposición moderada: predominan las respuestas intermedias y favorables, pero persisten dudas relevantes ligadas al coste, a la complejidad de la instalación y a las aprobaciones del entorno comunitario.",
+      "distribution": [
+        10,
+        18,
+        28,
+        29,
+        15
+      ],
+      "confidence": "Moderate",
+      "confidenceNote": "Es una síntesis sintética basada en un marco de investigación y en un agregado fijado de forma determinista. No debe interpretarse como evidencia observada ni como estimación estad",
+      "audienceSummary": {
+        "audienceLabel": "Conductores de ciudades españolas con aparcamiento comunitario que prevén reempl",
+        "contextLabel": "España, decisión de sustitución de vehículo en 24–36 meses",
+        "attributes": [
+          {
+            "label": "Interés en sustituir vehículo",
+            "value": "Alto, por criterio de panel"
+          },
+          {
+            "label": "Residencia",
+            "value": "Edificio con aparcamiento comunitario"
+          },
+          {
+            "label": "Disponibilidad de plaza",
+            "value": "Privada, asumida en el planteamiento"
+          }
+        ]
+      },
+      "segments": [
+        {
+          "label": "Impulso alto ante oferta cerrada",
+          "sample": 36,
+          "values": [
+            20,
+            15,
+            25,
+            20,
+            20
+          ]
+        },
+        {
+          "label": "Interés condicionado por costes y tiempos",
+          "sample": 64,
+          "values": [
+            20,
+            20,
+            27,
+            20,
+            13
+          ]
+        },
+        {
+          "label": "Sensibles a barreras comunitarias",
+          "sample": 58,
+          "values": [
+            14,
+            22,
+            21,
+            14,
+            29
+          ]
+        },
+        {
+          "label": "Reticentes incluso con instalación incluida",
+          "sample": 42,
+          "values": [
+            11,
+            22,
+            22,
+            11,
+            34
+          ]
+        }
+      ],
+      "responses": [
+        {
+          "score": 1,
+          "profile": "Muy escéptico ante la compra y la gestión de la recarga",
+          "quote": "Aunque me incluyan el punto de recarga y me lo dejen por escrito, sigo viendo demasiada incertidumbre en la obra, los permisos y los sobresaltos de precio."
+        },
+        {
+          "score": 2,
+          "profile": "Dudoso, valora el eléctrico pero no lo ve resuelto",
+          "quote": "Me atrae la idea, pero no me termina de convencer que todo dependa de una instalación en el garaje y de que luego no aparezcan costes extra."
+        },
+        {
+          "score": 4,
+          "profile": "Favorable si la oferta cierra bien el riesgo",
+          "quote": "Si el precio total y los plazos quedan cerrados por escrito, la instalación incluida me quitaría una barrera importante y me haría inclinarme bastante por el eléctrico."
+        },
+        {
+          "score": 5,
+          "profile": "Muy predispuesto cuando la solución es simple y transparente",
+          "quote": "Con la instalación incluida en mi plaza y todo detallado por adelantado, me parecería una opción muy seria para cambiar a eléctrico en mi próxima compra."
+        }
+      ],
+      "cautions": [
+        "Se trata de una generación sintética para exploración de hipótesis, no de una medición de mercado real.",
+        "La pregunta mide intención declarada, no compra efectiva ni comportamiento observado.",
+        "El agregado de respuestas debe leerse como una distribución dirigida, no como una muestra representativa.",
+        "Las barreras comunitarias, técnicas y económicas pueden interactuar de formas distintas según edificio, ciudad y presupuesto."
+      ]
+    },
+    "provenance": {
+      "runtimeVersion": "synthetic-research-v2.4",
+      "researchMode": "DEEP",
+      "inputHash": "ff842f93e22533db9e0df731884706929422e478d98c089abd425838ea593e42",
+      "evidenceHash": "d1216761350d6551ba8caafb8bfe038fda0a6281297a6ad5056e0358f91d3cd0",
+      "promptVersions": {
+        "framing": "framing-v2",
+        "panel": "panel-v4",
+        "respondentCell": "respondent-cell-v3",
+        "adjudication": "evidence-bias-critic-v4"
+      },
+      "schemaVersions": {
+        "framing": "frame-schema-v1",
+        "panel": "study-schema-v1",
+        "respondentCell": "respondent-cell-schema-v2",
+        "adjudication": "critic-schema-v2"
+      },
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+    },
+    "cost": {
+      "currency": "USD",
+      "gatewayCost": {
+        "exactTotalUsd": "0.02930115",
+        "reporting": "complete",
+        "reportedCallCount": 9,
+        "eligibleCallCount": 9,
+        "note": "Exact values are reported only when Vercel AI Gateway returned providerMetadata.gateway.cost."
+      },
+      "tokenUsage": {
+        "inputTokens": 15888,
+        "outputTokens": 2002,
+        "totalTokens": 17890,
+        "reasoningTokens": 234,
+        "cachedInputTokens": 0
+      }
+    },
+    "modelLineage": [
+      {
+        "stage": "framing",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "framing-v2",
+        "schemaVersion": "frame-schema-v1",
+        "promptHash": "9514391e59432fcf8f149a44891105d9a4f58b2b1e00136fed857ecce57e52c9"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_1",
+        "cellIndex": 0,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "af3d9398290ad0351886f494591f6a34ad2f375a50a2b3d6f7bdf1d91553ed6e"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_2",
+        "cellIndex": 1,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "d03b662444bd1ab1dd00037df4b0f23b6a399645af248af7a16461233f6ee02b"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_3",
+        "cellIndex": 2,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "1ea1e1ae6c65ccce2e893446e9c256ccb83f7e45b4702f77a717c917b32fc692"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_4",
+        "cellIndex": 3,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "c5d0d890350af37614ce014aebd8c96e7f03eedf61e43041254bd48eab00e00d"
+      },
+      {
+        "stage": "panel",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "panel-v4",
+        "schemaVersion": "study-schema-v1",
+        "promptHash": "c22f22b68995472f29645da41d607c6f09e1843c56617fee535af3f823603391"
+      },
+      {
+        "stage": "adjudication",
+        "role": "evidence-and-bias-critic",
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "evidence-bias-critic-v4",
+        "schemaVersion": "critic-schema-v2",
+        "promptHash": "5e6dc44cb2a285bfd7ab529833244886ece84939f5117077ed605078c6dd795f"
+      }
+    ],
+    "evidence": {
+      "mode": "EXA_GATEWAY",
+      "gatewaySearchCompleted": true,
+      "ledger": [
+        {
+          "title": "Criterios de aceptación del vehículo eléctrico por parte de millennials y centennials españoles.",
+          "url": "https://doi.org/10.12795/rea.2024.i47.08",
+          "excerpt": "sostenible (Nosi et al., 2017; Manfreda et al., 2021; Gulzari et al., 2022). La notable relevancia de esta variable como factor determinante en la adopción del vehículo eléctrico ha sido puesta de manifiesta en diversos estudios académicos realizados en China, Corea del Sur, Estados Unidos, Canadá, Alemania, Austria, Países Bajos y España (Axsen et al., 2018; Sovacool et al., 2019; Peters et al., 2018; Priessner et al., 2018; Bobeth, & Kastner, 2020; Higueras-Castillo et al., 2020; Hardman & Tal, 2021; Kim & Kang, 2022). Otros factores que podrían favorecer la aceleración de la adopción de este tipo de vehículos por los grupos poblacionales de adultos jóvenes son la mejora de la autonomía y la tecnología de los ve hículos, el incremento del número de puntos de carga y el aumento de los incentivos financieros y fiscales a la compra (Ghasri et al., 2019; Huat, 2022).",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "a3ff1abe3a116a4d5ff45dd3306a36a9ae57e9d6f6d0979710bca69959d1b6db"
+        },
+        {
+          "title": "¿En la dirección correcta? La transición automovilística en España",
+          "url": "https://exa.ai/library/publication/8n7szvpd7lz",
+          "excerpt": "Como hemos comentado anteriormente, es casi necesario tener una plaza de garaje para poder usar un vehículo eléctrico, por lo que hay que incurrir en un coste para instalar la infraestructura necesaria para poder cargarlo. El plan MOVES en todas sus variantes tiene en cuenta esto, dando una ayuda del 70% hasta un máximo de 5.000 euros a la instalación de cargadores a los particulares. ¿Cuánto cuesta realmente la instalación de un cargador en una plaza de garaje particular? ... -Coste del vehículo: Eléctrico: 17.449,42€ (Tras aplicarle la subvención) /// Gasolina: 9.768,92€ -Coste cada 100km: Eléctrico: 3,64€ /// Gasolina: 8,28€ -Coste de mantenimiento cada cinco años: Eléctrico: 450€ /// Gasolina: 850€ -Coste medio de la instalación de un cargador doméstico: Eléctrico: 345€ (Tras aplicarle la subvención) Si no tuviésemos plaza de garaje en propiedad, en",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "f231051d8584d4eca3912583ad56cb1e1656d920aca43f1ad28d418afb56864b"
+        },
+        {
+          "title": "Estudio sobre la viabilidad del vehículo eléctrico",
+          "url": "https://exa.ai/library/publication/fgh7g1mx7bt",
+          "excerpt": "que a la hora de instalar un punto de recarga en un garaje comunitario, la ley de Propiedad Horizontal en su artículo 17.5 dispone desde junio de 2013 que “la instalación de un punto de recarga de vehículos eléctricos para uso privado en el aparcamiento del edificio, siempre que éste se ubique en una plaza individual de garaje, sólo requerirá la comunicación previa a la comunidad. El coste de dicha instalación y el consumo de electricidad correspondiente serán asumidos íntegramente por el o los interesados directos en la misma”. Por lo tanto, no sería necesaria la ... Si el punto de carga quiere instalarse en un garaje comunitario, el precio aumentaría ya que se trata de una instalación que suele precisar de más metros de cable. Por ello nos encontraríamos en un intervalo que iría desde los 1100 hasta los 1600 euros. Los tipos de instalación ofertados son tres:",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "6e04540d11c9e37309eace9c1372e55524dfa5ea7e81eccd94fcddb919fcc9b3"
+        }
+      ]
+    },
+    "ensemble": {
+      "plannedCells": 4,
+      "completedCells": 4,
+      "failedCells": 0,
+      "aggregation": "deterministic-arithmetic-mean-v1",
+      "distribution": [
+        10,
+        18,
+        28,
+        29,
+        15
+      ]
+    },
+    "stability": {
+      "metricVersion": "stability-v1",
+      "cellCount": 4,
+      "meanJensenShannonDivergence": 0.011129,
+      "maxPercentagePointSpread": 7,
+      "interpretation": "Lower divergence and spread indicate greater agreement among model-generated cells; neither metric measures human certainty."
+    },
+    "verification": {
+      "status": "completed",
+      "role": "evidence-and-bias-critic",
+      "separateModelCall": true,
+      "independentReview": false,
+      "decision": "accepted",
+      "evidenceAlignment": "aligned",
+      "weakClaims": [],
+      "biasSignals": [],
+      "critiqueSummary": "El estudio sintético presenta una hipótesis direccional coherente con las fuentes sobre los costes y barreras de instalación de recarga en garajes comunitarios en España, reconociendo adecuadamente sus limitaciones metodológicas.",
+      "note": "This is a separate model stage within one pipeline, not independent external verification."
+    }
+  },
+  "status": "automated-qa-passed-human-editorial-review-pending",
+  "htmlUrl": "/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/",
+  "dataUrl": "/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/study.json",
+  "canonicalUrl": "https://likerts.com/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/"
+}

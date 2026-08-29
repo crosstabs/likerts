@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0",
+  "locale": "es-ES",
+  "studies": [
+    {
+      "slug": "coche-electrico-recarga-garaje-comunitario-espana",
+      "locale": "es-ES",
+      "localeName": "Español (España)",
+      "industry": "electric-mobility",
+      "industryName": "Electric mobility",
+      "title": "Recarga de coche eléctrico en garajes comunitarios de España",
+      "description": "Una hipótesis direccional sobre permisos, coste y facilidad de instalación.",
+      "researchIntent": "Explorar si una propuesta que incluye la instalación de recarga reduce la incertidumbre de quienes viven en pisos y consideran un vehículo eléctrico.",
+      "evidenceBoundary": "Los datos de DGT y MITECO pueden describir infraestructura y cuestiones documentadas de recarga; no establecen intención de compra, viabilidad privada, aprobación comunitaria, sensibilidad al precio ni preferencia por esta propuesta.",
+      "question": "¿Qué probabilidad habría de que eligiera un coche eléctrico como próximo vehículo si el precio incluyera la instalación del punto de recarga en su plaza de garaje comunitario, con coste total y plazos por escrito?",
+      "audience": "Conductores de ciudades españolas que viven en edificios con aparcamiento comunitario y prevén sustituir su coche en 24–36 meses",
+      "disclosure": "Resultado sintético generado por modelos; no son respuestas de una encuesta observada.",
+      "humanValidation": "Entrevistar a residentes, administradores de fincas, concesionarios e instaladores; probar precio, instalación, plazo y aprobación en una encuesta de elección; validar con leads cualificados y evaluaciones de recarga completadas.",
+      "canonicalUrl": "https://likerts.com/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/",
+      "detailUrl": "/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/",
+      "dataUrl": "/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/study.json",
+      "runYourOwnUrl": "/?sample=coche-electrico-recarga-garaje-comunitario-espana",
+      "status": "automated-qa-passed-human-editorial-review-pending",
+      "capturedAt": "2026-08-29T02:51:44.380Z",
+      "evidenceMode": "EXA_GATEWAY",
+      "sourceCount": 3,
+      "modelCellCount": 4,
+      "gatewayCostUsd": "0.02930115",
+      "distribution": [
+        10,
+        18,
+        28,
+        29,
+        15
+      ],
+      "confidence": "Moderate"
+    }
+  ]
+}

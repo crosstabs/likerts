@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { acquireEvidence, aggregateCohortDistributions, requestSchema, respondentCellSchema, runStudyPipeline } from '../server/synthetic-study-pipeline.js';
+import { acquireEvidence, aggregateCohortDistributions, requestSchema, respondentCellSchema, runStudyPipeline, stageTimeoutMs } from '../server/synthetic-study-pipeline.js';
 import { languageScriptReport } from '../server/language-script.js';
 
 const brief = {
@@ -167,7 +167,7 @@ test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, 
   assert.ok(calls.every((call) => call.providerOptions.google.thinkingConfig.thinkingLevel === 'low'));
   assert.ok(calls.every((call) => call.providerOptions.google.thinkingConfig.includeThoughts === false));
   assert.ok(calls.filter((call) => call.providerOptions.gateway.tags.includes('stage:adjudication')).every((call) => /enum\/control values exactly as defined/i.test(call.system)));
-  assert.ok(Math.max(...calls.map((call) => call.timeout)) <= 14_000);
+  assert.ok(Math.max(...calls.map((call) => call.timeout)) <= stageTimeoutMs({ stage: 'panel', researchMode: 'DEEP' }));
 });
 
 test('a flagged critic decision remains illustrative without English wrapper text in Japanese output', async () => {

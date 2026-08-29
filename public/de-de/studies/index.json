@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0",
+  "locale": "de-DE",
+  "studies": [
+    {
+      "slug": "waermepumpe-angebot-bestandsheim-deutschland",
+      "locale": "de-DE",
+      "localeName": "Deutsch (Deutschland)",
+      "industry": "housing",
+      "industryName": "Home energy",
+      "title": "Wärmepumpen-Angebot für Bestandsheime in Deutschland",
+      "description": "Eine richtungsweisende Hypothese zu Kostenklarheit, Förderungen und Umsetzung.",
+      "researchIntent": "Ermitteln, welche Angebotsbestandteile Eigentümer zu einer Wärmepumpenprüfung bewegen könnten.",
+      "evidenceBoundary": "Destatis kann Wohn- und Heizkontext beschreiben, KfW aktuelle Programmbedingungen. Förderbedingungen müssen datiert und erneut geprüft werden; keine Quelle belegt Absicht, Preisakzeptanz, Eignung oder Einsparungen.",
+      "question": "Wie wahrscheinlich ist es, dass Sie für Ihr bestehendes Ein- oder Zweifamilienhaus ein verbindliches Wärmepumpenangebot anfordern, wenn Fördercheck, Gesamtpreis, Schallprognose und erwartete Betriebskosten transparent ausgewiesen werden?",
+      "audience": "Selbstnutzende Eigentümer bestehender Ein- oder Zweifamilienhäuser, die überwiegend mit Gas oder Öl beheizt werden",
+      "disclosure": "Synthetische, modellgenerierte Einschätzung – keine beobachteten Umfrageergebnisse.",
+      "humanValidation": "Eigentümer und Installateure interviewen; Angebotsbestandteile und Preiswahl testen; angeforderte Prüfungen, Vor-Ort-Termine, Abbrüche, angenommene Angebote und mögliche Ergebnisse nach Einbau beobachten.",
+      "canonicalUrl": "https://likerts.com/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/",
+      "detailUrl": "/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/",
+      "dataUrl": "/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/study.json",
+      "runYourOwnUrl": "/?sample=waermepumpe-angebot-bestandsheim-deutschland",
+      "status": "automated-qa-passed-human-editorial-review-pending",
+      "capturedAt": "2026-08-29T02:54:51.684Z",
+      "evidenceMode": "EXA_GATEWAY",
+      "sourceCount": 4,
+      "modelCellCount": 4,
+      "gatewayCostUsd": "0.03042385",
+      "distribution": [
+        17,
+        24,
+        26,
+        21,
+        12
+      ],
+      "confidence": "Moderate"
+    }
+  ]
+}

@@ -1,0 +1,422 @@
+{
+  "schemaVersion": "1.0",
+  "brief": {
+    "schemaVersion": "1.0",
+    "stableId": "SS-DE-DE-001",
+    "slug": "waermepumpe-angebot-bestandsheim-deutschland",
+    "locale": "de-DE",
+    "industry": "housing",
+    "title": "Wärmepumpen-Angebot für Bestandsheime in Deutschland",
+    "description": "Eine richtungsweisende Hypothese zu Kostenklarheit, Förderungen und Umsetzung.",
+    "researchIntent": "Ermitteln, welche Angebotsbestandteile Eigentümer zu einer Wärmepumpenprüfung bewegen könnten.",
+    "disclosure": "Synthetische, modellgenerierte Einschätzung – keine beobachteten Umfrageergebnisse.",
+    "evidenceBoundary": "Destatis kann Wohn- und Heizkontext beschreiben, KfW aktuelle Programmbedingungen. Förderbedingungen müssen datiert und erneut geprüft werden; keine Quelle belegt Absicht, Preisakzeptanz, Eignung oder Einsparungen.",
+    "humanValidation": "Eigentümer und Installateure interviewen; Angebotsbestandteile und Preiswahl testen; angeforderte Prüfungen, Vor-Ort-Termine, Abbrüche, angenommene Angebote und mögliche Ergebnisse nach Einbau beobachten.",
+    "curatedContextUrls": [
+      "https://www.destatis.de/DE/Presse/Pressemitteilungen/2025/06/PD25_N031_31_51.html",
+      "https://www.destatis.de/DE/Presse/Pressemitteilungen/Zensus2022-Pressemitteilungen/PM_zensus2022_52.html",
+      "https://www.kfw.de/inlandsfoerderung/Privatpersonen/Bestehende-Immobilie/F%C3%B6rderprodukte/Heizungsf%C3%B6rderung-f%C3%BCr-Privatpersonen-Wohngeb%C3%A4ude-%28458%29/"
+    ],
+    "request": {
+      "prompt": "Wie wahrscheinlich ist es, dass Sie für Ihr bestehendes Ein- oder Zweifamilienhaus ein verbindliches Wärmepumpenangebot anfordern, wenn Fördercheck, Gesamtpreis, Schallprognose und erwartete Betriebskosten transparent ausgewiesen werden?",
+      "audience": "Selbstnutzende Eigentümer bestehender Ein- oder Zweifamilienhäuser, die überwiegend mit Gas oder Öl beheizt werden",
+      "panelSize": 200,
+      "assumptions": "Die Eignung ist bis zur Prüfung unbestätigt; ein qualifizierter Installateur prüft das Gebäude; Förderung und Betriebskosten hängen von Datum, Immobilie und Haushalt ab; alle Schätzungen zeigen ihre Eingaben.",
+      "market": "Germany",
+      "searchLocation": "Germany",
+      "sourceLanguages": [
+        "de-DE"
+      ],
+      "searchCountry": "DE",
+      "outputLocale": "de-DE",
+      "researchMode": "DEEP",
+      "evidencePolicy": "AUTO",
+      "clientRunId": "sample-waermepumpe-angebot-bestandsheim-deutschland"
+    }
+  },
+  "curatedContextCandidates": [
+    {
+      "url": "https://www.destatis.de/DE/Presse/Pressemitteilungen/2025/06/PD25_N031_31_51.html",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://www.destatis.de/DE/Presse/Pressemitteilungen/Zensus2022-Pressemitteilungen/PM_zensus2022_52.html",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://www.kfw.de/inlandsfoerderung/Privatpersonen/Bestehende-Immobilie/F%C3%B6rderprodukte/Heizungsf%C3%B6rderung-f%C3%BCr-Privatpersonen-Wohngeb%C3%A4ude-%28458%29/",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    }
+  ],
+  "capture": {
+    "schemaVersion": "1.0",
+    "briefSlug": "waermepumpe-angebot-bestandsheim-deutschland",
+    "stableId": "SS-DE-DE-001",
+    "studyId": "study_e9ebc582-643a-4c8d-8248-b137fcd6e4eb",
+    "runId": "run_00f88417-7572-4801-a835-9c1b5d10f34e",
+    "capturedAt": "2026-08-29T02:54:51.684Z",
+    "study": {
+      "title": "Angebotsanfrage für eine Wärmepumpe bei transparenter Darstellung von In",
+      "summary": "Diese synthetische Likert-Studie modelliert die Wahrscheinlichkeit, dass selbstnutzende Eigentümer bestehender Ein- oder Zweifamilienhäuser in Deutschland ein verbindliches Wärmepumpenangebot anfordern würden, wenn Fördercheck, Gesamtpreis,",
+      "takeaway": "Die Verteilung deutet auf eine eher mittlere bis leicht positive Anfragemotivation hin: Transparenz erhöht die Anschlussfähigkeit der Entscheidung, aber Preis, Schall und die noch unbestätigte Eignung bleiben zentrale Hürden.",
+      "distribution": [
+        17,
+        24,
+        26,
+        21,
+        12
+      ],
+      "confidence": "Moderate",
+      "confidenceNote": "Die Einschätzung ist synthetisch und durch das vorgegebene Kohortenmuster sowie den Forschungskontext plausibilisiert, aber nicht als beobachtete Stichprobenaussage zu verstehen.",
+      "audienceSummary": {
+        "audienceLabel": "Selbstnutzende Eigentümer bestehender Ein- oder Zweifamilienhäuser in DE",
+        "contextLabel": "Entscheidungssituation für eine Angebotsanfrage bei transparenter Kosten- und Förderdarstellung",
+        "attributes": [
+          {
+            "label": "Beheizung",
+            "value": "überwiegend Gas oder Öl"
+          },
+          {
+            "label": "Markt",
+            "value": "Germany"
+          },
+          {
+            "label": "Panelgröße",
+            "value": "200"
+          }
+        ]
+      },
+      "segments": [
+        {
+          "label": "Preis- und Transparenzorientierte Abwäger",
+          "sample": 62,
+          "values": [
+            10,
+            19,
+            32,
+            26,
+            13
+          ]
+        },
+        {
+          "label": "Sicherheits- und Technikinteressierte Prüfer",
+          "sample": 48,
+          "values": [
+            4,
+            17,
+            23,
+            33,
+            23
+          ]
+        },
+        {
+          "label": "Förder- und Einsparungsgetriebene Optimisten",
+          "sample": 44,
+          "values": [
+            2,
+            7,
+            21,
+            36,
+            34
+          ]
+        },
+        {
+          "label": "Zurückhaltende Skeptiker mit hohem Prüfbedarf",
+          "sample": 46,
+          "values": [
+            17,
+            2,
+            26,
+            11,
+            44
+          ]
+        }
+      ],
+      "responses": [
+        {
+          "score": 1,
+          "profile": "Sehr zurückhaltend, wartet erst auf eine Vor-Ort-Prüfung und weitere Klarheit zur tatsächn",
+          "quote": "Ich würde erst einmal keine Anfrage stellen, solange nicht klar ist, ob das Haus überhaupt geeignet ist und was am Ende wirklich an Kosten bleibt."
+        },
+        {
+          "score": 2,
+          "profile": "Eher skeptisch, sieht Nutzen in der Transparenz, aber keinen ausreichenden Auslöser für so",
+          "quote": "Die Angaben sind schon wichtig, aber ich würde mir trotzdem erst Angebote und eine belastbare Einschätzung vom Installateur holen, bevor ich aktiv werde."
+        },
+        {
+          "score": 4,
+          "profile": "Grundsätzlich offen, wenn Fördercheck, Preis und Betriebskosten sauber nachvollziehbar sin",
+          "quote": "Wenn mir der Gesamtpreis, die Förderung und die Folgekosten transparent gezeigt werden, würde ich eher ein verbindliches Angebot anfordern."
+        },
+        {
+          "score": 5,
+          "profile": "Deutlich interessiert, betrachtet die transparente Aufbereitung als entscheidenden Schritt",
+          "quote": "Genau so würde ich entscheiden wollen: erst Fördercheck, dann Gesamtpreis, Schall und Betriebskosten offen sehen und dann direkt ein Angebot anfordern."
+        }
+      ],
+      "cautions": [
+        "Die Ergebnisse sind synthetisch und dienen nur der Hypothesengenerierung, nicht der Messung realer Nachfrage.",
+        "Die Verteilung bildet ein vorgegebenes Kohortenmuster ab und erlaubt keine Aussage über Repräsentativität.",
+        "Der Forschungsrahmen beschreibt eine Entscheidungssituation; daraus folgen keine kausalen Wirkungen transparenter Informationen.",
+        "Die Antworten sind modellierte Illustrationen und keine wörtlichen Aussagen von Befragten."
+      ]
+    },
+    "provenance": {
+      "runtimeVersion": "synthetic-research-v2.4",
+      "researchMode": "DEEP",
+      "inputHash": "09b17e4f5bc7fc9e1cb052c8034ae6a1d5c25c697abae25d8a4d9c6d318f05a2",
+      "evidenceHash": "b42097e7dbd7e583b51d2b5a6d5fcfdc286ede7fecf04c129655da349684d5f2",
+      "promptVersions": {
+        "framing": "framing-v2",
+        "panel": "panel-v4",
+        "respondentCell": "respondent-cell-v3",
+        "adjudication": "evidence-bias-critic-v4"
+      },
+      "schemaVersions": {
+        "framing": "frame-schema-v1",
+        "panel": "study-schema-v1",
+        "respondentCell": "respondent-cell-schema-v2",
+        "adjudication": "critic-schema-v2"
+      },
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+    },
+    "cost": {
+      "currency": "USD",
+      "gatewayCost": {
+        "exactTotalUsd": "0.03042385",
+        "reporting": "complete",
+        "reportedCallCount": 9,
+        "eligibleCallCount": 9,
+        "note": "Exact values are reported only when Vercel AI Gateway returned providerMetadata.gateway.cost."
+      },
+      "tokenUsage": {
+        "inputTokens": 17608,
+        "outputTokens": 2102,
+        "totalTokens": 19710,
+        "reasoningTokens": 0,
+        "cachedInputTokens": 0
+      }
+    },
+    "modelLineage": [
+      {
+        "stage": "framing",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "framing-v2",
+        "schemaVersion": "frame-schema-v1",
+        "promptHash": "3317b0131059579be8518b26de80e40e7be951c1bac3b90e8ec4d87219091444"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_1",
+        "cellIndex": 0,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "b0efc957a26ffac335aa7b4e3420bc84ad47a6b13092b04394ddc45469375502"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_2",
+        "cellIndex": 1,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "f24d05136a93d9d86eb42e62813019bf0de2bb690a5109d4bcfa44cc548fd58b"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_3",
+        "cellIndex": 2,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "12fb2c94a789639d47281423c55b39759b87396d686498f10b2e87dff82a7573"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_4",
+        "cellIndex": 3,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "d6f9490caa99152fb8faa2ff338408f0cf6427555eac6964a0e9d8bf689fca21"
+      },
+      {
+        "stage": "panel",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "panel-v4",
+        "schemaVersion": "study-schema-v1",
+        "promptHash": "0a5dc104fab62156dad6d17f35cf4aee5f5d8e1bdd861ff65e3449e6c486fd05"
+      },
+      {
+        "stage": "adjudication",
+        "role": "evidence-and-bias-critic",
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "evidence-bias-critic-v4",
+        "schemaVersion": "critic-schema-v2",
+        "promptHash": "9245382d74c87557eada743979216988dce43687acf9d2b4589baeed82f26655"
+      }
+    ],
+    "evidence": {
+      "mode": "EXA_GATEWAY",
+      "gatewaySearchCompleted": true,
+      "ledger": [
+        {
+          "title": "Das Wärme- & Wohnen-Panel zur Analyse des Wärmesektors: Ergebnisse der 2. Erhebung aus dem Jahr 2022",
+          "url": "https://exa.ai/library/publication/0htn01495ss",
+          "excerpt": ". Kosteneinsparung von \"25 bis unter 50 Euro\" oder \"1.000 bis 1.500 Euro\", wird zur Berechnung der durchschnittlich erwarteten Heizkosteneinsparung pro Jahr und Maßnahme jeweils der mittlere Wert den Effizienzstandard E erfüllen muss, nicht genügt: 11,9 % der Immobilien hatten den Effizienzstandard F, 4,7 % den Standard G und 3.3 Einschätzung des Energieeinsparpotentials von energetischer Modernisierung der Kategorien gewählt, bspw. 1.250 Euro für die Kategorie \"1.000 bis 1.500 Euro\". Mit im Mittel etwa 2,5 % den Standard H. Vergleicht man diese Einschätzungen mit den Abschätzungen aus einer Studie Die den Befragten hierzu zur Auswahl gestellten Modernisierungsmaßnahmen orientierten sich an den 450 Euro wird dem Einbau einer Wärmepumpe die höchste jährliche Einsparung zugerechnet von Bienert (2022) liegt der Verdacht nahe, dass die Befragten die Energieeffizienz der von ihnen",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "7093670e86ac27be8465d7d7dd2f2069770310fe83a2eae79524949f6927fd8f"
+        },
+        {
+          "title": "Fokusreport Wärme und Wohnen: Zentrale Ergebnisse aus dem Ariadne Wärme- & Wohnen-Panel 2023",
+          "url": "https://exa.ai/library/publication/1q7g879367b",
+          "excerpt": "-Abgabe ... Allgemeine Befürwortung von Klima- schutz bedeutet also nicht automatisch, dass auch konkrete politische Maßnah- men breite Akzeptanz finden ... eine CO 2 -Abgabe noch etwas be- liebter als ein Einbauverbot für fossile Zustimmung CO₂-Abgabe (Anteil) Heizungen ... Insgesamt variiert die Akzep-100% tanz klimapolitischer Instrumente im Ge- bäudebereich je nach Situation der Be- fragten. 80 Eigentümerinnen und Eigentümer be-60 vorzugen eine CO 2 -Abgabe gegenüber einem Einbauverbot. 40 | 38% 38% Befund: Zunächst unterscheidet sich die Unterstützung von klimapolitischen 20 Maßnahmen der Befragten je nach Be- sitzverhältnissen einer Immobilie. Wäh-2021 rend Eigentümerinnen und Eigentümer 0 | 2022 | 2023 und Mietende eine CO 2 -Abgabe ähnlich oft unterstützen, ergibt sich beim Ein- bauverbot fossiler Heizungen ab 2025 ein signifikanter Unterschied: Hier stim-",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "c315f1669d63985c4e9617a1214924ec1b52f7206b0485a79d7b6e940ca21347"
+        },
+        {
+          "title": "The Role of Information on the Adoption of Heat Pumps: Experimental Evidence from Germany",
+          "url": "https://exa.ai/library/publication/7b6w40k06d7",
+          "excerpt": ", which informs that, over the life cycle of the heating system, a heat pump would be the more economical solution, could indicate that households are otherwise unaware of the heat pump’s (purported) cost advantage. The effect of the Uncertainty treatment on the price premium is of a similar magnitude as the effect of the Information treatment, which is likely due to the fact that this treatment, too, concluded that heat pumps were likely to be the more economical choice. Irrespective of the treatment, we do not find indications that risk aversion, time pref erences or financial literacy are related to the willingness to pay for a heat pump. Not least, our analysis reveals a significant difference in the heating choices of owners and tenants. Households owning their accommodation exhibit, on average, a lower willingness to-pay for heat pumps, which might partly be attributable to the",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "d8a04d6bbb0a3f8ae75eb694d0a479cf57bfd3383ea2fcc66f47d04e6ff0fdd9"
+        },
+        {
+          "title": "Fokusreport Wärme und Wohnen: Zentrale Ergebnisse aus dem Ariadne Wärme- & Wohnen-Panel 2024 - Institut der deutschen Wirtschaft (IW)",
+          "url": "https://www.iwkoeln.de/studien/jan-buechel-ralph-henger-christian-oberst-zentrale-ergebnisse-aus-dem-ariadne-waerme-wohnen-panel-2024.html",
+          "excerpt": "ende seitdem konkret entwickelt? Antworten liefert die im Herbst 2024 erhobene vierte Welle des Ariadne-Wärme- & Wohnen-Panels, an dem seit 2021 jährlich rund 15.000 Haushalte teilnehmen. Demnach sank die Heizungsmodernisierungsrate im Jahr 2024 zwar auf den niedrigsten Stand seit 2021, doch der Anteil neu installierter Wärmepumpen (0,5 %) lag erstmals nahezu gleichauf mit dem fossiler Heizungskessel (0,7 %). Haushalte mit Wärmepumpe verzeichneten dabei mit 13,80 Euro pro Quadratmeter deutlich geringere Heizkosten als der Durchschnitt (17,70 Euro). In diesen Haushalten fiel auch die Zustimmung zu einer CO2 -Abgabe (51 %) besonders hoch aus. Damit präsentieren sich Besitzerinnen und Besitzer von Wärmepumpen als „Frontrunner“ der Wärmewende. Dennoch bleibt diese Gruppe eine klare Minderheit, während die überwiegende Mehrheit der deutschen Haushalte noch mit Gas oder Öl heizt.",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "6f6de6e7658a92a49b4f05651bf327a1a4d51254bf098c074dc0e01e3287dcea"
+        }
+      ]
+    },
+    "ensemble": {
+      "plannedCells": 4,
+      "completedCells": 4,
+      "failedCells": 0,
+      "aggregation": "deterministic-arithmetic-mean-v1",
+      "distribution": [
+        17,
+        24,
+        26,
+        21,
+        12
+      ]
+    },
+    "stability": {
+      "metricVersion": "stability-v1",
+      "cellCount": 4,
+      "meanJensenShannonDivergence": 0.04049,
+      "maxPercentagePointSpread": 13,
+      "interpretation": "Lower divergence and spread indicate greater agreement among model-generated cells; neither metric measures human certainty."
+    },
+    "verification": {
+      "status": "completed",
+      "role": "evidence-and-bias-critic",
+      "separateModelCall": true,
+      "independentReview": false,
+      "decision": "accepted",
+      "evidenceAlignment": "aligned",
+      "weakClaims": [],
+      "biasSignals": [],
+      "critiqueSummary": "The synthetic study is aligned with the context and evidence digest regarding the role of information transparency (costs, operational savings, subsidies) in heat pump adoption decisions in Germany. The internal segment math is correct and total sample equals 200.",
+      "note": "This is a separate model stage within one pipeline, not independent external verification."
+    }
+  },
+  "status": "automated-qa-passed-human-editorial-review-pending",
+  "htmlUrl": "/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/",
+  "dataUrl": "/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/study.json",
+  "canonicalUrl": "https://likerts.com/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/"
+}

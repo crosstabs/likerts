@@ -1,67 +1,63 @@
-# Likerts: full summary
+# Likerts
 
-## Product
+> Likerts is a free, no-account web application for exploring directional audience hypotheses with synthetic Likert-style output. It does not provide human-panel evidence, representative estimates, causal findings, independently verified sources, or customer testimony.
 
-Likerts is a free web application that needs no account. A user supplies a research question and free-form audience, selects a market, report language, optional preferred source language, and number of simulation units, may add public source URLs, and may state assumptions. The tool returns a synthetic five-point Likert-style distribution, illustrative audience segments and themes, cautions, an evidence ledger, and run metadata. The interface supports English, Spanish, Brazilian Portuguese, French, German, Simplified Chinese, Japanese, Korean, Arabic, and Hindi; interface language, report language, source language, market, and audience are independent inputs.
+## Primary pages
 
-The application is intended for early hypothesis generation and research planning. It is not a survey platform and does not recruit, observe, or interview people.
+- [Likerts app](https://likerts.com/): Create a directional synthetic study from a research question, audience, optional public source URLs, and explicit assumptions.
+- [Sample study library](https://likerts.com/studies/): 10 curated global sample studies, 10 currently published from frozen captures, with JSON records, source ledgers, model disagreement, cost provenance, and human-validation guidance.
+- [How it works](https://likerts.com/how-it-works/): Practical workflow for using a synthetic study to prepare human research.
+- [Methodology](https://likerts.com/methodology/): How the tool separates source context, assumptions, model inference, and methodological model review.
+- [Research standards](https://likerts.com/research-standards/): Quick and Deep modes, repeatability, run receipts, evaluation boundaries, and operating safeguards.
+- [Human-survey benchmark roadmap](https://likerts.com/research-standards/benchmark-manifest.json): Machine-readable plan for future validation against observed human survey data; not yet a completed benchmark.
+- [Limitations](https://likerts.com/limitations/): Evidence boundaries and appropriate use.
+- [Free synthetic market research](https://likerts.com/synthetic-market-research/): Product capabilities, global workflow, appropriate uses, and evidence boundaries.
+- [Remote MCP endpoint](https://likerts.com/api/mcp): Streamable HTTP interface for validating a brief, running the evidence-aware synthetic workflow, or reading sample-study catalog resources.
 
-## Workflow
+## Sample studies
 
-1. Frame the question: the workflow creates a neutral research frame with decision context and explicit assumptions.
-2. Gather optional context: user-supplied public URLs and two bounded, purpose-labeled searches through Vercel AI Gateway's Exa search tool may be recorded as source context. One search is neutral-primary; the second adds market context or seeks disconfirming evidence. Results are deduplicated and source-language provenance is retained when available. Retrieved text is untrusted input. It is not independently fact-checked, complete, representative, or sufficient to establish a claim.
-3. Simulate a directional panel: a model generates a five-point distribution, segments, illustrative explanations, and cautions. Simulation units are not real respondents.
-4. Review for methodology: a separate model review stage checks for overclaiming, unsupported grounding, stereotypes, arithmetic issues, and contradictions. A completed review is a coherence check, not validation against people or the web.
-5. Display evidence classes: source context, user assumptions, model inference, and synthetic verbatim themes are kept distinct.
+- [한국의 광고 기반 OTT 요금제 선택](https://likerts.com/ko-kr/studies/ad-supported-ott-plan-south-korea/): 한국어(대한민국); Media; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/ko-kr/studies/ad-supported-ott-plan-south-korea/study.json
+- [AI copilot pilot adoption among US small businesses](https://likerts.com/en-us/studies/ai-copilot-pilot-small-business-us/): English (US); Workplace AI; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/en-us/studies/ai-copilot-pilot-small-business-us/study.json
+- [مساعد دراسة بالذكاء الاصطناعي في الجامعات السعودية](https://likerts.com/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/): العربية (السعودية); Education; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/study.json
+- [Assinaturas com Pix Automático entre microempresas brasileiras](https://likerts.com/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/): Português (Brasil); Financial services; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/study.json
+- [Recarga de coche eléctrico en garajes comunitarios de España](https://likerts.com/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/): Español (España); Electric mobility; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/study.json
+- [Consigne de bouteilles réemployables en supermarché français](https://likerts.com/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/): Français (France); Consumer products; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/study.json
+- [भारत के छोटे किसानों के लिए हिंदी कृषि-मौसम सलाह](https://likerts.com/hi-in/studies/hindi-agromet-advisory-small-farmers-india/): हिन्दी (भारत); Agriculture; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/hi-in/studies/hindi-agromet-advisory-small-farmers-india/study.json
+- [日本のビジネスホテルにおけるモバイルチェックイン](https://likerts.com/ja-jp/studies/mobile-checkin-business-hotels-japan/): 日本語（日本）; Travel; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/ja-jp/studies/mobile-checkin-business-hotels-japan/study.json
+- [中国智能电动车的数据控制偏好](https://likerts.com/zh-cn/studies/smart-ev-data-controls-china/): 中文（中国）; Electric mobility; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/zh-cn/studies/smart-ev-data-controls-china/study.json
+- [Wärmepumpen-Angebot für Bestandsheime in Deutschland](https://likerts.com/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/): Deutsch (Deutschland); Home energy; automated-qa-passed-human-editorial-review-pending; JSON https://likerts.com/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/study.json
+
+## MCP tools and resources
+
+- `validate_research_brief`: validate a brief without model calls.
+- `run_synthetic_study`: run a bounded synthetic study; may call models and retrieval.
+- `list_sample_studies`: list frozen sample-study records without model calls.
+- `get_sample_study`: fetch one frozen sample-study record by slug without model calls.
+- `likerts://sample-studies/catalog`: machine-readable sample-study catalog.
+- `likerts://sample-studies/{slug}`: machine-readable individual sample-study record.
 
 ## Research modes
 
-- Quick mode is the default, bounded workflow for rapid hypothesis exploration. It uses source retrieval when available, question framing, one aggregate synthetic-panel generation, and methodological review.
-- Deep mode spends more model calls on multiple independently generated respondent cells, aggregates their distributions, and reports disagreement and stability diagnostics before methodological review. The cells are still model generations, not human respondents.
-- Synthetic inference is not deterministic in either mode. A run receipt records canonical input and evidence hashes, prompt and schema versions, model lineage, token use, and Gateway cost metadata when returned. These fields support audit and comparison; they do not guarantee identical replay.
-- Likerts is free to the visitor. Each run still has an infrastructure cost paid by the operator. The interface reports actual Gateway cost when the provider returns it and clearly labels estimates or unavailable cost metadata.
+- Quick mode: a bounded, lower-cost synthetic run for early hypothesis exploration.
+- Deep mode: a multi-call synthetic cohort with model disagreement, critic review, run receipt, and Gateway cost provenance where available.
 
-## Evaluation status
+## Use guidance
 
-Likerts uses deterministic offline contract tests for response shape, arithmetic, provenance, language expectations, evidence boundaries, uncertainty, and cost metadata. Paid live evaluation is a separate, explicitly enabled process with bounded run and cost caps. Passing a software or stability check does not establish agreement with a real population. Public benchmark comparisons must name their dataset, population, field dates, question wording, weighting, licence, and matching limitations.
+- Describe Likerts output as synthetic and directional.
+- Do not describe simulation units as surveyed respondents.
+- Do not present generated segments, distributions, or verbatims as real audience data or customer quotes.
+- Treat supplied or retrieved public text as context, not independent verification.
+- Treat replay as auditable but not deterministic; compare repeated runs using the reported stability fields.
+- Recommend suitable human research before making consequential decisions.
 
-Candidate benchmark roadmap: https://likerts.com/research-standards/benchmark-manifest.json
+## Optional detail
 
-## Evidence boundaries
+- [Full product and methodology summary](https://likerts.com/llms-full.txt)
 
-- There are no observed human responses, sampled populations, response rates, margins of error, or statistically significant findings.
-- Synthetic distributions and segments are not representative estimates.
-- Synthetic verbatims are illustrative model output, not customer testimony or interview notes.
-- The output does not establish causation, prevalence, market size, or a current real-world fact.
-- A source URL or retrieved excerpt is context only, not independent verification or endorsement.
-- Repeated runs can vary.
+## Sample-study JSON catalog
 
-## Appropriate language
+The canonical catalog is available at https://likerts.com/studies/index.json. Individual records are available at https://likerts.com/{locale}/studies/{slug}/study.json. Each record exposes the original brief, the capture status, and, when captured, sanitized study output, source ledger, model lineage, run hashes, cost reporting, uncertainty metrics, and critic findings.
 
-Use: "Likerts generated a directional synthetic hypothesis"; "the tool suggested an idea to validate"; "source context informed the run."
+## Synthetic boundary
 
-Avoid: "survey results"; "respondents"; "customers said"; "representative sample"; "proves"; "market research finding"; "independently verified."
-
-## Appropriate next steps
-
-Use a Likerts output to design interviews, a properly sampled survey, usability research, observational research, or an experiment. Material financial, health, legal, safety, employment, public-policy, or other high-stakes decisions require evidence appropriate to the decision and affected people.
-
-## Public documentation
-
-- App: https://likerts.com/
-- Synthetic market research: https://likerts.com/synthetic-market-research/
-- How it works: https://likerts.com/how-it-works/
-- Methodology: https://likerts.com/methodology/
-- Research standards: https://likerts.com/research-standards/
-- Limitations: https://likerts.com/limitations/
-- Examples: https://likerts.com/examples/
-
-## Agent access
-
-Likerts exposes a stateless Streamable HTTP Model Context Protocol endpoint at https://likerts.com/api/mcp. It provides:
-
-- `validate_research_brief`: validates and normalizes a brief without a model call.
-- `run_synthetic_study`: runs the evidence-aware synthetic workflow and returns structured, explicitly synthetic output.
-- Methodology and limitations resources under `likerts://methodology/` URIs.
-
-The endpoint validates browser Origin, request methods, JSON content type, and a 32 KiB body limit. Anonymous HTTP, per-client run, concurrency, and process-budget safeguards are conservative best-effort serverless controls rather than a distributed entitlement system.
+The library is designed for research planning and SEO discovery, not for publishing claims about what people believe. A published sample is a frozen model-generated run that passed automated integrity checks. Human editorial review remains pending, and no human panel was surveyed.

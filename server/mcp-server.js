@@ -1,4 +1,5 @@
 import { createMcpHandler, McpServer } from '@modelcontextprotocol/server';
+import { z } from 'zod';
 import { admissionUnitsForResearchMode, estimatedModelCallsForResearchMode, StudyPipelineError, runStudyPipeline } from './synthetic-study-pipeline.js';
 import {
   LIMITATIONS_MARKDOWN,
@@ -18,6 +19,14 @@ import {
   anonymousClientKey,
   anonymousStudyAdmission,
 } from './mcp-abuse-controls.js';
+import {
+  SAMPLE_STUDY_CATALOG_URI,
+  getSampleStudy,
+  listSampleStudies,
+  readSampleStudyCatalog,
+  sampleStudyRegistryEntries,
+  sampleStudyResourceUri,
+} from './sample-study-catalog.js';
 
 // Official SDK contract: tools/resources are registered on a fresh server instance per HTTP request.
 // Source: https://github.com/modelcontextprotocol/typescript-sdk/blob/main/docs/serving/http.md#create-a-handler
@@ -41,6 +50,16 @@ const PUBLIC_ADMISSION_ERRORS = Object.freeze({
   BUDGET_EXHAUSTED: { message: 'The synthetic study budget is currently unavailable.', retryable: false },
   SYNTHETIC_RUNS_DISABLED: { message: 'Public synthetic study runs are temporarily disabled.', retryable: false },
 });
+
+const listSampleStudiesInputSchema = z.object({
+  locale: z.string().trim().min(2).max(16).optional(),
+  industry: z.string().trim().min(2).max(80).optional(),
+  limit: z.number().int().min(1).max(50).optional(),
+}).strict();
+
+const getSampleStudyInputSchema = z.object({
+  slug: z.string().trim().min(1).max(100).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+}).strict();
 
 function safePipelineError(error) {
   if (error instanceof McpAdmissionError) {
@@ -179,6 +198,55 @@ export function createLikertsMcpServer({
     },
   );
 
+  server.registerTool(
+    'list_sample_studies',
+    {
+      title: 'List frozen Likerts sample studies',
+      description: 'List the published Likerts sample-study catalog without calling models, retrieval, or admission controls. Optional locale and industry filters are bounded and exact-match.',
+      inputSchema: listSampleStudiesInputSchema,
+      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    },
+    async (input) => {
+      const catalog = await listSampleStudies(input);
+      const structuredContent = {
+        ok: true,
+        contractVersion: MCP_CONTRACT_VERSION,
+        synthetic: true,
+        generated: false,
+        catalog,
+      };
+      return {
+        content: [{ type: 'text', text: `Found ${catalog.studies.length} frozen sample stud${catalog.studies.length === 1 ? 'y' : 'ies'}. These are synthetic examples, not observed human research.` }],
+        structuredContent,
+      };
+    },
+  );
+
+  server.registerTool(
+    'get_sample_study',
+    {
+      title: 'Get one frozen Likerts sample study',
+      description: 'Fetch a published sample-study record by exact slug without running models or retrieval. The record preserves synthetic disclosure, status, URLs, provenance, evidence, cost, and uncertainty when captured.',
+      inputSchema: getSampleStudyInputSchema,
+      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    },
+    async ({ slug }) => {
+      const study = await getSampleStudy(slug);
+      if (!study) return errorResult('SAMPLE_STUDY_NOT_FOUND', 'No Likerts sample study exists for that slug.');
+      const structuredContent = {
+        ok: true,
+        contractVersion: MCP_CONTRACT_VERSION,
+        synthetic: true,
+        generated: false,
+        study,
+      };
+      return {
+        content: [{ type: 'text', text: `${study.brief.title}\nSynthetic sample status: ${study.status}. No people were surveyed.` }],
+        structuredContent,
+      };
+    },
+  );
+
   server.registerResource(
     'synthetic-study-methodology',
     METHODOLOGY_URI,
@@ -200,6 +268,30 @@ export function createLikertsMcpServer({
     },
     async (uri) => ({ contents: [{ uri: uri.href, mimeType: 'text/markdown', text: LIMITATIONS_MARKDOWN }] }),
   );
+
+  server.registerResource(
+    'sample-study-catalog',
+    SAMPLE_STUDY_CATALOG_URI,
+    {
+      title: 'Likerts sample study catalog',
+      description: 'Machine-readable catalog of frozen synthetic sample studies, with status and JSON/detail URLs.',
+      mimeType: 'application/json',
+    },
+    async (uri) => ({ contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify(await readSampleStudyCatalog(), null, 2) }] }),
+  );
+
+  for (const entry of sampleStudyRegistryEntries) {
+    server.registerResource(
+      `sample-study-${entry.slug}`,
+      sampleStudyResourceUri(entry.slug),
+      {
+        title: `Likerts sample study: ${entry.title}`,
+        description: `${entry.localeName}; ${entry.industryName}; ${entry.status}. Synthetic sample, not observed human research.`,
+        mimeType: 'application/json',
+      },
+      async (uri) => ({ contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify(await getSampleStudy(entry.slug), null, 2) }] }),
+    );
+  }
 
   return server;
 }

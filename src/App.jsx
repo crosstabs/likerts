@@ -12,6 +12,7 @@ import {
   persistCompletedRun,
   removePendingRun,
 } from './lib/studyStore.js';
+import { sampleStudyPrefillFromSearch } from './lib/sampleStudyPrefill.js';
 
 function evidenceFromRun(run, study) {
   const supplied = run?.evidence?.ledger || run?.evidence?.sources || [];
@@ -115,15 +116,19 @@ function normalizePayload(payload, study, savedLocally) {
 
 function AppContent({ uiLocale, setUiLocale }) {
   const { dir, t } = useI18n();
-  const restoredRun = useMemo(() => getLatestRun(), []);
-  const restoredStudy = useMemo(() => ({ ...initialStudy, ...(restoredRun?.study || {}) }), [restoredRun]);
+  const samplePrefill = useMemo(() => sampleStudyPrefillFromSearch(window.location.search), []);
+  const restoredRun = useMemo(() => samplePrefill ? null : getLatestRun(), [samplePrefill]);
+  const restoredStudy = useMemo(
+    () => samplePrefill?.study || { ...initialStudy, ...(restoredRun?.study || {}) },
+    [restoredRun, samplePrefill],
+  );
   const [study, setStudy] = useState(restoredStudy);
   const [activeStudy, setActiveStudy] = useState(restoredStudy);
   const [result, setResult] = useState(restoredRun?.result || initialResult);
   const [running, setRunning] = useState(false);
   const [activeStage, setActiveStage] = useState(0);
   const [runComplete, setRunComplete] = useState(Boolean(restoredRun));
-  const [briefOpen, setBriefOpen] = useState(false);
+  const [briefOpen, setBriefOpen] = useState(samplePrefill?.shouldOpenBrief === true);
   const [error, setError] = useState('');
   const pendingRunRef = useRef(null);
   const runInFlightRef = useRef(false);
@@ -309,6 +314,7 @@ function AppContent({ uiLocale, setUiLocale }) {
           <a href="/synthetic-market-research/">{t('syntheticResearch')}</a>
           <a href="/methodology/">{t('methodology')}</a>
           <a href="/limitations/">{t('limitations')}</a>
+          <a href="/studies/">{t('studies')}</a>
           <a href="/examples/">{t('examples')}</a>
           <a href="/llms.txt">{t('agentDocs')}</a>
         </nav>

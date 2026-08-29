@@ -1,0 +1,427 @@
+{
+  "schemaVersion": "1.0",
+  "brief": {
+    "schemaVersion": "1.0",
+    "stableId": "SS-PT-BR-001",
+    "slug": "assinatura-pix-automatico-microempresas-brasil",
+    "locale": "pt-BR",
+    "industry": "financial-services",
+    "title": "Assinaturas com Pix Automático entre microempresas brasileiras",
+    "description": "Uma hipótese direcional sobre fluxo de caixa, confiança e configuração.",
+    "researchIntent": "Testar quais avisos de autorização e cancelamento podem sustentar a confiança em assinaturas empresariais recorrentes via Pix Automático.",
+    "disclosure": "Estimativa sintética gerada por modelos, não uma pesquisa observada com pessoas.",
+    "evidenceBoundary": "Estatísticas e regras do Banco Central podem definir uso, operação, autorização e cancelamento do Pix; não comprovam disposição para assinar, confiança, compreensão, conversão, retenção ou preferência por uma interface.",
+    "humanValidation": "Realizar entrevistas de compreensão em português; testar variações de aviso, notificação, cancelamento e preço; observar autorização, falhas, cancelamentos, disputas e contatos de suporte em um piloto limitado.",
+    "curatedContextUrls": [
+      "https://www.bcb.gov.br/estabilidadefinanceira/pix-em-numeros-estatisticas",
+      "https://dadosabertos.bcb.gov.br/dataset/pix",
+      "https://www.bcb.gov.br/estabilidadefinanceira/pix-normas",
+      "https://www.bcb.gov.br/estabilidadefinanceira/exibenormativo?numero=513&tipo=Instru%C3%A7%C3%A3o+Normativa+BCB"
+    ],
+    "request": {
+      "prompt": "Qual é a probabilidade de você contratar uma assinatura empresarial via Pix Automático se o valor, a frequência, o aviso antes da cobrança e o cancelamento imediato forem mostrados antes da autorização?",
+      "audience": "MEI e donos de pequenas empresas que já usam Pix em transações comerciais",
+      "panelSize": 200,
+      "assumptions": "O recebedor é uma empresa registrada; a autorização é explícita; valor e frequência são informados; o cancelamento está disponível no aplicativo; não se presume disponibilidade universal nem fraude zero.",
+      "market": "Brazil",
+      "searchLocation": "Brazil",
+      "sourceLanguages": [
+        "pt-BR"
+      ],
+      "searchCountry": "BR",
+      "outputLocale": "pt-BR",
+      "researchMode": "DEEP",
+      "evidencePolicy": "AUTO",
+      "clientRunId": "sample-assinatura-pix-automatico-microempresas-brasil"
+    }
+  },
+  "curatedContextCandidates": [
+    {
+      "url": "https://www.bcb.gov.br/estabilidadefinanceira/pix-em-numeros-estatisticas",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://dadosabertos.bcb.gov.br/dataset/pix",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://www.bcb.gov.br/estabilidadefinanceira/pix-normas",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    },
+    {
+      "url": "https://www.bcb.gov.br/estabilidadefinanceira/exibenormativo?numero=513&tipo=Instru%C3%A7%C3%A3o+Normativa+BCB",
+      "status": "candidate-not-confirmed-as-runtime-evidence"
+    }
+  ],
+  "capture": {
+    "schemaVersion": "1.0",
+    "briefSlug": "assinatura-pix-automatico-microempresas-brasil",
+    "stableId": "SS-PT-BR-001",
+    "studyId": "study_8bc8a5a3-0cb6-4630-8720-353760a20856",
+    "runId": "run_37ebae09-0b1c-4387-a4c6-4dbb480e0959",
+    "capturedAt": "2026-08-29T02:51:59.163Z",
+    "study": {
+      "title": "Probabilidade de contratar assinatura empresarial via Pix Automático com",
+      "summary": "Estudo sintético para gerar hipóteses sobre a disposição de MEI e donos de pequenas empresas, no Brasil, em contratar uma assinatura empresarial via Pix Automático quando valor, frequência, aviso pré-cobrança e cancelamento imediato são exp",
+      "takeaway": "A tendência geral é moderadamente favorável, mas a decisão parece depender fortemente de controle percebido, transparência das condições e facilidade real de cancelamento. Mesmo com utilidade operacional, parte relevante do painel permanece cautelosa até ver regras claras e previsíveis.",
+      "distribution": [
+        9,
+        14,
+        23,
+        33,
+        21
+      ],
+      "confidence": "Moderate",
+      "confidenceNote": "Há sinais consistentes de aceitação quando há transparência e controle, mas o enquadramento é sintético e baseado em evidência indireta fornecida no pedido, sem pretensão de medir,",
+      "audienceSummary": {
+        "audienceLabel": "MEI e donos de pequenas empresas que já usam Pix em transações comerciais",
+        "contextLabel": "Brasil",
+        "attributes": [
+          {
+            "label": "Perfil funcional",
+            "value": "Usuários com foco em agilidade, rotina operacional e redução de fricção"
+          },
+          {
+            "label": "Sensibilidade principal",
+            "value": "Controle sobre cobrança, previsibilidade de custo e reversibilidade"
+          },
+          {
+            "label": "Condição de aceitação",
+            "value": "Condições exibidas antes da autorização e cancelamento imediato perceb"
+          }
+        ]
+      },
+      "segments": [
+        {
+          "label": "Pragmáticos orientados à conveniência",
+          "sample": 58,
+          "values": [
+            7,
+            14,
+            29,
+            33,
+            17
+          ]
+        },
+        {
+          "label": "Cautelosos focados em controle financeiro",
+          "sample": 56,
+          "values": [
+            4,
+            9,
+            21,
+            36,
+            30
+          ]
+        },
+        {
+          "label": "Favoráveis à automação com transparência",
+          "sample": 49,
+          "values": [
+            2,
+            4,
+            16,
+            45,
+            33
+          ]
+        },
+        {
+          "label": "Resistentes por receio de cobrança recorrente",
+          "sample": 37,
+          "values": [
+            5,
+            19,
+            30,
+            8,
+            38
+          ]
+        }
+      ],
+      "responses": [
+        {
+          "score": 1,
+          "profile": "Pequeno empresário muito avesso a recorrência automática sem acompanhar de perto",
+          "quote": "Eu só aceitaria se tivesse um painel muito claro para ver cada cobrança antes e cancelar na hora. Mesmo assim, ainda prefiro pagar manualmente porque gosto de decidir cada saída de caixa."
+        },
+        {
+          "score": 2,
+          "profile": "MEI que reconhece a utilidade, mas teme esquecimento e cobrança fora do planejamento",
+          "quote": "Se o valor e a frequência viessem totalmente explícitos, eu consideraria. Mas para assinatura eu continuo com pé atrás, porque qualquer descuido afeta o caixa do mês."
+        },
+        {
+          "score": 4,
+          "profile": "Dono de pequena empresa que valoriza praticidade e avisos prévios",
+          "quote": "Se eu receber aviso antes da cobrança e puder cancelar imediatamente, a chance de eu contratar é alta. Para rotina empresarial, isso poupa tempo e reduz trabalho operacional."
+        },
+        {
+          "score": 5,
+          "profile": "Usuário já habituado a Pix e aberto a automatizar despesas recorrentes",
+          "quote": "Para mim faz bastante sentido, principalmente se a autorização for explícita e tudo aparecer antes. Se eu puder acompanhar e cancelar sem burocracia, eu contrataria sem muita hesitação."
+        }
+      ],
+      "cautions": [
+        "Resultado sintético, útil apenas para geração de hipóteses, não para inferir comportamento observado.",
+        "A distribuição foi imposta pelo desenho do estudo e não deve ser lida como estimativa populacional.",
+        "O tema pode variar bastante por setor, maturidade financeira, volume de transações e experiência prévia com cobranças recorrentes.",
+        "As respostas ilustrativas são modeladas e não representam declarações verificadas de pessoas reais."
+      ]
+    },
+    "provenance": {
+      "runtimeVersion": "synthetic-research-v2.4",
+      "researchMode": "DEEP",
+      "inputHash": "9461b030f3abaecb0ed93880df33b5c6b3afb5fbfbd83cd8f3ffe618ca932f48",
+      "evidenceHash": "23b235cb57aac2d20f96a45375fb54ae97ff56282b7db5abd29ac8345b9954a8",
+      "promptVersions": {
+        "framing": "framing-v2",
+        "panel": "panel-v4",
+        "respondentCell": "respondent-cell-v3",
+        "adjudication": "evidence-bias-critic-v4"
+      },
+      "schemaVersions": {
+        "framing": "frame-schema-v1",
+        "panel": "study-schema-v1",
+        "respondentCell": "respondent-cell-schema-v2",
+        "adjudication": "critic-schema-v2"
+      },
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+    },
+    "cost": {
+      "currency": "USD",
+      "gatewayCost": {
+        "exactTotalUsd": "0.0326004",
+        "reporting": "complete",
+        "reportedCallCount": 9,
+        "eligibleCallCount": 9,
+        "note": "Exact values are reported only when Vercel AI Gateway returned providerMetadata.gateway.cost."
+      },
+      "tokenUsage": {
+        "inputTokens": 17825,
+        "outputTokens": 2664,
+        "totalTokens": 20489,
+        "reasoningTokens": 596,
+        "cachedInputTokens": 0
+      }
+    },
+    "modelLineage": [
+      {
+        "stage": "framing",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "framing-v2",
+        "schemaVersion": "frame-schema-v1",
+        "promptHash": "a58c37bbc81c2a6e722f2d72b2dd43678d94c27c4aa6391c11c2efa61b3095e0"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_1",
+        "cellIndex": 0,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "3711dd4752d7011447886c5306c2159efc588f5873f58c59aca556a71c8c70fa"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_2",
+        "cellIndex": 1,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "34f9c227a5cba79f3a0ded80c1bb4c6064c441837e25c3e8d24b74e30a9bb5bb"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_3",
+        "cellIndex": 2,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "266f824fac26a1e113fc967898b69fd748563ce9b3f6baaf80c55220f8da07c4"
+      },
+      {
+        "stage": "respondent-cell",
+        "role": "independent-model-call",
+        "cellId": "cell_4",
+        "cellIndex": 3,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "respondent-cell-v3",
+        "schemaVersion": "respondent-cell-schema-v2",
+        "promptHash": "e6ab3864b7d7a899704f4ed5e1e8e8503e87a4ad97149e58e977d69823cc047a"
+      },
+      {
+        "stage": "panel",
+        "role": null,
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "openai/gpt-5.4-mini",
+        "fallbackModels": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "modelRoute": [
+          "openai/gpt-5.4-mini",
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.6-luna"
+        ],
+        "resolvedModel": "openai/gpt-5.4-mini",
+        "promptVersion": "panel-v4",
+        "schemaVersion": "study-schema-v1",
+        "promptHash": "d69e94c90db9b028fc870f945c8c95983de6499908e0343f54e7ad4a1912d994"
+      },
+      {
+        "stage": "adjudication",
+        "role": "evidence-and-bias-critic",
+        "cellId": null,
+        "cellIndex": null,
+        "status": "completed",
+        "requestedModel": "google/gemini-3.6-flash",
+        "fallbackModels": [
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "modelRoute": [
+          "google/gemini-3.6-flash",
+          "openai/gpt-5.4-mini",
+          "anthropic/claude-haiku-4.5"
+        ],
+        "resolvedModel": "google/gemini-3.6-flash",
+        "promptVersion": "evidence-bias-critic-v4",
+        "schemaVersion": "critic-schema-v2",
+        "promptHash": "470fdbb1bdc34ddad82f26d9f4041bae835d9c711ef7e082e7e69fad84db4b74"
+      }
+    ],
+    "evidence": {
+      "mode": "EXA_GATEWAY",
+      "gatewaySearchCompleted": true,
+      "ledger": [
+        {
+          "title": "OS MEIOS DE PAGAMENTOS UTILIZADOS NO E-COMMERCE: UMA PERCEPÇÃO DO CONSUMIDOR",
+          "url": "https://doi.org/10.56083/rcv4n3-176",
+          "excerpt": "pelos entrevistados foi o do cartão de crédito, com 76% (108) dos respondentes e em sequência: PIX 14,8% (21); Boleto 7% (10); E-wallets 2,1% (3). O cartão de débito também foi uma opção nessa pergunta, porém não foi selecionado por nenhum respondente. O segundo meio de pagamento mais votado foi o PIX, com a justificativa da agilidade da aprovação de pagamento. Essa funcionalidade foi a que obteve o maior diferencial entre os meios analisados. O boleto foi o terceiro meio mais selecionado, e seguiu um racional oposto ao PIX, o qual os maiores utilizadores desse meio de pagamento o escolhem devido ao prazo adicional para realizar o pagamento do boleto (em média 1 a 2 dias úteis), e, consequentemente, a possibilidade de pensar com mais tempo se devem ou não realizar a compra. A última opção ficou com as carteiras digitais, que são dependentes de um cartão de crédito e",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "c303d6280ba991b73f9dc54f952960272b06fcf3116b28af37f2809b9ada181c"
+        },
+        {
+          "title": "As preferências de pagamento dos consumidores: os motivadores do uso do PIX",
+          "url": "https://exa.ai/library/publication/89p0txmr992",
+          "excerpt": "Dentro da amostra, 81% dos usuários realizam PIX pelo menos uma vez na semana. A Figura 14 representa a frequência de uso desta solução no momento de uma compra, ilustrando a rápida adoção tecnológica e como o PIX se tornou presente e comum na rotina do brasileiro. ... Para avaliar a preferência do usuário em relação ao PIX versus o cartão de crédito, foram realizadas duas perguntas. A primeira era se o usuário prefere realizar uma compra parcelada no crédito ou com PIX, considerando um desconto de 10%, sendo uma média dos descontos oferecidos pelo PIX, como noticiado pela CNN (2024), mencionando um estudo sobre os meios de pagamento. Nesse contexto, verificou-se, da amostra, que 52% preferem utilizar o PIX caso haja o desconto, 17% preferem realizar um parcelamento sem juros, 11% preferem utilizar o cartão 41% 39% 10% 8% 2% 33% 43% 12% 9% 2% 0% 10% 20% 30% 40% 50%",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "164ceaf653c96b7f9c38a378d22ea824c6774fd1cf88d02334f2a7588ce5639f"
+        },
+        {
+          "title": "Fidelização através do débito automático: estudo de caso na Brasil Telecom",
+          "url": "https://exa.ai/library/publication/8x5fj3159qx",
+          "excerpt": "que 20,69% deixaria o pagamento em débito automático por nada mais que o cancelamento dos descontos que o mesmo estava recebendo. Em relação ao tempo que os pesquisados já efetuam o pagamento em débito automático, considerando como: (A) 1 a 3 meses, (B) 3 a 8 meses, (C) 8 a 12 Qual motivo levaria o cliente cancelar o pagamento de débito automático meses, (D) 1 ano, (E) 2 anos e (F) mais de 2 anos, pode-se identificar no gráfico abaixo que, Gráfico 3: Tempo que o pesquisado efetua pagamentos através de débito automático. Fonte: Coleta de dados por meio de pesquisa para fundamentar o presente trabalho, outubro/2008. A maioria dos pesquisados, 23% realizam o pagamento em débito automático a mais de 2 anos e as classes (D) e (E) que somadas dão 35% pagam em débito automático de 1 a 2 anos, a partir disso percebe-se que as classes (D), (E) e (F) que somadas representam 58%",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "af0a16a8190cfe89be09ba541894748ed6eda3e9554169f3aa59793771cfdc5f"
+        },
+        {
+          "title": "Maioria conhece Pix automático, mas só 11,8% o usam para pagar contas mensais, diz pesquisa - Estadão",
+          "url": "https://www.estadao.com.br/economia/maioria-conhece-pix-automatico-mas-so-118-o-usam-para-pagar-contas-mensais-diz-pesquisa/",
+          "excerpt": "A maioria dos brasileiros (81%) diz conhecer o Pix Automático, mas só 11,8% o utilizam para pagar contas mensais. Outros 15% ainda mantêm o uso de boletos e 7,2% usam o débito automático tradicional como modalidades principais. ... A aderência ainda limitada à versão automática do Pix se relaciona a outros dados apresentados pelo levantamento, como a preferência pelo controle manual dos gastos por 44,8% dos brasileiros e a afirmação de mais da metade dos entrevistados de que deixaram de ... Apesar de detectar uma aderência ainda limitada, a pesquisa capta um futuro que pode ser promissor para a funcionalidade. Segundo os dados, 46,4% associam pagamentos automáticos à prevenção de atrasos e 21% à redução de estresse, mas a migração depende de confiança: 81% adotariam a funcionalidade automática do Pix se houvesse total transparência e facilidade de cancelamento.",
+          "acquisition": "EXA_GATEWAY",
+          "originalLanguage": null,
+          "contentHash": "a95141bb1b354657e69b872f09ff97918b866d8df1656f500e03fbbf670a28c6"
+        }
+      ]
+    },
+    "ensemble": {
+      "plannedCells": 4,
+      "completedCells": 4,
+      "failedCells": 0,
+      "aggregation": "deterministic-arithmetic-mean-v1",
+      "distribution": [
+        9,
+        14,
+        23,
+        33,
+        21
+      ]
+    },
+    "stability": {
+      "metricVersion": "stability-v1",
+      "cellCount": 4,
+      "meanJensenShannonDivergence": 0.052855,
+      "maxPercentagePointSpread": 17,
+      "interpretation": "Lower divergence and spread indicate greater agreement among model-generated cells; neither metric measures human certainty."
+    },
+    "verification": {
+      "status": "completed",
+      "role": "evidence-and-bias-critic",
+      "separateModelCall": true,
+      "independentReview": false,
+      "decision": "accepted",
+      "evidenceAlignment": "aligned",
+      "weakClaims": [],
+      "biasSignals": [],
+      "critiqueSummary": "O estudo sintético está bem alinhado com as evidências fornecidas, em especial o Source 4 que aponta que 81% adotariam o Pix Automático mediante transparência e facilidade de cancelamento. A distribuição reflete adequadamente as nuances entre conveniência e desejo de controle manual. As ressalvas metodológicas foram devidamente incluídas.",
+      "note": "This is a separate model stage within one pipeline, not independent external verification."
+    }
+  },
+  "status": "automated-qa-passed-human-editorial-review-pending",
+  "htmlUrl": "/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/",
+  "dataUrl": "/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/study.json",
+  "canonicalUrl": "https://likerts.com/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/"
+}
