@@ -161,7 +161,7 @@
       ],
       "cautions": [
         "This study is synthetic and intended for hypothesis generation only.",
-        "The distribution is deterministic and should not be interpreted as sampled evidence.",
+        "The frozen arithmetic aggregation is reproducible, but a new model run is non-deterministic and may produce a different distribution.",
         "Responses are illustrative model-generated quotes, not verbatim statements from real participants.",
         "No claim is made that these results are representative of all U.S. employer businesses with 20–249 employees."
       ]

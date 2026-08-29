@@ -95,6 +95,7 @@ function validateCapture(capture, brief, file) {
   add(Boolean(rule?.required?.test(narrative)) && !rule?.forbidden?.test(narrative), `study narrative does not match ${brief.locale} script expectations`);
   const secretKeys = findSecretKeys(capture);
   add(secretKeys.length === 0, `secret-shaped keys present: ${secretKeys.join(', ')}`);
+  add(!strings(capture?.study?.cautions).some((text) => /\bthe distribution is deterministic\b/i.test(text)), 'caution conflates reproducible aggregation with non-deterministic model generation');
   warnings.push(...truncationWarnings(capture));
   if (capture?.verification?.decision === 'flagged' || capture?.verification?.evidenceAlignment === 'partially-aligned') warnings.push(`critic ${capture.verification.decision || 'review'}: ${capture.verification.evidenceAlignment || 'not assessed'}`);
   if (capture?.stability?.maxPercentagePointSpread >= 15) warnings.push(`high model-cell spread: ${capture.stability.maxPercentagePointSpread} percentage points`);
