@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { acquireEvidence, aggregateCohortDistributions, requestSchema } from '../server/synthetic-study-pipeline.js';
+import { acquireEvidence, aggregateCohortDistributions, requestSchema, runStudyPipeline } from '../server/synthetic-study-pipeline.js';
+import { languageScriptReport } from '../server/language-script.js';
 
 const brief = {
   prompt: 'Would this audience adopt a shared workspace?',
@@ -53,6 +54,39 @@ test('Deep cohort aggregation is deterministic and reports explicit disagreement
   assert.throws(() => aggregateCohortDistributions([cells[0], [25, 25, 25, 25]]), /five values/i);
 });
 
+test('locale script guard detects cross-script contamination without rejecting technical Latin terms', () => {
+  assert.deepEqual(languageScriptReport('Ease of理解', 'en-US').unexpectedScripts, ['Han']);
+  assert.deepEqual(languageScriptReport('合成Likert調査', 'ja-JP').unexpectedScripts, []);
+  assert.deepEqual(languageScriptReport('日本語 अध्ययन', 'ja-JP').unexpectedScripts, ['Devanagari']);
+  assert.equal(languageScriptReport('بحث Likerts اصطناعي', 'ar-SA').pass, true);
+});
+
+test('public panel output retries on an unexpected writing system', async () => {
+  let panelCalls = 0;
+  const result = await runStudyPipeline(requestSchema.parse({ ...brief, evidencePolicy: 'PRIOR_ONLY' }), {
+    env: {},
+    generate: async (options) => {
+      const tags = options.providerOptions.gateway.tags;
+      let output;
+      if (tags.includes('stage:framing')) {
+        output = { neutralQuestion: brief.prompt, decisionContext: 'Evaluate a directional adoption hypothesis.', panelDimensions: ['Use case', 'Value', 'Barriers'], assumptions: ['Synthetic cohort only.', 'No causal claim.'], evidenceBoundary: 'No source evidence was supplied; findings are model-only hypotheses.' };
+      } else if (tags.includes('stage:panel')) {
+        panelCalls += 1;
+        output = panelCalls === 1 ? { ...studyCandidate, title: 'Ease of理解' } : studyCandidate;
+      } else {
+        output = { decision: 'accepted', critiqueSummary: 'No material evidence-alignment or bias issue was detected.', credibilityLevel: 'illustrative-only', evidenceAlignment: 'not-assessed', weakClaims: [], biasSignals: [] };
+      }
+      return { output, response: { modelId: options.model.modelId }, usage: { inputTokens: 1, outputTokens: 1, totalTokens: 2 }, providerMetadata: { gateway: { cost: '0.001' } } };
+    },
+  });
+
+  assert.equal(panelCalls, 2);
+  assert.equal(result.study.title, studyCandidate.title);
+  assert.deepEqual(result.run.stages.find((stage) => stage.stage === 'panel').attempts.map((attempt) => attempt.status), ['failed', 'completed']);
+  assert.equal(result.run.economics.gatewayCost.exactTotalUsd, '0.004');
+  assert.equal(result.run.economics.tokenUsage.totalTokens, 8);
+});
+
 test('Gateway evidence retrieval uses the stable anonymous attribution key', async () => {
   const users = [];
   await acquireEvidence(requestSchema.parse(brief), {
@@ -69,7 +103,6 @@ test('Gateway evidence retrieval uses the stable anonymous attribution key', asy
 });
 
 test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, and verification metadata', async () => {
-  const { runStudyPipeline } = await import('../server/synthetic-study-pipeline.js');
   const calls = [];
   const cellOutputs = [
     [10, 10, 20, 30, 30],
@@ -128,7 +161,6 @@ test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, 
 });
 
 test('a flagged critic decision remains illustrative without English wrapper text in Japanese output', async () => {
-  const { runStudyPipeline } = await import('../server/synthetic-study-pipeline.js');
   const localizedNote = 'これは合成結果であり、実際の参加者による調査で検証する必要があります。';
   const localizedCritique = '結論は、利用可能な事前知識だけでは十分に裏付けられていません。';
   const result = await runStudyPipeline(requestSchema.parse({ ...brief, outputLocale: 'ja-JP', evidencePolicy: 'PRIOR_ONLY' }), {

@@ -1,3 +1,5 @@
+import { languageScriptReport } from '../server/language-script.js';
+
 const LOCALE_SCRIPTS = {
   'en-US': 'Latin', 'es-ES': 'Latin', 'pt-BR': 'Latin', 'fr-FR': 'Latin', 'de-DE': 'Latin',
   'zh-CN': 'Han', 'ja-JP': 'Japanese', 'ko-KR': 'Hangul', 'ar-SA': 'Arabic', 'hi-IN': 'Devanagari',
@@ -12,8 +14,9 @@ const check = (name, pass, details = '') => ({ name, pass: Boolean(pass), detail
 const textOf = (value) => typeof value === 'string' ? value : JSON.stringify(value || '');
 function hasUnsupportedHumanClaim(text) {
   for (const match of text.matchAll(new RegExp(HUMAN_CLAIM.source, 'ig'))) {
-    const prefix = text.slice(Math.max(0, match.index - 16), match.index);
-    if (!/\b(?:not|no|never|without)\s*$/i.test(prefix)) return true;
+    const prefix = text.slice(Math.max(0, match.index - 96), match.index);
+    const negated = /\b(?:not|no|never|without)\b(?:(?!\bbut\b)[^.!?;]){0,80}$/i.test(prefix);
+    if (!negated) return true;
   }
   return false;
 }
@@ -54,7 +57,8 @@ export function evaluateResult(result, fixture = {}) {
   if (!result || typeof result !== 'object') return { pass: false, score: 0, checks: [check('result-shape', false, 'Result is not an object.')], errors: ['Result is not an object.'] };
   const locale = result.meta?.outputLocale || result.meta?.locale || result.run?.input?.outputLocale || result.persistence?.clientRecord?.input?.outputLocale;
   const outputScript = result.meta?.outputScript || result.run?.input?.outputScript || result.persistence?.clientRecord?.input?.outputScript;
-  const scriptPass = LOCALE_SCRIPTS[locale] && (!outputScript || outputScript === LOCALE_SCRIPTS[locale]) && (!fixture.locale || locale === fixture.locale);
+  const scriptReport = languageScriptReport(result.study, locale);
+  const scriptPass = LOCALE_SCRIPTS[locale] && scriptReport.pass && (!outputScript || outputScript === LOCALE_SCRIPTS[locale]) && (!fixture.locale || locale === fixture.locale);
   const text = textOf(result);
   const usage = result.meta?.usage || result.run?.economics?.tokenUsage || {};
   const estimatedCostUsd = Number.isFinite(usage.estimatedCostUsd) ? usage.estimatedCostUsd : Number(result.run?.economics?.gatewayCost?.exactTotalUsd);
@@ -63,7 +67,7 @@ export function evaluateResult(result, fixture = {}) {
     checkDistribution(result),
     checkProvenance(result),
     check('evidence-class', (result.run?.evidence?.ledger || result.evidence?.ledger || []).every((entry) => !entry || (entry.evidenceClass ? EVIDENCE_CLASSES.has(entry.evidenceClass) : ACQUISITION_CLASSES.has(entry.acquisition))), 'Evidence classes/acquisition values are controlled vocabulary values.'),
-    check('language-script', Boolean(scriptPass), `Expected ${fixture.locale || 'a supported locale'} and matching script.`),
+    check('language-script', Boolean(scriptPass), scriptPass ? `Output uses the expected ${LOCALE_SCRIPTS[locale]} writing system.` : `Expected ${fixture.locale || 'a supported locale'} with ${LOCALE_SCRIPTS[fixture.locale || locale] || 'a matching'} writing system; unexpected scripts: ${scriptReport.unexpectedScripts.join(', ') || 'none'}.`),
     check('unsupported-human-claims', !hasUnsupportedHumanClaim(text), 'Synthetic output must not claim human-panel observation or representativeness.'),
     check('model-lineage', Array.isArray(result.meta?.modelLineage || result.run?.modelLineage) && (result.meta?.modelLineage || result.run?.modelLineage).length > 0 && (result.meta?.modelLineage || result.run?.modelLineage).every((item) => item?.stage && (item.resolvedModel || item.requestedModel)), 'Model stage and requested/resolved model metadata are required.'),
     check('cost-metadata', Number.isFinite(usage.inputTokens) && Number.isFinite(usage.outputTokens) && Number.isFinite(estimatedCostUsd) && estimatedCostUsd >= 0, 'Token counts and non-negative estimated cost are required.'),

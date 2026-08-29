@@ -7,12 +7,15 @@ const DEFAULT_MAX_RUNS = 3;
 const DEFAULT_MAX_COST_USD = 1;
 const DEFAULT_ESTIMATED_COST_USD = 0.25;
 
-function redact(value) {
-  if (Array.isArray(value)) return value.map(redact);
+const NON_SECRET_USAGE_FIELDS = new Set(['tokenusage', 'inputtokens', 'outputtokens', 'totaltokens', 'reasoningtokens', 'cachedinputtokens']);
+
+export function redactForEvaluation(value) {
+  if (Array.isArray(value)) return value.map(redactForEvaluation);
   if (!value || typeof value !== 'object') return typeof value === 'string' && value.length > 2000 ? `${value.slice(0, 2000)}…[truncated]` : value;
   return Object.fromEntries(Object.entries(value).map(([key, item]) => {
-    if (/authorization|api[-_]?key|secret|token|password/i.test(key)) return [key, '[REDACTED]'];
-    return [key, redact(item)];
+    const normalizedKey = key.replaceAll(/[-_]/g, '').toLowerCase();
+    if (/authorization|api[-_]?key|secret|password|bearer/i.test(key) || (/token/i.test(key) && !NON_SECRET_USAGE_FIELDS.has(normalizedKey))) return [key, '[REDACTED]'];
+    return [key, redactForEvaluation(item)];
   }));
 }
 
@@ -62,7 +65,7 @@ export async function runLiveEvaluation({
       error = caught instanceof Error ? caught.message : 'request failed';
     }
     const score = result ? evaluateResult(result, fixture) : { pass: false, score: 0, checks: [], errors: [error] };
-    rows.push(redact({ fixtureId: fixture.id, locale: fixture.locale, mode: fixture.mode, depth: fixture.depth, durationMs: Date.now() - startedAt, score, result, error }));
+    rows.push(redactForEvaluation({ fixtureId: fixture.id, locale: fixture.locale, mode: fixture.mode, depth: fixture.depth, durationMs: Date.now() - startedAt, score, result, error }));
   }
   const summary = { status: 'completed', url, runs: rows.length, passed: rows.filter((row) => row.score.pass).length, estimatedCostUsd, rows: rows.length };
   await fs.writeFile(outputPath, `${rows.map((row) => JSON.stringify(row)).join('\n')}\n${JSON.stringify({ summary })}\n`, 'utf8');

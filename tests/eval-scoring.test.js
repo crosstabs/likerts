@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { evaluateResult, scoreRepeatability } from '../evals/scoring.js';
 import { scoreCapturedResults } from '../scripts/eval-offline.js';
 import { evaluationFixtures } from '../evals/fixtures.js';
-import { runLiveEvaluation } from '../scripts/eval-live.js';
+import { redactForEvaluation, runLiveEvaluation } from '../scripts/eval-live.js';
 
 const valid = {
   study: {
@@ -62,6 +62,16 @@ test('unsupported human-panel claims fail while synthetic caveats pass', () => {
   assert.equal(report.checks.find((check) => check.name === 'unsupported-human-claims').pass, false);
 });
 
+test('negated representativeness boundaries pass while unexpected scripts fail', () => {
+  const bounded = structuredClone(valid);
+  bounded.study.takeaway = 'This is not representative, makes no claim of representativeness, and should not be treated as statistically significant.';
+  assert.equal(evaluateResult(bounded, { locale: 'en-US' }).checks.find((check) => check.name === 'unsupported-human-claims').pass, true);
+
+  const mixedScript = structuredClone(valid);
+  mixedScript.study.title = 'Ease of理解 should not appear in an English report';
+  assert.equal(evaluateResult(mixedScript, { locale: 'en-US' }).checks.find((check) => check.name === 'language-script').pass, false);
+});
+
 test('captured-result scorer maps fixture IDs and handles empty captures', () => {
   assert.equal(scoreCapturedResults([]).averageScore, null);
   const report = scoreCapturedResults([{ fixtureId: 'en-US-concept', result: valid }], evaluationFixtures);
@@ -106,6 +116,18 @@ test('live evaluation is disabled by default and performs no network call', asyn
   const report = await runLiveEvaluation({ fetchImpl: async () => { calls += 1; }, fixtures: evaluationFixtures.slice(0, 1) });
   assert.equal(report.status, 'disabled');
   assert.equal(calls, 0);
+});
+
+test('live capture redacts credentials without deleting non-secret token usage', () => {
+  assert.deepEqual(redactForEvaluation({
+    apiKey: 'secret-value',
+    accessToken: 'secret-token',
+    tokenUsage: { inputTokens: 12, outputTokens: 8, totalTokens: 20 },
+  }), {
+    apiKey: '[REDACTED]',
+    accessToken: '[REDACTED]',
+    tokenUsage: { inputTokens: 12, outputTokens: 8, totalTokens: 20 },
+  });
 });
 
 test('live evaluation sends additive v2 researchMode in the request body', async () => {
