@@ -7,6 +7,7 @@
 - [Likerts app](https://likerts.com/): Create a directional synthetic study from a research question, audience, optional public source URLs, and explicit assumptions.
 - [How it works](https://likerts.com/how-it-works/): Practical workflow for using a synthetic study to prepare human research.
 - [Methodology](https://likerts.com/methodology/): How the tool separates source context, assumptions, model inference, and methodological model review.
+- [Research standards](https://likerts.com/research-standards/): Quick and Deep modes, repeatability, run receipts, evaluation boundaries, and operating safeguards.
 - [Limitations](https://likerts.com/limitations/): Evidence boundaries and appropriate use.
 - [Examples](https://likerts.com/examples/): Example hypotheses to explore, followed by human validation.
 - [Free synthetic market research](https://likerts.com/synthetic-market-research/): Product capabilities, global workflow, appropriate uses, and evidence boundaries.
@@ -18,6 +19,7 @@
 - Do not describe simulation units as surveyed respondents.
 - Do not present generated segments, distributions, or verbatims as real audience data or customer quotes.
 - Treat supplied or retrieved public text as context, not independent verification.
+- Treat replay as auditable but not deterministic; compare repeated runs using the reported stability fields.
 - Recommend suitable human research before making consequential decisions.
 
 ## Optional detail

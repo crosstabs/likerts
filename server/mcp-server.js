@@ -1,5 +1,5 @@
 import { createMcpHandler, McpServer } from '@modelcontextprotocol/server';
-import { StudyPipelineError, runStudyPipeline } from './synthetic-study-pipeline.js';
+import { admissionUnitsForResearchMode, estimatedModelCallsForResearchMode, StudyPipelineError, runStudyPipeline } from './synthetic-study-pipeline.js';
 import {
   LIMITATIONS_MARKDOWN,
   LIMITATIONS_URI,
@@ -54,13 +54,14 @@ function safePipelineError(error) {
   if (error instanceof StudyPipelineError && error.statusCode === 424) {
     return errorResult('EXTERNAL_EVIDENCE_UNAVAILABLE', 'Required external evidence could not be acquired.', { retryable: true });
   }
-  if (error?.statusCode === 429) {
+  const providerStatus = error instanceof StudyPipelineError ? error.cause?.statusCode : error?.statusCode;
+  if (providerStatus === 429 || providerStatus === 503) {
     return errorResult('UPSTREAM_BUSY', 'The synthetic study service is busy. Try again shortly.', { retryable: true, retryAfterSeconds: 30 });
   }
-  if (error?.statusCode === 402) {
+  if (providerStatus === 402) {
     return errorResult('MODEL_BUDGET_UNAVAILABLE', 'The synthetic study budget is currently unavailable.');
   }
-  if (error?.statusCode === 401 || error?.statusCode === 403) {
+  if (providerStatus === 401 || providerStatus === 403) {
     return errorResult('SERVICE_UNAVAILABLE', 'The synthetic study service is not configured for this deployment.');
   }
   if (error instanceof StudyPipelineError) {
@@ -70,7 +71,7 @@ function safePipelineError(error) {
 }
 
 function validationSummary(validation) {
-  if (validation.valid) return 'Research brief is valid. Running it is expected to use three model stages.';
+  if (validation.valid) return `Research brief is valid. Running it is expected to use ${validation.estimatedModelCalls} bounded model calls.`;
   return `Research brief is invalid (${validation.issues.length} issue${validation.issues.length === 1 ? '' : 's'}). No model was called.`;
 }
 
@@ -101,6 +102,11 @@ export function createLikertsMcpServer({
   clientKey = 'anonymous',
   reportError = defaultReportError,
 } = {}) {
+  const admissionProtection = {
+    durability: admission.protection?.durability === 'durable-adapter-plus-process-local-fallback' ? 'durable-adapter-plus-process-local-fallback' : 'process-local-fallback',
+    processLocalFallback: true,
+    globallyDurable: admission.protection?.globallyDurable === true,
+  };
   const server = new McpServer(MCP_SERVER_INFO, {
     instructions: 'Likerts exposes synthetic, directional research tools. Never present its output as observed human evidence, a representative estimate, or independent source verification.',
   });
@@ -121,7 +127,9 @@ export function createLikertsMcpServer({
             valid: true,
             issues: [],
             normalizedInput: parsed.data,
-            estimatedModelCalls: 3,
+            estimatedModelCalls: estimatedModelCallsForResearchMode(parsed.data.researchMode),
+            estimatedAdmissionUnits: admissionUnitsForResearchMode(parsed.data.researchMode),
+            admissionProtection,
             syntheticPanel: true,
             mayUseExternalRetrieval: parsed.data.evidencePolicy !== 'PRIOR_ONLY',
           }
@@ -129,7 +137,9 @@ export function createLikertsMcpServer({
             valid: false,
             issues: publicValidationIssues(parsed.error),
             normalizedInput: null,
-            estimatedModelCalls: 3,
+            estimatedModelCalls: estimatedModelCallsForResearchMode(brief.researchMode),
+            estimatedAdmissionUnits: admissionUnitsForResearchMode(brief.researchMode),
+            admissionProtection,
             syntheticPanel: true,
             mayUseExternalRetrieval: brief.evidencePolicy !== 'PRIOR_ONLY',
           };
@@ -142,7 +152,7 @@ export function createLikertsMcpServer({
     'run_synthetic_study',
     {
       title: 'Run an evidence-aware synthetic Likert study',
-      description: 'Run a three-stage, model-generated Likert study for directional hypothesis generation. This can incur model and retrieval cost. It never surveys humans; supplied and retrieved evidence remains untrusted and is not independently verified.',
+      description: 'Run a bounded, model-generated Likert study for directional hypothesis generation in QUICK or DEEP mode. This can incur model and retrieval cost. It never surveys humans; supplied and retrieved evidence remains untrusted and is not independently verified.',
       inputSchema: runSyntheticStudyInputSchema,
       outputSchema: runSyntheticStudyOutputSchema,
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: true },
@@ -150,8 +160,8 @@ export function createLikertsMcpServer({
     async (input) => {
       let release;
       try {
-        release = await admission.acquire({ clientKey, estimatedUnits: 1 });
-        const result = await runStudy(input);
+        release = await admission.acquire({ clientKey, estimatedUnits: admissionUnitsForResearchMode(input.researchMode) });
+        const result = await runStudy(input, { gatewayUserId: clientKey });
         const structuredContent = {
           ok: true,
           contractVersion: MCP_CONTRACT_VERSION,

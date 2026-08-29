@@ -174,6 +174,7 @@ function AppContent({ uiLocale, setUiLocale }) {
           market: sanitizedStudy.market,
           outputLocale: sanitizedStudy.outputLocale,
           sourceLanguages: sanitizedStudy.sourceLanguages,
+          researchMode: sanitizedStudy.researchMode || 'quick',
           searchCountry: selectedMarket.searchCountry,
           searchLocation: selectedMarket.searchLocation,
           clientRunId: pendingRun.id,
@@ -272,6 +273,7 @@ function AppContent({ uiLocale, setUiLocale }) {
             onClose={() => setBriefOpen(false)}
             onRun={() => runStudy(study)}
             running={running}
+            hasExistingReport={runComplete}
             setStudy={setStudy}
             study={study}
           />

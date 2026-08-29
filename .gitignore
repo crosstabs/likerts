@@ -6,3 +6,4 @@ test-results/
 .qa-artifacts/
 .DS_Store
 coverage/
+evals/live-results*.jsonl

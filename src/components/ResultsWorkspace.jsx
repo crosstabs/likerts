@@ -18,6 +18,7 @@ import {
 } from '@phosphor-icons/react';
 import { responseScale } from '../data.js';
 import { getLanguageName, useI18n } from '../i18n.jsx';
+import { researchSignalsFor } from '../lib/researchMeta.js';
 
 const formatEvidenceClass = (value = 'Model inference') => value
   .toLowerCase()
@@ -286,6 +287,37 @@ function EvidenceIndex({ result, onInspectEvidence }) {
   );
 }
 
+function ResearchSignals({ result }) {
+  const { locale, t } = useI18n();
+  const signals = researchSignalsFor(result);
+  const hasSignals = Object.values(signals).some(Boolean);
+  if (!hasSignals) return null;
+  const stability = typeof signals.stability === 'object'
+    ? signals.stability.applicable
+      ? [Number.isFinite(signals.stability.maxPercentagePointSpread) ? `${signals.stability.maxPercentagePointSpread} pp` : null, Number.isFinite(signals.stability.meanJensenShannonDivergence) ? `JSD ${signals.stability.meanJensenShannonDivergence}` : null].filter(Boolean).join(' · ') || t('stabilityMeasured')
+      : t('stabilityNotEstimated')
+    : signals.stability;
+  const ensemble = typeof signals.ensemble === 'object'
+    ? `${signals.ensemble.completedCells} / ${signals.ensemble.plannedCells}`
+    : signals.ensemble;
+  const cost = signals.ownerCost
+    ? new Intl.NumberFormat(locale, { style: 'currency', currency: signals.ownerCost.currency, maximumFractionDigits: 4 }).format(signals.ownerCost.amount)
+    : null;
+
+  return (
+    <section className="research-signals" aria-label={t('researchSignals')}>
+      <h3>{t('researchSignals')}</h3>
+      <dl>
+        {stability ? <div><dt>{t('stability')}</dt><dd>{stability}</dd></div> : null}
+        {ensemble ? <div><dt>{t('ensemble')}</dt><dd>{ensemble}</dd></div> : null}
+        {signals.provenance ? <div><dt>{t('provenance')}</dt><dd className="hash-value">{signals.provenance}</dd></div> : null}
+        {cost ? <div><dt>{signals.ownerCost.estimated ? t('estimatedGatewayCost') : t('exactGatewayCost')}</dt><dd title={t('gatewayCostNote')}>{cost}</dd></div> : null}
+        {signals.sourceFreshness ? <div><dt>{t('sourceDate')}</dt><dd>{signals.sourceFreshness}</dd></div> : null}
+      </dl>
+    </section>
+  );
+}
+
 export function ResultsWorkspace({ activeStudy, result, runComplete, running, onEditBrief, onExport, onReplay }) {
   const { dir, t } = useI18n();
   const [activeTab, setActiveTab] = useState('overview');
@@ -323,6 +355,8 @@ export function ResultsWorkspace({ activeStudy, result, runComplete, running, on
             <div className="study-scope" aria-label={t('market')}><span><GlobeHemisphereWest size={17} /> {activeStudy.market}</span><span><UsersThree size={17} /> {activeStudy.audience}</span><span><UsersThree size={17} /> {activeStudy.panelSize} {t('units')}</span><span><FileText size={17} /> {getLanguageName(activeStudy.outputLocale)} {t('outputLabel')}</span></div>
           </header>
 
+          <ResearchSignals result={result} />
+
           <div className="tabs" role="tablist" aria-label={t('overview')}>
             {tabs.map((tab, index) => <button aria-controls="result-panel" aria-selected={activeTab === tab} className={activeTab === tab ? 'is-active' : ''} id={`result-tab-${tab}`} key={tab} onClick={() => setActiveTab(tab)} onKeyDown={(event) => handleTabKeyDown(event, index)} role="tab" tabIndex={activeTab === tab ? 0 : -1} type="button">{tab === 'overview' ? t('reportTab') : t(tab)}</button>)}
           </div>
@@ -338,7 +372,7 @@ export function ResultsWorkspace({ activeStudy, result, runComplete, running, on
         <EvidenceIndex onInspectEvidence={() => setActiveTab('evidence')} result={result} />
       </div>
 
-      <footer className="report-footer-note"><LinkSimple size={15} /> {t('evidenceFooter')}</footer>
+      <footer className="report-footer-note"><LinkSimple size={15} /> {t('syntheticMethodNote')}</footer>
     </section>
   );
 }

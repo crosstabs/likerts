@@ -59,6 +59,7 @@ export const initialStudy = {
   outputLocale: 'en-US',
   sourceLanguages: [],
   panelSize: 200,
+  researchMode: 'quick',
   sources: [],
   assumptions: 'Salary remains unchanged; employers keep clear output expectations; the working day does not become materially longer.',
   distribution: [7, 11, 14, 32, 36],

@@ -31,7 +31,7 @@
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header"><div class="header-inner">
       <a class="brand" href="/" aria-label="Likerts home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>Likerts</a>
-      <nav class="site-nav" aria-label="Primary"><a href="/how-it-works/">How it works</a><a href="/methodology/" aria-current="page">Methodology</a><a href="/limitations/">Limitations</a><a href="/examples/">Examples</a></nav>
+      <nav class="site-nav" aria-label="Primary"><a href="/how-it-works/">How it works</a><a href="/methodology/" aria-current="page">Methodology</a><a href="/research-standards/">Standards</a><a href="/limitations/">Limitations</a></nav>
       <a class="header-cta" href="/">Open Likerts</a>
     </div></header>
     <main id="content">
@@ -46,8 +46,8 @@
         <section class="section" aria-labelledby="stages"><h2 id="stages">How a study is produced</h2><div class="steps">
           <article class="step"><div class="step-index">01</div><div><h3>Frame the question</h3><p>A research question and selected audience are shaped into a neutral study frame. The tool records the decision context and makes its assumptions explicit.</p></div></article>
           <article class="step"><div class="step-index">02</div><div><h3>Separate context from claims</h3><p>You may add public URLs. The workflow can also try to retrieve public context. Retrieved text and supplied URLs are treated as untrusted inputs—not as independently verified evidence or proof of a claim.</p></div></article>
-          <article class="step"><div class="step-index">03</div><div><h3>Generate a synthetic panel</h3><p>A model creates a directional five-point Likert-style distribution, illustrative segments, explanations, and cautions. The simulation-unit count is a modeling control, not a count of surveyed people.</p></div></article>
-          <article class="step"><div class="step-index">04</div><div><h3>Apply methodological review</h3><p>A separate review stage checks the candidate output for overclaiming, unsupported grounding, stereotypes, arithmetic issues, and contradictions. Review improves coherence; it does not validate the result against people or the web.</p></div></article>
+          <article class="step"><div class="step-index">03</div><div><h3>Generate a synthetic panel</h3><p>Quick mode uses one aggregate generation. Deep mode uses multiple separate model-cell calls and deterministically aggregates their five-point distributions. Both modes create illustrative segments, explanations, and cautions; simulation units and model cells are not surveyed people.</p></div></article>
+          <article class="step"><div class="step-index">04</div><div><h3>Measure disagreement and review</h3><p>Deep mode reports distribution spread across model cells. A separate model stage then checks the candidate for overclaiming, unsupported grounding, stereotypes, arithmetic issues, and contradictions. These are internal diagnostics, not validation against people or the web.</p></div></article>
         </div></section>
         <section class="section" aria-labelledby="ledger"><h2 id="ledger">What the evidence ledger means</h2><p class="section-intro">Every run classifies its inputs and output so a reader can see what is context, what is an assumption, and what is model inference.</p><div class="cards three">
           <article class="card"><h3>Provided or retrieved source</h3><p>Public text used for grounding. It can add context, but it is not independently verified by the study and does not establish a human finding.</p></article>
@@ -58,6 +58,6 @@
         <section class="cta-panel"><h2>Use it to choose the next human-research step.</h2><p>Start with a decision you need to make, inspect the boundaries in the result, then validate any consequential hypothesis with the people you serve.</p><a class="button" href="/">Open Likerts</a></section>
       </div>
     </main>
-    <footer class="site-footer"><div class="footer-inner"><span>Likerts · Synthetic, directional research</span><nav class="footer-nav" aria-label="Footer"><a href="/how-it-works/">How it works</a><a href="/methodology/">Methodology</a><a href="/limitations/">Limitations</a><a href="/examples/">Examples</a></nav></div></footer>
+    <footer class="site-footer"><div class="footer-inner"><span>Likerts · Synthetic, directional research</span><nav class="footer-nav" aria-label="Footer"><a href="/how-it-works/">How it works</a><a href="/methodology/">Methodology</a><a href="/research-standards/">Standards</a><a href="/limitations/">Limitations</a><a href="/examples/">Examples</a></nav></div></footer>
   </body>
 </html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#021a38" />
+    <meta name="description" content="Likerts research standards for synthetic studies: Quick and Deep modes, evidence boundaries, repeatability, run receipts, costs, and evaluation." />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href="https://likerts.com/research-standards/" />
+    <link rel="alternate" hreflang="en" href="https://likerts.com/research-standards/" />
+    <link rel="alternate" hreflang="x-default" href="https://likerts.com/research-standards/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Likerts" />
+    <meta property="og:title" content="Synthetic research standards | Likerts" />
+    <meta property="og:description" content="How Likerts reports sources, model lineage, repeatability, uncertainty, evaluation, and run cost." />
+    <meta property="og:url" content="https://likerts.com/research-standards/" />
+    <meta property="og:image" content="https://likerts.com/og-likerts.png" />
+    <meta property="og:image:alt" content="Likerts synthetic research standards" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Synthetic research standards | Likerts" />
+    <meta name="twitter:description" content="Evidence boundaries, repeatability, evaluation, and transparent run receipts." />
+    <meta name="twitter:image" content="https://likerts.com/og-likerts.png" />
+    <link rel="stylesheet" href="/static-site.css" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"Likerts synthetic research standards","url":"https://likerts.com/research-standards/","description":"Research and reporting standards for Likerts synthetic studies, including evidence boundaries, repeatability, evaluation, and cost transparency.","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"Likerts","url":"https://likerts.com/"}}</script>
+    <title>Synthetic Research Standards | Likerts</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header"><div class="header-inner">
+      <a class="brand" href="/" aria-label="Likerts home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>Likerts</a>
+      <nav class="site-nav" aria-label="Primary"><a href="/synthetic-market-research/">Synthetic research</a><a href="/methodology/">Methodology</a><a href="/research-standards/" aria-current="page">Standards</a><a href="/limitations/">Limitations</a></nav>
+      <a class="header-cta" href="/">Open Likerts</a>
+    </div></header>
+    <main id="content">
+      <section class="hero"><div class="hero-inner">
+        <p class="eyebrow">Research standards</p>
+        <h1>Open synthetic research standards, attached to every run.</h1>
+        <p class="hero-copy">Likerts makes the inputs, source trail, model routes, uncertainty, repeatability signals, and operating cost inspectable. The goal is a stronger hypothesis—not manufactured certainty.</p>
+        <div class="boundary"><strong>Non-negotiable boundary:</strong> simulation units and model-generated respondent cells are not human respondents. A synthetic distribution is not a population estimate, sample, survey result, or substitute for appropriate primary research.</div>
+      </div></section>
+      <div class="content">
+        <p class="lead">A useful synthetic-research system should show how a result was produced, what it relied on, where its models disagreed, and what it cannot establish. These are the public rules Likerts is designed to follow.</p>
+
+        <section class="section" aria-labelledby="modes"><h2 id="modes">Two modes, one evidence boundary.</h2><div class="table-wrap"><table><thead><tr><th scope="col">Mode</th><th scope="col">Designed for</th><th scope="col">Model work</th><th scope="col">What it adds</th></tr></thead><tbody>
+          <tr><td><strong>Quick mode</strong></td><td>Fast, low-cost hypothesis exploration</td><td>Bounded retrieval, framing, one aggregate synthetic panel generation, and review</td><td>A directional first read with provenance and cautions</td></tr>
+          <tr><td><strong>Deep mode</strong></td><td>Questions where model disagreement is itself useful</td><td>Multiple independently generated respondent cells, aggregation, stability diagnostics, and review</td><td>More model diversity and an explicit view of spread—not human validation</td></tr>
+        </tbody></table></div><p class="section-intro">Deep mode increases inference work and operator cost. It does not turn synthetic output into observed evidence or eliminate model bias.</p></section>
+
+        <section class="section" aria-labelledby="receipt"><h2 id="receipt">The run receipt.</h2><p class="section-intro">When the runtime supplies a field, the report and exported evidence pack retain it. Older or degraded runs may show a field as unavailable instead of inventing a value.</p><dl class="definition-list">
+          <dt>Input lineage</dt><dd>A canonical input hash, study and run identifiers, locale, market, and mode.</dd>
+          <dt>Evidence lineage</dt><dd>A stable evidence hash, disclosed URLs and excerpts, acquisition class, and retrieval events. Source text remains unverified context.</dd>
+          <dt>Model lineage</dt><dd>The requested route, fallbacks, resolved model where reported, stage status, and versioned prompt/schema identifiers.</dd>
+          <dt>Uncertainty</dt><dd>Confidence boundaries plus disagreement or stability measurements when multiple independent model cells ran.</dd>
+          <dt>Economics</dt><dd>Token use and the actual Vercel AI Gateway cost when provider metadata is returned. Otherwise cost is labelled estimated or unavailable.</dd>
+        </dl></section>
+
+        <section class="section" aria-labelledby="repeat"><h2 id="repeat">Auditable replay, not deterministic output.</h2><div class="cards three">
+          <article class="card"><h3>Stable inputs</h3><p>Canonical hashes help show whether the brief and evidence packet changed between runs.</p></article>
+          <article class="card"><h3>Variable inference</h3><p>Language-model execution is not deterministic across time, providers, routes, or repeated calls—even with the same brief.</p></article>
+          <article class="card"><h3>Measured spread</h3><p>Where multiple cells or repeats exist, distribution distance and maximum spread describe agreement without turning it into accuracy.</p></article>
+        </div></section>
+
+        <section class="section" aria-labelledby="evaluation"><h2 id="evaluation">Evaluation before claims.</h2><div class="compare"><div><h3>Automated checks can test</h3><ul><li>Request and response contracts, safe failure, and five-point arithmetic.</li><li>Presence of provenance, evidence classes, model lineage, uncertainty, and cost metadata.</li><li>Language and script expectations across supported locales.</li><li>Repeatability distances across captured runs and unsupported human-panel wording.</li></ul></div><div><h3>They cannot establish</h3><ul><li>Agreement with a population that was not sampled.</li><li>Accuracy against an unnamed, mismatched, or proprietary panel.</li><li>Representativeness, statistical significance, causality, or source truth.</li><li>Fitness for consequential decisions without evidence appropriate to the stakes.</li></ul></div></section>
+
+        <section class="section" aria-labelledby="benchmarks"><h2 id="benchmarks">Ground-truth comparisons need a protocol.</h2><p class="section-intro">A public benchmark is only meaningful when it records the dataset and licence, population and geography, field dates, exact wording and response scale, weighting, synthetic prompt, matching assumptions, and comparison metric. Likerts must report mismatches and null results—not just favourable examples. The <a href="/research-standards/benchmark-manifest.json">machine-readable benchmark roadmap</a> lists official candidate datasets and clearly marks every comparison as not yet run.</p></section>
+
+        <section class="section" aria-labelledby="access"><h2 id="access">Agent and API access.</h2><p class="section-intro">Agents can validate a brief or run the same bounded research workflow through the remote <a href="/api/mcp">Likerts MCP endpoint</a>. Machine-readable product guidance is published in <a href="/llms.txt">llms.txt</a> and <a href="/llms-full.txt">llms-full.txt</a>. Anonymous access remains subject to rate, concurrency, and budget safeguards; availability is not an entitlement.</p></section>
+
+        <section class="cta-panel"><h2>Inspect the boundary, then run the study.</h2><p>Use Quick for a first hypothesis. Use Deep when model disagreement matters. Validate consequential conclusions with real-world research.</p><a class="button" href="/">Open Likerts</a></section>
+      </div>
+    </main>
+    <footer class="site-footer"><div class="footer-inner"><span>Likerts · Synthetic, directional research</span><nav class="footer-nav" aria-label="Footer"><a href="/synthetic-market-research/">Synthetic research</a><a href="/methodology/">Methodology</a><a href="/research-standards/">Standards</a><a href="/limitations/">Limitations</a><a href="/llms.txt">Agent docs</a></nav></div></footer>
+  </body>
+</html>

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import test from 'node:test';
 import { Client, StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
-import { MAX_MCP_BODY_BYTES, createMcpApiHandler } from './mcp.js';
+import { MAX_MCP_BODY_BYTES, createMcpApiHandler } from '../api/mcp.js';
 
 function request(extra = {}) {
   return {

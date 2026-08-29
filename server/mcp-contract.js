@@ -37,7 +37,13 @@ export const validateBriefOutputSchema = z.discriminatedUnion('ok', [
       valid: z.boolean(),
       issues: z.array(issueSchema),
       normalizedInput: z.record(z.string(), z.unknown()).nullable(),
-      estimatedModelCalls: z.literal(3),
+      estimatedModelCalls: z.number().int().min(3).max(11),
+      estimatedAdmissionUnits: z.number().int().min(1).max(10),
+      admissionProtection: z.object({
+        durability: z.enum(['process-local-fallback', 'durable-adapter-plus-process-local-fallback']),
+        processLocalFallback: z.literal(true),
+        globallyDurable: z.boolean(),
+      }).strict(),
       syntheticPanel: z.literal(true),
       mayUseExternalRetrieval: z.boolean(),
     }).strict(),
@@ -60,6 +66,7 @@ const FIELD_MESSAGES = Object.freeze({
   prompt: 'Research question must be a string containing 12 to 500 characters.',
   audience: 'Audience must be a string containing 3 to 160 characters.',
   panelSize: 'Panel size must be a whole number from 50 to 500.',
+  researchMode: 'Research mode must be QUICK or DEEP (case-insensitive).',
   assumptions: 'Assumptions must be a string of at most 1,000 characters.',
   market: 'Market must be a string containing 2 to 120 characters.',
   outputLocale: 'Output locale must be a valid BCP-47 language tag, such as en-US.',
@@ -90,10 +97,10 @@ Likerts generates **synthetic, directional hypotheses**. It does not survey or o
 
 1. A framing stage neutralises the supplied question and records assumptions and evidence boundaries.
 2. Evidence is handled according to \`evidencePolicy\`. User excerpts and retrieved web text are treated as untrusted inputs and recorded in a hashed ledger; they are not independently verified.
-3. A model simulates an illustrative panel on a five-position scale: Very unlikely, Unlikely, Not sure, Likely, Very likely.
-4. A separate adjudication stage checks overclaiming, unsupported grounding, stereotypes, arithmetic, and contradictions.
+3. QUICK uses one cost-efficient synthetic panel call. DEEP uses a bounded multi-provider cohort of separate model calls and deterministically aggregates their five-position distributions.
+4. A separate evidence-alignment and bias-critic stage checks weak claims, unsupported grounding, stereotypes, arithmetic, and contradictions. It is part of the same pipeline, not independent external review.
 
-The result includes evidence mode, model lineage, stage status, usage metadata when available, credibility signals, and cautions. A completed adjudication is an internal coherence review, not validation by human participants or an independent researcher.
+The result includes evidence mode, model lineage, stage status, exact Gateway cost when reported, token usage, reproducibility metadata, explicit cross-call disagreement metrics in DEEP, credibility signals, and cautions. Model generation remains non-deterministic. A completed critic stage is an internal model review, not validation by human participants or an independent researcher.
 `;
 
 export const LIMITATIONS_MARKDOWN = `# Likerts synthetic study limitations

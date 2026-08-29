@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0",
+  "publishedAt": "2026-08-29",
+  "boundary": "These are candidate human-survey datasets for future preregistered comparisons, not calibration results, panel grounding, or evidence that Likerts matches real respondents.",
+  "requiredProtocol": [
+    "Record the exact question wording, response scale, population, geography, field dates, weights, exclusions, and dataset version.",
+    "Freeze the matching Likerts brief, source policy, locale, model routes, prompt version, and schema version before inspecting outcomes.",
+    "Transform scales with a declared mapping and report total variation distance, Jensen-Shannon divergence, maximum point spread, and subgroup coverage.",
+    "Publish every eligible comparison, including mismatches, failed runs, null results, and access limitations."
+  ],
+  "candidates": [
+    {
+      "id": "wvs-wave-7",
+      "name": "World Values Survey Wave 7",
+      "sourceUrl": "https://www.worldvaluessurvey.org/WVSContents.jsp?CMSID=Documentation",
+      "access": "Official documentation and cross-national files; use is subject to the dataset's current terms and version notes.",
+      "calibrationUse": "Cross-national values, trust, social attitudes, and demographic subgroup comparisons where wording and scale can be matched exactly.",
+      "status": "candidate-not-run",
+      "lastVerified": "2026-08-29"
+    },
+    {
+      "id": "ess-data-portal",
+      "name": "European Social Survey",
+      "sourceUrl": "https://www.europeansocialsurvey.org/data-portal",
+      "access": "Freely accessible through the official ESS Data Portal; releases and corrections must be pinned by round and edition.",
+      "calibrationUse": "European attitudes, trust, wellbeing, media use, identity, and demographic subgroup comparisons with documented survey weights.",
+      "status": "candidate-not-run",
+      "lastVerified": "2026-08-29"
+    },
+    {
+      "id": "oecd-trust-survey",
+      "name": "OECD Trust Survey",
+      "sourceUrl": "https://www.oecd.org/en/data/datasets/oecd-trust-survey-data.html",
+      "access": "Published indicators are available with reports; public-use microdata require an approved non-commercial academic or policy research request under OECD terms.",
+      "calibrationUse": "Institutional trust and public-service satisfaction comparisons across participating countries when access and question alignment permit.",
+      "status": "candidate-not-run",
+      "lastVerified": "2026-08-29"
+    },
+    {
+      "id": "pew-public-datasets",
+      "name": "Pew Research Center public survey datasets",
+      "sourceUrl": "https://www.pewresearch.org/datasets/",
+      "access": "Many case-level datasets are free after creating an account and accepting the applicable terms; availability varies by study.",
+      "calibrationUse": "Topic-specific national and cross-national opinion comparisons selected only after population, field date, wording, and scale matching.",
+      "status": "candidate-not-run",
+      "lastVerified": "2026-08-29"
+    }
+  ]
+}

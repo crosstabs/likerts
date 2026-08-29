@@ -3,14 +3,15 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "engines": {
-    "node": ">=20"
-  },
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node --test"
+    "test": "node --test",
+    "eval:offline": "node scripts/eval-offline.js",
+    "eval:fixtures": "node --test tests/eval-scoring.test.js",
+    "eval:live": "node scripts/eval-live.js",
+    "verify:browser": "node scripts/verify-browser.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/node": "^2.0.0",

@@ -14,6 +14,19 @@ The application is intended for early hypothesis generation and research plannin
 4. Review for methodology: a separate model review stage checks for overclaiming, unsupported grounding, stereotypes, arithmetic issues, and contradictions. A completed review is a coherence check, not validation against people or the web.
 5. Display evidence classes: source context, user assumptions, model inference, and synthetic verbatim themes are kept distinct.
 
+## Research modes
+
+- Quick mode is the default, bounded workflow for rapid hypothesis exploration. It uses source retrieval when available, question framing, one aggregate synthetic-panel generation, and methodological review.
+- Deep mode spends more model calls on multiple independently generated respondent cells, aggregates their distributions, and reports disagreement and stability diagnostics before methodological review. The cells are still model generations, not human respondents.
+- Synthetic inference is not deterministic in either mode. A run receipt records canonical input and evidence hashes, prompt and schema versions, model lineage, token use, and Gateway cost metadata when returned. These fields support audit and comparison; they do not guarantee identical replay.
+- Likerts is free to the visitor. Each run still has an infrastructure cost paid by the operator. The interface reports actual Gateway cost when the provider returns it and clearly labels estimates or unavailable cost metadata.
+
+## Evaluation status
+
+Likerts uses deterministic offline contract tests for response shape, arithmetic, provenance, language expectations, evidence boundaries, uncertainty, and cost metadata. Paid live evaluation is a separate, explicitly enabled process with bounded run and cost caps. Passing a software or stability check does not establish agreement with a real population. Public benchmark comparisons must name their dataset, population, field dates, question wording, weighting, licence, and matching limitations.
+
+Candidate benchmark roadmap: https://likerts.com/research-standards/benchmark-manifest.json
+
 ## Evidence boundaries
 
 - There are no observed human responses, sampled populations, response rates, margins of error, or statistically significant findings.
@@ -39,6 +52,7 @@ Use a Likerts output to design interviews, a properly sampled survey, usability 
 - Synthetic market research: https://likerts.com/synthetic-market-research/
 - How it works: https://likerts.com/how-it-works/
 - Methodology: https://likerts.com/methodology/
+- Research standards: https://likerts.com/research-standards/
 - Limitations: https://likerts.com/limitations/
 - Examples: https://likerts.com/examples/
 

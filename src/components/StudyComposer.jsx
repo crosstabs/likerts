@@ -67,7 +67,28 @@ function EvidenceSources({ sources, onChange, t }) {
   );
 }
 
-export function StudyComposer({ study, setStudy, onRun, onClose, running }) {
+function ResearchModeControl({ mode, onChange, t }) {
+  const options = [
+    { value: 'quick', label: t('quickResearch'), description: t('quickResearchNote') },
+    { value: 'deep', label: t('deepResearch'), description: t('deepResearchNote') },
+  ];
+
+  return (
+    <fieldset className="research-mode-control">
+      <legend>{t('researchMode')}</legend>
+      <div className="research-mode-options">
+        {options.map((option) => (
+          <label className={mode === option.value ? 'is-selected' : ''} key={option.value}>
+            <input checked={mode === option.value} name="research-mode" onChange={() => onChange(option.value)} type="radio" value={option.value} />
+            <span><strong>{option.label}</strong><small>{option.description}</small></span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+export function StudyComposer({ study, setStudy, onRun, onClose, running, hasExistingReport = false }) {
   const { locale, t } = useI18n();
   const validSources = (study.sources || []).filter((source) => source.trim());
   const assumptionCount = study.assumptions?.trim() ? study.assumptions.split(/[.;\n]+/).filter(Boolean).length : 0;
@@ -154,6 +175,14 @@ export function StudyComposer({ study, setStudy, onRun, onClose, running }) {
           />
         </div>
 
+        <div className="field research-mode-field">
+          <ResearchModeControl
+            mode={study.researchMode || 'quick'}
+            onChange={(researchMode) => setStudy({ ...study, researchMode })}
+            t={t}
+          />
+        </div>
+
         <div className="field sources-field">
           <label>{t('sources')} <span>{t('optionalUrls')}</span></label>
           <EvidenceSources
@@ -172,7 +201,7 @@ export function StudyComposer({ study, setStudy, onRun, onClose, running }) {
           type="button"
         >
           <Play size={18} weight="fill" />
-          <span>{running ? t('running') : t('run')}</span>
+          <span>{running ? t('running') : hasExistingReport ? t('runUpdatedStudy') : t('runStudy')}</span>
         </button>
 
         <details className="assumptions-control">

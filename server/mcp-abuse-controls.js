@@ -76,6 +76,7 @@ export function createAnonymousStudyAdmission({
   clientWindowMs = HOUR_MS,
   processDailyBudget = integerSetting(process.env.MCP_RUN_PROCESS_DAILY_BUDGET, 30, 1, 10_000),
   maximumClientKeys = 10_000,
+  durableAdapter,
   externalCheck,
   now = Date.now,
 } = {}) {
@@ -105,7 +106,18 @@ export function createAnonymousStudyAdmission({
     }
   }
 
+  const protection = Object.freeze({
+    durability: durableAdapter ? 'durable-adapter-plus-process-local-fallback' : 'process-local-fallback',
+    durableAdapterConfigured: Boolean(durableAdapter),
+    processLocalFallback: true,
+    globallyDurable: Boolean(durableAdapter),
+    note: durableAdapter
+      ? 'A caller-supplied durable adapter is combined with process-local fallback controls.'
+      : 'Counters are process-local fallback protection and are not globally durable across serverless instances.',
+  });
+
   return {
+    protection,
     async acquire({ clientKey, estimatedUnits = 1 } = {}) {
       if (!enabled) {
         throw new McpAdmissionError('SYNTHETIC_RUNS_DISABLED', 'Public synthetic study runs are temporarily disabled.');
@@ -122,34 +134,53 @@ export function createAnonymousStudyAdmission({
         }
       }
 
-      const timestamp = now();
-      resetProcessBudgetIfNeeded(timestamp);
-      const client = currentClientWindow(clientKey || 'anonymous', timestamp);
-
-      if (client.count >= runsPerClientWindow) {
-        throw new McpAdmissionError(
-          'RATE_LIMITED',
-          'This anonymous client has reached the synthetic study rate limit.',
-          Math.max(1, Math.ceil((client.resetAt - timestamp) / 1_000)),
-        );
-      }
-      if (inFlight >= maximumConcurrency) {
-        throw new McpAdmissionError('CONCURRENCY_LIMIT', 'The synthetic study service is busy. Try again shortly.', 30);
-      }
-      if (budgetUsed + estimatedUnits > processDailyBudget) {
-        throw new McpAdmissionError('BUDGET_EXHAUSTED', 'The synthetic study budget is currently unavailable.');
-      }
-
-      client.count += 1;
-      inFlight += 1;
-      budgetUsed += estimatedUnits;
-      let released = false;
-      return () => {
-        if (!released) {
-          released = true;
-          inFlight = Math.max(0, inFlight - 1);
+      let durableRelease = () => {};
+      if (durableAdapter) {
+        const verdict = await durableAdapter.acquire({ clientKey, estimatedUnits });
+        if (verdict === false || verdict?.allowed === false) {
+          throw new McpAdmissionError(
+            verdict?.code || 'BUDGET_EXHAUSTED',
+            verdict?.message || 'The synthetic study budget is currently unavailable.',
+            verdict?.retryAfterSeconds ?? null,
+          );
         }
-      };
+        durableRelease = typeof verdict === 'function' ? verdict : typeof verdict?.release === 'function' ? verdict.release : durableRelease;
+      }
+
+      try {
+        const timestamp = now();
+        resetProcessBudgetIfNeeded(timestamp);
+        const client = currentClientWindow(clientKey || 'anonymous', timestamp);
+
+        if (client.count >= runsPerClientWindow) {
+          throw new McpAdmissionError(
+            'RATE_LIMITED',
+            'This anonymous client has reached the synthetic study rate limit.',
+            Math.max(1, Math.ceil((client.resetAt - timestamp) / 1_000)),
+          );
+        }
+        if (inFlight >= maximumConcurrency) {
+          throw new McpAdmissionError('CONCURRENCY_LIMIT', 'The synthetic study service is busy. Try again shortly.', 30);
+        }
+        if (budgetUsed + estimatedUnits > processDailyBudget) {
+          throw new McpAdmissionError('BUDGET_EXHAUSTED', 'The synthetic study budget is currently unavailable.');
+        }
+
+        client.count += 1;
+        inFlight += 1;
+        budgetUsed += estimatedUnits;
+        let released = false;
+        return () => {
+          if (!released) {
+            released = true;
+            inFlight = Math.max(0, inFlight - 1);
+            durableRelease();
+          }
+        };
+      } catch (error) {
+        durableRelease();
+        throw error;
+      }
     },
   };
 }
