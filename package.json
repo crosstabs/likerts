@@ -13,7 +13,9 @@
     "eval:live": "node scripts/eval-live.js",
     "verify:browser": "node scripts/verify-browser.mjs",
     "studies:build": "node scripts/build-sample-studies.mjs",
-    "studies:capture": "node scripts/capture-sample-studies.mjs"
+    "studies:capture": "node scripts/capture-sample-studies.mjs",
+    "studies:verify": "node scripts/verify-sample-study-content.mjs",
+    "studies:verify:browser": "node scripts/verify-study-library-browser.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/node": "^2.0.0",

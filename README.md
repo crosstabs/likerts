@@ -5,6 +5,7 @@ Likerts is a free, no-account synthetic market-research product. It turns a rese
 Production: [likerts.com](https://likerts.com)<br>
 Agent endpoint: [likerts.com/api/mcp](https://likerts.com/api/mcp)<br>
 Public research contract: [likerts.com/research-standards/](https://likerts.com/research-standards/)
+Sample study library: [likerts.com/studies](https://likerts.com/studies/)
 
 ## Runtime
 
@@ -26,6 +27,20 @@ npm run eval:offline
 ```
 
 Normal tests and offline evaluation make no paid model calls. The live evaluation runner is disabled by default; see [evals/README.md](evals/README.md) before enabling it.
+
+## Sample study library
+
+The library publishes ten frozen Deep-mode studies across the ten supported locales. Every detail page exposes the curated brief, a five-point distribution, model-cell disagreement, the runtime evidence ledger, critic findings, cost and lineage provenance, synthetic-research boundaries, and a prefilled **Run your own version** link. Locale hubs are static, crawlable HTML; records are also available as JSON under `/{locale}/studies/{slug}/study.json` and through the read-only MCP tools `list_sample_studies` and `get_sample_study`.
+
+```sh
+npm run studies:build
+npm run studies:verify
+STUDY_LIBRARY_URL=http://127.0.0.1:5173/studies/index.html \
+STUDY_LIBRARY_DETAIL_URL=http://127.0.0.1:5173/en-us/studies/ai-copilot-pilot-small-business-us/index.html \
+npm run studies:verify:browser
+```
+
+`npm run build` regenerates the static library before Vite builds the application. Live sample capture is separate, opt-in, serial by default, and requires explicit run, estimated-cost, and actual-cost caps. Published sample captures are sanitized editorial artifacts; they contain no credentials, session records, or human respondent data. The public status remains `Automated QA passed · human editorial review pending` until a human review is genuinely completed.
 
 ## Operational controls
 
@@ -58,4 +73,4 @@ The repository is linked to the Vercel project serving `likerts.com`.
 npx vercel --prod --yes
 ```
 
-After deployment, verify the root UI, `/api/synthetic-study`, `/api/mcp`, `/llms.txt`, `/sitemap.xml`, `/research-standards/`, security headers, a Quick run, and a bounded Deep run. Never put secrets or live evaluation captures in Git.
+After deployment, verify the root UI, `/studies/`, one localized study and its `study.json`, the two read-only sample-study MCP tools, `/api/synthetic-study`, `/api/mcp`, `/llms.txt`, `/sitemap.xml`, `/research-standards/`, security headers, a Quick run, and a bounded Deep run. Never put secrets, private research inputs, or non-editorial live evaluation captures in Git.
