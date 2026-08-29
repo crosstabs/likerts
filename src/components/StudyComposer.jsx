@@ -1,13 +1,14 @@
 import {
-  ChevronDownIcon,
-  FileIcon,
-  GlobeIcon,
-  LinkIcon,
-  PeopleIcon,
-  PlayIcon,
-  PlusIcon,
-  TrashIcon,
-} from '../icons.jsx';
+  CaretDown,
+  FileText,
+  GlobeHemisphereWest,
+  LinkSimple,
+  Play,
+  Plus,
+  Trash,
+  UsersThree,
+  X,
+} from '@phosphor-icons/react';
 import { markets } from '../data.js';
 import { languageOptions, useI18n } from '../i18n.jsx';
 
@@ -44,7 +45,7 @@ function EvidenceSources({ sources, onChange, t }) {
       <div className="source-list">
         {visibleSources.map((source, index) => (
           <div className="source-input" key={`source-${index}`}>
-            <FileIcon size={17} />
+            <FileText size={17} />
             <input
               aria-label={`Evidence source ${index + 1}`}
               inputMode="url"
@@ -54,19 +55,19 @@ function EvidenceSources({ sources, onChange, t }) {
               value={source}
             />
             <button type="button" aria-label={`${t('removeSource')} ${index + 1}`} onClick={() => removeSource(index)}>
-              <TrashIcon size={16} />
+              <Trash size={16} />
             </button>
           </div>
         ))}
       </div>
       <button className="add-source" disabled={visibleSources.length >= 4} onClick={addSource} type="button">
-        <PlusIcon size={17} /> {t('addSource')}
+        <Plus size={17} /> {t('addSource')}
       </button>
     </div>
   );
 }
 
-export function StudyComposer({ study, setStudy, onRun, running }) {
+export function StudyComposer({ study, setStudy, onRun, onClose, running }) {
   const { locale, t } = useI18n();
   const validSources = (study.sources || []).filter((source) => source.trim());
   const assumptionCount = study.assumptions?.trim() ? study.assumptions.split(/[.;\n]+/).filter(Boolean).length : 0;
@@ -74,7 +75,14 @@ export function StudyComposer({ study, setStudy, onRun, running }) {
   const regionNames = new Intl.DisplayNames([locale], { type: 'region' });
 
   return (
-    <section className="composer" aria-labelledby="composer-title">
+    <section className="composer" aria-labelledby="brief-editor-title">
+      <header className="composer-header">
+        <div>
+          <h2 id="brief-editor-title">{t('editBrief')}</h2>
+          <p>{t('editBriefNote')}</p>
+        </div>
+        <button aria-label={t('closeBrief')} className="composer-close" onClick={onClose} type="button"><X size={20} /></button>
+      </header>
       <div className="composer-fields">
         <div className="field question-field">
           <label htmlFor="research-question">{t('question')}</label>
@@ -89,7 +97,7 @@ export function StudyComposer({ study, setStudy, onRun, running }) {
         <div className="field audience-field">
           <label htmlFor="audience">{t('audience')}</label>
           <div className="input-wrap">
-            <PeopleIcon size={19} />
+            <UsersThree size={19} />
             <input
               id="audience"
               placeholder={t('audiencePlaceholder')}
@@ -102,13 +110,13 @@ export function StudyComposer({ study, setStudy, onRun, running }) {
         <div className="field market-field">
           <label htmlFor="market">{t('market')}</label>
           <div className="select-wrap">
-            <GlobeIcon size={19} />
+            <GlobeHemisphereWest size={19} />
             <select id="market" value={study.market} onChange={(event) => setStudy({ ...study, market: event.target.value })}>
               {markets.map((market) => (
                 <option key={market.value} value={market.value}>{market.region ? regionNames.of(market.region) : t('global')}</option>
               ))}
             </select>
-            <ChevronDownIcon className="select-chevron" size={17} />
+            <CaretDown className="select-chevron" size={17} />
           </div>
         </div>
 
@@ -118,7 +126,7 @@ export function StudyComposer({ study, setStudy, onRun, running }) {
             <select id="report-language" value={study.outputLocale} onChange={(event) => setStudy({ ...study, outputLocale: event.target.value })}>
               {languageOptions.map((language) => <option key={language.value} value={language.value}>{language.nativeLabel}</option>)}
             </select>
-            <ChevronDownIcon className="select-chevron" size={17} />
+            <CaretDown className="select-chevron" size={17} />
           </div>
         </div>
 
@@ -133,7 +141,7 @@ export function StudyComposer({ study, setStudy, onRun, running }) {
               <option value="">{t('anyLanguage')}</option>
               {languageOptions.map((language) => <option key={language.value} value={language.value}>{language.nativeLabel}</option>)}
             </select>
-            <ChevronDownIcon className="select-chevron" size={17} />
+            <CaretDown className="select-chevron" size={17} />
           </div>
         </div>
 
@@ -163,7 +171,7 @@ export function StudyComposer({ study, setStudy, onRun, running }) {
           onClick={onRun}
           type="button"
         >
-          <PlayIcon size={18} />
+          <Play size={18} weight="fill" />
           <span>{running ? t('running') : t('run')}</span>
         </button>
 
@@ -180,7 +188,7 @@ export function StudyComposer({ study, setStudy, onRun, running }) {
         </details>
 
         <p className="preflight-summary">
-          <LinkIcon size={15} />
+          <LinkSimple size={15} />
           {validSources.length
             ? t('readySources', { sources: validSources.length, assumptions: assumptionCount })
             : t('autoEvidence')}

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { CaretDown, GlobeHemisphereWest, Info, Plus } from '@phosphor-icons/react';
 import { Brand } from './components/Chrome.jsx';
 import { ResultsWorkspace } from './components/ResultsWorkspace.jsx';
 import { RunProgress } from './components/RunProgress.jsx';
 import { StudyComposer } from './components/StudyComposer.jsx';
-import { GlobeIcon, InfoIcon } from './icons.jsx';
 import { initialResult, initialStudy, markets } from './data.js';
 import { I18nProvider, languageOptions, useI18n } from './i18n.jsx';
 import {
@@ -42,7 +42,7 @@ function evidenceFromRun(run, study) {
       id: 'model-distribution',
       claim: 'Final five-point Likert distribution',
       evidenceClass: 'Model inference',
-      trace: 'Framing → panel simulation → independent review → normalization',
+      trace: 'Framing → panel simulation → model review → normalization',
       risk: 'Not representative',
     },
     {
@@ -67,8 +67,7 @@ function evidenceFromRun(run, study) {
 function normalizePayload(payload, study, savedLocally) {
   const run = payload.run || {};
   const credibility = run.credibility || payload.meta?.credibility || {};
-  const sourceCount = credibility.sourceCount ?? run.evidence?.ledger?.length ?? 0;
-  const groundedCount = run.evidence?.ledger?.filter((source) => source.excerpt).length ?? 0;
+  const sourceCount = run.evidence?.ledger?.filter((source) => source.url).length ?? 0;
   const reviewStage = run.stages?.find((stage) => stage.stage === 'adjudication');
 
   return {
@@ -78,23 +77,23 @@ function normalizePayload(payload, study, savedLocally) {
       mode: run.evidence?.mode || payload.meta?.evidenceMode || 'model-only',
       note: run.evidence?.mode === 'PRIOR_ONLY'
         ? 'No external source evidence was acquired. This run relies on model priors and explicit assumptions.'
-        : 'Retrieved text is untrusted grounding material, not independent validation.',
+        : 'Source text is untrusted grounding material, not independent validation.',
     },
     credibility: {
       ...credibility,
-      evidenceCoverage: sourceCount ? Math.min(1, groundedCount / 4) : 0,
-      populationFit: groundedCount >= 2 ? 'Partial' : 'Unspecified',
+      sourceCount,
+      populationFit: null,
       modelAgreement: null,
       assumptionCount: study.assumptions ? study.assumptions.split(/[.;\n]+/).filter(Boolean).length : 0,
     },
     methodology: {
       promptVersion: 'likerts.pipeline.v2',
       schemaVersion: '2.0',
-      normalization: 'Percentages are normalized to sum to 100; simulation-unit counts do not alter credibility.',
+      normalization: 'Σ p(1…5) = 100%',
       knownLimits: credibility.limitations || payload.study.cautions,
     },
     adjudication: {
-      decision: reviewStage?.status === 'completed' ? 'Independent review completed' : 'Panel result used after review fallback',
+      decision: reviewStage?.status === 'completed' ? 'Model review completed' : 'Panel result used after model-review fallback',
       humanFollowUp: payload.study.takeaway?.match(/(?:validate|test|follow)[^.]*\.?$/i)?.[0] || '',
     },
     meta: {
@@ -124,8 +123,10 @@ function AppContent({ uiLocale, setUiLocale }) {
   const [running, setRunning] = useState(false);
   const [activeStage, setActiveStage] = useState(0);
   const [runComplete, setRunComplete] = useState(Boolean(restoredRun));
+  const [briefOpen, setBriefOpen] = useState(false);
   const [error, setError] = useState('');
   const pendingRunRef = useRef(null);
+  const runInFlightRef = useRef(false);
 
   useEffect(() => {
     document.documentElement.lang = uiLocale;
@@ -143,10 +144,12 @@ function AppContent({ uiLocale, setUiLocale }) {
   }, [running]);
 
   const runStudy = async (inputStudy = study) => {
+    if (runInFlightRef.current) return;
+    runInFlightRef.current = true;
     const sanitizedStudy = {
       ...initialStudy,
       ...inputStudy,
-      sources: inputStudy.sources.map((source) => source.trim()).filter(Boolean),
+      sources: (inputStudy.sources || []).map((source) => source.trim()).filter(Boolean),
       sourceLanguages: inputStudy.sourceLanguages || [],
     };
     const selectedMarket = markets.find((market) => market.value === sanitizedStudy.market) || markets[0];
@@ -191,11 +194,13 @@ function AppContent({ uiLocale, setUiLocale }) {
       setStudy(sanitizedStudy);
       setActiveStage(4);
       setRunComplete(true);
+      setBriefOpen(false);
     } catch (requestError) {
       removePendingRun(pendingRun.id);
       setError(requestError.message || 'The synthetic research pipeline could not complete.');
       setRunComplete(false);
     } finally {
+      runInFlightRef.current = false;
       setRunning(false);
     }
   };
@@ -217,57 +222,93 @@ function AppContent({ uiLocale, setUiLocale }) {
     anchor.remove();
   };
 
+  const startNewStudy = () => {
+    setStudy(initialStudy);
+    setActiveStudy(initialStudy);
+    setResult(initialResult);
+    setRunComplete(false);
+    setActiveStage(0);
+    setError('');
+    setBriefOpen(true);
+  };
+
   return (
     <div className="app-shell">
       <header className="public-header">
         <div className="public-header-inner">
           <Brand />
-          <div className="header-meta">
-            <label className="language-picker">
-              <GlobeIcon size={16} />
-              <span className="sr-only">Interface language</span>
-              <select aria-label="Interface language" onChange={(event) => setUiLocale(event.target.value)} value={uiLocale}>
+          <div className="header-controls">
+            <label className="header-select market-selector">
+              <GlobeHemisphereWest size={17} />
+              <span className="sr-only">Market</span>
+              <select
+                aria-label="Market"
+                disabled={running}
+                onChange={(event) => {
+                  setStudy({ ...study, market: event.target.value });
+                  setBriefOpen(true);
+                }}
+                value={study.market}
+              >
+                {markets.map((market) => <option key={market.value} value={market.value}>{market.value}</option>)}
+              </select>
+              <CaretDown size={14} />
+            </label>
+            <label className="header-select language-picker">
+              <span className="sr-only">{t('interfaceLanguage')}</span>
+              <select aria-label={t('interfaceLanguage')} disabled={running} onChange={(event) => setUiLocale(event.target.value)} value={uiLocale}>
                 {languageOptions.map((language) => <option key={language.value} value={language.value}>{language.nativeLabel}</option>)}
               </select>
+              <CaretDown size={14} />
             </label>
-            <p>{t('free')}</p>
+            <button className="new-study-button" disabled={running} onClick={startNewStudy} type="button"><Plus size={17} /> {t('newStudy')}</button>
           </div>
         </div>
       </header>
       <main className="workspace">
-        <header className="workspace-header">
-          <h1 id="composer-title">{t('hero')}</h1>
-          <p>{t('subhero')}</p>
-        </header>
+        <h1 className="sr-only">{t('hero')}</h1>
+        {briefOpen ? (
+          <StudyComposer
+            onClose={() => setBriefOpen(false)}
+            onRun={() => runStudy(study)}
+            running={running}
+            setStudy={setStudy}
+            study={study}
+          />
+        ) : null}
 
-        <StudyComposer study={study} setStudy={setStudy} onRun={() => runStudy(study)} running={running} />
+        {error ? <div className="generation-error" role="alert"><Info size={18} /> {error}</div> : null}
 
-        {error ? <div className="generation-error" role="alert"><InfoIcon size={18} /> {error}</div> : null}
-
-        <RunProgress
-          activeStage={activeStage}
-          complete={runComplete}
-          running={running}
-          runId={result.meta?.runId || pendingRunRef.current?.id}
-          stages={result.meta?.stageStatuses}
-        />
+        {running ? (
+          <RunProgress
+            activeStage={activeStage}
+            complete={runComplete}
+            running={running}
+            runId={result.meta?.runId || pendingRunRef.current?.id}
+            stages={result.meta?.stageStatuses}
+          />
+        ) : null}
 
         <ResultsWorkspace
+          activeStudy={activeStudy}
           key={result.meta?.runId || 'seed'}
+          onEditBrief={() => setBriefOpen((open) => !open)}
           result={result}
+          runComplete={runComplete}
+          running={running}
           onExport={exportStudy}
           onReplay={() => runStudy(activeStudy)}
         />
       </main>
       <footer className="public-footer">
-        <span>Likerts · Synthetic, directional research</span>
-        <nav aria-label="Product documentation">
-          <a href="/how-it-works/">How it works</a>
-          <a href="/synthetic-market-research/">Synthetic research</a>
-          <a href="/methodology/">Methodology</a>
-          <a href="/limitations/">Limitations</a>
-          <a href="/examples/">Examples</a>
-          <a href="/llms.txt">Agent docs</a>
+        <span>Likerts · {t('directional')}</span>
+        <nav aria-label={t('productDocs')}>
+          <a href="/how-it-works/">{t('howItWorks')}</a>
+          <a href="/synthetic-market-research/">{t('syntheticResearch')}</a>
+          <a href="/methodology/">{t('methodology')}</a>
+          <a href="/limitations/">{t('limitations')}</a>
+          <a href="/examples/">{t('examples')}</a>
+          <a href="/llms.txt">{t('agentDocs')}</a>
         </nav>
       </footer>
     </div>

@@ -1,4 +1,4 @@
-import { CheckIcon, CopyIcon } from '../icons.jsx';
+import { Check, Copy } from '@phosphor-icons/react';
 import { runStages } from '../data.js';
 import { useI18n } from '../i18n.jsx';
 
@@ -23,7 +23,7 @@ export function RunProgress({ activeStage, complete, running, runId, stages = []
           return (
             <li className={`${isComplete ? 'is-complete' : ''} ${isActive ? 'is-active' : ''} ${isFallback ? 'is-fallback' : ''}`} key={stage.id}>
               <span className="stage-marker" aria-hidden="true">
-                {isComplete ? <CheckIcon size={16} strokeWidth={2.3} /> : isFallback ? '!' : index + 1}
+                {isComplete ? <Check size={16} weight="bold" /> : isFallback ? '!' : index + 1}
               </span>
               <span className="stage-copy">
                 <strong>{index + 1} {t({ frame: 'frame', ground: 'search', simulate: 'simulate', review: 'review' }[stage.id])}</strong>
@@ -37,7 +37,7 @@ export function RunProgress({ activeStage, complete, running, runId, stages = []
 
       <div className="run-reference">
         <span>{t('runLabel')} {runId || t('notStarted')}</span>
-        <button disabled={!runId} onClick={copyRunId} type="button" aria-label={t('copyRun')}><CopyIcon size={17} /></button>
+        <button disabled={!runId} onClick={copyRunId} type="button" aria-label={t('copyRun')}><Copy size={17} /></button>
       </div>
     </section>
   );

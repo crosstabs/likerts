@@ -1,9 +1,9 @@
 export const responseScale = [
-  { label: 'Very unlikely', shortLabel: 'Very unlikely', tone: 'negative-strong' },
-  { label: 'Unlikely', shortLabel: 'Unlikely', tone: 'negative' },
-  { label: 'Not sure', shortLabel: 'Not sure', tone: 'neutral' },
-  { label: 'Likely', shortLabel: 'Likely', tone: 'positive' },
-  { label: 'Very likely', shortLabel: 'Very likely', tone: 'positive-strong' },
+  { key: 'veryUnlikely', label: 'Very unlikely', tone: 'negative-strong' },
+  { key: 'unlikely', label: 'Unlikely', tone: 'negative' },
+  { key: 'notSure', label: 'Not sure', tone: 'neutral' },
+  { key: 'likely', label: 'Likely', tone: 'positive' },
+  { key: 'veryLikely', label: 'Very likely', tone: 'positive-strong' },
 ];
 
 export const markets = [
@@ -47,7 +47,7 @@ export const runStages = [
   {
     id: 'review',
     shortLabel: 'Review',
-    label: 'Independent review',
+    label: 'Model review',
     description: 'Challenge unsupported claims and calibrate the final read.',
   },
 ];
@@ -119,7 +119,7 @@ export const initialResult = {
   evidence: [
     {
       id: 'seed-distribution',
-      claim: '63% likely',
+      claim: '68% likely',
       evidenceClass: 'Model inference',
       trace: 'Brief → illustrative panel → normalized distribution',
       risk: 'Not representative',
@@ -128,7 +128,7 @@ export const initialResult = {
     },
     {
       id: 'seed-segment',
-      claim: 'Daily commuters show stronger interest',
+      claim: 'Remote-first segment shows higher simulated interest',
       evidenceClass: 'Model inference',
       trace: 'Audience frame → model-constructed segment',
       risk: 'Segment not sampled',
@@ -137,7 +137,7 @@ export const initialResult = {
     },
     {
       id: 'seed-theme',
-      claim: 'Savings clarity may drive intent',
+      claim: 'Workload and coverage clarity may shape intent',
       evidenceClass: 'Synthetic verbatim theme',
       trace: 'Generated explanations with scores 4–5',
       risk: 'Not customer testimony',
