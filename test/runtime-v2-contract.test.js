@@ -104,6 +104,7 @@ test('Gateway evidence retrieval uses the stable anonymous attribution key', asy
 
 test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, and verification metadata', async () => {
   const calls = [];
+  let adjudicationCalls = 0;
   const cellOutputs = [
     [10, 10, 20, 30, 30],
     [20, 10, 20, 30, 20],
@@ -124,7 +125,8 @@ test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, 
       } else if (tags.includes('stage:panel')) {
         output = studyCandidate;
       } else {
-        output = { decision: 'accepted', critiqueSummary: 'No material evidence-alignment or bias issue was detected.', credibilityLevel: 'illustrative-only', evidenceAlignment: 'not-assessed', weakClaims: [], biasSignals: [] };
+        adjudicationCalls += 1;
+        output = { decision: 'accepted', critiqueSummary: adjudicationCalls === 1 ? 'No material issue was detected 混合.' : 'No material evidence-alignment or bias issue was detected.', credibilityLevel: 'illustrative-only', evidenceAlignment: 'not-assessed', weakClaims: [], biasSignals: [] };
       }
       return {
         output,
@@ -135,7 +137,7 @@ test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, 
     },
   });
 
-  assert.equal(calls.length, 6);
+  assert.equal(calls.length, 7);
   assert.deepEqual(result.study.distribution, [13, 13, 20, 27, 27]);
   assert.equal(result.run.researchMode, 'DEEP');
   assert.equal(result.run.stability.cellCount, 3);
@@ -144,8 +146,9 @@ test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, 
   assert.equal(new Set(cellLineage.map((stage) => stage.requestedModel.split('/')[0])).size, 2);
   assert.equal(result.run.verification.separateModelCall, true);
   assert.equal(result.run.verification.independentReview, false);
-  assert.equal(result.run.economics.gatewayCost.exactTotalUsd, '0.006');
-  assert.equal(result.run.economics.tokenUsage.totalTokens, 180);
+  assert.equal(result.run.economics.gatewayCost.exactTotalUsd, '0.007');
+  assert.equal(result.run.economics.tokenUsage.totalTokens, 210);
+  assert.deepEqual(result.run.stages.find((stage) => stage.stage === 'adjudication').attempts.map((attempt) => attempt.status), ['failed', 'completed']);
   assert.match(result.run.reproducibility.disclaimer, /non-deterministic/i);
   assert.match(result.run.reproducibility.inputHash, /^[a-f0-9]{64}$/);
   assert.match(result.run.reproducibility.evidenceHash, /^[a-f0-9]{64}$/);

@@ -398,13 +398,13 @@ async function runStage({ stage, plan = MODEL_PLAN[stage], studyId, runId, gatew
   const attempts = [];
   let lastError;
 
-  const maximumExplicitAttempts = researchMode === 'DEEP' && stage !== 'panel' ? 1 : 2;
+  const maximumExplicitAttempts = researchMode === 'DEEP' && !['panel', 'adjudication'].includes(stage) ? 1 : 2;
   for (let index = 0; index < Math.min(maximumExplicitAttempts, candidates.length); index += 1) {
     const requestedModel = candidates[index];
     // Two bounded evidence calls run concurrently. These stage budgets leave room for one
     // structured-output retry while staying within Vercel's 60-second function limit.
     const deepTimeout = stage === 'framing' || stage === 'adjudication' ? 8_000 : stage === 'respondent-cell' ? 10_000 : 14_000;
-    const timeout = index > 0 ? 9_000 : researchMode === 'DEEP' ? deepTimeout : stage === 'framing' ? 12_000 : stage === 'adjudication' ? 15_000 : 20_000;
+    const timeout = index > 0 ? researchMode === 'DEEP' ? 6_000 : 9_000 : researchMode === 'DEEP' ? deepTimeout : stage === 'framing' ? 12_000 : stage === 'adjudication' ? 15_000 : 20_000;
     try {
       const result = await generate({
         model: gateway(requestedModel),
