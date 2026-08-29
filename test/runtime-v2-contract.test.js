@@ -121,7 +121,7 @@ test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, 
         output = { neutralQuestion: brief.prompt, decisionContext: 'Evaluate a directional adoption hypothesis.', panelDimensions: ['Use case', 'Value', 'Barriers'], assumptions: ['Synthetic cohort only.', 'No causal claim.'], evidenceBoundary: 'No source evidence was supplied; findings are model-only hypotheses.' };
       } else if (tags.includes('stage:respondent-cell')) {
         const cellIndex = Number(tags.find((tag) => tag.startsWith('cell:')).split(':')[1]);
-        output = { cellLabel: `Model cell ${cellIndex + 1}`, distribution: cellOutputs[cellIndex], evidenceAlignment: 'prior-only', weakClaims: [] };
+        output = { distribution: cellOutputs[cellIndex] };
       } else if (tags.includes('stage:panel')) {
         output = studyCandidate;
       } else {
@@ -161,8 +161,11 @@ test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, 
   assert.ok(calls.every((call) => call.providerOptions.gateway.tags.includes('mode:deep')));
   const cellCalls = calls.filter((call) => call.providerOptions.gateway.tags.includes('stage:respondent-cell'));
   assert.ok(cellCalls.every((call) => call.timeout <= 10_000));
+  assert.ok(cellCalls.every((call) => call.maxOutputTokens === 512));
   assert.ok(respondentCellSchema.safeParse({ distribution: [10, 15, 20, 25, 30] }).success);
   assert.ok(cellCalls.every((call) => /five-number distribution/i.test(call.system)));
+  assert.ok(calls.every((call) => call.providerOptions.google.thinkingConfig.thinkingLevel === 'low'));
+  assert.ok(calls.every((call) => call.providerOptions.google.thinkingConfig.includeThoughts === false));
   assert.ok(calls.filter((call) => call.providerOptions.gateway.tags.includes('stage:adjudication')).every((call) => /enum\/control values exactly as defined/i.test(call.system)));
   assert.ok(Math.max(...calls.map((call) => call.timeout)) <= 14_000);
 });
