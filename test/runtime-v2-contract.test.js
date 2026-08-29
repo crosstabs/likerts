@@ -160,6 +160,7 @@ test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, 
   assert.ok(calls.every((call) => call.providerOptions.gateway.user === 'salted-anonymous-client-key'));
   assert.ok(calls.every((call) => call.providerOptions.gateway.tags.includes('mode:deep')));
   assert.ok(calls.filter((call) => call.providerOptions.gateway.tags.includes('stage:respondent-cell')).every((call) => call.timeout <= 10_000));
+  assert.ok(calls.filter((call) => call.providerOptions.gateway.tags.includes('stage:respondent-cell') || call.providerOptions.gateway.tags.includes('stage:adjudication')).every((call) => /enum\/control values exactly as defined/i.test(call.system)));
   assert.ok(Math.max(...calls.map((call) => call.timeout)) <= 14_000);
 });
 
