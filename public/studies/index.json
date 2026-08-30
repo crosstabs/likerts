@@ -1,9 +1,10 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "generatedFrom": "curated-sample-study-registry",
   "studies": [
     {
       "slug": "ad-supported-ott-plan-south-korea",
+      "stableId": "SS-KO-KR-001",
       "locale": "ko-KR",
       "localeName": "한국어(대한민국)",
       "industry": "media",
@@ -19,8 +20,158 @@
       "canonicalUrl": "https://likerts.com/ko-kr/studies/ad-supported-ott-plan-south-korea/",
       "detailUrl": "/ko-kr/studies/ad-supported-ott-plan-south-korea/",
       "dataUrl": "/ko-kr/studies/ad-supported-ott-plan-south-korea/study.json",
-      "runYourOwnUrl": "/?sample=ad-supported-ott-plan-south-korea",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "runYourOwnUrl": "/?sample=ad-supported-ott-plan-south-korea&uiLocale=ko-KR",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "KR",
+          "kind": "registered",
+          "label": "South Korea",
+          "countryCode": "KR",
+          "searchLocation": "South Korea",
+          "retrievalGeography": {
+            "countryCode": "KR",
+            "location": "South Korea"
+          }
+        },
+        "report": {
+          "locale": "ko-KR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "ko-KR"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "ko-KR"
+          ]
+        },
+        "instrument": {
+          "locale": "ko-KR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-KO-KR-001",
+        "slug": "ad-supported-ott-plan-south-korea",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "KR",
+            "kind": "registered",
+            "label": "South Korea",
+            "countryCode": "KR",
+            "searchLocation": "South Korea",
+            "retrievalGeography": {
+              "countryCode": "KR",
+              "location": "South Korea"
+            }
+          },
+          "report": {
+            "locale": "ko-KR",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "ko-KR"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "ko-KR"
+            ]
+          },
+          "instrument": {
+            "locale": "ko-KR",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:53:26.404Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:53:26.404Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,
@@ -37,6 +188,7 @@
     },
     {
       "slug": "ai-copilot-pilot-small-business-us",
+      "stableId": "SS-EN-US-001",
       "locale": "en-US",
       "localeName": "English (US)",
       "industry": "workplace-ai",
@@ -53,7 +205,157 @@
       "detailUrl": "/en-us/studies/ai-copilot-pilot-small-business-us/",
       "dataUrl": "/en-us/studies/ai-copilot-pilot-small-business-us/study.json",
       "runYourOwnUrl": "/?sample=ai-copilot-pilot-small-business-us",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "US",
+          "kind": "registered",
+          "label": "United States",
+          "countryCode": "US",
+          "searchLocation": "United States",
+          "retrievalGeography": {
+            "countryCode": "US",
+            "location": "United States"
+          }
+        },
+        "report": {
+          "locale": "en-US",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "en-US"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "en-US"
+          ]
+        },
+        "instrument": {
+          "locale": "en-US",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-EN-US-001",
+        "slug": "ai-copilot-pilot-small-business-us",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "US",
+            "kind": "registered",
+            "label": "United States",
+            "countryCode": "US",
+            "searchLocation": "United States",
+            "retrievalGeography": {
+              "countryCode": "US",
+              "location": "United States"
+            }
+          },
+          "report": {
+            "locale": "en-US",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "en-US"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "en-US"
+            ]
+          },
+          "instrument": {
+            "locale": "en-US",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:50:40.877Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:50:40.877Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,
@@ -70,6 +372,7 @@
     },
     {
       "slug": "arabic-ai-study-assistant-saudi-universities",
+      "stableId": "SS-AR-SA-001",
       "locale": "ar-SA",
       "localeName": "العربية (السعودية)",
       "industry": "education",
@@ -86,7 +389,157 @@
       "detailUrl": "/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/",
       "dataUrl": "/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/study.json",
       "runYourOwnUrl": "/?sample=arabic-ai-study-assistant-saudi-universities",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "SA",
+          "kind": "registered",
+          "label": "Saudi Arabia",
+          "countryCode": "SA",
+          "searchLocation": "Saudi Arabia",
+          "retrievalGeography": {
+            "countryCode": "SA",
+            "location": "Saudi Arabia"
+          }
+        },
+        "report": {
+          "locale": "ar-SA",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "ar-SA"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "ar-SA"
+          ]
+        },
+        "instrument": {
+          "locale": "ar-SA",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-AR-SA-001",
+        "slug": "arabic-ai-study-assistant-saudi-universities",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "SA",
+            "kind": "registered",
+            "label": "Saudi Arabia",
+            "countryCode": "SA",
+            "searchLocation": "Saudi Arabia",
+            "retrievalGeography": {
+              "countryCode": "SA",
+              "location": "Saudi Arabia"
+            }
+          },
+          "report": {
+            "locale": "ar-SA",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "ar-SA"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "ar-SA"
+            ]
+          },
+          "instrument": {
+            "locale": "ar-SA",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:54:10.915Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:54:10.915Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,
@@ -103,6 +556,7 @@
     },
     {
       "slug": "assinatura-pix-automatico-microempresas-brasil",
+      "stableId": "SS-PT-BR-001",
       "locale": "pt-BR",
       "localeName": "Português (Brasil)",
       "industry": "financial-services",
@@ -119,7 +573,157 @@
       "detailUrl": "/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/",
       "dataUrl": "/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/study.json",
       "runYourOwnUrl": "/?sample=assinatura-pix-automatico-microempresas-brasil",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "BR",
+          "kind": "registered",
+          "label": "Brazil",
+          "countryCode": "BR",
+          "searchLocation": "Brazil",
+          "retrievalGeography": {
+            "countryCode": "BR",
+            "location": "Brazil"
+          }
+        },
+        "report": {
+          "locale": "pt-BR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "pt-BR"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "pt-BR"
+          ]
+        },
+        "instrument": {
+          "locale": "pt-BR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-PT-BR-001",
+        "slug": "assinatura-pix-automatico-microempresas-brasil",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "BR",
+            "kind": "registered",
+            "label": "Brazil",
+            "countryCode": "BR",
+            "searchLocation": "Brazil",
+            "retrievalGeography": {
+              "countryCode": "BR",
+              "location": "Brazil"
+            }
+          },
+          "report": {
+            "locale": "pt-BR",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "pt-BR"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "pt-BR"
+            ]
+          },
+          "instrument": {
+            "locale": "pt-BR",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:51:59.163Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:51:59.163Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,
@@ -136,6 +740,7 @@
     },
     {
       "slug": "coche-electrico-recarga-garaje-comunitario-espana",
+      "stableId": "SS-ES-ES-001",
       "locale": "es-ES",
       "localeName": "Español (España)",
       "industry": "electric-mobility",
@@ -152,7 +757,157 @@
       "detailUrl": "/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/",
       "dataUrl": "/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/study.json",
       "runYourOwnUrl": "/?sample=coche-electrico-recarga-garaje-comunitario-espana",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "ES",
+          "kind": "registered",
+          "label": "Spain",
+          "countryCode": "ES",
+          "searchLocation": "Spain",
+          "retrievalGeography": {
+            "countryCode": "ES",
+            "location": "Spain"
+          }
+        },
+        "report": {
+          "locale": "es-ES",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "es-ES"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "es-ES"
+          ]
+        },
+        "instrument": {
+          "locale": "es-ES",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-ES-ES-001",
+        "slug": "coche-electrico-recarga-garaje-comunitario-espana",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "ES",
+            "kind": "registered",
+            "label": "Spain",
+            "countryCode": "ES",
+            "searchLocation": "Spain",
+            "retrievalGeography": {
+              "countryCode": "ES",
+              "location": "Spain"
+            }
+          },
+          "report": {
+            "locale": "es-ES",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "es-ES"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "es-ES"
+            ]
+          },
+          "instrument": {
+            "locale": "es-ES",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:51:44.380Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:51:44.380Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 3,
@@ -169,6 +924,7 @@
     },
     {
       "slug": "consigne-bouteille-reemployable-supermarche-france",
+      "stableId": "SS-FR-FR-001",
       "locale": "fr-FR",
       "localeName": "Français (France)",
       "industry": "consumer-products",
@@ -185,7 +941,157 @@
       "detailUrl": "/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/",
       "dataUrl": "/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/study.json",
       "runYourOwnUrl": "/?sample=consigne-bouteille-reemployable-supermarche-france",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "FR",
+          "kind": "registered",
+          "label": "France",
+          "countryCode": "FR",
+          "searchLocation": "France",
+          "retrievalGeography": {
+            "countryCode": "FR",
+            "location": "France"
+          }
+        },
+        "report": {
+          "locale": "fr-FR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "fr-FR"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "fr-FR"
+          ]
+        },
+        "instrument": {
+          "locale": "fr-FR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-FR-FR-001",
+        "slug": "consigne-bouteille-reemployable-supermarche-france",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "FR",
+            "kind": "registered",
+            "label": "France",
+            "countryCode": "FR",
+            "searchLocation": "France",
+            "retrievalGeography": {
+              "countryCode": "FR",
+              "location": "France"
+            }
+          },
+          "report": {
+            "locale": "fr-FR",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "fr-FR"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "fr-FR"
+            ]
+          },
+          "instrument": {
+            "locale": "fr-FR",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:52:12.511Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:52:12.511Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,
@@ -202,6 +1108,7 @@
     },
     {
       "slug": "hindi-agromet-advisory-small-farmers-india",
+      "stableId": "SS-HI-IN-001",
       "locale": "hi-IN",
       "localeName": "हिन्दी (भारत)",
       "industry": "agriculture",
@@ -218,7 +1125,157 @@
       "detailUrl": "/hi-in/studies/hindi-agromet-advisory-small-farmers-india/",
       "dataUrl": "/hi-in/studies/hindi-agromet-advisory-small-farmers-india/study.json",
       "runYourOwnUrl": "/?sample=hindi-agromet-advisory-small-farmers-india",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "IN",
+          "kind": "registered",
+          "label": "India",
+          "countryCode": "IN",
+          "searchLocation": "India",
+          "retrievalGeography": {
+            "countryCode": "IN",
+            "location": "India"
+          }
+        },
+        "report": {
+          "locale": "hi-IN",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "hi-IN"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "hi-IN"
+          ]
+        },
+        "instrument": {
+          "locale": "hi-IN",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-HI-IN-001",
+        "slug": "hindi-agromet-advisory-small-farmers-india",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "IN",
+            "kind": "registered",
+            "label": "India",
+            "countryCode": "IN",
+            "searchLocation": "India",
+            "retrievalGeography": {
+              "countryCode": "IN",
+              "location": "India"
+            }
+          },
+          "report": {
+            "locale": "hi-IN",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "hi-IN"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "hi-IN"
+            ]
+          },
+          "instrument": {
+            "locale": "hi-IN",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:54:30.884Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:54:30.884Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,
@@ -235,6 +1292,7 @@
     },
     {
       "slug": "mobile-checkin-business-hotels-japan",
+      "stableId": "SS-JA-JP-001",
       "locale": "ja-JP",
       "localeName": "日本語（日本）",
       "industry": "travel",
@@ -250,8 +1308,158 @@
       "canonicalUrl": "https://likerts.com/ja-jp/studies/mobile-checkin-business-hotels-japan/",
       "detailUrl": "/ja-jp/studies/mobile-checkin-business-hotels-japan/",
       "dataUrl": "/ja-jp/studies/mobile-checkin-business-hotels-japan/study.json",
-      "runYourOwnUrl": "/?sample=mobile-checkin-business-hotels-japan",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "runYourOwnUrl": "/?sample=mobile-checkin-business-hotels-japan&uiLocale=ja-JP",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "JP",
+          "kind": "registered",
+          "label": "Japan",
+          "countryCode": "JP",
+          "searchLocation": "Japan",
+          "retrievalGeography": {
+            "countryCode": "JP",
+            "location": "Japan"
+          }
+        },
+        "report": {
+          "locale": "ja-JP",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "ja-JP"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "ja-JP"
+          ]
+        },
+        "instrument": {
+          "locale": "ja-JP",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-JA-JP-001",
+        "slug": "mobile-checkin-business-hotels-japan",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "JP",
+            "kind": "registered",
+            "label": "Japan",
+            "countryCode": "JP",
+            "searchLocation": "Japan",
+            "retrievalGeography": {
+              "countryCode": "JP",
+              "location": "Japan"
+            }
+          },
+          "report": {
+            "locale": "ja-JP",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "ja-JP"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "ja-JP"
+            ]
+          },
+          "instrument": {
+            "locale": "ja-JP",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:53:04.269Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:53:04.269Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,
@@ -268,6 +1476,7 @@
     },
     {
       "slug": "smart-ev-data-controls-china",
+      "stableId": "SS-ZH-CN-001",
       "locale": "zh-CN",
       "localeName": "中文（中国）",
       "industry": "electric-mobility",
@@ -283,8 +1492,158 @@
       "canonicalUrl": "https://likerts.com/zh-cn/studies/smart-ev-data-controls-china/",
       "detailUrl": "/zh-cn/studies/smart-ev-data-controls-china/",
       "dataUrl": "/zh-cn/studies/smart-ev-data-controls-china/study.json",
-      "runYourOwnUrl": "/?sample=smart-ev-data-controls-china",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "runYourOwnUrl": "/?sample=smart-ev-data-controls-china&uiLocale=zh-CN",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "CN",
+          "kind": "registered",
+          "label": "China",
+          "countryCode": "CN",
+          "searchLocation": "China",
+          "retrievalGeography": {
+            "countryCode": "CN",
+            "location": "China"
+          }
+        },
+        "report": {
+          "locale": "zh-CN",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "zh-CN"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "zh-CN"
+          ]
+        },
+        "instrument": {
+          "locale": "zh-CN",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-ZH-CN-001",
+        "slug": "smart-ev-data-controls-china",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "CN",
+            "kind": "registered",
+            "label": "China",
+            "countryCode": "CN",
+            "searchLocation": "China",
+            "retrievalGeography": {
+              "countryCode": "CN",
+              "location": "China"
+            }
+          },
+          "report": {
+            "locale": "zh-CN",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "zh-CN"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "zh-CN"
+            ]
+          },
+          "instrument": {
+            "locale": "zh-CN",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:52:46.718Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:52:46.718Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,
@@ -301,6 +1660,7 @@
     },
     {
       "slug": "waermepumpe-angebot-bestandsheim-deutschland",
+      "stableId": "SS-DE-DE-001",
       "locale": "de-DE",
       "localeName": "Deutsch (Deutschland)",
       "industry": "housing",
@@ -317,7 +1677,157 @@
       "detailUrl": "/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/",
       "dataUrl": "/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/study.json",
       "runYourOwnUrl": "/?sample=waermepumpe-angebot-bestandsheim-deutschland",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "DE",
+          "kind": "registered",
+          "label": "Germany",
+          "countryCode": "DE",
+          "searchLocation": "Germany",
+          "retrievalGeography": {
+            "countryCode": "DE",
+            "location": "Germany"
+          }
+        },
+        "report": {
+          "locale": "de-DE",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "de-DE"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "de-DE"
+          ]
+        },
+        "instrument": {
+          "locale": "de-DE",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-DE-DE-001",
+        "slug": "waermepumpe-angebot-bestandsheim-deutschland",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "DE",
+            "kind": "registered",
+            "label": "Germany",
+            "countryCode": "DE",
+            "searchLocation": "Germany",
+            "retrievalGeography": {
+              "countryCode": "DE",
+              "location": "Germany"
+            }
+          },
+          "report": {
+            "locale": "de-DE",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "de-DE"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "de-DE"
+            ]
+          },
+          "instrument": {
+            "locale": "de-DE",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:54:51.684Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:54:51.684Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,

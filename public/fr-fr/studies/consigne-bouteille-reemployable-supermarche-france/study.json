@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "brief": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "stableId": "SS-FR-FR-001",
     "slug": "consigne-bouteille-reemployable-supermarche-france",
     "locale": "fr-FR",
@@ -12,6 +12,22 @@
     "disclosure": "Cette sortie synthétique est générée par des modèles, pas par des personnes interrogées.",
     "evidenceBoundary": "L’ADEME peut établir définitions, objectifs, contexte mesuré et analyses environnementales propres à un scénario; ces sources ne permettent ni de généraliser les avantages ni d’inférer achat, retour ou réachat.",
     "humanValidation": "Mener des entretiens en magasin et sur le parcours de retour; tester conjointement montant, lieu et commodité; puis mesurer achat, retour, casse, remboursement et réachat dans un essai en magasin.",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "marketId": "FR",
+      "reportLocale": "fr-FR",
+      "sourceLocales": [
+        "fr-FR"
+      ],
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "fr-FR"
+        ]
+      },
+      "instrumentLocale": "fr-FR"
+    },
+    "localizationRegistryVersion": "localization-capabilities-v2",
     "curatedContextUrls": [
       "https://observatoire-reemploi-reutilisation.ademe.fr/emballages",
       "https://observatoire-reemploi-reutilisation.ademe.fr/chiffres-reemploi-emballages",
@@ -28,11 +44,176 @@
         "fr-FR"
       ],
       "searchCountry": "FR",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "marketId": "FR",
+        "reportLocale": "fr-FR",
+        "sourceLocales": [
+          "fr-FR"
+        ],
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "fr-FR"
+          ]
+        },
+        "instrumentLocale": "fr-FR"
+      },
       "outputLocale": "fr-FR",
       "researchMode": "DEEP",
       "evidencePolicy": "AUTO",
       "clientRunId": "sample-consigne-bouteille-reemployable-supermarche-france"
     }
+  },
+  "localization": {
+    "schemaVersion": "study-localization-v1",
+    "registryVersion": "localization-capabilities-v2",
+    "inputMode": "canonical-with-legacy",
+    "market": {
+      "id": "FR",
+      "kind": "registered",
+      "label": "France",
+      "countryCode": "FR",
+      "searchLocation": "France",
+      "retrievalGeography": {
+        "countryCode": "FR",
+        "location": "France"
+      }
+    },
+    "report": {
+      "locale": "fr-FR",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    },
+    "source": {
+      "locales": [
+        "fr-FR"
+      ]
+    },
+    "retrieval": {
+      "policy": "PREFER",
+      "locales": [
+        "fr-FR"
+      ]
+    },
+    "instrument": {
+      "locale": "fr-FR",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    }
+  },
+  "localizationRegistryVersion": "localization-capabilities-v2",
+  "sampleLineage": {
+    "schemaVersion": "sample-lineage-v2",
+    "source": "static-sample-library",
+    "stableId": "SS-FR-FR-001",
+    "slug": "consigne-bouteille-reemployable-supermarche-france",
+    "sampleSchemaVersion": "1.1",
+    "localizationRegistryVersion": "localization-capabilities-v2",
+    "localizationReceipt": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "FR",
+        "kind": "registered",
+        "label": "France",
+        "countryCode": "FR",
+        "searchLocation": "France",
+        "retrievalGeography": {
+          "countryCode": "FR",
+          "location": "France"
+        }
+      },
+      "report": {
+        "locale": "fr-FR",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "fr-FR"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "fr-FR"
+        ]
+      },
+      "instrument": {
+        "locale": "fr-FR",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "scope": "sample-brief-copy",
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "quality": {
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract",
+      "checkedAt": "2026-08-29T02:52:12.511Z"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "glossaryVersion": null,
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "rerun": {
+    "allowed": true,
+    "block": null
   },
   "curatedContextCandidates": [
     {
@@ -49,12 +230,157 @@
     }
   ],
   "capture": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "briefSlug": "consigne-bouteille-reemployable-supermarche-france",
     "stableId": "SS-FR-FR-001",
+    "sampleLineage": {
+      "schemaVersion": "sample-lineage-v2",
+      "source": "static-sample-library",
+      "stableId": "SS-FR-FR-001",
+      "slug": "consigne-bouteille-reemployable-supermarche-france",
+      "sampleSchemaVersion": "1.1",
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "localizationReceipt": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "FR",
+          "kind": "registered",
+          "label": "France",
+          "countryCode": "FR",
+          "searchLocation": "France",
+          "retrievalGeography": {
+            "countryCode": "FR",
+            "location": "France"
+          }
+        },
+        "report": {
+          "locale": "fr-FR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "fr-FR"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "fr-FR"
+          ]
+        },
+        "instrument": {
+          "locale": "fr-FR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "scope": "sample-brief-copy",
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "studyId": "study_b518951d-c08a-437f-aea3-0bdb755849f7",
     "runId": "run_f18ae3f8-3e94-41fe-a825-1599e24e3987",
     "capturedAt": "2026-08-29T02:52:12.511Z",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "FR",
+        "kind": "registered",
+        "label": "France",
+        "countryCode": "FR",
+        "searchLocation": "France",
+        "retrievalGeography": {
+          "countryCode": "FR",
+          "location": "France"
+        }
+      },
+      "report": {
+        "locale": "fr-FR",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "fr-FR"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "fr-FR"
+        ]
+      },
+      "instrument": {
+        "locale": "fr-FR",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "quality": {
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract",
+        "checkedAt": "2026-08-29T02:52:12.511Z"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "study": {
       "title": "Acceptabilité déclarée d’une bouteille en verre réemployable consignée à",
       "summary": "Dans ce scénario d’achat en supermarché habituel, avec prix identique et retour simple du contenant, l’adhésion déclarée ressort plutôt favorable. La distribution fournie montre une majorité relative de réponses dans les modalités 4 et 5, a",
@@ -88,70 +414,90 @@
       },
       "segments": [
         {
+          "id": "segment-1",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Pragmatiques favorables",
-          "sample": 58,
           "values": [
             7,
             10,
             24,
             42,
             17
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-2",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Sensibles à la simplicité du retour",
-          "sample": 49,
           "values": [
             6,
             12,
             20,
             39,
             23
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-3",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Réservés malgré l’intérêt écologique",
-          "sample": 41,
           "values": [
             5,
             7,
             24,
             37,
             27
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-4",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Sceptiques sur la consigne mais ouverts si le fr",
-          "sample": 52,
           "values": [
             4,
             0,
             23,
             33,
             40
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         }
       ],
       "responses": [
         {
           "score": 1,
           "profile": "Consommateur très peu enclin à changer ses habitudes, attaché à la simplicité du geste d’",
-          "quote": "Même si le prix ne change pas, je ne veux pas ajouter une étape de plus à mes courses."
+          "quote": "Même si le prix ne change pas, je ne veux pas ajouter une étape de plus à mes courses.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 2,
           "profile": "Acheteur régulier, intéressé par l’idée mais freiné par la gestion du retour et le risque",
-          "quote": "L’idée est bonne, mais si je dois y penser à chaque fois, ça finit par devenir contraignant."
+          "quote": "L’idée est bonne, mais si je dois y penser à chaque fois, ça finit par devenir contraignant.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 4,
           "profile": "Client de supermarché assez favorable, sensible au maintien du prix et à la praticité d’u",
-          "quote": "Si je peux rendre la bouteille dans mon magasin habituel et récupérer ma consigne rapidement, ça me paraît acceptable."
+          "quote": "Si je peux rendre la bouteille dans mon magasin habituel et récupérer ma consigne rapidement, ça me paraît acceptable.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 5,
           "profile": "Utilisateur très favorable, valorisant la réutilisation et jugeant le scénario simple et c",
-          "quote": "À prix égal et avec un retour facile, je serais prêt à le prendre régulièrement sans trop hésiter."
+          "quote": "À prix égal et avec un retour facile, je serais prêt à le prendre régulièrement sans trop hésiter.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         }
       ],
       "cautions": [
@@ -161,10 +507,152 @@
         "Les citations sont des illustrations modelées, non des verbatims recueillis auprès de répondants réels."
       ]
     },
+    "populationFrame": {
+      "frameVersion": "population-frame-v1",
+      "intendedPopulation": "Adultes de 25 à 64 ans achetant des boissons emballées en supermarché au moins chaque semaine",
+      "geography": {
+        "market": "France",
+        "countryCode": "FR"
+      },
+      "languages": {
+        "outputLocale": "fr-FR",
+        "sourceLanguages": [
+          "fr-FR"
+        ]
+      },
+      "characteristics": [],
+      "officialSourceDatasets": [],
+      "marginalDistributions": [],
+      "knownIntersections": [],
+      "populationCells": [],
+      "weighting": {
+        "method": "NONE",
+        "status": "NOT_APPLIED",
+        "diagnostics": {
+          "iterations": null,
+          "tolerance": null,
+          "maxAbsoluteError": null,
+          "minWeight": null,
+          "maxWeight": null,
+          "effectiveCellCount": null
+        }
+      },
+      "unsupportedCharacteristics": [
+        "Demographic and firmographic characteristics were not supplied as structured population data."
+      ],
+      "coverageDate": null,
+      "populationFit": {
+        "scoreVersion": "population-fit-v1",
+        "status": "UNMEASURED",
+        "overall": null,
+        "components": {
+          "geographyCoverage": null,
+          "marginalCoverage": null,
+          "intersectionCoverage": null,
+          "sourceQuality": null,
+          "sourceRecency": null,
+          "weightingQuality": null
+        },
+        "formula": "No aggregate is calculated until supported population variables and source datasets are present. When measured, every component and weight is reported alongside the aggregate."
+      },
+      "disclaimer": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people."
+    },
+    "researchDesign": {
+      "templateVersion": "research-method-contract-v1",
+      "methodId": "GENERAL_LIKERT",
+      "methodVersion": "general-likert-v1",
+      "designType": "DIRECTIONAL_LIKERT",
+      "estimand": "Model-generated directional response on the supplied five-point item",
+      "resultKind": "DIRECTIONAL_DISTRIBUTION",
+      "resultSchemaVersion": "method-result-v1",
+      "chartId": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "scale": {
+        "id": "LIKELIHOOD_5",
+        "points": 5,
+        "anchors": [
+          "Very unlikely",
+          "Unlikely",
+          "Not sure",
+          "Likely",
+          "Very likely"
+        ]
+      },
+      "outputStructure": {
+        "id": "five-point-directional-distribution",
+        "supportsSegments": true,
+        "supportsIllustrativePerspectives": true
+      },
+      "segmentPerspectiveEligible": true,
+      "stimulus": null,
+      "instrument": {
+        "requiredInputs": [
+          "research question",
+          "intended audience"
+        ],
+        "includedQuestions": [
+          {
+            "id": "primary-likelihood",
+            "purpose": "Explore a model-generated five-point directional response."
+          }
+        ],
+        "sections": []
+      },
+      "primaryOutcome": {
+        "id": "top-two-box",
+        "label": "Likely / very likely",
+        "value": 55,
+        "unit": "percentage points of a model-generated directional distribution"
+      },
+      "criticRubric": {
+        "id": "general-likert-critic-v1",
+        "criteria": [
+          "neutral wording",
+          "evidence alignment",
+          "stereotype risk",
+          "arithmetic consistency",
+          "no representative or human-response claims"
+        ]
+      },
+      "humanValidation": {
+        "required": true,
+        "recommendedMethod": "Sampled survey preceded by cognitive pretesting",
+        "rationale": "The synthetic distribution is a hypothesis and does not estimate population attitudes.",
+        "minimumChecks": [
+          "question comprehension",
+          "appropriate sampling frame",
+          "observed response distribution"
+        ]
+      },
+      "cautions": [
+        "This legacy-compatible method is a general directional Likert exploration, not a specialized research design."
+      ],
+      "disclosure": "Method-specific output is model-generated direction, not a human measurement."
+    },
+    "modelCard": {
+      "cardVersion": "likerts-model-card-v1",
+      "purpose": "Directional synthetic research for hypothesis generation and research planning.",
+      "permittedUse": "Explore model-generated hypotheses before validation with real people.",
+      "populationGrounding": "NONE",
+      "populationFrameHash": null,
+      "researchMethod": "GENERAL_LIKERT",
+      "researchMethodVersion": "general-likert-v1",
+      "researchMethodChart": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "attitudinalValidation": "NOT_VALIDATED",
+      "disclosure": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people.",
+      "disclosureCode": "SYNTHETIC_RESULTS_REQUIRE_HUMAN_VALIDATION"
+    },
     "provenance": {
       "runtimeVersion": "synthetic-research-v2.4",
       "researchMode": "DEEP",
+      "localizationRegistryVersion": "localization-capabilities-v2",
       "inputHash": "bed286b29214d9c1b40d04a0e2225799af4453a31ad0dabfa1d5427518ecbb49",
+      "inputHashVersion": "legacy-unversioned",
+      "inputHashLineage": {
+        "hash": "bed286b29214d9c1b40d04a0e2225799af4453a31ad0dabfa1d5427518ecbb49",
+        "version": "legacy-unversioned",
+        "status": "LEGACY_UNVERSIONED",
+        "crossVersionComparable": false
+      },
       "evidenceHash": "4ae2b75eb61770c5c7d0c4496c71685870469093003fcfb02b1edeecf76fe82c",
       "promptVersions": {
         "framing": "framing-v2",
@@ -178,7 +666,8 @@
         "respondentCell": "respondent-cell-schema-v2",
         "adjudication": "critic-schema-v2"
       },
-      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty.",
+      "disclaimerCode": "MODEL_GENERATION_NON_DETERMINISTIC"
     },
     "cost": {
       "currency": "USD",
@@ -354,6 +843,9 @@
           "excerpt": "retained, even those that indicated a W ... the use of returnable containers may be perceived as positive by consumers ... 6 scenarios, ... median value of each W ... and the mean value between 74 and 79% of the value of the product sold in single-use plastic packaging. The WTP questions asked about the amount consumers would be willing to pay, not the “maximum” amount they would be willing to pay, as is typical in contingent valuation. This aspect of our survey may suggest that the WTP values reported by respondents in our sample are lower than if the maximum amount had been asked. On the other hand, this does not preclude us from analyzing ... factors that influence WTP. To understand those factors, simultaneous linear regressions ... an average of 54.4% of respondents would be willing to buy in bulk if this option was available to them in their traditional grocery store",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "770a0fcd73db0a518bdc55b844fa9ab0bd48030ce3c98c65b4f4b9d018e4f56c"
         },
         {
@@ -362,6 +854,9 @@
           "excerpt": "En effet, les critères qui président au choix des quotas, réduction des coûts collectifs mais aussi stabilité de l'emploi, maintien de la compétitivité et satisfaction du consommateur, sont à la fois nombreux et évolutifs, ainsi que différemment appréciés par les divers producteurs et consommateurs. Un des éléments essentiels du dispositif est le montant de la consigne. Si on le fixe trop haut, on décourage la consommation des boissons (tout dépend de 1 'élasticité/prix de la boisson) ; de même l'embouteilleur peut avoir intérêt a acheter une bouteille neuve plutôt que de rembourser une bouteille déjà utilisée. Par contre, si on fixe le montant de la consigne trop bas, le consommateur ne:~era pas incité à rapporter la bouteille. ... perdus vers ... du verre consigné",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "c9ad7981d3b1299591d5c5b641653ee2cb857a127dd728ab007c8f217a2de7d5"
         },
         {
@@ -370,6 +865,9 @@
           "excerpt": "induits par la consigne pour les producteurs sont jugés théoriquement supérieurs à la REP, lorsque les déchets concernés sont coûteux à traiter. En revanche, la consigne est également réputée plus efficace pour collecter les déchets en vue de leur valorisation, et ainsi éviter au maximum qu’ils se retrouvent dans le tout-venant des déchets ménagers, ou qu’ils soient dispersés dans la nature. Par les coûts qu’elle engendre pour collecter chaque unité, la consignation des emballages est susceptible d’encourager les producteurs à réduire les quantités d’emballages à usage unique mises sur le marché, tout en favorisant les emballages réutilisables, comme les bouteilles en verre. Aussi, elle écarte du jeu les collectivités locales : la collecte des déchets d’emballages peut se faire sans avoir recours au service public de gestion des déchets (SPGD).",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "94e8a2cd00c53e1133e48cc609904e541d4969deae32d691d8cff338c54edc6e"
         },
         {
@@ -378,6 +876,9 @@
           "excerpt": "être un en ... Un montant de consigne ... ne vaudrait pas l ... effort de rapporter mes emballages consignés de boisson Le fait de pouvoir déposer mes emballages vides dans le bac de recyclage même si je perds la valeur de ma consigne le nombre important de boissons consommées dans mon foyer implique un trop grand effort pour les rapporter ... Une exigence de proximité : les participants attendent un réseau dense, avec des points ... collecte à « tout au plus à ... minutes » de leur domicile Un système universel et non-captif : les participants exigent de pouvoir rapporter n'importe quel emballage consigné dans n'importe quel point de collecte, quelle que soit l'enseigne d'achat Des points de retour variés et accessibles : grandes surfaces mais aussi gares, stations de métro, parkings, centres dédiés, ou même dans la rue à la place des collecteurs de verre actuels",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "0c143308b8cf67a6c79d8e0917ee47b66e947c985654f5ae945f4a7cde8e9fa6"
         }
       ]
@@ -415,7 +916,7 @@
       "note": "This is a separate model stage within one pipeline, not independent external verification."
     }
   },
-  "status": "automated-qa-passed-human-editorial-review-pending",
+  "status": "automated-qa-passed",
   "htmlUrl": "/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/",
   "dataUrl": "/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/study.json",
   "canonicalUrl": "https://likerts.com/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/"

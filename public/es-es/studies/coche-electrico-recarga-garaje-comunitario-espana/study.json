@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "brief": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "stableId": "SS-ES-ES-001",
     "slug": "coche-electrico-recarga-garaje-comunitario-espana",
     "locale": "es-ES",
@@ -12,6 +12,22 @@
     "disclosure": "Resultado sintético generado por modelos; no son respuestas de una encuesta observada.",
     "evidenceBoundary": "Los datos de DGT y MITECO pueden describir infraestructura y cuestiones documentadas de recarga; no establecen intención de compra, viabilidad privada, aprobación comunitaria, sensibilidad al precio ni preferencia por esta propuesta.",
     "humanValidation": "Entrevistar a residentes, administradores de fincas, concesionarios e instaladores; probar precio, instalación, plazo y aprobación en una encuesta de elección; validar con leads cualificados y evaluaciones de recarga completadas.",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "marketId": "ES",
+      "reportLocale": "es-ES",
+      "sourceLocales": [
+        "es-ES"
+      ],
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "es-ES"
+        ]
+      },
+      "instrumentLocale": "es-ES"
+    },
+    "localizationRegistryVersion": "localization-capabilities-v2",
     "curatedContextUrls": [
       "https://nap.dgt.es/es/dataset/0d1f0fbe-504d-4cc3-a09e-bdf6b248e8b8",
       "https://revista.dgt.es/images/PRESENTACION-ENCUESTA-RESUMEN.pdf",
@@ -28,11 +44,176 @@
         "es-ES"
       ],
       "searchCountry": "ES",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "marketId": "ES",
+        "reportLocale": "es-ES",
+        "sourceLocales": [
+          "es-ES"
+        ],
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "es-ES"
+          ]
+        },
+        "instrumentLocale": "es-ES"
+      },
       "outputLocale": "es-ES",
       "researchMode": "DEEP",
       "evidencePolicy": "AUTO",
       "clientRunId": "sample-coche-electrico-recarga-garaje-comunitario-espana"
     }
+  },
+  "localization": {
+    "schemaVersion": "study-localization-v1",
+    "registryVersion": "localization-capabilities-v2",
+    "inputMode": "canonical-with-legacy",
+    "market": {
+      "id": "ES",
+      "kind": "registered",
+      "label": "Spain",
+      "countryCode": "ES",
+      "searchLocation": "Spain",
+      "retrievalGeography": {
+        "countryCode": "ES",
+        "location": "Spain"
+      }
+    },
+    "report": {
+      "locale": "es-ES",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    },
+    "source": {
+      "locales": [
+        "es-ES"
+      ]
+    },
+    "retrieval": {
+      "policy": "PREFER",
+      "locales": [
+        "es-ES"
+      ]
+    },
+    "instrument": {
+      "locale": "es-ES",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    }
+  },
+  "localizationRegistryVersion": "localization-capabilities-v2",
+  "sampleLineage": {
+    "schemaVersion": "sample-lineage-v2",
+    "source": "static-sample-library",
+    "stableId": "SS-ES-ES-001",
+    "slug": "coche-electrico-recarga-garaje-comunitario-espana",
+    "sampleSchemaVersion": "1.1",
+    "localizationRegistryVersion": "localization-capabilities-v2",
+    "localizationReceipt": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "ES",
+        "kind": "registered",
+        "label": "Spain",
+        "countryCode": "ES",
+        "searchLocation": "Spain",
+        "retrievalGeography": {
+          "countryCode": "ES",
+          "location": "Spain"
+        }
+      },
+      "report": {
+        "locale": "es-ES",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "es-ES"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "es-ES"
+        ]
+      },
+      "instrument": {
+        "locale": "es-ES",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "scope": "sample-brief-copy",
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "quality": {
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract",
+      "checkedAt": "2026-08-29T02:51:44.380Z"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "glossaryVersion": null,
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "rerun": {
+    "allowed": true,
+    "block": null
   },
   "curatedContextCandidates": [
     {
@@ -49,12 +230,157 @@
     }
   ],
   "capture": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "briefSlug": "coche-electrico-recarga-garaje-comunitario-espana",
     "stableId": "SS-ES-ES-001",
+    "sampleLineage": {
+      "schemaVersion": "sample-lineage-v2",
+      "source": "static-sample-library",
+      "stableId": "SS-ES-ES-001",
+      "slug": "coche-electrico-recarga-garaje-comunitario-espana",
+      "sampleSchemaVersion": "1.1",
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "localizationReceipt": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "ES",
+          "kind": "registered",
+          "label": "Spain",
+          "countryCode": "ES",
+          "searchLocation": "Spain",
+          "retrievalGeography": {
+            "countryCode": "ES",
+            "location": "Spain"
+          }
+        },
+        "report": {
+          "locale": "es-ES",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "es-ES"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "es-ES"
+          ]
+        },
+        "instrument": {
+          "locale": "es-ES",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "scope": "sample-brief-copy",
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "studyId": "study_d7516743-98c2-43f5-84b4-f15a08ac9621",
     "runId": "run_e24f40b1-f0e1-490a-a2db-71fed2de7587",
     "capturedAt": "2026-08-29T02:51:44.380Z",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "ES",
+        "kind": "registered",
+        "label": "Spain",
+        "countryCode": "ES",
+        "searchLocation": "Spain",
+        "retrievalGeography": {
+          "countryCode": "ES",
+          "location": "Spain"
+        }
+      },
+      "report": {
+        "locale": "es-ES",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "es-ES"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "es-ES"
+        ]
+      },
+      "instrument": {
+        "locale": "es-ES",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "quality": {
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract",
+        "checkedAt": "2026-08-29T02:51:44.380Z"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "study": {
       "title": "Probabilidad declarada de elegir un coche eléctrico con instalación de r",
       "summary": "Estudio sintético para hipótesis sobre la intención declarada de elegir un coche eléctrico como próximo vehículo cuando la oferta incluye la instalación del punto de recarga en una plaza de garaje comunitario, con coste total y plazos por c",
@@ -88,70 +414,90 @@
       },
       "segments": [
         {
+          "id": "segment-1",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Impulso alto ante oferta cerrada",
-          "sample": 36,
           "values": [
             20,
             15,
             25,
             20,
             20
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-2",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Interés condicionado por costes y tiempos",
-          "sample": 64,
           "values": [
             20,
             20,
             27,
             20,
             13
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-3",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Sensibles a barreras comunitarias",
-          "sample": 58,
           "values": [
             14,
             22,
             21,
             14,
             29
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-4",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Reticentes incluso con instalación incluida",
-          "sample": 42,
           "values": [
             11,
             22,
             22,
             11,
             34
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         }
       ],
       "responses": [
         {
           "score": 1,
           "profile": "Muy escéptico ante la compra y la gestión de la recarga",
-          "quote": "Aunque me incluyan el punto de recarga y me lo dejen por escrito, sigo viendo demasiada incertidumbre en la obra, los permisos y los sobresaltos de precio."
+          "quote": "Aunque me incluyan el punto de recarga y me lo dejen por escrito, sigo viendo demasiada incertidumbre en la obra, los permisos y los sobresaltos de precio.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 2,
           "profile": "Dudoso, valora el eléctrico pero no lo ve resuelto",
-          "quote": "Me atrae la idea, pero no me termina de convencer que todo dependa de una instalación en el garaje y de que luego no aparezcan costes extra."
+          "quote": "Me atrae la idea, pero no me termina de convencer que todo dependa de una instalación en el garaje y de que luego no aparezcan costes extra.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 4,
           "profile": "Favorable si la oferta cierra bien el riesgo",
-          "quote": "Si el precio total y los plazos quedan cerrados por escrito, la instalación incluida me quitaría una barrera importante y me haría inclinarme bastante por el eléctrico."
+          "quote": "Si el precio total y los plazos quedan cerrados por escrito, la instalación incluida me quitaría una barrera importante y me haría inclinarme bastante por el eléctrico.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 5,
           "profile": "Muy predispuesto cuando la solución es simple y transparente",
-          "quote": "Con la instalación incluida en mi plaza y todo detallado por adelantado, me parecería una opción muy seria para cambiar a eléctrico en mi próxima compra."
+          "quote": "Con la instalación incluida en mi plaza y todo detallado por adelantado, me parecería una opción muy seria para cambiar a eléctrico en mi próxima compra.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         }
       ],
       "cautions": [
@@ -161,10 +507,152 @@
         "Las barreras comunitarias, técnicas y económicas pueden interactuar de formas distintas según edificio, ciudad y presupuesto."
       ]
     },
+    "populationFrame": {
+      "frameVersion": "population-frame-v1",
+      "intendedPopulation": "Conductores de ciudades españolas que viven en edificios con aparcamiento comunitario y prevén sustituir su coche en 24–36 meses",
+      "geography": {
+        "market": "Spain",
+        "countryCode": "ES"
+      },
+      "languages": {
+        "outputLocale": "es-ES",
+        "sourceLanguages": [
+          "es-ES"
+        ]
+      },
+      "characteristics": [],
+      "officialSourceDatasets": [],
+      "marginalDistributions": [],
+      "knownIntersections": [],
+      "populationCells": [],
+      "weighting": {
+        "method": "NONE",
+        "status": "NOT_APPLIED",
+        "diagnostics": {
+          "iterations": null,
+          "tolerance": null,
+          "maxAbsoluteError": null,
+          "minWeight": null,
+          "maxWeight": null,
+          "effectiveCellCount": null
+        }
+      },
+      "unsupportedCharacteristics": [
+        "Demographic and firmographic characteristics were not supplied as structured population data."
+      ],
+      "coverageDate": null,
+      "populationFit": {
+        "scoreVersion": "population-fit-v1",
+        "status": "UNMEASURED",
+        "overall": null,
+        "components": {
+          "geographyCoverage": null,
+          "marginalCoverage": null,
+          "intersectionCoverage": null,
+          "sourceQuality": null,
+          "sourceRecency": null,
+          "weightingQuality": null
+        },
+        "formula": "No aggregate is calculated until supported population variables and source datasets are present. When measured, every component and weight is reported alongside the aggregate."
+      },
+      "disclaimer": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people."
+    },
+    "researchDesign": {
+      "templateVersion": "research-method-contract-v1",
+      "methodId": "GENERAL_LIKERT",
+      "methodVersion": "general-likert-v1",
+      "designType": "DIRECTIONAL_LIKERT",
+      "estimand": "Model-generated directional response on the supplied five-point item",
+      "resultKind": "DIRECTIONAL_DISTRIBUTION",
+      "resultSchemaVersion": "method-result-v1",
+      "chartId": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "scale": {
+        "id": "LIKELIHOOD_5",
+        "points": 5,
+        "anchors": [
+          "Very unlikely",
+          "Unlikely",
+          "Not sure",
+          "Likely",
+          "Very likely"
+        ]
+      },
+      "outputStructure": {
+        "id": "five-point-directional-distribution",
+        "supportsSegments": true,
+        "supportsIllustrativePerspectives": true
+      },
+      "segmentPerspectiveEligible": true,
+      "stimulus": null,
+      "instrument": {
+        "requiredInputs": [
+          "research question",
+          "intended audience"
+        ],
+        "includedQuestions": [
+          {
+            "id": "primary-likelihood",
+            "purpose": "Explore a model-generated five-point directional response."
+          }
+        ],
+        "sections": []
+      },
+      "primaryOutcome": {
+        "id": "top-two-box",
+        "label": "Likely / very likely",
+        "value": 44,
+        "unit": "percentage points of a model-generated directional distribution"
+      },
+      "criticRubric": {
+        "id": "general-likert-critic-v1",
+        "criteria": [
+          "neutral wording",
+          "evidence alignment",
+          "stereotype risk",
+          "arithmetic consistency",
+          "no representative or human-response claims"
+        ]
+      },
+      "humanValidation": {
+        "required": true,
+        "recommendedMethod": "Sampled survey preceded by cognitive pretesting",
+        "rationale": "The synthetic distribution is a hypothesis and does not estimate population attitudes.",
+        "minimumChecks": [
+          "question comprehension",
+          "appropriate sampling frame",
+          "observed response distribution"
+        ]
+      },
+      "cautions": [
+        "This legacy-compatible method is a general directional Likert exploration, not a specialized research design."
+      ],
+      "disclosure": "Method-specific output is model-generated direction, not a human measurement."
+    },
+    "modelCard": {
+      "cardVersion": "likerts-model-card-v1",
+      "purpose": "Directional synthetic research for hypothesis generation and research planning.",
+      "permittedUse": "Explore model-generated hypotheses before validation with real people.",
+      "populationGrounding": "NONE",
+      "populationFrameHash": null,
+      "researchMethod": "GENERAL_LIKERT",
+      "researchMethodVersion": "general-likert-v1",
+      "researchMethodChart": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "attitudinalValidation": "NOT_VALIDATED",
+      "disclosure": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people.",
+      "disclosureCode": "SYNTHETIC_RESULTS_REQUIRE_HUMAN_VALIDATION"
+    },
     "provenance": {
       "runtimeVersion": "synthetic-research-v2.4",
       "researchMode": "DEEP",
+      "localizationRegistryVersion": "localization-capabilities-v2",
       "inputHash": "ff842f93e22533db9e0df731884706929422e478d98c089abd425838ea593e42",
+      "inputHashVersion": "legacy-unversioned",
+      "inputHashLineage": {
+        "hash": "ff842f93e22533db9e0df731884706929422e478d98c089abd425838ea593e42",
+        "version": "legacy-unversioned",
+        "status": "LEGACY_UNVERSIONED",
+        "crossVersionComparable": false
+      },
       "evidenceHash": "d1216761350d6551ba8caafb8bfe038fda0a6281297a6ad5056e0358f91d3cd0",
       "promptVersions": {
         "framing": "framing-v2",
@@ -178,7 +666,8 @@
         "respondentCell": "respondent-cell-schema-v2",
         "adjudication": "critic-schema-v2"
       },
-      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty.",
+      "disclaimerCode": "MODEL_GENERATION_NON_DETERMINISTIC"
     },
     "cost": {
       "currency": "USD",
@@ -354,6 +843,9 @@
           "excerpt": "sostenible (Nosi et al., 2017; Manfreda et al., 2021; Gulzari et al., 2022). La notable relevancia de esta variable como factor determinante en la adopción del vehículo eléctrico ha sido puesta de manifiesta en diversos estudios académicos realizados en China, Corea del Sur, Estados Unidos, Canadá, Alemania, Austria, Países Bajos y España (Axsen et al., 2018; Sovacool et al., 2019; Peters et al., 2018; Priessner et al., 2018; Bobeth, & Kastner, 2020; Higueras-Castillo et al., 2020; Hardman & Tal, 2021; Kim & Kang, 2022). Otros factores que podrían favorecer la aceleración de la adopción de este tipo de vehículos por los grupos poblacionales de adultos jóvenes son la mejora de la autonomía y la tecnología de los ve hículos, el incremento del número de puntos de carga y el aumento de los incentivos financieros y fiscales a la compra (Ghasri et al., 2019; Huat, 2022).",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "a3ff1abe3a116a4d5ff45dd3306a36a9ae57e9d6f6d0979710bca69959d1b6db"
         },
         {
@@ -362,6 +854,9 @@
           "excerpt": "Como hemos comentado anteriormente, es casi necesario tener una plaza de garaje para poder usar un vehículo eléctrico, por lo que hay que incurrir en un coste para instalar la infraestructura necesaria para poder cargarlo. El plan MOVES en todas sus variantes tiene en cuenta esto, dando una ayuda del 70% hasta un máximo de 5.000 euros a la instalación de cargadores a los particulares. ¿Cuánto cuesta realmente la instalación de un cargador en una plaza de garaje particular? ... -Coste del vehículo: Eléctrico: 17.449,42€ (Tras aplicarle la subvención) /// Gasolina: 9.768,92€ -Coste cada 100km: Eléctrico: 3,64€ /// Gasolina: 8,28€ -Coste de mantenimiento cada cinco años: Eléctrico: 450€ /// Gasolina: 850€ -Coste medio de la instalación de un cargador doméstico: Eléctrico: 345€ (Tras aplicarle la subvención) Si no tuviésemos plaza de garaje en propiedad, en",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "f231051d8584d4eca3912583ad56cb1e1656d920aca43f1ad28d418afb56864b"
         },
         {
@@ -370,6 +865,9 @@
           "excerpt": "que a la hora de instalar un punto de recarga en un garaje comunitario, la ley de Propiedad Horizontal en su artículo 17.5 dispone desde junio de 2013 que “la instalación de un punto de recarga de vehículos eléctricos para uso privado en el aparcamiento del edificio, siempre que éste se ubique en una plaza individual de garaje, sólo requerirá la comunicación previa a la comunidad. El coste de dicha instalación y el consumo de electricidad correspondiente serán asumidos íntegramente por el o los interesados directos en la misma”. Por lo tanto, no sería necesaria la ... Si el punto de carga quiere instalarse en un garaje comunitario, el precio aumentaría ya que se trata de una instalación que suele precisar de más metros de cable. Por ello nos encontraríamos en un intervalo que iría desde los 1100 hasta los 1600 euros. Los tipos de instalación ofertados son tres:",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "6e04540d11c9e37309eace9c1372e55524dfa5ea7e81eccd94fcddb919fcc9b3"
         }
       ]
@@ -407,7 +905,7 @@
       "note": "This is a separate model stage within one pipeline, not independent external verification."
     }
   },
-  "status": "automated-qa-passed-human-editorial-review-pending",
+  "status": "automated-qa-passed",
   "htmlUrl": "/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/",
   "dataUrl": "/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/study.json",
   "canonicalUrl": "https://likerts.com/es-es/studies/coche-electrico-recarga-garaje-comunitario-espana/"

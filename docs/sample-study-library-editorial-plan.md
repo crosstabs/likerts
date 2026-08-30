@@ -11,7 +11,7 @@ Permitted status labels are:
 - `Automated QA passed` — automated structural, language-script, source-link, arithmetic, metadata, and policy checks passed.
 - `Human editorial review pending` — no qualified human editor has yet approved the study.
 - `Human editorial review completed by {name or accountable team}, {date}` — use only after that person or team actually reviewed the complete page.
-- `Native-language review completed by {name or accountable team}, {date}` — use only after a proficient human reviewer actually reviewed the full localized page.
+- `Native-language review completed by {name or accountable team}, {date}` — use only after a proficient human reviewer actually reviewed the full locale-specific page.
 - `Independent review completed by {name or organization}, {date}` — use only when a reviewer independent of the production process actually performed and documented the review.
 
 `Automated QA passed` must never be presented as equivalent to human, native-language, expert, or independent editorial review.
@@ -20,7 +20,7 @@ Permitted status labels are:
 
 Likerts should launch a small, curated library of complete, frozen synthetic sample studies. The library should demonstrate the product, create useful entry points for different languages and industries, and lead readers toward appropriate human research.
 
-Launch with ten studies: one locally relevant study for each currently supported interface locale. Do not expand into a locale-by-industry matrix until the pilot pages meet the quality gates in this document and demonstrate real user value.
+Launch with ten studies: one locally relevant study for each currently enabled sample/report locale. Do not expand into a locale-by-industry matrix until the pilot pages meet the quality gates in this document and demonstrate real user value.
 
 Every public study must remain explicit that:
 
@@ -33,7 +33,7 @@ Every public study must remain explicit that:
 
 ## Current-state audit
 
-The repository currently supports these ten interface locales:
+The repository currently supports these ten enabled sample/report locales. Interface-language support is a narrower runtime capability and must not include a locale until the UI catalog has exact key and placeholder coverage:
 
 - `en-US`
 - `es-ES`
@@ -48,7 +48,7 @@ The repository currently supports these ten interface locales:
 
 The existing `/examples/` page is English-only and contains four example briefs rather than complete studies. It explicitly reports no audience findings. The public sitemap contains no study-library, locale-hub, industry-hub, or study-detail URLs.
 
-The current market picker omits Spain and Saudi Arabia even though `es-ES` and `ar-SA` are supported locales. Before those sample pages offer a prefilled “run this study” action, either add Spain and Saudi Arabia to the supported market configuration or disclose that the static study market cannot yet be selected in the app. Do not silently substitute Mexico for Spain or the United Arab Emirates for Saudi Arabia.
+The market picker includes Spain and Saudi Arabia for market routing and locale-specific output, but `es-ES` and `ar-SA` interface UI remain planned until their UI catalogs are complete. Static sample/report availability must not be described as complete interface localization.
 
 ## Common study-record requirements
 
@@ -288,7 +288,7 @@ Use this hierarchy:
 /studies/                                      Global collection and methodology summary
 /studies/industries/                           Editorial industry index
 /studies/industries/{industry}/                Publish only after the industry-hub gate passes
-/{locale}/studies/                             Localized market and library hub
+/{locale}/studies/                             Locale-specific market and library hub
 /{locale}/studies/{stable-slug}/               Frozen study detail
 /{locale}/studies/{stable-slug}/study.json     Machine-readable study record
 ```

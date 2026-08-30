@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "brief": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "stableId": "SS-PT-BR-001",
     "slug": "assinatura-pix-automatico-microempresas-brasil",
     "locale": "pt-BR",
@@ -12,6 +12,22 @@
     "disclosure": "Estimativa sintética gerada por modelos, não uma pesquisa observada com pessoas.",
     "evidenceBoundary": "Estatísticas e regras do Banco Central podem definir uso, operação, autorização e cancelamento do Pix; não comprovam disposição para assinar, confiança, compreensão, conversão, retenção ou preferência por uma interface.",
     "humanValidation": "Realizar entrevistas de compreensão em português; testar variações de aviso, notificação, cancelamento e preço; observar autorização, falhas, cancelamentos, disputas e contatos de suporte em um piloto limitado.",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "marketId": "BR",
+      "reportLocale": "pt-BR",
+      "sourceLocales": [
+        "pt-BR"
+      ],
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "pt-BR"
+        ]
+      },
+      "instrumentLocale": "pt-BR"
+    },
+    "localizationRegistryVersion": "localization-capabilities-v2",
     "curatedContextUrls": [
       "https://www.bcb.gov.br/estabilidadefinanceira/pix-em-numeros-estatisticas",
       "https://dadosabertos.bcb.gov.br/dataset/pix",
@@ -29,11 +45,176 @@
         "pt-BR"
       ],
       "searchCountry": "BR",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "marketId": "BR",
+        "reportLocale": "pt-BR",
+        "sourceLocales": [
+          "pt-BR"
+        ],
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "pt-BR"
+          ]
+        },
+        "instrumentLocale": "pt-BR"
+      },
       "outputLocale": "pt-BR",
       "researchMode": "DEEP",
       "evidencePolicy": "AUTO",
       "clientRunId": "sample-assinatura-pix-automatico-microempresas-brasil"
     }
+  },
+  "localization": {
+    "schemaVersion": "study-localization-v1",
+    "registryVersion": "localization-capabilities-v2",
+    "inputMode": "canonical-with-legacy",
+    "market": {
+      "id": "BR",
+      "kind": "registered",
+      "label": "Brazil",
+      "countryCode": "BR",
+      "searchLocation": "Brazil",
+      "retrievalGeography": {
+        "countryCode": "BR",
+        "location": "Brazil"
+      }
+    },
+    "report": {
+      "locale": "pt-BR",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    },
+    "source": {
+      "locales": [
+        "pt-BR"
+      ]
+    },
+    "retrieval": {
+      "policy": "PREFER",
+      "locales": [
+        "pt-BR"
+      ]
+    },
+    "instrument": {
+      "locale": "pt-BR",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    }
+  },
+  "localizationRegistryVersion": "localization-capabilities-v2",
+  "sampleLineage": {
+    "schemaVersion": "sample-lineage-v2",
+    "source": "static-sample-library",
+    "stableId": "SS-PT-BR-001",
+    "slug": "assinatura-pix-automatico-microempresas-brasil",
+    "sampleSchemaVersion": "1.1",
+    "localizationRegistryVersion": "localization-capabilities-v2",
+    "localizationReceipt": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "BR",
+        "kind": "registered",
+        "label": "Brazil",
+        "countryCode": "BR",
+        "searchLocation": "Brazil",
+        "retrievalGeography": {
+          "countryCode": "BR",
+          "location": "Brazil"
+        }
+      },
+      "report": {
+        "locale": "pt-BR",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "pt-BR"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "pt-BR"
+        ]
+      },
+      "instrument": {
+        "locale": "pt-BR",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "scope": "sample-brief-copy",
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "quality": {
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract",
+      "checkedAt": "2026-08-29T02:51:59.163Z"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "glossaryVersion": null,
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "rerun": {
+    "allowed": true,
+    "block": null
   },
   "curatedContextCandidates": [
     {
@@ -54,12 +235,157 @@
     }
   ],
   "capture": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "briefSlug": "assinatura-pix-automatico-microempresas-brasil",
     "stableId": "SS-PT-BR-001",
+    "sampleLineage": {
+      "schemaVersion": "sample-lineage-v2",
+      "source": "static-sample-library",
+      "stableId": "SS-PT-BR-001",
+      "slug": "assinatura-pix-automatico-microempresas-brasil",
+      "sampleSchemaVersion": "1.1",
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "localizationReceipt": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "BR",
+          "kind": "registered",
+          "label": "Brazil",
+          "countryCode": "BR",
+          "searchLocation": "Brazil",
+          "retrievalGeography": {
+            "countryCode": "BR",
+            "location": "Brazil"
+          }
+        },
+        "report": {
+          "locale": "pt-BR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "pt-BR"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "pt-BR"
+          ]
+        },
+        "instrument": {
+          "locale": "pt-BR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "scope": "sample-brief-copy",
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "studyId": "study_8bc8a5a3-0cb6-4630-8720-353760a20856",
     "runId": "run_37ebae09-0b1c-4387-a4c6-4dbb480e0959",
     "capturedAt": "2026-08-29T02:51:59.163Z",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "BR",
+        "kind": "registered",
+        "label": "Brazil",
+        "countryCode": "BR",
+        "searchLocation": "Brazil",
+        "retrievalGeography": {
+          "countryCode": "BR",
+          "location": "Brazil"
+        }
+      },
+      "report": {
+        "locale": "pt-BR",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "pt-BR"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "pt-BR"
+        ]
+      },
+      "instrument": {
+        "locale": "pt-BR",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "quality": {
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract",
+        "checkedAt": "2026-08-29T02:51:59.163Z"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "study": {
       "title": "Probabilidade de contratar assinatura empresarial via Pix Automático com",
       "summary": "Estudo sintético para gerar hipóteses sobre a disposição de MEI e donos de pequenas empresas, no Brasil, em contratar uma assinatura empresarial via Pix Automático quando valor, frequência, aviso pré-cobrança e cancelamento imediato são exp",
@@ -93,70 +419,90 @@
       },
       "segments": [
         {
+          "id": "segment-1",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Pragmáticos orientados à conveniência",
-          "sample": 58,
           "values": [
             7,
             14,
             29,
             33,
             17
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-2",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Cautelosos focados em controle financeiro",
-          "sample": 56,
           "values": [
             4,
             9,
             21,
             36,
             30
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-3",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Favoráveis à automação com transparência",
-          "sample": 49,
           "values": [
             2,
             4,
             16,
             45,
             33
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-4",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Resistentes por receio de cobrança recorrente",
-          "sample": 37,
           "values": [
             5,
             19,
             30,
             8,
             38
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         }
       ],
       "responses": [
         {
           "score": 1,
           "profile": "Pequeno empresário muito avesso a recorrência automática sem acompanhar de perto",
-          "quote": "Eu só aceitaria se tivesse um painel muito claro para ver cada cobrança antes e cancelar na hora. Mesmo assim, ainda prefiro pagar manualmente porque gosto de decidir cada saída de caixa."
+          "quote": "Eu só aceitaria se tivesse um painel muito claro para ver cada cobrança antes e cancelar na hora. Mesmo assim, ainda prefiro pagar manualmente porque gosto de decidir cada saída de caixa.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 2,
           "profile": "MEI que reconhece a utilidade, mas teme esquecimento e cobrança fora do planejamento",
-          "quote": "Se o valor e a frequência viessem totalmente explícitos, eu consideraria. Mas para assinatura eu continuo com pé atrás, porque qualquer descuido afeta o caixa do mês."
+          "quote": "Se o valor e a frequência viessem totalmente explícitos, eu consideraria. Mas para assinatura eu continuo com pé atrás, porque qualquer descuido afeta o caixa do mês.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 4,
           "profile": "Dono de pequena empresa que valoriza praticidade e avisos prévios",
-          "quote": "Se eu receber aviso antes da cobrança e puder cancelar imediatamente, a chance de eu contratar é alta. Para rotina empresarial, isso poupa tempo e reduz trabalho operacional."
+          "quote": "Se eu receber aviso antes da cobrança e puder cancelar imediatamente, a chance de eu contratar é alta. Para rotina empresarial, isso poupa tempo e reduz trabalho operacional.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 5,
           "profile": "Usuário já habituado a Pix e aberto a automatizar despesas recorrentes",
-          "quote": "Para mim faz bastante sentido, principalmente se a autorização for explícita e tudo aparecer antes. Se eu puder acompanhar e cancelar sem burocracia, eu contrataria sem muita hesitação."
+          "quote": "Para mim faz bastante sentido, principalmente se a autorização for explícita e tudo aparecer antes. Se eu puder acompanhar e cancelar sem burocracia, eu contrataria sem muita hesitação.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         }
       ],
       "cautions": [
@@ -166,10 +512,152 @@
         "As respostas ilustrativas são modeladas e não representam declarações verificadas de pessoas reais."
       ]
     },
+    "populationFrame": {
+      "frameVersion": "population-frame-v1",
+      "intendedPopulation": "MEI e donos de pequenas empresas que já usam Pix em transações comerciais",
+      "geography": {
+        "market": "Brazil",
+        "countryCode": "BR"
+      },
+      "languages": {
+        "outputLocale": "pt-BR",
+        "sourceLanguages": [
+          "pt-BR"
+        ]
+      },
+      "characteristics": [],
+      "officialSourceDatasets": [],
+      "marginalDistributions": [],
+      "knownIntersections": [],
+      "populationCells": [],
+      "weighting": {
+        "method": "NONE",
+        "status": "NOT_APPLIED",
+        "diagnostics": {
+          "iterations": null,
+          "tolerance": null,
+          "maxAbsoluteError": null,
+          "minWeight": null,
+          "maxWeight": null,
+          "effectiveCellCount": null
+        }
+      },
+      "unsupportedCharacteristics": [
+        "Demographic and firmographic characteristics were not supplied as structured population data."
+      ],
+      "coverageDate": null,
+      "populationFit": {
+        "scoreVersion": "population-fit-v1",
+        "status": "UNMEASURED",
+        "overall": null,
+        "components": {
+          "geographyCoverage": null,
+          "marginalCoverage": null,
+          "intersectionCoverage": null,
+          "sourceQuality": null,
+          "sourceRecency": null,
+          "weightingQuality": null
+        },
+        "formula": "No aggregate is calculated until supported population variables and source datasets are present. When measured, every component and weight is reported alongside the aggregate."
+      },
+      "disclaimer": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people."
+    },
+    "researchDesign": {
+      "templateVersion": "research-method-contract-v1",
+      "methodId": "GENERAL_LIKERT",
+      "methodVersion": "general-likert-v1",
+      "designType": "DIRECTIONAL_LIKERT",
+      "estimand": "Model-generated directional response on the supplied five-point item",
+      "resultKind": "DIRECTIONAL_DISTRIBUTION",
+      "resultSchemaVersion": "method-result-v1",
+      "chartId": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "scale": {
+        "id": "LIKELIHOOD_5",
+        "points": 5,
+        "anchors": [
+          "Very unlikely",
+          "Unlikely",
+          "Not sure",
+          "Likely",
+          "Very likely"
+        ]
+      },
+      "outputStructure": {
+        "id": "five-point-directional-distribution",
+        "supportsSegments": true,
+        "supportsIllustrativePerspectives": true
+      },
+      "segmentPerspectiveEligible": true,
+      "stimulus": null,
+      "instrument": {
+        "requiredInputs": [
+          "research question",
+          "intended audience"
+        ],
+        "includedQuestions": [
+          {
+            "id": "primary-likelihood",
+            "purpose": "Explore a model-generated five-point directional response."
+          }
+        ],
+        "sections": []
+      },
+      "primaryOutcome": {
+        "id": "top-two-box",
+        "label": "Likely / very likely",
+        "value": 54,
+        "unit": "percentage points of a model-generated directional distribution"
+      },
+      "criticRubric": {
+        "id": "general-likert-critic-v1",
+        "criteria": [
+          "neutral wording",
+          "evidence alignment",
+          "stereotype risk",
+          "arithmetic consistency",
+          "no representative or human-response claims"
+        ]
+      },
+      "humanValidation": {
+        "required": true,
+        "recommendedMethod": "Sampled survey preceded by cognitive pretesting",
+        "rationale": "The synthetic distribution is a hypothesis and does not estimate population attitudes.",
+        "minimumChecks": [
+          "question comprehension",
+          "appropriate sampling frame",
+          "observed response distribution"
+        ]
+      },
+      "cautions": [
+        "This legacy-compatible method is a general directional Likert exploration, not a specialized research design."
+      ],
+      "disclosure": "Method-specific output is model-generated direction, not a human measurement."
+    },
+    "modelCard": {
+      "cardVersion": "likerts-model-card-v1",
+      "purpose": "Directional synthetic research for hypothesis generation and research planning.",
+      "permittedUse": "Explore model-generated hypotheses before validation with real people.",
+      "populationGrounding": "NONE",
+      "populationFrameHash": null,
+      "researchMethod": "GENERAL_LIKERT",
+      "researchMethodVersion": "general-likert-v1",
+      "researchMethodChart": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "attitudinalValidation": "NOT_VALIDATED",
+      "disclosure": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people.",
+      "disclosureCode": "SYNTHETIC_RESULTS_REQUIRE_HUMAN_VALIDATION"
+    },
     "provenance": {
       "runtimeVersion": "synthetic-research-v2.4",
       "researchMode": "DEEP",
+      "localizationRegistryVersion": "localization-capabilities-v2",
       "inputHash": "9461b030f3abaecb0ed93880df33b5c6b3afb5fbfbd83cd8f3ffe618ca932f48",
+      "inputHashVersion": "legacy-unversioned",
+      "inputHashLineage": {
+        "hash": "9461b030f3abaecb0ed93880df33b5c6b3afb5fbfbd83cd8f3ffe618ca932f48",
+        "version": "legacy-unversioned",
+        "status": "LEGACY_UNVERSIONED",
+        "crossVersionComparable": false
+      },
       "evidenceHash": "23b235cb57aac2d20f96a45375fb54ae97ff56282b7db5abd29ac8345b9954a8",
       "promptVersions": {
         "framing": "framing-v2",
@@ -183,7 +671,8 @@
         "respondentCell": "respondent-cell-schema-v2",
         "adjudication": "critic-schema-v2"
       },
-      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty.",
+      "disclaimerCode": "MODEL_GENERATION_NON_DETERMINISTIC"
     },
     "cost": {
       "currency": "USD",
@@ -359,6 +848,9 @@
           "excerpt": "pelos entrevistados foi o do cartão de crédito, com 76% (108) dos respondentes e em sequência: PIX 14,8% (21); Boleto 7% (10); E-wallets 2,1% (3). O cartão de débito também foi uma opção nessa pergunta, porém não foi selecionado por nenhum respondente. O segundo meio de pagamento mais votado foi o PIX, com a justificativa da agilidade da aprovação de pagamento. Essa funcionalidade foi a que obteve o maior diferencial entre os meios analisados. O boleto foi o terceiro meio mais selecionado, e seguiu um racional oposto ao PIX, o qual os maiores utilizadores desse meio de pagamento o escolhem devido ao prazo adicional para realizar o pagamento do boleto (em média 1 a 2 dias úteis), e, consequentemente, a possibilidade de pensar com mais tempo se devem ou não realizar a compra. A última opção ficou com as carteiras digitais, que são dependentes de um cartão de crédito e",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "c303d6280ba991b73f9dc54f952960272b06fcf3116b28af37f2809b9ada181c"
         },
         {
@@ -367,6 +859,9 @@
           "excerpt": "Dentro da amostra, 81% dos usuários realizam PIX pelo menos uma vez na semana. A Figura 14 representa a frequência de uso desta solução no momento de uma compra, ilustrando a rápida adoção tecnológica e como o PIX se tornou presente e comum na rotina do brasileiro. ... Para avaliar a preferência do usuário em relação ao PIX versus o cartão de crédito, foram realizadas duas perguntas. A primeira era se o usuário prefere realizar uma compra parcelada no crédito ou com PIX, considerando um desconto de 10%, sendo uma média dos descontos oferecidos pelo PIX, como noticiado pela CNN (2024), mencionando um estudo sobre os meios de pagamento. Nesse contexto, verificou-se, da amostra, que 52% preferem utilizar o PIX caso haja o desconto, 17% preferem realizar um parcelamento sem juros, 11% preferem utilizar o cartão 41% 39% 10% 8% 2% 33% 43% 12% 9% 2% 0% 10% 20% 30% 40% 50%",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "164ceaf653c96b7f9c38a378d22ea824c6774fd1cf88d02334f2a7588ce5639f"
         },
         {
@@ -375,6 +870,9 @@
           "excerpt": "que 20,69% deixaria o pagamento em débito automático por nada mais que o cancelamento dos descontos que o mesmo estava recebendo. Em relação ao tempo que os pesquisados já efetuam o pagamento em débito automático, considerando como: (A) 1 a 3 meses, (B) 3 a 8 meses, (C) 8 a 12 Qual motivo levaria o cliente cancelar o pagamento de débito automático meses, (D) 1 ano, (E) 2 anos e (F) mais de 2 anos, pode-se identificar no gráfico abaixo que, Gráfico 3: Tempo que o pesquisado efetua pagamentos através de débito automático. Fonte: Coleta de dados por meio de pesquisa para fundamentar o presente trabalho, outubro/2008. A maioria dos pesquisados, 23% realizam o pagamento em débito automático a mais de 2 anos e as classes (D) e (E) que somadas dão 35% pagam em débito automático de 1 a 2 anos, a partir disso percebe-se que as classes (D), (E) e (F) que somadas representam 58%",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "af0a16a8190cfe89be09ba541894748ed6eda3e9554169f3aa59793771cfdc5f"
         },
         {
@@ -383,6 +881,9 @@
           "excerpt": "A maioria dos brasileiros (81%) diz conhecer o Pix Automático, mas só 11,8% o utilizam para pagar contas mensais. Outros 15% ainda mantêm o uso de boletos e 7,2% usam o débito automático tradicional como modalidades principais. ... A aderência ainda limitada à versão automática do Pix se relaciona a outros dados apresentados pelo levantamento, como a preferência pelo controle manual dos gastos por 44,8% dos brasileiros e a afirmação de mais da metade dos entrevistados de que deixaram de ... Apesar de detectar uma aderência ainda limitada, a pesquisa capta um futuro que pode ser promissor para a funcionalidade. Segundo os dados, 46,4% associam pagamentos automáticos à prevenção de atrasos e 21% à redução de estresse, mas a migração depende de confiança: 81% adotariam a funcionalidade automática do Pix se houvesse total transparência e facilidade de cancelamento.",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "a95141bb1b354657e69b872f09ff97918b866d8df1656f500e03fbbf670a28c6"
         }
       ]
@@ -420,7 +921,7 @@
       "note": "This is a separate model stage within one pipeline, not independent external verification."
     }
   },
-  "status": "automated-qa-passed-human-editorial-review-pending",
+  "status": "automated-qa-passed",
   "htmlUrl": "/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/",
   "dataUrl": "/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/study.json",
   "canonicalUrl": "https://likerts.com/pt-br/studies/assinatura-pix-automatico-microempresas-brasil/"

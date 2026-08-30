@@ -37,6 +37,37 @@ const intersections = [
   'older adults × accessibility needs',
 ];
 
+export const researchMethodConfigs = Object.freeze({
+  GENERAL_LIKERT: { method: 'GENERAL_LIKERT' },
+  CONCEPT_TEST: { method: 'CONCEPT_TEST', concept: { id: 'concept-1', text: 'A reversible reporting workspace trial with guided setup.' }, exposureContext: 'Monadic landing-page exposure' },
+  PURCHASE_INTENT: { method: 'PURCHASE_INTENT', offer: { id: 'offer-1', text: 'A monthly reporting workspace with guided setup.' }, category: 'Reporting software', price: { amount: 20, currency: 'USD', unit: 'per month' }, channel: 'Direct website', purchaseHorizon: 'Within three months', referenceAlternative: 'Spreadsheets' },
+  MESSAGE_TEST: { method: 'MESSAGE_TEST', message: { id: 'message-1', text: 'Bring every weekly report together in one focused workspace.' }, intendedAction: 'Start a free trial', exposureContext: 'Landing-page hero' },
+  CLAIMS_TEST: { method: 'CLAIMS_TEST', claim: { id: 'claim-1', text: 'Teams can complete routine weekly reporting in half the time.' }, claimStatus: 'UNVERIFIED', exposureContext: 'Product page' },
+  UX_EXPECTATION_TEST: { method: 'UX_EXPECTATION_TEST', taskScenario: { id: 'task-1', text: 'A first-time administrator exports the prior month of account activity.' }, userGoal: 'Create a finance report', experienceDescription: 'A browser dashboard with a reports section and CSV export action.', context: 'First use', device: 'Laptop browser' },
+  FEATURE_PRIORITIZATION: { method: 'FEATURE_PRIORITIZATION', features: [{ id: 'setup', text: 'Fast setup' }, { id: 'export', text: 'Data export' }, { id: 'sharing', text: 'Team sharing' }], decisionContext: 'Choose the next product investment', selectionConstraint: 'Rank every feature from highest to lowest priority' },
+  BRAND_POSITIONING: { method: 'BRAND_POSITIONING', focalBrand: { id: 'northstar', label: 'Northstar' }, comparatorBrands: [{ id: 'brand-a', label: 'Brand A' }, { id: 'brand-b', label: 'Brand B' }], category: 'Project management software', attributes: [{ id: 'value', label: 'Value' }, { id: 'ease', label: 'Ease of use' }, { id: 'security', label: 'Security' }] },
+  PRICE_SENSITIVITY: { method: 'PRICE_SENSITIVITY', offer: { id: 'offer-1', text: 'A monthly reporting workspace for small business owners.' }, category: 'Reporting software', currency: 'USD', unit: 'per month', channel: 'Direct website', purchaseHorizon: 'Within three months', referenceAlternative: 'Spreadsheets', pricePoints: [{ id: 'price-10', amount: 10 }, { id: 'price-20', amount: 20 }, { id: 'price-30', amount: 30 }] },
+  SURVEY_PRETEST: { method: 'SURVEY_PRETEST', studyObjective: 'Understand account-management satisfaction', targetPopulation: 'Small business administrators', surveyQuestions: [{ id: 'q1', text: 'How satisfied are you with account management?' }] },
+  INTERVIEW_GUIDE: { method: 'INTERVIEW_GUIDE', researchObjective: 'Understand first-use expectations', participantContext: 'People evaluating a new reporting tool', topics: [{ id: 'first-use', label: 'First use' }, { id: 'trust', label: 'Trust' }], sensitiveAreas: ['Personal financial details'] },
+});
+
+export const methodEvaluationFixtures = Object.freeze(localeProfiles.flatMap(([locale, script, market], localeIndex) => (
+  Object.entries(researchMethodConfigs).map(([researchMethod, methodConfig], methodIndex) => ({
+    id: `method-${locale}-${researchMethod.toLowerCase()}`,
+    locale,
+    script,
+    direction: locale === 'ar-SA' ? 'rtl' : 'ltr',
+    market,
+    researchMethod,
+    methodConfig,
+    sourceMode: (localeIndex + methodIndex) % 2 ? 'PRIOR_ONLY' : 'UPLOADED_GROUNDING',
+    handoffExpected: true,
+    networkAllowed: false,
+    paidModelCallAllowed: false,
+    expected: 'offline-contract-validation',
+  }))
+)));
+
 export const evaluationFixtures = localeProfiles.flatMap(([locale, script, market]) => questionTypes.map(([questionType, prompt], index) => ({
   id: `${locale}-${questionType}`,
   locale,
@@ -79,4 +110,7 @@ export const fixtureDimensions = {
   modes: ['PRIOR_ONLY', 'WEB_EVIDENCE'],
   depths: ['Quick', 'Deep'],
   questionTypes: [...new Set([...questionTypes.map(([type]) => type), 'sensitive-health', 'sensitive-employment', 'sensitive-credit', 'sensitive-political', 'sensitive-identity', 'sensitive-finance', 'malformed'])],
+  researchMethods: Object.keys(researchMethodConfigs),
+  followUpIntents: ['FOLLOW_UP', 'OBJECTION', 'COUNTERFACTUAL', 'CONCEPT_COMPARISON'],
+  resultKinds: ['DIRECTIONAL_DISTRIBUTION', 'RANKED_ITEMS', 'ATTRIBUTE_MATRIX', 'PRICE_LADDER', 'INSTRUMENT_REVIEW', 'INTERVIEW_GUIDE'],
 };

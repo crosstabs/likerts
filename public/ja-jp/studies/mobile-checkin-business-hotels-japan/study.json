@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "brief": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "stableId": "SS-JA-JP-001",
     "slug": "mobile-checkin-business-hotels-japan",
     "locale": "ja-JP",
@@ -12,6 +12,22 @@
     "disclosure": "これはモデル生成の合成的な結果であり、観測された調査回答ではありません。",
     "evidenceBoundary": "観光庁の統計は宿泊・旅行の状況と観光DXの方針を説明できますが、旅行者の選好、運用上の節約、待ち時間短縮、アクセシビリティ、デジタルキーの成功を証明するものではありません。",
     "humanValidation": "到着動線を観察し、年齢と端末習熟度を横断して日本語で面接し、利用選択をA/Bテストして、完了率、対面切替、所要時間、締め出し、アクセシビリティ問題、満足度を測定する。",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "marketId": "JP",
+      "reportLocale": "ja-JP",
+      "sourceLocales": [
+        "ja-JP"
+      ],
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "ja-JP"
+        ]
+      },
+      "instrumentLocale": "ja-JP"
+    },
+    "localizationRegistryVersion": "localization-capabilities-v2",
     "curatedContextUrls": [
       "https://www.mlit.go.jp/kankocho/tokei_hakusyo/shukuhakutokei.html",
       "https://www.mlit.go.jp/kankocho/seisaku_seido/kihonkeikaku/jizoku_kankochi/kanko-dx.html",
@@ -28,11 +44,176 @@
         "ja-JP"
       ],
       "searchCountry": "JP",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "marketId": "JP",
+        "reportLocale": "ja-JP",
+        "sourceLocales": [
+          "ja-JP"
+        ],
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "ja-JP"
+          ]
+        },
+        "instrumentLocale": "ja-JP"
+      },
       "outputLocale": "ja-JP",
       "researchMode": "DEEP",
       "evidencePolicy": "AUTO",
       "clientRunId": "sample-mobile-checkin-business-hotels-japan"
     }
+  },
+  "localization": {
+    "schemaVersion": "study-localization-v1",
+    "registryVersion": "localization-capabilities-v2",
+    "inputMode": "canonical-with-legacy",
+    "market": {
+      "id": "JP",
+      "kind": "registered",
+      "label": "Japan",
+      "countryCode": "JP",
+      "searchLocation": "Japan",
+      "retrievalGeography": {
+        "countryCode": "JP",
+        "location": "Japan"
+      }
+    },
+    "report": {
+      "locale": "ja-JP",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    },
+    "source": {
+      "locales": [
+        "ja-JP"
+      ]
+    },
+    "retrieval": {
+      "policy": "PREFER",
+      "locales": [
+        "ja-JP"
+      ]
+    },
+    "instrument": {
+      "locale": "ja-JP",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    }
+  },
+  "localizationRegistryVersion": "localization-capabilities-v2",
+  "sampleLineage": {
+    "schemaVersion": "sample-lineage-v2",
+    "source": "static-sample-library",
+    "stableId": "SS-JA-JP-001",
+    "slug": "mobile-checkin-business-hotels-japan",
+    "sampleSchemaVersion": "1.1",
+    "localizationRegistryVersion": "localization-capabilities-v2",
+    "localizationReceipt": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "JP",
+        "kind": "registered",
+        "label": "Japan",
+        "countryCode": "JP",
+        "searchLocation": "Japan",
+        "retrievalGeography": {
+          "countryCode": "JP",
+          "location": "Japan"
+        }
+      },
+      "report": {
+        "locale": "ja-JP",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "ja-JP"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "ja-JP"
+        ]
+      },
+      "instrument": {
+        "locale": "ja-JP",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "scope": "sample-brief-copy",
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "quality": {
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract",
+      "checkedAt": "2026-08-29T02:53:04.269Z"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "glossaryVersion": null,
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "rerun": {
+    "allowed": true,
+    "block": null
   },
   "curatedContextCandidates": [
     {
@@ -49,12 +230,157 @@
     }
   ],
   "capture": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "briefSlug": "mobile-checkin-business-hotels-japan",
     "stableId": "SS-JA-JP-001",
+    "sampleLineage": {
+      "schemaVersion": "sample-lineage-v2",
+      "source": "static-sample-library",
+      "stableId": "SS-JA-JP-001",
+      "slug": "mobile-checkin-business-hotels-japan",
+      "sampleSchemaVersion": "1.1",
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "localizationReceipt": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "JP",
+          "kind": "registered",
+          "label": "Japan",
+          "countryCode": "JP",
+          "searchLocation": "Japan",
+          "retrievalGeography": {
+            "countryCode": "JP",
+            "location": "Japan"
+          }
+        },
+        "report": {
+          "locale": "ja-JP",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "ja-JP"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "ja-JP"
+          ]
+        },
+        "instrument": {
+          "locale": "ja-JP",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "scope": "sample-brief-copy",
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "studyId": "study_51415455-b4de-4325-b02d-efa27914b04e",
     "runId": "run_8ad238ad-f2e2-459e-8d0e-9ae3f4ad0cd8",
     "capturedAt": "2026-08-29T02:53:04.269Z",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "JP",
+        "kind": "registered",
+        "label": "Japan",
+        "countryCode": "JP",
+        "searchLocation": "Japan",
+        "retrievalGeography": {
+          "countryCode": "JP",
+          "location": "Japan"
+        }
+      },
+      "report": {
+        "locale": "ja-JP",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "ja-JP"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "ja-JP"
+        ]
+      },
+      "instrument": {
+        "locale": "ja-JP",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "quality": {
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract",
+        "checkedAt": "2026-08-29T02:53:04.269Z"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "study": {
       "title": "国内ビジネスホテルでのモバイル事前チェックインとデジタルキー利用意向",
       "summary": "国内のビジネスホテルでの次回宿泊を想定し、スタッフ対応の選択可否、料金・キャンセル条件・データ利用の事前明示、本人確認要件への適合、物理キー代替の有無を前提に、モバイル事前チェックインとデジタルキーの利用可能性を5段階で自己申告してもらう想定の合成結果です。全体としては「やや利用する」側に重心がありつつも、対面支援の継続や条件の明示がある場合に受容が高まり、デジタル化による利便性を評価する一方で、手続きが必ずしも待ち時間短縮につながるとは限らないという慎重な見方も含まれます。",
@@ -88,70 +414,90 @@
       },
       "segments": [
         {
+          "id": "segment-1",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "利便性重視だが条件確認も重視する層",
-          "sample": 62,
           "values": [
             6,
             15,
             35,
             31,
             13
-          ]
+          ],
+          "boundary": "これはモデルが構築した分析セグメントであり、観測された参加者集団ではありません。",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-2",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "中立的・保留的な層",
-          "sample": 54,
           "values": [
             8,
             13,
             33,
             33,
             13
-          ]
+          ],
+          "boundary": "これはモデルが構築した分析セグメントであり、観測された参加者集団ではありません。",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-3",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "対面支援を残せば受け入れやすい層",
-          "sample": 43,
           "values": [
             2,
             5,
             19,
             46,
             28
-          ]
+          ],
+          "boundary": "これはモデルが構築した分析セグメントであり、観測された参加者集団ではありません。",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-4",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "デジタル手続きに積極的な層",
-          "sample": 41,
           "values": [
             2,
             0,
             29,
             37,
             32
-          ]
+          ],
+          "boundary": "これはモデルが構築した分析セグメントであり、観測された参加者集団ではありません。",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         }
       ],
       "responses": [
         {
           "score": 1,
           "profile": "対面での確認を好み、出張先では手間より安心感を優先するタイプ",
-          "quote": "スタッフに聞けるなら使ってもいいですが、全部スマホで済ませるのはまだ不安です。"
+          "quote": "スタッフに聞けるなら使ってもいいですが、全部スマホで済ませるのはまだ不安です。",
+          "disclosure": "モデルが生成した視点であり、参加者の発言ではありません。",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 2,
           "profile": "利便性は理解するが、条件やトラブル時の戻り先を気にするタイプ",
-          "quote": "事前に説明が明確なら試せますが、急な変更や確認が必要なときに少し面倒そうです。"
+          "quote": "事前に説明が明確なら試せますが、急な変更や確認が必要なときに少し面倒そうです。",
+          "disclosure": "モデルが生成した視点であり、参加者の発言ではありません。",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 3,
           "profile": "状況次第で判断する実務重視タイプ",
-          "quote": "待ち時間が短くなるなら使いたいです。ただ、必ずしも早くなるとは限らないので、現時点では半々です。"
+          "quote": "待ち時間が短くなるなら使いたいです。ただ、必ずしも早くなるとは限らないので、現時点では半々です。",
+          "disclosure": "モデルが生成した視点であり、参加者の発言ではありません。",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 5,
           "profile": "デジタル化の手軽さを高く評価し、非対面手続きを歓迎するタイプ",
-          "quote": "条件が見えていて、物理キーの代わりもあるなら、次回はかなり使いたいです。チェックインが楽になるのは魅力です。"
+          "quote": "条件が見えていて、物理キーの代わりもあるなら、次回はかなり使いたいです。チェックインが楽になるのは魅力です。",
+          "disclosure": "モデルが生成した視点であり、参加者の発言ではありません。",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         }
       ],
       "cautions": [
@@ -161,10 +507,153 @@
         "デジタル化の評価は利便性だけでなく、安心感、対面支援、条件の透明性に左右されるため、単純な因果解釈は避ける必要があります。"
       ]
     },
+    "populationFrame": {
+      "frameVersion": "population-frame-v1",
+      "intendedPopulation": "過去1年間に国内のビジネスホテルへ2回以上宿泊した成人",
+      "geography": {
+        "market": "Japan",
+        "countryCode": "JP"
+      },
+      "languages": {
+        "outputLocale": "ja-JP",
+        "sourceLanguages": [
+          "ja-JP"
+        ]
+      },
+      "characteristics": [],
+      "officialSourceDatasets": [],
+      "marginalDistributions": [],
+      "knownIntersections": [],
+      "populationCells": [],
+      "weighting": {
+        "method": "NONE",
+        "status": "NOT_APPLIED",
+        "diagnostics": {
+          "iterations": null,
+          "tolerance": null,
+          "maxAbsoluteError": null,
+          "minWeight": null,
+          "maxWeight": null,
+          "effectiveCellCount": null
+        }
+      },
+      "unsupportedCharacteristics": [
+        "Demographic and firmographic characteristics were not supplied as structured population data."
+      ],
+      "coverageDate": null,
+      "populationFit": {
+        "scoreVersion": "population-fit-v1",
+        "status": "UNMEASURED",
+        "overall": null,
+        "components": {
+          "geographyCoverage": null,
+          "marginalCoverage": null,
+          "intersectionCoverage": null,
+          "sourceQuality": null,
+          "sourceRecency": null,
+          "weightingQuality": null
+        },
+        "formula": "No aggregate is calculated until supported population variables and source datasets are present. When measured, every component and weight is reported alongside the aggregate."
+      },
+      "disclaimer": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people."
+    },
+    "researchDesign": {
+      "templateVersion": "research-method-contract-v1",
+      "methodId": "GENERAL_LIKERT",
+      "methodVersion": "general-likert-v1",
+      "designType": "DIRECTIONAL_LIKERT",
+      "estimand": "Model-generated directional response on the supplied five-point item",
+      "resultKind": "DIRECTIONAL_DISTRIBUTION",
+      "resultSchemaVersion": "method-result-v1",
+      "chartId": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "scale": {
+        "id": "LIKELIHOOD_5",
+        "points": 5,
+        "anchors": [
+          "Very unlikely",
+          "Unlikely",
+          "Not sure",
+          "Likely",
+          "Very likely"
+        ]
+      },
+      "outputStructure": {
+        "id": "five-point-directional-distribution",
+        "supportsSegments": true,
+        "supportsIllustrativePerspectives": true
+      },
+      "segmentPerspectiveEligible": true,
+      "stimulus": null,
+      "instrument": {
+        "requiredInputs": [
+          "research question",
+          "intended audience"
+        ],
+        "includedQuestions": [
+          {
+            "id": "primary-likelihood",
+            "purpose": "Explore a model-generated five-point directional response."
+          }
+        ],
+        "sections": []
+      },
+      "primaryOutcome": {
+        "id": "top-two-box",
+        "label": "Likely / very likely",
+        "value": 43,
+        "unit": "percentage points of a model-generated directional distribution"
+      },
+      "criticRubric": {
+        "id": "general-likert-critic-v1",
+        "criteria": [
+          "neutral wording",
+          "evidence alignment",
+          "stereotype risk",
+          "arithmetic consistency",
+          "no representative or human-response claims"
+        ]
+      },
+      "humanValidation": {
+        "required": true,
+        "recommendedMethod": "Sampled survey preceded by cognitive pretesting",
+        "rationale": "The synthetic distribution is a hypothesis and does not estimate population attitudes.",
+        "minimumChecks": [
+          "question comprehension",
+          "appropriate sampling frame",
+          "observed response distribution"
+        ]
+      },
+      "cautions": [
+        "このレガシー互換の方法は、一般的な方向性の Likert 探索であり、専門的な調査設計ではありません。"
+      ],
+      "disclosure": "この方法固有の出力は、モデルが生成した方向性であり、人による測定ではありません。",
+      "disclosureCode": "METHOD_OUTPUT_MODEL_GENERATED_DIRECTION"
+    },
+    "modelCard": {
+      "cardVersion": "likerts-model-card-v1",
+      "purpose": "Directional synthetic research for hypothesis generation and research planning.",
+      "permittedUse": "Explore model-generated hypotheses before validation with real people.",
+      "populationGrounding": "NONE",
+      "populationFrameHash": null,
+      "researchMethod": "GENERAL_LIKERT",
+      "researchMethodVersion": "general-likert-v1",
+      "researchMethodChart": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "attitudinalValidation": "NOT_VALIDATED",
+      "disclosure": "人口統計上の適合は態度の正確性を証明しません。実際の人で検証されるまで、合成結果はモデル生成の仮説です。",
+      "disclosureCode": "SYNTHETIC_RESULTS_REQUIRE_HUMAN_VALIDATION"
+    },
     "provenance": {
       "runtimeVersion": "synthetic-research-v2.4",
       "researchMode": "DEEP",
+      "localizationRegistryVersion": "localization-capabilities-v2",
       "inputHash": "140d2fcbde47714561113fe6c698c0fc351e82d3f0bec9ad15e30fc212a39b53",
+      "inputHashVersion": "legacy-unversioned",
+      "inputHashLineage": {
+        "hash": "140d2fcbde47714561113fe6c698c0fc351e82d3f0bec9ad15e30fc212a39b53",
+        "version": "legacy-unversioned",
+        "status": "LEGACY_UNVERSIONED",
+        "crossVersionComparable": false
+      },
       "evidenceHash": "85823b23430ff504cf84b538e003056f2632cad6ba410b7ec299b22ec0384bdc",
       "promptVersions": {
         "framing": "framing-v2",
@@ -178,7 +667,8 @@
         "respondentCell": "respondent-cell-schema-v2",
         "adjudication": "critic-schema-v2"
       },
-      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+      "disclaimer": "モデル生成は決定論的ではありません。この記録は監査と比較を支援しますが、正確な再現や確実性を支えるものではありません。",
+      "disclaimerCode": "MODEL_GENERATION_NON_DETERMINISTIC"
     },
     "cost": {
       "currency": "USD",
@@ -354,6 +844,9 @@
           "excerpt": "タッ チもハイテクも提供されているが，データ上捕捉された すべての利用機会でハイタッチのみを利用している回答 者を「ハイタッチ経験者」として定義している。 (1)研究 1 各変数の主効果，ならびにハイテクとの交互作用効果 を表 3 にまとめた。表中の数値は標準化偏回帰係数であ り，5％水準で有意であったものには下線を付した 3) (以 降の表も同様) 。 顧客期待は全業種でプラスの主効果を示し，H1-1 は支 持された。一方，ハイテクの主効果はどの業種でも見ら れず，H1-2 は支持されなかった。業種を問わず，ハイテ クを利用したというだけではサービス品質評価には何ら 影響は見られない。しかし，H1-3 の顧客期待とハイテク",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "ja",
+          "titleLanguage": "en",
+          "excerptLanguage": "ja",
           "contentHash": "019c51601c1d58d903d9b7dd7c1878926e64b5b0f43c498099126bc1e915bb84"
         },
         {
@@ -362,6 +855,9 @@
           "excerpt": "ワンウェイの連携としては、宿泊予約サイトからの予約情報 ... される。しかし ... 予約（例：電話） ... ツーウェイの連携としては、宿泊予約サイト経由の予約連携に加え、PMS からサイトコントローラー ... の残室（時には料金も）がコントロールできる。サイトコントローラーの画面を開かなくても、PMS ... だけで在庫、料金がコントロールできるようになる。 ... 第 4 に、宿泊施設は、宿泊予約サイトとサイトコント ... の両方に利用 ... を払っている。ちなみ ... 型が多く、10 ... 従って宿泊施設は、「宿泊 ... サイトもサイト ... ローラーも使わないで済むのであれば、",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "ja",
+          "titleLanguage": "en",
+          "excerptLanguage": "ja",
           "contentHash": "599061ea5f8a560fd258c5a108fb34086de90647e8fbf5696c2020eef6772451"
         },
         {
@@ -370,6 +866,9 @@
           "excerpt": "。 以上の ... し仮説を⽴案する。 ... 4 という⾼評価を得る可能性が⾮常に⾼いことが⽰された。このことか ら、顧客が宿泊施設を評価する際には、スタッフの対応やサービスの質が⼤きな 決定要因となることがうかがえる。これは、接客に対する満⾜度が宿泊体験全体 の印象を左右しやすいことを反映していると考えられる。宿泊施設においては、 スタッフの接客態度やサービスの質を向上させることが、顧客満⾜度を⾼める 可能性が⾼い。 ⼀⽅で、部屋や館内設備に関する⾔及は、低評価に結びつきやすいことが明ら かになった。特に、部屋の清潔感や⼤浴場の設備など、物理的な環境に関する不 満が低評価の原因となることが多い",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "ja",
+          "titleLanguage": "ja",
+          "excerptLanguage": "ja",
           "contentHash": "9b71e7ab0f32142fa364d8ef61d64e33cc5cc8d5a0e085829630ab2d1cc72b44"
         },
         {
@@ -378,6 +877,9 @@
           "excerpt": "人サービス」 ... 利用意向 ... 、「自動会計（32.0％）」、「タブレットなど ... 自動化（1 ... 、手続きを効率化できるサービスが、「旅行プランの作成（ ... りました。性年代 ... 昨年からの急速な生成AIの浸透で、これまでの「検索する ... 情報収集から、生成AIに「相談する」行動に大きくシフトしました。企業等のサイトを訪 ... ことなく、生成AIの中で情報収集が ... 結し、訪問者数が ... 減するサイトも少なくありません。自分たちが伝えたい情報をストレートに伝えていく ... 難しい状況ではありますが、一方で、旅行者がこれまで想像していなかったような選択肢を提供していく ... でもあるともとらえられます。",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "ja",
+          "titleLanguage": "ja",
+          "excerptLanguage": "ja",
           "contentHash": "b76445626a39305987cf28e288a92cc6ce52cef6928537bc765cc5475a314b44"
         }
       ]
@@ -400,7 +902,8 @@
       "cellCount": 4,
       "meanJensenShannonDivergence": 0.004817,
       "maxPercentagePointSpread": 5,
-      "interpretation": "Lower divergence and spread indicate greater agreement among model-generated cells; neither metric measures human certainty."
+      "interpretation": "この安定性指標は、モデル生成セル間の一致度だけを示し、人の確実性を測るものではありません。",
+      "interpretationCode": "MODEL_CELL_AGREEMENT_NOT_HUMAN_CERTAINTY"
     },
     "verification": {
       "status": "completed",
@@ -422,10 +925,11 @@
         "対面支援を残す層とデジタル積極層の両方を想定しており、セグメント設定が仮説主導で恣意的になりやすい"
       ],
       "critiqueSummary": "提示された合成結果は、条件の透明性やスタッフ支援が受容を高めるという方向性としては自然ですが、実測データではなく合成分布に基づくため、研究知見としての強い主張はできません。エビデンス断片は宿泊体験におけるスタッフ対応や手続き効率化への関心を示唆しますが、モバイル事前チェックインとデジタルキーの利用意向を直接支持するものは限定的です。",
-      "note": "This is a separate model stage within one pipeline, not independent external verification."
+      "note": "これは同一パイプライン内の別のモデル段階であり、独立した外部検証ではありません。",
+      "noteCode": "INTERNAL_PIPELINE_MODEL_STAGE_NOT_EXTERNAL_VERIFICATION"
     }
   },
-  "status": "automated-qa-passed-human-editorial-review-pending",
+  "status": "automated-qa-passed",
   "htmlUrl": "/ja-jp/studies/mobile-checkin-business-hotels-japan/",
   "dataUrl": "/ja-jp/studies/mobile-checkin-business-hotels-japan/study.json",
   "canonicalUrl": "https://likerts.com/ja-jp/studies/mobile-checkin-business-hotels-japan/"

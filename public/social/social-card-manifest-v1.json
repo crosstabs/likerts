@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "1",
+  "cardVersion": "v1",
+  "assets": {
+    "brand-line-en-v1.png": {
+      "source": "brand-line-en-v1.svg",
+      "sourceSha256": "ade16b28cd54d2e80cd7eec204570669c34c9cbc9344eb42a95d15417c8ebdda",
+      "pngSha256": "0447417a882f35aaaadcdf2a4cd9a5b09e5826ae7a07fe340fde2c48834c91ed",
+      "mimeType": "image/png",
+      "width": 680,
+      "height": 58
+    }
+  },
+  "cards": {
+    "likerts-ar-sa-v1.png": {
+      "source": "likerts-ar-sa-v1.svg",
+      "sourceSha256": "039e9a5c38edfcd3ee6295905a3cce186814f78540c37efcc12aff9c8597b386",
+      "pngSha256": "4e7379f90a140f3a3bd0954bd54546f679fe1d1d2ce39750bcb04be20bba5bc4",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "likerts-de-de-v1.png": {
+      "source": "likerts-de-de-v1.svg",
+      "sourceSha256": "d50a1e4c77e141ee8a1c4112f41c38304a3671dceb419c9e06815a0e610da7f9",
+      "pngSha256": "56b86d0874b2389f30b00a1b8a68d1b802e84f1eddca823e0fdafe0996dfc749",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "likerts-en-us-v1.png": {
+      "source": "likerts-en-us-v1.svg",
+      "sourceSha256": "849485f3b3342a3d104c356932796b056d60f36f3d4e7db9414644016453fcfe",
+      "pngSha256": "8e8bcf05bee2285628c6be9f30daa7053e1c2872fa27484974241336bdcd4a48",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "likerts-es-es-v1.png": {
+      "source": "likerts-es-es-v1.svg",
+      "sourceSha256": "c0ecd7a2b188e1e1deb26ed83c9134bfaf6ec92331ff71813dc880e669052320",
+      "pngSha256": "0874fcae528611504bd966c77416a36606b055f0e97293ba13a7ed908771004d",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "likerts-fr-fr-v1.png": {
+      "source": "likerts-fr-fr-v1.svg",
+      "sourceSha256": "1c03567db33e68b636d5d50ee800d364dd4515eb89a3593a2c15bbe7c7cafdc0",
+      "pngSha256": "4dca98482048826e752ed0f59d793476f0f696cb149b4444525c7571aa8a63c5",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "likerts-hi-in-v1.png": {
+      "source": "likerts-hi-in-v1.svg",
+      "sourceSha256": "fb2f9cd2e8b44150975a6c8930f93ae52b61673540eabdce473ab931dda71b3f",
+      "pngSha256": "f75740d098df30c9c4d16ffea6d46ad8d036f520d5b88818529a875c074b7903",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "likerts-ja-jp-v1.png": {
+      "source": "likerts-ja-jp-v1.svg",
+      "sourceSha256": "131e7cdccecd68a40707ef1929770e51ee1ec220600eac852f141044323cdc89",
+      "pngSha256": "15c006782db9b1f11c732c11200955579d14c2df8e22aabbbdd7019e28a4879f",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "likerts-ko-kr-v1.png": {
+      "source": "likerts-ko-kr-v1.svg",
+      "sourceSha256": "de62d27ec20a6e968a108e67fe1589c2ac2612813f69cac04ae7eaa450f5c08e",
+      "pngSha256": "ad3ca3cb21e0bbfc72b6290ca63191dda261068d2463e12e2ccbad7db301f409",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "likerts-pt-br-v1.png": {
+      "source": "likerts-pt-br-v1.svg",
+      "sourceSha256": "b3cdfab1a3a09fa9abc32acbc861248acae482ab25a88342b788fc26a91e6701",
+      "pngSha256": "e8e76815ba337c80a76e02b7c432ce14683f5dced8edb6307b20c52b89d02411",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "likerts-zh-cn-v1.png": {
+      "source": "likerts-zh-cn-v1.svg",
+      "sourceSha256": "9e8bc8286b68f72c7cb418d88f72de6b86cfc27eb01135e5f16cb9e2879ad679",
+      "pngSha256": "309c8647dd9ad85296f1d57451870aa9abcf79d24dc8aa9870984630bc864bcc",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "study-ad-supported-ott-plan-south-korea-v1.png": {
+      "source": "study-ad-supported-ott-plan-south-korea-v1.svg",
+      "sourceSha256": "05d394f6cb45f3bad02f5cc8a88d4f315cfc2ca126f167a468b0904d32d30a90",
+      "pngSha256": "a0819abf39eb7b54cfc8f9d6b692c26fc03f1058bfd055eb091b64e473e8dc5f",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "study-ai-copilot-pilot-small-business-us-v1.png": {
+      "source": "study-ai-copilot-pilot-small-business-us-v1.svg",
+      "sourceSha256": "272d87194032b9116d5826889a1690f88f2af8ebd43ea18e3dbdfbc66780d071",
+      "pngSha256": "e339ff228f4eefc21a2e1c97906a05bbfefaac0e9ada9f9a5d745756efeb75ad",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "study-arabic-ai-study-assistant-saudi-universities-v1.png": {
+      "source": "study-arabic-ai-study-assistant-saudi-universities-v1.svg",
+      "sourceSha256": "9ae307e61912144c35fe2cf5df3589592da1545a8b596605b38b0579f4b928d2",
+      "pngSha256": "00197c901c2c7c466d995bbb7794b9dec8a8fd3eb57849ab3fb3c9793b506bbe",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "study-assinatura-pix-automatico-microempresas-brasil-v1.png": {
+      "source": "study-assinatura-pix-automatico-microempresas-brasil-v1.svg",
+      "sourceSha256": "da3005c18d2d782ab9a7ea4c3d7c07f5bdf60ad1932ad7b9427b0d7488cc5599",
+      "pngSha256": "3e94eadcaac55050f1da2de347b95978750594cace86dfed4d3bd2056012441e",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "study-coche-electrico-recarga-garaje-comunitario-espana-v1.png": {
+      "source": "study-coche-electrico-recarga-garaje-comunitario-espana-v1.svg",
+      "sourceSha256": "8633070a0f87b512d5999582dabfea7ffe80a6a6c7c1c222b5f693bf8237970b",
+      "pngSha256": "86be2ce8aed3e2f7e0da79dd72a5de1694b23c03c679c750bfba3b6d3b27f8de",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "study-consigne-bouteille-reemployable-supermarche-france-v1.png": {
+      "source": "study-consigne-bouteille-reemployable-supermarche-france-v1.svg",
+      "sourceSha256": "5dc8304b9b367ef43152185f0631c0069c3847c5eb887b706eee10d6ea304534",
+      "pngSha256": "299b45e1ac5edee5a543b1b086c28aff7d6b5aa13a9e10cb791536063fe34918",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "study-hindi-agromet-advisory-small-farmers-india-v1.png": {
+      "source": "study-hindi-agromet-advisory-small-farmers-india-v1.svg",
+      "sourceSha256": "3ce3e227ed1e8c5c91b46fcc41f7b9bf6eb210f0abcccc523a8bb4ea22d5527c",
+      "pngSha256": "a866eb028dcc5a9c4a9daa307fcc81e548ee26032f5797c72e4b6a6bb98a486a",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "study-mobile-checkin-business-hotels-japan-v1.png": {
+      "source": "study-mobile-checkin-business-hotels-japan-v1.svg",
+      "sourceSha256": "eb70ac61488e70172db9d83608665427f5dd59f04aa8e3febabedf295ae0eb37",
+      "pngSha256": "38be8126e835a61e3178bf16979be09d8e22fb03cc0e2c64a3102039b3886751",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "study-smart-ev-data-controls-china-v1.png": {
+      "source": "study-smart-ev-data-controls-china-v1.svg",
+      "sourceSha256": "882434a671a9bc6e1acf5c90a633a24c50d25ca507bb90165b581d0597ef94cf",
+      "pngSha256": "f655be3b9afe30ed9562c96b3ef911537789d2b7f03d83834c94076025ce4919",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    },
+    "study-waermepumpe-angebot-bestandsheim-deutschland-v1.png": {
+      "source": "study-waermepumpe-angebot-bestandsheim-deutschland-v1.svg",
+      "sourceSha256": "4e8fb6f13fe47b95a853753b36b53376148e6b3fab42688f28e057634b0ad545",
+      "pngSha256": "0bb550125d3fe0b49a9a6a5550f912d577fb9404c25c2074366e1912a432c079",
+      "mimeType": "image/png",
+      "width": 1200,
+      "height": 630
+    }
+  }
+}

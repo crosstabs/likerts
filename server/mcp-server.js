@@ -1,24 +1,41 @@
-import { createMcpHandler, McpServer } from '@modelcontextprotocol/server';
+import {
+  createMcpHandler,
+  McpServer,
+  ProtocolError,
+  ProtocolErrorCode,
+} from '@modelcontextprotocol/server';
 import { z } from 'zod';
 import { admissionUnitsForResearchMode, estimatedModelCallsForResearchMode, StudyPipelineError, runStudyPipeline } from './synthetic-study-pipeline.js';
 import {
   LIMITATIONS_MARKDOWN,
   LIMITATIONS_URI,
+  LOCALIZATION_SCORECARD_URI,
   MCP_CONTRACT_VERSION,
   MCP_SERVER_INFO,
   METHODOLOGY_MARKDOWN,
   METHODOLOGY_URI,
+  RUN_SYNTHETIC_STUDY_DESCRIPTION,
+  exploreSegmentPerspectiveInputSchema,
+  exploreSegmentPerspectiveOutputSchema,
   publicValidationIssues,
   runSyntheticStudyInputSchema,
   runSyntheticStudyOutputSchema,
   validateBriefInputSchema,
   validateBriefOutputSchema,
 } from './mcp-contract.js';
+import { createLocalizationReleaseEvidenceProvider } from './localization-release-evidence-provider.js';
+import { buildLocalizationScorecardFromReleaseEvidence } from './localization-scorecard-service.js';
+import { LocalizationRequestError, assertLocalizationExecutionAllowed } from './localization-request.js';
+import {
+  prepareGroundedInterviewRequest,
+  runGroundedSegmentInterview,
+  SegmentPerspectiveError,
+} from './qualitative-interview.js';
 import {
   McpAdmissionError,
   anonymousClientKey,
-  anonymousStudyAdmission,
 } from './mcp-abuse-controls.js';
+import { runtimeAdmission } from './runtime-admission-store.js';
 import {
   SAMPLE_STUDY_CATALOG_URI,
   getSampleStudy,
@@ -48,6 +65,7 @@ const PUBLIC_ADMISSION_ERRORS = Object.freeze({
   RATE_LIMITED: { message: 'This anonymous client has reached the synthetic study rate limit.', retryable: true },
   CONCURRENCY_LIMIT: { message: 'The synthetic study service is busy. Try again shortly.', retryable: true },
   BUDGET_EXHAUSTED: { message: 'The synthetic study budget is currently unavailable.', retryable: false },
+  ADMISSION_STORE_UNAVAILABLE: { message: 'Admission control is temporarily unavailable. Try again shortly.', retryable: true },
   SYNTHETIC_RUNS_DISABLED: { message: 'Public synthetic study runs are temporarily disabled.', retryable: false },
 });
 
@@ -61,9 +79,14 @@ const getSampleStudyInputSchema = z.object({
   slug: z.string().trim().min(1).max(100).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
 }).strict();
 
+const noLocalizationReleaseEvidence = async () => null;
+
 function safePipelineError(error) {
+  if (error instanceof LocalizationRequestError) {
+    return errorResult(error.code, error.publicMessage);
+  }
   if (error instanceof McpAdmissionError) {
-    const code = PUBLIC_ADMISSION_ERRORS[error.code] ? error.code : 'BUDGET_EXHAUSTED';
+    const code = PUBLIC_ADMISSION_ERRORS[error.code] ? error.code : 'ADMISSION_STORE_UNAVAILABLE';
     const publicError = PUBLIC_ADMISSION_ERRORS[code];
     return errorResult(code, publicError.message, {
       retryable: publicError.retryable,
@@ -71,7 +94,22 @@ function safePipelineError(error) {
     });
   }
   if (error instanceof StudyPipelineError && error.statusCode === 424) {
-    return errorResult('EXTERNAL_EVIDENCE_UNAVAILABLE', 'Required external evidence could not be acquired.', { retryable: true });
+    const code = [
+      'REQUIRED_SOURCE_LANGUAGE_UNAVAILABLE',
+      'REQUIRED_EXTERNAL_EVIDENCE_UNAVAILABLE',
+    ].includes(error.code) ? error.code : 'EXTERNAL_EVIDENCE_UNAVAILABLE';
+    const message = code === 'REQUIRED_SOURCE_LANGUAGE_UNAVAILABLE'
+      ? 'No external source satisfied both the configured provider-declared primary language and registered-script compatibility check. This check is not language identification.'
+      : 'Required external evidence could not be acquired.';
+    return errorResult(code, message, { retryable: true });
+  }
+  if (error instanceof SegmentPerspectiveError) {
+    if (['INVALID_LOCALE', 'UNKNOWN_LOCALE', 'UNSUPPORTED_REPORT_LOCALE'].includes(error.code)) {
+      return errorResult(error.code, error.message);
+    }
+    if (error.statusCode === 429 || error.statusCode === 503) return errorResult('UPSTREAM_BUSY', 'The model-grounded segment perspective service is busy. Try again shortly.', { retryable: true, retryAfterSeconds: 30 });
+    if (error.code === 'PARTICIPANT_MASQUERADING' || error.code === 'INVALID_STIMULUS_REFERENCE') return errorResult('PERSPECTIVE_REJECTED', 'The generated perspective failed synthetic-research boundary checks.');
+    return errorResult('PERSPECTIVE_GENERATION_FAILED', 'The model-grounded segment perspective could not be completed.', { retryable: error.statusCode >= 500 });
   }
   const providerStatus = error instanceof StudyPipelineError ? error.cause?.statusCode : error?.statusCode;
   if (providerStatus === 429 || providerStatus === 503) {
@@ -117,13 +155,19 @@ function defaultReportError(error) {
 
 export function createLikertsMcpServer({
   runStudy = runStudyPipeline,
-  admission = anonymousStudyAdmission,
+  runSegmentPerspective = runGroundedSegmentInterview,
+  admission = runtimeAdmission,
   clientKey = 'anonymous',
   reportError = defaultReportError,
+  localizationReleaseEvidenceProvider = noLocalizationReleaseEvidence,
+  localizationScorecardNow = () => new Date(),
 } = {}) {
+  if (typeof localizationReleaseEvidenceProvider !== 'function') {
+    throw new TypeError('Localization release-evidence provider must be a function.');
+  }
   const admissionProtection = {
-    durability: admission.protection?.durability === 'durable-adapter-plus-process-local-fallback' ? 'durable-adapter-plus-process-local-fallback' : 'process-local-fallback',
-    processLocalFallback: true,
+    durability: admission.protection?.durability === 'shared-admission-store' ? 'shared-admission-store' : 'process-local-fallback',
+    processLocalFallback: admission.protection?.processLocalFallback !== false,
     globallyDurable: admission.protection?.globallyDurable === true,
   };
   const server = new McpServer(MCP_SERVER_INFO, {
@@ -141,7 +185,16 @@ export function createLikertsMcpServer({
     },
     async ({ brief }) => {
       const parsed = runSyntheticStudyInputSchema.safeParse(brief);
-      const validation = parsed.success
+      let localizationExecutionIssue = null;
+      if (parsed.success) {
+        try {
+          assertLocalizationExecutionAllowed(parsed.data.localization);
+        } catch (error) {
+          if (!(error instanceof LocalizationRequestError)) throw error;
+          localizationExecutionIssue = error.toPublicIssue();
+        }
+      }
+      const validation = parsed.success && !localizationExecutionIssue
         ? {
             valid: true,
             issues: [],
@@ -154,7 +207,7 @@ export function createLikertsMcpServer({
           }
         : {
             valid: false,
-            issues: publicValidationIssues(parsed.error),
+            issues: localizationExecutionIssue ? [localizationExecutionIssue] : publicValidationIssues(parsed.error),
             normalizedInput: null,
             estimatedModelCalls: estimatedModelCallsForResearchMode(brief.researchMode),
             estimatedAdmissionUnits: admissionUnitsForResearchMode(brief.researchMode),
@@ -170,8 +223,8 @@ export function createLikertsMcpServer({
   server.registerTool(
     'run_synthetic_study',
     {
-      title: 'Run an evidence-aware synthetic Likert study',
-      description: 'Run a bounded, model-generated Likert study for directional hypothesis generation in QUICK or DEEP mode. This can incur model and retrieval cost. It never surveys humans; supplied and retrieved evidence remains untrusted and is not independently verified.',
+      title: 'Run an evidence-aware synthetic research study',
+      description: RUN_SYNTHETIC_STUDY_DESCRIPTION,
       inputSchema: runSyntheticStudyInputSchema,
       outputSchema: runSyntheticStudyOutputSchema,
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: true },
@@ -179,6 +232,7 @@ export function createLikertsMcpServer({
     async (input) => {
       let release;
       try {
+        assertLocalizationExecutionAllowed(input.localization);
         release = await admission.acquire({ clientKey, estimatedUnits: admissionUnitsForResearchMode(input.researchMode) });
         const result = await runStudy(input, { gatewayUserId: clientKey });
         const structuredContent = {
@@ -193,7 +247,33 @@ export function createLikertsMcpServer({
         reportError(error);
         return safePipelineError(error);
       } finally {
-        release?.();
+        await release?.();
+      }
+    },
+  );
+
+  server.registerTool(
+    'explore_synthetic_segment',
+    {
+      title: 'Explore one model-constructed segment',
+      description: 'Generate one bounded follow-up, objection, counterfactual, or two-concept comparison for a segment from a completed synthetic run whose research design marks segmentPerspectiveEligible true. Prior turns, sources, assumptions, unsupported characteristics, and run hashes are supplied as untrusted context. Every answer is a model-generated perspective—not a participant quotation.',
+      inputSchema: exploreSegmentPerspectiveInputSchema,
+      outputSchema: exploreSegmentPerspectiveOutputSchema,
+      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: true },
+    },
+    async (input) => {
+      let release;
+      try {
+        const perspectiveRequest = prepareGroundedInterviewRequest(input);
+        release = await admission.acquire({ clientKey, estimatedUnits: 1 });
+        const result = await runSegmentPerspective(perspectiveRequest, { gatewayUserId: clientKey });
+        const structuredContent = { ok: true, contractVersion: MCP_CONTRACT_VERSION, synthetic: true, participant: false, result };
+        return { content: [{ type: 'text', text: `${result.disclosure}\n${result.answer}` }], structuredContent };
+      } catch (error) {
+        reportError(error);
+        return safePipelineError(error);
+      } finally {
+        await release?.();
       }
     },
   );
@@ -252,7 +332,7 @@ export function createLikertsMcpServer({
     METHODOLOGY_URI,
     {
       title: 'Likerts synthetic study methodology',
-      description: 'How Likerts frames, generates, adjudicates, and records evidence for a synthetic Likert study.',
+      description: 'How Likerts creates a Population Frame, frames, generates, adjudicates, and records evidence for a synthetic Likert study.',
       mimeType: 'text/markdown',
     },
     async (uri) => ({ contents: [{ uri: uri.href, mimeType: 'text/markdown', text: METHODOLOGY_MARKDOWN }] }),
@@ -267,6 +347,44 @@ export function createLikertsMcpServer({
       mimeType: 'text/markdown',
     },
     async (uri) => ({ contents: [{ uri: uri.href, mimeType: 'text/markdown', text: LIMITATIONS_MARKDOWN }] }),
+  );
+
+  server.registerResource(
+    'localization-scorecard',
+    LOCALIZATION_SCORECARD_URI,
+    {
+      title: 'Likerts localization release scorecard',
+      description: 'Per-locale runtime, copy, native-review, population-evidence, and attitudinal-validation status without generalized accuracy claims.',
+      mimeType: 'application/json',
+    },
+    async (uri) => {
+      try {
+        const releaseEvidenceContext = await localizationReleaseEvidenceProvider();
+        const scorecard = buildLocalizationScorecardFromReleaseEvidence(releaseEvidenceContext, {
+          now: typeof localizationScorecardNow === 'function'
+            ? localizationScorecardNow()
+            : localizationScorecardNow,
+        });
+        return {
+          contents: [{
+            uri: uri.href,
+            mimeType: 'application/json',
+            text: JSON.stringify(scorecard, null, 2),
+          }],
+        };
+      } catch (error) {
+        try {
+          reportError(error);
+        } catch {
+          // Reporting failures must not replace the sanitized MCP resource error.
+        }
+        throw new ProtocolError(
+          ProtocolErrorCode.InternalError,
+          'Localization release evidence is temporarily unavailable.',
+          { code: 'LOCALIZATION_RELEASE_EVIDENCE_UNAVAILABLE' },
+        );
+      }
+    },
   );
 
   server.registerResource(
@@ -298,17 +416,24 @@ export function createLikertsMcpServer({
 
 export function createLikertsMcpHandler({
   runStudy,
+  runSegmentPerspective,
   admission,
   reportError = defaultReportError,
+  localizationReleaseEvidenceProvider = createLocalizationReleaseEvidenceProvider(),
+  localizationScorecardNow = () => new Date(),
+  env = process.env,
 } = {}) {
   // The per-request factory is the SDK's stateless serverless pattern and avoids cross-client instance reuse.
   // Source: https://github.com/modelcontextprotocol/typescript-sdk/blob/main/docs/serving/http.md#understand-the-per-request-factory
   return createMcpHandler(
     ({ requestInfo }) => createLikertsMcpServer({
       runStudy,
+      runSegmentPerspective,
       admission,
-      clientKey: requestInfo ? anonymousClientKey(requestInfo.headers) : 'anonymous',
+      clientKey: requestInfo ? anonymousClientKey(requestInfo.headers, env) : 'anonymous',
       reportError,
+      localizationReleaseEvidenceProvider,
+      localizationScorecardNow,
     }),
     {
       legacy: 'stateless',

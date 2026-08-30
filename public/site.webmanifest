@@ -1,9 +1,13 @@
 {
-  "name": "Likerts — Free synthetic market research",
+  "name": "Likerts — Free Synthetic Research",
   "short_name": "Likerts",
   "description": "Free synthetic market research with disclosed public source context, explicit assumptions, and multi-model review.",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "lang": "en",
+  "dir": "ltr",
   "background_color": "#ffffff",
   "theme_color": "#021a38",
   "icons": [
@@ -24,6 +28,18 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

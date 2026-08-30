@@ -1,0 +1,37 @@
+name: Evaluation Release Gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      bundle_path:
+        description: Repository-relative path to the signed, versioned release bundle
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  verified-go-decision:
+    name: Require signed GO decision
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify signed evaluation release bundle
+        env:
+          BUNDLE_PATH: ${{ inputs.bundle_path }}
+          LIKERTS_RELEASE_REVIEWER_KEYS_JSON: ${{ secrets.LIKERTS_RELEASE_REVIEWER_KEYS_JSON }}
+          LIKERTS_RELEASE_APPROVER_KEYS_JSON: ${{ secrets.LIKERTS_RELEASE_APPROVER_KEYS_JSON }}
+        run: npm run eval:release -- --bundle "$BUNDLE_PATH"

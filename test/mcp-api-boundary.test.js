@@ -58,7 +58,57 @@ test('MCP HTTP boundary accepts absent/same-host Origins and rejects other brows
   await handler(request({ headers: { host: 'likerts.example', origin: 'https://evil.example', 'content-type': 'application/json' } }), rejected);
   assert.equal(rejected.statusCode, 403);
   assert.equal(JSON.parse(rejected.body).error.data.code, 'ORIGIN_NOT_ALLOWED');
+
+  const rejectedScheme = response();
+  await handler(request({ headers: { host: 'likerts.example', origin: 'http://likerts.example', 'content-type': 'application/json' } }), rejectedScheme);
+  assert.equal(rejectedScheme.statusCode, 403);
+
+  const rejectedPort = response();
+  await handler(request({ headers: { host: 'likerts.example', origin: 'https://likerts.example:444', 'content-type': 'application/json' } }), rejectedPort);
+  assert.equal(rejectedPort.statusCode, 403);
+
+  const spoofedForwardedHost = response();
+  await handler(request({ headers: { host: 'likerts.example', 'x-forwarded-host': 'evil.example', origin: 'https://evil.example', 'content-type': 'application/json' } }), spoofedForwardedHost);
+  assert.equal(spoofedForwardedHost.statusCode, 403);
   assert.equal(calls.length, 2);
+});
+
+test('MCP HTTP boundary accepts explicit configured origins with exact scheme and port', async () => {
+  const calls = [];
+  const handler = createMcpApiHandler({
+    env: { MCP_ALLOWED_ORIGINS: 'http://localhost:5173' },
+    requestLimiter: allowLimiter(),
+    nodeHandler: async (req, res, parsedBody) => {
+      calls.push({ req, parsedBody });
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ ok: true }));
+    },
+  });
+
+  const accepted = response();
+  await handler(request({
+    headers: {
+      host: 'localhost:3000',
+      'x-forwarded-proto': 'http',
+      origin: 'http://localhost:5173',
+      'content-type': 'application/json',
+    },
+  }), accepted);
+  assert.equal(accepted.statusCode, 200);
+  assert.equal(accepted.headers.get('access-control-allow-origin'), 'http://localhost:5173');
+
+  const rejected = response();
+  await handler(request({
+    headers: {
+      host: 'localhost:3000',
+      'x-forwarded-proto': 'http',
+      origin: 'https://localhost:5173',
+      'content-type': 'application/json',
+    },
+  }), rejected);
+  assert.equal(rejected.statusCode, 403);
+  assert.equal(calls.length, 1);
 });
 
 test('MCP HTTP boundary validates methods, media type, JSON, and body size before dispatch', async () => {

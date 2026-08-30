@@ -70,3 +70,34 @@ test('MCP preserves the public budget-unavailable pattern for wrapped Gateway 40
     await handler.close();
   }
 });
+
+test('MCP preserves the typed required-source no-match code without exposing provider detail', async () => {
+  const handler = createLikertsMcpHandler({
+    reportError: () => {},
+    runStudy: async () => {
+      throw new StudyPipelineError(
+        'private provider-specific acquisition detail',
+        424,
+        undefined,
+        'REQUIRED_SOURCE_LANGUAGE_UNAVAILABLE',
+      );
+    },
+    admission: { async acquire() { return () => {}; } },
+  });
+  const transport = new StreamableHTTPClientTransport(new URL('https://likerts.example/api/mcp'), {
+    fetch: (url, init) => handler.fetch(new Request(url, init)),
+  });
+  const client = new Client({ name: 'runtime-v2-source-language-error-test', version: '1.0.0' });
+  try {
+    await client.connect(transport);
+    const result = await client.callTool({ name: 'run_synthetic_study', arguments: deepBrief });
+    assert.equal(result.isError, true);
+    assert.equal(result.structuredContent.error.code, 'REQUIRED_SOURCE_LANGUAGE_UNAVAILABLE');
+    assert.match(result.structuredContent.error.message, /provider-declared primary language.*registered-script compatibility check/);
+    assert.match(result.structuredContent.error.message, /This check is not language identification\./);
+    assert.equal(JSON.stringify(result).includes('private provider-specific'), false);
+  } finally {
+    await client.close();
+    await handler.close();
+  }
+});

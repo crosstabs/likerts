@@ -8,7 +8,7 @@
   "study": {
     "title": "Likelihood to approve a 60-day AI-copilot trial for drafting andinternal",
     "summary": "Synthetic responses suggest cautious openness to a short, tightly governed AI-copilot trial for drafting and internal knowledge search among U.S. employer businesses with 20–249 employees. Support is concentrated in the middle and upper-mid",
-    "takeaway": "The dominant pattern is conditional approval: respondents are more receptive when the trial is time-limited, human-reviewed, data-protected, and cost-capped, but many still want proof of accuracy, control, and fit before committing broader use.",
+    "takeaway": "The model-generated distribution suggests conditional approval is more likely when the trial is time-limited, human-reviewed, data-protected, and cost-capped; some model cells still indicate a need for proof of accuracy, control, and fit before broader use.",
     "distribution": [
       7,
       14,

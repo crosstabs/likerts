@@ -2,12 +2,21 @@
  * Curated sample-study briefs. This module is deliberately dependency-free so
  * browser, build, and MCP consumers can import the same stable catalog.
  */
-export const SAMPLE_STUDY_SCHEMA_VERSION = '1.0';
+import {
+  LOCALIZATION_REGISTRY_VERSION,
+  MARKET_ROLLOUT_STATUSES,
+  listLocalesForCapability,
+  requireLocaleCapability,
+  resolveMarket,
+} from '../shared/localization.mjs';
 
-export const supportedSampleStudyLocales = Object.freeze([
-  'en-US', 'es-ES', 'pt-BR', 'fr-FR', 'de-DE',
-  'zh-CN', 'ja-JP', 'ko-KR', 'ar-SA', 'hi-IN',
-]);
+export const SAMPLE_STUDY_SCHEMA_VERSION = '1.1';
+
+// This is an admission capability list, not a coverage requirement. The
+// catalog may deliberately contain multiple studies for one enabled locale.
+export const supportedSampleStudyLocales = Object.freeze(
+  listLocalesForCapability('sample').map((entry) => entry.id),
+);
 
 const deepFreeze = (value) => {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
@@ -16,8 +25,31 @@ const deepFreeze = (value) => {
   return value;
 };
 
+function canonicalSampleLocalization(locale, request) {
+  const sampleLocale = requireLocaleCapability(locale, 'sample');
+  const reportLocale = requireLocaleCapability(sampleLocale.id, 'report');
+  const instrumentLocale = requireLocaleCapability(sampleLocale.id, 'instrument');
+  const sourceLocales = (request.sourceLanguages || []).map((value) => requireLocaleCapability(value, 'source').id);
+  const retrievalLocales = sourceLocales.map((value) => requireLocaleCapability(value, 'retrieval').id);
+  const market = resolveMarket(request.market);
+  if (market.status !== MARKET_ROLLOUT_STATUSES.ENABLED) {
+    throw new TypeError(`Sample studies cannot use a market that is not enabled: ${market.id}.`);
+  }
+  return {
+    schemaVersion: 'study-localization-v1',
+    marketId: market.id,
+    reportLocale: reportLocale.id,
+    sourceLocales,
+    retrieval: { policy: retrievalLocales.length ? 'PREFER' : 'ANY', locales: retrievalLocales },
+    instrumentLocale: instrumentLocale.id,
+  };
+}
+
+const sameJson = (left, right) => JSON.stringify(left) === JSON.stringify(right);
+
 const brief = ({ stableId, slug, locale, industry, title, description, researchIntent, disclosure, evidenceBoundary, humanValidation, request }) => {
   const { sourceUrls = [], ...runYourOwnRequest } = request;
+  const localization = canonicalSampleLocalization(locale, runYourOwnRequest);
   return ({
   schemaVersion: SAMPLE_STUDY_SCHEMA_VERSION,
   stableId,
@@ -30,11 +62,16 @@ const brief = ({ stableId, slug, locale, industry, title, description, researchI
   disclosure,
   evidenceBoundary,
   humanValidation,
+  // This is the canonical request object accepted by the runtime. The
+  // registry version is separate so the request itself stays contract-valid.
+  localization,
+  localizationRegistryVersion: LOCALIZATION_REGISTRY_VERSION,
   // Curated official links are only included in editorial capture. They are not
   // silently copied into a visitor's editable “run your own” brief.
   curatedContextUrls: sourceUrls,
   request: {
     ...runYourOwnRequest,
+    localization,
     outputLocale: locale,
     researchMode: 'DEEP',
     evidencePolicy: 'AUTO',
@@ -157,19 +194,27 @@ const registry = [
 ];
 
 export function validateSampleStudyRegistry(studies) {
-  if (!Array.isArray(studies) || studies.length !== supportedSampleStudyLocales.length) throw new TypeError('Sample studies must include exactly one brief for every supported locale.');
+  if (!Array.isArray(studies) || !studies.length) throw new TypeError('Sample studies must include at least one brief.');
   const slugs = new Set();
-  const locales = new Set();
+  const stableIds = new Set();
   for (const study of studies) {
     if (!study || study.schemaVersion !== SAMPLE_STUDY_SCHEMA_VERSION) throw new TypeError('Every sample study must use the current schema version.');
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(study.slug) || slugs.has(study.slug)) throw new TypeError('Sample-study slugs must be unique, lowercase URL segments.');
-    if (!supportedSampleStudyLocales.includes(study.locale) || locales.has(study.locale)) throw new TypeError('Every supported locale must have exactly one sample study.');
-    if (!/^SS-[A-Z]{2}-[A-Z]{2}-\d{3}$/.test(study.stableId || '') || !study.industry || !study.title || !study.description || !study.researchIntent || !study.disclosure || !study.evidenceBoundary || !study.humanValidation) throw new TypeError('Sample-study editorial fields are required.');
+    if (!/^SS-[A-Z]{2}-[A-Z]{2}-\d{3}$/.test(study.stableId || '') || stableIds.has(study.stableId) || !study.industry || !study.title || !study.description || !study.researchIntent || !study.disclosure || !study.evidenceBoundary || !study.humanValidation) throw new TypeError('Sample-study editorial fields and stable IDs are required.');
+    let sampleLocale;
+    try {
+      sampleLocale = requireLocaleCapability(study.locale, 'sample');
+    } catch (error) {
+      throw new TypeError(`Sample-study locale admission failed: ${error.message}`);
+    }
+    if (sampleLocale.id !== study.locale) throw new TypeError('Sample-study locales must use canonical registry IDs.');
     const request = study.request || {};
     if (request.outputLocale !== study.locale || request.researchMode !== 'DEEP' || request.evidencePolicy !== 'AUTO') throw new TypeError('Sample-study requests must be localized DEEP studies with bounded automatic evidence retrieval.');
+    const expectedLocalization = canonicalSampleLocalization(study.locale, request);
+    if (study.localizationRegistryVersion !== LOCALIZATION_REGISTRY_VERSION || !sameJson(study.localization, expectedLocalization) || !sameJson(request.localization, expectedLocalization)) throw new TypeError('Sample studies must carry matching canonical localization requests and the current registry version.');
     if (!Number.isInteger(request.panelSize) || request.panelSize < 50 || request.panelSize > 500 || typeof request.prompt !== 'string' || request.prompt.trim().length < 12) throw new TypeError('Sample-study requests must satisfy the synthetic-study input bounds.');
     if (!Array.isArray(study.curatedContextUrls) || study.curatedContextUrls.length < 2 || study.curatedContextUrls.length > 4 || study.curatedContextUrls.some((url) => !/^https:\/\//.test(url))) throw new TypeError('Sample studies must include two to four curated public official source URLs.');
-    slugs.add(study.slug); locales.add(study.locale);
+    slugs.add(study.slug); stableIds.add(study.stableId);
   }
   if (new Set(studies.map((study) => study.industry)).size < 6) throw new TypeError('Sample studies must cover at least six industries.');
   return true;

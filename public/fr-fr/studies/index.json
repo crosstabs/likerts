@@ -1,9 +1,10 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "locale": "fr-FR",
   "studies": [
     {
       "slug": "consigne-bouteille-reemployable-supermarche-france",
+      "stableId": "SS-FR-FR-001",
       "locale": "fr-FR",
       "localeName": "Français (France)",
       "industry": "consumer-products",
@@ -20,7 +21,157 @@
       "detailUrl": "/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/",
       "dataUrl": "/fr-fr/studies/consigne-bouteille-reemployable-supermarche-france/study.json",
       "runYourOwnUrl": "/?sample=consigne-bouteille-reemployable-supermarche-france",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "FR",
+          "kind": "registered",
+          "label": "France",
+          "countryCode": "FR",
+          "searchLocation": "France",
+          "retrievalGeography": {
+            "countryCode": "FR",
+            "location": "France"
+          }
+        },
+        "report": {
+          "locale": "fr-FR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "fr-FR"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "fr-FR"
+          ]
+        },
+        "instrument": {
+          "locale": "fr-FR",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-FR-FR-001",
+        "slug": "consigne-bouteille-reemployable-supermarche-france",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "FR",
+            "kind": "registered",
+            "label": "France",
+            "countryCode": "FR",
+            "searchLocation": "France",
+            "retrievalGeography": {
+              "countryCode": "FR",
+              "location": "France"
+            }
+          },
+          "report": {
+            "locale": "fr-FR",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "fr-FR"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "fr-FR"
+            ]
+          },
+          "instrument": {
+            "locale": "fr-FR",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:52:12.511Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:52:12.511Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,

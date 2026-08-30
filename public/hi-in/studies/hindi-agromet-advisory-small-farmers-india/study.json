@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "brief": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "stableId": "SS-HI-IN-001",
     "slug": "hindi-agromet-advisory-small-farmers-india",
     "locale": "hi-IN",
@@ -12,6 +12,22 @@
     "disclosure": "यह मॉडल-जनित संश्लेषित परिणाम है, देखा गया मानव सर्वेक्षण परिणाम नहीं।",
     "evidenceBoundary": "कृषि जनगणना परिचालन जोतों की रूपरेखा और IMD मौजूदा मौसम व सलाह सेवाओं का संदर्भ दे सकते हैं; ये फोन पहुँच, समझ, नियमित उपयोग, कार्रवाई, उपज, आय या कृषि परिणाम सिद्ध नहीं करते।",
     "humanValidation": "कम-से-कम तीन राज्यों में सहायक हिंदी साक्षात्कार करें; टेक्स्ट, आवाज़, कम-डेटा और साझा-डिवाइस यात्राएँ जाँचें; एक पूरी फसल अवस्था तक पायलट चलाकर संदेश प्राप्ति, समझ, कार्रवाई, गैर-उपयोग और विस्तार-कर्मी तक पहुँच देखें।",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "marketId": "IN",
+      "reportLocale": "hi-IN",
+      "sourceLocales": [
+        "hi-IN"
+      ],
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "hi-IN"
+        ]
+      },
+      "instrumentLocale": "hi-IN"
+    },
+    "localizationRegistryVersion": "localization-capabilities-v2",
     "curatedContextUrls": [
       "https://mausam.imd.gov.in/responsive/agromet_adv_ser_state_current.php",
       "https://mausamsankalp.imd.gov.in/",
@@ -29,11 +45,176 @@
         "hi-IN"
       ],
       "searchCountry": "IN",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "marketId": "IN",
+        "reportLocale": "hi-IN",
+        "sourceLocales": [
+          "hi-IN"
+        ],
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "hi-IN"
+          ]
+        },
+        "instrumentLocale": "hi-IN"
+      },
       "outputLocale": "hi-IN",
       "researchMode": "DEEP",
       "evidencePolicy": "AUTO",
       "clientRunId": "sample-hindi-agromet-advisory-small-farmers-india"
     }
+  },
+  "localization": {
+    "schemaVersion": "study-localization-v1",
+    "registryVersion": "localization-capabilities-v2",
+    "inputMode": "canonical-with-legacy",
+    "market": {
+      "id": "IN",
+      "kind": "registered",
+      "label": "India",
+      "countryCode": "IN",
+      "searchLocation": "India",
+      "retrievalGeography": {
+        "countryCode": "IN",
+        "location": "India"
+      }
+    },
+    "report": {
+      "locale": "hi-IN",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    },
+    "source": {
+      "locales": [
+        "hi-IN"
+      ]
+    },
+    "retrieval": {
+      "policy": "PREFER",
+      "locales": [
+        "hi-IN"
+      ]
+    },
+    "instrument": {
+      "locale": "hi-IN",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    }
+  },
+  "localizationRegistryVersion": "localization-capabilities-v2",
+  "sampleLineage": {
+    "schemaVersion": "sample-lineage-v2",
+    "source": "static-sample-library",
+    "stableId": "SS-HI-IN-001",
+    "slug": "hindi-agromet-advisory-small-farmers-india",
+    "sampleSchemaVersion": "1.1",
+    "localizationRegistryVersion": "localization-capabilities-v2",
+    "localizationReceipt": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "IN",
+        "kind": "registered",
+        "label": "India",
+        "countryCode": "IN",
+        "searchLocation": "India",
+        "retrievalGeography": {
+          "countryCode": "IN",
+          "location": "India"
+        }
+      },
+      "report": {
+        "locale": "hi-IN",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "hi-IN"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "hi-IN"
+        ]
+      },
+      "instrument": {
+        "locale": "hi-IN",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "scope": "sample-brief-copy",
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "quality": {
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract",
+      "checkedAt": "2026-08-29T02:54:30.884Z"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "glossaryVersion": null,
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "rerun": {
+    "allowed": true,
+    "block": null
   },
   "curatedContextCandidates": [
     {
@@ -54,12 +235,157 @@
     }
   ],
   "capture": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "briefSlug": "hindi-agromet-advisory-small-farmers-india",
     "stableId": "SS-HI-IN-001",
+    "sampleLineage": {
+      "schemaVersion": "sample-lineage-v2",
+      "source": "static-sample-library",
+      "stableId": "SS-HI-IN-001",
+      "slug": "hindi-agromet-advisory-small-farmers-india",
+      "sampleSchemaVersion": "1.1",
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "localizationReceipt": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "IN",
+          "kind": "registered",
+          "label": "India",
+          "countryCode": "IN",
+          "searchLocation": "India",
+          "retrievalGeography": {
+            "countryCode": "IN",
+            "location": "India"
+          }
+        },
+        "report": {
+          "locale": "hi-IN",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "hi-IN"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "hi-IN"
+          ]
+        },
+        "instrument": {
+          "locale": "hi-IN",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "scope": "sample-brief-copy",
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "studyId": "study_2a0e81be-d067-4517-beac-bdd09901e17c",
     "runId": "run_d7f36d56-3848-4f44-9103-e4e022fd3ec2",
     "capturedAt": "2026-08-29T02:54:30.884Z",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "IN",
+        "kind": "registered",
+        "label": "India",
+        "countryCode": "IN",
+        "searchLocation": "India",
+        "retrievalGeography": {
+          "countryCode": "IN",
+          "location": "India"
+        }
+      },
+      "report": {
+        "locale": "hi-IN",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "hi-IN"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "hi-IN"
+        ]
+      },
+      "instrument": {
+        "locale": "hi-IN",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "quality": {
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract",
+        "checkedAt": "2026-08-29T02:54:30.884Z"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "study": {
       "title": "ब्लॉक-और-फसल-विशिष्ट हिंदी मौसम-कृषि सलाह के नियमित देखने की संभावना",
       "summary": "यह एक सिंथेटिक लिकर्ट अध्ययन है, जो हिंदी-भाषी जिलों के छोटे और सीमांत परिचालन जोत धारकों में उस परिकल्पित रुचि को दर्शाता है कि यदि सत्यापित मौसम-कृषि सलाह हिन्दी में, कम डेटा वाले ऐप और आवाज़ दोनों माध्यमों से, सप्ताह में दो बार, मुफ्त और",
@@ -93,70 +419,90 @@
       },
       "segments": [
         {
+          "id": "segment-1",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "उच्च-उत्साह, डिजिटल-समर्थ उपयोगकर्ता",
-          "sample": 52,
           "values": [
             4,
             8,
             19,
             38,
             31
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-2",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "व्यावहारिक पर सावधान, साझा-फोन उपयोगकर्ता",
-          "sample": 58,
           "values": [
             5,
             12,
             28,
             36,
             19
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-3",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "मध्यम डिजिटल सुविधा, नियमित सलाह-निर्भर किसान",
-          "sample": 46,
           "values": [
             2,
             4,
             22,
             44,
             28
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-4",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "कम डिजिटल सुविधा, सीमित या अनियमित सलाह-उपयोग",
-          "sample": 44,
           "values": [
             50,
             50,
             0,
             0,
             0
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         }
       ],
       "responses": [
         {
           "score": 5,
           "profile": "निजी फोन, मध्यम डिजिटल सुविधा, सब्ज़ी/धान पर निर्भर, पहले भी मौसम ऐप देखते रहे हैं",
-          "quote": "अगर सलाह मेरी फसल और ब्लॉक के हिसाब से हो और आवाज़ में भी मिल जाए, तो मैं इसे हफ्ते में दो बार जरूर देखूँगा।"
+          "quote": "अगर सलाह मेरी फसल और ब्लॉक के हिसाब से हो और आवाज़ में भी मिल जाए, तो मैं इसे हफ्ते में दो बार जरूर देखूँगा।",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 4,
           "profile": "साझा फोन, कम डेटा पैक, मौसम और दवा-छिड़काव के लिए कभी-कभी सलाह लेने वाला",
-          "quote": "मुफ़्त है और हिंदी में है, इसलिए ठीक लगेगा। बस समय पर मिले और इतना भारी न हो कि डेटा ज्यादा लगे।"
+          "quote": "मुफ़्त है और हिंदी में है, इसलिए ठीक लगेगा। बस समय पर मिले और इतना भारी न हो कि डेटा ज्यादा लगे।",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 3,
           "profile": "सीमांत जोत, खेती मुख्य आय है, लेकिन फोन घर में साझा है और ऐप का नियमित उपयोग नहीं",
-          "quote": "रुचि तो है, पर फोन हमेशा मेरे पास नहीं रहता। आवाज़ वाली सुविधा मदद करेगी, फिर भी नियमित देखने में दिक्कत हो सकती है।"
+          "quote": "रुचि तो है, पर फोन हमेशा मेरे पास नहीं रहता। आवाज़ वाली सुविधा मदद करेगी, फिर भी नियमित देखने में दिक्कत हो सकती है।",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 2,
           "profile": "कम डिजिटल सुविधा, पहले सलाह को कम उपयोग किया, मोबाइल का उपयोग मुख्यतः कॉल तक सीमित",
-          "quote": "अगर इसे सुनना आसान हो तो ठीक है, लेकिन ऐप खोलना और हर हफ्ते दो बार देखना मेरे लिए अभी मुश्किल लगता है।"
+          "quote": "अगर इसे सुनना आसान हो तो ठीक है, लेकिन ऐप खोलना और हर हफ्ते दो बार देखना मेरे लिए अभी मुश्किल लगता है।",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         }
       ],
       "cautions": [
@@ -166,10 +512,152 @@
         "यहां दी गई उद्धरण-पंक्तियाँ मॉडल-जनित उदाहरण हैं, वास्तविक प्रतिभागी कथन नहीं।"
       ]
     },
+    "populationFrame": {
+      "frameVersion": "population-frame-v1",
+      "intendedPopulation": "हिंदी-भाषी जिलों के छोटे और सीमांत परिचालन जोत धारक जिनके पास निजी या साझा मोबाइल फोन की पहुँच है",
+      "geography": {
+        "market": "India",
+        "countryCode": "IN"
+      },
+      "languages": {
+        "outputLocale": "hi-IN",
+        "sourceLanguages": [
+          "hi-IN"
+        ]
+      },
+      "characteristics": [],
+      "officialSourceDatasets": [],
+      "marginalDistributions": [],
+      "knownIntersections": [],
+      "populationCells": [],
+      "weighting": {
+        "method": "NONE",
+        "status": "NOT_APPLIED",
+        "diagnostics": {
+          "iterations": null,
+          "tolerance": null,
+          "maxAbsoluteError": null,
+          "minWeight": null,
+          "maxWeight": null,
+          "effectiveCellCount": null
+        }
+      },
+      "unsupportedCharacteristics": [
+        "Demographic and firmographic characteristics were not supplied as structured population data."
+      ],
+      "coverageDate": null,
+      "populationFit": {
+        "scoreVersion": "population-fit-v1",
+        "status": "UNMEASURED",
+        "overall": null,
+        "components": {
+          "geographyCoverage": null,
+          "marginalCoverage": null,
+          "intersectionCoverage": null,
+          "sourceQuality": null,
+          "sourceRecency": null,
+          "weightingQuality": null
+        },
+        "formula": "No aggregate is calculated until supported population variables and source datasets are present. When measured, every component and weight is reported alongside the aggregate."
+      },
+      "disclaimer": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people."
+    },
+    "researchDesign": {
+      "templateVersion": "research-method-contract-v1",
+      "methodId": "GENERAL_LIKERT",
+      "methodVersion": "general-likert-v1",
+      "designType": "DIRECTIONAL_LIKERT",
+      "estimand": "Model-generated directional response on the supplied five-point item",
+      "resultKind": "DIRECTIONAL_DISTRIBUTION",
+      "resultSchemaVersion": "method-result-v1",
+      "chartId": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "scale": {
+        "id": "LIKELIHOOD_5",
+        "points": 5,
+        "anchors": [
+          "Very unlikely",
+          "Unlikely",
+          "Not sure",
+          "Likely",
+          "Very likely"
+        ]
+      },
+      "outputStructure": {
+        "id": "five-point-directional-distribution",
+        "supportsSegments": true,
+        "supportsIllustrativePerspectives": true
+      },
+      "segmentPerspectiveEligible": true,
+      "stimulus": null,
+      "instrument": {
+        "requiredInputs": [
+          "research question",
+          "intended audience"
+        ],
+        "includedQuestions": [
+          {
+            "id": "primary-likelihood",
+            "purpose": "Explore a model-generated five-point directional response."
+          }
+        ],
+        "sections": []
+      },
+      "primaryOutcome": {
+        "id": "top-two-box",
+        "label": "Likely / very likely",
+        "value": 53,
+        "unit": "percentage points of a model-generated directional distribution"
+      },
+      "criticRubric": {
+        "id": "general-likert-critic-v1",
+        "criteria": [
+          "neutral wording",
+          "evidence alignment",
+          "stereotype risk",
+          "arithmetic consistency",
+          "no representative or human-response claims"
+        ]
+      },
+      "humanValidation": {
+        "required": true,
+        "recommendedMethod": "Sampled survey preceded by cognitive pretesting",
+        "rationale": "The synthetic distribution is a hypothesis and does not estimate population attitudes.",
+        "minimumChecks": [
+          "question comprehension",
+          "appropriate sampling frame",
+          "observed response distribution"
+        ]
+      },
+      "cautions": [
+        "This legacy-compatible method is a general directional Likert exploration, not a specialized research design."
+      ],
+      "disclosure": "Method-specific output is model-generated direction, not a human measurement."
+    },
+    "modelCard": {
+      "cardVersion": "likerts-model-card-v1",
+      "purpose": "Directional synthetic research for hypothesis generation and research planning.",
+      "permittedUse": "Explore model-generated hypotheses before validation with real people.",
+      "populationGrounding": "NONE",
+      "populationFrameHash": null,
+      "researchMethod": "GENERAL_LIKERT",
+      "researchMethodVersion": "general-likert-v1",
+      "researchMethodChart": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "attitudinalValidation": "NOT_VALIDATED",
+      "disclosure": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people.",
+      "disclosureCode": "SYNTHETIC_RESULTS_REQUIRE_HUMAN_VALIDATION"
+    },
     "provenance": {
       "runtimeVersion": "synthetic-research-v2.4",
       "researchMode": "DEEP",
+      "localizationRegistryVersion": "localization-capabilities-v2",
       "inputHash": "5c5147249e6c9dff5ff0658278363c5e8ab068d0e8c94c2c2668f5747cefdb26",
+      "inputHashVersion": "legacy-unversioned",
+      "inputHashLineage": {
+        "hash": "5c5147249e6c9dff5ff0658278363c5e8ab068d0e8c94c2c2668f5747cefdb26",
+        "version": "legacy-unversioned",
+        "status": "LEGACY_UNVERSIONED",
+        "crossVersionComparable": false
+      },
       "evidenceHash": "9ffd4c752997329f80eccfa39261779b8cc2fe636eacee89951815d3a1628e3c",
       "promptVersions": {
         "framing": "framing-v2",
@@ -183,7 +671,8 @@
         "respondentCell": "respondent-cell-schema-v2",
         "adjudication": "critic-schema-v2"
       },
-      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty.",
+      "disclaimerCode": "MODEL_GENERATION_NON_DETERMINISTIC"
     },
     "cost": {
       "currency": "USD",
@@ -359,6 +848,9 @@
           "excerpt": "who received the full suite of ... test whether farmers ... We conducted an RCT and found that combining IVR and SMS services with video‐based extension led to significant increases in farmer knowledge and adoption of new practices. This shows that low‐ cost mobile‐based extensions can play an important role in increasing the reach and quality of extension services. However, for digital extension programs to claim true success, they need to show increases in farmer productivity. This paper failed to conclude improvements in productivity, but it is unclear if this was due to imprecise measurements, inappropriate technology, or the short time frame of the study. Larger and longer studies will be needed to validate the productivity gains (if any) from digital extension programs.",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "760c97c50bcd754c6910a2b13a7cf656da9a65e610f39d55d472be44b7f9851a"
         },
         {
@@ -367,6 +859,9 @@
           "excerpt": "Secondary data were obtained from research papers, journals, reports, and official websites ... The data have been analysed with the help of Excel, using different statistical tools like percentage analysis and mean values, along with regression analysis. The finding reveal strong medium –term adoption of the app, with the most farmers using it for 1-4 years and accessing it mainly on a weekly or monthly basis. ... 1. The study concludes that the Kisan Suvidha App has achieved strong medium-term adoption among farmers, with most users accessing it for 1-4 years. Farmers mainly use the app on a weekly or monthly basis, indicating its relevance for periodic agricultural needs such as weather updates and market prices. However, limited daily usage suggests that the app is not yet fully integrated into routine farm operations, highlighting a gap in continuous engagement.",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "284d9181489f8143068d701c42b9f68e4dd496c8c6a99a6c51bf14ec08415fc9"
         },
         {
@@ -375,6 +870,9 @@
           "excerpt": "/lowest rate, agro-advisories, etc., yet the adaptability is not that high. It means there exist considerable knowledge gaps in understanding climate vulnerability, socio-economic impacts, and suitable ways to build resilience. A study was done to assess the effectiveness and to improve weatherbased location and crop-specific climate-resilient advisories through farmers' feedback. Advisories were disseminated via mobile application (FarmPrecise app) for kharif and rabi seasons of the year 2020-21 for the paddy crop of the Narayanpet district of Telangana. Results indicate that weather-based climate resilient agriculture (CRA) advisories helped to build the resilience of the farming community to climate change and mobile application (FarmPrecise app) is an effective way of their dissemination. Farmers were able to reduce the input cost and increase the net profit for the crops. However,",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "56ddbb1670814dea70ad8e73894073e9eb566fa0563cb18ca9e0e991d47fd370"
         },
         {
@@ -383,6 +881,9 @@
           "excerpt": "किए जाएँ। ऐप को और सरल, ऑफलाइन-अनुकूल तथा स्थानीय बोलियों के अनुरूप बनाया जाए। मौसम विभाग, ई-नाम, उपग्रह आधारित फसल निगरानी और कृत्रिम बुद्धिमत्ता (एआई) आधारित रोग पहचान जैसी सुविधाओं का व्यापक एकीकरण किया जाए। साथ ही, किसानों के लिए यह जानना भी आसान होना चाहिए कि उनके द्वारा पूछे गए प्रश्न का समाधान कितने समय में मिलेगा। शिकायत निवारण और",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "hi",
+          "titleLanguage": "hi",
+          "excerptLanguage": "hi",
           "contentHash": "4aa11a60d92584a7dbd10ef0be2d04a52a2bcaeecb72d031a9a8319ed3867dea"
         }
       ]
@@ -430,7 +931,7 @@
       "note": "This is a separate model stage within one pipeline, not independent external verification."
     }
   },
-  "status": "automated-qa-passed-human-editorial-review-pending",
+  "status": "automated-qa-passed",
   "htmlUrl": "/hi-in/studies/hindi-agromet-advisory-small-farmers-india/",
   "dataUrl": "/hi-in/studies/hindi-agromet-advisory-small-farmers-india/study.json",
   "canonicalUrl": "https://likerts.com/hi-in/studies/hindi-agromet-advisory-small-farmers-india/"

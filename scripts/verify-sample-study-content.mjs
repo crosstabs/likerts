@@ -2,24 +2,15 @@ import { readdir, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sampleStudies } from '../content/sample-studies.mjs';
+import { requireLocaleCapability } from '../shared/localization.mjs';
+import { languageScriptReport } from '../server/language-script.js';
+import { resolveInputHashLineage } from '../src/lib/inputHashLineage.js';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const captureDirectory = resolve(root, 'content/sample-study-captures');
 const secretKeyPattern = /(?:api[-_]?key|authorization|cookie|password|secret|client[-_]?run[-_]?id)$/i;
 const dangerousHostPattern = /(^|\.)(localhost|local|internal)$|^(?:0|10|127)\.|^169\.254\.|^192\.168\.|^172\.(?:1[6-9]|2\d|3[0-1])\./i;
-
-const scriptRules = {
-  'en-US': { required: /[A-Za-z]/, forbidden: /[\u0600-\u06ff\u0900-\u097f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/ },
-  'es-ES': { required: /[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/, forbidden: /[\u0600-\u06ff\u0900-\u097f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/ },
-  'pt-BR': { required: /[A-Za-zÁÀÃÂÇÉÊÍÓÔÕÚáàãâçéêíóôõú]/, forbidden: /[\u0600-\u06ff\u0900-\u097f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/ },
-  'fr-FR': { required: /[A-Za-zÀÂÇÉÈÊËÎÏÔÛÙÜŸàâçéèêëîïôûùüÿ]/, forbidden: /[\u0600-\u06ff\u0900-\u097f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/ },
-  'de-DE': { required: /[A-Za-zÄÖÜẞäöüß]/, forbidden: /[\u0600-\u06ff\u0900-\u097f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/ },
-  'zh-CN': { required: /[\u3400-\u9fff]/, forbidden: /[\u0600-\u06ff\u0900-\u097f\u3040-\u30ff\uac00-\ud7af]/ },
-  'ja-JP': { required: /[\u3040-\u30ff\u3400-\u9fff]/, forbidden: /[\u0600-\u06ff\u0900-\u097f\uac00-\ud7af]/ },
-  'ko-KR': { required: /[\uac00-\ud7af]/, forbidden: /[\u0600-\u06ff\u0900-\u097f\u3040-\u30ff]/ },
-  'ar-SA': { required: /[\u0600-\u06ff]/, forbidden: /[\u0900-\u097f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/ },
-  'hi-IN': { required: /[\u0900-\u097f]/, forbidden: /[\u0600-\u06ff\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/ },
-};
+const humanCohortClaimPattern = /\b(?:respondents?|participants?|interviewees?|panellists?|panelists?|Befragte[nsr]?|Teilnehmende[nsr]?|Teilnehmer(?:innen)?)\b|(?:encuestad[oa]s?|participantes?|entrevistad[oa]s?|respondentes?|répondant(?:e)?s?|sondé(?:e)?s?|personnes interrogées|受访者|受訪者|被访者|被訪者|参与者|參與者|回答者|参加者|參加者|응답자|참여자|참가자|المشاركون|المشاركين|المستجيبون|المستجيبين|उत्तरदाता|प्रतिभागी)/iu;
 
 const asNumber = (value) => typeof value === 'number' && Number.isFinite(value) ? value : null;
 const strings = (value) => {
@@ -45,9 +36,29 @@ function findSecretKeys(value, path = '') {
   });
 }
 
-function collectStudyNarrative(capture) {
+function collectStudyNarrativeFields(capture) {
   const study = capture.study || {};
-  return [study.title, study.summary, study.takeaway, study.confidenceNote, ...(study.cautions || []), ...(study.responses || []).flatMap((response) => [response.profile, response.quote]), ...(study.segments || []).map((segment) => segment.label)].filter(Boolean).join('\n');
+  const fields = [];
+  const add = (path, value, { allowScriptNeutral = false } = {}) => {
+    if (typeof value === 'string' && value.trim()) fields.push({ path, value, allowScriptNeutral });
+  };
+  add('study.title', study.title);
+  add('study.summary', study.summary);
+  add('study.takeaway', study.takeaway);
+  add('study.confidenceNote', study.confidenceNote);
+  (study.cautions || []).forEach((value, index) => add(`study.cautions.${index}`, value));
+  (study.responses || []).forEach((response, index) => {
+    add(`study.responses.${index}.profile`, response?.profile);
+    add(`study.responses.${index}.quote`, response?.quote);
+  });
+  (study.segments || []).forEach((segment, index) => add(`study.segments.${index}.label`, segment?.label));
+  add('study.audienceSummary.audienceLabel', study.audienceSummary?.audienceLabel);
+  add('study.audienceSummary.contextLabel', study.audienceSummary?.contextLabel);
+  (study.audienceSummary?.attributes || []).forEach((attribute, index) => {
+    add(`study.audienceSummary.attributes.${index}.label`, attribute?.label);
+    add(`study.audienceSummary.attributes.${index}.value`, attribute?.value, { allowScriptNeutral: true });
+  });
+  return fields;
 }
 
 function truncationWarnings(capture) {
@@ -79,8 +90,22 @@ function validateCapture(capture, brief, file) {
     add(publicUrl(entry?.url), `evidence ledger entry ${index + 1} has a malformed or non-public URL`);
   });
   add(capture?.verification?.status === 'completed', 'critic did not complete');
+  for (const field of ['summary', 'takeaway']) {
+    const value = capture?.study?.[field];
+    add(
+      typeof value !== 'string' || !humanCohortClaimPattern.test(value),
+      `study.${field} uses human-cohort language for model-generated output`,
+    );
+  }
   add(typeof capture?.provenance?.runtimeVersion === 'string' && capture.provenance.runtimeVersion.length > 0, 'missing runtime provenance');
   add(/^[a-f0-9]{64}$/i.test(capture?.provenance?.inputHash || ''), 'missing or malformed input hash');
+  const inputHashLineage = resolveInputHashLineage({
+    hash: capture?.provenance?.inputHash,
+    version: capture?.provenance?.inputHashVersion || capture?.provenance?.inputHashLineage?.version || null,
+  });
+  add(inputHashLineage.hash === capture?.provenance?.inputHash, 'input hash lineage does not preserve the exact digest');
+  add(inputHashLineage.version === (capture?.provenance?.inputHashVersion || 'legacy-unversioned'), 'input hash lineage version mismatch');
+  add(inputHashLineage.crossVersionComparable === false, 'input hash lineage must not imply cross-version comparability');
   add(/^[a-f0-9]{64}$/i.test(capture?.provenance?.evidenceHash || ''), 'missing or malformed evidence hash');
   add(Object.keys(capture?.provenance?.promptVersions || {}).length > 0 && Object.keys(capture?.provenance?.schemaVersions || {}).length > 0, 'missing prompt/schema provenance');
   add(typeof capture?.cost?.currency === 'string' && capture.cost.currency.length > 0, 'missing cost currency');
@@ -90,9 +115,24 @@ function validateCapture(capture, brief, file) {
   add(Number.isInteger(capture?.stability?.cellCount) && capture.stability.cellCount >= 2, 'missing stability cell count');
   add(asNumber(capture?.stability?.meanJensenShannonDivergence) !== null && capture.stability.meanJensenShannonDivergence >= 0, 'missing stability disagreement metric');
   add(asNumber(capture?.stability?.maxPercentagePointSpread) !== null && capture.stability.maxPercentagePointSpread >= 0, 'missing stability spread metric');
-  const rule = scriptRules[brief.locale];
-  const narrative = collectStudyNarrative(capture);
-  add(Boolean(rule?.required?.test(narrative)) && !rule?.forbidden?.test(narrative), `study narrative does not match ${brief.locale} script expectations`);
+  let scriptMatches = false;
+  try {
+    const locale = requireLocaleCapability(brief.locale, 'sample');
+    const narrativeFields = collectStudyNarrativeFields(capture);
+    scriptMatches = narrativeFields.length > 0 && narrativeFields.every(({ value, allowScriptNeutral }) => {
+      const scriptReport = languageScriptReport(value, locale.id);
+      return scriptReport.checked && (
+        scriptReport.pass
+        || (allowScriptNeutral
+          && !/\p{L}/u.test(value)
+          && scriptReport.unexpectedScripts.length === 0)
+      );
+    });
+  } catch {
+    // Missing, unknown, or non-sample locale policy must remain a validation
+    // failure instead of silently accepting an unchecked narrative.
+  }
+  add(scriptMatches, `study narrative does not match ${brief.locale} script expectations`);
   const secretKeys = findSecretKeys(capture);
   add(secretKeys.length === 0, `secret-shaped keys present: ${secretKeys.join(', ')}`);
   add(!strings(capture?.study?.cautions).some((text) => /\bthe distribution is deterministic\b/i.test(text)), 'caution conflates reproducible aggregation with non-deterministic model generation');

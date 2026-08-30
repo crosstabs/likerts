@@ -5,7 +5,7 @@ import { chromium } from '@playwright/test';
 // Optional: STUDY_LIBRARY_DETAIL_URL can pin a detail URL when the hub has no rows yet.
 const requestedUrl = process.env.STUDY_LIBRARY_URL || 'http://127.0.0.1:4173/studies/';
 const configuredDetailUrl = process.env.STUDY_LIBRARY_DETAIL_URL;
-const widths = [320, 768, 1440];
+const widths = [320, 375, 768, 1440];
 const report = [];
 
 function inferHubAndDetail(urlString) {
@@ -45,20 +45,39 @@ async function inspectPage(page, pageUrl, kind, width) {
   assert.ok(viewport.scrollWidth <= viewport.clientWidth + 1, `${kind} ${width}px document overflows (${viewport.scrollWidth} > ${viewport.clientWidth})`);
   assert.ok(viewport.bodyScrollWidth <= viewport.clientWidth + 1, `${kind} ${width}px body overflows (${viewport.bodyScrollWidth} > ${viewport.clientWidth})`);
 
-  const primaryActions = page.locator('a,button').filter({ hasText: /run your own (study|version)|new study/i });
+  const primaryActions = page.locator('.library-actions .sl-button-primary, .study-detail-actions .sl-button-primary, .header-cta');
   assert.ok(await primaryActions.filter({ visible: true }).count() > 0, `${kind} ${width}px has no semantic primary study action`);
 
-  const boundaries = page.locator('.library-boundary, [data-boundary], [role="note"]').filter({ hasText: /synthetic/i });
+  const boundaries = page.locator('.library-boundary, [data-boundary]');
   assert.ok(await boundaries.filter({ visible: true }).count() > 0, `${kind} ${width}px has no visible synthetic boundary disclosure`);
-  const boundaryText = (await boundaries.first().innerText()).toLowerCase();
-  assert.match(boundaryText, /not surveyed|not (a )?representative|not human/, `${kind} ${width}px boundary must explain the evidence limit`);
+  const boundaryText = (await boundaries.first().innerText()).trim();
+  assert.ok(boundaryText.length >= 20, `${kind} ${width}px boundary must explain the evidence limit`);
 
   const charts = page.locator('.distribution-chart');
   assert.ok(await charts.count() > 0, `${kind} ${width}px has no distribution chart`);
   const labelledCharts = page.locator('.distribution-figure .distribution-labels, .distribution-labels, .distribution-chart[aria-label]');
   assert.ok(await labelledCharts.count() > 0, `${kind} ${width}px chart has no accessible/visible labels`);
   const visibleLabelCount = await page.locator('.distribution-labels span, .distribution-legend span').filter({ visible: true }).count();
-  if (kind === 'detail') assert.ok(visibleLabelCount >= 5, `${kind} ${width}px needs five visible Likert labels`);
+  let featuredDisclosureContained = null;
+  if (kind === 'hub') {
+    const featuredDisclosure = page.locator('.featured-study-footer > span').first();
+    assert.equal(await featuredDisclosure.count(), 1, `${kind} ${width}px has no featured-study disclosure`);
+    featuredDisclosureContained = await featuredDisclosure.evaluate((element) => {
+      const elementRect = element.getBoundingClientRect();
+      const footerRect = element.parentElement?.getBoundingClientRect();
+      if (!footerRect) return false;
+      return elementRect.left >= footerRect.left - 1 && elementRect.right <= footerRect.right + 1;
+    });
+    assert.ok(featuredDisclosureContained, `${kind} ${width}px featured-study disclosure is clipped by its card`);
+  }
+  if (kind === 'detail') {
+    assert.ok(visibleLabelCount >= 5, `${kind} ${width}px needs five visible Likert labels`);
+    const quoteWidths = await page.locator('.perspective blockquote').evaluateAll((quotes) => (
+      quotes.map((quote) => quote.getBoundingClientRect().width)
+    ));
+    assert.ok(quoteWidths.length > 0, `${kind} ${width}px has no synthetic-perspective quotes`);
+    assert.ok(Math.min(...quoteWidths) >= 160, `${kind} ${width}px synthetic-perspective quote collapsed below 160px`);
+  }
 
   assert.equal(consoleErrors.length, 0, `${kind} ${width}px console errors: ${consoleErrors.join('; ')}`);
   assert.equal(pageErrors.length, 0, `${kind} ${width}px page errors: ${pageErrors.join('; ')}`);
@@ -71,6 +90,7 @@ async function inspectPage(page, pageUrl, kind, width) {
     semanticPrimaryAction: true,
     chartLabels: visibleLabelCount,
     boundaryDisclosure: true,
+    ...(featuredDisclosureContained === null ? {} : { featuredDisclosureContained }),
     consoleErrors: 0,
     pageErrors: 0,
     failedResponses: 0,
@@ -83,7 +103,7 @@ try {
     const discoveryContext = await browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: 'en-US' });
     const discoveryPage = await discoveryContext.newPage();
     await discoveryPage.goto(inferred.hubUrl, { waitUntil: 'domcontentloaded' });
-    const studyLink = discoveryPage.locator('[data-study-link], .study-table-row[href], a[href*="/studies/"]').first();
+    const studyLink = discoveryPage.locator('[data-study-link]').first();
     await studyLink.waitFor({ state: 'visible' });
     const href = await studyLink.getAttribute('href');
     assert.ok(href, 'Hub study row must expose a detail href');

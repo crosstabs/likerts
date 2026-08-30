@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "2.0",
   "publishedAt": "2026-08-29",
   "boundary": "These are candidate human-survey datasets for future preregistered comparisons, not calibration results, panel grounding, or evidence that Likerts matches real respondents.",
   "requiredProtocol": [
@@ -8,6 +8,67 @@
     "Transform scales with a declared mapping and report total variation distance, Jensen-Shannon divergence, maximum point spread, and subgroup coverage.",
     "Publish every eligible comparison, including mismatches, failed runs, null results, and access limitations."
   ],
+  "validationLab": {
+    "schemaVersion": "validation-lab-v1",
+    "asOf": "2026-08-29",
+    "status": "NO_COMPLETED_BENCHMARKS",
+    "latestEvaluationDate": null,
+    "evaluatedModelPromptVersion": null,
+    "counts": {
+      "eligibleComparisons": 0,
+      "completedComparisons": 0,
+      "withinPreregisteredTolerance": 0,
+      "mixedEvidence": 0,
+      "outsidePreregisteredTolerance": 0,
+      "nonCompletedComparisons": 0
+    },
+    "calibratedMarkets": [],
+    "calibratedLanguages": [],
+    "calibratedQuestionTypes": [],
+    "unsupportedMarkets": ["ALL"],
+    "unsupportedLanguages": ["ALL"],
+    "unsupportedQuestionTypes": ["ALL"],
+    "comparisons": [],
+    "boundary": "No accuracy claim is available. Candidate datasets are roadmap entries, not completed comparisons or calibration results.",
+    "emptyState": "No eligible held-out comparison has completed, so there are no favorable, unfavorable, failed, or null metric values to report.",
+    "metricDefinitions": [
+      {
+        "id": "mean_absolute_percentage_point_error",
+        "label": "Mean absolute percentage-point error",
+        "definition": "Unweighted mean of absolute category-share differences, first within each matched question and then across eligible matched questions; reported in percentage points."
+      },
+      {
+        "id": "top_two_box_absolute_error_pp",
+        "label": "Top-two-box absolute error",
+        "definition": "Absolute difference between observed and synthetic top-two-box shares for each exactly matched ordered scale; reported in percentage points."
+      },
+      {
+        "id": "rank_order_agreement",
+        "label": "Rank-order agreement",
+        "definition": "Spearman rank correlation across at least three preregistered, exactly matched questions; ties receive average ranks and constant ranks are not assessed."
+      },
+      {
+        "id": "subgroup_direction_agreement",
+        "label": "Subgroup-direction agreement",
+        "definition": "Share of evaluable preregistered subgroup contrasts whose direction agrees after applying the declared percentage-point tie band."
+      },
+      {
+        "id": "repeat_run_variation",
+        "label": "Repeat-run variation",
+        "definition": "Descriptive spread, total-variation distance, and Jensen-Shannon divergence across at least three completed runs with identical frozen lineage and evidence."
+      },
+      {
+        "id": "evidence_sensitivity",
+        "label": "Evidence sensitivity",
+        "definition": "Output movement across preregistered paired evidence variants with all other recorded lineage held fixed; this is not an accuracy metric."
+      },
+      {
+        "id": "evaluation_date_and_version",
+        "label": "Evaluation date and version",
+        "definition": "Evaluator-owned timestamp plus dataset, population-frame, runtime, model-route, prompt, schema, protocol, and scorer versions for the frozen comparison."
+      }
+    ]
+  },
   "candidates": [
     {
       "id": "wvs-wave-7",

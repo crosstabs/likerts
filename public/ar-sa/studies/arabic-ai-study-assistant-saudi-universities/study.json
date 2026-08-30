@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "brief": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "stableId": "SS-AR-SA-001",
     "slug": "arabic-ai-study-assistant-saudi-universities",
     "locale": "ar-SA",
@@ -12,6 +12,22 @@
     "disclosure": "هذه نتيجة تركيبيّة مولّدة بالنماذج وليست نتائج استطلاع من أشخاص تمت ملاحظتهم.",
     "evidenceBoundary": "قد تحدد مصادر المركز الوطني للتعليم الإلكتروني توقعات الحوكمة والجودة، وقد توضح الهيئة العامة للإحصاء سياق التعليم والاتصال؛ لكنها لا تثبت القبول أو نتائج التعلم أو الدقة أو النزاهة الأكاديمية أو فهم الخصوصية.",
     "humanValidation": "إجراء مقابلات معرفية بالعربية، ومراجعة من الطلاب وأعضاء هيئة التدريس وإتاحة الوصول والحوكمة، ثم تجربة فصل دراسي مضبوطة تقيس التبني الطوعي والأخطاء والتحقق من المصادر وطلب المساعدة والتعلم وفهم الخصوصية.",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "marketId": "SA",
+      "reportLocale": "ar-SA",
+      "sourceLocales": [
+        "ar-SA"
+      ],
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "ar-SA"
+        ]
+      },
+      "instrumentLocale": "ar-SA"
+    },
+    "localizationRegistryVersion": "localization-capabilities-v2",
     "curatedContextUrls": [
       "https://nelc.gov.sa/media-center/news/national-elearning-center-announces-ai-framework-digital-learning",
       "https://nelc.gov.sa/en/regulations-and-standards/elearning-standards",
@@ -29,11 +45,176 @@
         "ar-SA"
       ],
       "searchCountry": "SA",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "marketId": "SA",
+        "reportLocale": "ar-SA",
+        "sourceLocales": [
+          "ar-SA"
+        ],
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "ar-SA"
+          ]
+        },
+        "instrumentLocale": "ar-SA"
+      },
       "outputLocale": "ar-SA",
       "researchMode": "DEEP",
       "evidencePolicy": "AUTO",
       "clientRunId": "sample-arabic-ai-study-assistant-saudi-universities"
     }
+  },
+  "localization": {
+    "schemaVersion": "study-localization-v1",
+    "registryVersion": "localization-capabilities-v2",
+    "inputMode": "canonical-with-legacy",
+    "market": {
+      "id": "SA",
+      "kind": "registered",
+      "label": "Saudi Arabia",
+      "countryCode": "SA",
+      "searchLocation": "Saudi Arabia",
+      "retrievalGeography": {
+        "countryCode": "SA",
+        "location": "Saudi Arabia"
+      }
+    },
+    "report": {
+      "locale": "ar-SA",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    },
+    "source": {
+      "locales": [
+        "ar-SA"
+      ]
+    },
+    "retrieval": {
+      "policy": "PREFER",
+      "locales": [
+        "ar-SA"
+      ]
+    },
+    "instrument": {
+      "locale": "ar-SA",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    }
+  },
+  "localizationRegistryVersion": "localization-capabilities-v2",
+  "sampleLineage": {
+    "schemaVersion": "sample-lineage-v2",
+    "source": "static-sample-library",
+    "stableId": "SS-AR-SA-001",
+    "slug": "arabic-ai-study-assistant-saudi-universities",
+    "sampleSchemaVersion": "1.1",
+    "localizationRegistryVersion": "localization-capabilities-v2",
+    "localizationReceipt": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "SA",
+        "kind": "registered",
+        "label": "Saudi Arabia",
+        "countryCode": "SA",
+        "searchLocation": "Saudi Arabia",
+        "retrievalGeography": {
+          "countryCode": "SA",
+          "location": "Saudi Arabia"
+        }
+      },
+      "report": {
+        "locale": "ar-SA",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "ar-SA"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "ar-SA"
+        ]
+      },
+      "instrument": {
+        "locale": "ar-SA",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "scope": "sample-brief-copy",
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "quality": {
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract",
+      "checkedAt": "2026-08-29T02:54:10.915Z"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "glossaryVersion": null,
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "rerun": {
+    "allowed": true,
+    "block": null
   },
   "curatedContextCandidates": [
     {
@@ -54,12 +235,157 @@
     }
   ],
   "capture": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "briefSlug": "arabic-ai-study-assistant-saudi-universities",
     "stableId": "SS-AR-SA-001",
+    "sampleLineage": {
+      "schemaVersion": "sample-lineage-v2",
+      "source": "static-sample-library",
+      "stableId": "SS-AR-SA-001",
+      "slug": "arabic-ai-study-assistant-saudi-universities",
+      "sampleSchemaVersion": "1.1",
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "localizationReceipt": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "SA",
+          "kind": "registered",
+          "label": "Saudi Arabia",
+          "countryCode": "SA",
+          "searchLocation": "Saudi Arabia",
+          "retrievalGeography": {
+            "countryCode": "SA",
+            "location": "Saudi Arabia"
+          }
+        },
+        "report": {
+          "locale": "ar-SA",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "ar-SA"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "ar-SA"
+          ]
+        },
+        "instrument": {
+          "locale": "ar-SA",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "scope": "sample-brief-copy",
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "studyId": "study_d3cd6f96-8967-485b-9683-bd9b406beab7",
     "runId": "run_d15a2e63-cead-48c0-bdd8-a0359fb2b758",
     "capturedAt": "2026-08-29T02:54:10.915Z",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "SA",
+        "kind": "registered",
+        "label": "Saudi Arabia",
+        "countryCode": "SA",
+        "searchLocation": "Saudi Arabia",
+        "retrievalGeography": {
+          "countryCode": "SA",
+          "location": "Saudi Arabia"
+        }
+      },
+      "report": {
+        "locale": "ar-SA",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "ar-SA"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "ar-SA"
+        ]
+      },
+      "instrument": {
+        "locale": "ar-SA",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "quality": {
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract",
+        "checkedAt": "2026-08-29T02:54:10.915Z"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "study": {
       "title": "استعداد الطلاب لاستخدام مساعد دراسي مؤسسي ذكي باللغة العربية",
       "summary": "تستكشف هذه الدراسة التقييمية مدى تقبل الطلاب الجامعيين في المملكة العربية السعودية لاستخدام مساعد دراسي ذكي باللغة العربية مدعوم مؤسسيًا ومعزز بخصائص الشفافية وإمكانية حذف البيانات.",
@@ -93,70 +419,90 @@
       },
       "segments": [
         {
+          "id": "segment-1",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "الطلاب المحافظون تقنيًا",
-          "sample": 32,
           "values": [
             20,
             30,
             30,
             15,
             5
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-2",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "الطلاب المتريثون",
-          "sample": 44,
           "values": [
             5,
             15,
             40,
             30,
             10
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-3",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "المتقبلون للتقنية بإشراف",
-          "sample": 72,
           "values": [
             0,
             5,
             15,
             55,
             25
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-4",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "المتحمسون للحلول الذكية",
-          "sample": 52,
           "values": [
             0,
             0,
             10,
             30,
             60
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         }
       ],
       "responses": [
         {
           "score": 5,
           "profile": "طالبة في كلية التربية، السنة الثالثة",
-          "quote": "توفر المراجع وإشراف أستاذ المقرر يمنحني ثقة كبيرة في الاعتماد على الأداة للمراجعة وتلخيص المحاضرات."
+          "quote": "توفر المراجع وإشراف أستاذ المقرر يمنحني ثقة كبيرة في الاعتماد على الأداة للمراجعة وتلخيص المحاضرات.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 4,
           "profile": "طالب في كلية إدارة الأعمال، السنة الأخيرة",
-          "quote": "عدم دخول الأداة في التقييم المباشر وإمكانية التحكم ببياناتي يشجعني على تجربتها كعامل مساعد في التحضير."
+          "quote": "عدم دخول الأداة في التقييم المباشر وإمكانية التحكم ببياناتي يشجعني على تجربتها كعامل مساعد في التحضير.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 3,
           "profile": "طالب في كلية الشريعة، السنة الثانية",
-          "quote": "أحتاج لمعرفة مدى دقة الأداة في التعامل مع المصطلحات التخصصية بالعربية قبل أن أقرر استخدامها بشكل منتظم."
+          "quote": "أحتاج لمعرفة مدى دقة الأداة في التعامل مع المصطلحات التخصصية بالعربية قبل أن أقرر استخدامها بشكل منتظم.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 2,
           "profile": "طالبة في كلية الآداب، السنة الأولى",
-          "quote": "أفضل الاعتماد على الشرح المباشر والمراجع التقليدية لتجنب أي إرباك قد تسببه الأدوات الذكية."
+          "quote": "أفضل الاعتماد على الشرح المباشر والمراجع التقليدية لتجنب أي إرباك قد تسببه الأدوات الذكية.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         }
       ],
       "cautions": [
@@ -166,10 +512,152 @@
         "الدراسة المرشحة تبدو كسيناريو اصطناعي استكشافي عن قابلية التقبل، لكنها لا تقدم أدلة ميدانية مباشرة على «مدى الاحتمال» في السعودية. كما أن ال"
       ]
     },
+    "populationFrame": {
+      "frameVersion": "population-frame-v1",
+      "intendedPopulation": "طلاب جامعيون بالغون مسجلون في مقررات تُدرّس أساساً بالعربية في السعودية",
+      "geography": {
+        "market": "Saudi Arabia",
+        "countryCode": "SA"
+      },
+      "languages": {
+        "outputLocale": "ar-SA",
+        "sourceLanguages": [
+          "ar-SA"
+        ]
+      },
+      "characteristics": [],
+      "officialSourceDatasets": [],
+      "marginalDistributions": [],
+      "knownIntersections": [],
+      "populationCells": [],
+      "weighting": {
+        "method": "NONE",
+        "status": "NOT_APPLIED",
+        "diagnostics": {
+          "iterations": null,
+          "tolerance": null,
+          "maxAbsoluteError": null,
+          "minWeight": null,
+          "maxWeight": null,
+          "effectiveCellCount": null
+        }
+      },
+      "unsupportedCharacteristics": [
+        "Demographic and firmographic characteristics were not supplied as structured population data."
+      ],
+      "coverageDate": null,
+      "populationFit": {
+        "scoreVersion": "population-fit-v1",
+        "status": "UNMEASURED",
+        "overall": null,
+        "components": {
+          "geographyCoverage": null,
+          "marginalCoverage": null,
+          "intersectionCoverage": null,
+          "sourceQuality": null,
+          "sourceRecency": null,
+          "weightingQuality": null
+        },
+        "formula": "No aggregate is calculated until supported population variables and source datasets are present. When measured, every component and weight is reported alongside the aggregate."
+      },
+      "disclaimer": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people."
+    },
+    "researchDesign": {
+      "templateVersion": "research-method-contract-v1",
+      "methodId": "GENERAL_LIKERT",
+      "methodVersion": "general-likert-v1",
+      "designType": "DIRECTIONAL_LIKERT",
+      "estimand": "Model-generated directional response on the supplied five-point item",
+      "resultKind": "DIRECTIONAL_DISTRIBUTION",
+      "resultSchemaVersion": "method-result-v1",
+      "chartId": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "scale": {
+        "id": "LIKELIHOOD_5",
+        "points": 5,
+        "anchors": [
+          "Very unlikely",
+          "Unlikely",
+          "Not sure",
+          "Likely",
+          "Very likely"
+        ]
+      },
+      "outputStructure": {
+        "id": "five-point-directional-distribution",
+        "supportsSegments": true,
+        "supportsIllustrativePerspectives": true
+      },
+      "segmentPerspectiveEligible": true,
+      "stimulus": null,
+      "instrument": {
+        "requiredInputs": [
+          "research question",
+          "intended audience"
+        ],
+        "includedQuestions": [
+          {
+            "id": "primary-likelihood",
+            "purpose": "Explore a model-generated five-point directional response."
+          }
+        ],
+        "sections": []
+      },
+      "primaryOutcome": {
+        "id": "top-two-box",
+        "label": "Likely / very likely",
+        "value": 62,
+        "unit": "percentage points of a model-generated directional distribution"
+      },
+      "criticRubric": {
+        "id": "general-likert-critic-v1",
+        "criteria": [
+          "neutral wording",
+          "evidence alignment",
+          "stereotype risk",
+          "arithmetic consistency",
+          "no representative or human-response claims"
+        ]
+      },
+      "humanValidation": {
+        "required": true,
+        "recommendedMethod": "Sampled survey preceded by cognitive pretesting",
+        "rationale": "The synthetic distribution is a hypothesis and does not estimate population attitudes.",
+        "minimumChecks": [
+          "question comprehension",
+          "appropriate sampling frame",
+          "observed response distribution"
+        ]
+      },
+      "cautions": [
+        "This legacy-compatible method is a general directional Likert exploration, not a specialized research design."
+      ],
+      "disclosure": "Method-specific output is model-generated direction, not a human measurement."
+    },
+    "modelCard": {
+      "cardVersion": "likerts-model-card-v1",
+      "purpose": "Directional synthetic research for hypothesis generation and research planning.",
+      "permittedUse": "Explore model-generated hypotheses before validation with real people.",
+      "populationGrounding": "NONE",
+      "populationFrameHash": null,
+      "researchMethod": "GENERAL_LIKERT",
+      "researchMethodVersion": "general-likert-v1",
+      "researchMethodChart": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "attitudinalValidation": "NOT_VALIDATED",
+      "disclosure": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people.",
+      "disclosureCode": "SYNTHETIC_RESULTS_REQUIRE_HUMAN_VALIDATION"
+    },
     "provenance": {
       "runtimeVersion": "synthetic-research-v2.4",
       "researchMode": "DEEP",
+      "localizationRegistryVersion": "localization-capabilities-v2",
       "inputHash": "01b93e9a2df44802e53f6c47a4b66199529069f02ce35b9c943b962e31ee6501",
+      "inputHashVersion": "legacy-unversioned",
+      "inputHashLineage": {
+        "hash": "01b93e9a2df44802e53f6c47a4b66199529069f02ce35b9c943b962e31ee6501",
+        "version": "legacy-unversioned",
+        "status": "LEGACY_UNVERSIONED",
+        "crossVersionComparable": false
+      },
       "evidenceHash": "29c7d36936b68aeeda9fc479cffe95cd518e960f3c03020d4ae074996b9ae6bb",
       "promptVersions": {
         "framing": "framing-v2",
@@ -183,7 +671,8 @@
         "respondentCell": "respondent-cell-schema-v2",
         "adjudication": "critic-schema-v2"
       },
-      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty.",
+      "disclaimerCode": "MODEL_GENERATION_NON_DETERMINISTIC"
     },
     "cost": {
       "currency": "USD",
@@ -359,6 +848,9 @@
           "excerpt": "ية‬ ‫الرسائل‬ ‫و‬ ‫يح‬ ‫االطار‬ ‫اعداد‬ ‫ف‬ ‫السياق‬ ‫نفس‬ ‫وعلي‬ ‫االصطناعي‬ ‫الذكاء‬ ‫تطبيقات‬ ‫ان‬ ‫ت‬ ‫حيث‬ ‫العلمي‬ ‫البحث‬ ‫جودة‬ ‫من‬ ... علومات‬ ‫ومعالجة‬ ‫البيانات‬ ‫وتحليل‬ ‫وتكلفة ... ‫فمن‬ ‫في‬ ‫االصطناعي‬ ‫الذكاء‬ ‫و‬ ‫التكنولوجية‬ ‫بالتطبيقات ... ‫االستعانة‬ ‫األهمية‬ ‫وتحديث‬ ‫تجديد‬ ‫يمثل‬ ‫االج ... عية‬ ‫الخدمة‬ ‫فتعليم‬ ‫المستقبل،‬ ‫تحديات‬ ‫ومجابهة‬ ‫االجتماعية‬ ‫الخدمة‬ ‫وممارسة‬ ‫تعليم‬ ‫اد‬ ‫افر‬ ‫ ... االشكال",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "ar",
+          "titleLanguage": "ar",
+          "excerptLanguage": "ar",
           "contentHash": "2e86b7a011a4dfceafb57885192226f173752d4e8821aee17e68e98cf209bb1b"
         },
         {
@@ -367,6 +859,9 @@
           "excerpt": "AI as a learning aid rather than a cheating shortcut. Additionally, they advise that institutions invest in tools (like AI output detectors) and encourage practices (like cross-verifying AI-generated content with credible sources) to support responsible use [4]. Similarly, Alshamy, Al-Harthi, and Abdullah [3] emphasised the need for supervisory frameworks, full institutional guidelines, and specialised training workshops to ensure that academic usage of GenAI is ethical and re sponsible, so that the technology’s benefits can be harnessed without compromising academic standards. In summary, strong institutional support, in the form of policy, infrastructure, and culture, is a pivotal factor in students’ adoption of generative AI. When done right, it creates an ecosystem where students feel encouraged and safe to use AI for learning, guided by positive peer examples and clear rules of",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "b52fd1349ef319276f8df82b9d688ac80cd1c7ead60c360d6f5e00b330337132"
         },
         {
@@ -375,6 +870,9 @@
           "excerpt": "دردشة_`البحثالعلEê ،ةيسفنلاو ،ةيدس Gçا رطا åH ا نم ةعومجم تاعما Gçا بلاط ھجاوي هذ, أشÜت نأ نكمي ،ةيملعلا ثوحبلا ءارجإ دنع ةيقلاخلأاو ،ةينوناقلاو ختسا نم رطا åH ا دا$جلإا نم وأ ،ةنملآا P>غ تاودلأاو تاقيبطتلا ماد ةيقلاخلأا êEلعلا ثحبلا ئدابم وأ حئاوللاو دعاوقلا كاÆ¿نا نم وأ ،رتوتلاو ،يداÇزلا( 2017 اÆ­ايباجيإ نم مغرلا uvع ايجولونكتلا نأ دكؤلما نمف .) ذ ( ن<ساÇو `uع نم لb رك 2022 ( ن<سحو دمحأو ،) 2023 دايصلاو ،) ,ناك ]عض اHåاطر الEó ìعيق عمليةالبحث العلEê، ولقد ّ الكث<Pة إلا أن ( ملاسلاو 2023 و ،) (2023 ,Qasem و ،) (2023 .,al et Mijwil",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "ar",
+          "titleLanguage": "en",
+          "excerptLanguage": "ar",
           "contentHash": "0f62e53bd1bf56056da7497ddcbf0fb9f7c1bf59a9b84d61216fcb7904deb46e"
         },
         {
@@ -383,6 +881,9 @@
           "excerpt": "٧/١ ... المالي اللازم لم ... والدراسات العليا ... الأبحاث العلمية ... دراسات ... تبعاً لاحتياجات السوق المحلية الإقليمية والعالمية وتعزيز دور اكبر للقط ... البحث العلمي وخاصة البحوث التطبيقية الذي تت ... به خطط التنمية الوطنية الش ... ة والمستدامة كما تعمل العمادة على ... ويع مصادر دعم الأبحاث العلمية من داخل الاردن وخار",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "ar",
+          "titleLanguage": "en",
+          "excerptLanguage": "ar",
           "contentHash": "2c26fdd8b7247b2d9c1ad8da343c0b5ba6b164cc248cdad6524e39d2c5bca0cf"
         }
       ]
@@ -430,7 +931,7 @@
       "note": "This is a separate model stage within one pipeline, not independent external verification."
     }
   },
-  "status": "automated-qa-passed-human-editorial-review-pending",
+  "status": "automated-qa-passed",
   "htmlUrl": "/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/",
   "dataUrl": "/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/study.json",
   "canonicalUrl": "https://likerts.com/ar-sa/studies/arabic-ai-study-assistant-saudi-universities/"

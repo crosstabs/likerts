@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 
 import { evaluateResult, scoreRepeatability } from '../evals/scoring.js';
 import { scoreCapturedResults } from '../scripts/eval-offline.js';
-import { evaluationFixtures } from '../evals/fixtures.js';
+import { evaluationFixtures, fixtureDimensions, methodEvaluationFixtures, researchMethodConfigs } from '../evals/fixtures.js';
+import { methodConfigSchema, RESEARCH_METHOD_IDS } from '../server/research-methods.js';
 import { redactForEvaluation, runLiveEvaluation } from '../scripts/eval-live.js';
 
 const valid = {
@@ -109,6 +110,19 @@ test('fixture catalog covers all locales, modes, question types, risk, and malfo
   assert.ok(evaluationFixtures.some((fixture) => fixture.locale === 'ar-SA' && fixture.direction === 'rtl' && fixture.script === 'Arabic'));
   assert.notEqual(evaluationFixtures.find((fixture) => fixture.id === 'es-ES-concept').prompt, evaluationFixtures.find((fixture) => fixture.id === 'en-US-concept').prompt);
   assert.match(evaluationFixtures.find((fixture) => fixture.id === 'ar-SA-concept').prompt, /[\u0600-\u06ff]/);
+});
+
+test('offline method matrix covers every method in every locale without authorizing network or paid calls', () => {
+  assert.equal(methodEvaluationFixtures.length, fixtureDimensions.locales.length * RESEARCH_METHOD_IDS.length);
+  assert.deepEqual(fixtureDimensions.researchMethods, [...RESEARCH_METHOD_IDS]);
+  for (const method of RESEARCH_METHOD_IDS) {
+    assert.equal(methodConfigSchema.safeParse(researchMethodConfigs[method]).success, true, `${method} config must remain valid`);
+    assert.equal(methodEvaluationFixtures.filter((fixture) => fixture.researchMethod === method).length, fixtureDimensions.locales.length);
+  }
+  assert.deepEqual(new Set(methodEvaluationFixtures.map((fixture) => fixture.direction)), new Set(['ltr', 'rtl']));
+  assert.deepEqual(new Set(methodEvaluationFixtures.map((fixture) => fixture.sourceMode)), new Set(['PRIOR_ONLY', 'UPLOADED_GROUNDING']));
+  assert.ok(methodEvaluationFixtures.every((fixture) => fixture.handoffExpected && fixture.networkAllowed === false && fixture.paidModelCallAllowed === false));
+  assert.deepEqual(fixtureDimensions.followUpIntents, ['FOLLOW_UP', 'OBJECTION', 'COUNTERFACTUAL', 'CONCEPT_COMPARISON']);
 });
 
 test('live evaluation is disabled by default and performs no network call', async () => {

@@ -7,3 +7,6 @@ test-results/
 .DS_Store
 coverage/
 evals/live-results*.jsonl
+.validation-private/
+.playwright-cli/
+output/playwright/

@@ -16,6 +16,9 @@
     <loc>https://likerts.com/de-de/studies/waermepumpe-angebot-bestandsheim-deutschland/</loc>
   </url>
   <url>
+    <loc>https://likerts.com/en-us/</loc>
+  </url>
+  <url>
     <loc>https://likerts.com/en-us/studies/</loc>
   </url>
   <url>
@@ -46,10 +49,16 @@
     <loc>https://likerts.com/how-it-works/</loc>
   </url>
   <url>
+    <loc>https://likerts.com/ja-jp/</loc>
+  </url>
+  <url>
     <loc>https://likerts.com/ja-jp/studies/</loc>
   </url>
   <url>
     <loc>https://likerts.com/ja-jp/studies/mobile-checkin-business-hotels-japan/</loc>
+  </url>
+  <url>
+    <loc>https://likerts.com/ko-kr/</loc>
   </url>
   <url>
     <loc>https://likerts.com/ko-kr/studies/</loc>
@@ -77,6 +86,9 @@
   </url>
   <url>
     <loc>https://likerts.com/synthetic-market-research/</loc>
+  </url>
+  <url>
+    <loc>https://likerts.com/zh-cn/</loc>
   </url>
   <url>
     <loc>https://likerts.com/zh-cn/studies/</loc>

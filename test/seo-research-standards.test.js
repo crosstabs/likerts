@@ -48,3 +48,36 @@ test('public metadata does not overstate source freshness or proprietary panel g
   assert.doesNotMatch(combined, /current (?:web )?sources?/i);
   assert.doesNotMatch(combined, /Qualtrics Panel Edge/i);
 });
+
+test('positions Likerts around free synthetic data for market research without weakening disclosures', async () => {
+  const [homepage, app, start, catalog, results, categoryPage, builder] = await Promise.all([
+    read('index.html'),
+    read('src/App.jsx'),
+    read('src/components/FirstRunStart.jsx'),
+    read('src/i18nCatalog.mjs'),
+    read('src/components/ResultsWorkspace.jsx'),
+    read('public/synthetic-market-research/index.html'),
+    read('scripts/build-sample-studies.mjs'),
+  ]);
+
+  assert.match(homepage, /<title>Free Synthetic Data for Market Research \| Likerts<\/title>/);
+  assert.match(homepage, /Generate free synthetic data for market research:/);
+  assert.match(homepage, /Model-generated, not human survey evidence\./);
+  assert.match(app, /document\.title = `\$\{t\('hero'\)\} \| Likerts`;/);
+  assert.match(app, /<span>Likerts — Free Synthetic Research<\/span>/);
+  assert.doesNotMatch(app, /Likerts · \{t\('directional'\)\}/);
+
+  assert.match(start, /<h1 id="first-run-start-title">\{t\('firstRunTitle'\)\}<\/h1>/);
+  assert.match(app, /\{!showStartState \? <h1 className="sr-only">\{t\('hero'\)\}<\/h1> : null\}/);
+  assert.match(catalog, /'For market researchers · free · no account required', 'Free synthetic market research'/);
+  assert.match(catalog, /Generate synthetic data for concept tests, audience hypotheses, messages, pricing, and research planning/);
+  assert.match(catalog, /Model-generated synthetic data—not observed survey responses, a representative sample, or evidence about a real population\./);
+  assert.match(results, /humanFollowUp \|\| t\('directional'\)/);
+
+  assert.match(categoryPage, /<title>Synthetic Data for Market Research: Free Tool \| Likerts<\/title>/);
+  assert.match(categoryPage, /<h1>Synthetic data for market research—what it is and how to use it<\/h1>/);
+  assert.match(categoryPage, /No people are surveyed\./);
+  assert.match(categoryPage, /Likerts — Free Synthetic Research/);
+  assert.match(builder, /'en-US': 'Likerts — Free Synthetic Research'/);
+  assert.match(builder, /title: 'Synthetic Market Research Examples'/);
+});

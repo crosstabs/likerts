@@ -16,7 +16,7 @@
 - Verified the editor open/close flow and Report/Evidence tab switching in Safari. Tabs now implement roving focus plus Arrow, Home, and End keyboard controls.
 - Replaced drawn icons with the Phosphor icon library and replaced the CSS-built logo with the real Likerts logo asset.
 - Corrected all review findings: no fabricated claim citations, no population-fit inference, no unsupported source-freshness claim, model review is not described as independent review, detailed evidence trace/risk remains visible, and concurrent paid model runs are guarded.
-- Completed interface localization for all ten supported locales, including RTL spacing and localized scale, evidence, methodology, and footer labels.
+- Completed localized sample/report presentation across ten locales. Full interface localization is runtime-enabled only for `en-US`, `zh-CN`, `ja-JP`, and `ko-KR`; the other six remain output-enabled with planned UI support. RTL spacing and localized sample/report scale, evidence, methodology, and footer labels are covered without claiming a complete Arabic interface.
 - Darkened caution text to meet normal-text contrast and retained the audience context on narrow screens.
 
 ## Severity audit

@@ -1,9 +1,10 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "locale": "en-US",
   "studies": [
     {
       "slug": "ai-copilot-pilot-small-business-us",
+      "stableId": "SS-EN-US-001",
       "locale": "en-US",
       "localeName": "English (US)",
       "industry": "workplace-ai",
@@ -20,7 +21,157 @@
       "detailUrl": "/en-us/studies/ai-copilot-pilot-small-business-us/",
       "dataUrl": "/en-us/studies/ai-copilot-pilot-small-business-us/study.json",
       "runYourOwnUrl": "/?sample=ai-copilot-pilot-small-business-us",
-      "status": "automated-qa-passed-human-editorial-review-pending",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "US",
+          "kind": "registered",
+          "label": "United States",
+          "countryCode": "US",
+          "searchLocation": "United States",
+          "retrievalGeography": {
+            "countryCode": "US",
+            "location": "United States"
+          }
+        },
+        "report": {
+          "locale": "en-US",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "en-US"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "en-US"
+          ]
+        },
+        "instrument": {
+          "locale": "en-US",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "sampleLineage": {
+        "schemaVersion": "sample-lineage-v2",
+        "source": "static-sample-library",
+        "stableId": "SS-EN-US-001",
+        "slug": "ai-copilot-pilot-small-business-us",
+        "sampleSchemaVersion": "1.1",
+        "localizationRegistryVersion": "localization-capabilities-v2",
+        "localizationReceipt": {
+          "schemaVersion": "study-localization-v1",
+          "registryVersion": "localization-capabilities-v2",
+          "inputMode": "canonical-with-legacy",
+          "market": {
+            "id": "US",
+            "kind": "registered",
+            "label": "United States",
+            "countryCode": "US",
+            "searchLocation": "United States",
+            "retrievalGeography": {
+              "countryCode": "US",
+              "location": "United States"
+            }
+          },
+          "report": {
+            "locale": "en-US",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          },
+          "source": {
+            "locales": [
+              "en-US"
+            ]
+          },
+          "retrieval": {
+            "policy": "PREFER",
+            "locales": [
+              "en-US"
+            ]
+          },
+          "instrument": {
+            "locale": "en-US",
+            "release": {
+              "runtimeStatus": "enabled",
+              "copyStatus": "machine-drafted",
+              "nativeReviewStatus": "review-pending",
+              "releaseEligible": false,
+              "reviewer": null,
+              "reviewedAt": null,
+              "glossaryVersion": null,
+              "populationEvidenceStatus": "unmeasured",
+              "attitudinalValidationStatus": "unsupported"
+            }
+          }
+        },
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "scope": "sample-brief-copy",
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "quality": {
+        "automatedQa": {
+          "status": "passed",
+          "scope": "sample-brief-contract",
+          "checkedAt": "2026-08-29T02:50:40.877Z"
+        },
+        "nativeReview": {
+          "status": "review-pending",
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "copyStatus": "machine-drafted",
+          "authority": "registry-declared",
+          "releaseEligible": false
+        }
+      },
+      "rerun": {
+        "allowed": true,
+        "block": null
+      },
+      "status": "automated-qa-passed",
       "capturedAt": "2026-08-29T02:50:40.877Z",
       "evidenceMode": "EXA_GATEWAY",
       "sourceCount": 4,

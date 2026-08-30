@@ -2,6 +2,11 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SAMPLE_STUDY_SCHEMA_VERSION, sampleStudies } from '../content/sample-studies.mjs';
+import { CJK_LOCALE_IDS } from '../shared/localization.mjs';
+import { normalizeLocalizationRequest } from './localization-request.js';
+import {
+  canonicalSampleLineageForSample,
+} from './sample-lineage.js';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const publicRoot = resolve(root, 'public');
@@ -38,8 +43,95 @@ const industryNames = Object.freeze({
 
 const localePath = (locale) => `/${locale.toLowerCase()}/studies/`;
 const studyPath = (study) => `${localePath(study.locale)}${study.slug}/`;
+const appEntryUrl = (study) => {
+  const params = new URLSearchParams({ sample: study.slug });
+  if (CJK_LOCALE_IDS.includes(study.locale)) params.set('uiLocale', study.locale);
+  return `/?${params.toString()}`;
+};
+
+function canonicalLocalizationFor(study) {
+  const localization = study?.localization || study?.request?.localization;
+  if (!localization) {
+    return {
+      localization: null,
+      localizationRegistryVersion: null,
+      rerun: {
+        allowed: false,
+        block: {
+          code: 'LOCALIZATION_UNRESOLVED',
+          message: 'This legacy sample has no resolvable localization record and cannot be rerun.',
+        },
+      },
+    };
+  }
+  try {
+    const receipt = normalizeLocalizationRequest({
+      localization,
+      market: study.request?.market,
+      outputLocale: study.request?.outputLocale,
+      sourceLanguages: study.request?.sourceLanguages,
+      searchCountry: study.request?.searchCountry,
+      searchLocation: study.request?.searchLocation,
+    });
+    return {
+      localization: receipt,
+      localizationRegistryVersion: receipt.registryVersion,
+      rerun: { allowed: true, block: null },
+    };
+  } catch (error) {
+    return {
+      localization: null,
+      localizationRegistryVersion: null,
+      rerun: {
+        allowed: false,
+        block: {
+          code: error?.code || 'LOCALIZATION_UNRESOLVED',
+          message: 'This sample localization cannot be resolved and cannot be rerun.',
+        },
+      },
+    };
+  }
+}
+
+function nativeReviewFor(study) {
+  try {
+    const review = canonicalSampleLineageForSample(study).nativeReview;
+    return {
+      status: review.status,
+      reviewer: null,
+      reviewedAt: null,
+      glossaryVersion: null,
+      copyStatus: review.copyStatus,
+      authority: review.authority,
+      releaseEligible: review.releaseEligible,
+    };
+  } catch {
+    return {
+      status: 'unresolved',
+      reviewer: null,
+      reviewedAt: null,
+      glossaryVersion: null,
+      copyStatus: 'unresolved',
+      authority: 'unresolved',
+      releaseEligible: false,
+    };
+  }
+}
+
+function qualityFor(study, status = 'pending-editorial-capture', suppliedQuality) {
+  const automatedQa = suppliedQuality?.automatedQa?.status
+    ? suppliedQuality.automatedQa
+    : {
+      // Legacy catalog status is capture/build lineage, never a proxy for
+      // copyStatus or native review.
+      status: status.startsWith('automated-qa-passed') ? 'passed' : 'pending',
+      checkedAt: suppliedQuality?.automatedQa?.checkedAt || null,
+    };
+  return { automatedQa, nativeReview: nativeReviewFor(study) };
+}
 
 function registryEntry(study) {
+  const lineage = canonicalLocalizationFor(study);
   return {
     slug: study.slug,
     stableId: study.stableId,
@@ -56,7 +148,12 @@ function registryEntry(study) {
     canonicalUrl: `${siteOrigin}${studyPath(study)}`,
     detailUrl: studyPath(study),
     dataUrl: `${studyPath(study)}study.json`,
-    runYourOwnUrl: `/?sample=${encodeURIComponent(study.slug)}`,
+    runYourOwnUrl: appEntryUrl(study),
+    localization: lineage.localization,
+    localizationRegistryVersion: lineage.localizationRegistryVersion,
+    sampleLineage: canonicalSampleLineageForSample(study),
+    quality: qualityFor(study),
+    rerun: lineage.rerun,
     status: 'pending-editorial-capture',
     capturedAt: null,
     evidenceMode: null,
@@ -70,6 +167,46 @@ function registryEntry(study) {
 
 export const sampleStudyRegistryEntries = Object.freeze(sampleStudies.map(registryEntry).sort((left, right) => left.slug.localeCompare(right.slug)));
 
+function annotateCatalogEntry(entry) {
+  const registered = sampleStudies.find((study) => study.slug === entry?.slug);
+  if (!registered) {
+    const quality = qualityFor(entry || {}, entry?.status, entry?.quality);
+    return {
+      ...entry,
+      localization: null,
+      localizationRegistryVersion: null,
+      sampleLineage: null,
+      quality,
+      runYourOwnUrl: null,
+      status: quality.automatedQa.status === 'passed' ? 'automated-qa-passed' : 'pending-editorial-capture',
+      rerun: {
+        allowed: false,
+        block: {
+          code: 'LOCALIZATION_UNRESOLVED',
+          message: 'This legacy sample has no registered localization record and cannot be rerun.',
+        },
+      },
+    };
+  }
+  const fallback = registryEntry(registered);
+  const quality = qualityFor(registered, entry.status, entry.quality);
+  return {
+    ...entry,
+    stableId: entry.stableId || fallback.stableId,
+    localization: fallback.localization,
+    localizationRegistryVersion: fallback.localizationRegistryVersion,
+    sampleLineage: fallback.sampleLineage,
+    quality,
+    status: quality.automatedQa.status === 'passed' ? 'automated-qa-passed' : 'pending-editorial-capture',
+    rerun: fallback.rerun,
+  };
+}
+
+function annotateCatalog(catalog) {
+  const studies = Array.isArray(catalog?.studies) ? catalog.studies.map(annotateCatalogEntry) : [];
+  return { ...catalog, studies };
+}
+
 async function readPublicJson(path) {
   const normalizedPath = path.replace(/^\//, '');
   return JSON.parse(await readFile(resolve(publicRoot, normalizedPath), 'utf8'));
@@ -77,7 +214,7 @@ async function readPublicJson(path) {
 
 export async function readSampleStudyCatalog() {
   try {
-    return await readPublicJson('/studies/index.json');
+    return annotateCatalog(await readPublicJson('/studies/index.json'));
   } catch {
     return {
       schemaVersion: SAMPLE_STUDY_SCHEMA_VERSION,
@@ -103,13 +240,29 @@ export async function getSampleStudy(slug) {
   const entry = catalog.studies.find((study) => study.slug === slug);
   if (!entry) return null;
   try {
-    return await readPublicJson(entry.dataUrl);
+    const record = await readPublicJson(entry.dataUrl);
+    return {
+      ...record,
+      status: entry.status,
+      localization: entry.localization,
+      localizationRegistryVersion: entry.localizationRegistryVersion,
+      quality: entry.quality,
+      rerun: entry.rerun,
+      sampleLineage: entry.sampleLineage,
+      // Preserve old record content as viewable evidence; only the explicit
+      // rerun state is upgraded by the catalog adapter.
+    };
   } catch {
     const brief = sampleStudies.find((study) => study.slug === slug);
     if (!brief) return null;
     return {
       schemaVersion: SAMPLE_STUDY_SCHEMA_VERSION,
       brief,
+      localization: entry.localization,
+      localizationRegistryVersion: entry.localizationRegistryVersion,
+      quality: entry.quality,
+      rerun: entry.rerun,
+      sampleLineage: entry.sampleLineage,
       capture: null,
       status: 'pending-editorial-capture',
       htmlUrl: entry.detailUrl,

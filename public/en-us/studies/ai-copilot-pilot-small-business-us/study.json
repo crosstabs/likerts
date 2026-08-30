@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "brief": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "stableId": "SS-EN-US-001",
     "slug": "ai-copilot-pilot-small-business-us",
     "locale": "en-US",
@@ -12,6 +12,22 @@
     "disclosure": "Synthetic, model-generated hypothesis—not observed survey results or a market estimate.",
     "evidenceBoundary": "Census data may establish firm-size, sector, and AI-use context; NIST may define risk-management considerations. Neither source establishes product preference, pilot intent, purchase likelihood, workforce impact, or the accuracy of this synthetic distribution.",
     "humanValidation": "Conduct 12–15 decision-maker interviews, a message-and-control conjoint with a properly recruited business sample, and an observed 60-day pilot measuring opt-in, weekly use, review burden, error escalation, and discontinuation.",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "marketId": "US",
+      "reportLocale": "en-US",
+      "sourceLocales": [
+        "en-US"
+      ],
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "en-US"
+        ]
+      },
+      "instrumentLocale": "en-US"
+    },
+    "localizationRegistryVersion": "localization-capabilities-v2",
     "curatedContextUrls": [
       "https://www.census.gov/hfp/btos/data_downloads",
       "https://www.census.gov/hfp/btos/about",
@@ -29,11 +45,176 @@
         "en-US"
       ],
       "searchCountry": "US",
+      "localization": {
+        "schemaVersion": "study-localization-v1",
+        "marketId": "US",
+        "reportLocale": "en-US",
+        "sourceLocales": [
+          "en-US"
+        ],
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "en-US"
+          ]
+        },
+        "instrumentLocale": "en-US"
+      },
       "outputLocale": "en-US",
       "researchMode": "DEEP",
       "evidencePolicy": "AUTO",
       "clientRunId": "sample-ai-copilot-pilot-small-business-us"
     }
+  },
+  "localization": {
+    "schemaVersion": "study-localization-v1",
+    "registryVersion": "localization-capabilities-v2",
+    "inputMode": "canonical-with-legacy",
+    "market": {
+      "id": "US",
+      "kind": "registered",
+      "label": "United States",
+      "countryCode": "US",
+      "searchLocation": "United States",
+      "retrievalGeography": {
+        "countryCode": "US",
+        "location": "United States"
+      }
+    },
+    "report": {
+      "locale": "en-US",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    },
+    "source": {
+      "locales": [
+        "en-US"
+      ]
+    },
+    "retrieval": {
+      "policy": "PREFER",
+      "locales": [
+        "en-US"
+      ]
+    },
+    "instrument": {
+      "locale": "en-US",
+      "release": {
+        "runtimeStatus": "enabled",
+        "copyStatus": "machine-drafted",
+        "nativeReviewStatus": "review-pending",
+        "releaseEligible": false,
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "populationEvidenceStatus": "unmeasured",
+        "attitudinalValidationStatus": "unsupported"
+      }
+    }
+  },
+  "localizationRegistryVersion": "localization-capabilities-v2",
+  "sampleLineage": {
+    "schemaVersion": "sample-lineage-v2",
+    "source": "static-sample-library",
+    "stableId": "SS-EN-US-001",
+    "slug": "ai-copilot-pilot-small-business-us",
+    "sampleSchemaVersion": "1.1",
+    "localizationRegistryVersion": "localization-capabilities-v2",
+    "localizationReceipt": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "US",
+        "kind": "registered",
+        "label": "United States",
+        "countryCode": "US",
+        "searchLocation": "United States",
+        "retrievalGeography": {
+          "countryCode": "US",
+          "location": "United States"
+        }
+      },
+      "report": {
+        "locale": "en-US",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "en-US"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "en-US"
+        ]
+      },
+      "instrument": {
+        "locale": "en-US",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "scope": "sample-brief-copy",
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "quality": {
+    "automatedQa": {
+      "status": "passed",
+      "scope": "sample-brief-contract",
+      "checkedAt": "2026-08-29T02:50:40.877Z"
+    },
+    "nativeReview": {
+      "status": "review-pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "glossaryVersion": null,
+      "copyStatus": "machine-drafted",
+      "authority": "registry-declared",
+      "releaseEligible": false
+    }
+  },
+  "rerun": {
+    "allowed": true,
+    "block": null
   },
   "curatedContextCandidates": [
     {
@@ -54,16 +235,161 @@
     }
   ],
   "capture": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "briefSlug": "ai-copilot-pilot-small-business-us",
     "stableId": "SS-EN-US-001",
+    "sampleLineage": {
+      "schemaVersion": "sample-lineage-v2",
+      "source": "static-sample-library",
+      "stableId": "SS-EN-US-001",
+      "slug": "ai-copilot-pilot-small-business-us",
+      "sampleSchemaVersion": "1.1",
+      "localizationRegistryVersion": "localization-capabilities-v2",
+      "localizationReceipt": {
+        "schemaVersion": "study-localization-v1",
+        "registryVersion": "localization-capabilities-v2",
+        "inputMode": "canonical-with-legacy",
+        "market": {
+          "id": "US",
+          "kind": "registered",
+          "label": "United States",
+          "countryCode": "US",
+          "searchLocation": "United States",
+          "retrievalGeography": {
+            "countryCode": "US",
+            "location": "United States"
+          }
+        },
+        "report": {
+          "locale": "en-US",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        },
+        "source": {
+          "locales": [
+            "en-US"
+          ]
+        },
+        "retrieval": {
+          "policy": "PREFER",
+          "locales": [
+            "en-US"
+          ]
+        },
+        "instrument": {
+          "locale": "en-US",
+          "release": {
+            "runtimeStatus": "enabled",
+            "copyStatus": "machine-drafted",
+            "nativeReviewStatus": "review-pending",
+            "releaseEligible": false,
+            "reviewer": null,
+            "reviewedAt": null,
+            "glossaryVersion": null,
+            "populationEvidenceStatus": "unmeasured",
+            "attitudinalValidationStatus": "unsupported"
+          }
+        }
+      },
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "scope": "sample-brief-copy",
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "studyId": "study_0c4b8c23-f6ba-4ae2-86fe-8bf084f788cd",
     "runId": "run_ffc2ef74-6cfe-4520-9a96-43752367bfdf",
     "capturedAt": "2026-08-29T02:50:40.877Z",
+    "localization": {
+      "schemaVersion": "study-localization-v1",
+      "registryVersion": "localization-capabilities-v2",
+      "inputMode": "canonical-with-legacy",
+      "market": {
+        "id": "US",
+        "kind": "registered",
+        "label": "United States",
+        "countryCode": "US",
+        "searchLocation": "United States",
+        "retrievalGeography": {
+          "countryCode": "US",
+          "location": "United States"
+        }
+      },
+      "report": {
+        "locale": "en-US",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      },
+      "source": {
+        "locales": [
+          "en-US"
+        ]
+      },
+      "retrieval": {
+        "policy": "PREFER",
+        "locales": [
+          "en-US"
+        ]
+      },
+      "instrument": {
+        "locale": "en-US",
+        "release": {
+          "runtimeStatus": "enabled",
+          "copyStatus": "machine-drafted",
+          "nativeReviewStatus": "review-pending",
+          "releaseEligible": false,
+          "reviewer": null,
+          "reviewedAt": null,
+          "glossaryVersion": null,
+          "populationEvidenceStatus": "unmeasured",
+          "attitudinalValidationStatus": "unsupported"
+        }
+      }
+    },
+    "quality": {
+      "automatedQa": {
+        "status": "passed",
+        "scope": "sample-brief-contract",
+        "checkedAt": "2026-08-29T02:50:40.877Z"
+      },
+      "nativeReview": {
+        "status": "review-pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "glossaryVersion": null,
+        "copyStatus": "machine-drafted",
+        "authority": "registry-declared",
+        "releaseEligible": false
+      }
+    },
     "study": {
       "title": "Likelihood to approve a 60-day AI-copilot trial for drafting andinternal",
       "summary": "Synthetic responses suggest cautious openness to a short, tightly governed AI-copilot trial for drafting and internal knowledge search among U.S. employer businesses with 20–249 employees. Support is concentrated in the middle and upper-mid",
-      "takeaway": "The dominant pattern is conditional approval: respondents are more receptive when the trial is time-limited, human-reviewed, data-protected, and cost-capped, but many still want proof of accuracy, control, and fit before committing broader use.",
+      "takeaway": "The model-generated distribution suggests conditional approval is more likely when the trial is time-limited, human-reviewed, data-protected, and cost-capped; some model cells still indicate a need for proof of accuracy, control, and fit before broader use.",
       "distribution": [
         7,
         14,
@@ -93,70 +419,90 @@
       },
       "segments": [
         {
+          "id": "segment-1",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Risk-first operators",
-          "sample": 52,
           "values": [
             16,
             19,
             29,
             24,
             12
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-2",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Efficiency-seeking pragmatists",
-          "sample": 58,
           "values": [
             4,
             11,
             24,
             40,
             21
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-3",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "IT and governance gatekeepers",
-          "sample": 44,
           "values": [
             8,
             18,
             27,
             31,
             16
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         },
         {
+          "id": "segment-4",
+          "kind": "MODEL_CONSTRUCTED",
           "label": "Function leaders with workflow pressure",
-          "sample": 46,
           "values": [
             1,
             12,
             20,
             44,
             23
-          ]
+          ],
+          "boundary": "This is a model-constructed analytical segment, not an observed participant group.",
+          "boundaryCode": "MODEL_CONSTRUCTED_ANALYTICAL_SEGMENT"
         }
       ],
       "responses": [
         {
           "score": 2,
           "profile": "An operations owner who likes the idea of faster drafting but assumes internal knowledge,",
-          "quote": "I can see the value, but I would still want a very narrow pilot. If it slips on accuracy even occasionally, the review burden can erase the benefit."
+          "quote": "I can see the value, but I would still want a very narrow pilot. If it slips on accuracy even occasionally, the review burden can erase the benefit.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 3,
           "profile": "An IT manager focused on access control and policy compliance",
-          "quote": "The trial sounds reasonable if permissions are tight and the outputs stay internal. I am not ready to call it a yes until I see how it handles our real documents."
+          "quote": "The trial sounds reasonable if permissions are tight and the outputs stay internal. I am not ready to call it a yes until I see how it handles our real documents.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 4,
           "profile": "A functional leader responsible for a small team and repetitive writing work",
-          "quote": "A short trial with mandatory review feels like a practical way to test whether it saves time without exposing us to much downside."
+          "quote": "A short trial with mandatory review feels like a practical way to test whether it saves time without exposing us to much downside.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         },
         {
           "score": 5,
           "profile": "An owner-operator who wants a capped experiment before any broader investment",
-          "quote": "I would likely approve it because the guardrails make it feel contained. A 60-day test is long enough to learn, but short enough to stop if it does not help."
+          "quote": "I would likely approve it because the guardrails make it feel contained. A 60-day test is long enough to learn, but short enough to stop if it does not help.",
+          "disclosure": "Model-generated perspective—not a participant quotation.",
+          "disclosureCode": "MODEL_GENERATED_PERSPECTIVE_NOT_PARTICIPANT_QUOTATION"
         }
       ],
       "cautions": [
@@ -166,10 +512,152 @@
         "No claim is made that these results are representative of all U.S. employer businesses with 20–249 employees."
       ]
     },
+    "populationFrame": {
+      "frameVersion": "population-frame-v1",
+      "intendedPopulation": "Owners and operations, IT, or functional decision-makers at United States employer businesses with 20–249 employees",
+      "geography": {
+        "market": "United States",
+        "countryCode": "US"
+      },
+      "languages": {
+        "outputLocale": "en-US",
+        "sourceLanguages": [
+          "en-US"
+        ]
+      },
+      "characteristics": [],
+      "officialSourceDatasets": [],
+      "marginalDistributions": [],
+      "knownIntersections": [],
+      "populationCells": [],
+      "weighting": {
+        "method": "NONE",
+        "status": "NOT_APPLIED",
+        "diagnostics": {
+          "iterations": null,
+          "tolerance": null,
+          "maxAbsoluteError": null,
+          "minWeight": null,
+          "maxWeight": null,
+          "effectiveCellCount": null
+        }
+      },
+      "unsupportedCharacteristics": [
+        "Demographic and firmographic characteristics were not supplied as structured population data."
+      ],
+      "coverageDate": null,
+      "populationFit": {
+        "scoreVersion": "population-fit-v1",
+        "status": "UNMEASURED",
+        "overall": null,
+        "components": {
+          "geographyCoverage": null,
+          "marginalCoverage": null,
+          "intersectionCoverage": null,
+          "sourceQuality": null,
+          "sourceRecency": null,
+          "weightingQuality": null
+        },
+        "formula": "No aggregate is calculated until supported population variables and source datasets are present. When measured, every component and weight is reported alongside the aggregate."
+      },
+      "disclaimer": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people."
+    },
+    "researchDesign": {
+      "templateVersion": "research-method-contract-v1",
+      "methodId": "GENERAL_LIKERT",
+      "methodVersion": "general-likert-v1",
+      "designType": "DIRECTIONAL_LIKERT",
+      "estimand": "Model-generated directional response on the supplied five-point item",
+      "resultKind": "DIRECTIONAL_DISTRIBUTION",
+      "resultSchemaVersion": "method-result-v1",
+      "chartId": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "scale": {
+        "id": "LIKELIHOOD_5",
+        "points": 5,
+        "anchors": [
+          "Very unlikely",
+          "Unlikely",
+          "Not sure",
+          "Likely",
+          "Very likely"
+        ]
+      },
+      "outputStructure": {
+        "id": "five-point-directional-distribution",
+        "supportsSegments": true,
+        "supportsIllustrativePerspectives": true
+      },
+      "segmentPerspectiveEligible": true,
+      "stimulus": null,
+      "instrument": {
+        "requiredInputs": [
+          "research question",
+          "intended audience"
+        ],
+        "includedQuestions": [
+          {
+            "id": "primary-likelihood",
+            "purpose": "Explore a model-generated five-point directional response."
+          }
+        ],
+        "sections": []
+      },
+      "primaryOutcome": {
+        "id": "top-two-box",
+        "label": "Likely / very likely",
+        "value": 54,
+        "unit": "percentage points of a model-generated directional distribution"
+      },
+      "criticRubric": {
+        "id": "general-likert-critic-v1",
+        "criteria": [
+          "neutral wording",
+          "evidence alignment",
+          "stereotype risk",
+          "arithmetic consistency",
+          "no representative or human-response claims"
+        ]
+      },
+      "humanValidation": {
+        "required": true,
+        "recommendedMethod": "Sampled survey preceded by cognitive pretesting",
+        "rationale": "The synthetic distribution is a hypothesis and does not estimate population attitudes.",
+        "minimumChecks": [
+          "question comprehension",
+          "appropriate sampling frame",
+          "observed response distribution"
+        ]
+      },
+      "cautions": [
+        "This legacy-compatible method is a general directional Likert exploration, not a specialized research design."
+      ],
+      "disclosure": "Method-specific output is model-generated direction, not a human measurement."
+    },
+    "modelCard": {
+      "cardVersion": "likerts-model-card-v1",
+      "purpose": "Directional synthetic research for hypothesis generation and research planning.",
+      "permittedUse": "Explore model-generated hypotheses before validation with real people.",
+      "populationGrounding": "NONE",
+      "populationFrameHash": null,
+      "researchMethod": "GENERAL_LIKERT",
+      "researchMethodVersion": "general-likert-v1",
+      "researchMethodChart": "FIVE_POINT_DIRECTIONAL_DISTRIBUTION",
+      "attitudinalValidation": "NOT_VALIDATED",
+      "disclosure": "Demographic fit does not prove attitudinal accuracy. Synthetic results remain model-generated hypotheses until validated with real people.",
+      "disclosureCode": "SYNTHETIC_RESULTS_REQUIRE_HUMAN_VALIDATION"
+    },
     "provenance": {
       "runtimeVersion": "synthetic-research-v2.4",
       "researchMode": "DEEP",
+      "localizationRegistryVersion": "localization-capabilities-v2",
       "inputHash": "8c2c2c1a4a64fdfc5974980b527af4b953b840cce00543896763a94a84d46b37",
+      "inputHashVersion": "legacy-unversioned",
+      "inputHashLineage": {
+        "hash": "8c2c2c1a4a64fdfc5974980b527af4b953b840cce00543896763a94a84d46b37",
+        "version": "legacy-unversioned",
+        "status": "LEGACY_UNVERSIONED",
+        "crossVersionComparable": false
+      },
       "evidenceHash": "a4598d2370e4eaa170907fec8e3862734a2309722230531177583dbfabae1871",
       "promptVersions": {
         "framing": "framing-v2",
@@ -183,7 +671,8 @@
         "respondentCell": "respondent-cell-schema-v2",
         "adjudication": "critic-schema-v2"
       },
-      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty."
+      "disclaimer": "Model generation is non-deterministic. Hashes, versions, lineage, and timestamps support audit and comparison, not exact replay or certainty.",
+      "disclaimerCode": "MODEL_GENERATION_NON_DETERMINISTIC"
     },
     "cost": {
       "currency": "USD",
@@ -359,6 +848,9 @@
           "excerpt": "acute in fact verification, where the documents that require verifying are often the most sensitive in a case. Similarly, P1 underscored the personal burden lawyers bear in protecting client data, “Anonymization needs to be handled by ourselves. We are extremely concerned about data security issues, because much of this data involves corporate privacy.” To maintain control over sensitive information, some firms ex perimented with internal or on-premise GenAI tools, often coupled with automated redaction or desensitization features. Yet these tools still require manual oversight to satisfy confidentiality obli gations. P10 noted, “Our desensitization tool can remove names and IDs with one click, but it’s not precise enough—manual checks are still needed.” Others, like P11, described taking on additional labor to ensure compliance, “Carry out data desensitization in advance.",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "c782928aaa8aad09142c906efbf4956a1fa3a38eafc991db78f26afc7212f5d2"
         },
         {
@@ -367,6 +859,9 @@
           "excerpt": "specific needs and challenges unique to each role. 3.1 Pre-Trial Survey The pre-trial survey was designed to gather baseline data on user expectations, existing workflows, and initial attitudes towards M365 Copilot. This structured questionnaire was administered to all participants at the outset of the trial, with 244 responses received. The survey focused on participants' anticipated productivity and efficiency gains, along with their initial thoughts on potential ethical concerns related to the use of AI Copilots. This baseline data set a reference point for understanding how Copilot could impact their work processes. 3.2 Post-Trial Survey The post-trial survey aimed to assess changes in user perceptions after six months of using M365 Copilot. It was administered to all trial participants at the end of the trial, with 177 responses received, mirroring the pre-trial survey to enable a",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "48dcf0637192ed3bbbf7a8705b91a6cd8c84ca67b3815bb77740d42f94220e98"
         },
         {
@@ -375,6 +870,9 @@
           "excerpt": ": Copilot's data protection settings were reviewed as per management's request. It did not give away confidential information to the test user, if respective information was secured via a security label or password protection. Copilot's data protection feature is fully dependent on security measures and rules set in the company. Before a company-wide roll-out of Copilot can take place, access rights must be planned on Microsoft ... Since only a fracture of the use cases yielded satisfactory results under test conditions, it remains questionable whether Copilot is a profitable investment. Management would be open to further investigation and preparatory work, if Microsoft offered a more favorably priced trial version that could be tested with multiple users. As of now, Microsoft Copilot requires a one-year commitment per license which is illfounded in the face of its inoperability.",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "7860a7ab8b959c28388aeeb6509325356833766f6212ed59775002bf3bd5d5c7"
         },
         {
@@ -383,6 +881,9 @@
           "excerpt": "- 58 percent of respondents cite accuracy and lack of trust as the biggest blocker to broader AI use, and 73 percent say their top concern is incorrect or hallucinated outputs. Concerns about loss of human judgment (53 percent) and data security or confidentiality (53 percent) are also prevalent. ... - Only seven percent of respondents report having a documented AI governance framework that is actively followed, while 14 percent report having no formal AI governance in place. ... - 41 percent of respondents say fragmented tools that do not integrate well are their primary systems issue, and ... - 58 percent of respondents cite accuracy and lack of trust as the biggest blocker to broader AI use, and 73 percent say their top concern is incorrect or hallucinated outputs. Concerns about loss of human judgment (53 percent) and data security or confidentiality (53 percent) are also prevalent.",
           "acquisition": "EXA_GATEWAY",
           "originalLanguage": null,
+          "sourceLanguage": "en",
+          "titleLanguage": "en",
+          "excerptLanguage": "en",
           "contentHash": "158042a1d9ffa53c92d141e20297e17365e122369d1f3cf0c6075ee2173a8c36"
         }
       ]
@@ -420,7 +921,7 @@
       "note": "This is a separate model stage within one pipeline, not independent external verification."
     }
   },
-  "status": "automated-qa-passed-human-editorial-review-pending",
+  "status": "automated-qa-passed",
   "htmlUrl": "/en-us/studies/ai-copilot-pilot-small-business-us/",
   "dataUrl": "/en-us/studies/ai-copilot-pilot-small-business-us/study.json",
   "canonicalUrl": "https://likerts.com/en-us/studies/ai-copilot-pilot-small-business-us/"

@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "population-data-registry-v1",
+  "registryVersion": 1,
+  "status": "NO_CURATED_DATASETS",
+  "curatedDatasetCount": 0,
+  "datasets": [],
+  "boundary": "No curated official population datasets are currently available. User-declared or retrieved sources must not be represented as registry-curated."
+}

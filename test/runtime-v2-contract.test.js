@@ -59,6 +59,35 @@ test('locale script guard detects cross-script contamination without rejecting t
   assert.deepEqual(languageScriptReport('合成Likert調査', 'ja-JP').unexpectedScripts, []);
   assert.deepEqual(languageScriptReport('日本語 अध्ययन', 'ja-JP').unexpectedScripts, ['Devanagari']);
   assert.equal(languageScriptReport('بحث Likerts اصطناعي', 'ar-SA').pass, true);
+  assert.equal(languageScriptReport('ภาษาไทย', 'th-TH').pass, true);
+  assert.equal(languageScriptReport('ខ្មែរ', 'km-KH').pass, true);
+  assert.equal(languageScriptReport('မြန်မာ', 'my-MM').pass, true);
+  assert.equal(languageScriptReport('தமிழ்', 'ta-SG').pass, true);
+  assert.equal(languageScriptReport('ພາສາລາວ', 'lo-LA').pass, true);
+  assert.deepEqual(languageScriptReport('ภาษาไทย 漢字', 'th-TH').unexpectedScripts, ['Han']);
+  assert.equal(languageScriptReport('unregistered text', 'nl-NL').checked, false);
+});
+
+test('locale script exemptions are exact, path-bounded, and still require the report script', () => {
+  const suppliedBrand = '한국 브랜드';
+  const exactValueExemptions = [{ path: ['brands', '*', 'label'], value: suppliedBrand }];
+  const localizedPanel = { title: '日本語の結果', brands: [{ id: 'brand-1', label: suppliedBrand }] };
+
+  assert.deepEqual(languageScriptReport(localizedPanel, 'ja-JP').unexpectedScripts, ['Hangul']);
+  assert.equal(languageScriptReport(localizedPanel, 'ja-JP', { exactValueExemptions }).pass, true);
+  assert.equal(languageScriptReport({ brands: [{ label: suppliedBrand }] }, 'ja-JP', { exactValueExemptions }).pass, false);
+  assert.deepEqual(
+    languageScriptReport({ ...localizedPanel, brands: [{ label: '다른 한국 브랜드' }] }, 'ja-JP', { exactValueExemptions }).unexpectedScripts,
+    ['Hangul'],
+  );
+  assert.deepEqual(
+    languageScriptReport({ ...localizedPanel, summary: suppliedBrand }, 'ja-JP', { exactValueExemptions }).unexpectedScripts,
+    ['Hangul'],
+  );
+  assert.deepEqual(
+    languageScriptReport({ ...localizedPanel, summary: '무관한 한국어 문장' }, 'ja-JP', { exactValueExemptions }).unexpectedScripts,
+    ['Hangul'],
+  );
 });
 
 test('public panel output retries on an unexpected writing system', async () => {
@@ -173,6 +202,29 @@ test('DEEP runs a bounded multi-provider cohort and returns economics, lineage, 
 test('a flagged critic decision remains illustrative without English wrapper text in Japanese output', async () => {
   const localizedNote = 'これは合成結果であり、実際の参加者による調査で検証する必要があります。';
   const localizedCritique = '結論は、利用可能な事前知識だけでは十分に裏付けられていません。';
+  const localizedStudyCandidate = {
+    ...studyCandidate,
+    title: '共有ワークスペース導入意向',
+    summary: 'モデルが構成した集団は関心を示していますが、導入支援には大きな不確実性があります。',
+    takeaway: '投資前に実際の参加者を対象とする調査を設計するための方向性としてのみ使用してください。',
+    confidenceNote: localizedNote,
+    audienceSummary: {
+      audienceLabel: '業務責任者',
+      contextLabel: '中小企業',
+      attributes: [
+        { label: '役割', value: '責任者' },
+        { label: 'チーム', value: '小規模' },
+        { label: '課題', value: '連携' },
+      ],
+    },
+    segments: ['推進層', '実用重視層', '未決定層', '慎重層'].map((label) => ({ label, sample: 25, values: [10, 15, 20, 30, 25] })),
+    responses: [1, 2, 4, 5].map((score) => ({
+      score,
+      profile: `利用者像${score}`,
+      quote: 'これはモデルが生成した説明であり、人間の回答ではありません。',
+    })),
+    cautions: ['これは方向性を示す合成結果です。', '実際の参加者による調査で仮説を検証してください。'],
+  };
   const result = await runStudyPipeline(requestSchema.parse({ ...brief, outputLocale: 'ja-JP', evidencePolicy: 'PRIOR_ONLY' }), {
     env: {},
     generate: async (options) => {
@@ -181,7 +233,7 @@ test('a flagged critic decision remains illustrative without English wrapper tex
       if (tags.includes('stage:framing')) {
         output = { neutralQuestion: brief.prompt, decisionContext: 'Evaluate an adoption hypothesis.', panelDimensions: ['Use case', 'Value', 'Barriers'], assumptions: ['Synthetic panel only.', 'No causal claim.'], evidenceBoundary: 'No source evidence was supplied; findings are model-only hypotheses.' };
       } else if (tags.includes('stage:panel')) {
-        output = { ...studyCandidate, confidenceNote: localizedNote, cautions: ['これは方向性を示す合成結果です。', '実際の参加者による調査で仮説を検証してください。'] };
+        output = localizedStudyCandidate;
       } else {
         output = { decision: 'flagged', critiqueSummary: localizedCritique, credibilityLevel: 'illustrative-only', evidenceAlignment: 'unaligned', weakClaims: ['採用傾向の根拠が弱いです。'], biasSignals: [] };
       }
