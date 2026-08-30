@@ -124,6 +124,8 @@ test('manifest and root document declare explicit install scope and brand metada
   assert.match(index, /href="\/favicon-32\.png" type="image\/png" sizes="32x32"/);
   assert.match(index, /href="\/favicon-16\.png" type="image\/png" sizes="16x16"/);
   assert.match(index, /name="theme-color" content="#021a38"/);
+  assert.match(index, /name="google-site-verification" content="-3SPu-LiXX_zn82aUjVw-6jTNZUu3V_fRg7kgQw4kpQ"/);
+  assert.equal((index.match(/name="google-site-verification"/g) || []).length, 1);
   assert.match(index, /property="og:locale" content="en_US"/);
   assert.match(index, /property="og:image" content="https:\/\/likerts\.com\/social\/likerts-en-us-v1\.png"/);
   assert.match(index, /name="twitter:image" content="https:\/\/likerts\.com\/social\/likerts-en-us-v1\.png"/);
