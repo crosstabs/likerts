@@ -11,9 +11,21 @@ const analyticsPolicy = resolveVercelAnalyticsPolicy({
   isProduction: viteEnvironment.PROD,
 });
 
+function emitSameOrigin(name, properties) {
+  const request = fetch('/api/product-events', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'omit',
+    keepalive: true,
+    body: JSON.stringify({ name, properties }),
+  });
+  Promise.resolve(request).catch(() => {});
+}
+
 export function createPilotAnalyticsTracker({
-  enabled = analyticsPolicy.enabled,
-  emit = track,
+  enabled = viteEnvironment.PROD === true,
+  emit = emitSameOrigin,
+  secondaryEmit = analyticsPolicy.enabled ? track : null,
 } = {}) {
   return (name, properties = {}) => {
     if (!enabled || typeof emit !== 'function') return false;
@@ -21,6 +33,7 @@ export function createPilotAnalyticsTracker({
     if (!event) return false;
     try {
       emit(event.name, event.properties);
+      if (typeof secondaryEmit === 'function') secondaryEmit(event.name, event.properties);
       return true;
     } catch {
       return false;

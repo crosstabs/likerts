@@ -37,6 +37,19 @@ test('pilot tracker emits only the sanitized allowlisted payload', () => {
   ]]);
 });
 
+test('pilot tracker can mirror sanitized events to approved web analytics', () => {
+  const primary = [];
+  const secondary = [];
+  const track = createPilotAnalyticsTracker({
+    enabled: true,
+    emit: (...args) => primary.push(args),
+    secondaryEmit: (...args) => secondary.push(args),
+  });
+  assert.equal(track('interface_locale_changed', { locale: 'ko-KR', prompt: 'private' }), true);
+  assert.deepEqual(primary, [['interface_locale_changed', { locale: 'ko-KR' }]]);
+  assert.deepEqual(secondary, primary);
+});
+
 test('pilot tracker rejects malformed payloads and contains emitter failures', () => {
   const trackInvalid = createPilotAnalyticsTracker({ enabled: true, emit: () => assert.fail('must not emit') });
   assert.equal(trackInvalid('interface_locale_changed', { locale: 'not/a/locale' }), false);

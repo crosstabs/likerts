@@ -95,6 +95,17 @@ export function sanitizeLikertsAnalyticsEvent(name, properties = {}) {
   return Object.freeze({ name, properties: Object.freeze(sanitized) });
 }
 
+export function sanitizeLikertsAnalyticsEnvelope(input) {
+  if (!input || typeof input !== 'object' || Array.isArray(input)
+    || Object.keys(input).sort().join(',') !== 'name,properties') return null;
+  const event = sanitizeLikertsAnalyticsEvent(input.name, input.properties);
+  if (!event || Object.keys(input.properties).length !== Object.keys(event.properties).length) return null;
+  for (const [key, value] of Object.entries(event.properties)) {
+    if (input.properties[key] !== value) return null;
+  }
+  return event;
+}
+
 export function coarseStudyFailureCategory(code) {
   const normalized = String(code || '').trim().toUpperCase();
   if (/ADMISSION|RATE_LIMIT|BUDGET|CONCURRENCY/.test(normalized)) return 'admission';

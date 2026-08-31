@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {
   coarseStudyFailureCategory,
   resolveVercelAnalyticsPolicy,
+  sanitizeLikertsAnalyticsEnvelope,
   sanitizeLikertsAnalyticsEvent,
   sanitizeVercelAnalyticsEvent,
   VERCEL_ANALYTICS_APPROVAL_TOKEN,
@@ -91,6 +92,19 @@ test('pilot analytics only emits allowlisted coarse fields', () => {
       evidence: 'provided',
     },
   });
+});
+
+test('same-origin analytics envelopes reject all extra fields', () => {
+  const valid = {
+    name: 'interface_locale_changed',
+    properties: { locale: 'ja-JP' },
+  };
+  assert.deepEqual(sanitizeLikertsAnalyticsEnvelope(valid), valid);
+  assert.equal(sanitizeLikertsAnalyticsEnvelope({ ...valid, prompt: 'private' }), null);
+  assert.equal(sanitizeLikertsAnalyticsEnvelope({
+    ...valid,
+    properties: { ...valid.properties, prompt: 'private' },
+  }), null);
 });
 
 test('pilot analytics rejects unknown events and malformed dimensions', () => {
