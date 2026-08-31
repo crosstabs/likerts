@@ -18,11 +18,27 @@ test('never exposes prose returned by a backend', () => {
   assert.equal(responseErrorCode({}, undefined), 'REQUEST_FAILED');
 });
 
-test('creates errors carrying only a safe public code', () => {
-  const error = createPublicRequestError({ code: 'VALIDATION_ERROR', error: 'English backend prose' }, 400);
+test('creates errors carrying only safe public diagnostics', () => {
+  const error = createPublicRequestError({
+    code: 'VALIDATION_ERROR',
+    correlationId: 'corr_12345678',
+    error: 'English backend prose',
+  }, 400);
   assert.equal(error.name, 'PublicRequestError');
   assert.equal(error.message, 'VALIDATION_ERROR');
   assert.equal(error.publicCode, 'VALIDATION_ERROR');
+  assert.equal(error.correlationId, 'corr_12345678');
+  assert.equal(error.statusCode, 400);
+  assert.equal(JSON.stringify(error).includes('English backend prose'), false);
+});
+
+test('drops malformed correlation IDs and status codes', () => {
+  const error = createPublicRequestError({
+    code: 'VALIDATION_ERROR',
+    correlationId: 'private value with spaces',
+  }, 999);
+  assert.equal(error.correlationId, null);
+  assert.equal(error.statusCode, null);
 });
 
 test('maps thrown failures to safe technical references', () => {
