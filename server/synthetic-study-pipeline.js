@@ -16,6 +16,7 @@ import { ATTITUDINAL_ACCURACY_DISCLAIMER, buildPopulationFrame, populationFrameI
 import { isSafePublicUrl } from './public-url.js';
 import { buildResearchDesign, methodConfigSchema, researchMethodPromptBlock, researchMethodSchema, validateResearchMethodInput } from './research-methods.js';
 import { METHOD_RESULT_CONTRACT_VERSION, METHOD_RESULT_DISCLOSURE, normalizeMethodResult } from './method-results.js';
+import { logStructuredEvent } from './observability.js';
 
 const APP_TAGS = ['app:likerts', 'feature:synthetic-study', 'pipeline:staged'];
 const RUNTIME_VERSION = 'synthetic-research-v2.5';
@@ -740,7 +741,16 @@ function externalLocalizationMetadata(localization) {
   };
 }
 
-export async function acquireEvidence(input, { fetchImpl = fetch, env = process.env, searchGenerate = generateText, studyId, runId, gatewayUserId } = {}) {
+export async function acquireEvidence(input, {
+  fetchImpl = fetch,
+  env = process.env,
+  searchGenerate = generateText,
+  studyId,
+  runId,
+  gatewayUserId,
+  correlationId,
+  logger = console,
+} = {}) {
   const localization = executableLocalizationFor(input);
   const prior = collectEvidence(input);
   const configured = {
@@ -766,7 +776,14 @@ export async function acquireEvidence(input, { fetchImpl = fetch, env = process.
       exaAcquisition = 'EXA_GATEWAY';
       external.events.push({ ...externalEvent('vercel-ai-gateway', 'exa-search', exaResults.length ? 'completed' : 'empty'), searches: gatewaySearch.searches });
     } catch (error) {
-      console.warn('Gateway Exa search failed', { name: error?.name || 'Error', statusCode: error?.statusCode || null, message: clipped(error?.message, 240) });
+      logStructuredEvent({
+        level: 'warn',
+        component: 'server.synthetic-study-pipeline',
+        event: 'evidence_gateway_search_failed',
+        correlationId: correlationId || runId || `run_${randomUUID()}`,
+        error,
+        attributes: { provider: 'vercel-ai-gateway', operation: 'exa-search' },
+      }, { logger });
       external.events.push(externalEvent('vercel-ai-gateway', 'exa-search', 'failed'));
     }
   }
@@ -904,7 +921,15 @@ function credibility({ evidence, adjudicationSucceeded, adjudicationDecision, re
   return { level: evidence.ledger.length && reviewAccepted ? 'internally-reviewed' : 'illustrative-only', evidenceMode: evidence.mode, sourceCount: evidence.ledger.length, externallyAcquired, observedHumanResponses: false, representativeSample: false, independentWebVerification: false, reviewCompleted: adjudicationSucceeded, reviewAccepted, reviewFlagged: adjudicationDecision === 'flagged', limitations: externallyAcquired ? ['Web sources are untrusted retrieved text, not independent validation.', syntheticBoundary] : ['No externally acquired source evidence was used.', syntheticBoundary] };
 }
 
-export async function runStudyPipeline(input, { generate, searchGenerate, fetchImpl, env = process.env, gatewayUserId } = {}) {
+export async function runStudyPipeline(input, {
+  generate,
+  searchGenerate,
+  fetchImpl,
+  env = process.env,
+  gatewayUserId,
+  correlationId,
+  logger = console,
+} = {}) {
   const localization = executableLocalizationFor(input);
   if (Object.hasOwn(input || {}, 'sampleLineage')) {
     try {
@@ -940,7 +965,16 @@ export async function runStudyPipeline(input, { generate, searchGenerate, fetchI
   const methodContext = researchMethodPromptBlock(input);
   const framingEvidence = collectEvidence(input);
   const languageContext = `OUTPUT LOCALE\n${input.outputLocale}\n\nMARKET CONTEXT\n${input.market}\n\nSEARCH LOCATION\n${input.searchLocation || input.searchCountry}\n\nSOURCE LANGUAGE PREFERENCES\n${input.sourceLanguages.join(', ') || 'No preference'}\n\n${methodContext}\n\nPOPULATION FRAME HASH\n${populationFrameHash}\n\nPOPULATION FRAME\n${JSON.stringify(populationPromptFrame)}`;
-  const acquireEvidenceOptions = { fetchImpl, env, searchGenerate, studyId, runId, gatewayUserId };
+  const acquireEvidenceOptions = {
+    fetchImpl,
+    env,
+    searchGenerate,
+    studyId,
+    runId,
+    gatewayUserId,
+    correlationId: correlationId || runId,
+    logger,
+  };
   const runFraming = () => runStage({
     stage: 'framing', studyId, runId, gatewayUserId, researchMode, researchMethod, generate,
     env,

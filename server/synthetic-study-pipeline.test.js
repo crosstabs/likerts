@@ -396,6 +396,34 @@ test('AUTO retains one successful Gateway query when its paired query fails', as
   assert.deepEqual(evidence.external.events[0].searches.map((search) => search.outcome).sort(), ['completed', 'failed']);
 });
 
+test('Gateway retrieval failures emit only structured sanitized telemetry', async () => {
+  const warnings = [];
+  const logger = { warn: (line) => warnings.push(line) };
+  const sensitiveMessage = 'Bearer private-monitor-token research prompt must not reach logs';
+
+  const evidence = await acquireEvidence(input(), {
+    env: { VERCEL_OIDC_TOKEN: 'test-oidc-token' },
+    correlationId: 'corr_gateway_failure_1234',
+    logger,
+    searchGenerate: async () => {
+      const error = new Error(sensitiveMessage);
+      error.code = 'GATEWAY_UNAVAILABLE';
+      error.statusCode = 503;
+      throw error;
+    },
+  });
+
+  assert.equal(warnings.length, 1);
+  const event = JSON.parse(warnings[0]);
+  assert.equal(event.level, 'warn');
+  assert.equal(event.event, 'evidence_gateway_search_failed');
+  assert.equal(event.correlationId, 'corr_gateway_failure_1234');
+  assert.deepEqual(event.error, { name: 'Error', code: 'GATEWAY_UNAVAILABLE', statusCode: 503 });
+  assert.deepEqual(event.attributes, { provider: 'vercel-ai-gateway', operation: 'exa-search' });
+  assert.equal(warnings[0].includes(sensitiveMessage), false);
+  assert.equal(evidence.external.events[0].outcome, 'failed');
+});
+
 test('AUTO uses validated Exa highlights when Firecrawl is unavailable', async () => {
   let calls = 0;
   const evidence = await acquireEvidence(input(), {

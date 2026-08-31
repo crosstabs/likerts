@@ -80,7 +80,7 @@ export function createSyntheticStudyApiHandler({
         clientKey,
         estimatedUnits: admissionUnitsForResearchMode(parsed.data.researchMode),
       });
-      const result = await runStudy(parsed.data, { gatewayUserId: clientKey });
+      const result = await runStudy(parsed.data, { gatewayUserId: clientKey, correlationId, logger });
       return response.status(200).json(result);
     } catch (error) {
       logStructuredEvent({

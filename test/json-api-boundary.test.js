@@ -145,6 +145,34 @@ test('synthetic API allows absent and same-host origins for local credentialless
   assert.equal(configuredLocal.headers.get('access-control-allow-origin'), 'http://localhost:5173');
 });
 
+test('synthetic API forwards its public correlation ID and logger into the study pipeline', async () => {
+  const logger = { warn: () => {}, error: () => {}, info: () => {} };
+  let runtimeOptions;
+  const handler = createSyntheticStudyApiHandler({
+    env: {},
+    logger,
+    admission: { async acquire() { return () => {}; } },
+    runStudy: async (_study, options) => {
+      runtimeOptions = options;
+      return { study: { title: 'Synthetic study' } };
+    },
+  });
+  const res = response();
+
+  await handler(request({
+    body: {
+      prompt: 'Would this audience adopt a shared workspace?',
+      audience: 'Small business operations leaders',
+      panelSize: 100,
+    },
+  }), res);
+
+  assert.equal(res.statusCode, 200);
+  assert.equal(runtimeOptions.correlationId, 'corr_12345678');
+  assert.equal(runtimeOptions.logger, logger);
+  assert.match(runtimeOptions.gatewayUserId, /^[a-f0-9]{64}$/);
+});
+
 test('synthetic API preserves the typed required-source no-match code for localized UI recovery', async () => {
   let releaseCalls = 0;
   const handler = createSyntheticStudyApiHandler({
