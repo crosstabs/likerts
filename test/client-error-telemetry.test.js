@@ -5,6 +5,7 @@ import {
   createClientErrorEvent,
   createClientErrorReporter,
   firstPartyErrorFrame,
+  installGlobalErrorTelemetry,
 } from '../src/lib/clientErrorTelemetry.js';
 
 test('client error events keep only same-origin frame and safe public diagnostics', () => {
@@ -62,4 +63,27 @@ test('client reporter deduplicates, bounds volume, and contains transport failur
   assert.equal(calls[0][1].credentials, 'omit');
   assert.equal(calls[0][1].keepalive, true);
   await Promise.resolve();
+});
+
+test('global telemetry installs removable error and rejection handlers', () => {
+  const listeners = new Map();
+  const reports = [];
+  const target = {
+    addEventListener(name, listener) { listeners.set(name, listener); },
+    removeEventListener(name, listener) { if (listeners.get(name) === listener) listeners.delete(name); },
+  };
+  const uninstall = installGlobalErrorTelemetry({
+    target,
+    reporter: (error, context) => reports.push({ error, context }),
+  });
+  const renderError = new Error('render');
+  const rejection = new TypeError('promise');
+  listeners.get('error')({ error: renderError });
+  listeners.get('unhandledrejection')({ reason: rejection });
+  assert.deepEqual(reports, [
+    { error: renderError, context: { captureKind: 'window-error', action: 'global' } },
+    { error: rejection, context: { captureKind: 'unhandled-rejection', action: 'promise' } },
+  ]);
+  uninstall();
+  assert.equal(listeners.size, 0);
 });

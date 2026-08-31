@@ -26,6 +26,7 @@ import {
   setInterfaceLocaleInSearch,
 } from './lib/interfaceLocale.js';
 import { withInputHashLineage } from './lib/inputHashLineage.js';
+import { reportClientError } from './lib/clientErrorTelemetry.js';
 import { createPublicRequestError, thrownErrorCode } from './lib/publicRequestError.js';
 import { compareRepeatRuns } from './lib/repeatRunStability.js';
 import { trackPilotEvent } from './lib/pilotAnalytics.js';
@@ -601,11 +602,13 @@ function AppContent({ uiLocale, setUiLocale, studyDefaultLocale }) {
     } catch (requestError) {
       removePendingRun(pendingRun.id);
       const code = thrownErrorCode(requestError);
+      reportClientError(requestError, { captureKind: 'caught-request', action: 'study-run' });
       trackPilotEvent('study_failed', {
         ...analyticsProperties,
         category: coarseStudyFailureCategory(code),
       });
-      setError({ key: 'studyRunError', variables: { code } });
+      const reference = requestError?.correlationId ? `${code} · ${requestError.correlationId}` : code;
+      setError({ key: 'studyRunError', variables: { code: reference } });
       setRunComplete(previousRunComplete);
     } finally {
       runInFlightRef.current = false;

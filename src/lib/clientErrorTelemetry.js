@@ -111,3 +111,24 @@ export function createClientErrorReporter({
 }
 
 export const reportClientError = createClientErrorReporter({ enabled: import.meta.env?.PROD === true });
+
+export function installGlobalErrorTelemetry({
+  target = globalThis,
+  reporter = reportClientError,
+} = {}) {
+  if (typeof target?.addEventListener !== 'function' || typeof target?.removeEventListener !== 'function') return () => {};
+  const onError = (event) => reporter(event?.error, {
+    captureKind: 'window-error',
+    action: 'global',
+  });
+  const onUnhandledRejection = (event) => reporter(event?.reason, {
+    captureKind: 'unhandled-rejection',
+    action: 'promise',
+  });
+  target.addEventListener('error', onError);
+  target.addEventListener('unhandledrejection', onUnhandledRejection);
+  return () => {
+    target.removeEventListener('error', onError);
+    target.removeEventListener('unhandledrejection', onUnhandledRejection);
+  };
+}
