@@ -52,6 +52,8 @@ Use `GET /api/health` or any `HEAD` health request for public metadata-only live
 
 Use `GET /api/health?ready=1` for active readiness only from an authorized monitor that sends the separate `LIKERTS_READINESS_TOKEN` as `Authorization: Bearer …`. Never put this token in a query string. Missing, malformed, or incorrect authorization returns a sanitized `401` and performs zero Redis calls. After authorization and static configuration pass, readiness atomically validates the namespace policy and performs a bounded write/read/delete/backend-time Lua probe. This storage-only probe remains available during emergency execution shutdown: the response stays `503` with `status: DISABLED`, while its authorized body includes only sanitized namespace, database, policy, and unit-schedule fingerprints for fleet-parity checks. It also returns a sanitized `503` when runtime configuration is invalid, production lacks the concrete globally durable adapter, or the backend is unreachable, unauthorized, timed out, policy-mismatched, or malformed. The default in-memory admission mode is intentionally reported as `DEGRADED_NOT_GLOBALLY_DURABLE`; this is acceptable for local development but production-blocking.
 
+Configure log queries, deterministic pilot alerts, retention, and the weekly reliability/product review using the [monitoring and product-improvement runbook](monitoring-and-product-improvement.md). Do not page on the pilot's intentional blocked-readiness state before durable admission and paid execution are enabled.
+
 ## Migration
 
 No user or research data migration is required. Moving paid-work admission from development memory to the concrete shared provider requires separate infrastructure authority:

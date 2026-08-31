@@ -35,7 +35,11 @@ The storage adapter is intentionally small: create, get, update-with-expected-ve
 
 No provider, panel, database, telemetry service, or recruitment system is contacted by these contracts. Integration work requires explicit authorization, credentials, legal/privacy review, and an approved data-processing agreement.
 
+Production operational telemetry uses two same-origin endpoints on the existing Vercel deployment. `/api/client-events` accepts only a strict browser-error fingerprint contract; `/api/product-events` accepts only the existing coarse product-event allowlist. Browser requests omit credentials and contain no persistent user/session identifier, raw URL, message, stack, prompt, research material, or application state. Both endpoints apply bounded bodies, same-origin checks, strict schemas, per-client abuse limits, and structured server-side redaction before writing ordinary Function logs. No additional telemetry provider or dynamically injected browser runtime is involved. See the [monitoring and product-improvement runbook](monitoring-and-product-improvement.md).
+
 Vercel Web Analytics is present as an optional integration but is disabled by default. It is enabled only in a production build whose `VITE_LIKERTS_VERCEL_ANALYTICS` value is exactly `release-approved`; values such as `true` or `1` do not enable it. Approval requires the telemetry-provider, legal/privacy, and data-processing checks above. When enabled, the client drops malformed or cross-origin events and removes URL credentials, queries, and fragments before sending an event. The approval token is a public build-time policy switch, not a secret or evidence that those checks occurred.
+
+Same-origin operational and product-event logging remains active in production when Vercel Web Analytics is disabled. If Web Analytics is explicitly approved, sanitized product events may be mirrored to it; approval does not broaden the event schema.
 
 The localization release artifact additionally requires every executable browser response to match its immutable build manifest. Vercel's injected `/_vercel/insights/script.js` is not part of that static manifest. Therefore a browser-attested release must leave analytics disabled unless a separately reviewed runtime-dependency integrity contract is implemented and verified; an approval token alone does not satisfy that gate.
 

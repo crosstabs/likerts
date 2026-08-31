@@ -51,6 +51,8 @@ npm run studies:verify:browser
 
 ## Operational controls
 
+Runtime reliability, browser failures, correlation IDs, aggregate product events, alert thresholds, dashboards, and the improvement cadence are defined in the [monitoring and product-improvement runbook](docs/monitoring-and-product-improvement.md). Same-origin operational telemetry is independent of the optional Vercel Web Analytics integration and never includes raw research inputs.
+
 | Variable | Default | Purpose |
 | --- | ---: | --- |
 | `LIKERTS_ADMISSION_STORE_PROVIDER` | unset | Set to `upstash-redis-rest` to select the implemented shared admission provider. Production paid execution remains blocked without it. |
