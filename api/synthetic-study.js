@@ -5,7 +5,7 @@ import { runtimeAdmission } from '../server/runtime-admission-store.js';
 import { LocalizationRequestError, assertLocalizationExecutionAllowed } from '../server/localization-request.js';
 import { admissionUnitsForResearchMode, requestSchema, runStudyPipeline, StudyPipelineError } from '../server/synthetic-study-pipeline.js';
 import { RuntimeConfigurationError, assertRuntimeCanExecute } from '../server/runtime-config.js';
-import { logStructuredEvent, resolveCorrelationId, setCorrelationHeader } from '../server/observability.js';
+import { logStructuredEvent, observeApiHandler, resolveCorrelationId, setCorrelationHeader } from '../server/observability.js';
 
 export const config = {
   maxDuration: 60,
@@ -21,7 +21,7 @@ export function createSyntheticStudyApiHandler({
   admission = runtimeAdmission,
   runStudy = runStudyPipeline,
 } = {}) {
-  return async function handler(request, response) {
+  const handler = async function handler(request, response) {
     const correlationId = resolveCorrelationId(request.headers);
     response.setHeader('Cache-Control', 'no-store');
     setCorrelationHeader(response, correlationId);
@@ -43,7 +43,7 @@ export function createSyntheticStudyApiHandler({
           correlationId,
           error,
           attributes: { method: request.method, reason: error.code },
-        }, { logger });
+        }, { logger, env });
         return sendError(response, 503, error.publicMessage, null, { code: error.code, correlationId });
       }
       throw error;
@@ -81,6 +81,27 @@ export function createSyntheticStudyApiHandler({
         estimatedUnits: admissionUnitsForResearchMode(parsed.data.researchMode),
       });
       const result = await runStudy(parsed.data, { gatewayUserId: clientKey, correlationId, logger });
+      const stages = result?.run?.stages || [];
+      logStructuredEvent({
+        level: 'info',
+        component: 'api.synthetic-study',
+        event: 'study_run_finished',
+        correlationId,
+        attributes: {
+          outcome: 'succeeded',
+          runId: result?.run?.runId,
+          completionStatus: result?.run?.status,
+          researchMode: parsed.data.researchMode,
+          researchMethod: parsed.data.researchMethod,
+          reportLocale: parsed.data.outputLocale,
+          durationMs: result?.meta?.durationMs,
+          stageCount: stages.length,
+          failedStageCount: stages.filter((stage) => stage.status === 'failed').length,
+          tokenUsage: result?.meta?.economics?.tokenUsage,
+          gatewayCostUsdExact: result?.meta?.economics?.gatewayCost?.exactTotalUsd,
+          gatewayCostReporting: result?.meta?.economics?.gatewayCost?.reporting,
+        },
+      }, { logger, env });
       return response.status(200).json(result);
     } catch (error) {
       logStructuredEvent({
@@ -91,10 +112,13 @@ export function createSyntheticStudyApiHandler({
         error,
         attributes: {
           method: request.method,
+          researchMode: parsed.data.researchMode,
+          researchMethod: parsed.data.researchMethod,
+          reportLocale: parsed.data.outputLocale,
           providerStatusCode: error?.cause?.statusCode,
           admissionCode: error instanceof McpAdmissionError ? error.code : undefined,
         },
-      }, { logger });
+      }, { logger, env });
 
       if (error instanceof McpAdmissionError) {
         if (error.retryAfterSeconds) response.setHeader('Retry-After', String(error.retryAfterSeconds));
@@ -120,6 +144,12 @@ export function createSyntheticStudyApiHandler({
       await releaseAdmission();
     }
   };
+  return observeApiHandler(handler, {
+    component: 'api.synthetic-study',
+    route: '/api/synthetic-study',
+    logger,
+    env,
+  });
 }
 
 export default createSyntheticStudyApiHandler();

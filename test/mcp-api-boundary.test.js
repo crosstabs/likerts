@@ -30,8 +30,14 @@ function allowLimiter() {
   return { check: () => ({ allowed: true, limit: 10, remaining: 9, retryAfterSeconds: 60 }) };
 }
 
-function apiWithSpy(calls = []) {
+function telemetryLogger(events = []) {
+  const record = (line) => events.push(JSON.parse(line));
+  return { info: record, warn: record, error: record };
+}
+
+function apiWithSpy(calls = [], events = []) {
   return createMcpApiHandler({
+    logger: telemetryLogger(events),
     requestLimiter: allowLimiter(),
     nodeHandler: async (req, res, parsedBody) => {
       calls.push({ req, parsedBody });
@@ -44,7 +50,8 @@ function apiWithSpy(calls = []) {
 
 test('MCP HTTP boundary accepts absent/same-host Origins and rejects other browser Origins', async () => {
   const calls = [];
-  const handler = apiWithSpy(calls);
+  const events = [];
+  const handler = apiWithSpy(calls, events);
   const nativeResponse = response();
   await handler(request(), nativeResponse);
   assert.equal(nativeResponse.statusCode, 200);
@@ -71,12 +78,15 @@ test('MCP HTTP boundary accepts absent/same-host Origins and rejects other brows
   await handler(request({ headers: { host: 'likerts.example', 'x-forwarded-host': 'evil.example', origin: 'https://evil.example', 'content-type': 'application/json' } }), spoofedForwardedHost);
   assert.equal(spoofedForwardedHost.statusCode, 403);
   assert.equal(calls.length, 2);
+  assert.equal(events.filter((event) => event.event === 'request_finished').length, 6);
+  assert.equal(events.filter((event) => event.attributes.outcome === 'rejected').length, 4);
 });
 
 test('MCP HTTP boundary accepts explicit configured origins with exact scheme and port', async () => {
   const calls = [];
   const handler = createMcpApiHandler({
     env: { MCP_ALLOWED_ORIGINS: 'http://localhost:5173' },
+    logger: telemetryLogger(),
     requestLimiter: allowLimiter(),
     nodeHandler: async (req, res, parsedBody) => {
       calls.push({ req, parsedBody });
@@ -149,6 +159,7 @@ test('MCP HTTP boundary parses a valid body, handles preflight, and applies anon
   assert.equal(preflight.statusCode, 204);
 
   const limitedHandler = createMcpApiHandler({
+    logger: telemetryLogger(),
     nodeHandler: async () => { throw new Error('must not dispatch'); },
     requestLimiter: { check: () => ({ allowed: false, limit: 1, remaining: 0, retryAfterSeconds: 45 }) },
   });
@@ -159,7 +170,7 @@ test('MCP HTTP boundary parses a valid body, handles preflight, and applies anon
 });
 
 test('Vercel-style Node handler serves the current Streamable HTTP protocol end to end', async () => {
-  const apiHandler = createMcpApiHandler();
+  const apiHandler = createMcpApiHandler({ logger: telemetryLogger() });
   const httpServer = createServer((req, res) => { void apiHandler(req, res); });
   await new Promise((resolve) => httpServer.listen(0, '127.0.0.1', resolve));
   const address = httpServer.address();

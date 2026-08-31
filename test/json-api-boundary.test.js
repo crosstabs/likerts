@@ -146,7 +146,8 @@ test('synthetic API allows absent and same-host origins for local credentialless
 });
 
 test('synthetic API forwards its public correlation ID and logger into the study pipeline', async () => {
-  const logger = { warn: () => {}, error: () => {}, info: () => {} };
+  const logs = [];
+  const logger = { warn: () => {}, error: () => {}, info: (line) => logs.push(JSON.parse(line)) };
   let runtimeOptions;
   const handler = createSyntheticStudyApiHandler({
     env: {},
@@ -154,7 +155,17 @@ test('synthetic API forwards its public correlation ID and logger into the study
     admission: { async acquire() { return () => {}; } },
     runStudy: async (_study, options) => {
       runtimeOptions = options;
-      return { study: { title: 'Synthetic study' } };
+      return {
+        study: { title: 'Synthetic study' },
+        run: { runId: 'run_12345678', status: 'completed', stages: [{ status: 'completed' }] },
+        meta: {
+          durationMs: 1200,
+          economics: {
+            tokenUsage: { totalTokens: 30 },
+            gatewayCost: { exactTotalUsd: '0.01', reporting: 'complete' },
+          },
+        },
+      };
     },
   });
   const res = response();
@@ -171,6 +182,22 @@ test('synthetic API forwards its public correlation ID and logger into the study
   assert.equal(runtimeOptions.correlationId, 'corr_12345678');
   assert.equal(runtimeOptions.logger, logger);
   assert.match(runtimeOptions.gatewayUserId, /^[a-f0-9]{64}$/);
+  const runEvent = logs.find((event) => event.event === 'study_run_finished');
+  assert.deepEqual(runEvent.attributes, {
+    outcome: 'succeeded',
+    runId: 'run_12345678',
+    completionStatus: 'completed',
+    researchMode: 'QUICK',
+    researchMethod: 'GENERAL_LIKERT',
+    reportLocale: 'en-US',
+    durationMs: 1200,
+    stageCount: 1,
+    failedStageCount: 0,
+    tokenUsage: { totalTokens: 30 },
+    gatewayCostUsdExact: '0.01',
+    gatewayCostReporting: 'complete',
+  });
+  assert.equal(logs.filter((event) => event.event === 'request_finished').length, 1);
 });
 
 test('synthetic API preserves the typed required-source no-match code for localized UI recovery', async () => {
@@ -300,13 +327,18 @@ test('segment perspective API requires current registered localization before ad
   let admissionCalls = 0;
   let generationCalls = 0;
   let runtimeOptions;
+  const logs = [];
   const handler = createSegmentPerspectiveApiHandler({
-    logger: { warn: () => {}, error: () => {}, info: () => {} },
+    logger: { warn: () => {}, error: () => {}, info: (line) => logs.push(JSON.parse(line)) },
     admission: { async acquire() { admissionCalls += 1; return () => {}; } },
     runPerspective: async (input, options) => {
       generationCalls += 1;
       runtimeOptions = options;
-      return { ok: true, localizationReceipt: input.grounding.localizationReceipt };
+      return {
+        ok: true,
+        localizationReceipt: input.grounding.localizationReceipt,
+        modelLineage: [{ durationMs: 400, usage: { totalTokens: 20 }, gatewayCostUsdExact: '0.002' }],
+      };
     },
   });
 
@@ -335,6 +367,16 @@ test('segment perspective API requires current registered localization before ad
   assert.equal(admissionCalls, 1);
   assert.equal(generationCalls, 1);
   assert.match(runtimeOptions.gatewayUserId, /^[a-f0-9]{64}$/);
+  const followupEvent = logs.find((event) => event.event === 'segment_followup_finished');
+  assert.deepEqual(followupEvent.attributes, {
+    outcome: 'succeeded',
+    intent: 'OBJECTION',
+    researchMethod: 'CONCEPT_TEST',
+    reportLocale: 'en-US',
+    durationMs: 400,
+    tokenUsage: { totalTokens: 20 },
+    gatewayCostUsdExact: '0.002',
+  });
 });
 
 test('segment perspective runtime-disable telemetry omits prompt and source text', async () => {

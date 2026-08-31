@@ -7,7 +7,7 @@ import {
   runGroundedSegmentInterview,
   SegmentPerspectiveError,
 } from '../server/qualitative-interview.js';
-import { logStructuredEvent, resolveCorrelationId, setCorrelationHeader } from '../server/observability.js';
+import { logStructuredEvent, observeApiHandler, resolveCorrelationId, setCorrelationHeader } from '../server/observability.js';
 import { RuntimeConfigurationError, assertRuntimeCanExecute } from '../server/runtime-config.js';
 import { LocalizationRequestError } from '../server/localization-request.js';
 
@@ -23,7 +23,7 @@ export function createSegmentPerspectiveApiHandler({
   admission = runtimeAdmission,
   runPerspective = runGroundedSegmentInterview,
 } = {}) {
-  return async function handler(request, response) {
+  const handler = async function handler(request, response) {
     const correlationId = resolveCorrelationId(request.headers);
     response.setHeader('Cache-Control', 'no-store');
     setCorrelationHeader(response, correlationId);
@@ -45,7 +45,7 @@ export function createSegmentPerspectiveApiHandler({
           correlationId,
           error,
           attributes: { method: request.method, reason: error.code },
-        }, { logger });
+        }, { logger, env });
         return sendError(response, 503, error.publicMessage, error.code, null, correlationId);
       }
       throw error;
@@ -78,6 +78,22 @@ export function createSegmentPerspectiveApiHandler({
     try {
       releaseAdmission = await admission.acquire({ clientKey, estimatedUnits: 1 });
       const result = await runPerspective(perspectiveRequest, { gatewayUserId: clientKey });
+      const [lineage] = result?.modelLineage || [];
+      logStructuredEvent({
+        level: 'info',
+        component: 'api.segment-perspective',
+        event: 'segment_followup_finished',
+        correlationId,
+        attributes: {
+          outcome: 'succeeded',
+          intent: perspectiveRequest.intent,
+          researchMethod: perspectiveRequest.grounding.researchMethod,
+          reportLocale: perspectiveRequest.grounding.outputLocale,
+          durationMs: lineage?.durationMs,
+          tokenUsage: lineage?.usage,
+          gatewayCostUsdExact: lineage?.gatewayCostUsdExact,
+        },
+      }, { logger, env });
       return response.status(200).json(result);
     } catch (error) {
       logStructuredEvent({
@@ -88,10 +104,13 @@ export function createSegmentPerspectiveApiHandler({
         error,
         attributes: {
           method: request.method,
+          intent: perspectiveRequest.intent,
+          researchMethod: perspectiveRequest.grounding.researchMethod,
+          reportLocale: perspectiveRequest.grounding.outputLocale,
           providerStatusCode: error?.cause?.statusCode,
           admissionCode: error instanceof McpAdmissionError ? error.code : undefined,
         },
-      }, { logger });
+      }, { logger, env });
       if (error instanceof McpAdmissionError) {
         if (error.retryAfterSeconds) response.setHeader('Retry-After', String(error.retryAfterSeconds));
         const status = error.code === 'RATE_LIMITED' || error.code === 'CONCURRENCY_LIMIT' ? 429 : 503;
@@ -105,6 +124,12 @@ export function createSegmentPerspectiveApiHandler({
       await releaseAdmission();
     }
   };
+  return observeApiHandler(handler, {
+    component: 'api.segment-perspective',
+    route: '/api/segment-perspective',
+    logger,
+    env,
+  });
 }
 
 export default createSegmentPerspectiveApiHandler();

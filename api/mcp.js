@@ -3,7 +3,7 @@ import { anonymousClientKey, anonymousHttpLimiter } from '../server/mcp-abuse-co
 import { runtimeAdmission } from '../server/runtime-admission-store.js';
 import { createLikertsMcpHandler } from '../server/mcp-server.js';
 import { RuntimeConfigurationError, assertRuntimeCanExecute } from '../server/runtime-config.js';
-import { logStructuredEvent, resolveCorrelationId, setCorrelationHeader } from '../server/observability.js';
+import { logStructuredEvent, observeApiHandler, resolveCorrelationId, setCorrelationHeader } from '../server/observability.js';
 
 export const MAX_MCP_BODY_BYTES = 32 * 1_024;
 const ALLOWED_METHODS = ['POST', 'GET', 'DELETE', 'OPTIONS'];
@@ -115,14 +115,14 @@ async function parsePostBody(request) {
   catch { throw Object.assign(new Error('invalid_json'), { code: 'INVALID_JSON' }); }
 }
 
-function transportError(error, { logger = console, correlationId = 'unavailable' } = {}) {
+function transportError(error, { logger = console, correlationId = 'unavailable', env = process.env } = {}) {
   logStructuredEvent({
     level: 'error',
     component: 'api.mcp',
     event: 'transport_failed',
     correlationId,
     error,
-  }, { logger });
+  }, { logger, env });
 }
 
 export function createMcpApiHandler({
@@ -135,9 +135,9 @@ export function createMcpApiHandler({
   const admissionProtection = admission?.protection;
   const resolvedNodeHandler = nodeHandler || toNodeHandler(
     createLikertsMcpHandler({ admission, env }),
-    { onerror: (error) => transportError(error, { logger }) },
+    { onerror: (error) => transportError(error, { logger, env }) },
   );
-  return async function mcpApiHandler(request, response) {
+  const handler = async function mcpApiHandler(request, response) {
     const correlationId = resolveCorrelationId(request.headers);
     response.setHeader('Cache-Control', 'no-store');
     setCorrelationHeader(response, correlationId);
@@ -166,7 +166,7 @@ export function createMcpApiHandler({
           correlationId,
           error,
           attributes: { method, reason: error.code },
-        }, { logger });
+        }, { logger, env });
         return jsonError(response, 503, error.code, error.publicMessage, {}, correlationId);
       }
       throw error;
@@ -195,10 +195,16 @@ export function createMcpApiHandler({
         return jsonError(response, 413, 'BODY_TOO_LARGE', `MCP request bodies must not exceed ${MAX_MCP_BODY_BYTES} bytes.`, {}, correlationId);
       }
       if (error?.code === 'INVALID_JSON') return jsonError(response, 400, 'INVALID_JSON', 'The request body must be valid JSON.', {}, correlationId);
-      transportError(error, { logger, correlationId });
+      transportError(error, { logger, correlationId, env });
       return jsonError(response, 500, 'INTERNAL_ERROR', 'The MCP request could not be processed.', {}, correlationId);
     }
   };
+  return observeApiHandler(handler, {
+    component: 'api.mcp',
+    route: '/api/mcp',
+    logger,
+    env,
+  });
 }
 
 export default createMcpApiHandler();
