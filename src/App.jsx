@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { CaretDown, GlobeHemisphereWest, Info, Plus } from '@phosphor-icons/react';
 import { Brand } from './components/Chrome.jsx';
 import { ExampleReportNotice, FirstRunStart } from './components/FirstRunStart.jsx';
+import { FeedbackWidget } from './components/FeedbackWidget.jsx';
 import { ResultsWorkspace } from './components/ResultsWorkspace.jsx';
 import { RunProgress } from './components/RunProgress.jsx';
 import { StudyComposer } from './components/StudyComposer.jsx';
@@ -955,6 +956,7 @@ function AppContent({ uiLocale, setUiLocale, studyDefaultLocale }) {
           />
         ) : null}
       </main>
+      <FeedbackWidget uiLocale={uiLocale} />
       <footer className="public-footer">
         <span>Likerts — Free Synthetic Research</span>
         <nav aria-label={t('productDocs')}>

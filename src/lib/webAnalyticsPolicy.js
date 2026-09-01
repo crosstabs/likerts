@@ -34,6 +34,11 @@ const ANALYTICS_EVENT_SCHEMAS = Object.freeze({
     locale: 'locale',
     format: ['csv', 'xlsx', 'txt', 'json'],
   }),
+  feedback_opened: Object.freeze({ locale: 'locale' }),
+  feedback_submitted: Object.freeze({
+    category: ['BUG', 'CONFUSING', 'IDEA', 'PRAISE', 'OTHER'],
+    locale: 'locale',
+  }),
 });
 
 function sanitizedEventValue(value, rule) {

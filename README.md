@@ -51,7 +51,7 @@ npm run studies:verify:browser
 
 ## Operational controls
 
-Runtime reliability, browser failures, correlation IDs, aggregate product events, alert thresholds, dashboards, and the improvement cadence are defined in the [monitoring and product-improvement runbook](docs/monitoring-and-product-improvement.md). Same-origin operational telemetry is independent of the optional Vercel Web Analytics integration and never includes raw research inputs.
+Runtime reliability, browser failures, correlation IDs, aggregate product events, explicit in-product feedback, alert thresholds, dashboards, and the improvement cadence are defined in the [monitoring and product-improvement runbook](docs/monitoring-and-product-improvement.md). Automatic same-origin operational telemetry is independent of the optional Vercel Web Analytics integration and never includes raw research inputs; the feedback panel separately discloses its bounded open-text collection.
 
 | Variable | Default | Purpose |
 | --- | ---: | --- |

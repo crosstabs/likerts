@@ -7,8 +7,8 @@ Likerts uses one privacy-safe structured event stream for runtime reliability, b
 ```text
 Study, segment, and MCP APIs ───────────┐
 React/global/caught browser errors ────┼─> structured-event-v2 JSON ─> Vercel Runtime Logs
-Allowlisted aggregate product events ──┘                                ├─> alerts
-                                                                       ├─> approved Log Drain
+Allowlisted aggregate product events ──┤                                ├─> alerts
+Explicit user feedback submissions ────┘                                ├─> approved Log Drain
                                                                        └─> weekly product review
 ```
 
@@ -20,19 +20,20 @@ Every structured event contains:
 - event-specific allowlisted attributes; and
 - only error name, public code, and bounded HTTP status.
 
-Raw prompts, research materials, evidence, respondent-like text, transcripts, request bodies, credentials, cookies, error messages, and raw stacks are not part of the contract.
+Raw prompts, research materials, evidence, respondent-like text, transcripts, request bodies, credentials, cookies, error messages, and raw stacks are not part of the automatic telemetry contract. The sole open-text exception is a message a visitor explicitly submits through the feedback panel after seeing its collection notice. Feedback is bounded to 800 characters and must not contain personal information or research material.
 
 ## Event catalog
 
 | Event | Level | Purpose | Important dimensions |
 | --- | --- | --- | --- |
-| `request_finished` | info/warn/error | Exactly one outcome for study, segment, MCP, client-error, and product-event API calls | route, method, status, duration, outcome |
+| `request_finished` | info/warn/error | Exactly one outcome for study, segment, MCP, client-error, product-event, and feedback API calls | route, method, status, duration, outcome |
 | `study_run_finished` | info | Successful study generation | mode, method, locale, completion status, stage counts, token usage, Gateway cost |
 | `segment_followup_finished` | info | Successful model-segment follow-up | intent, method, locale, duration, usage, Gateway cost |
 | `request_failed` | error | A handled study or segment failure | public error class/code plus safe product dimensions |
 | `request_blocked` | warn | Runtime configuration or emergency switch prevented work | method and public reason code |
 | `client_error` | error | React boundary, uncaught error, unhandled rejection, or caught study request | release, fingerprint, capture kind, safe first-party frame, public request diagnostics |
 | `product_event` | info | Aggregate allowlisted product behavior | event name and coarse method/mode/locale/action properties |
+| `feedback_received` | info | Explicit product feedback submitted from the side panel | bounded feedback text, category, page path, and interface locale |
 | `evidence_gateway_search_failed` | warn | A bounded evidence lookup failed | provider and operation only |
 
 The browser error reporter sends at most five distinct fingerprints per page and deduplicates repeats. It uses `credentials: omit`; no account, cookie, persistent visitor ID, prompt, URL, message, or raw stack is sent. The server applies a separate rate limit and uses a non-reversible client key only for that in-memory abuse-control window. The key is never logged.
@@ -41,8 +42,12 @@ Product events contain no user or session identifier. They support aggregate rat
 
 - `study_started`, `study_completed`, and `study_failed`;
 - `interface_locale_changed`;
-- `human_validation_opened`; and
-- `human_validation_exported`.
+- `human_validation_opened`;
+- `human_validation_exported`;
+- `feedback_opened`; and
+- `feedback_submitted` with category only, never the submitted text.
+
+`/api/feedback` is a separate explicit-content channel. It accepts one category, a 3–800 character message, the interface locale, and a path without query or fragment. It has no email/account field, omits browser credentials, enforces same-origin JSON, and permits at most six accepted submissions per anonymous client per hour in each active function process. The non-reversible abuse-control key is not logged.
 
 When explicitly approved, the same sanitized product events may also be mirrored to Vercel Web Analytics. Same-origin structured product logging does not enable Web Analytics or inject its runtime script.
 
@@ -79,6 +84,7 @@ Product dashboard:
 - `study_failed / study_started`, split by coarse category;
 - completion by mode, method, and locale;
 - human-validation open and export counts per completed study;
+- feedback-panel opens, accepted submissions, and category mix;
 - persistence class on completed studies; and
 - locale changes, which indicate localization demand but not translation quality.
 
@@ -124,9 +130,10 @@ In preview:
 
 1. Complete one valid study with a non-sensitive test brief.
 2. Confirm one `study_run_finished` and one `request_finished` share a correlation ID.
-3. Submit one schema-invalid client/product event and confirm it is rejected without logging the supplied fields.
+3. Submit one schema-invalid client/product/feedback event and confirm it is rejected without logging the supplied fields.
 4. Trigger a controlled browser test failure and confirm `client_error` contains only the allowlisted contract.
 5. Confirm ordinary user-facing errors show a shareable correlation reference.
+6. Submit one non-sensitive feedback fixture and confirm `feedback_received` contains the category, path, locale, and bounded fixture text.
 
 After promotion, compare the first hour with the previous release by error fingerprint, request failure rate, and p95 duration. Rollback starts by disabling paid execution when model work may be affected, then restoring the last known-good deployment.
 

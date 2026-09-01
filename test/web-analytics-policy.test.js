@@ -127,3 +127,22 @@ test('study failure categories are deliberately coarse', () => {
   assert.equal(coarseStudyFailureCategory('GATEWAY_UNAVAILABLE'), 'model');
   assert.equal(coarseStudyFailureCategory('anything-specific'), 'other');
 });
+
+test('feedback analytics records aggregate workflow state without the submitted text', () => {
+  assert.deepEqual(sanitizeLikertsAnalyticsEvent('feedback_opened', { locale: 'ko-KR' }), {
+    name: 'feedback_opened',
+    properties: { locale: 'ko-KR' },
+  });
+  assert.deepEqual(sanitizeLikertsAnalyticsEvent('feedback_submitted', {
+    category: 'IDEA',
+    locale: 'en-US',
+    message: 'private feedback text',
+  }), {
+    name: 'feedback_submitted',
+    properties: { category: 'IDEA', locale: 'en-US' },
+  });
+  assert.equal(sanitizeLikertsAnalyticsEvent('feedback_submitted', {
+    category: 'LEAD',
+    locale: 'en-US',
+  }), null);
+});
