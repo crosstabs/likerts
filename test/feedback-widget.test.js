@@ -27,8 +27,9 @@ test('feedback widget is an explicit, keyboard-dismissable dialog with privacy g
   assert.match(widgetSource, /maxLength=\{800\}/);
 });
 
-test('feedback control stays edge-mounted on desktop and reachable on mobile', () => {
+test('feedback control and drawer stay edge-mounted at every viewport size', () => {
   assert.match(styleSource, /\.feedback-widget \{ position: fixed;/);
-  assert.match(styleSource, /\.feedback-panel \{ position: fixed;/);
-  assert.match(styleSource, /\.feedback-widget \{ inset-block-start: auto; inset-block-end: 16px;/);
+  assert.match(styleSource, /\.feedback-panel \{ position: fixed;[^}]*height: 100dvh;/);
+  assert.match(styleSource, /\.feedback-panel \{ position: fixed;[^}]*inset-inline-end: 0;/);
+  assert.doesNotMatch(styleSource, /\.feedback-widget \{ inset-block-start: auto;/);
 });
