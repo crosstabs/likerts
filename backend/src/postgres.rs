@@ -658,14 +658,15 @@ impl PgStore {
         if !valid_scope(required_scope) {
             return Err(Error::Internal);
         }
-        let row = sqlx::query(
-            "select workspace_id,scopes from likerts.resolve_service_credential($1)",
-        )
-        .bind(token_hash(token))
-        .fetch_optional(&self.pool)
-        .await
-        .map_err(database_error)?;
-        let Some(row) = row else { return Err(Error::Unauthorized) };
+        let row =
+            sqlx::query("select workspace_id,scopes from likerts.resolve_service_credential($1)")
+                .bind(token_hash(token))
+                .fetch_optional(&self.pool)
+                .await
+                .map_err(database_error)?;
+        let Some(row) = row else {
+            return Err(Error::Unauthorized);
+        };
         let scopes: Vec<String> = row.get("scopes");
         if !scopes.iter().any(|scope| scope == required_scope) {
             return Err(Error::Forbidden);

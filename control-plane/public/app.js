@@ -31,8 +31,83 @@ async function loadWorkspace(clerk) {
   set("response-status", String(result.usage.totalResponses), true);
   set("credit-status", String(result.usage.credits.availableCredits), result.usage.credits.availableCredits > 0);
   document.getElementById("oauth-approval").hidden = false;
+  document.getElementById("agent-credential").hidden = false;
   document.getElementById("credit-checkout").hidden = false;
+  await loadAgentCredentials();
 }
+
+async function browserRequest(path, options = {}) {
+  if (!activeClerk?.session || !activeWorkspace) throw new Error("missing workspace context");
+  const token = await activeClerk.session.getToken();
+  return fetch(`${apiOrigin}${path}`, {
+    ...options,
+    credentials: "omit",
+    cache: "no-store",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "X-Likerts-Workspace": activeWorkspace,
+      ...(options.headers || {}),
+    },
+  });
+}
+
+async function loadAgentCredentials() {
+  const root = document.getElementById("agent-credentials");
+  const response = await browserRequest("/v1/browser/service-credentials");
+  if (!response.ok) throw new Error(`credential list failed: ${response.status}`);
+  const credentials = await response.json();
+  root.replaceChildren();
+  for (const credential of credentials.filter((item) => !item.revoked)) {
+    const row = document.createElement("div");
+    row.className = "credential-row";
+    const label = document.createElement("span");
+    label.textContent = `${credential.name} · expires ${new Date(credential.expiresAt).toLocaleDateString()}`;
+    const revoke = document.createElement("button");
+    revoke.type = "button";
+    revoke.textContent = "Revoke";
+    revoke.addEventListener("click", async () => {
+      revoke.disabled = true;
+      const result = await browserRequest(`/v1/browser/service-credentials/${encodeURIComponent(credential.id)}`, {method: "DELETE"});
+      if (!result.ok) throw new Error(`credential revoke failed: ${result.status}`);
+      await loadAgentCredentials();
+    });
+    row.append(label, revoke);
+    root.append(row);
+  }
+}
+
+document.getElementById("agent-credential").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const output = document.getElementById("agent-status");
+  const button = form.querySelector('button[type="submit"]');
+  const scopes = [...form.querySelectorAll('input[name="scope"]:checked')].map((input) => input.value);
+  output.textContent = "Creating…";
+  button.disabled = true;
+  try {
+    const response = await browserRequest("/v1/browser/service-credentials", {
+      method: "POST",
+      body: JSON.stringify({name: document.getElementById("agent-name").value, scopes, expiresAt: new Date(Date.now() + 90 * 86400_000).toISOString()}),
+    });
+    if (!response.ok) throw new Error(`credential create failed: ${response.status}`);
+    const result = await response.json();
+    document.getElementById("agent-token").value = result.token;
+    document.getElementById("agent-secret").hidden = false;
+    output.textContent = "Credential created. Copy the token now; it will not be shown again.";
+    await loadAgentCredentials();
+  } catch {
+    output.textContent = "Credential could not be created.";
+  } finally {
+    button.disabled = false;
+  }
+});
+
+document.getElementById("copy-agent-token").addEventListener("click", async () => {
+  const token = document.getElementById("agent-token").value;
+  await navigator.clipboard.writeText(token);
+  document.getElementById("agent-status").textContent = "Token copied.";
+});
 
 document.getElementById("credit-checkout").addEventListener("submit", async (event) => {
   event.preventDefault();

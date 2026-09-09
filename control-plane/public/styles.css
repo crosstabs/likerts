@@ -21,15 +21,19 @@ h2 { font:500 30px Georgia,serif; margin:10px 0 28px; }
 dl { margin:0; }
 dl div { display:flex; justify-content:space-between; padding:16px 0; border-top:1px solid #ffffff1f; }
 dt { color:#c6cec9; } dd { margin:0; font-weight:650; } dd[data-ready="true"] { color:#91d7a7; }
-#oauth-approval, #credit-checkout { margin-top:28px; border-top:1px solid #ffffff1f; padding-top:24px; }
-#oauth-approval h3, #credit-checkout h3 { font:500 22px Georgia,serif; }
-#oauth-approval > label, #credit-checkout > label { display:grid; gap:7px; color:#c6cec9; }
-#oauth-approval input[type="text"], #oauth-client-id { width:100%; margin-top:7px; padding:10px; border:1px solid #ffffff36; border-radius:6px; background:#0f1813; color:white; }
+#agent-credential, #oauth-approval, #credit-checkout { margin-top:28px; border-top:1px solid #ffffff1f; padding-top:24px; }
+#agent-credential h3, #oauth-approval h3, #credit-checkout h3 { font:500 22px Georgia,serif; }
+#agent-credential > label, #oauth-approval > label, #credit-checkout > label, #agent-secret label { display:grid; gap:7px; color:#c6cec9; }
+#agent-credential input[type="text"], #agent-name, #oauth-approval input[type="text"], #oauth-client-id, #agent-token { width:100%; margin-top:7px; padding:10px; border:1px solid #ffffff36; border-radius:6px; background:#0f1813; color:white; }
 #credit-checkout select { width:100%; margin:7px 0 16px; padding:10px; border:1px solid #ffffff36; border-radius:6px; background:#0f1813; color:white; }
 #credit-checkout p { color:#c6cec9; font-size:13px; line-height:1.5; }
+#agent-credential p { color:#c6cec9; font-size:13px; line-height:1.5; }
 fieldset { margin:18px 0; padding:0; border:0; display:grid; grid-template-columns:1fr 1fr; gap:9px; }
 legend { margin-bottom:10px; color:#c6cec9; } fieldset label { font-size:13px; }
-#approval-status { display:block; min-height:20px; margin-top:10px; color:#a8c7b2; font-size:13px; }
+#agent-status, #approval-status { display:block; min-height:20px; margin-top:10px; color:#a8c7b2; font-size:13px; }
+#agent-secret { margin-top:14px; }
+#agent-secret button, .credential-row button { margin-top:8px; padding:8px 11px; background:#315940; }
+.credential-row { display:flex; justify-content:space-between; gap:14px; align-items:center; margin-top:12px; padding-top:12px; border-top:1px solid #ffffff1f; color:#c6cec9; font-size:13px; }
 #checkout-status { display:block; min-height:20px; margin-top:10px; color:#a8c7b2; font-size:13px; }
 footer { padding:24px 0 36px; color:#647069; font-size:13px; border-top:1px solid #d3d0c6; }
 @media (max-width:760px) { main { grid-template-columns:1fr; gap:40px; padding:48px 0; } h1 { font-size:48px; } }

@@ -24,6 +24,16 @@
       <section class="status" aria-labelledby="status-title">
         <div><p class="eyebrow">Deployment</p><h2 id="status-title">Service boundary</h2></div>
         <dl><div><dt>Control plane</dt><dd id="control-status">Checking</dd></div><div><dt>API origin</dt><dd id="api-status">Checking</dd></div><div><dt>Identity</dt><dd id="identity-status">Checking</dd></div><div><dt>Workspace</dt><dd id="workspace-status">Checking</dd></div><div><dt>Accepted responses</dt><dd id="response-status">—</dd></div><div><dt>Available credits</dt><dd id="credit-status">—</dd></div></dl>
+        <form id="agent-credential" hidden>
+          <h3>Connect Codex, Claude, or the CLI</h3>
+          <p>Create a scoped credential. Its token is shown once and can operate the API or all MCP tools you approve.</p>
+          <label>Credential name<input id="agent-name" name="name" value="My agent" required maxlength="100" /></label>
+          <fieldset><legend>Capabilities</legend><label><input type="checkbox" name="scope" value="surveys:read" checked /> Read surveys</label><label><input type="checkbox" name="scope" value="surveys:write" checked /> Edit surveys</label><label><input type="checkbox" name="scope" value="collections:write" checked /> Manage collections</label><label><input type="checkbox" name="scope" value="responses:read" checked /> Read responses</label><label><input type="checkbox" name="scope" value="responses:write" checked /> Erase responses</label><label><input type="checkbox" name="scope" value="usage:read" checked /> Read usage</label><label><input type="checkbox" name="scope" value="exports:read" checked /> Download exports</label><label><input type="checkbox" name="scope" value="exports:write" checked /> Create/revoke exports</label><label><input type="checkbox" name="scope" value="webhooks:read" checked /> Read callbacks</label><label><input type="checkbox" name="scope" value="webhooks:write" checked /> Manage callbacks</label><label><input type="checkbox" name="scope" value="identity:write" /> Manage access</label><label><input type="checkbox" name="scope" value="billing:write" /> Manage billing</label></fieldset>
+          <button type="submit">Create 90-day credential</button>
+          <output id="agent-status" aria-live="polite"></output>
+          <div id="agent-secret" hidden><label>Copy this token now<textarea id="agent-token" readonly rows="3"></textarea></label><button id="copy-agent-token" type="button">Copy token</button></div>
+          <div id="agent-credentials"></div>
+        </form>
         <form id="oauth-approval" hidden>
           <h3>Approve an MCP client</h3>
           <label>Registered client ID<input id="oauth-client-id" name="clientId" autocomplete="off" required maxlength="255" /></label>

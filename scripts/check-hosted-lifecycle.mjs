@@ -34,6 +34,7 @@ const scopes = [
   'responses:read', 'responses:write', 'exports:read', 'exports:write',
   'usage:read', 'billing:write', 'identity:write', 'webhooks:read', 'webhooks:write',
 ];
+const baselineUsage = await expect('/v1/usage', {}, 200);
 const issued = await expect('/v1/service-credentials', {
   method: 'POST',
   body: {name: `hosted-lifecycle-${suffix}`, scopes, expiresAt: new Date(Date.now() + 3600_000).toISOString()},
@@ -63,7 +64,7 @@ const receipt = await expect(`/v1/collections/${collection.id}/responses`, {meth
 }}, 200);
 const responses = await expect(`/v1/responses?collectionId=${encodeURIComponent(collection.id)}&limit=10`, {headers: managementHeaders}, 200);
 assert.equal(responses.items.length, 1);
-assert.equal(responses.items[0].id, receipt.responseId);
+assert.equal(responses.items[0].receipt.responseId, receipt.responseId);
 const exportJob = await expect('/v1/exports', {method: 'POST', headers: managementHeaders, body: {
   idempotencyKey: `hosted-export-${suffix}`, format: 'json', collectionId: collection.id,
 }}, 202);
@@ -77,10 +78,10 @@ assert.equal(exportStatus.status, 'ready');
 const download = await expect(`/v1/exports/${exportJob.id}/download`, {headers: managementHeaders}, 200);
 const exported = JSON.parse(Buffer.from(download.contentBase64, 'base64').toString());
 assert.equal(exported.responses.length, 1);
-assert.equal(exported.responses[0].id, receipt.responseId);
+assert.equal(exported.responses[0].receipt.responseId, receipt.responseId);
 const usage = await expect('/v1/usage', {headers: managementHeaders}, 200);
-assert.equal(usage.acceptedResponses, 1);
-assert.equal(usage.credits.promotionalResponses, 1);
+assert.equal(usage.acceptedResponses, baselineUsage.acceptedResponses + 1);
+assert.equal(usage.credits.promotionalResponses, baselineUsage.credits.promotionalResponses + 1);
 await expect(`/v1/responses/${receipt.responseId}`, {method: 'DELETE', headers: managementHeaders}, 204);
 assert.equal((await call(`/v1/exports/${exportJob.id}/download`, {headers: managementHeaders})).status, 410);
 await expect(`/v1/collections/${collection.id}`, {method: 'PATCH', headers: managementHeaders, body: {revoke: true}}, 200);

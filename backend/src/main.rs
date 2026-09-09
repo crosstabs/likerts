@@ -642,6 +642,29 @@ async fn browser_claims(app: &App, headers: &HeaderMap) -> Result<BrowserClaims,
     Ok(verifier.verify(bearer(headers)?, origin).await?)
 }
 
+async fn browser_owner_workspace(
+    app: &App,
+    headers: &HeaderMap,
+) -> Result<(BrowserClaims, String), ApiError> {
+    let claims = browser_claims(app, headers).await?;
+    let workspace = headers
+        .get("x-likerts-workspace")
+        .and_then(|value| value.to_str().ok())
+        .filter(|value| !value.trim().is_empty() && value.chars().count() <= 200)
+        .ok_or(ApiError(Error::Invalid(
+            "X-Likerts-Workspace is required".into(),
+        )))?;
+    if app
+        .storage
+        .current_membership(workspace, &claims.sub)
+        .await?
+        != Role::Owner
+    {
+        return Err(ApiError(Error::Forbidden));
+    }
+    Ok((claims, workspace.into()))
+}
+
 async fn browser_bootstrap(
     State(app): State<App>,
     headers: HeaderMap,
@@ -683,22 +706,7 @@ async fn browser_approve_oauth(
     headers: HeaderMap,
     ApiJson(input): ApiJson<BrowserOAuthApprovalInput>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let claims = browser_claims(&app, &headers).await?;
-    let workspace = headers
-        .get("x-likerts-workspace")
-        .and_then(|value| value.to_str().ok())
-        .filter(|value| !value.trim().is_empty() && value.chars().count() <= 200)
-        .ok_or(ApiError(Error::Invalid(
-            "X-Likerts-Workspace is required".into(),
-        )))?;
-    if app
-        .storage
-        .current_membership(workspace, &claims.sub)
-        .await?
-        != Role::Owner
-    {
-        return Err(ApiError(Error::Forbidden));
-    }
+    let (claims, workspace) = browser_owner_workspace(&app, &headers).await?;
     if !app.browser_oauth_clients.allows(&input.client_id) {
         return Err(ApiError(Error::Forbidden));
     }
@@ -711,7 +719,7 @@ async fn browser_approve_oauth(
     let grant = app
         .storage
         .issue_oauth_grant(
-            workspace,
+            &workspace,
             &claims.sub,
             &input.client_id,
             audience,
@@ -727,23 +735,44 @@ async fn browser_create_credit_checkout(
     headers: HeaderMap,
     ApiJson(input): ApiJson<CreditCheckoutInput>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let claims = browser_claims(&app, &headers).await?;
-    let workspace = headers
-        .get("x-likerts-workspace")
-        .and_then(|value| value.to_str().ok())
-        .filter(|value| !value.trim().is_empty() && value.chars().count() <= 200)
-        .ok_or(ApiError(Error::Invalid(
-            "X-Likerts-Workspace is required".into(),
-        )))?;
-    if app
+    let (_, workspace) = browser_owner_workspace(&app, &headers).await?;
+    checkout_for_workspace(&app, &workspace, input).await
+}
+
+async fn browser_list_service_credentials(
+    State(app): State<App>,
+    headers: HeaderMap,
+) -> Result<impl IntoResponse, ApiError> {
+    let (_, workspace) = browser_owner_workspace(&app, &headers).await?;
+    Ok(Json(app.storage.service_credentials(&workspace).await?))
+}
+
+async fn browser_create_service_credential(
+    State(app): State<App>,
+    headers: HeaderMap,
+    ApiJson(input): ApiJson<CredentialInput>,
+) -> Result<impl IntoResponse, ApiError> {
+    let (_, workspace) = browser_owner_workspace(&app, &headers).await?;
+    let (credential, token) = app
         .storage
-        .current_membership(workspace, &claims.sub)
-        .await?
-        != Role::Owner
-    {
-        return Err(ApiError(Error::Forbidden));
-    }
-    checkout_for_workspace(&app, workspace, input).await
+        .issue_service_credential(&workspace, &input.name, input.scopes, input.expires_at)
+        .await?;
+    Ok((
+        StatusCode::CREATED,
+        Json(json!({"credential":credential,"token":token})),
+    ))
+}
+
+async fn browser_remove_service_credential(
+    State(app): State<App>,
+    headers: HeaderMap,
+    Path(id): Path<String>,
+) -> Result<impl IntoResponse, ApiError> {
+    let (_, workspace) = browser_owner_workspace(&app, &headers).await?;
+    app.storage
+        .revoke_service_credential(&workspace, &id)
+        .await?;
+    Ok(StatusCode::NO_CONTENT)
 }
 
 struct ApiError(Error);
@@ -1999,6 +2028,14 @@ async fn main() {
         )
         .route("/v1/oauth-grants", post(create_oauth_grant))
         .route("/v1/browser/bootstrap", post(browser_bootstrap))
+        .route(
+            "/v1/browser/service-credentials",
+            get(browser_list_service_credentials).post(browser_create_service_credential),
+        )
+        .route(
+            "/v1/browser/service-credentials/{id}",
+            axum::routing::delete(browser_remove_service_credential),
+        )
         .route("/v1/browser/oauth-grants", post(browser_approve_oauth))
         .route(
             "/v1/browser/billing/checkout",

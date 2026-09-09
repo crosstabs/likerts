@@ -48,5 +48,20 @@
     "method": "POST",
     "path": "/v1/browser/billing/checkout",
     "reason": "First-party Clerk session bridge for interactive checkout; the equivalent management capability remains available to API, MCP and CLI clients."
+  },
+  {
+    "method": "GET",
+    "path": "/v1/browser/service-credentials",
+    "reason": "First-party owner dashboard lists agent credential metadata without exposing bearer tokens."
+  },
+  {
+    "method": "POST",
+    "path": "/v1/browser/service-credentials",
+    "reason": "First-party owner dashboard issues a scoped agent token once; the equivalent management capability remains available to API, MCP and CLI clients."
+  },
+  {
+    "method": "DELETE",
+    "path": "/v1/browser/service-credentials/{id}",
+    "reason": "First-party owner dashboard revokes a selected agent credential; the equivalent management capability remains available to API, MCP and CLI clients."
   }
 ]

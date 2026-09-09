@@ -112,5 +112,8 @@ After a timeout or 500, a write may have committed. Only retry operations that s
 - **POST /v1/browser/bootstrap** — First-party Clerk session bridge for personal workspace bootstrap and status; not an MCP/CLI capability.
 - **POST /v1/browser/oauth-grants** — Interactive owner consent bridge for registered OAuth clients; not an agent-callable capability.
 - **POST /v1/browser/billing/checkout** — First-party Clerk session bridge for interactive checkout; the equivalent management capability remains available to API, MCP and CLI clients.
+- **GET /v1/browser/service-credentials** — First-party owner dashboard lists agent credential metadata without exposing bearer tokens.
+- **POST /v1/browser/service-credentials** — First-party owner dashboard issues a scoped agent token once; the equivalent management capability remains available to API, MCP and CLI clients.
+- **DELETE /v1/browser/service-credentials/{id}** — First-party owner dashboard revokes a selected agent credential; the equivalent management capability remains available to API, MCP and CLI clients.
 
 This reference covers implemented local operations. Provider sandbox proof, hosted delivery and any later release capabilities have separate release gates.
