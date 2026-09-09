@@ -1,6 +1,6 @@
 {
-  "measuredAt": "2026-09-09T07:17:44.966470+00:00",
-  "commit": "674d50add4781e038472afc15165ac1e6a804476",
+  "measuredAt": "2026-09-09T07:58:30.572Z",
+  "commit": "72afd3f14938ecb01f9667398a3f05d57ece800b",
   "render": {
     "projectId": "prj-dagbmk5bedkc73fu380g",
     "environmentId": "evm-dagbmk5bedkc73fu3810",
@@ -11,8 +11,8 @@
     "services": {
       "api": {
         "id": "srv-dagbp57qj5pc738fe96g",
-        "deploy": "dep-dagg90u7bikc73b2q4ng",
-        "commit": "674d50add4781e038472afc15165ac1e6a804476",
+        "deploy": "dep-daggvo67bikc73b5kmo0",
+        "commit": "72afd3f14938ecb01f9667398a3f05d57ece800b",
         "url": "https://likerts-api.onrender.com",
         "instances": 2,
         "plan": "1c-2g"
@@ -219,5 +219,38 @@
     "temporaryWorkspaceTombstoned": true,
     "credentialsDeniedAfterCleanup": true,
     "limitation": "Bounded single-workspace correctness/latency rehearsal; not sustained capacity, replica placement/failover, SLA or provider-cost evidence."
+  },
+  "workspaceBinding": {
+    "measuredAt": "2026-09-09T07:58:30.572Z",
+    "apiDeploy": "dep-daggvo67bikc73b5kmo0",
+    "apiCommit": "72afd3f14938ecb01f9667398a3f05d57ece800b",
+    "checks": {
+      "apiHealth": 200,
+      "mcpHealth": 200,
+      "directServiceCredentialWithoutSelection": 200,
+      "directMatchingWorkspace": 200,
+      "directMismatchedWorkspace": 403,
+      "mcpMatchingWorkspace": {
+        "http": 200,
+        "toolError": false
+      },
+      "mcpMismatchedWorkspace": {
+        "http": 200,
+        "upstreamStatus": 403,
+        "toolError": true
+      },
+      "workspaceDeletion": 204,
+      "directCredentialAfterDeletion": 401,
+      "mcpCredentialAfterDeletion": {
+        "http": 200,
+        "upstreamStatus": 401,
+        "toolError": true
+      }
+    },
+    "temporaryWorkspaceTombstoned": true,
+    "limitations": [
+      "Synthetic temporary workspace and service credential only; browser OAuth grants were not exercised.",
+      "MCP transports upstream authorization failures as protocol tool errors within an HTTP 200 response."
+    ]
   }
 }
