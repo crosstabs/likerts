@@ -10,12 +10,14 @@
     "stripePercent": 0.029,
     "stripeFixedUsd": 0.3,
     "render": {
+      "proWorkspaceUsdMonth": 25,
       "apiInstances": 2,
       "apiInstanceUsdMonth": 25,
       "remoteMcpGateways": 1,
       "remoteMcpGatewayUsdMonth": 7,
       "callbackWorkers": 1,
-      "callbackWorkerUsdMonth": 7
+      "callbackWorkerUsdMonth": 7,
+      "migrationCronMinimumUsdMonth": 1
     },
     "neon": {
       "computeCuHoursMonth": 140,
@@ -65,12 +67,14 @@
       "usageRevenueUsd": 0,
       "processingUsd": 0,
       "blobUsageUsd": 0.001,
-      "renderUsd": 64,
+      "renderComputeUsd": 65,
+      "renderUsd": 90,
       "neonUsd": 15.39,
       "vercelUsd": 20,
       "clerkUsd": 0,
-      "fixedPlatformUsd": 99.39,
-      "contributionBeforeLaborUsd": -99.39
+      "fixedPlatformUsd": 125.39,
+      "incrementalOnExistingPaidPlatformsUsd": 80.39,
+      "contributionBeforeLaborUsd": -125.39
     },
     {
       "acceptedResponses": 10000,
@@ -81,12 +85,14 @@
       "usageRevenueUsd": 0,
       "processingUsd": 0,
       "blobUsageUsd": 0.009619,
-      "renderUsd": 64,
+      "renderComputeUsd": 65,
+      "renderUsd": 90,
       "neonUsd": 15.39,
       "vercelUsd": 20,
       "clerkUsd": 0,
-      "fixedPlatformUsd": 99.39,
-      "contributionBeforeLaborUsd": -99.39
+      "fixedPlatformUsd": 125.39,
+      "incrementalOnExistingPaidPlatformsUsd": 80.39,
+      "contributionBeforeLaborUsd": -125.39
     },
     {
       "acceptedResponses": 100000,
@@ -97,12 +103,14 @@
       "usageRevenueUsd": 750,
       "processingUsd": 66.75,
       "blobUsageUsd": 0.09581,
-      "renderUsd": 64,
+      "renderComputeUsd": 65,
+      "renderUsd": 90,
       "neonUsd": 15.39,
       "vercelUsd": 20,
       "clerkUsd": 0,
-      "fixedPlatformUsd": 99.39,
-      "contributionBeforeLaborUsd": 583.86
+      "fixedPlatformUsd": 125.39,
+      "incrementalOnExistingPaidPlatformsUsd": 80.39,
+      "contributionBeforeLaborUsd": 557.86
     },
     {
       "acceptedResponses": 1000000,
@@ -113,12 +121,14 @@
       "usageRevenueUsd": 9000,
       "processingUsd": 801,
       "blobUsageUsd": 0.958104,
-      "renderUsd": 64,
+      "renderComputeUsd": 65,
+      "renderUsd": 90,
       "neonUsd": 15.39,
       "vercelUsd": 20,
       "clerkUsd": 0,
-      "fixedPlatformUsd": 99.39,
-      "contributionBeforeLaborUsd": 8099.61
+      "fixedPlatformUsd": 125.39,
+      "incrementalOnExistingPaidPlatformsUsd": 80.39,
+      "contributionBeforeLaborUsd": 8073.61
     }
   ]
 }

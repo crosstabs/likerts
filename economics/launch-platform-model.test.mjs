@@ -13,7 +13,11 @@ test("free grant is one thousand accepted responses per new workspace", () => {
 test("minimum purchase fee and modeled launch floor are explicit", () => {
   const stripeRate = assumptions.stripePercent + assumptions.stripeFixedUsd / assumptions.minimumCreditPurchaseUsd;
   assert.equal(stripeRate, 0.089);
-  assert.equal(evaluate({ acceptedResponses: 0, newWorkspaces: 0 }).fixedPlatformUsd, 99.39);
+  const floor = evaluate({ acceptedResponses: 0, newWorkspaces: 0 });
+  assert.equal(floor.renderComputeUsd, 65);
+  assert.equal(floor.renderUsd, 90);
+  assert.equal(floor.fixedPlatformUsd, 125.39);
+  assert.equal(floor.incrementalOnExistingPaidPlatformsUsd, 80.39);
   assert.equal(assumptions.clerk.optionalPasskeysProUpgradeUsd, 25);
 });
 

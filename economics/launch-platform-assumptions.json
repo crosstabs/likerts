@@ -8,12 +8,14 @@
   "stripePercent": 0.029,
   "stripeFixedUsd": 0.30,
   "render": {
+    "proWorkspaceUsdMonth": 25,
     "apiInstances": 2,
     "apiInstanceUsdMonth": 25,
     "remoteMcpGateways": 1,
     "remoteMcpGatewayUsdMonth": 7,
     "callbackWorkers": 1,
-    "callbackWorkerUsdMonth": 7
+    "callbackWorkerUsdMonth": 7,
+    "migrationCronMinimumUsdMonth": 1
   },
   "neon": {
     "computeCuHoursMonth": 140,
