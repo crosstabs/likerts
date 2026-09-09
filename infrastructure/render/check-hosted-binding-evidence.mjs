@@ -183,6 +183,23 @@ assert.deepEqual(evidence.hostedCallbackAcceptance, {
     receiverProjectDeleted: true,
     limitation: 'Render performed a graceful service restart and allowed the in-flight request to complete on its first lease. Abrupt process loss and expired-lease reclaim remain unproved.',
   },
+  abruptReclaimAttempt: {
+    measuredAt: evidence.hostedCallbackAcceptance.abruptReclaimAttempt.measuredAt,
+    configuredShutdownDelaySeconds: 1,
+    minimumAcceptedByProviderSeconds: 1,
+    receiverStartMarkerObserved: true,
+    receiverMarkerObservedAt: evidence.hostedCallbackAcceptance.abruptReclaimAttempt.receiverMarkerObservedAt,
+    restartRequestedAt: evidence.hostedCallbackAcceptance.abruptReclaimAttempt.restartRequestedAt,
+    restartCommandReturnedAt: evidence.hostedCallbackAcceptance.abruptReclaimAttempt.restartCommandReturnedAt,
+    receiverHandlerSeconds: 8,
+    deliveryStatus: 'delivered',
+    attempts: 1,
+    hardLeaseReclaimProved: false,
+    productionShutdownDelayRestoredSeconds: 30,
+    limitation: 'Render drained the synchronized eight-second in-flight request despite the minimum one-second shutdown-delay setting. Dashboard SSH was unavailable and the platform exposed no verified abrupt single-instance termination control.',
+    temporaryWorkspaceTombstoned: true,
+    receiverProjectDeleted: true,
+  },
 });
 assert.match(evidence.hostedCallbackAcceptance.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.match(evidence.hostedCallbackAcceptance.deployedDnsDenial.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
@@ -193,6 +210,8 @@ assert.ok(evidence.hostedCallbackAcceptance.multiWorkerConcurrency.completionSec
 assert.match(evidence.hostedCallbackAcceptance.inFlightRestart.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.ok(Date.parse(evidence.hostedCallbackAcceptance.inFlightRestart.requestStartedAt) < Date.parse(evidence.hostedCallbackAcceptance.inFlightRestart.restartRequestedAt));
 assert.ok(Date.parse(evidence.hostedCallbackAcceptance.inFlightRestart.restartRequestedAt) < Date.parse(evidence.hostedCallbackAcceptance.inFlightRestart.replacementWorkerStartedAt));
+assert.match(evidence.hostedCallbackAcceptance.abruptReclaimAttempt.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
+assert.ok(Date.parse(evidence.hostedCallbackAcceptance.abruptReclaimAttempt.receiverMarkerObservedAt) <= Date.parse(evidence.hostedCallbackAcceptance.abruptReclaimAttempt.restartRequestedAt));
 inspect(evidence.hostedCallbackAcceptance);
 
 console.log('Hosted workspace/rollback evidence PASS: tenant denial, cleanup and compatible revision restoration.');
