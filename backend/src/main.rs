@@ -1834,6 +1834,8 @@ async fn main() {
 
     let storage = match std::env::var("DATABASE_URL") {
         Ok(database_url) if !database_url.trim().is_empty() => {
+            let fingerprint = format!("{:x}", Sha256::digest(database_url.as_bytes()));
+            eprintln!("database configuration fingerprint={}", &fingerprint[..12]);
             let store = if std::env::var("LIKERTS_RUN_MIGRATIONS").as_deref() == Ok("1") {
                 PgStore::connect(&database_url)
                     .await
