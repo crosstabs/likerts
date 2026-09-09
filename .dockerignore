@@ -20,6 +20,7 @@ infrastructure/render/**
 !infrastructure/render/start.sh
 !infrastructure/render/migrate.sh
 !infrastructure/render/bootstrap-rehearsal.sh
+!infrastructure/render/verify-export-reclaim.sh
 !infrastructure/render/diagnose-roles.sh
 !infrastructure/render/diagnose-roles.sql
 !infrastructure/render/bootstrap.sql

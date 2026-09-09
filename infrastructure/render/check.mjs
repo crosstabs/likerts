@@ -33,7 +33,7 @@ assert.ok(!keys(worker).some(k=>/STRIPE|CHECKOUT/.test(k)));
 assert.ok(!keys(mcp).some(k=>/STRIPE|CHECKOUT/.test(k)));
 assert.equal(env.databases,undefined);
 const docker=read('infrastructure/render/Dockerfile');assert.match(docker,/USER 10001:10001/);assert.match(docker,/mcp-builder/);assert.match(docker,/\/opt\/likerts\/tools\/mcp\/dist/);assert.match(docker,/tools\/capabilities\.json/);assert.match(docker,/contracts\/openapi\.json/);assert.ok(!docker.includes('ENTRYPOINT'));
-const dockerignore=read('.dockerignore');assert.match(dockerignore,/!tools\/mcp\/package-lock\.json/);assert.match(dockerignore,/!tools\/mcp\/src\/\*\*/);assert.match(dockerignore,/!tools\/capabilities\.json/);assert.match(dockerignore,/!contracts\/openapi\.json/);
+const dockerignore=read('.dockerignore');assert.match(dockerignore,/!tools\/mcp\/package-lock\.json/);assert.match(dockerignore,/!tools\/mcp\/src\/\*\*/);assert.match(dockerignore,/!tools\/capabilities\.json/);assert.match(dockerignore,/!contracts\/openapi\.json/);assert.match(dockerignore,/!infrastructure\/render\/verify-export-reclaim\.sh/);
 const migration=read('infrastructure/render/migrate.sh');assert.match(migration,/provision-runtime.sql provision-worker.sql/);assert.ok(!migration.includes('set -x'));assert.match(migration,/--dbname="\$LIKERTS_MIGRATION_DATABASE_URL"/);
 const reclaim=read('infrastructure/render/verify-export-reclaim.sh');assert.match(reclaim,/final_lease.*!=.*initial_lease/);assert.match(reclaim,/object_key = id::text/);assert.ok(!reclaim.includes('set -x'));
 console.log('Render contract PASS: pinned official schema, Singapore compute, external restricted PostgreSQL roles, two API replicas, isolated MCP gateway, separate worker, inert migration job and explicit secret boundaries.');
