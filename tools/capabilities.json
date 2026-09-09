@@ -1,0 +1,314 @@
+[
+  {
+    "name": "surveys_create",
+    "method": "POST",
+    "path": "/v1/surveys",
+    "description": "Create a survey draft idempotently; identical retries return the original draft.",
+    "input": "survey",
+    "auth": "management"
+  },
+  {
+    "name": "surveys_list",
+    "method": "GET",
+    "path": "/v1/surveys",
+    "description": "List workspace surveys.",
+    "input": "empty",
+    "auth": "management"
+  },
+  {
+    "name": "surveys_update",
+    "method": "PUT",
+    "path": "/v1/surveys/{id}",
+    "description": "Update a draft using its current revision.",
+    "input": "update",
+    "auth": "management"
+  },
+  {
+    "name": "surveys_publish",
+    "method": "POST",
+    "path": "/v1/surveys/{id}/publish",
+    "description": "Publish an immutable version only when every customer-declared SDK installation supports its schema version.",
+    "input": "publish",
+    "auth": "management"
+  },
+  {
+    "name": "collections_create",
+    "method": "POST",
+    "path": "/v1/collections",
+    "description": "Create an immutable embedded collection only when every declared SDK installation supports the bound schema version. Identical retries return the original submission credential; handle it as a secret.",
+    "input": "collection",
+    "auth": "management"
+  },
+  {
+    "name": "collections_update",
+    "method": "PATCH",
+    "path": "/v1/collections/{id}",
+    "description": "Open or close collection acceptance, or irreversibly revoke its credential.",
+    "input": "acceptance",
+    "auth": "management"
+  },
+  {
+    "name": "collections_security_update",
+    "method": "PUT",
+    "path": "/v1/collections/{id}/security",
+    "description": "Configure exact browser origins and a per-collection request rate. Origins are browser policy, not authentication.",
+    "input": "collection_security",
+    "auth": "management"
+  },
+  {
+    "name": "collections_get",
+    "method": "GET",
+    "path": "/v1/collections/{id}",
+    "description": "Fetch the immutable respondent configuration using a collection credential.",
+    "input": "id",
+    "auth": "collection"
+  },
+  {
+    "name": "responses_submit",
+    "method": "POST",
+    "path": "/v1/collections/{id}/responses",
+    "description": "Submit a completed response. Accepted responses incur usage. Reuse the same idempotency key only for identical retries.",
+    "input": "submission",
+    "auth": "collection"
+  },
+  {
+    "name": "responses_list",
+    "method": "GET",
+    "path": "/v1/responses",
+    "description": "Retrieve one stable snapshot page of workspace responses, optionally filtered by collection and acceptance time. Continue with nextCursor.",
+    "input": "response_list",
+    "auth": "management"
+  },
+  {
+    "name": "responses_delete",
+    "method": "DELETE",
+    "path": "/v1/responses/{id}",
+    "description": "Erase one response's raw answers and metadata while preserving its minimal retry receipt and usage entry.",
+    "input": "id",
+    "auth": "management"
+  },
+  {
+    "name": "exports_create",
+    "method": "POST",
+    "path": "/v1/exports",
+    "description": "Create or idempotently retry a bounded asynchronous CSV or JSON response export.",
+    "input": "export",
+    "auth": "management"
+  },
+  {
+    "name": "exports_get",
+    "method": "GET",
+    "path": "/v1/exports/{id}",
+    "description": "Read an export job's status and stable schema manifest.",
+    "input": "id",
+    "auth": "management"
+  },
+  {
+    "name": "exports_download",
+    "method": "GET",
+    "path": "/v1/exports/{id}/download",
+    "description": "Download a ready export as authenticated base64 content before its 24-hour expiry.",
+    "input": "id",
+    "auth": "management"
+  },
+  {
+    "name": "exports_revoke",
+    "method": "DELETE",
+    "path": "/v1/exports/{id}",
+    "description": "Irreversibly revoke export access and remove its stored object.",
+    "input": "id",
+    "auth": "management"
+  },
+  {
+    "name": "retention_run",
+    "method": "POST",
+    "path": "/v1/retention",
+    "description": "Run one bounded raw-response and expired-export retention batch for the workspace.",
+    "input": "empty",
+    "auth": "management"
+  },
+  {
+    "name": "workspace_delete",
+    "method": "DELETE",
+    "path": "/v1/workspace",
+    "description": "Erase and tombstone the current workspace account, revoke capabilities and remove export objects.",
+    "input": "empty",
+    "auth": "management"
+  },
+  {
+    "name": "memberships_list",
+    "method": "GET",
+    "path": "/v1/memberships",
+    "description": "List current workspace memberships. Owner access is required.",
+    "input": "empty",
+    "auth": "management"
+  },
+  {
+    "name": "memberships_put",
+    "method": "PUT",
+    "path": "/v1/memberships",
+    "description": "Grant or replace a workspace membership role. Owner access is required.",
+    "input": "membership",
+    "auth": "management"
+  },
+  {
+    "name": "memberships_revoke",
+    "method": "POST",
+    "path": "/v1/memberships/revoke",
+    "description": "Revoke a workspace membership immediately. Owner access is required.",
+    "input": "subject",
+    "auth": "management"
+  },
+  {
+    "name": "service_credentials_list",
+    "method": "GET",
+    "path": "/v1/service-credentials",
+    "description": "List service credential metadata without secret values. Owner access is required.",
+    "input": "empty",
+    "auth": "management"
+  },
+  {
+    "name": "service_credentials_create",
+    "method": "POST",
+    "path": "/v1/service-credentials",
+    "description": "Issue a scoped service credential. Its token is returned exactly once.",
+    "input": "service_credential",
+    "auth": "management"
+  },
+  {
+    "name": "service_credentials_revoke",
+    "method": "DELETE",
+    "path": "/v1/service-credentials/{id}",
+    "description": "Irreversibly revoke a service credential.",
+    "input": "id",
+    "auth": "management"
+  },
+  {
+    "name": "oauth_grants_create",
+    "method": "POST",
+    "path": "/v1/oauth-grants",
+    "description": "Persist consent as a tenant, subject, client, audience and scope-bound OAuth grant.",
+    "input": "oauth_grant",
+    "auth": "management"
+  },
+  {
+    "name": "oauth_grants_revoke",
+    "method": "DELETE",
+    "path": "/v1/oauth-grants/{id}",
+    "description": "Irreversibly revoke an OAuth grant for subsequent requests.",
+    "input": "id",
+    "auth": "management"
+  },
+  {
+    "name": "billing_limits_update",
+    "method": "PATCH",
+    "path": "/v1/billing/limits",
+    "description": "Update the workspace's independent monthly spending and unpaid exposure limits and return current usage.",
+    "input": "billing_limits",
+    "auth": "management"
+  },
+  {
+    "name": "billing_account_put",
+    "method": "PUT",
+    "path": "/v1/billing/account",
+    "description": "Configure the workspace's test-mode provider customer and payment method for settlement.",
+    "input": "billing_account",
+    "auth": "management"
+  },
+  {
+    "name": "billing_settlements_list",
+    "method": "GET",
+    "path": "/v1/billing/settlements",
+    "description": "List durable settlement batches and provider status.",
+    "input": "empty",
+    "auth": "management"
+  },
+  {
+    "name": "billing_settlements_create",
+    "method": "POST",
+    "path": "/v1/billing/settlements",
+    "description": "Reserve unsettled one-cent usage and idempotently submit one aggregated provider charge.",
+    "input": "settlement",
+    "auth": "management"
+  },
+  {
+    "name": "billing_settlements_reconcile",
+    "method": "POST",
+    "path": "/v1/billing/settlements/{id}/reconcile",
+    "description": "Reconcile a settlement against current provider state.",
+    "input": "id",
+    "auth": "management"
+  },
+  {
+    "name": "billing_settlements_refund",
+    "method": "POST",
+    "path": "/v1/billing/settlements/{id}/refund",
+    "description": "Create an idempotent provider refund and immutable refund adjustment.",
+    "input": "refund",
+    "auth": "management"
+  },
+  {
+    "name": "usage_get",
+    "method": "GET",
+    "path": "/v1/usage",
+    "description": "Retrieve accepted-response usage.",
+    "input": "empty",
+    "auth": "management"
+  },
+  {
+    "name": "webhook_endpoints_create",
+    "method": "POST",
+    "path": "/v1/webhook-endpoints",
+    "description": "Creates disabled. Install the returned signing secret on your receiver, then explicitly enable. An identical idempotency retry reconstructs the original generation.",
+    "input": "WebhookEndpointInput",
+    "auth": "management"
+  },
+  {
+    "name": "webhook_endpoints_list",
+    "method": "GET",
+    "path": "/v1/webhook-endpoints",
+    "description": "Lists up to 100 workspace endpoints, including revoked entries. Signing secrets are never listed.",
+    "input": "empty",
+    "auth": "management"
+  },
+  {
+    "name": "webhook_endpoints_update",
+    "method": "PATCH",
+    "path": "/v1/webhook-endpoints/{id}",
+    "description": "Enable only after configuring verification. Use enabled:false to pause, or revoke:true to permanently cancel queued deliveries; an in-flight HTTP request cannot be recalled.",
+    "input": "WebhookEndpointUpdate",
+    "auth": "management"
+  },
+  {
+    "name": "webhook_endpoints_rotate",
+    "method": "POST",
+    "path": "/v1/webhook-endpoints/{id}/rotate-key",
+    "description": "Install the new generation and retain the old receiver secret for five minutes. New claims use the new generation; identical rotation retries return the original protected result.",
+    "input": "WebhookOperationInput",
+    "auth": "management"
+  },
+  {
+    "name": "webhook_deliveries_list",
+    "method": "GET",
+    "path": "/v1/webhook-deliveries",
+    "description": "Inspect delivery status. Continue with after equal to the last returned UUID for a stable ordering of existing rows; this operational list is not a response snapshot.",
+    "input": "empty",
+    "auth": "management"
+  },
+  {
+    "name": "webhook_deliveries_get",
+    "method": "GET",
+    "path": "/v1/webhook-deliveries/{id}",
+    "description": "Read attempts, retry time and fixed failure code. Receiver bodies and survey answers are never exposed through delivery status.",
+    "input": "empty",
+    "auth": "management"
+  },
+  {
+    "name": "webhook_deliveries_replay",
+    "method": "POST",
+    "path": "/v1/webhook-deliveries/{id}/replay",
+    "description": "Requeue a completed or failed delivery before seven-day expiry, up to three times. The event ID remains unchanged; receivers deduplicate business processing by that ID.",
+    "input": "WebhookOperationInput",
+    "auth": "management"
+  }
+]

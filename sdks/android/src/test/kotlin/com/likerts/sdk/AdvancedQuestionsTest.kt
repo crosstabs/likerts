@@ -1,0 +1,4 @@
+package com.likerts.sdk
+import org.junit.Assert.*
+import org.junit.Test
+class AdvancedQuestionsTest{@Test fun mobileSafeMutationsAndValidation(){assertEquals(listOf("b","a","c"),AdvancedQuestions.move(listOf("a","b","c"),"b",-1));var matrix=AdvancedQuestions.setMatrix(emptyMap(),"r1","c1",true);matrix=AdvancedQuestions.setMatrix(matrix,"r1","c2",true);assertEquals(mapOf("r1" to listOf("c1","c2")),matrix);assertTrue(AdvancedQuestions.validRanking(listOf("c","a","b"),listOf("a","b","c")));assertFalse(AdvancedQuestions.validRanking(listOf("a","a","b"),listOf("a","b","c")));assertTrue(AdvancedQuestions.validMatrix(mapOf("r1" to listOf("c1")),listOf("r1"),listOf("c1","c2"),false,true));assertTrue(AdvancedQuestions.validAllocation(mapOf("a" to 50,"b" to 50),listOf("a","b"),100));assertEquals(25,AdvancedQuestions.remaining(100,mapOf("a" to 25,"b" to 50)))}}

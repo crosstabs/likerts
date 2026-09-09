@@ -1,0 +1,27 @@
+{
+  "PromptItem": {
+    "type":"object",
+    "properties":{"id":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"label":{"type":"string","minLength":1,"maxLength":500,"pattern":"\\S"}},
+    "required":["id","label"],"additionalProperties":false
+  },
+  "rankingQuestion": {
+    "type":"object",
+    "properties":{"id":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"label":{"type":"string","minLength":1,"maxLength":1000,"pattern":"\\S"},"type":{"const":"ranking"},"required":{"type":"boolean","default":false},"visibleWhen":{"$ref":"#/components/schemas/VisibilityCondition"},"options":{"type":"array","items":{"$ref":"#/components/schemas/Choice"},"minItems":2,"maxItems":50,"uniqueItems":true}},
+    "required":["id","label","type","options"],"additionalProperties":false
+  },
+  "matrixQuestion": {
+    "type":"object",
+    "description":"rows × columns is limited to 200; semantic validation enforces unique IDs and plain columns without Other/exclusive.",
+    "properties":{"id":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"label":{"type":"string","minLength":1,"maxLength":1000,"pattern":"\\S"},"type":{"const":"matrix"},"required":{"type":"boolean","default":false},"visibleWhen":{"$ref":"#/components/schemas/VisibilityCondition"},"matrixMode":{"type":"string","enum":["single","multiple"]},"rows":{"type":"array","items":{"$ref":"#/components/schemas/PromptItem"},"minItems":1,"maxItems":50},"columns":{"type":"array","items":{"$ref":"#/components/schemas/Choice"},"minItems":2,"maxItems":20}},
+    "required":["id","label","type","matrixMode","rows","columns"],"additionalProperties":false
+  },
+  "constant_sumQuestion": {
+    "type":"object",
+    "properties":{"id":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"label":{"type":"string","minLength":1,"maxLength":1000,"pattern":"\\S"},"type":{"const":"constant_sum"},"required":{"type":"boolean","default":false},"visibleWhen":{"$ref":"#/components/schemas/VisibilityCondition"},"total":{"type":"integer","minimum":1,"maximum":1000000},"items":{"type":"array","items":{"$ref":"#/components/schemas/PromptItem"},"minItems":2,"maxItems":50}},
+    "required":["id","label","type","total","items"],"additionalProperties":false
+  },
+  "RankingAnswer":{"type":"array","items":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"minItems":2,"maxItems":50,"uniqueItems":true},
+  "MatrixSingleAnswer":{"type":"object","minProperties":1,"maxProperties":50,"propertyNames":{"pattern":"^[A-Za-z0-9_-]{1,64}$"},"additionalProperties":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"}},
+  "MatrixMultipleAnswer":{"type":"object","minProperties":1,"maxProperties":50,"propertyNames":{"pattern":"^[A-Za-z0-9_-]{1,64}$"},"additionalProperties":{"type":"array","items":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"minItems":1,"maxItems":20,"uniqueItems":true}},
+  "ConstantSumAnswer":{"type":"object","minProperties":2,"maxProperties":50,"propertyNames":{"pattern":"^[A-Za-z0-9_-]{1,64}$"},"additionalProperties":{"type":"integer","minimum":0,"maximum":1000000}}
+}

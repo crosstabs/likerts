@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {"declaration": true, "outDir": "lib", "rootDir": "src", "noEmit": false, "types": ["react"]},
+  "include": ["src"],
+  "exclude": ["test"]
+}

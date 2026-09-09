@@ -1,0 +1,11 @@
+{
+  "title": "Post-checkout feedback",
+  "questions": [
+    {"id":"rating","type":"scale","label":"How was checkout?","required":true,"min":1,"max":5},
+    {"id":"reason","type":"single_choice","label":"What mattered most?","required":false,"options":[{"id":"speed","label":"Speed"},{"id":"clarity","label":"Clarity"}]},
+    {"id":"improvements","type":"multiple_choice","label":"What could improve?","required":false,"options":[{"id":"payment","label":"Payment options"},{"id":"navigation","label":"Navigation"}]},
+    {"id":"comment","type":"text","label":"Anything else?","required":false,"maxLength":500},
+    {"id":"minutes","type":"number","label":"Minutes spent","required":false,"min":0,"max":120},
+    {"id":"visitDate","type":"date","label":"Visit date","required":false}
+  ]
+}

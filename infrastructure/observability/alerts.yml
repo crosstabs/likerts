@@ -1,0 +1,38 @@
+groups:
+  - name: likerts-service
+    rules:
+      - alert: LikertsMetricsUnavailable
+        expr: up{job="likerts"} == 0 or absent(up{job="likerts"})
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Likerts metrics are unavailable
+      - alert: LikertsHealthUnavailable
+        expr: probe_success{job="likerts-health"} == 0 or up{job="likerts-health"} == 0 or absent(probe_success{job="likerts-health"})
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: Likerts health or its probe is unavailable
+      - alert: LikertsServerErrors
+        expr: (sum(rate(likerts_http_requests_total{job="likerts",status_class="5xx"}[5m])) / sum(rate(likerts_http_requests_total{job="likerts"}[5m])) > 0.01) and (sum(rate(likerts_http_requests_total{job="likerts"}[5m])) > 1)
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: Likerts server error ratio exceeds one percent
+      - alert: LikertsCollectionLatency
+        expr: (histogram_quantile(0.95, sum by (le) (rate(likerts_http_handler_duration_seconds_bucket{job="likerts",route="/v1/collections/{id}/responses",method="POST",status_class="2xx"}[5m]))) > 0.3) and (sum(rate(likerts_http_handler_duration_seconds_count{job="likerts",route="/v1/collections/{id}/responses",method="POST",status_class="2xx"}[5m])) > 1)
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Accepted collection handler p95 exceeds 300 milliseconds
+      - alert: LikertsHandlerCancellations
+        expr: sum(increase(likerts_http_cancelled_total{job="likerts"}[5m])) > 10
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: Likerts handlers are being cancelled repeatedly

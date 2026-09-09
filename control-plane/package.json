@@ -1,0 +1,14 @@
+{
+  "name": "@likerts/control-plane",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "npm run test && npm run build"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

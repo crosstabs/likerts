@@ -1,0 +1,13 @@
+name: likerts
+version: 0.0.3
+publish_to: none
+description: Embedded Likerts collection client foundation.
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.6.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

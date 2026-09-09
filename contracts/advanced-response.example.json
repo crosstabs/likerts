@@ -1,0 +1,9 @@
+{
+  "idempotencyKey": "018f4f20-a5f5-7c18-b5ba-7f3f5f37c005",
+  "answers": {
+    "priorities": ["quality", "speed", "price"],
+    "experience": {"service": "excellent", "product": "good"},
+    "investment": {"product": 50, "support": 30, "marketing": 20}
+  },
+  "metadata": {"source": "advanced-contract-test"}
+}

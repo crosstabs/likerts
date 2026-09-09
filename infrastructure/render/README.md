@@ -1,0 +1,54 @@
+# Render launch deployment
+
+Render Singapore is the launch compute/database target. `render.yaml` uses JSON-compatible YAML and is validated against the checked-in official Blueprint schema. The previous [AWS CDK target](../aws/README.md) remains an optional alternative; its network and recovery evidence does not establish Render behavior. No Likerts Render resources have been provisioned by this gate.
+
+The Blueprint defines two 1-CPU/2-GiB API instances, one Starter remote MCP gateway, one 0.5-CPU/512-MiB callback worker, HA PostgreSQL 17 at 1 CPU/4 GiB with 20 GB storage, and an inert migration-job base. Capacity is a planning choice, not a measured promise. All resources use Singapore. The protected production environment enables environment-level network isolation; the database rejects all external IPs. HA needs a Pro workspace or higher. [Blueprint fields](https://render.com/docs/blueprint-spec)
+
+All service deploys are manual (`autoDeployTrigger: off`). API and MCP health use `/health`; each wrapper binds to Render's `PORT`, defaults to 10000, and rejects credentials outside its role. MCP configuration is validated before its socket opens, so a healthy probe establishes that its API/resource/issuer/origin settings parsed successfully. Worker health starts with the existing restricted-role check and operational process/log monitoring; it has no inbound HTTP listener. The image runs as UID/GID 10001. Render configuration does not establish a read-only root filesystem or the AWS security-group boundary. [Health checks](https://render.com/docs/health-checks)
+
+## Credential and migration boundary
+
+| Service | Secrets | Never supply |
+| --- | --- | --- |
+| API | `DATABASE_URL` for `likerts_runtime`; collection and webhook keys; monitor token; OIDC settings; private export-store token | Owner or webhook-worker database credential |
+| Remote MCP gateway | Canonical API/resource origins, OIDC issuer and exact browser-origin allowlist | Every database credential, export token, signing key, monitor token and browser workspace key |
+| Callback worker | `LIKERTS_WEBHOOK_DATABASE_URL` for `likerts_webhook_worker`; same webhook key as API | API/owner database credential, export/identity/payment/collection keys |
+| Migration job | `LIKERTS_MIGRATION_DATABASE_URL` for database owner; initial runtime/worker passwords | Application signing keys, identity/payment/export tokens |
+
+All three DSNs are separately supplied `sync:false` secrets. Never copy Render's default owner connection string into API/worker. SQL-created roles are not managed or automatically rotated by Render. The local gate verifies provisioning from a non-superuser database owner with CREATEROLE; confirm the actual managed owner's rights before deployment. Existing unsafe roles are rejected, not silently rewritten. [Render credential management](https://render.com/docs/postgresql-credentials)
+
+The default cron command is `/bin/true`, even on its annual schedule. It never runs migrations automatically and has no standing process. A manual one-off job overrides that command with `/bin/sh /opt/likerts/render/migrate.sh`. The job inherits only its own base service's environment and last successful image. API pre-deploy hooks never receive owner credentials. [One-off jobs](https://render.com/docs/one-off-jobs)
+
+`migrate.sh` runs the immutable SQLx migrations, creates missing restricted roles and invokes the canonical transactional API/worker grant scripts. Initial passwords are read by psql from the job environment; they are never command-line arguments or general job-log output. Existing role passwords are not reset on every deploy. The owner can inherently access customer data: restrict job creation, secret access and log access to authorized operators. The role gates do not turn an owner job into an unprivileged process.
+
+## First bootstrap and release sequence
+
+1. Review the candidate commit, image/toolchain inputs and current local gates. Validate the Blueprint before syncing it. Set up the paid workspace required for HA; no automatic account upgrade is performed.
+2. Create the database and inert job base first, or keep API/worker suspended during bootstrap. Blueprint sync is not a cross-service transactional deployment order. Use the database's private host and database name; preserve `ipAllowList: []`.
+3. Supply owner DSN and two independent initial role passwords only to the job. Deploy the inert base at the candidate commit, then start the manual one-off migration command and wait for successful completion. A failed migration or provision step blocks API/worker promotion.
+4. Supply runtime and worker DSNs using their exact SQL role names and matching passwords. Use URL-encoded password components. API/worker must not have memberships, ownership, CREATEROLE, CREATEDB, superuser or BYPASSRLS. Supply separate stable base64 32-byte collection/webhook keys; webhook key must match on both services. Generate a separate monitor token and configure the selected OIDC issuer/audience and explicit HTTPS `LIKERTS_OIDC_JWKS_URL` (issuer spelling, including a trailing slash only if present, must match provider tokens).
+5. Configure the API's durable private object-store adapter. No persistent local Render disk is used for exports; two API instances must share the same durable store. Worker/job receive no store token. Set `LIKERTS_EXPORT_PROVIDER=vercel_blob`, `LIKERTS_VERCEL_BLOB_TOKEN`, `LIKERTS_EXPORT_PREFIX=exports` and `LIKERTS_REQUIRE_REMOTE_EXPORT_STORE=1`; confirm the adapter gate is green before promotion.
+6. Deploy the API at the same tested commit, verify authenticated operations, two-tenant denial, duplicate response/one-cent accounting and export retrieval from either replica. Deploy the MCP gateway from that identical image and commit. Set `LIKERTS_API_URL` to the canonical HTTPS API origin. Set `LIKERTS_MCP_PUBLIC_ORIGIN` to that same OAuth resource origin so the token audience verified by Rust is unchanged; the gateway's Render/custom hostname is only the transport endpoint. Verify `/health`, protected-resource discovery, an unauthenticated Bearer challenge and a real scoped operation before publishing the MCP URL. The gateway has no direct database or provider-secret path.
+7. Deploy the worker last, then configure a disabled customer callback endpoint, install its signing credential and explicitly enable it. Only the customer-configured receiver is contacted.
+8. Record Render deployment IDs, commit/image identity, migration checksums and test receipts; then exercise failed deploy/rollback and SIGTERM behavior. Roll back only to a binary compatible with applied migrations; never edit migration history.
+
+Each supplied DSN must end with `?sslmode=require` or `?sslmode=verify-full`. The entrypoints reject missing TLS modes; there is no automatic plaintext fallback. `require` encrypts without authenticating the server certificate. Managed private-host TLS support, CA/hostname verification and any required trust configuration must be proven in hosted staging; if unsupported, stop and resolve with Render or a reviewed transport change. Do not infer TLS merely from use of a private hostname. [Connection documentation](https://render.com/docs/postgresql-creating-connecting)
+
+Blueprint updates preserve existing environment variables, and `sync:false` prompts apply only during initial creation. Inspect existing service secrets when applying an update; removing a key from this file does not remove it in Render. Do not enable preview environments with production secrets. Secret rotation must update both services and follow collection/webhook rotation limits. [Environment configuration](https://render.com/docs/configure-environment-variables)
+
+## Networking, monitoring and recovery
+
+Environment isolation separates this environment from other environments; services inside it can still contact one another. Database external IP rules do not restrict same-region private traffic. The callback worker retains fresh DNS validation, public-address-only pinning, HTTPS-only delivery and redirect/proxy refusal. This Blueprint does not configure an AWS-like outbound destination firewall. Test private-address denial, rebinding and redirects against an owned receiver before enabling customer callbacks. If network-enforced private egress denial is required, add a separately reviewed proxy/network boundary; do not claim the former AWS ACL exists here. [Private networking](https://render.com/docs/private-network)
+
+Configure Render deployment/process alerts, database CPU/storage/connections and worker failure monitoring with an owned destination. The protected `/internal/metrics` route still needs deployment access policy and a configured scraper; an `internal` path name does not make it private. Verify unauthorized denial, bounded route labels, actual notifications and receiver failure visibility. Docker's previous API health check is not treated as a background-worker health monitor.
+
+Pro-or-higher workspaces provide seven-day PITR for paid Postgres. Render's documented PITR cannot target the latest ten minutes, so the earlier five-minute disaster RPO is not an established guarantee. Any stricter target requires separate validated replication/journal recovery. Restore to a quarantined instance, replay independently durable deletion/revocation records, disable restored callbacks and delete their old queues, and reconcile identity/payment before traffic. Do not point workers at a restored queue automatically. Measure safe reopening and actual recoverable boundary. [PITR and backups](https://render.com/docs/postgresql-backups)
+
+## Reproducible evidence and remaining gates
+
+- `bash scripts/check-render-iac.sh`: offline official-schema, MCP packaging/topology, health and entrypoint safety invariants; requires the locked MCP Node dependencies for Ajv.
+- `render blueprints validate render.yaml --output json`: provider semantic validation, read-only. The local result is recorded in `local-evidence.json`; it does not create resources.
+- `bash scripts/check-render-roles.sh`: disposable PostgreSQL 17, non-superuser owner, repeated bootstrap/exact grants, forced tenant isolation, denied runtime DDL/audit mutation and denied worker response/audit reads.
+- Existing `scripts/check-postgres.sh`, `check-webhook-isolation.sh` and `check-recovery.sh` remain portable local acceptance evidence. Render Docker image/deploy, actual private TLS, role privileges, HA failover, PITR, durable deletion journal, private exports, alarms and measured costs require their own hosted proof.
+
+The pinned schema was fetched from `https://render.com/schema/render.yaml.json`; refresh deliberately, review semantic changes and rerun local/provider validation. No deployment, secret creation, external callback or billing action is performed by the local check scripts.

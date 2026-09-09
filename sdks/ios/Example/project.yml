@@ -1,0 +1,31 @@
+name: LikertsSample
+options:
+  deploymentTarget:
+    iOS: "15.0"
+packages:
+  Likerts:
+    path: ..
+targets:
+  LikertsSample:
+    type: application
+    platform: iOS
+    sources: [App]
+    dependencies:
+      - package: Likerts
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.likerts.sample
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        CODE_SIGNING_ALLOWED: NO
+  LikertsSampleUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: LikertsSample
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.likerts.sample.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO

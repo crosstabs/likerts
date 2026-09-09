@@ -1,0 +1,56 @@
+{
+  "title": "Conditional checkout feedback",
+  "questions": [
+    {
+      "id": "return",
+      "type": "single_choice",
+      "label": "Would you shop again?",
+      "required": true,
+      "options": [
+        { "id": "yes", "label": "Yes" },
+        { "id": "no", "label": "No" }
+      ]
+    },
+    {
+      "id": "reason",
+      "type": "text",
+      "label": "What went wrong?",
+      "required": true,
+      "maxLength": 500,
+      "visibleWhen": {
+        "questionId": "return",
+        "operator": "equals",
+        "value": "no"
+      }
+    },
+    {
+      "id": "improvements",
+      "type": "multiple_choice",
+      "label": "What should we improve?",
+      "options": [
+        { "id": "delivery", "label": "Delivery" },
+        { "id": "payment", "label": "Payment" }
+      ]
+    },
+    {
+      "id": "deliveryDetails",
+      "type": "text",
+      "label": "Tell us about delivery",
+      "maxLength": 500,
+      "visibleWhen": {
+        "questionId": "improvements",
+        "operator": "includes",
+        "value": "delivery"
+      }
+    },
+    {
+      "id": "contactDate",
+      "type": "date",
+      "label": "When may we contact you?",
+      "visibleWhen": {
+        "questionId": "reason",
+        "operator": "answered"
+      }
+    }
+  ]
+}

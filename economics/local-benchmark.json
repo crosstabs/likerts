@@ -1,0 +1,435 @@
+{
+  "measuredAt": "2026-09-08T14:06:27.588Z",
+  "environment": {
+    "imageId": "sha256:16267b95f4280ca05ae84b72c9f1ee74c0313afa24bbf2aa3d03b4364a94d2a6",
+    "architecture": "arm64",
+    "dockerCpuCount": 2,
+    "dockerMemoryBytes": 4095041536,
+    "apiCpuLimit": 0.5,
+    "apiMemoryLimitBytes": 1073741824,
+    "postgresVersion": "17.10",
+    "postgresSettings": {
+      "fsync": "on",
+      "synchronousCommit": "on",
+      "fullPageWrites": "on"
+    },
+    "client": "Node v22.22.2, host → loopback Docker port"
+  },
+  "limitations": [
+    "Local single API and PostgreSQL containers share one Docker VM; this is not an AWS latency, RDS, Multi-AZ, failover or SLA measurement.",
+    "Client runs on the host; host scheduling, Docker networking and concurrent host activity affect results.",
+    "Exports use the local object store and JSON/base64 download path, not S3.",
+    "Short runs do not establish sustained RDS CPU-credit behavior, vacuum equilibrium or long-term capacity.",
+    "Docker resource readings are snapshots, not peak usage or per-request CPU allocation."
+  ],
+  "phases": [
+    {
+      "name": "paced-valid-100-rps",
+      "requests": 3000,
+      "concurrency": 100,
+      "targetRequestsPerSecond": 100,
+      "seconds": 29.996,
+      "requestsPerSecond": 100.013,
+      "statuses": {
+        "200": 3000
+      },
+      "latencyMs": {
+        "p50": 4.832,
+        "p95": 7.561,
+        "p99": 11.733
+      },
+      "scheduledLatencyP95Ms": 8.278,
+      "responseBytes": 420000,
+      "resourcesAfter": [
+        {
+          "component": "api",
+          "cpuPercent": "0.00%",
+          "memory": "1.465MiB / 1GiB",
+          "memoryPercent": "0.14%",
+          "network": "10.7MB / 9.31MB",
+          "blockIo": "0B / 0B",
+          "pids": "2"
+        },
+        {
+          "component": "postgres",
+          "cpuPercent": "0.06%",
+          "memory": "53.19MiB / 1.5GiB",
+          "memoryPercent": "3.46%",
+          "network": "8.4MB / 6.94MB",
+          "blockIo": "2.47MB / 101MB",
+          "pids": "10"
+        }
+      ]
+    },
+    {
+      "name": "burst-valid",
+      "requests": 1000,
+      "concurrency": 100,
+      "targetRequestsPerSecond": null,
+      "seconds": 1.611,
+      "requestsPerSecond": 620.579,
+      "statuses": {
+        "200": 1000
+      },
+      "latencyMs": {
+        "p50": 151.679,
+        "p95": 178.389,
+        "p99": 202.796
+      },
+      "responseBytes": 140000,
+      "resourcesAfter": [
+        {
+          "component": "api",
+          "cpuPercent": "0.00%",
+          "memory": "7.234MiB / 1GiB",
+          "memoryPercent": "0.71%",
+          "network": "14.3MB / 12.5MB",
+          "blockIo": "0B / 0B",
+          "pids": "5"
+        },
+        {
+          "component": "postgres",
+          "cpuPercent": "0.05%",
+          "memory": "69.61MiB / 1.5GiB",
+          "memoryPercent": "4.53%",
+          "network": "11.2MB / 9.25MB",
+          "blockIo": "2.47MB / 112MB",
+          "pids": "16"
+        }
+      ]
+    },
+    {
+      "name": "identical-retries",
+      "requests": 500,
+      "concurrency": 100,
+      "targetRequestsPerSecond": null,
+      "seconds": 0.618,
+      "requestsPerSecond": 808.715,
+      "statuses": {
+        "200": 500
+      },
+      "latencyMs": {
+        "p50": 114.099,
+        "p95": 139.632,
+        "p99": 141.976
+      },
+      "responseBytes": 70000,
+      "resourcesAfter": [
+        {
+          "component": "api",
+          "cpuPercent": "0.00%",
+          "memory": "7.035MiB / 1GiB",
+          "memoryPercent": "0.69%",
+          "network": "15.5MB / 13.3MB",
+          "blockIo": "0B / 0B",
+          "pids": "5"
+        },
+        {
+          "component": "postgres",
+          "cpuPercent": "0.09%",
+          "memory": "69.61MiB / 1.5GiB",
+          "memoryPercent": "4.53%",
+          "network": "11.8MB / 9.78MB",
+          "blockIo": "2.47MB / 116MB",
+          "pids": "16"
+        }
+      ]
+    },
+    {
+      "name": "invalid-answer",
+      "requests": 1000,
+      "concurrency": 100,
+      "targetRequestsPerSecond": null,
+      "seconds": 1.093,
+      "requestsPerSecond": 914.964,
+      "statuses": {
+        "400": 1000
+      },
+      "latencyMs": {
+        "p50": 104.988,
+        "p95": 119.598,
+        "p99": 121.624
+      },
+      "responseBytes": 69000,
+      "resourcesAfter": [
+        {
+          "component": "api",
+          "cpuPercent": "0.04%",
+          "memory": "6.762MiB / 1GiB",
+          "memoryPercent": "0.66%",
+          "network": "18.1MB / 14.9MB",
+          "blockIo": "0B / 0B",
+          "pids": "2"
+        },
+        {
+          "component": "postgres",
+          "cpuPercent": "0.12%",
+          "memory": "69.74MiB / 1.5GiB",
+          "memoryPercent": "4.54%",
+          "network": "13.1MB / 11.7MB",
+          "blockIo": "2.47MB / 116MB",
+          "pids": "16"
+        }
+      ]
+    },
+    {
+      "name": "unauthorized-token",
+      "requests": 1000,
+      "concurrency": 100,
+      "targetRequestsPerSecond": null,
+      "seconds": 0.236,
+      "requestsPerSecond": 4228.468,
+      "statuses": {
+        "401": 1000
+      },
+      "latencyMs": {
+        "p50": 20.548,
+        "p95": 32.144,
+        "p99": 34.103
+      },
+      "responseBytes": 65000,
+      "resourcesAfter": [
+        {
+          "component": "api",
+          "cpuPercent": "0.00%",
+          "memory": "7.934MiB / 1GiB",
+          "memoryPercent": "0.77%",
+          "network": "20MB / 15.8MB",
+          "blockIo": "0B / 0B",
+          "pids": "2"
+        },
+        {
+          "component": "postgres",
+          "cpuPercent": "5.52%",
+          "memory": "70.11MiB / 1.5GiB",
+          "memoryPercent": "4.56%",
+          "network": "13.7MB / 12.2MB",
+          "blockIo": "2.47MB / 117MB",
+          "pids": "16"
+        }
+      ]
+    },
+    {
+      "name": "oversized-body",
+      "requests": 200,
+      "concurrency": 25,
+      "targetRequestsPerSecond": null,
+      "seconds": 0.099,
+      "requestsPerSecond": 2010.922,
+      "statuses": {
+        "413": 200
+      },
+      "latencyMs": {
+        "p50": 10.944,
+        "p95": 25.175,
+        "p99": 25.698
+      },
+      "responseBytes": 21400,
+      "resourcesAfter": [
+        {
+          "component": "api",
+          "cpuPercent": "1.68%",
+          "memory": "12.66MiB / 1GiB",
+          "memoryPercent": "1.24%",
+          "network": "34.5MB / 15.9MB",
+          "blockIo": "0B / 0B",
+          "pids": "2"
+        },
+        {
+          "component": "postgres",
+          "cpuPercent": "0.05%",
+          "memory": "70.11MiB / 1.5GiB",
+          "memoryPercent": "4.56%",
+          "network": "13.7MB / 12.2MB",
+          "blockIo": "2.47MB / 120MB",
+          "pids": "16"
+        }
+      ]
+    },
+    {
+      "name": "response-cap-race",
+      "requests": 200,
+      "concurrency": 100,
+      "targetRequestsPerSecond": null,
+      "seconds": 0.148,
+      "requestsPerSecond": 1352.86,
+      "statuses": {
+        "200": 25,
+        "409": 175
+      },
+      "latencyMs": {
+        "p50": 53.729,
+        "p95": 87.193,
+        "p99": 94.683
+      },
+      "responseBytes": 17500,
+      "resourcesAfter": [
+        {
+          "component": "api",
+          "cpuPercent": "0.00%",
+          "memory": "12.76MiB / 1GiB",
+          "memoryPercent": "1.25%",
+          "network": "35.1MB / 16.2MB",
+          "blockIo": "0B / 0B",
+          "pids": "2"
+        },
+        {
+          "component": "postgres",
+          "cpuPercent": "0.06%",
+          "memory": "70.52MiB / 1.5GiB",
+          "memoryPercent": "4.59%",
+          "network": "14MB / 12.5MB",
+          "blockIo": "2.47MB / 121MB",
+          "pids": "16"
+        }
+      ]
+    }
+  ],
+  "exports": [
+    {
+      "format": "csv",
+      "responses": 4026,
+      "readyMs": 260.617,
+      "downloadMs": 42.815,
+      "objectBytes": 3865017,
+      "wireBytes": 5154545,
+      "resourcesAfter": [
+        {
+          "component": "api",
+          "cpuPercent": "0.00%",
+          "memory": "23.8MiB / 1GiB",
+          "memoryPercent": "2.32%",
+          "network": "42.2MB / 21.5MB",
+          "blockIo": "0B / 0B",
+          "pids": "3"
+        },
+        {
+          "component": "postgres",
+          "cpuPercent": "0.03%",
+          "memory": "71.61MiB / 1.5GiB",
+          "memoryPercent": "4.66%",
+          "network": "14.1MB / 19.7MB",
+          "blockIo": "2.47MB / 121MB",
+          "pids": "16"
+        }
+      ]
+    },
+    {
+      "format": "json",
+      "responses": 4026,
+      "readyMs": 223.555,
+      "downloadMs": 45.238,
+      "objectBytes": 4127648,
+      "wireBytes": 5504730,
+      "resourcesAfter": [
+        {
+          "component": "api",
+          "cpuPercent": "0.00%",
+          "memory": "50.66MiB / 1GiB",
+          "memoryPercent": "4.95%",
+          "network": "49.4MB / 27.1MB",
+          "blockIo": "0B / 0B",
+          "pids": "3"
+        },
+        {
+          "component": "postgres",
+          "cpuPercent": "0.02%",
+          "memory": "71.77MiB / 1.5GiB",
+          "memoryPercent": "4.67%",
+          "network": "14.2MB / 26.8MB",
+          "blockIo": "2.47MB / 122MB",
+          "pids": "16"
+        }
+      ]
+    }
+  ],
+  "fixture": {
+    "questionCount": 6,
+    "submissionJsonBytes": 871,
+    "commentCharacters": 512,
+    "sessionCharacters": 128
+  },
+  "before": {
+    "databaseBytes": 8795827,
+    "responseRows": 0,
+    "usageRows": 0,
+    "tenantRelationBytes": 614400,
+    "responseRelationBytes": 81920,
+    "usageRelationBytes": 24576,
+    "walLsn": "0/19B70E8"
+  },
+  "idleResourceSnapshot": [
+    {
+      "component": "api",
+      "cpuPercent": "0.00%",
+      "memory": "1.215MiB / 1GiB",
+      "memoryPercent": "0.12%",
+      "network": "22kB / 24.6kB",
+      "blockIo": "0B / 0B",
+      "pids": "3"
+    },
+    {
+      "component": "postgres",
+      "cpuPercent": "0.08%",
+      "memory": "41.29MiB / 1.5GiB",
+      "memoryPercent": "2.69%",
+      "network": "63.7kB / 41.1kB",
+      "blockIo": "2.47MB / 49MB",
+      "pids": "8"
+    }
+  ],
+  "afterValid": {
+    "databaseBytes": 16160435,
+    "responseRows": 4001,
+    "usageRows": 4001,
+    "tenantRelationBytes": 7979008,
+    "responseRelationBytes": 6471680,
+    "usageRelationBytes": 892928,
+    "walLsn": "0/23B3668"
+  },
+  "afterAbuse": {
+    "databaseBytes": 16160435,
+    "responseRows": 4001,
+    "usageRows": 4001,
+    "tenantRelationBytes": 7979008,
+    "responseRelationBytes": 6471680,
+    "usageRelationBytes": 892928,
+    "walLsn": "0/2408DF8"
+  },
+  "afterAcceptance": {
+    "databaseBytes": 16225971,
+    "responseRows": 4026,
+    "usageRows": 4026,
+    "tenantRelationBytes": 8044544,
+    "responseRelationBytes": 6520832,
+    "usageRelationBytes": 909312,
+    "walLsn": "0/2421EF0"
+  },
+  "accounting": {
+    "acceptedResponses": 4026,
+    "chargedCents": 4026,
+    "abuseChangedUsage": false
+  },
+  "storage": {
+    "relationGrowthBytes": 7430144,
+    "physicalRelationBytesPerAcceptedResponse": 1845.54,
+    "responseRelationBytesPerAcceptedResponse": 1599.332,
+    "validOnlyRelationBytesPerAcceptedResponse": 1840.692,
+    "abuseRelationGrowthBytes": 0,
+    "walGrowthBytes": 10923528
+  },
+  "afterExports": {
+    "databaseBytes": 16275123,
+    "responseRows": 4026,
+    "usageRows": 4026,
+    "tenantRelationBytes": 8093696,
+    "responseRelationBytes": 6520832,
+    "usageRelationBytes": 909312,
+    "walLsn": "0/24239C8"
+  },
+  "abuse": {
+    "rejectedRequests": 2200,
+    "rateLimitedRequests": 0,
+    "note": "Rejected requests consumed CPU/database/network work but created no usage. Absence of 429 is not abuse protection; rate-limit and hosted-edge controls need separate verification."
+  }
+}

@@ -1,0 +1,40 @@
+# Explicit allowlist keeps credentials, research, SDK dependencies and host builds
+# out of the build context, including untracked files in this workspace.
+**
+!Dockerfile
+!backend/
+backend/**
+!backend/Cargo.toml
+!backend/Cargo.lock
+!backend/src/
+!backend/src/**
+!backend/migrations/
+!backend/migrations/*.sql
+
+# Render runtime/job entry points and exact role provisioning; no host secrets.
+!backend/provision-runtime.sql
+!infrastructure/
+infrastructure/**
+!infrastructure/render/
+infrastructure/render/**
+!infrastructure/render/start.sh
+!infrastructure/render/migrate.sh
+!infrastructure/render/bootstrap.sql
+!infrastructure/webhooks/
+infrastructure/webhooks/**
+!infrastructure/webhooks/provision-worker.sql
+
+# Remote MCP production package; dependencies are installed from the lockfile.
+!tools/
+tools/**
+!tools/mcp/
+tools/mcp/**
+!tools/mcp/package.json
+!tools/mcp/package-lock.json
+!tools/mcp/tsconfig.json
+!tools/mcp/src/
+!tools/mcp/src/**
+!tools/capabilities.json
+!contracts/
+contracts/**
+!contracts/openapi.json

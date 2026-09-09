@@ -1,0 +1,70 @@
+{
+  "version": "0.0.1",
+  "measuredAt": "2026-09-08T15:12:44.921Z",
+  "published": false,
+  "artifacts": [
+    {
+      "file": "likerts-web-0.0.1.tgz",
+      "kind": "npm-web",
+      "bytes": 7426,
+      "sha256": "40cbbaaeb6c62c520d082e3c2b5f1f257fd4467fc4c237fd9106efa98870183b"
+    },
+    {
+      "file": "likerts-react-native-0.0.1.tgz",
+      "kind": "npm-react-native",
+      "bytes": 11300,
+      "sha256": "b8bb61c9a92a559c4e1828859b7ba42d4a55d21f394f9bd3ff229dc360e200b0"
+    },
+    {
+      "file": "Likerts-ios-0.0.1.tar.gz",
+      "kind": "swift-package-source",
+      "bytes": 12469,
+      "sha256": "2649557e56e7bf45ffa06cdabe4abaca07bfa2ffc1d91177ed10c0832d5b3d27"
+    },
+    {
+      "file": "likerts-android-maven-0.0.1.tar.gz",
+      "kind": "android-maven-repository",
+      "bytes": 103139,
+      "sha256": "5175a05972d09d0ab9ab7155f03a5d4c72e948e1db8692ab282c0b0506d0e5d1"
+    },
+    {
+      "file": "likerts-flutter-0.0.1.tar.gz",
+      "kind": "flutter-source-package",
+      "bytes": 7778,
+      "sha256": "a62276ba59877b4fd1dfd3e7f6f1418e91d76b21df5389aab0977be165458c18"
+    }
+  ],
+  "checks": [
+    {
+      "target": "web",
+      "passed": true,
+      "verification": "Fresh npm tarball install, TypeScript consumer, public exports and DOM trigger setup/cleanup"
+    },
+    {
+      "target": "react-native",
+      "passed": true,
+      "verification": "Fresh npm tarball install with RN 0.86.3/React 19.2.3, TypeScript consumer and Babel native source/trigger compilation"
+    },
+    {
+      "target": "ios",
+      "passed": true,
+      "verification": "Fresh extraction, independent SwiftPM consumer compilation/run and SwiftUI trigger compilation on macOS; existing iOS-target/device gates remain separate"
+    },
+    {
+      "target": "android",
+      "passed": true,
+      "verification": "AAR/source JAR/POM/Gradle metadata in local Maven bundle; independent extracted-repository Android APK build without project dependency"
+    },
+    {
+      "target": "flutter",
+      "passed": true,
+      "verification": "Fresh source-archive extraction, independent Flutter pub resolution/analyze and widget trigger/dismissal test"
+    }
+  ],
+  "limitations": [
+    "Local install/artifact evidence only; no packages were uploaded to a registry.",
+    "Swift install consumer runs on macOS; OS-version, simulator and physical-device release gates remain separate.",
+    "React Native install probe checks TypeScript/Babel packaging, not native app device behavior.",
+    "Archives are versioned and checksummed; byte-for-byte reproducible builds and artifact signing are not claimed."
+  ]
+}

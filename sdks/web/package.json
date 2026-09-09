@@ -1,0 +1,35 @@
+{
+  "name": "@likerts/web",
+  "version": "0.0.3",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./offline": {
+      "types": "./dist/offline.d.ts",
+      "import": "./dist/offline.js",
+      "default": "./dist/offline.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/cli": "0.1.19",
+    "jsdom": "26.1.0",
+    "typescript": "^5.9.3"
+  },
+  "license": "UNLICENSED",
+  "files": [
+    "dist",
+    "examples",
+    "README.md",
+    "CHANGELOG.md"
+  ]
+}

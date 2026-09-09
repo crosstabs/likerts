@@ -1,0 +1,63 @@
+name: Verify foundations
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  interfaces-and-database:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.22.2
+      - name: Select Rust and format checker
+        run: |
+          rustup toolchain install 1.98.0 --profile minimal --component rustfmt
+          rustup default 1.98.0
+      - name: Formatting
+        run: cargo fmt --manifest-path backend/Cargo.toml --check
+      - name: Backend, API, MCP, CLI and Web integration
+        run: bash scripts/check.sh
+      - name: Render Blueprint and fail-closed entrypoint checks
+        run: bash scripts/check-render-iac.sh
+      - name: Render-compatible non-superuser owner provisioning
+        run: bash scripts/check-render-roles.sh
+      - name: Real PostgreSQL with restricted runtime role
+        run: bash scripts/check-postgres.sh
+      - name: Promotional and prepaid credits with restricted runtime role
+        run: bash scripts/check-response-credits.sh
+      - name: Durable export lease recovery
+        run: bash scripts/check-export-leases.sh
+      - name: Durable response webhooks, restricted worker and interface parity
+        run: bash scripts/check-webhook-isolation.sh
+      - name: S3-compatible durable export object store
+        run: bash scripts/check-s3-object-store.sh
+      - name: Monitoring configuration and alert behavior
+        run: bash scripts/check-observability.sh
+      - name: Render, Vercel, Clerk and launch economics
+        run: bash scripts/check-launch-platform.sh
+
+  container:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.22.2
+      - name: Build immutable runtime candidate and exercise deployment boundaries
+        run: bash scripts/check-recovery.sh
+
+# No registry push, cloud deployment or credentials are configured here.
+# Mobile device, platform and all-SDK gates remain part of release rehearsal.

@@ -1,0 +1,12 @@
+{
+  "id": "10000000-0000-4000-8000-000000000006",
+  "workspaceId": "example-workspace",
+  "subject": "user_2example",
+  "clientId": "oauth_app_2example",
+  "audience": "https://api.example.com",
+  "scopes": [
+    "surveys:read"
+  ],
+  "expiresAt": "2026-09-09T12:00:00Z",
+  "revoked": false
+}

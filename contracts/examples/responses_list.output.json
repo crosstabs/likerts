@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "receipt": {
+        "responseId": "10000000-0000-4000-8000-000000000003",
+        "collectionId": "10000000-0000-4000-8000-000000000002",
+        "accepted": true,
+        "chargedCents": 1
+      },
+      "answers": {
+        "rating": 5
+      },
+      "metadata": {
+        "channel": "app"
+      },
+      "acceptedAt": "2026-09-08T12:00:00Z"
+    }
+  ],
+  "nextCursor": null
+}

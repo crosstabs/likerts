@@ -1,0 +1,117 @@
+{
+  "generatedFor": "2026-09-09",
+  "assumptions": {
+    "modelDate": "2026-09-09",
+    "currency": "USD",
+    "responsePriceUsd": 0.01,
+    "freeResponsesPerNewWorkspace": 1000,
+    "minimumCreditPurchaseUsd": 5,
+    "creditsPerMinimumPurchase": 500,
+    "stripePercent": 0.029,
+    "stripeFixedUsd": 0.3,
+    "render": {
+      "apiInstances": 2,
+      "apiInstanceUsdMonth": 25,
+      "remoteMcpGateways": 1,
+      "remoteMcpGatewayUsdMonth": 7,
+      "callbackWorkers": 1,
+      "callbackWorkerUsdMonth": 7,
+      "postgresPrimaryUsdMonth": 55,
+      "postgresStandbyUsdMonth": 55,
+      "postgresStorageGbPerReplica": 20,
+      "postgresStorageReplicas": 2,
+      "postgresStorageUsdGbMonth": 0.3
+    },
+    "vercel": {
+      "proBaseUsdMonth": 20,
+      "includedUsageCreditUsdMonth": 20,
+      "blobStorageUsdGbMonth": 0.041,
+      "blobAdvancedOpsUsdMillion": 7,
+      "privateBlobTransferUsdGb": 0.31
+    },
+    "clerk": {
+      "hobbyMonthlyUsd": 0,
+      "optionalPasskeysProUpgradeUsd": 25,
+      "includedOperatorMru": 50000,
+      "includedEnterpriseConnections": 0
+    },
+    "exports": {
+      "measuredJsonBytesPerResponse": 1025.2478887232985,
+      "copiesPerAcceptedResponse": 3,
+      "retentionDays": 1,
+      "responsesPerJob": 100000,
+      "downloadsPerObject": 1
+    },
+    "sources": {
+      "render": "https://render.com/pricing",
+      "renderHa": "https://render.com/docs/postgresql-high-availability",
+      "vercel": "https://vercel.com/pricing",
+      "vercelBlob": "https://vercel.com/docs/vercel-blob/usage-and-pricing",
+      "vercelRegional": "https://vercel.com/docs/pricing/regional-pricing",
+      "clerk": "https://clerk.com/pricing",
+      "stripe": "https://stripe.com/pricing"
+    }
+  },
+  "scenarios": [
+    {
+      "acceptedResponses": 1000,
+      "newWorkspaces": 1,
+      "grantResponses": 1000,
+      "billableResponses": 0,
+      "grantFaceValueUsd": 10,
+      "usageRevenueUsd": 0,
+      "processingUsd": 0,
+      "blobUsageUsd": 0.001,
+      "renderUsd": 186,
+      "vercelUsd": 20,
+      "clerkUsd": 0,
+      "fixedPlatformUsd": 206,
+      "contributionBeforeLaborUsd": -206
+    },
+    {
+      "acceptedResponses": 10000,
+      "newWorkspaces": 10,
+      "grantResponses": 10000,
+      "billableResponses": 0,
+      "grantFaceValueUsd": 100,
+      "usageRevenueUsd": 0,
+      "processingUsd": 0,
+      "blobUsageUsd": 0.009619,
+      "renderUsd": 186,
+      "vercelUsd": 20,
+      "clerkUsd": 0,
+      "fixedPlatformUsd": 206,
+      "contributionBeforeLaborUsd": -206
+    },
+    {
+      "acceptedResponses": 100000,
+      "newWorkspaces": 25,
+      "grantResponses": 25000,
+      "billableResponses": 75000,
+      "grantFaceValueUsd": 250,
+      "usageRevenueUsd": 750,
+      "processingUsd": 66.75,
+      "blobUsageUsd": 0.09581,
+      "renderUsd": 186,
+      "vercelUsd": 20,
+      "clerkUsd": 0,
+      "fixedPlatformUsd": 206,
+      "contributionBeforeLaborUsd": 477.25
+    },
+    {
+      "acceptedResponses": 1000000,
+      "newWorkspaces": 100,
+      "grantResponses": 100000,
+      "billableResponses": 900000,
+      "grantFaceValueUsd": 1000,
+      "usageRevenueUsd": 9000,
+      "processingUsd": 801,
+      "blobUsageUsd": 0.958104,
+      "renderUsd": 186,
+      "vercelUsd": 20,
+      "clerkUsd": 0,
+      "fixedPlatformUsd": 206,
+      "contributionBeforeLaborUsd": 7993
+    }
+  ]
+}

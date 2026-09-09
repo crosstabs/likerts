@@ -1,0 +1,52 @@
+{
+  "modelDate": "2026-09-09",
+  "currency": "USD",
+  "responsePriceUsd": 0.01,
+  "freeResponsesPerNewWorkspace": 1000,
+  "minimumCreditPurchaseUsd": 5,
+  "creditsPerMinimumPurchase": 500,
+  "stripePercent": 0.029,
+  "stripeFixedUsd": 0.30,
+  "render": {
+    "apiInstances": 2,
+    "apiInstanceUsdMonth": 25,
+    "remoteMcpGateways": 1,
+    "remoteMcpGatewayUsdMonth": 7,
+    "callbackWorkers": 1,
+    "callbackWorkerUsdMonth": 7,
+    "postgresPrimaryUsdMonth": 55,
+    "postgresStandbyUsdMonth": 55,
+    "postgresStorageGbPerReplica": 20,
+    "postgresStorageReplicas": 2,
+    "postgresStorageUsdGbMonth": 0.30
+  },
+  "vercel": {
+    "proBaseUsdMonth": 20,
+    "includedUsageCreditUsdMonth": 20,
+    "blobStorageUsdGbMonth": 0.041,
+    "blobAdvancedOpsUsdMillion": 7,
+    "privateBlobTransferUsdGb": 0.31
+  },
+  "clerk": {
+    "hobbyMonthlyUsd": 0,
+    "optionalPasskeysProUpgradeUsd": 25,
+    "includedOperatorMru": 50000,
+    "includedEnterpriseConnections": 0
+  },
+  "exports": {
+    "measuredJsonBytesPerResponse": 1025.2478887232985,
+    "copiesPerAcceptedResponse": 3,
+    "retentionDays": 1,
+    "responsesPerJob": 100000,
+    "downloadsPerObject": 1
+  },
+  "sources": {
+    "render": "https://render.com/pricing",
+    "renderHa": "https://render.com/docs/postgresql-high-availability",
+    "vercel": "https://vercel.com/pricing",
+    "vercelBlob": "https://vercel.com/docs/vercel-blob/usage-and-pricing",
+    "vercelRegional": "https://vercel.com/docs/pricing/regional-pricing",
+    "clerk": "https://clerk.com/pricing",
+    "stripe": "https://stripe.com/pricing"
+  }
+}

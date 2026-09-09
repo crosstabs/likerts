@@ -1,0 +1,64 @@
+rule_files:
+  - alerts.yml
+evaluation_interval: 1m
+tests:
+  - name: healthy and idle services do not page
+    interval: 1m
+    input_series:
+      - series: 'up{job="likerts",instance="api:8080"}'
+        values: '1+0x15'
+      - series: 'up{job="likerts-health",instance="http://api:8080/health"}'
+        values: '1+0x15'
+      - series: 'probe_success{job="likerts-health",instance="http://api:8080/health"}'
+        values: '1+0x15'
+      - series: 'likerts_http_requests_total{job="likerts",status_class="5xx"}'
+        values: '0+1x15'
+    alert_rule_test:
+      - eval_time: 12m
+        alertname: LikertsServerErrors
+        exp_alerts: []
+      - eval_time: 12m
+        alertname: LikertsMetricsUnavailable
+        exp_alerts: []
+      - eval_time: 12m
+        alertname: LikertsHealthUnavailable
+        exp_alerts: []
+  - name: missing service and probe are detected
+    interval: 1m
+    alert_rule_test:
+      - eval_time: 3m
+        alertname: LikertsMetricsUnavailable
+        exp_alerts:
+          - exp_labels: {job: likerts, severity: critical}
+            exp_annotations: {summary: Likerts metrics are unavailable}
+      - eval_time: 3m
+        alertname: LikertsHealthUnavailable
+        exp_alerts:
+          - exp_labels: {job: likerts-health, severity: critical}
+            exp_annotations: {summary: Likerts health or its probe is unavailable}
+  - name: sustained errors page and accepted response latency warns
+    interval: 1m
+    input_series:
+      - series: 'likerts_http_requests_total{job="likerts",status_class="5xx"}'
+        values: '0+12x15'
+      - series: 'likerts_http_requests_total{job="likerts",status_class="2xx"}'
+        values: '0+108x15'
+      - series: 'likerts_http_handler_duration_seconds_bucket{job="likerts",route="/v1/collections/{id}/responses",method="POST",status_class="2xx",le="0.3"}'
+        values: '0+0x15'
+      - series: 'likerts_http_handler_duration_seconds_bucket{job="likerts",route="/v1/collections/{id}/responses",method="POST",status_class="2xx",le="1"}'
+        values: '0+120x15'
+      - series: 'likerts_http_handler_duration_seconds_bucket{job="likerts",route="/v1/collections/{id}/responses",method="POST",status_class="2xx",le="+Inf"}'
+        values: '0+120x15'
+      - series: 'likerts_http_handler_duration_seconds_count{job="likerts",route="/v1/collections/{id}/responses",method="POST",status_class="2xx"}'
+        values: '0+120x15'
+    alert_rule_test:
+      - eval_time: 12m
+        alertname: LikertsServerErrors
+        exp_alerts:
+          - exp_labels: {severity: critical}
+            exp_annotations: {summary: Likerts server error ratio exceeds one percent}
+      - eval_time: 12m
+        alertname: LikertsCollectionLatency
+        exp_alerts:
+          - exp_labels: {severity: warning}
+            exp_annotations: {summary: Accepted collection handler p95 exceeds 300 milliseconds}

@@ -1,0 +1,22 @@
+{
+  "contractVersion": 1,
+  "supportedSchemaVersions": [1, 2],
+  "transport": {
+    "defaultTimeoutMilliseconds": 15000,
+    "redirects": "reject",
+    "productionScheme": "https",
+    "insecureDevelopmentHosts": ["localhost", "127.0.0.1", "::1"],
+    "automaticRetries": 0
+  },
+  "scenarios": [
+    {"id": "validation.required", "expected": "block-with-feedback"},
+    {"id": "validation.selection-bounds", "expected": "block-with-feedback"},
+    {"id": "lifecycle.cancellation", "expected": "no-completion-after-cancel"},
+    {"id": "transport.timeout", "expected": "fail-without-retry"},
+    {"id": "transport.redirect", "expected": "reject"},
+    {"id": "transport.https", "expected": "require-except-loopback"},
+    {"id": "retry.ambiguous", "expected": "caller-reuses-identical-submission"},
+    {"id": "callback.success", "expected": "once-after-valid-result"},
+    {"id": "schema.unknown", "expected": "reject-before-render"}
+  ]
+}

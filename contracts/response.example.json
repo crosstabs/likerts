@@ -1,0 +1,5 @@
+{
+  "idempotencyKey":"fixture-submission-0001",
+  "answers":{"rating":4,"reason":"speed","improvements":["payment"],"comment":"Easy to use","minutes":2.5,"visitDate":"2026-09-06"},
+  "metadata":{"placement":"checkout-success"}
+}

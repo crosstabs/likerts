@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Likerts survey operations" />
+    <meta http-equiv="Content-Security-Policy" content="__LIKERTS_CONTENT_SECURITY_POLICY__" />
+    <title>Likerts</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header><a class="wordmark" href="/">Likerts</a><span class="pill">Control plane</span></header>
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Survey infrastructure</p>
+        <h1>Operate every survey from one secure workspace.</h1>
+        <p class="lede">Publish forms, manage collection credentials, inspect usage, and export responses through the same API used by MCP, CLI, and SDK clients.</p>
+        <div id="auth-root" class="auth-root" aria-live="polite"><span>Loading secure sign-in…</span></div>
+        <div class="actions"><a href="/api/health">Check service</a></div>
+        <p class="note">Authentication is provided by the workspace identity policy. Likerts does not host a password form.</p>
+      </section>
+      <section class="status" aria-labelledby="status-title">
+        <div><p class="eyebrow">Deployment</p><h2 id="status-title">Service boundary</h2></div>
+        <dl><div><dt>Control plane</dt><dd id="control-status">Checking</dd></div><div><dt>API origin</dt><dd id="api-status">Checking</dd></div><div><dt>Identity</dt><dd id="identity-status">Checking</dd></div><div><dt>Workspace</dt><dd id="workspace-status">Checking</dd></div><div><dt>Accepted responses</dt><dd id="response-status">—</dd></div><div><dt>Available credits</dt><dd id="credit-status">—</dd></div></dl>
+        <form id="oauth-approval" hidden>
+          <h3>Approve an MCP client</h3>
+          <label>Registered client ID<input id="oauth-client-id" name="clientId" autocomplete="off" required maxlength="255" /></label>
+          <fieldset><legend>Scopes</legend><label><input type="checkbox" name="scope" value="surveys:read" checked /> Read surveys</label><label><input type="checkbox" name="scope" value="surveys:write" /> Edit surveys</label><label><input type="checkbox" name="scope" value="collections:write" /> Manage collections</label><label><input type="checkbox" name="scope" value="responses:read" checked /> Read responses</label><label><input type="checkbox" name="scope" value="responses:write" /> Erase responses</label><label><input type="checkbox" name="scope" value="usage:read" checked /> Read usage</label><label><input type="checkbox" name="scope" value="exports:read" checked /> Download exports</label><label><input type="checkbox" name="scope" value="exports:write" /> Create/revoke exports</label><label><input type="checkbox" name="scope" value="webhooks:read" /> Read callbacks</label><label><input type="checkbox" name="scope" value="webhooks:write" /> Manage callbacks</label><label><input type="checkbox" name="scope" value="identity:write" /> Manage access</label><label><input type="checkbox" name="scope" value="billing:write" /> Manage billing</label></fieldset>
+          <button type="submit">Approve for 30 days</button><output id="approval-status" aria-live="polite"></output>
+        </form>
+      </section>
+    </main>
+    <footer>API first · MCP first · five native SDKs</footer>
+  </body>
+</html>

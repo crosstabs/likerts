@@ -1,0 +1,206 @@
+{
+  "projects": [
+    {
+      "name": "likerts",
+      "environments": [
+        {
+          "name": "production",
+          "networking": {
+            "isolation": "enabled"
+          },
+          "permissions": {
+            "protection": "enabled"
+          },
+          "services": [
+            {
+              "runtime": "docker",
+              "region": "singapore",
+              "dockerfilePath": "./infrastructure/render/Dockerfile",
+              "dockerContext": ".",
+              "autoDeployTrigger": "off",
+              "name": "likerts-mcp",
+              "type": "web",
+              "plan": "starter",
+              "numInstances": 1,
+              "healthCheckPath": "/health",
+              "maxShutdownDelaySeconds": 30,
+              "dockerCommand": "/bin/sh /opt/likerts/render/start.sh mcp",
+              "envVars": [
+                {
+                  "key": "LIKERTS_API_URL",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_MCP_PUBLIC_ORIGIN",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_OIDC_ISSUER",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_MCP_ALLOWED_ORIGINS",
+                  "sync": false
+                }
+              ]
+            },
+            {
+              "runtime": "docker",
+              "region": "singapore",
+              "dockerfilePath": "./infrastructure/render/Dockerfile",
+              "dockerContext": ".",
+              "autoDeployTrigger": "off",
+              "name": "likerts-api",
+              "type": "web",
+              "plan": "1c-2g",
+              "numInstances": 2,
+              "healthCheckPath": "/health",
+              "maxShutdownDelaySeconds": 30,
+              "dockerCommand": "/bin/sh /opt/likerts/render/start.sh api",
+              "envVars": [
+                {
+                  "key": "DATABASE_URL",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_COLLECTION_CREDENTIAL_KEY",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_WEBHOOK_CREDENTIAL_KEY",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_MONITOR_TOKEN",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_OIDC_ISSUER",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_OIDC_AUDIENCE",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_VERCEL_BLOB_TOKEN",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_EXPORT_PROVIDER",
+                  "value": "vercel_blob"
+                },
+                {
+                  "key": "LIKERTS_REQUIRE_REMOTE_EXPORT_STORE",
+                  "value": "1"
+                },
+                {
+                  "key": "LIKERTS_EXPORT_PREFIX",
+                  "value": "exports"
+                },
+                {
+                  "key": "LIKERTS_OIDC_JWKS_URL",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_MANAGEMENT_ORIGINS",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_BROWSER_SESSION_ISSUER",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_BROWSER_SESSION_AUDIENCE",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_BROWSER_SESSION_JWKS_URL",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_BROWSER_WORKSPACE_KEY",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_BROWSER_OAUTH_CLIENTS",
+                  "sync": false
+                }
+              ]
+            },
+            {
+              "runtime": "docker",
+              "region": "singapore",
+              "dockerfilePath": "./infrastructure/render/Dockerfile",
+              "dockerContext": ".",
+              "autoDeployTrigger": "off",
+              "name": "likerts-webhooks",
+              "type": "worker",
+              "plan": "0.5c-512mb",
+              "numInstances": 1,
+              "maxShutdownDelaySeconds": 30,
+              "dockerCommand": "/bin/sh /opt/likerts/render/start.sh worker",
+              "envVars": [
+                {
+                  "key": "LIKERTS_WEBHOOK_DATABASE_URL",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_WEBHOOK_CREDENTIAL_KEY",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_WEBHOOK_CONCURRENCY",
+                  "value": "4"
+                }
+              ]
+            },
+            {
+              "runtime": "docker",
+              "region": "singapore",
+              "dockerfilePath": "./infrastructure/render/Dockerfile",
+              "dockerContext": ".",
+              "autoDeployTrigger": "off",
+              "name": "likerts-migration-job",
+              "type": "cron",
+              "plan": "0.5c-512mb",
+              "schedule": "0 0 1 1 *",
+              "dockerCommand": "/bin/true",
+              "envVars": [
+                {
+                  "key": "LIKERTS_MIGRATION_DATABASE_URL",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_BOOTSTRAP_RUNTIME_PASSWORD",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_BOOTSTRAP_WORKER_PASSWORD",
+                  "sync": false
+                }
+              ]
+            }
+          ],
+          "databases": [
+            {
+              "name": "likerts-postgres",
+              "databaseName": "likerts",
+              "user": "likerts_owner",
+              "plan": "1c-4g",
+              "region": "singapore",
+              "postgresMajorVersion": "17",
+              "diskSizeGB": 20,
+              "storageAutoscalingEnabled": false,
+              "connectionPool": "none",
+              "highAvailability": {
+                "enabled": true
+              },
+              "ipAllowList": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "measuredAt": "2026-09-08T17:03:12.082917+00:00",
+  "scope": "local synthetic fixtures only; no publication, cloud deployment or external receiver",
+  "gates": [
+    {
+      "command": "bash scripts/check-webhook-isolation.sh",
+      "result": "passed",
+      "evidence": ".tools/webhook-isolation-final.log",
+      "covers": [
+        "PostgreSQL atomic outbox/deduplication/rollback",
+        "tenant API and restricted worker RLS and negative privileges",
+        "concurrent claims, lease recovery, stale completion fencing",
+        "key generation persistence/rotation, wrong master key fails before dispatch, restored key replay",
+        "seven attempt budget, three replay bound, revocation and expiry",
+        "six unit cases including signed loopback HTTP wire/status/redirect tests",
+        "all seven actual API/MCP/CLI operations and one event/one cent for eight retries",
+        "worker process rejects API database identity"
+      ]
+    },
+    {
+      "command": "bash scripts/check-aws-iac.sh",
+      "result": "passed",
+      "evidence": ".tools/webhook-aws-iac-final.log",
+      "covers": [
+        "five assertion groups",
+        "credential-free staging and production synthesis",
+        "worker-only DB and webhook key secrets, empty AWS task role",
+        "callback subnet NAT routes, DNS and stateless return rules, private-destination ACL denies",
+        "worker desired count and three alarms"
+      ]
+    },
+    {
+      "command": "node --test tests/interface-contract.mjs",
+      "result": "passed",
+      "evidence": ".tools/webhook-parity.log",
+      "operationCount": 39
+    },
+    {
+      "command": "bash scripts/check-observability.sh",
+      "result": "passed",
+      "evidence": ".tools/webhook-alert-check.log",
+      "alertRules": 5
+    },
+    {
+      "command": "LIKERTS_SKIP_IMAGE_BUILD=1 bash scripts/check-recovery.sh",
+      "result": "passed",
+      "evidence": "infrastructure/recovery/local-evidence.json",
+      "imageId": "sha256:5f0309e820b2f2d519afbf396b4b596152947276fb5fda20eddeee02522472e9",
+      "measuredAt": "2026-09-08T16:54:06.246Z",
+      "appliedMigrations": 17,
+      "forcedRlsTables": 24,
+      "restoreAndVerificationMs": 1235
+    }
+  ],
+  "sourceSha256": {
+    "backend/src/webhooks.rs": "b490bbb558ba7509dfb9d0ffbdf590fd3ad6194b2ef4427af67888294a53a139",
+    "backend/src/webhook_store.rs": "876b0678ee93908d3aab796e06ccdc51031daf2516238d3ec61035f94642db10",
+    "backend/src/bin/likerts-webhook-worker.rs": "3c5c115d926e99c4c4edf79c952591fa19c9a1a63f6d406dd9f55aded87b9342",
+    "backend/migrations/0017_response_webhooks.sql": "93fdf0b5edfbca350f924864dccab51f79a9a5c26c3e26cfbe5337f5b9dc08dd",
+    "backend/tests/webhook_lifecycle.rs": "480cf4f40752066d0c07814db551a6813d7ac215978ee8ff743c29455e0efa88",
+    "infrastructure/aws/lib/likerts-stack.ts": "b62e75083d814123d260e17467fe8c3d5b7c65c13c9903ffc605ee69c4723541",
+    "infrastructure/aws/test/likerts-stack.test.ts": "8abed4bf841c5aa64fc80e359a4587a635ea8b8165cddaa0e4e9bd949e3fac7b"
+  },
+  "limitations": [
+    "Loopback HTTP wire verification is not hosted HTTPS receiver evidence.",
+    "Network and alarm configuration is synthesized, not deployed or exercised in AWS.",
+    "Local logical dump timings are not RDS PITR, production RTO/RPO or callback capacity measurements.",
+    "Endpoint signing-key generations persist; transparent master-key ring rotation is not implemented."
+  ]
+}

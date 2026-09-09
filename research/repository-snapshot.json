@@ -1,0 +1,156 @@
+[
+  {
+    "repo": "LimeSurvey/LimeSurvey",
+    "branch": "master",
+    "archived": false,
+    "pushed_at": "2026-09-05T15:05:37Z",
+    "license": {
+      "key": "other",
+      "name": "Other",
+      "spdx_id": "NOASSERTION",
+      "url": null,
+      "node_id": "MDc6TGljZW5zZTA="
+    },
+    "url": "https://github.com/LimeSurvey/LimeSurvey"
+  },
+  {
+    "repo": "OpnForm/OpnForm",
+    "branch": "main",
+    "archived": false,
+    "pushed_at": "2026-09-04T16:35:51Z",
+    "license": {
+      "key": "other",
+      "name": "Other",
+      "spdx_id": "NOASSERTION",
+      "url": null,
+      "node_id": "MDc6TGljZW5zZTA="
+    },
+    "url": "https://github.com/OpnForm/OpnForm"
+  },
+  {
+    "repo": "heyform/heyform",
+    "branch": "next",
+    "archived": false,
+    "pushed_at": "2026-08-31T03:54:40Z",
+    "license": {
+      "key": "agpl-3.0",
+      "name": "GNU Affero General Public License v3.0",
+      "spdx_id": "AGPL-3.0",
+      "url": "https://api.github.com/licenses/agpl-3.0",
+      "node_id": "MDc6TGljZW5zZTE="
+    },
+    "url": "https://github.com/heyform/heyform"
+  },
+  {
+    "repo": "formio/formio.js",
+    "branch": "main",
+    "archived": false,
+    "pushed_at": "2026-09-04T18:45:30Z",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "url": "https://github.com/formio/formio.js"
+  },
+  {
+    "repo": "surveyjs/survey-library",
+    "branch": "master",
+    "archived": false,
+    "pushed_at": "2026-09-05T10:28:01Z",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "url": "https://github.com/surveyjs/survey-library"
+  },
+  {
+    "repo": "eclipsesource/jsonforms",
+    "branch": "master",
+    "archived": false,
+    "pushed_at": "2026-08-27T16:03:50Z",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "url": "https://github.com/eclipsesource/jsonforms"
+  },
+  {
+    "repo": "kevinchappell/formBuilder",
+    "branch": "master",
+    "archived": false,
+    "pushed_at": "2026-09-02T22:40:30Z",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "url": "https://github.com/kevinchappell/formBuilder"
+  },
+  {
+    "repo": "FormeraApp/Formera",
+    "branch": "main",
+    "archived": false,
+    "pushed_at": "2026-01-20T15:40:27Z",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "url": "https://github.com/FormeraApp/Formera"
+  },
+  {
+    "repo": "quillforms/quillforms",
+    "branch": "master",
+    "archived": false,
+    "pushed_at": "2026-08-24T16:19:34Z",
+    "license": {
+      "key": "lgpl-3.0",
+      "name": "GNU Lesser General Public License v3.0",
+      "spdx_id": "LGPL-3.0",
+      "url": "https://api.github.com/licenses/lgpl-3.0",
+      "node_id": "MDc6TGljZW5zZTEy"
+    },
+    "url": "https://github.com/quillforms/quillforms"
+  },
+  {
+    "repo": "ohmyform/ohmyform",
+    "branch": "master",
+    "archived": true,
+    "pushed_at": "2024-10-31T16:11:33Z",
+    "license": {
+      "key": "agpl-3.0",
+      "name": "GNU Affero General Public License v3.0",
+      "spdx_id": "AGPL-3.0",
+      "url": "https://api.github.com/licenses/agpl-3.0",
+      "node_id": "MDc6TGljZW5zZTE="
+    },
+    "url": "https://github.com/ohmyform/ohmyform"
+  },
+  {
+    "repo": "formbricks/formbricks",
+    "branch": "main",
+    "archived": false,
+    "pushed_at": "2026-09-05T11:22:51Z",
+    "license": {
+      "key": "other",
+      "name": "Other",
+      "spdx_id": "NOASSERTION",
+      "url": null,
+      "node_id": "MDc6TGljZW5zZTA="
+    },
+    "url": "https://github.com/formbricks/formbricks"
+  }
+]
