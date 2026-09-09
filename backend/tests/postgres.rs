@@ -480,6 +480,28 @@ async fn persists_and_accounts_concurrent_retries_once() {
     );
     assert_eq!(
         client
+            .get(format!("http://127.0.0.1:{auth_port}/v1/usage"))
+            .bearer_auth(issued["token"].as_str().unwrap())
+            .header("x-likerts-workspace", &workspace_a)
+            .send()
+            .await
+            .unwrap()
+            .status(),
+        200
+    );
+    assert_eq!(
+        client
+            .get(format!("http://127.0.0.1:{auth_port}/v1/usage"))
+            .bearer_auth(issued["token"].as_str().unwrap())
+            .header("x-likerts-workspace", &workspace_b)
+            .send()
+            .await
+            .unwrap()
+            .status(),
+        403
+    );
+    assert_eq!(
+        client
             .delete(format!(
                 "http://127.0.0.1:{auth_port}/v1/service-credentials/{}",
                 issued["credential"]["id"].as_str().unwrap()

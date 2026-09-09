@@ -886,14 +886,35 @@ fn bearer(headers: &HeaderMap) -> Result<&str, ApiError> {
         .ok_or(ApiError(Error::Unauthorized))
 }
 
+fn require_selected_workspace(headers: &HeaderMap, authorized: &str) -> Result<(), ApiError> {
+    let Some(value) = headers.get("x-likerts-workspace") else {
+        return Ok(());
+    };
+    let selected = value
+        .to_str()
+        .ok()
+        .filter(|value| !value.trim().is_empty() && value.chars().count() <= 128)
+        .ok_or(ApiError(Error::Invalid(
+            "X-Likerts-Workspace is malformed".into(),
+        )))?;
+    if selected != authorized {
+        return Err(ApiError(Error::Forbidden));
+    }
+    Ok(())
+}
+
 async fn workspace(app: &App, headers: &HeaderMap, scope: &str) -> Result<String, ApiError> {
     let token = bearer(headers)?;
     if let Some(workspace) = app.tokens.get(token) {
+        require_selected_workspace(headers, workspace)?;
         app.storage.workspace_active(workspace).await?;
         return Ok(workspace.clone());
     }
     let resolved = match app.storage.authenticate_service(token, scope).await {
-        Ok(workspace) => workspace,
+        Ok(workspace) => {
+            require_selected_workspace(headers, &workspace)?;
+            workspace
+        }
         Err(Error::Forbidden) => return Err(ApiError(Error::Forbidden)),
         Err(Error::Unauthorized) => {
             let verifier = app.oidc.as_ref().ok_or(ApiError(Error::Unauthorized))?;
@@ -2171,6 +2192,26 @@ mod tests {
         assert!(!uses_collection_credential(
             "/v1/collections",
             &Method::POST
+        ));
+    }
+
+    #[test]
+    fn service_credentials_bind_an_explicit_workspace_selection() {
+        let mut headers = HeaderMap::new();
+        assert!(require_selected_workspace(&headers, "workspace-a").is_ok());
+        headers.insert(
+            "x-likerts-workspace",
+            HeaderValue::from_static("workspace-a"),
+        );
+        assert!(require_selected_workspace(&headers, "workspace-a").is_ok());
+        assert!(matches!(
+            require_selected_workspace(&headers, "workspace-b"),
+            Err(ApiError(Error::Forbidden))
+        ));
+        headers.insert("x-likerts-workspace", HeaderValue::from_static(" "));
+        assert!(matches!(
+            require_selected_workspace(&headers, "workspace-a"),
+            Err(ApiError(Error::Invalid(_)))
         ));
     }
 }
