@@ -1,6 +1,6 @@
 {
-  "measuredAt": "2026-09-09T04:01:50.747898+00:00",
-  "commit": "3d17858dd52a2242a86faf944a7fca1b63fde47a",
+  "measuredAt": "2026-09-09T07:17:44.966470+00:00",
+  "commit": "674d50add4781e038472afc15165ac1e6a804476",
   "render": {
     "projectId": "prj-dagbmk5bedkc73fu380g",
     "environmentId": "evm-dagbmk5bedkc73fu3810",
@@ -11,8 +11,8 @@
     "services": {
       "api": {
         "id": "srv-dagbp57qj5pc738fe96g",
-        "deploy": "dep-dagdc12d0e5s73c17900",
-        "commit": "050c908c5f5caad3a772c7e49bf7ef4225305c78",
+        "deploy": "dep-dagg90u7bikc73b2q4ng",
+        "commit": "674d50add4781e038472afc15165ac1e6a804476",
         "url": "https://likerts-api.onrender.com",
         "instances": 2,
         "plan": "1c-2g"
@@ -20,12 +20,14 @@
       "worker": {
         "id": "srv-dagbp60u01pc73drphg0",
         "instances": 1,
-        "plan": "0.5c-512mb"
+        "plan": "0.5c-512mb",
+        "deploy": "dep-dagek8ad0e5s73c60g60",
+        "commit": "18d03cd3d18a8a80ea5ce2485a89ba09f26538ce"
       },
       "mcp": {
         "id": "srv-dagbp77qj5pc738fek4g",
-        "deploy": "dep-dagdc1740ujc73em8a2g",
-        "commit": "050c908c5f5caad3a772c7e49bf7ef4225305c78",
+        "deploy": "dep-dagek895efls73a8eai0",
+        "commit": "18d03cd3d18a8a80ea5ce2485a89ba09f26538ce",
         "url": "https://likerts-mcp.onrender.com",
         "instances": 1,
         "plan": "starter"
@@ -33,7 +35,9 @@
       "migration": {
         "id": "crn-dagbp4f40ujc73c5m5ag",
         "plan": "0.5c-512mb",
-        "automaticCommand": "/bin/true"
+        "automaticCommand": "/bin/true",
+        "deploy": "dep-dagg3h2d0e5s73cc2mlg",
+        "commit": "9379b5928f488c39f1620aa8f185630357fa53fa"
       }
     },
     "unusedPostgresDeleted": true
@@ -41,7 +45,7 @@
   "vercel": {
     "project": "likerts",
     "production": "https://likerts.com",
-    "deployment": "dpl_BNP4HqQgD5nUeAiLWdLvkNL39aZ1",
+    "deployment": "dpl_9E2eekaWBVhVpUmR8gBC8wTHuq5g",
     "health": {
       "status": "ok",
       "apiOrigin": true,
@@ -53,7 +57,8 @@
       "blob": "connected",
       "stripe": "ir_spBTXI6zqC2A6YmJ",
       "upstashAdmission": "store_n8l8UgcAdw9fAJJG"
-    }
+    },
+    "deploymentUrl": "https://likerts-gehxpo53k-crosstabs.vercel.app"
   },
   "database": {
     "provider": "Neon",
@@ -61,7 +66,7 @@
     "plan": "launch_v3",
     "region": "sin1",
     "migration": "passed",
-    "migrationCount": 20,
+    "migrationCount": 22,
     "runtimeRole": {
       "restrictedAttributes": true,
       "memberships": 0,
@@ -94,7 +99,20 @@
     "duplicateCreditEntries": 0,
     "providerChargeAndFullRefundGate": "passed",
     "temporaryWorkspaceTombstoned": true,
-    "liveMode": false
+    "liveMode": false,
+    "refundReconciliation": {
+      "evidence": "infrastructure/render/hosted-refund-evidence.json",
+      "measuredAt": "2026-09-09T07:14:32.403409+00:00",
+      "checkoutAmountCents": 500,
+      "creditedResponses": 500,
+      "refundAmountCents": 500,
+      "refundStatus": "succeeded",
+      "checkoutStatusAfterRefund": "paid",
+      "paidCreditsAfterRefund": 0,
+      "paidCreditDebtAfterRefund": 0,
+      "promotionalCreditsUnaffected": 1000,
+      "temporaryWorkspaceTombstoned": true
+    }
   },
   "browserChecks": {
     "controlPlaneHealth": 200,
@@ -105,10 +123,59 @@
     "checkoutReturnedToControlPlane": true
   },
   "limitations": [
-    "Clerk custom scopes and a real OAuth grant are not configured or exercised.",
-    "The Clerk production custom-domain DNS check is failing; hosted acceptance currently uses the development instance and must not be presented as production identity.",
-    "Stripe remains in test mode; refund/dispute reconciliation and live merchant activation remain open.",
-    "Private Blob cross-replica export, callback delivery, rollback, load, alarms and restore drills remain open.",
-    "Vercel deployment was promoted manually because the attached production Clerk resource reports missing DNS records."
-  ]
+    "Production Clerk DNS/TLS, passwordless sign-in rendering and advertised scopes are verified; real OTP/recovery, browser session/bootstrap and CLI/MCP OAuth consent/refresh/revocation remain acceptance gates.",
+    "Stripe remains in test mode. Hosted $5 purchase/full-refund reconciliation passes; live merchant activation, automatic top-up, hosted disputes and broader out-of-order/failure reconciliation remain open.",
+    "Hosted private Blob roundtrip and deletion-triggered export revocation pass; forced cross-replica failover, autonomous expiry/orphan removal, callback delivery, rollback, sustained load, delivered alarms and managed Neon restore drills remain open.",
+    "The hosted lifecycle uses a scoped service credential and does not establish a completed human OAuth flow or native-device certification.",
+    "Local restore evidence covers migration 0021; refresh it for migration 0022 and measure managed recovery separately."
+  ],
+  "identity": {
+    "provider": "Clerk",
+    "instance": "production",
+    "frontendDomain": "clerk.likerts.com",
+    "accountPortalDomain": "accounts.likerts.com",
+    "tlsChecks": {
+      "clerk.likerts.com": {
+        "httpStatus": 200,
+        "sslVerifyResult": 0
+      },
+      "accounts.likerts.com": {
+        "httpStatus": 403,
+        "sslVerifyResult": 0
+      }
+    },
+    "verifiedDnsCnames": [
+      "clkmail.likerts.com",
+      "clk._domainkey.likerts.com",
+      "clk2._domainkey.likerts.com"
+    ],
+    "passwordlessSignInRendered": true,
+    "productionSignUpUrl": "https://accounts.likerts.com/sign-up",
+    "developmentModeBadge": false,
+    "advertisedLikertsScopes": {
+      "developmentInstance": 12,
+      "productionInstance": 12
+    },
+    "realPasswordlessSessionAndOAuthGrantAcceptance": "remaining"
+  },
+  "hostedLifecycle": {
+    "evidence": "infrastructure/render/hosted-lifecycle-evidence.json",
+    "measuredAt": "2026-09-09T06:53:14.720Z",
+    "base": "https://likerts-api.onrender.com",
+    "checks": [
+      "scoped child service credential issued and revoked",
+      "survey created and immutable version published",
+      "five-SDK capability declaration accepted",
+      "collection configuration fetched with collection-only credential",
+      "response accepted and retrieved once",
+      "private object-store JSON export created and downloaded",
+      "raw response deletion revoked prior export",
+      "collection credential irreversibly revoked",
+      "workspace tombstoned and bootstrap credential invalidated"
+    ],
+    "acceptedResponses": 1,
+    "promotionalCreditsConsumed": 1,
+    "exportProviderRoundTrip": true,
+    "temporaryWorkspaceTombstoned": true
+  }
 }

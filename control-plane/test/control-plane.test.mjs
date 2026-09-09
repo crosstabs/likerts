@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 import { promisify } from "node:util";
 import { containsSecretField, healthDocument } from "../api/health.js";
@@ -46,6 +46,21 @@ test("build emits an exact-origin CSP without wildcard connectivity", async () =
   const headers = Object.fromEntries(config.headers[0].headers.map(({ key, value }) => [key, value]));
   assert.equal(headers["X-Frame-Options"], "DENY");
   assert.equal(config.outputDirectory, "dist");
+
+  const downloads = await readFile(new URL("../dist/downloads/index.html", import.meta.url), "utf8");
+  assert.match(downloads, /Likerts downloads/);
+  for (const file of [
+    "SHA256SUMS",
+    "likerts-web-0.0.3.tgz",
+    "likerts-react-native-0.0.3.tgz",
+    "Likerts-ios-0.0.3.tar.gz",
+    "likerts-android-maven-0.0.3.tar.gz",
+    "likerts-flutter-0.0.3.tar.gz",
+    "likerts-cli-source-0.1.0.tar.gz",
+  ]) {
+    await access(new URL(`../dist/downloads/${file}`, import.meta.url));
+    assert.match(downloads, new RegExp(file.replaceAll(".", "\\.")));
+  }
 });
 
 test("build rejects API URLs that are not an exact trusted origin", async () => {
@@ -83,4 +98,5 @@ test("browser mounts Clerk sign-in or the signed-in user button", async () => {
   assert.match(html, /value="identity:write"/);
   assert.match(html, /500 responses — \$5/);
   assert.match(html, /Web, React Native, iOS, Android and Flutter SDKs/);
+  assert.match(html, /href="\/downloads\/"/);
 });
