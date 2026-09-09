@@ -22,7 +22,8 @@ if (publishableKey) {
   }
   const domain = decodedDomain.endsWith("$") ? decodedDomain.slice(0, -1) : "";
   if (!/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?\.clerk\.accounts\.dev$/.test(domain)
-    && !/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?\.clerk\.com$/.test(domain)) {
+    && !/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?\.clerk\.com$/.test(domain)
+    && domain !== "clerk.likerts.com") {
     throw new Error("NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY contains an untrusted frontend domain");
   }
   clerkOrigin = `https://${domain}`;
