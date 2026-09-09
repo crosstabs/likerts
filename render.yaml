@@ -172,27 +172,14 @@
                   "sync": false
                 },
                 {
-                  "key": "LIKERTS_MANAGED_DATABASE_ROLES",
-                  "value": "1"
+                  "key": "LIKERTS_BOOTSTRAP_RUNTIME_PASSWORD",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_BOOTSTRAP_WORKER_PASSWORD",
+                  "sync": false
                 }
               ]
-            }
-          ],
-          "databases": [
-            {
-              "name": "likerts-postgres",
-              "databaseName": "likerts",
-              "user": "likerts_owner",
-              "plan": "1c-4g",
-              "region": "singapore",
-              "postgresMajorVersion": "17",
-              "diskSizeGB": 20,
-              "storageAutoscalingEnabled": false,
-              "connectionPool": "none",
-              "highAvailability": {
-                "enabled": true
-              },
-              "ipAllowList": []
             }
           ]
         }

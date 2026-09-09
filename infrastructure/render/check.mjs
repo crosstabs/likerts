@@ -24,13 +24,12 @@ assert.equal(mcp.type,'web');assert.equal(mcp.plan,'starter');assert.equal(mcp.n
 assert.deepEqual(keys(mcp),['LIKERTS_API_URL','LIKERTS_MCP_ALLOWED_ORIGINS','LIKERTS_MCP_PUBLIC_ORIGIN','LIKERTS_OIDC_ISSUER']);
 assert.equal(worker.type,'worker');assert.equal(worker.numInstances,1);
 assert.deepEqual(keys(worker),['LIKERTS_WEBHOOK_CONCURRENCY','LIKERTS_WEBHOOK_CREDENTIAL_KEY','LIKERTS_WEBHOOK_DATABASE_URL']);
-assert.deepEqual(keys(job),['LIKERTS_MANAGED_DATABASE_ROLES','LIKERTS_MIGRATION_DATABASE_URL']);
-assert.equal(job.envVars.find(v=>v.key==='LIKERTS_MANAGED_DATABASE_ROLES')?.value,'1');
+assert.deepEqual(keys(job),['LIKERTS_BOOTSTRAP_RUNTIME_PASSWORD','LIKERTS_BOOTSTRAP_WORKER_PASSWORD','LIKERTS_MIGRATION_DATABASE_URL']);
 assert.equal(job.type,'cron');assert.equal(job.dockerCommand,'/bin/true');assert.equal(job.schedule,'0 0 1 1 *');
 for(const service of env.services)for(const variable of service.envVars){if(/PASSWORD|TOKEN|KEY|DATABASE_URL/.test(variable.key)){assert.equal(variable.sync,false);assert.equal(variable.value,undefined);}}
 assert.ok(!keys(api).some(k=>/MIGRATION|BOOTSTRAP|DEV_|ALLOW_MEMORY|RUN_MIGRATIONS|WEBHOOK_DATABASE_URL/.test(k)));
-const [db]=env.databases;assert.equal(db.region,'singapore');assert.equal(db.postgresMajorVersion,'17');assert.equal(db.highAvailability.enabled,true);assert.equal(db.plan,'1c-4g');assert.equal(db.diskSizeGB,20);assert.deepEqual(db.ipAllowList,[]);assert.equal(db.connectionPool,'none');
+assert.equal(env.databases,undefined);
 const docker=read('infrastructure/render/Dockerfile');assert.match(docker,/USER 10001:10001/);assert.match(docker,/mcp-builder/);assert.match(docker,/\/opt\/likerts\/tools\/mcp\/dist/);assert.match(docker,/tools\/capabilities\.json/);assert.match(docker,/contracts\/openapi\.json/);assert.ok(!docker.includes('ENTRYPOINT'));
 const dockerignore=read('.dockerignore');assert.match(dockerignore,/!tools\/mcp\/package-lock\.json/);assert.match(dockerignore,/!tools\/mcp\/src\/\*\*/);assert.match(dockerignore,/!tools\/capabilities\.json/);assert.match(dockerignore,/!contracts\/openapi\.json/);
-const migration=read('infrastructure/render/migrate.sh');assert.match(migration,/provision-runtime.sql provision-worker.sql/);assert.ok(!migration.includes('set -x'));assert.match(migration,/export PGDATABASE=/);
+const migration=read('infrastructure/render/migrate.sh');assert.match(migration,/provision-runtime.sql provision-worker.sql/);assert.ok(!migration.includes('set -x'));assert.match(migration,/--dbname="\$LIKERTS_MIGRATION_DATABASE_URL"/);
 console.log('Render contract PASS: pinned official schema, Singapore HA/private Postgres, two API replicas, isolated MCP gateway, separate worker, inert migration job, explicit secret boundaries and deployment ordering.');
