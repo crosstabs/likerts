@@ -1,10 +1,12 @@
 # Likerts
 
-Embedded surveys, controlled by the customer. Proposed pricing: **first 1,000 accepted responses free per verified workspace, then US$0.01 per accepted response**, with US$5 buying 500 paid credits.
+Embedded surveys, controlled by the customer. Preview pricing: **first 1,000 accepted responses free per verified workspace, then US$0.01 per accepted response**, with US$5 buying 500 paid credits.
 
 Rust backend, HTTP API, MCP server, Rust CLI, and SDK foundations for Web, React Native, iOS, Android and Flutter. Verified frozen SDK 0.0.3 supports schema versions 1–5, including baseline types, presets, conditional visibility, pages and branching, ranking, matrices, constant-sum questions and durable offline queue APIs. No survey-link hosting, distribution, invitation sending or enterprise deployment layer.
 
-**This repository is a runnable hosted-acceptance foundation, not yet a public launch.** The backend defaults to loopback and supports durable PostgreSQL storage or an explicitly enabled in-memory development mode. The one-time promotional grant, append-only prepaid credit ledger, atomic credit consumption and payment-confirmed Stripe Checkout path are implemented; a real hosted test-mode checkout credited exactly once. Provider refund/dispute reconciliation is implemented and locally verified. Production passwordless identity, verified-signup abuse controls, notifications and the remaining hosted recovery controls are still open, so do not accept real customer data or route public production traffic to it.
+**The production service is ready for an invite-only developer preview; public paid launch remains on hold.** The first 1,000-response grant, append-only prepaid credit ledger, atomic consumption and Stripe Checkout/refund path are implemented and pass hosted test-mode acceptance. Production passwordless Clerk domains, Render/Neon tenant isolation, private exports, scoped credentials, direct API/MCP operation and checksummed SDK/CLI downloads are deployed. A fresh-user OTP and Codex/Claude journey, live merchant activation, reviewed legal/support ownership, managed recovery/alerts, sustained capacity and the supported native-device/accessibility matrix remain public-launch gates. See [the launch decision](LAUNCH-DECISION.md) for the exact boundary.
+
+Preview artifacts for all five SDKs and the Rust CLI are available from [the production downloads page](https://likerts.com/downloads/). Likerts does not host or distribute respondent links; the customer's application decides when and where to render a collection.
 
 ## Start locally
 
@@ -56,12 +58,12 @@ See [BUILD-STATUS.md](BUILD-STATUS.md) for platform checks and limitations. Mobi
 | `tests/` | Cross-interface integration verification |
 | `economics/LAUNCH-PLATFORM-ECONOMICS.md` | Current Render, Vercel and Clerk launch model for the 1¢ service; hosted costs and margins remain unverified |
 
-## Before launch
+## Before public paid launch
 
-All five SDKs are required at launch; this foundation does not reduce that commitment. Release still requires hosted Render, Vercel, Clerk and payment evidence for identity, traffic/abuse controls, private exports and recovery, plus complete platform testing for accessibility, localization and device integration. Local credit accounting, collection rate limits and recovery drills are implemented and tested. Durable response lifecycle, usage visibility, workspace spending caps, scoped service credentials and the shared five-SDK behavior contract are implemented. Public SDK credentials cannot prove a human, purchase or trusted metadata.
+All five SDKs remain in scope together. Public release still requires the owner-controlled and managed-operation gates in [LAUNCH-DECISION.md](LAUNCH-DECISION.md), including the real customer identity/agent journey, live payment acceptance, traffic-abuse controls, managed recovery and complete platform testing for accessibility, localization and device integration. Durable response lifecycle, usage visibility, workspace spending caps, scoped service credentials, collection rate limits and the shared five-SDK behavior contract are implemented. Public SDK credentials cannot prove a human, purchase or trusted metadata.
 
 Customer-configured signed response callbacks are implemented and locally tested; their payload contains IDs, and they do not distribute surveys. See [the callback contract and hosted acceptance limits](infrastructure/webhooks/README.md).
 
-No production readiness or profitable margin is claimed. The current [MODEL.md](MODEL.md) captures intended scope; `BUILD-STATUS.md` distinguishes implemented features from release work.
+No public-launch readiness, SLA or profitable margin is claimed. The current [MODEL.md](MODEL.md) captures intended scope; [BUILD-STATUS.md](BUILD-STATUS.md) distinguishes deployed features from remaining release work.
 
 Prioritized implementation and launch checklist: [TASKS.md](TASKS.md).
