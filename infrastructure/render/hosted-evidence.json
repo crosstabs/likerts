@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-09-09T07:58:30.572Z",
+  "measuredAt": "2026-09-09T08:06:29.508318Z",
   "commit": "72afd3f14938ecb01f9667398a3f05d57ece800b",
   "render": {
     "projectId": "prj-dagbmk5bedkc73fu380g",
@@ -11,7 +11,7 @@
     "services": {
       "api": {
         "id": "srv-dagbp57qj5pc738fe96g",
-        "deploy": "dep-daggvo67bikc73b5kmo0",
+        "deploy": "dep-dagh6o3l550s73bl8300",
         "commit": "72afd3f14938ecb01f9667398a3f05d57ece800b",
         "url": "https://likerts-api.onrender.com",
         "instances": 2,
@@ -252,5 +252,27 @@
       "Synthetic temporary workspace and service credential only; browser OAuth grants were not exercised.",
       "MCP transports upstream authorization failures as protocol tool errors within an HTTP 200 response."
     ]
+  },
+  "rollbackRehearsal": {
+    "measuredAt": "2026-09-09T08:06:29.508318Z",
+    "candidate": {
+      "deploy": "dep-dagh68p42hec73cb4gh0",
+      "commit": "bb699c2b9d034f4c688f21fad05ba5cbd3090208",
+      "status": "live",
+      "durationSeconds": 44.109701,
+      "health": 200,
+      "unauthenticatedUsage": 401
+    },
+    "restored": {
+      "deploy": "dep-dagh6o3l550s73bl8300",
+      "commit": "72afd3f14938ecb01f9667398a3f05d57ece800b",
+      "status": "live",
+      "durationSeconds": 36.619229,
+      "health": 200,
+      "unauthenticatedUsage": 401
+    },
+    "schemaCompatibilityReviewed": true,
+    "runtimeDiffBetweenCommits": false,
+    "limitation": "This proves operator-triggered restoration to a compatible recorded revision. It does not prove Render automatically rejects an unhealthy candidate or database rollback."
   }
 }
