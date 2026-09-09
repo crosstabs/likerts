@@ -678,13 +678,21 @@ impl PgStore {
         .bind(token_hash(token))
         .fetch_optional(&mut *transaction)
         .await
-        .map_err(database_error)?
-        .ok_or(Error::Unauthorized)?;
-        if row
+        .map_err(database_error)?;
+        let Some(row) = row else {
+            eprintln!("service credential rejected; reason=missing");
+            return Err(Error::Unauthorized);
+        };
+        let revoked = row
             .get::<Option<chrono::DateTime<Utc>>, _>("revoked_at")
-            .is_some()
-            || row.get::<chrono::DateTime<Utc>, _>("expires_at") <= Utc::now()
-        {
+            .is_some();
+        let remaining_seconds =
+            (row.get::<chrono::DateTime<Utc>, _>("expires_at") - Utc::now()).num_seconds();
+        if revoked || remaining_seconds <= 0 {
+            eprintln!(
+                "service credential rejected; reason={}; remaining_seconds={remaining_seconds}",
+                if revoked { "revoked" } else { "expired" }
+            );
             return Err(Error::Unauthorized);
         }
         let scopes: Vec<String> = row.get("scopes");
