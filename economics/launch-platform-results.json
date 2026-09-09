@@ -15,12 +15,15 @@
       "remoteMcpGateways": 1,
       "remoteMcpGatewayUsdMonth": 7,
       "callbackWorkers": 1,
-      "callbackWorkerUsdMonth": 7,
-      "postgresPrimaryUsdMonth": 55,
-      "postgresStandbyUsdMonth": 55,
-      "postgresStorageGbPerReplica": 20,
-      "postgresStorageReplicas": 2,
-      "postgresStorageUsdGbMonth": 0.3
+      "callbackWorkerUsdMonth": 7
+    },
+    "neon": {
+      "computeCuHoursMonth": 140,
+      "computeUsdCuHour": 0.106,
+      "databaseStorageGbMonth": 1,
+      "databaseStorageUsdGbMonth": 0.35,
+      "historyStorageGbMonth": 1,
+      "historyStorageUsdGbMonth": 0.2
     },
     "vercel": {
       "proBaseUsdMonth": 20,
@@ -44,7 +47,7 @@
     },
     "sources": {
       "render": "https://render.com/pricing",
-      "renderHa": "https://render.com/docs/postgresql-high-availability",
+      "neon": "https://neon.com/pricing",
       "vercel": "https://vercel.com/pricing",
       "vercelBlob": "https://vercel.com/docs/vercel-blob/usage-and-pricing",
       "vercelRegional": "https://vercel.com/docs/pricing/regional-pricing",
@@ -62,11 +65,12 @@
       "usageRevenueUsd": 0,
       "processingUsd": 0,
       "blobUsageUsd": 0.001,
-      "renderUsd": 186,
+      "renderUsd": 64,
+      "neonUsd": 15.39,
       "vercelUsd": 20,
       "clerkUsd": 0,
-      "fixedPlatformUsd": 206,
-      "contributionBeforeLaborUsd": -206
+      "fixedPlatformUsd": 99.39,
+      "contributionBeforeLaborUsd": -99.39
     },
     {
       "acceptedResponses": 10000,
@@ -77,11 +81,12 @@
       "usageRevenueUsd": 0,
       "processingUsd": 0,
       "blobUsageUsd": 0.009619,
-      "renderUsd": 186,
+      "renderUsd": 64,
+      "neonUsd": 15.39,
       "vercelUsd": 20,
       "clerkUsd": 0,
-      "fixedPlatformUsd": 206,
-      "contributionBeforeLaborUsd": -206
+      "fixedPlatformUsd": 99.39,
+      "contributionBeforeLaborUsd": -99.39
     },
     {
       "acceptedResponses": 100000,
@@ -92,11 +97,12 @@
       "usageRevenueUsd": 750,
       "processingUsd": 66.75,
       "blobUsageUsd": 0.09581,
-      "renderUsd": 186,
+      "renderUsd": 64,
+      "neonUsd": 15.39,
       "vercelUsd": 20,
       "clerkUsd": 0,
-      "fixedPlatformUsd": 206,
-      "contributionBeforeLaborUsd": 477.25
+      "fixedPlatformUsd": 99.39,
+      "contributionBeforeLaborUsd": 583.86
     },
     {
       "acceptedResponses": 1000000,
@@ -107,11 +113,12 @@
       "usageRevenueUsd": 9000,
       "processingUsd": 801,
       "blobUsageUsd": 0.958104,
-      "renderUsd": 186,
+      "renderUsd": 64,
+      "neonUsd": 15.39,
       "vercelUsd": 20,
       "clerkUsd": 0,
-      "fixedPlatformUsd": 206,
-      "contributionBeforeLaborUsd": 7993
+      "fixedPlatformUsd": 99.39,
+      "contributionBeforeLaborUsd": 8099.61
     }
   ]
 }

@@ -13,12 +13,15 @@
     "remoteMcpGateways": 1,
     "remoteMcpGatewayUsdMonth": 7,
     "callbackWorkers": 1,
-    "callbackWorkerUsdMonth": 7,
-    "postgresPrimaryUsdMonth": 55,
-    "postgresStandbyUsdMonth": 55,
-    "postgresStorageGbPerReplica": 20,
-    "postgresStorageReplicas": 2,
-    "postgresStorageUsdGbMonth": 0.30
+    "callbackWorkerUsdMonth": 7
+  },
+  "neon": {
+    "computeCuHoursMonth": 140,
+    "computeUsdCuHour": 0.106,
+    "databaseStorageGbMonth": 1,
+    "databaseStorageUsdGbMonth": 0.35,
+    "historyStorageGbMonth": 1,
+    "historyStorageUsdGbMonth": 0.20
   },
   "vercel": {
     "proBaseUsdMonth": 20,
@@ -42,7 +45,7 @@
   },
   "sources": {
     "render": "https://render.com/pricing",
-    "renderHa": "https://render.com/docs/postgresql-high-availability",
+    "neon": "https://neon.com/pricing",
     "vercel": "https://vercel.com/pricing",
     "vercelBlob": "https://vercel.com/docs/vercel-blob/usage-and-pricing",
     "vercelRegional": "https://vercel.com/docs/pricing/regional-pricing",

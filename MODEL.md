@@ -16,7 +16,7 @@ No dedicated customer deployments, enterprise SSO/SAML configuration, SCIM or be
 
 | Layer | Technology / role |
 | --- | --- |
-| Backend | Modular Rust API and restricted callback worker on Render Singapore, Render Postgres and private Vercel Blob exports |
+| Backend | Modular Rust API and restricted callback worker on Render Singapore, Neon Postgres in Singapore and private Vercel Blob exports |
 | MCP | Agents configure surveys and access authorized platform operations |
 | CLI | Rust client over the HTTP API for developers and automation |
 | HTTP API | Versioned management and collection contracts |
