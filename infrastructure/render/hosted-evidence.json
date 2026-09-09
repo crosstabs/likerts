@@ -1,0 +1,87 @@
+{
+  "measuredAt": "2026-09-09T02:37:32.575337+00:00",
+  "commit": "b8fa03d3452ea0423335864b8ac4c20682d6ea44",
+  "render": {
+    "projectId": "prj-dagbmk5bedkc73fu380g",
+    "environmentId": "evm-dagbmk5bedkc73fu3810",
+    "environment": "production",
+    "region": "singapore",
+    "networkIsolationEnabled": true,
+    "protectedStatus": "protected",
+    "services": {
+      "api": {
+        "id": "srv-dagbp57qj5pc738fe96g",
+        "url": "https://likerts-api.onrender.com",
+        "instances": 2,
+        "plan": "1c-2g"
+      },
+      "worker": {
+        "id": "srv-dagbp60u01pc73drphg0",
+        "instances": 1,
+        "plan": "0.5c-512mb"
+      },
+      "mcp": {
+        "id": "srv-dagbp77qj5pc738fek4g",
+        "url": "https://likerts-mcp.onrender.com",
+        "instances": 1,
+        "plan": "starter"
+      },
+      "migration": {
+        "id": "crn-dagbp4f40ujc73c5m5ag",
+        "plan": "0.5c-512mb",
+        "automaticCommand": "/bin/true"
+      }
+    },
+    "unusedPostgresDeleted": true
+  },
+  "vercel": {
+    "project": "likerts",
+    "preview": "https://likerts-o4mok135m-crosstabs.vercel.app",
+    "health": {
+      "status": "ok",
+      "apiOrigin": true,
+      "identity": true
+    },
+    "resources": {
+      "clerk": "ir_spdaBLSVDpIyW69z",
+      "neon": "store_woq63b9POqZNZCWe",
+      "blob": "connected",
+      "upstashAdmission": "store_n8l8UgcAdw9fAJJG"
+    }
+  },
+  "database": {
+    "provider": "Neon",
+    "projectId": "late-morning-54833278",
+    "plan": "launch_v3",
+    "region": "sin1",
+    "migration": "passed",
+    "runtimeRole": {
+      "restrictedAttributes": true,
+      "memberships": 0,
+      "schemaCreate": false
+    },
+    "workerRole": {
+      "restrictedAttributes": true,
+      "memberships": 0,
+      "responseRead": false,
+      "webhookEndpointRead": true
+    }
+  },
+  "httpChecks": {
+    "apiHealth": 200,
+    "mcpHealth": 200,
+    "apiUnauthenticated": 401,
+    "mcpUnauthenticated": 401,
+    "oauthProtectedResource": {
+      "status": 200,
+      "resource": "https://likerts-api.onrender.com",
+      "scopeCount": 12
+    }
+  },
+  "limitations": [
+    "Clerk custom scopes and a real OAuth grant are not configured or exercised.",
+    "Stripe Marketplace installation requires account-owner terms acceptance.",
+    "Private Blob cross-replica export, callback delivery, rollback, load, alarms and restore drills remain open.",
+    "Vercel preview is deployment-protected and was checked with authenticated Vercel CLI."
+  ]
+}

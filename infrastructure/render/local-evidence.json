@@ -1,7 +1,7 @@
 {
-  "measuredAt": "2026-09-09T00:29:10.968082+00:00",
-  "target": "Render Singapore",
-  "provisioned": false,
+  "measuredAt": "2026-09-09T02:37:32.574755+00:00",
+  "target": "Render Singapore compute + external PostgreSQL",
+  "provisioned": true,
   "schema": {
     "source": "https://render.com/schema/render.yaml.json",
     "sha256": "f6cb3fbae8c598d41385069bf7084293b48b802f88e1bc98b1c4b9c24a15be47"
@@ -10,11 +10,11 @@
     {
       "command": "bash scripts/check-render-iac.sh",
       "result": "passed",
-      "entrypointCases": 6,
+      "entrypointCases": 8,
       "covers": [
         "explicit issuer/audience/JWKS configuration",
         "API, worker and migration secret separation",
-        "six fail-closed entrypoint cases"
+        "fail-closed entrypoint cases"
       ]
     },
     {
@@ -22,15 +22,7 @@
       "result": "passed",
       "providerResult": {
         "plan": {
-          "databases": [
-            "likerts-postgres"
-          ],
-          "services": [
-            "likerts-api",
-            "likerts-webhooks",
-            "likerts-migration-job"
-          ],
-          "totalActions": 5
+          "totalActions": 4
         },
         "valid": true
       }
@@ -42,31 +34,26 @@
       "owner": "non-superuser CREATEROLE NOINHERIT NOBYPASSRLS",
       "covers": [
         "repeatable SQLx migrations and role bootstrap",
-        "canonical API/worker grant scripts",
-        "forced tenant RLS and cross-tenant write denial",
-        "runtime schema/audit mutation denial",
-        "worker response/audit read denial",
-        "idempotent 1,000-credit grant under non-superuser owner",
-        "runtime paid-credit mint denial and worker credit-read denial"
+        "canonical API/worker grants",
+        "forced tenant RLS",
+        "runtime DDL/audit denial",
+        "worker response/audit read denial"
       ],
-      "migrationCount": 18
+      "migrationCount": 19
     }
   ],
   "sourceSha256": {
-    "render.yaml": "a630ddaf5589d58e85621891944fb18c54cc65d9f67f0d2f683a559ce9ff9169",
-    "infrastructure/render/Dockerfile": "3350a96a22042da74fe4509692e57126f6d417832858eb4cae54d8fc7c18e0e3",
-    "infrastructure/render/start.sh": "b77dcc7cf38d027fd21d8fa0567a94e1b357b936321bb762635fce72842ff4ed",
-    "infrastructure/render/migrate.sh": "9b8e2f38ef85bce9dbd23a998019cef7b07d46aa966e86ceece6bd4304aff738",
+    "render.yaml": "6ee5692490ed6ee0e541672a881a3e9930908070c74b86408f308475378eb356",
+    "infrastructure/render/Dockerfile": "dbd895f98bed53ce39317b67fb81c72c5c5f1bd1449593ee6afcf64faf9bf95d",
+    "infrastructure/render/start.sh": "7ddc8393863f1dc5fe11204a41880a2ea27d6babead176bbb661b9ee1668b0e1",
+    "infrastructure/render/migrate.sh": "e87a9fa50937807e6f7cde4bcac5606711cef091daa7b1b7202dbf2c9380d658",
     "infrastructure/render/bootstrap.sql": "5b8dbf1e725010d810fea7d5005beab0361470e67b85f02a0d65c73ff408a19b",
-    "infrastructure/render/check.mjs": "f7eb2c3476423dde4e367985f80d0eb3b72dfb26184e21e0c08bbc55960f20a8",
-    "infrastructure/render/entrypoints.test.mjs": "e6c330680a2dc897691a8a95d826f3c6be15aa3cab480614b352db26f22286e1",
+    "infrastructure/render/check.mjs": "1d4a3372fbc478eb99a91e82059ea40b681c4e6a87121888ba03f373db074764",
+    "infrastructure/render/entrypoints.test.mjs": "1e7c22c18c13c5e1fbe4a44cbbf8e664f95040d06cd30ac6ba5fd225945efc4d",
     "scripts/check-render-roles.sh": "127a6e297cd2b38c9bc435de43e5ec075754794c7dc5668147157795e9056fcd"
   },
   "limitations": [
-    "No Render resource, secret or deployment was created.",
-    "Render Docker image build/deploy and managed owner/TLS/CA behavior remain unverified. Docker --check is unsupported by the local legacy builder; no successful Docker build is claimed.",
-    "HA/PITR, independent deletion journal, notifications, remote exports and real callback network behavior need hosted evidence.",
-    "Application SSRF pinning does not establish network-level callback egress isolation.",
-    "Render PITR targeting delay does not establish the prior five-minute disaster RPO."
+    "Local gates do not measure hosted capacity, restore behavior, callback egress, alarms or cross-replica export recovery.",
+    "Neon Launch networking and recovery settings require separate provider verification."
   ]
 }
