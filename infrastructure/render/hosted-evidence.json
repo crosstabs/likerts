@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-09-09T09:00:24.679Z",
+  "measuredAt": "2026-09-09T09:08:31.967Z",
   "commit": "72afd3f14938ecb01f9667398a3f05d57ece800b",
   "render": {
     "projectId": "prj-dagbmk5bedkc73fu380g",
@@ -372,7 +372,7 @@
     "answersOrMetadataPresent": false,
     "temporaryWorkspaceTombstoned": true,
     "receiverProjectDeleted": true,
-    "limitation": "Synthetic single-delivery acceptance against an independently deployed receiver in the same provider account. It does not prove customer-owned DNS, dynamic DNS rebinding, concurrent-worker behavior, enforced outbound policy or delivered alarms.",
+    "limitation": "Synthetic acceptance against independently deployed receivers in the same provider account. It does not prove customer-owned DNS, dynamic DNS rebinding, enforced outbound policy, delivered alarms, sustained capacity or restart during in-flight dispatch.",
     "deployedDnsDenial": {
       "measuredAt": "2026-09-09T08:54:32.774Z",
       "hostnameResolvedToLoopback": true,
@@ -409,6 +409,23 @@
       "redirectTargetRequests": 0,
       "receiverProjectDeleted": true,
       "limitation": "Synthetic same-account receiver and one delivery per endpoint. The timeout retry was observed queued and then cancelled by workspace tombstoning; later automatic attempts, worker restart and multi-worker contention were not exercised."
+    },
+    "multiWorkerConcurrency": {
+      "measuredAt": "2026-09-09T09:08:31.967Z",
+      "activeWorkerInstances": 2,
+      "simultaneousResponses": 20,
+      "uniqueAcceptedResponses": 20,
+      "deliveryRows": 20,
+      "uniqueEvents": 20,
+      "delivered": 20,
+      "attemptsPerDelivery": 1,
+      "receiverStatus": 204,
+      "completionSeconds": 7.964,
+      "temporaryWorkspaceTombstoned": true,
+      "receiverRequests": 20,
+      "normalWorkerInstancesRestored": 1,
+      "receiverProjectDeleted": true,
+      "limitation": "Both worker instances were confirmed active and the shared queue produced exact one-attempt delivery, but privacy-preserving worker logs do not attribute individual deliveries to a specific instance. Synthetic same-account receiver; sustained callback capacity and restart during in-flight dispatch remain separate gates."
     }
   }
 }

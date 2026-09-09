@@ -115,7 +115,7 @@ assert.deepEqual(evidence.hostedCallbackAcceptance, {
   answersOrMetadataPresent: false,
   temporaryWorkspaceTombstoned: true,
   receiverProjectDeleted: true,
-  limitation: 'Synthetic single-delivery acceptance against an independently deployed receiver in the same provider account. It does not prove customer-owned DNS, dynamic DNS rebinding, concurrent-worker behavior, enforced outbound policy or delivered alarms.',
+  limitation: 'Synthetic acceptance against independently deployed receivers in the same provider account. It does not prove customer-owned DNS, dynamic DNS rebinding, enforced outbound policy, delivered alarms, sustained capacity or restart during in-flight dispatch.',
   deployedDnsDenial: {
     measuredAt: evidence.hostedCallbackAcceptance.deployedDnsDenial.measuredAt,
     hostnameResolvedToLoopback: true,
@@ -148,11 +148,30 @@ assert.deepEqual(evidence.hostedCallbackAcceptance, {
     receiverProjectDeleted: true,
     limitation: 'Synthetic same-account receiver and one delivery per endpoint. The timeout retry was observed queued and then cancelled by workspace tombstoning; later automatic attempts, worker restart and multi-worker contention were not exercised.',
   },
+  multiWorkerConcurrency: {
+    measuredAt: evidence.hostedCallbackAcceptance.multiWorkerConcurrency.measuredAt,
+    activeWorkerInstances: 2,
+    simultaneousResponses: 20,
+    uniqueAcceptedResponses: 20,
+    deliveryRows: 20,
+    uniqueEvents: 20,
+    delivered: 20,
+    attemptsPerDelivery: 1,
+    receiverStatus: 204,
+    completionSeconds: evidence.hostedCallbackAcceptance.multiWorkerConcurrency.completionSeconds,
+    temporaryWorkspaceTombstoned: true,
+    receiverRequests: 20,
+    normalWorkerInstancesRestored: 1,
+    receiverProjectDeleted: true,
+    limitation: 'Both worker instances were confirmed active and the shared queue produced exact one-attempt delivery, but privacy-preserving worker logs do not attribute individual deliveries to a specific instance. Synthetic same-account receiver; sustained callback capacity and restart during in-flight dispatch remain separate gates.',
+  },
 });
 assert.match(evidence.hostedCallbackAcceptance.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.match(evidence.hostedCallbackAcceptance.deployedDnsDenial.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.match(evidence.hostedCallbackAcceptance.adversarialTransport.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.ok(evidence.hostedCallbackAcceptance.adversarialTransport.elapsedSeconds >= 10);
+assert.match(evidence.hostedCallbackAcceptance.multiWorkerConcurrency.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
+assert.ok(evidence.hostedCallbackAcceptance.multiWorkerConcurrency.completionSeconds > 0);
 inspect(evidence.hostedCallbackAcceptance);
 
 console.log('Hosted workspace/rollback evidence PASS: tenant denial, cleanup and compatible revision restoration.');
