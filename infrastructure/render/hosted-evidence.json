@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-09-09T08:54:32.774Z",
+  "measuredAt": "2026-09-09T09:00:24.679Z",
   "commit": "72afd3f14938ecb01f9667398a3f05d57ece800b",
   "render": {
     "projectId": "prj-dagbmk5bedkc73fu380g",
@@ -372,7 +372,7 @@
     "answersOrMetadataPresent": false,
     "temporaryWorkspaceTombstoned": true,
     "receiverProjectDeleted": true,
-    "limitation": "Synthetic single-delivery acceptance against an independently deployed receiver in the same provider account. It does not prove customer-owned DNS, adversarial DNS rebinding, timeout/retry/concurrent-worker behavior, enforced outbound policy or delivered alarms.",
+    "limitation": "Synthetic single-delivery acceptance against an independently deployed receiver in the same provider account. It does not prove customer-owned DNS, dynamic DNS rebinding, concurrent-worker behavior, enforced outbound policy or delivered alarms.",
     "deployedDnsDenial": {
       "measuredAt": "2026-09-09T08:54:32.774Z",
       "hostnameResolvedToLoopback": true,
@@ -383,7 +383,32 @@
       "httpRequestAttempted": false,
       "failureCode": "endpoint_address_denied",
       "temporaryWorkspaceTombstoned": true,
-      "limitation": "Uses a deterministic loopback-resolving public hostname. Dynamic rebinding between lookup and connection, customer-owned DNS, redirects, timeouts and concurrent workers remain separate tests."
+      "limitation": "Uses a deterministic loopback-resolving public hostname. Dynamic rebinding between lookup and connection and customer-owned DNS remain separate tests."
+    },
+    "adversarialTransport": {
+      "measuredAt": "2026-09-09T09:00:24.679Z",
+      "endpointInitialDisabled": true,
+      "redirect": {
+        "status": "failed",
+        "attempts": 1,
+        "lastStatus": 307,
+        "failureCode": "http_rejected"
+      },
+      "timeout": {
+        "clientTimeoutSeconds": 10,
+        "handlerDelaySeconds": 12,
+        "status": "queued",
+        "attempts": 1,
+        "lastStatus": null,
+        "failureCode": "transport_failed",
+        "retryDelaySeconds": 60
+      },
+      "elapsedSeconds": 11.227,
+      "temporaryWorkspaceTombstoned": true,
+      "receiverRequestRecords": 2,
+      "redirectTargetRequests": 0,
+      "receiverProjectDeleted": true,
+      "limitation": "Synthetic same-account receiver and one delivery per endpoint. The timeout retry was observed queued and then cancelled by workspace tombstoning; later automatic attempts, worker restart and multi-worker contention were not exercised."
     }
   }
 }

@@ -115,7 +115,7 @@ assert.deepEqual(evidence.hostedCallbackAcceptance, {
   answersOrMetadataPresent: false,
   temporaryWorkspaceTombstoned: true,
   receiverProjectDeleted: true,
-  limitation: 'Synthetic single-delivery acceptance against an independently deployed receiver in the same provider account. It does not prove customer-owned DNS, adversarial DNS rebinding, timeout/retry/concurrent-worker behavior, enforced outbound policy or delivered alarms.',
+  limitation: 'Synthetic single-delivery acceptance against an independently deployed receiver in the same provider account. It does not prove customer-owned DNS, dynamic DNS rebinding, concurrent-worker behavior, enforced outbound policy or delivered alarms.',
   deployedDnsDenial: {
     measuredAt: evidence.hostedCallbackAcceptance.deployedDnsDenial.measuredAt,
     hostnameResolvedToLoopback: true,
@@ -126,11 +126,33 @@ assert.deepEqual(evidence.hostedCallbackAcceptance, {
     httpRequestAttempted: false,
     failureCode: 'endpoint_address_denied',
     temporaryWorkspaceTombstoned: true,
-    limitation: 'Uses a deterministic loopback-resolving public hostname. Dynamic rebinding between lookup and connection, customer-owned DNS, redirects, timeouts and concurrent workers remain separate tests.',
+    limitation: 'Uses a deterministic loopback-resolving public hostname. Dynamic rebinding between lookup and connection and customer-owned DNS remain separate tests.',
+  },
+  adversarialTransport: {
+    measuredAt: evidence.hostedCallbackAcceptance.adversarialTransport.measuredAt,
+    endpointInitialDisabled: true,
+    redirect: {status: 'failed', attempts: 1, lastStatus: 307, failureCode: 'http_rejected'},
+    timeout: {
+      clientTimeoutSeconds: 10,
+      handlerDelaySeconds: 12,
+      status: 'queued',
+      attempts: 1,
+      lastStatus: null,
+      failureCode: 'transport_failed',
+      retryDelaySeconds: 60,
+    },
+    elapsedSeconds: evidence.hostedCallbackAcceptance.adversarialTransport.elapsedSeconds,
+    temporaryWorkspaceTombstoned: true,
+    receiverRequestRecords: 2,
+    redirectTargetRequests: 0,
+    receiverProjectDeleted: true,
+    limitation: 'Synthetic same-account receiver and one delivery per endpoint. The timeout retry was observed queued and then cancelled by workspace tombstoning; later automatic attempts, worker restart and multi-worker contention were not exercised.',
   },
 });
 assert.match(evidence.hostedCallbackAcceptance.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.match(evidence.hostedCallbackAcceptance.deployedDnsDenial.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
+assert.match(evidence.hostedCallbackAcceptance.adversarialTransport.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
+assert.ok(evidence.hostedCallbackAcceptance.adversarialTransport.elapsedSeconds >= 10);
 inspect(evidence.hostedCallbackAcceptance);
 
 console.log('Hosted workspace/rollback evidence PASS: tenant denial, cleanup and compatible revision restoration.');
