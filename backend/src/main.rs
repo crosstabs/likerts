@@ -867,14 +867,6 @@ async fn workspace(app: &App, headers: &HeaderMap, scope: &str) -> Result<String
         Ok(workspace) => workspace,
         Err(Error::Forbidden) => return Err(ApiError(Error::Forbidden)),
         Err(Error::Unauthorized) => {
-            if token.starts_with("lks_") {
-                let fingerprint = format!("{:x}", Sha256::digest(token.as_bytes()));
-                eprintln!(
-                    "service credential lookup rejected; token_length={}; fingerprint={}",
-                    token.len(),
-                    &fingerprint[..12]
-                );
-            }
             let verifier = app.oidc.as_ref().ok_or(ApiError(Error::Unauthorized))?;
             let claims = verifier.verify(token).await?;
             let selected_workspace = headers
@@ -1834,8 +1826,6 @@ async fn main() {
 
     let storage = match std::env::var("DATABASE_URL") {
         Ok(database_url) if !database_url.trim().is_empty() => {
-            let fingerprint = format!("{:x}", Sha256::digest(database_url.as_bytes()));
-            eprintln!("database configuration fingerprint={}", &fingerprint[..12]);
             let store = if std::env::var("LIKERTS_RUN_MIGRATIONS").as_deref() == Ok("1") {
                 PgStore::connect(&database_url)
                     .await

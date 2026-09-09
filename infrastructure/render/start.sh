@@ -29,12 +29,6 @@ case "${1:-}" in
         ;;
     esac
     case "$DATABASE_URL" in *'?sslmode=require'|*'?sslmode=verify-full') ;; *) echo 'Explicit database TLS mode required' >&2; exit 1;; esac
-    case "$DATABASE_URL" in
-      *-pooler.*.neon.tech*)
-        DATABASE_URL=$(printf '%s' "$DATABASE_URL" | sed 's/-pooler\././')
-        export DATABASE_URL
-        ;;
-    esac
     export LIKERTS_BIND_ADDRESS=0.0.0.0 LIKERTS_PORT="${PORT:-10000}"
     exec /usr/local/bin/likerts-server
     ;;
@@ -42,12 +36,6 @@ case "${1:-}" in
     test -z "${DATABASE_URL:-}${LIKERTS_MIGRATION_DATABASE_URL:-}${LIKERTS_VERCEL_BLOB_TOKEN:-}${LIKERTS_STRIPE_SECRET_KEY:-}${LIKERTS_STRIPE_WEBHOOK_SECRET:-}${LIKERTS_STRIPE_LIVE_MODE:-}" || { echo 'Non-worker credential forbidden on callback worker' >&2; exit 1; }
     : "${LIKERTS_WEBHOOK_DATABASE_URL:?Restricted worker database URL is required}"
     case "$LIKERTS_WEBHOOK_DATABASE_URL" in *'?sslmode=require'|*'?sslmode=verify-full') ;; *) echo 'Explicit database TLS mode required' >&2; exit 1;; esac
-    case "$LIKERTS_WEBHOOK_DATABASE_URL" in
-      *-pooler.*.neon.tech*)
-        LIKERTS_WEBHOOK_DATABASE_URL=$(printf '%s' "$LIKERTS_WEBHOOK_DATABASE_URL" | sed 's/-pooler\././')
-        export LIKERTS_WEBHOOK_DATABASE_URL
-        ;;
-    esac
     exec /usr/local/bin/likerts-webhook-worker
     ;;
   mcp)

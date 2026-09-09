@@ -19,6 +19,8 @@ docker exec -i "$container" psql -X -U likerts_runtime -d likerts -v ON_ERROR_ST
 begin;
 select set_config('likerts.workspace_id','render-tenant-a',true);
 insert into likerts.workspaces(id) values('render-tenant-a');
+insert into likerts.service_credentials(workspace_id,id,name,token_hash,scopes,expires_at)
+values('render-tenant-a','00000000-0000-0000-0000-000000000001','resolver-test',decode(repeat('ab',32),'hex'),array['surveys:read'],now()+interval '1 day');
 commit;
 begin;
 select set_config('likerts.workspace_id','render-tenant-b',true);
@@ -28,6 +30,8 @@ do $$ begin
   if (select count(*) from likerts.workspaces)<>0 then raise exception 'Unscoped tenant read';end if;
   if has_table_privilege(current_user,'likerts.audit_events','UPDATE') then raise exception 'Audit mutation privilege';end if;
   if has_schema_privilege(current_user,'likerts','CREATE') then raise exception 'Runtime migration privilege';end if;
+  if (select count(*) from likerts.resolve_service_credential(decode(repeat('ab',32),'hex')))<>1 then raise exception 'Credential resolver unavailable';end if;
+  if (select count(*) from likerts.resolve_service_credential(decode(repeat('cd',32),'hex')))<>0 then raise exception 'Credential resolver exposed another token';end if;
 end $$;
 begin;
 select set_config('likerts.workspace_id','render-tenant-a',true);

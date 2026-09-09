@@ -228,19 +228,6 @@ impl PgStore {
         Ok(transaction)
     }
 
-    async fn service_capability_transaction<'a>(
-        &'a self,
-        token: &str,
-    ) -> Result<Transaction<'a, Postgres>, Error> {
-        let mut transaction = self.pool.begin().await.map_err(database_error)?;
-        sqlx::query_scalar::<_, String>("select set_config('likerts.service_token_hash',$1,true)")
-            .bind(token_hash_hex(token))
-            .fetch_one(&mut *transaction)
-            .await
-            .map_err(database_error)?;
-        Ok(transaction)
-    }
-
     async fn oauth_capability_transaction<'a>(
         &'a self,
         grant_id: Uuid,
@@ -671,36 +658,19 @@ impl PgStore {
         if !valid_scope(required_scope) {
             return Err(Error::Internal);
         }
-        let mut transaction = self.service_capability_transaction(token).await?;
         let row = sqlx::query(
-            "select workspace_id,scopes,expires_at,revoked_at from likerts.service_credentials where token_hash=$1",
+            "select workspace_id,scopes from likerts.resolve_service_credential($1)",
         )
         .bind(token_hash(token))
-        .fetch_optional(&mut *transaction)
+        .fetch_optional(&self.pool)
         .await
         .map_err(database_error)?;
-        let Some(row) = row else {
-            eprintln!("service credential rejected; reason=missing");
-            return Err(Error::Unauthorized);
-        };
-        let revoked = row
-            .get::<Option<chrono::DateTime<Utc>>, _>("revoked_at")
-            .is_some();
-        let remaining_seconds =
-            (row.get::<chrono::DateTime<Utc>, _>("expires_at") - Utc::now()).num_seconds();
-        if revoked || remaining_seconds <= 0 {
-            eprintln!(
-                "service credential rejected; reason={}; remaining_seconds={remaining_seconds}",
-                if revoked { "revoked" } else { "expired" }
-            );
-            return Err(Error::Unauthorized);
-        }
+        let Some(row) = row else { return Err(Error::Unauthorized) };
         let scopes: Vec<String> = row.get("scopes");
         if !scopes.iter().any(|scope| scope == required_scope) {
             return Err(Error::Forbidden);
         }
         let workspace: String = row.get("workspace_id");
-        transaction.commit().await.map_err(database_error)?;
         Ok(workspace)
     }
 

@@ -38,6 +38,7 @@ grant select, insert, update on likerts.export_jobs to :"runtime_role";
 grant select, insert, update, delete on likerts.workspace_memberships to :"runtime_role";
 grant select, insert, update, delete on likerts.oauth_grants to :"runtime_role";
 grant select, insert, update, delete on likerts.service_credentials to :"runtime_role";
+grant execute on function likerts.resolve_service_credential(bytea) to :"runtime_role";
 grant select, insert on likerts.deletion_events to :"runtime_role";
 grant select, insert, update on likerts.billing_accounts to :"runtime_role";
 grant select, insert, update on likerts.settlement_batches to :"runtime_role";
