@@ -116,8 +116,21 @@ assert.deepEqual(evidence.hostedCallbackAcceptance, {
   temporaryWorkspaceTombstoned: true,
   receiverProjectDeleted: true,
   limitation: 'Synthetic single-delivery acceptance against an independently deployed receiver in the same provider account. It does not prove customer-owned DNS, adversarial DNS rebinding, timeout/retry/concurrent-worker behavior, enforced outbound policy or delivered alarms.',
+  deployedDnsDenial: {
+    measuredAt: evidence.hostedCallbackAcceptance.deployedDnsDenial.measuredAt,
+    hostnameResolvedToLoopback: true,
+    endpointCreatedDisabled: true,
+    endpointEnabledExplicitly: true,
+    status: 'failed',
+    attempts: 1,
+    httpRequestAttempted: false,
+    failureCode: 'endpoint_address_denied',
+    temporaryWorkspaceTombstoned: true,
+    limitation: 'Uses a deterministic loopback-resolving public hostname. Dynamic rebinding between lookup and connection, customer-owned DNS, redirects, timeouts and concurrent workers remain separate tests.',
+  },
 });
 assert.match(evidence.hostedCallbackAcceptance.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
+assert.match(evidence.hostedCallbackAcceptance.deployedDnsDenial.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
 inspect(evidence.hostedCallbackAcceptance);
 
 console.log('Hosted workspace/rollback evidence PASS: tenant denial, cleanup and compatible revision restoration.');
