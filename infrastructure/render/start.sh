@@ -20,10 +20,14 @@ case "${1:-}" in
     : "${LIKERTS_STRIPE_SECRET_KEY:?Stripe secret key required}"
     : "${LIKERTS_STRIPE_WEBHOOK_SECRET:?Stripe webhook secret required}"
     : "${LIKERTS_CHECKOUT_RETURN_ORIGIN:?Exact checkout return origin required}"
-    if [[ "$LIKERTS_STRIPE_SECRET_KEY" == sk_live_* ]] && [ "${LIKERTS_STRIPE_LIVE_MODE:-}" != 1 ]; then
-      echo 'Stripe live key requires LIKERTS_STRIPE_LIVE_MODE=1' >&2
-      exit 1
-    fi
+    case "$LIKERTS_STRIPE_SECRET_KEY" in
+      sk_live_*)
+        [ "${LIKERTS_STRIPE_LIVE_MODE:-}" = 1 ] || {
+          echo 'Stripe live key requires LIKERTS_STRIPE_LIVE_MODE=1' >&2
+          exit 1
+        }
+        ;;
+    esac
     case "$DATABASE_URL" in *'?sslmode=require'|*'?sslmode=verify-full') ;; *) echo 'Explicit database TLS mode required' >&2; exit 1;; esac
     export LIKERTS_BIND_ADDRESS=0.0.0.0 LIKERTS_PORT="${PORT:-10000}"
     exec /usr/local/bin/likerts-server

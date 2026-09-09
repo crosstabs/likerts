@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-09-09T05:03:05.319012Z",
+  "measuredAt": "2026-09-09T05:26:26.802861Z",
   "target": "Render Singapore compute + external PostgreSQL",
   "provisioned": true,
   "schema": {
@@ -45,11 +45,11 @@
   "sourceSha256": {
     "render.yaml": "cb4b7198ffae162aacaf9afed3a6b6dc5edd98f0cd8fe121085f285130465777",
     "infrastructure/render/Dockerfile": "dbd895f98bed53ce39317b67fb81c72c5c5f1bd1449593ee6afcf64faf9bf95d",
-    "infrastructure/render/start.sh": "b4c06a877f1e364ec0b961385209e75b32932b16eadd7477d44ad361a8ca75e8",
+    "infrastructure/render/start.sh": "2d0eb2def667eae15c0487ea6ebe296b7d6e5a4a0c4394d045ca152e2eda760e",
     "infrastructure/render/migrate.sh": "981d65c8461c780e33dcb96d4ccca2f0e18d613b2d06074e28959e2d5449d987",
     "infrastructure/render/bootstrap.sql": "5b8dbf1e725010d810fea7d5005beab0361470e67b85f02a0d65c73ff408a19b",
     "infrastructure/render/check.mjs": "dca17921fd7460459f03c6bc7b5bce9432bd38c4ffc9c5edbeaeb7bc5d2e853b",
-    "infrastructure/render/entrypoints.test.mjs": "bc265b5fcdf81288061e125afcea1832ee2bb22a5682dc8320ba6eaa68eee710",
+    "infrastructure/render/entrypoints.test.mjs": "8ce8acc21307d015d33c9b5f4619e4f5f5b94e6495ced8ff4779bd0a8af8c121",
     "scripts/check-render-roles.sh": "127a6e297cd2b38c9bc435de43e5ec075754794c7dc5668147157795e9056fcd"
   },
   "limitations": [
