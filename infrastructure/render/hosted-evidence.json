@@ -36,8 +36,8 @@
         "id": "crn-dagbp4f40ujc73c5m5ag",
         "plan": "0.5c-512mb",
         "automaticCommand": "/bin/true",
-        "deploy": "dep-dagg3h2d0e5s73cc2mlg",
-        "commit": "9379b5928f488c39f1620aa8f185630357fa53fa"
+        "deploy": "dep-daghftgu01pc73ftftqg",
+        "commit": "022dbfad58a1820a4ac26dd3ff5c61ae5828ecc3"
       }
     },
     "unusedPostgresDeleted": true
@@ -285,5 +285,49 @@
       "databaseConnected": false,
       "temporaryServiceDeleted": true
     }
+  },
+  "exportRestartRehearsal": {
+    "measuredAt": "2026-09-09T08:32:42.580Z",
+    "apiInstances": 2,
+    "syntheticResponses": 1000,
+    "approximateRawAnswerBytes": 54000000,
+    "submissionSeconds": 26.805097,
+    "restartAccepted": true,
+    "statusAfterRestart": "running",
+    "completionSeconds": 31,
+    "finalManifestResponseCount": 1000,
+    "initialLeaseChanged": false,
+    "gracefulCompletionProved": true,
+    "crossReplicaReclaimProved": false,
+    "temporaryWorkspaceTombstoned": true,
+    "credentialDeniedAfterCleanup": true,
+    "limitation": "The original lease completed during Render's zero-downtime service restart. A strict owner-only verifier rejected the stronger reclaim claim; abrupt single-instance termination remains unverified."
+  },
+  "managedRecoveryAccess": {
+    "measuredAt": "2026-09-09T08:13:00Z",
+    "provider": "Neon through Vercel Marketplace",
+    "neonMarketplaceConsole": "blocked_pending_account_email_verification",
+    "restoreExecuted": false,
+    "balanceInformationAvailable": false,
+    "limitation": "Marketplace resource status is available, but recovery-console SSO requires account email verification before branch restore/PITR controls can be inspected or exercised."
+  },
+  "providerUsageReview": {
+    "measuredAt": "2026-09-09T08:17:00Z",
+    "period": {
+      "from": "2026-09-01T07:00:00.000Z",
+      "to": "2026-09-10T07:00:00.000Z"
+    },
+    "vercelProject": {
+      "name": "likerts",
+      "effectiveCostUsd": 0.10152940488701202,
+      "billedCostUsd": 0.028879340130165812,
+      "dominantService": "Build CPU Minutes"
+    },
+    "marketplaceBalances": {
+      "neon": "unavailable",
+      "stripe": "unavailable"
+    },
+    "coverageComplete": false,
+    "limitation": "Partial Vercel account period only; excludes Render billing and unavailable Neon, Clerk and Stripe charges. Not margin evidence."
   }
 }

@@ -70,4 +70,29 @@ assert.equal(evidence.render.services.api.deploy, rollback.restored.deploy);
 assert.equal(evidence.render.services.api.commit, rollback.restored.commit);
 inspect(rollback);
 
+assert.deepEqual(evidence.exportRestartRehearsal, {
+  measuredAt: '2026-09-09T08:32:42.580Z',
+  apiInstances: 2,
+  syntheticResponses: 1000,
+  approximateRawAnswerBytes: 54000000,
+  submissionSeconds: 26.805097,
+  restartAccepted: true,
+  statusAfterRestart: 'running',
+  completionSeconds: 31,
+  finalManifestResponseCount: 1000,
+  initialLeaseChanged: false,
+  gracefulCompletionProved: true,
+  crossReplicaReclaimProved: false,
+  temporaryWorkspaceTombstoned: true,
+  credentialDeniedAfterCleanup: true,
+  limitation: 'The original lease completed during Render\'s zero-downtime service restart. A strict owner-only verifier rejected the stronger reclaim claim; abrupt single-instance termination remains unverified.',
+});
+assert.equal(evidence.managedRecoveryAccess.neonMarketplaceConsole, 'blocked_pending_account_email_verification');
+assert.equal(evidence.managedRecoveryAccess.restoreExecuted, false);
+assert.equal(evidence.providerUsageReview.vercelProject.billedCostUsd, 0.028879340130165812);
+assert.equal(evidence.providerUsageReview.coverageComplete, false);
+inspect(evidence.exportRestartRehearsal);
+inspect(evidence.managedRecoveryAccess);
+inspect(evidence.providerUsageReview);
+
 console.log('Hosted workspace/rollback evidence PASS: tenant denial, cleanup and compatible revision restoration.');
