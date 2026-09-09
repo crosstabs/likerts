@@ -1,6 +1,6 @@
-# Build status — 8 September 2026
+# Build status — 9 September 2026
 
-The crew implemented a local development foundation. **Not a public release.** All five SDKs remain required for first launch. One-time 1,000-response workspace grants and atomic prepaid consumption are verified locally. Verified signup/abuse controls and payment-confirmed US$5 credit purchases remain unfinished.
+The launch foundation is deployed for hosted acceptance, but it is **not a public release**. All five SDKs remain required for first launch. One-time 1,000-response workspace grants and atomic prepaid consumption are verified locally. Verified signup/abuse controls and payment-confirmed US$5 credit purchases remain unfinished.
 
 Render Singapore is the launch compute target, with Neon Singapore Postgres and private Blob supplied through Vercel Marketplace. The protected, network-isolated Render environment is deployed: two API instances, a separate callback worker, a one-instance MCP gateway and an inert migration job. Hosted migrations and exact role grants pass against Neon SQL-created users; the API role has no memberships or schema-create privilege, and the worker cannot read response data. API/MCP health and unauthenticated denial pass. Export failover, callback delivery, live MCP OAuth, load, recovery and monitoring remain hosted acceptance. See infrastructure/render/README.md and infrastructure/render/hosted-evidence.json.
 
@@ -65,7 +65,7 @@ LATER-01A response-event delivery passes its local gate. Seven scoped management
 
 ## Toolchain notes
 
-Rust toolchain and Android/Flutter build dependencies installed for this task live under ignored `.tools/`. Java and Flutter archives/clones came from official providers; Gradle and JDK archives were checked against published checksums. No global shell profile was changed. Node dependencies have package lockfiles; Rust crates have Cargo lockfiles. No packages were published and no cloud deployment was provisioned.
+Rust toolchain and Android/Flutter build dependencies installed for this task live under ignored `.tools/`. Java and Flutter archives/clones came from official providers; Gradle and JDK archives were checked against published checksums. No global shell profile was changed. Node dependencies have package lockfiles; Rust crates have Cargo lockfiles. No SDK packages were published. The Vercel control plane, Render compute and Neon database described above are provisioned for hosted acceptance.
 
 Question expansion integration verifies schema v1 preservation, v2 feature roundtrip through CLI/MCP/Web SDK, NPS and yes/no answer types, rejected under/over-selection without usage, and once-only usage for repeated enhanced submissions. Conditional visibility, bounded pages/branching and schema-v5 advanced question families are implemented and checked.
 
