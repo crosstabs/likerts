@@ -66,7 +66,7 @@ test("browser mounts Clerk sign-in or the signed-in user button", async () => {
   const html = await readFile(new URL("../public/index.html", import.meta.url), "utf8");
   assert.match(app, /clerk\.mountSignIn/);
   assert.match(app, /clerk\.mountUserButton/);
-  assert.match(app, /new window\.Clerk\(publishableKey\)/);
+  assert.match(app, /dataset\.clerkPublishableKey = publishableKeyForScript/);
   assert.match(app, /session\.getToken\(\)/);
   assert.match(app, /\/v1\/browser\/bootstrap/);
   assert.match(app, /\/v1\/browser\/oauth-grants/);

@@ -104,18 +104,19 @@ async function loadClerk() {
   if (!/^[a-z0-9.-]+\.clerk\.accounts\.dev$/.test(domain) && !/^[a-z0-9.-]+\.clerk\.com$/.test(domain)) {
     throw new Error("untrusted Clerk frontend domain");
   }
-  const loadScript = (source) => new Promise((resolve, reject) => {
+  const loadScript = (source, publishableKeyForScript) => new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.src = source;
     script.async = true;
     script.crossOrigin = "anonymous";
+    if (publishableKeyForScript) script.dataset.clerkPublishableKey = publishableKeyForScript;
     script.onload = resolve;
     script.onerror = () => reject(new Error("identity SDK unavailable"));
     document.head.appendChild(script);
   });
   await loadScript(`https://${domain}/npm/@clerk/ui@1/dist/ui.browser.js`);
-  await loadScript(`https://${domain}/npm/@clerk/clerk-js@6/dist/clerk.browser.js`);
-  const clerk = new window.Clerk(publishableKey);
+  await loadScript(`https://${domain}/npm/@clerk/clerk-js@6/dist/clerk.browser.js`, publishableKey);
+  const clerk = window.Clerk;
   await clerk.load({ ui: { ClerkUI: window.__internal_ClerkUICtor } });
   authRoot.replaceChildren();
   const mount = document.createElement("div");
