@@ -176,7 +176,9 @@ async function loadClerk() {
   const encodedDomain = publishableKey.split("_").slice(2).join("_");
   if (!encodedDomain) throw new Error("invalid publishable key");
   const domain = atob(encodedDomain.replace(/-/g, "+").replace(/_/g, "/")).slice(0, -1);
-  if (!/^[a-z0-9.-]+\.clerk\.accounts\.dev$/.test(domain) && !/^[a-z0-9.-]+\.clerk\.com$/.test(domain)) {
+  if (!/^[a-z0-9.-]+\.clerk\.accounts\.dev$/.test(domain)
+    && !/^[a-z0-9.-]+\.clerk\.com$/.test(domain)
+    && domain !== "clerk.likerts.com") {
     throw new Error("untrusted Clerk frontend domain");
   }
   const loadScript = (source, publishableKeyForScript) => new Promise((resolve, reject) => {
