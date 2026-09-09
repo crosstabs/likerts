@@ -45,7 +45,7 @@
   "vercel": {
     "project": "likerts",
     "production": "https://likerts.com",
-    "deployment": "dpl_9E2eekaWBVhVpUmR8gBC8wTHuq5g",
+    "deployment": "dpl_EFvLMDmEkNbvwrAZNYVTwh4wR3J1",
     "health": {
       "status": "ok",
       "apiOrigin": true,
@@ -58,7 +58,15 @@
       "stripe": "ir_spBTXI6zqC2A6YmJ",
       "upstashAdmission": "store_n8l8UgcAdw9fAJJG"
     },
-    "deploymentUrl": "https://likerts-gehxpo53k-crosstabs.vercel.app"
+    "deploymentUrl": "https://likerts-a7l1m587j-crosstabs.vercel.app",
+    "directDistribution": {
+      "url": "https://likerts.com/downloads/",
+      "sdkVersion": "0.0.3",
+      "sdkArtifacts": 5,
+      "cliSourceVersion": "0.1.0",
+      "productionEdgeSha256Verification": "passed",
+      "freshCliCargoInstall": "passed"
+    }
   },
   "database": {
     "provider": "Neon",
@@ -127,7 +135,7 @@
     "Stripe remains in test mode. Hosted $5 purchase/full-refund reconciliation passes; live merchant activation, automatic top-up, hosted disputes and broader out-of-order/failure reconciliation remain open.",
     "Hosted private Blob roundtrip and deletion-triggered export revocation pass; forced cross-replica failover, autonomous expiry/orphan removal, callback delivery, rollback, sustained load, delivered alarms and managed Neon restore drills remain open.",
     "The hosted lifecycle uses a scoped service credential and does not establish a completed human OAuth flow or native-device certification.",
-    "Local restore evidence covers migration 0021; refresh it for migration 0022 and measure managed recovery separately."
+    "Local restore evidence covers migration 0022; managed Neon recovery still requires separate measurement."
   ],
   "identity": {
     "provider": "Clerk",
