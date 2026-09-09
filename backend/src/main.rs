@@ -867,6 +867,12 @@ async fn workspace(app: &App, headers: &HeaderMap, scope: &str) -> Result<String
         Ok(workspace) => workspace,
         Err(Error::Forbidden) => return Err(ApiError(Error::Forbidden)),
         Err(Error::Unauthorized) => {
+            if token.starts_with("lks_") {
+                eprintln!(
+                    "service credential lookup rejected; token_length={}",
+                    token.len()
+                );
+            }
             let verifier = app.oidc.as_ref().ok_or(ApiError(Error::Unauthorized))?;
             let claims = verifier.verify(token).await?;
             let selected_workspace = headers
