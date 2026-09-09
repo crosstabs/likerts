@@ -12,7 +12,9 @@ Public paid launch begins only after the owner-controlled gates below pass. This
 
 - Production passwordless Clerk sign-in renders on `likerts.com` using verified custom domains; the development badge is absent.
 - Render/Neon tenant isolation, restricted runtime roles, all 22 migrations, API/MCP health and unauthenticated denial pass.
+- A production tenant-binding rehearsal allows the exact service-credential workspace and rejects a mismatched workspace through both direct API and MCP; tombstoning invalidates the credential through both paths.
 - The hosted lifecycle passes scoped credential issue/revocation, survey publication, five-SDK collection, response retrieval, private Blob export/download, data deletion, export revocation and workspace tombstoning.
+- A bounded production rehearsal sent 260 attempts, accepted exactly 211 unique responses against promotional credits, preserved zero paid exposure and verified cleanup. It is correctness and latency evidence, not a capacity or SLA claim.
 - Stripe test mode passes a real US$5 checkout, exact 500-credit grant and full-refund reconciliation without changing the 1,000 promotional credits.
 - Forty product capabilities have API/MCP/CLI parity across 53 registered HTTP routes.
 - Five SDK archives and the CLI source bundle are public at `https://likerts.com/downloads/`; production-edge downloads match the published checksums, and the CLI installs from a fresh extraction.
