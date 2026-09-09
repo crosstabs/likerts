@@ -2025,6 +2025,9 @@ async fn persists_and_accounts_concurrent_retries_once() {
         currency: None,
         payment_status: None,
         client_reference_id: None,
+        payment_intent_id: None,
+        amount: None,
+        status: None,
     };
     assert_eq!(
         restarted
@@ -2143,6 +2146,9 @@ async fn persists_and_accounts_concurrent_retries_once() {
         currency: None,
         payment_status: None,
         client_reference_id: None,
+        payment_intent_id: None,
+        amount: None,
+        status: None,
     };
     assert_eq!(
         restarted
@@ -2168,6 +2174,9 @@ async fn persists_and_accounts_concurrent_retries_once() {
         currency: None,
         payment_status: None,
         client_reference_id: None,
+        payment_intent_id: None,
+        amount: None,
+        status: None,
     };
     assert_eq!(
         restarted

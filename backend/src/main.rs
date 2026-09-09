@@ -1454,7 +1454,10 @@ async fn stripe_webhook(
         .ok_or(Error::Unauthorized)?;
     let event = payment_provider(&app)?.verify_event(signature, &body)?;
     let hash = Sha256::digest(&body);
-    if event.event_type.starts_with("checkout.session.") {
+    if event.event_type.starts_with("checkout.session.")
+        || event.event_type.starts_with("refund.")
+        || event.event_type.starts_with("charge.dispute.")
+    {
         app.storage
             .apply_credit_checkout_event(&event, &hash)
             .await?;

@@ -13,6 +13,7 @@
   "credits": {
     "promotionalCredits": 999,
     "paidCredits": 0,
+    "paidCreditDebt": 0,
     "availableCredits": 999,
     "promotionalResponses": 1,
     "paidResponses": 0,

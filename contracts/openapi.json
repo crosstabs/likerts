@@ -4212,6 +4212,7 @@
                   "credits": {
                     "promotionalCredits": 999,
                     "paidCredits": 0,
+                    "paidCreditDebt": 0,
                     "availableCredits": 999,
                     "promotionalResponses": 1,
                     "paidResponses": 0,
@@ -5224,6 +5225,7 @@
                   "credits": {
                     "promotionalCredits": 999,
                     "paidCredits": 0,
+                    "paidCreditDebt": 0,
                     "availableCredits": 999,
                     "promotionalResponses": 1,
                     "paidResponses": 0,
@@ -10014,6 +10016,11 @@
             "type": "integer",
             "minimum": 0
           },
+          "paidCreditDebt": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Consumed credits whose processor funds were later refunded or disputed. Acceptance remains paused until this reaches zero."
+          },
           "availableCredits": {
             "type": "integer",
             "minimum": 0
@@ -10034,6 +10041,7 @@
         "required": [
           "promotionalCredits",
           "paidCredits",
+          "paidCreditDebt",
           "availableCredits",
           "promotionalResponses",
           "paidResponses",

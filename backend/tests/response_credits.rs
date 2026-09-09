@@ -327,6 +327,9 @@ async fn postgres_credits_are_atomic_append_only_and_tenant_scoped() {
         currency: Some("usd".into()),
         payment_status: Some("paid".into()),
         client_reference_id: Some(checkout.id.clone()),
+        payment_intent_id: Some("pi_checkout_paid".into()),
+        amount: None,
+        status: Some("complete".into()),
     };
     assert_eq!(
         api.apply_credit_checkout_event(&checkout_event, &[10u8; 32])
@@ -466,6 +469,508 @@ async fn postgres_credits_are_atomic_append_only_and_tenant_scoped() {
         .await
         .unwrap(),
         entries_before_delete
+    );
+}
+
+#[tokio::test]
+async fn provider_refunds_and_disputes_reconcile_without_double_crediting() {
+    let Ok(admin_url) = std::env::var("LIKERTS_TEST_DATABASE_URL") else {
+        eprintln!("skipping: run scripts/check-response-credits.sh");
+        return;
+    };
+    let runtime_url = std::env::var("LIKERTS_TEST_RUNTIME_DATABASE_URL").unwrap();
+    std::env::set_var(
+        "LIKERTS_COLLECTION_CREDENTIAL_KEY",
+        "bGlrZXJ0cy10ZXN0LWtleS1vbmx5LTMyeCEhISEhISE=",
+    );
+    let admin = PgStore::connect(&admin_url).await.unwrap();
+    let api = PgStore::connect_runtime(&runtime_url).await.unwrap();
+    let suffix = Uuid::new_v4().simple().to_string();
+    let workspace = format!("reconcile-{suffix}");
+    api.ensure_workspaces([&workspace]).await.unwrap();
+    admin
+        .record_credit_adjustment(
+            &workspace,
+            change("remove-promo", CreditKind::Correction, -1000, 0, None),
+        )
+        .await
+        .unwrap();
+    api.update_billing_limits(
+        &workspace,
+        BillingLimitsInput {
+            monthly_spend_cap_cents: Some(1000),
+            unpaid_exposure_cap_cents: None,
+        },
+    )
+    .await
+    .unwrap();
+    let survey = api.create_survey(&workspace, draft()).await.unwrap();
+    api.publish(&workspace, &survey.id, 1).await.unwrap();
+    let collection = api
+        .create_collection(&workspace, &survey.id, 1, "refund-test")
+        .await
+        .unwrap();
+    let checkout = api
+        .prepare_credit_checkout(
+            &workspace,
+            CreditCheckoutInput {
+                amount_cents: 500,
+                idempotency_key: format!("checkout-{suffix}"),
+            },
+        )
+        .await
+        .unwrap();
+    let session = format!("cs_test_{suffix}");
+    let payment = format!("pi_{suffix}");
+    api.attach_credit_checkout(
+        &workspace,
+        &checkout.id,
+        &ProviderCheckout {
+            id: session.clone(),
+            url: "https://checkout.stripe.test/session".into(),
+            status: "open".into(),
+        },
+    )
+    .await
+    .unwrap();
+    let paid = ProviderEvent {
+        id: format!("evt_paid_{suffix}"),
+        event_type: "checkout.session.completed".into(),
+        intent_id: session,
+        failure_code: None,
+        amount_total: Some(500),
+        currency: Some("usd".into()),
+        payment_status: Some("paid".into()),
+        client_reference_id: Some(checkout.id.clone()),
+        payment_intent_id: Some(payment.clone()),
+        amount: None,
+        status: Some("complete".into()),
+    };
+    api.apply_credit_checkout_event(&paid, &[20; 32])
+        .await
+        .unwrap();
+    let purchase = api
+        .credit_entries(&workspace)
+        .await
+        .unwrap()
+        .into_iter()
+        .find(|entry| entry.adjustment.idempotency_key == format!("checkout:{}", checkout.id))
+        .unwrap();
+    assert!(admin
+        .record_credit_adjustment(
+            &workspace,
+            change(
+                "operator-checkout-reversal",
+                CreditKind::Reversal,
+                0,
+                -500,
+                Some(purchase.id),
+            ),
+        )
+        .await
+        .is_err());
+
+    let refund =
+        |event_id: &str, refund_id: &str, event_type: &str, amount, status: &str| ProviderEvent {
+            id: format!("{event_id}_{suffix}"),
+            event_type: event_type.into(),
+            intent_id: format!("{refund_id}_{suffix}"),
+            failure_code: None,
+            amount_total: None,
+            currency: Some("usd".into()),
+            payment_status: None,
+            client_reference_id: None,
+            payment_intent_id: Some(payment.clone()),
+            amount: Some(amount),
+            status: Some(status.into()),
+        };
+    let first_refund = refund(
+        "evt_refund_100",
+        "re_one",
+        "refund.created",
+        100,
+        "succeeded",
+    );
+    api.apply_credit_checkout_event(&first_refund, &[21; 32])
+        .await
+        .unwrap();
+    api.apply_credit_checkout_event(&first_refund, &[21; 32])
+        .await
+        .unwrap();
+    assert!(api
+        .apply_credit_checkout_event(&first_refund, &[22; 32])
+        .await
+        .is_err());
+    assert_eq!(
+        api.usage_summary(&workspace)
+            .await
+            .unwrap()
+            .credits
+            .paid_credits,
+        400
+    );
+    api.apply_credit_checkout_event(
+        &refund(
+            "evt_refund_100_failed",
+            "re_one",
+            "refund.failed",
+            100,
+            "failed",
+        ),
+        &[32; 32],
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        api.usage_summary(&workspace)
+            .await
+            .unwrap()
+            .credits
+            .paid_credits,
+        500
+    );
+    api.apply_credit_checkout_event(
+        &refund(
+            "evt_refund_100_old_success",
+            "re_one",
+            "refund.updated",
+            100,
+            "succeeded",
+        ),
+        &[33; 32],
+    )
+    .await
+    .unwrap();
+    api.apply_credit_checkout_event(
+        &refund(
+            "evt_refund_100_replacement",
+            "re_one_replacement",
+            "refund.created",
+            100,
+            "succeeded",
+        ),
+        &[34; 32],
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        api.usage_summary(&workspace)
+            .await
+            .unwrap()
+            .credits
+            .paid_credits,
+        400
+    );
+
+    let dispute = |id: &str, object_id: &str, status: &str, payment_id: &str| ProviderEvent {
+        id: format!("{id}_{suffix}"),
+        event_type: if status == "needs_response" {
+            "charge.dispute.created".into()
+        } else {
+            "charge.dispute.closed".into()
+        },
+        intent_id: format!("{object_id}_{suffix}"),
+        failure_code: None,
+        amount_total: None,
+        currency: Some("usd".into()),
+        payment_status: None,
+        client_reference_id: None,
+        payment_intent_id: Some(payment_id.into()),
+        amount: Some(200),
+        status: Some(status.into()),
+    };
+    api.apply_credit_checkout_event(
+        &dispute("evt_dispute", "dp_primary", "needs_response", &payment),
+        &[23; 32],
+    )
+    .await
+    .unwrap();
+    let disputed = api.usage_summary(&workspace).await.unwrap();
+    assert_eq!(disputed.credits.paid_credits, 200);
+    assert_eq!(disputed.blocked_reason.as_deref(), Some("payment_dispute"));
+    assert!(matches!(
+        api.submit(
+            &collection.id,
+            &collection.token,
+            response("blocked-by-dispute")
+        )
+        .await,
+        Err(Error::SpendLimit)
+    ));
+    api.apply_credit_checkout_event(
+        &dispute(
+            "evt_warning_old",
+            "dp_primary",
+            "warning_under_review",
+            &payment,
+        ),
+        &[29; 32],
+    )
+    .await
+    .unwrap();
+    let after_old_warning = api.usage_summary(&workspace).await.unwrap();
+    assert_eq!(after_old_warning.credits.paid_credits, 200);
+    assert_eq!(
+        after_old_warning.blocked_reason.as_deref(),
+        Some("payment_dispute")
+    );
+    api.apply_credit_checkout_event(
+        &dispute("evt_dispute_won", "dp_primary", "won", &payment),
+        &[24; 32],
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        api.usage_summary(&workspace)
+            .await
+            .unwrap()
+            .credits
+            .paid_credits,
+        400
+    );
+    api.apply_credit_checkout_event(
+        &dispute("evt_dispute_old", "dp_primary", "needs_response", &payment),
+        &[27; 32],
+    )
+    .await
+    .unwrap();
+    let after_old_dispute = api.usage_summary(&workspace).await.unwrap();
+    assert_eq!(after_old_dispute.credits.paid_credits, 400);
+    assert_eq!(after_old_dispute.blocked_reason, None);
+
+    api.apply_credit_checkout_event(
+        &refund(
+            "evt_refund_380",
+            "re_two",
+            "refund.created",
+            380,
+            "succeeded",
+        ),
+        &[25; 32],
+    )
+    .await
+    .unwrap();
+    for n in 0..20 {
+        api.submit(
+            &collection.id,
+            &collection.token,
+            response(&format!("spent-before-refund-{n}")),
+        )
+        .await
+        .unwrap();
+    }
+    api.apply_credit_checkout_event(
+        &refund(
+            "evt_refund_pending",
+            "re_three",
+            "refund.created",
+            20,
+            "pending",
+        ),
+        &[26; 32],
+    )
+    .await
+    .unwrap();
+    let summary = api.usage_summary(&workspace).await.unwrap();
+    assert_eq!(summary.credits.paid_credits, 0);
+    assert_eq!(summary.credits.paid_credit_debt, 20);
+    assert_eq!(summary.credits.available_credits, 0);
+    assert_eq!(
+        summary.blocked_reason.as_deref(),
+        Some("payment_reconciliation")
+    );
+    api.apply_credit_checkout_event(
+        &refund(
+            "evt_refund_failed",
+            "re_three",
+            "refund.failed",
+            20,
+            "failed",
+        ),
+        &[28; 32],
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        api.usage_summary(&workspace)
+            .await
+            .unwrap()
+            .credits
+            .paid_credit_debt,
+        0
+    );
+    api.apply_credit_checkout_event(
+        &refund(
+            "evt_refund_old",
+            "re_three",
+            "refund.created",
+            20,
+            "pending",
+        ),
+        &[30; 32],
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        api.usage_summary(&workspace)
+            .await
+            .unwrap()
+            .credits
+            .paid_credit_debt,
+        0
+    );
+    api.apply_credit_checkout_event(
+        &refund(
+            "evt_refund_final",
+            "re_four",
+            "refund.created",
+            20,
+            "succeeded",
+        ),
+        &[31; 32],
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        api.usage_summary(&workspace)
+            .await
+            .unwrap()
+            .credits
+            .paid_credit_debt,
+        20
+    );
+    let checkout_two = api
+        .prepare_credit_checkout(
+            &workspace,
+            CreditCheckoutInput {
+                amount_cents: 500,
+                idempotency_key: format!("checkout-two-{suffix}"),
+            },
+        )
+        .await
+        .unwrap();
+    let session_two = format!("cs_test_two_{suffix}");
+    let payment_two = format!("pi_two_{suffix}");
+    api.attach_credit_checkout(
+        &workspace,
+        &checkout_two.id,
+        &ProviderCheckout {
+            id: session_two.clone(),
+            url: "https://checkout.stripe.test/session-two".into(),
+            status: "open".into(),
+        },
+    )
+    .await
+    .unwrap();
+    api.apply_credit_checkout_event(
+        &ProviderEvent {
+            id: format!("evt_paid_two_{suffix}"),
+            event_type: "checkout.session.completed".into(),
+            intent_id: session_two,
+            failure_code: None,
+            amount_total: Some(500),
+            currency: Some("usd".into()),
+            payment_status: Some("paid".into()),
+            client_reference_id: Some(checkout_two.id.clone()),
+            payment_intent_id: Some(payment_two.clone()),
+            amount: None,
+            status: Some("complete".into()),
+        },
+        &[35; 32],
+    )
+    .await
+    .unwrap();
+    api.apply_credit_checkout_event(
+        &ProviderEvent {
+            id: format!("evt_refund_two_{suffix}"),
+            event_type: "refund.created".into(),
+            intent_id: format!("re_checkout_two_{suffix}"),
+            failure_code: None,
+            amount_total: None,
+            currency: Some("usd".into()),
+            payment_status: None,
+            client_reference_id: None,
+            payment_intent_id: Some(payment_two.clone()),
+            amount: Some(500),
+            status: Some("succeeded".into()),
+        },
+        &[36; 32],
+    )
+    .await
+    .unwrap();
+    api.apply_credit_checkout_event(
+        &dispute(
+            "evt_dispute_open_one",
+            "dp_concurrent_one",
+            "needs_response",
+            &payment,
+        ),
+        &[37; 32],
+    )
+    .await
+    .unwrap();
+    api.apply_credit_checkout_event(
+        &dispute(
+            "evt_dispute_open_two",
+            "dp_concurrent_two",
+            "needs_response",
+            &payment_two,
+        ),
+        &[38; 32],
+    )
+    .await
+    .unwrap();
+    let api_one = api.clone();
+    let api_two = api.clone();
+    let close_one = dispute(
+        "evt_dispute_close_one",
+        "dp_concurrent_one",
+        "won",
+        &payment,
+    );
+    let close_two = dispute(
+        "evt_dispute_close_two",
+        "dp_concurrent_two",
+        "won",
+        &payment_two,
+    );
+    let (closed_one, closed_two) = tokio::join!(
+        api_one.apply_credit_checkout_event(&close_one, &[39; 32]),
+        api_two.apply_credit_checkout_event(&close_two, &[40; 32])
+    );
+    closed_one.unwrap();
+    closed_two.unwrap();
+    assert_eq!(
+        api.usage_summary(&workspace)
+            .await
+            .unwrap()
+            .blocked_reason
+            .as_deref(),
+        Some("payment_reconciliation")
+    );
+    assert!(matches!(
+        api.submit(
+            &collection.id,
+            &collection.token,
+            response("blocked-by-refund")
+        )
+        .await,
+        Err(Error::SpendLimit)
+    ));
+    admin
+        .record_credit_adjustment(
+            &workspace,
+            change("debt-payment", CreditKind::Purchase, 0, 10, None),
+        )
+        .await
+        .unwrap();
+    assert_eq!(
+        api.usage_summary(&workspace)
+            .await
+            .unwrap()
+            .credits
+            .paid_credit_debt,
+        10
     );
 }
 

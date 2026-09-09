@@ -14,6 +14,7 @@ pub enum CreditKind {
     Refund,
     Reversal,
     Correction,
+    ProviderAdjustment,
 }
 impl CreditKind {
     pub fn as_str(self) -> &'static str {
@@ -24,6 +25,7 @@ impl CreditKind {
             Self::Refund => "refund",
             Self::Reversal => "reversal",
             Self::Correction => "correction",
+            Self::ProviderAdjustment => "provider_adjustment",
         }
     }
 }
@@ -50,6 +52,7 @@ pub struct CreditEntry {
 pub struct CreditBalance {
     pub promotional_credits: u64,
     pub paid_credits: u64,
+    pub paid_credit_debt: u64,
     pub available_credits: u64,
     pub promotional_responses: u64,
     pub paid_responses: u64,
@@ -81,12 +84,16 @@ pub fn validate_adjustment(input: &CreditAdjustment) -> Result<(), Error> {
         return Err(invalid());
     }
     if input.reference_id.is_some()
-        != matches!(input.kind, CreditKind::Refund | CreditKind::Reversal)
+        != matches!(
+            input.kind,
+            CreditKind::Refund | CreditKind::Reversal | CreditKind::ProviderAdjustment
+        )
     {
         return Err(invalid());
     }
     match input.kind {
         CreditKind::Consumption => return Err(invalid()),
+        CreditKind::ProviderAdjustment => return Err(invalid()),
         CreditKind::Grant if input.promotional_delta <= 0 || input.paid_delta != 0 => {
             return Err(invalid())
         }
@@ -145,9 +152,14 @@ impl CreditBook {
                 }
             }
         }
-        result.promotional_credits = promo as u64;
-        result.paid_credits = paid as u64;
-        result.available_credits = (promo + paid) as u64;
+        result.promotional_credits = promo.max(0) as u64;
+        result.paid_credits = paid.max(0) as u64;
+        result.paid_credit_debt = (-paid).max(0) as u64;
+        result.available_credits = if paid < 0 {
+            0
+        } else {
+            (promo + paid).max(0) as u64
+        };
         result
     }
     pub fn adjust(&mut self, input: CreditAdjustment) -> Result<CreditEntry, Error> {

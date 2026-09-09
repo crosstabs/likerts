@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-09-09T03:36:57.201040+00:00",
+  "measuredAt": "2026-09-09T05:03:05.319012Z",
   "target": "Render Singapore compute + external PostgreSQL",
   "provisioned": true,
   "schema": {
@@ -39,7 +39,7 @@
         "runtime DDL/audit denial",
         "worker response/audit read denial"
       ],
-      "migrationCount": 20
+      "migrationCount": 21
     }
   ],
   "sourceSha256": {

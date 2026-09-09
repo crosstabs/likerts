@@ -100,6 +100,9 @@ pub struct ProviderEvent {
     pub currency: Option<String>,
     pub payment_status: Option<String>,
     pub client_reference_id: Option<String>,
+    pub payment_intent_id: Option<String>,
+    pub amount: Option<u64>,
+    pub status: Option<String>,
 }
 
 pub trait PaymentProvider: Send + Sync {
@@ -267,8 +270,19 @@ impl PaymentProvider for StripePaymentProvider {
                     format!("{}/?checkout=cancelled", self.checkout_return_origin),
                 ),
                 ("client_reference_id", request.purchase_id.clone()),
-                ("metadata[likerts_purchase_id]", request.purchase_id),
-                ("metadata[likerts_workspace_id]", request.workspace_id),
+                ("metadata[likerts_purchase_id]", request.purchase_id.clone()),
+                (
+                    "metadata[likerts_workspace_id]",
+                    request.workspace_id.clone(),
+                ),
+                (
+                    "payment_intent_data[metadata][likerts_purchase_id]",
+                    request.purchase_id.clone(),
+                ),
+                (
+                    "payment_intent_data[metadata][likerts_workspace_id]",
+                    request.workspace_id.clone(),
+                ),
                 ("line_items[0][price_data][currency]", "usd".to_owned()),
                 (
                     "line_items[0][price_data][unit_amount]",
@@ -503,6 +517,9 @@ pub fn verify_stripe_event(
         currency: envelope.data.object.currency,
         payment_status: envelope.data.object.payment_status,
         client_reference_id: envelope.data.object.client_reference_id,
+        payment_intent_id: envelope.data.object.payment_intent,
+        amount: envelope.data.object.amount,
+        status: envelope.data.object.status,
     })
 }
 
@@ -535,6 +552,9 @@ struct StripeObject {
     currency: Option<String>,
     payment_status: Option<String>,
     client_reference_id: Option<String>,
+    payment_intent: Option<String>,
+    amount: Option<u64>,
+    status: Option<String>,
 }
 #[derive(Deserialize)]
 struct StripeError {

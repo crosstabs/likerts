@@ -1618,7 +1618,7 @@ impl PgStore {
             .await
             .map_err(database_error)?;
         let limits = sqlx::query(
-            "select monthly_spend_cap_cents,unpaid_exposure_cap_cents,billing_paused from likerts.workspaces where id=$1",
+            "select monthly_spend_cap_cents,unpaid_exposure_cap_cents,billing_paused,prepaid_dispute_open from likerts.workspaces where id=$1",
         )
         .bind(&workspace)
         .fetch_one(&mut *transaction)
@@ -1627,6 +1627,7 @@ impl PgStore {
         Self::ensure_credit_onboarding(&mut transaction, &workspace).await?;
         let credits = Self::credit_balance_tx(&mut transaction, &workspace).await?;
         if limits.get::<bool, _>("billing_paused")
+            || limits.get::<bool, _>("prepaid_dispute_open")
             || credits.available_credits == 0
             || (credits.promotional_credits == 0
                 && credits.month_paid_responses
@@ -2321,22 +2322,25 @@ impl PgStore {
         event: &ProviderEvent,
         payload_hash: &[u8],
     ) -> Result<CreditCheckout, Error> {
-        let amount = event
-            .amount_total
-            .ok_or_else(|| Error::Invalid("checkout amount missing".into()))?;
+        let is_checkout = event.event_type.starts_with("checkout.session.");
+        let amount = (if is_checkout {
+            event.amount_total
+        } else {
+            event.amount
+        })
+        .ok_or_else(|| Error::Invalid("payment event amount missing".into()))?;
         let currency = event
             .currency
             .as_deref()
-            .ok_or_else(|| Error::Invalid("checkout currency missing".into()))?;
-        let payment_status = event.payment_status.as_deref().unwrap_or("unpaid");
-        let client_reference = event
-            .client_reference_id
-            .as_deref()
-            .ok_or_else(|| Error::Invalid("checkout reference missing".into()))?;
+            .ok_or_else(|| Error::Invalid("payment event currency missing".into()))?;
         let mut tx = self.pool.begin().await.map_err(database_error)?;
-        let applied = sqlx::query("select workspace_id,checkout_id,checkout_status from likerts.apply_credit_checkout_event($1,$2,$3,$4,$5,$6,$7,$8)")
-            .bind(token_hash(&event.intent_id)).bind(&event.id).bind(&event.event_type).bind(payload_hash)
-            .bind(database_integer(amount)?).bind(currency).bind(payment_status).bind(client_reference)
+        let applied = sqlx::query("select workspace_id,checkout_id,checkout_status from likerts.apply_credit_payment_event($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)")
+            .bind(is_checkout.then(|| token_hash(&event.intent_id)))
+            .bind(event.payment_intent_id.as_deref().map(token_hash))
+            .bind(&event.id).bind(&event.event_type).bind(payload_hash).bind(if is_checkout { event.payment_intent_id.as_deref().unwrap_or("") } else { &event.intent_id })
+            .bind(database_integer(amount)?).bind(currency).bind(event.status.as_deref().unwrap_or(""))
+            .bind(event.payment_status.as_deref().unwrap_or(""))
+            .bind(event.client_reference_id.as_deref().unwrap_or(""))
             .fetch_one(&mut *tx).await.map_err(credit_database_error)?;
         let workspace: String = applied.get("workspace_id");
         let id: Uuid = applied.get("checkout_id");
@@ -2530,13 +2534,14 @@ impl PgStore {
             .bind(workspace).fetch_one(&mut **tx).await.map_err(credit_database_error)?;
         let promo = row.get::<i64, _>("promo");
         let paid = row.get::<i64, _>("paid");
-        if promo < 0 || paid < 0 {
+        if promo < 0 {
             return Err(Error::Internal);
         }
         Ok(crate::credits::CreditBalance {
             promotional_credits: promo as u64,
-            paid_credits: paid as u64,
-            available_credits: (promo + paid) as u64,
+            paid_credits: paid.max(0) as u64,
+            paid_credit_debt: (-paid).max(0) as u64,
+            available_credits: if paid < 0 { 0 } else { (promo + paid) as u64 },
             promotional_responses: row.get::<i64, _>("promo_used") as u64,
             paid_responses: row.get::<i64, _>("paid_used") as u64,
             month_paid_responses: row.get::<i64, _>("month_paid") as u64,
@@ -2607,7 +2612,7 @@ impl PgStore {
         Self::ensure_credit_onboarding(&mut tx, workspace).await?;
         let credits = Self::credit_balance_tx(&mut tx, workspace).await?;
         let row = sqlx::query(
-            "select monthly_spend_cap_cents,unpaid_exposure_cap_cents,billing_paused, (select coalesce(sum(amount_cents),0)::bigint from likerts.usage_entries where workspace_id=$1) as total, (select coalesce(sum(amount_cents),0)::bigint from likerts.usage_entries where workspace_id=$1 and created_at >= date_trunc('month',now() at time zone 'UTC') at time zone 'UTC') as month_total, (select coalesce(sum(u.amount_cents),0)::bigint from likerts.usage_entries u where u.workspace_id=$1 and not exists(select 1 from likerts.response_credits cr where cr.workspace_id=u.workspace_id and cr.response_id=u.response_id) and not exists(select 1 from likerts.settlement_usage su join likerts.settlement_batches sb on sb.workspace_id=su.workspace_id and sb.id=su.settlement_id where su.workspace_id=$1 and su.response_id=u.response_id and sb.status in ('succeeded','refunded'))) as exposure from likerts.workspaces where id=$1",
+            "select monthly_spend_cap_cents,unpaid_exposure_cap_cents,billing_paused,prepaid_dispute_open, (select coalesce(sum(amount_cents),0)::bigint from likerts.usage_entries where workspace_id=$1) as total, (select coalesce(sum(amount_cents),0)::bigint from likerts.usage_entries where workspace_id=$1 and created_at >= date_trunc('month',now() at time zone 'UTC') at time zone 'UTC') as month_total, (select coalesce(sum(u.amount_cents),0)::bigint from likerts.usage_entries u where u.workspace_id=$1 and not exists(select 1 from likerts.response_credits cr where cr.workspace_id=u.workspace_id and cr.response_id=u.response_id) and not exists(select 1 from likerts.settlement_usage su join likerts.settlement_batches sb on sb.workspace_id=su.workspace_id and sb.id=su.settlement_id where su.workspace_id=$1 and su.response_id=u.response_id and sb.status in ('succeeded','refunded'))) as exposure from likerts.workspaces where id=$1",
         )
         .bind(workspace)
         .fetch_one(&mut *tx)
@@ -2620,7 +2625,11 @@ impl PgStore {
         let exposure_cap = row.get::<i64, _>("unpaid_exposure_cap_cents") as u64;
         let unpaid = row.get::<i64, _>("exposure") as u64;
         let paused = row.get::<bool, _>("billing_paused");
-        let blocked_reason = if paused {
+        let blocked_reason = if row.get::<bool, _>("prepaid_dispute_open") {
+            Some("payment_dispute".into())
+        } else if credits.paid_credit_debt > 0 {
+            Some("payment_reconciliation".into())
+        } else if paused {
             Some("billing_paused".into())
         } else if credits.available_credits == 0 {
             Some("credits_exhausted".into())
