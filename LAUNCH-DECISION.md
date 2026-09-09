@@ -30,7 +30,7 @@ Evidence files: `infrastructure/render/hosted-evidence.json`, `infrastructure/re
 | Customer agent journey | That user completes one real API call, CLI call, Codex MCP connection and Claude MCP connection. Provider OAuth remains unadvertised until consent, refresh and revocation pass. |
 | Live payments | Activate Stripe live mode, confirm merchant and financial-retention requirements, then complete purchase, signed webhook, refund and reconciliation with live credentials. |
 | Terms and support | Publish reviewed privacy, terms, refund/prepaid-credit and subprocessor language; name the support contact and incident owner. |
-| Managed operations | Exercise Neon restore/PITR, Render rollback and cross-replica export recovery; deliver an actual alert; validate callback egress and expiry cleanup; record provider bills and a sustained load result. |
+| Managed operations | Exercise Neon restore/PITR and cross-replica export recovery; deliver an actual alert; validate callback egress and expiry cleanup; record provider bills and a sustained load result. Compatible Render restoration and isolated failed-candidate rejection already pass. |
 | Client acceptance | Complete the declared browser/accessibility and supported native host/device matrix for all five launch SDKs. |
 | Release automation | Restore GitHub Actions execution by resolving the repository owner's payment/spending-limit issue. Required checks currently do not start, although the same repository gates pass locally. |
 

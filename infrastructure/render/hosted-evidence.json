@@ -273,6 +273,17 @@
     },
     "schemaCompatibilityReviewed": true,
     "runtimeDiffBetweenCommits": false,
-    "limitation": "This proves operator-triggered restoration to a compatible recorded revision. It does not prove Render automatically rejects an unhealthy candidate or database rollback."
+    "limitation": "The compatible revision restoration ran on the production API. Intentional failure ran on an isolated credential-free service so no customer traffic or data was exposed; it proves Render retained the last healthy revision, not application-specific failure modes.",
+    "failedCandidateRejection": {
+      "temporaryService": "srv-dagh8p6q1p3s73bc2320",
+      "healthyDeploy": "dep-dagh8ri0a91c73b5chn0",
+      "failedDeploy": "dep-dagh9g740ujc73f6u1p0",
+      "failedStatus": "update_failed",
+      "failureDurationSeconds": 31.75737,
+      "lastHealthyStatusAfterFailure": 200,
+      "customerCredentialsPresent": false,
+      "databaseConnected": false,
+      "temporaryServiceDeleted": true
+    }
   }
 }

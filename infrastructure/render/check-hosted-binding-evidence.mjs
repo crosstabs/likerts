@@ -54,7 +54,18 @@ assert.deepEqual(rollback.restored, {
 });
 assert.equal(rollback.schemaCompatibilityReviewed, true);
 assert.equal(rollback.runtimeDiffBetweenCommits, false);
-assert.match(rollback.limitation, /unhealthy|failed/);
+assert.deepEqual(rollback.failedCandidateRejection, {
+  temporaryService: 'srv-dagh8p6q1p3s73bc2320',
+  healthyDeploy: 'dep-dagh8ri0a91c73b5chn0',
+  failedDeploy: 'dep-dagh9g740ujc73f6u1p0',
+  failedStatus: 'update_failed',
+  failureDurationSeconds: 31.75737,
+  lastHealthyStatusAfterFailure: 200,
+  customerCredentialsPresent: false,
+  databaseConnected: false,
+  temporaryServiceDeleted: true,
+});
+assert.match(rollback.limitation, /isolated|production/);
 assert.equal(evidence.render.services.api.deploy, rollback.restored.deploy);
 assert.equal(evidence.render.services.api.commit, rollback.restored.commit);
 inspect(rollback);
