@@ -115,7 +115,7 @@ assert.deepEqual(evidence.hostedCallbackAcceptance, {
   answersOrMetadataPresent: false,
   temporaryWorkspaceTombstoned: true,
   receiverProjectDeleted: true,
-  limitation: 'Synthetic acceptance against independently deployed receivers in the same provider account. It does not prove customer-owned DNS, dynamic DNS rebinding, enforced outbound policy, delivered alarms, sustained capacity or restart during in-flight dispatch.',
+  limitation: 'Synthetic acceptance against independently deployed receivers in the same provider account. It does not prove customer-owned DNS, dynamic DNS rebinding, enforced outbound policy, delivered alarms, sustained capacity or abrupt-process lease reclaim.',
   deployedDnsDenial: {
     measuredAt: evidence.hostedCallbackAcceptance.deployedDnsDenial.measuredAt,
     hostnameResolvedToLoopback: true,
@@ -165,6 +165,24 @@ assert.deepEqual(evidence.hostedCallbackAcceptance, {
     receiverProjectDeleted: true,
     limitation: 'Both worker instances were confirmed active and the shared queue produced exact one-attempt delivery, but privacy-preserving worker logs do not attribute individual deliveries to a specific instance. Synthetic same-account receiver; sustained callback capacity and restart during in-flight dispatch remain separate gates.',
   },
+  inFlightRestart: {
+    measuredAt: evidence.hostedCallbackAcceptance.inFlightRestart.measuredAt,
+    submittedAt: '2026-09-09T09:17:39.043Z',
+    requestStartedAt: '2026-09-09T09:17:39.516Z',
+    restartRequestedAt: '2026-09-09T09:17:40.223Z',
+    restartCommandReturnedAt: '2026-09-09T09:17:41.206Z',
+    replacementWorkerStartedAt: '2026-09-09T09:17:43.939334227Z',
+    receiverHandlerSeconds: 8,
+    deliveryStatus: 'delivered',
+    attempts: 1,
+    receiverStatus: 204,
+    receiverRequestsForThreeRuns: 3,
+    gracefulDrainProved: true,
+    hardLeaseReclaimProved: false,
+    temporaryWorkspaceTombstoned: true,
+    receiverProjectDeleted: true,
+    limitation: 'Render performed a graceful service restart and allowed the in-flight request to complete on its first lease. Abrupt process loss and expired-lease reclaim remain unproved.',
+  },
 });
 assert.match(evidence.hostedCallbackAcceptance.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.match(evidence.hostedCallbackAcceptance.deployedDnsDenial.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
@@ -172,6 +190,9 @@ assert.match(evidence.hostedCallbackAcceptance.adversarialTransport.measuredAt, 
 assert.ok(evidence.hostedCallbackAcceptance.adversarialTransport.elapsedSeconds >= 10);
 assert.match(evidence.hostedCallbackAcceptance.multiWorkerConcurrency.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.ok(evidence.hostedCallbackAcceptance.multiWorkerConcurrency.completionSeconds > 0);
+assert.match(evidence.hostedCallbackAcceptance.inFlightRestart.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
+assert.ok(Date.parse(evidence.hostedCallbackAcceptance.inFlightRestart.requestStartedAt) < Date.parse(evidence.hostedCallbackAcceptance.inFlightRestart.restartRequestedAt));
+assert.ok(Date.parse(evidence.hostedCallbackAcceptance.inFlightRestart.restartRequestedAt) < Date.parse(evidence.hostedCallbackAcceptance.inFlightRestart.replacementWorkerStartedAt));
 inspect(evidence.hostedCallbackAcceptance);
 
 console.log('Hosted workspace/rollback evidence PASS: tenant denial, cleanup and compatible revision restoration.');
