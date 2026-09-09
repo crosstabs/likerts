@@ -64,8 +64,9 @@ test("build rejects API URLs that are not an exact trusted origin", async () => 
 test("browser mounts Clerk sign-in or the signed-in user button", async () => {
   const app = await readFile(new URL("../public/app.js", import.meta.url), "utf8");
   const html = await readFile(new URL("../public/index.html", import.meta.url), "utf8");
-  assert.match(app, /Clerk\.mountSignIn/);
-  assert.match(app, /Clerk\.mountUserButton/);
+  assert.match(app, /clerk\.mountSignIn/);
+  assert.match(app, /clerk\.mountUserButton/);
+  assert.match(app, /new window\.Clerk\(publishableKey\)/);
   assert.match(app, /session\.getToken\(\)/);
   assert.match(app, /\/v1\/browser\/bootstrap/);
   assert.match(app, /\/v1\/browser\/oauth-grants/);

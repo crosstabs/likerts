@@ -115,15 +115,16 @@ async function loadClerk() {
   });
   await loadScript(`https://${domain}/npm/@clerk/ui@1/dist/ui.browser.js`);
   await loadScript(`https://${domain}/npm/@clerk/clerk-js@6/dist/clerk.browser.js`);
-  await window.Clerk.load({ ui: { ClerkUI: window.__internal_ClerkUICtor } });
+  const clerk = new window.Clerk(publishableKey);
+  await clerk.load({ ui: { ClerkUI: window.__internal_ClerkUICtor } });
   authRoot.replaceChildren();
   const mount = document.createElement("div");
   authRoot.appendChild(mount);
-  if (window.Clerk.isSignedIn) {
-    window.Clerk.mountUserButton(mount);
-    await loadWorkspace(window.Clerk);
+  if (clerk.isSignedIn) {
+    clerk.mountUserButton(mount);
+    await loadWorkspace(clerk);
   } else {
-    window.Clerk.mountSignIn(mount);
+    clerk.mountSignIn(mount);
     set("workspace-status", "Sign in required", false);
   }
 }
