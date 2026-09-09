@@ -24,9 +24,9 @@
         <div class="hero-copy">
           <p class="eyebrow">Collection infrastructure</p>
           <h1 id="hero-title">Ask anywhere.<br />Learn everywhere.</h1>
-          <p class="lede">Define the questions once. Embed them in your product. Collect clean responses through one API you can run from MCP, CLI, or code.</p>
-          <div class="button-row"><a class="button" href="/app/">Start with 1,000 free responses</a><a class="button button-secondary" href="#developers">See how it works</a></div>
-          <ul class="trust-line" aria-label="Product boundaries"><li>No hosted links</li><li>No email campaigns</li><li>No passwords</li></ul>
+          <p class="lede">Embeddable survey collection for web and mobile. Your product asks; Likerts validates, stores, and meters each accepted response.</p>
+          <div class="button-row"><a class="button" href="/app/">Start with 1,000 free responses</a><a class="button button-secondary" href="#product">Explore question types</a></div>
+          <ul class="trust-line" aria-label="Product capabilities"><li>Nine question types</li><li>Conditional flows</li><li>Offline queues</li></ul>
         </div>
 
         <div class="hero-system" aria-label="A survey definition reaching five product surfaces">
@@ -50,27 +50,28 @@
         </div>
       </section>
 
-      <div class="proof-strip" aria-label="Key product facts"><p><strong>1 contract</strong><span>across every SDK</span></p><p><strong>12 scoped capabilities</strong><span>for people and agents</span></p><p><strong>1¢</strong><span>per accepted response</span></p></div>
-
-      <section id="product" class="marketing-section contract-section" aria-labelledby="contract-title">
-        <p class="eyebrow">Define once. Run everywhere.</p>
-        <div class="section-heading split-heading"><h2 id="contract-title">One survey contract.<br />Five native surfaces.</h2><p>Your product owns the experience. Likerts keeps the schema, metadata, response validation, and usage accounting consistent behind it.</p></div>
-        <div class="contract-flow">
-          <article class="schema-panel"><div class="panel-label"><span>01</span> Survey schema</div><pre><code>{
-  <span class="code-blue">"title"</span>: <span class="code-green">"Feature feedback"</span>,
-  <span class="code-blue">"questions"</span>: [{
-    <span class="code-blue">"type"</span>: <span class="code-green">"likert"</span>,
-    <span class="code-blue">"scale"</span>: <span class="code-lime">5</span>
-  }]
-}</code></pre></article>
-          <div class="contract-arrow" aria-hidden="true">→</div>
-          <div class="native-surfaces">
-            <article><span>02</span><strong>Web</strong><div class="mini-survey"><b>How useful?</b><i>☆ ☆ ☆ ☆ ☆</i></div></article>
-            <article><span>03</span><strong>React Native</strong><div class="mini-survey"><b>How useful?</b><i>☆ ☆ ☆ ☆ ☆</i></div></article>
-            <article><span>04</span><strong>iOS</strong><div class="mini-survey"><b>How useful?</b><i>☆ ☆ ☆ ☆ ☆</i></div></article>
-            <article><span>05</span><strong>Android</strong><div class="mini-survey"><b>How useful?</b><i>☆ ☆ ☆ ☆ ☆</i></div></article>
-            <article><span>06</span><strong>Flutter</strong><div class="mini-survey"><b>How useful?</b><i>☆ ☆ ☆ ☆ ☆</i></div></article>
+      <section id="product" class="marketing-section questions-section" aria-labelledby="questions-title">
+        <p class="eyebrow">Questions that fit the decision</p>
+        <div class="section-heading split-heading"><h2 id="questions-title">Ask more than<br />“How satisfied?”</h2><p>Use a quick pulse or a structured research exercise. Every SDK renders the same nine bounded question types with accessible native controls.</p></div>
+        <div class="question-showcase">
+          <div class="question-types" aria-label="Supported question types">
+            <div><span>01</span><strong>Scale</strong><small>Likert, NPS, or custom range</small></div>
+            <div><span>02</span><strong>Single choice</strong><small>One clear selection</small></div>
+            <div><span>03</span><strong>Multiple choice</strong><small>Bounded selections</small></div>
+            <div><span>04</span><strong>Text</strong><small>Open feedback</small></div>
+            <div><span>05</span><strong>Number</strong><small>Validated numeric input</small></div>
+            <div><span>06</span><strong>Date</strong><small>Structured calendar value</small></div>
+            <div><span>07</span><strong>Ranking</strong><small>Priorities in order</small></div>
+            <div><span>08</span><strong>Matrix</strong><small>Single or multiple per row</small></div>
+            <div><span>09</span><strong>Constant sum</strong><small>Allocate an exact total</small></div>
           </div>
+          <article class="question-preview">
+            <div class="preview-topline"><span>Live schema preview</span><span>Scale · required</span></div>
+            <p>Working in this product feels effortless.</p>
+            <div class="scale-points" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span class="selected">4</span><span>5</span></div>
+            <div class="scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+            <div class="preview-meta"><span>Conditional logic</span><strong>If score ≤ 3, ask why</strong></div>
+          </article>
         </div>
       </section>
 
@@ -82,16 +83,16 @@
           <div class="agent-console"><div class="console-heading"><span id="interface-label">Codex / Claude</span><span class="live-dot">Scoped access</span></div><pre id="interface-code"><code>You  Create a three-question product feedback survey.
 
 Agent  ✓ Created survey “product-feedback”
-       ✓ Added rating, single-select and text questions
-       ✓ Issued a collection credential
-       ✓ Ready for Web, React Native, iOS, Android and Flutter</code></pre></div>
+       ✓ Published version 1
+       ✓ Opened a collection
+       ✓ Returned a scoped collection credential</code></pre></div>
           <div class="developer-links"><a href="/downloads/">Download the SDKs <span>→</span></a><a href="/app/">Open the control plane <span>→</span></a><a href="/api/health">Service status <span>→</span></a></div>
         </div>
       </section>
 
       <section class="marketing-section ownership-section" aria-labelledby="ownership-title">
         <p class="eyebrow">Your channel. Your rules.</p>
-        <div class="section-heading split-heading"><h2 id="ownership-title">Collection without<br />distribution risk.</h2><p>Likerts starts when your product presents a question and ends after the response is accepted. You choose who sees it, when they see it, and what the surrounding experience says.</p></div>
+        <div class="section-heading split-heading"><h2 id="ownership-title">Distribution<br />stays yours.</h2><p>Likerts starts when your product presents a question and ends after the response is accepted. You decide who sees it, when it appears, and what the surrounding experience says.</p></div>
         <div class="principles"><article><span>01</span><h3>You own the channel</h3><p>Trigger surveys inside the web or mobile experience you already control. Likerts does not send email or create public campaign links.</p></article><article><span>02</span><h3>Metadata stays structured</h3><p>Attach your own non-sensitive context to each collection so every response remains useful downstream.</p></article><article><span>03</span><h3>Credentials stay narrow</h3><p>Issue revocable credentials with only the capabilities each app, CLI session, or agent needs.</p></article></div>
       </section>
 
@@ -103,7 +104,7 @@ Agent  ✓ Created survey “product-feedback”
         </div>
       </section>
 
-      <section class="marketing-section final-cta" aria-labelledby="cta-title"><p class="eyebrow">Start collecting</p><h2 id="cta-title">Put a survey anywhere<br />your product already lives.</h2><p>Preview the full workflow with 1,000 free accepted responses.</p><div class="button-row"><a class="button" href="/app/">Start free</a><a class="button button-secondary" href="/downloads/">Download SDKs</a></div></section>
+      <section class="marketing-section final-cta" aria-labelledby="cta-title"><p class="eyebrow">Start collecting</p><h2 id="cta-title">Ship the question<br />you wish you had asked.</h2><p>Create a workspace and collect real product feedback today.</p><div class="button-row"><a class="button" href="/app/">Start free</a><a class="button button-secondary" href="/downloads/">Download SDKs</a></div></section>
     </main>
 
     <footer class="site-footer"><div><a class="wordmark" href="/">Likerts<span class="wordmark-dot">.</span></a><p>Survey collection infrastructure.</p></div><nav aria-label="Footer navigation"><a href="#product">Product</a><a href="#developers">Developers</a><a href="#pricing">Pricing</a><a href="/downloads/">Downloads</a><a href="/app/">Control plane</a></nav><p class="preview-note">Developer preview · No SLA</p></footer>

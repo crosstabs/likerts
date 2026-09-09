@@ -13,7 +13,7 @@ nav?.addEventListener("click", () => {
 });
 
 const examples = {
-  mcp: { label: "Codex / Claude", code: `You  Create a three-question product feedback survey.\n\nAgent  ✓ Created survey “product-feedback”\n       ✓ Added rating, single-select and text questions\n       ✓ Issued a collection credential\n       ✓ Ready for Web, React Native, iOS, Android and Flutter` },
+  mcp: { label: "Codex / Claude", code: `You  Create a three-question product feedback survey.\n\nAgent  ✓ Created survey “product-feedback”\n       ✓ Published version 1\n       ✓ Opened a collection\n       ✓ Returned a scoped collection credential` },
   cli: { label: "Rust CLI", code: `$ likerts survey create --file survey.json\n✓ survey product-feedback created\n\n$ likerts collection issue product-feedback --scope responses:write\n✓ credential issued; copy it now\n\n$ likerts usage\n1,000 response credits available` },
   api: { label: "HTTP API", code: `POST /v1/surveys\nX-Likerts-Workspace: wrk_demo\nAuthorization: Bearer ••••••••\n\n{\n  "title": "Product feedback",\n  "questions": [{ "type": "likert", "scale": 5 }]\n}\n\n201 Created` },
 };
