@@ -1,6 +1,6 @@
 {
-  "measuredAt": "2026-09-09T02:37:32.575337+00:00",
-  "commit": "b8fa03d3452ea0423335864b8ac4c20682d6ea44",
+  "measuredAt": "2026-09-09T04:01:50.747898+00:00",
+  "commit": "3d17858dd52a2242a86faf944a7fca1b63fde47a",
   "render": {
     "projectId": "prj-dagbmk5bedkc73fu380g",
     "environmentId": "evm-dagbmk5bedkc73fu3810",
@@ -11,6 +11,8 @@
     "services": {
       "api": {
         "id": "srv-dagbp57qj5pc738fe96g",
+        "deploy": "dep-dagdc12d0e5s73c17900",
+        "commit": "050c908c5f5caad3a772c7e49bf7ef4225305c78",
         "url": "https://likerts-api.onrender.com",
         "instances": 2,
         "plan": "1c-2g"
@@ -22,6 +24,8 @@
       },
       "mcp": {
         "id": "srv-dagbp77qj5pc738fek4g",
+        "deploy": "dep-dagdc1740ujc73em8a2g",
+        "commit": "050c908c5f5caad3a772c7e49bf7ef4225305c78",
         "url": "https://likerts-mcp.onrender.com",
         "instances": 1,
         "plan": "starter"
@@ -36,7 +40,8 @@
   },
   "vercel": {
     "project": "likerts",
-    "preview": "https://likerts-dcp7599mn-crosstabs.vercel.app",
+    "production": "https://likerts.com",
+    "deployment": "dpl_BNP4HqQgD5nUeAiLWdLvkNL39aZ1",
     "health": {
       "status": "ok",
       "apiOrigin": true,
@@ -46,6 +51,7 @@
       "clerk": "ir_spdaBLSVDpIyW69z",
       "neon": "store_woq63b9POqZNZCWe",
       "blob": "connected",
+      "stripe": "ir_spBTXI6zqC2A6YmJ",
       "upstashAdmission": "store_n8l8UgcAdw9fAJJG"
     }
   },
@@ -55,6 +61,7 @@
     "plan": "launch_v3",
     "region": "sin1",
     "migration": "passed",
+    "migrationCount": 20,
     "runtimeRole": {
       "restrictedAttributes": true,
       "memberships": 0,
@@ -72,16 +79,36 @@
     "mcpHealth": 200,
     "apiUnauthenticated": 401,
     "mcpUnauthenticated": 401,
+    "billingCheckoutUnauthenticated": 401,
     "oauthProtectedResource": {
       "status": 200,
       "resource": "https://likerts-api.onrender.com",
       "scopeCount": 12
     }
   },
+  "stripeSandbox": {
+    "checkoutAmountCents": 500,
+    "creditedResponses": 500,
+    "checkoutStatusAfterRetry": "paid",
+    "signedWebhookDelivered": true,
+    "duplicateCreditEntries": 0,
+    "providerChargeAndFullRefundGate": "passed",
+    "temporaryWorkspaceTombstoned": true,
+    "liveMode": false
+  },
+  "browserChecks": {
+    "controlPlaneHealth": 200,
+    "apiOriginConfigured": true,
+    "identityConfigured": true,
+    "clerkSignInRendered": true,
+    "browserConsoleErrors": 0,
+    "checkoutReturnedToControlPlane": true
+  },
   "limitations": [
     "Clerk custom scopes and a real OAuth grant are not configured or exercised.",
-    "Stripe Marketplace installation requires account-owner terms acceptance.",
+    "The Clerk production custom-domain DNS check is failing; hosted acceptance currently uses the development instance and must not be presented as production identity.",
+    "Stripe remains in test mode; refund/dispute reconciliation and live merchant activation remain open.",
     "Private Blob cross-replica export, callback delivery, rollback, load, alarms and restore drills remain open.",
-    "Vercel preview is deployment-protected and was checked with authenticated Vercel CLI."
+    "Vercel deployment was promoted manually because the attached production Clerk resource reports missing DNS records."
   ]
 }
