@@ -18,6 +18,7 @@ Public paid launch begins only after the owner-controlled gates below pass. This
 - Stripe test mode passes a real US$5 checkout, exact 500-credit grant and full-refund reconciliation without changing the 1,000 promotional credits.
 - Forty product capabilities have API/MCP/CLI parity across 53 registered HTTP routes.
 - Five SDK archives and the CLI source bundle are public at `https://likerts.com/downloads/`; production-edge downloads match the published checksums, and the CLI installs from a fresh extraction.
+- A production callback reached an independently deployed public HTTPS receiver in one attempt; exact-byte HMAC/timestamp verification passed, the payload contained only event and resource identifiers, and the receiver returned 204.
 - The full local code/contract gate, Render infrastructure and role gates, control-plane gate, and migration-22 backup/restore rehearsal pass.
 
 Evidence files: `infrastructure/render/hosted-evidence.json`, `infrastructure/render/hosted-lifecycle-evidence.json`, `infrastructure/render/hosted-refund-evidence.json`, `infrastructure/recovery/local-evidence.json`, and `releases/0.0.3/manifest.json`.
@@ -30,7 +31,7 @@ Evidence files: `infrastructure/render/hosted-evidence.json`, `infrastructure/re
 | Customer agent journey | That user completes one real API call, CLI call, Codex MCP connection and Claude MCP connection. Provider OAuth remains unadvertised until consent, refresh and revocation pass. |
 | Live payments | Activate Stripe live mode, confirm merchant and financial-retention requirements, then complete purchase, signed webhook, refund and reconciliation with live credentials. |
 | Terms and support | Publish reviewed privacy, terms, refund/prepaid-credit and subprocessor language; name the support contact and incident owner. |
-| Managed operations | Exercise Neon restore/PITR and cross-replica export recovery; deliver an actual alert; validate callback egress and expiry cleanup; record provider bills and a sustained load result. Compatible Render restoration and isolated failed-candidate rejection already pass. |
+| Managed operations | Exercise Neon restore/PITR and cross-replica export recovery; deliver an actual alert; validate customer-owned DNS, adversarial callback behavior, enforced egress and expiry cleanup; record complete provider bills and a sustained load result. Compatible Render restoration, isolated failed-candidate rejection and one same-account public HTTPS callback already pass. |
 | Client acceptance | Complete the declared browser/accessibility and supported native host/device matrix for all five launch SDKs. |
 | Release automation | Restore GitHub Actions execution by resolving the repository owner's payment/spending-limit issue. Required checks currently do not start, although the same repository gates pass locally. |
 

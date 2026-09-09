@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-09-09T08:06:29.508318Z",
+  "measuredAt": "2026-09-09T08:49:46.760Z",
   "commit": "72afd3f14938ecb01f9667398a3f05d57ece800b",
   "render": {
     "projectId": "prj-dagbmk5bedkc73fu380g",
@@ -133,7 +133,7 @@
   "limitations": [
     "Production Clerk DNS/TLS, passwordless sign-in rendering and advertised scopes are verified; real OTP/recovery, browser session/bootstrap and CLI/MCP OAuth consent/refresh/revocation remain acceptance gates.",
     "Stripe remains in test mode. Hosted $5 purchase/full-refund reconciliation passes; live merchant activation, automatic top-up, hosted disputes and broader out-of-order/failure reconciliation remain open.",
-    "Hosted private Blob roundtrip and deletion-triggered export revocation pass; forced cross-replica failover, autonomous expiry/orphan removal, callback delivery, rollback, sustained load, delivered alarms and managed Neon restore drills remain open.",
+    "Hosted private Blob roundtrip and deletion-triggered export revocation pass; a signed ID-only callback also reached an independently deployed public HTTPS receiver. Forced cross-replica failover, autonomous expiry/orphan removal, customer-owned DNS/adversarial callback tests, delivered alarms and managed Neon restore drills remain open.",
     "The hosted lifecycle uses a scoped service credential and does not establish a completed human OAuth flow or native-device certification.",
     "Local restore evidence covers migration 0022; managed Neon recovery still requires separate measurement."
   ],
@@ -342,5 +342,36 @@
       "cronJobsUsd": 0,
       "provisioningTiming": "partway_through_month"
     }
+  },
+  "hostedCallbackAcceptance": {
+    "measuredAt": "2026-09-09T08:49:46.760Z",
+    "receiverProvider": "Vercel",
+    "independentlyDeployedReceiver": true,
+    "sameProviderAccount": true,
+    "endpointInitialDisabled": true,
+    "endpointEnabledExplicitly": true,
+    "publicHttpsDelivered": true,
+    "receiverStatus": 204,
+    "attempts": 1,
+    "hmacVerifiedOverExactRawBytes": true,
+    "timestampWindowVerified": true,
+    "eventVersion": 1,
+    "payloadKeys": [
+      "createdAt",
+      "data",
+      "eventVersion",
+      "id",
+      "type"
+    ],
+    "dataKeys": [
+      "collectionId",
+      "responseId",
+      "surveyId",
+      "surveyVersion"
+    ],
+    "answersOrMetadataPresent": false,
+    "temporaryWorkspaceTombstoned": true,
+    "receiverProjectDeleted": true,
+    "limitation": "Synthetic single-delivery acceptance against an independently deployed receiver in the same provider account. It does not prove customer-owned DNS, adversarial DNS rebinding, timeout/retry/concurrent-worker behavior, enforced outbound policy or delivered alarms."
   }
 }

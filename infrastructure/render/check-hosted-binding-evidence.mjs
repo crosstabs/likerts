@@ -97,4 +97,27 @@ inspect(evidence.exportRestartRehearsal);
 inspect(evidence.managedRecoveryAccess);
 inspect(evidence.providerUsageReview);
 
+assert.deepEqual(evidence.hostedCallbackAcceptance, {
+  measuredAt: evidence.hostedCallbackAcceptance.measuredAt,
+  receiverProvider: 'Vercel',
+  independentlyDeployedReceiver: true,
+  sameProviderAccount: true,
+  endpointInitialDisabled: true,
+  endpointEnabledExplicitly: true,
+  publicHttpsDelivered: true,
+  receiverStatus: 204,
+  attempts: 1,
+  hmacVerifiedOverExactRawBytes: true,
+  timestampWindowVerified: true,
+  eventVersion: 1,
+  payloadKeys: ['createdAt', 'data', 'eventVersion', 'id', 'type'],
+  dataKeys: ['collectionId', 'responseId', 'surveyId', 'surveyVersion'],
+  answersOrMetadataPresent: false,
+  temporaryWorkspaceTombstoned: true,
+  receiverProjectDeleted: true,
+  limitation: 'Synthetic single-delivery acceptance against an independently deployed receiver in the same provider account. It does not prove customer-owned DNS, adversarial DNS rebinding, timeout/retry/concurrent-worker behavior, enforced outbound policy or delivered alarms.',
+});
+assert.match(evidence.hostedCallbackAcceptance.measuredAt, /^\d{4}-\d{2}-\d{2}T/);
+inspect(evidence.hostedCallbackAcceptance);
+
 console.log('Hosted workspace/rollback evidence PASS: tenant denial, cleanup and compatible revision restoration.');
