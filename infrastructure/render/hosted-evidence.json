@@ -36,7 +36,7 @@
   },
   "vercel": {
     "project": "likerts",
-    "preview": "https://likerts-o4mok135m-crosstabs.vercel.app",
+    "preview": "https://likerts-dcp7599mn-crosstabs.vercel.app",
     "health": {
       "status": "ok",
       "apiOrigin": true,
