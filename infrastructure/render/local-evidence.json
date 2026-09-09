@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-09-09T02:37:32.574755+00:00",
+  "measuredAt": "2026-09-09T03:36:57.201040+00:00",
   "target": "Render Singapore compute + external PostgreSQL",
   "provisioned": true,
   "schema": {
@@ -10,7 +10,7 @@
     {
       "command": "bash scripts/check-render-iac.sh",
       "result": "passed",
-      "entrypointCases": 8,
+      "entrypointCases": 10,
       "covers": [
         "explicit issuer/audience/JWKS configuration",
         "API, worker and migration secret separation",
@@ -39,17 +39,17 @@
         "runtime DDL/audit denial",
         "worker response/audit read denial"
       ],
-      "migrationCount": 19
+      "migrationCount": 20
     }
   ],
   "sourceSha256": {
-    "render.yaml": "6ee5692490ed6ee0e541672a881a3e9930908070c74b86408f308475378eb356",
+    "render.yaml": "cb4b7198ffae162aacaf9afed3a6b6dc5edd98f0cd8fe121085f285130465777",
     "infrastructure/render/Dockerfile": "dbd895f98bed53ce39317b67fb81c72c5c5f1bd1449593ee6afcf64faf9bf95d",
-    "infrastructure/render/start.sh": "7ddc8393863f1dc5fe11204a41880a2ea27d6babead176bbb661b9ee1668b0e1",
-    "infrastructure/render/migrate.sh": "e87a9fa50937807e6f7cde4bcac5606711cef091daa7b1b7202dbf2c9380d658",
+    "infrastructure/render/start.sh": "b4c06a877f1e364ec0b961385209e75b32932b16eadd7477d44ad361a8ca75e8",
+    "infrastructure/render/migrate.sh": "981d65c8461c780e33dcb96d4ccca2f0e18d613b2d06074e28959e2d5449d987",
     "infrastructure/render/bootstrap.sql": "5b8dbf1e725010d810fea7d5005beab0361470e67b85f02a0d65c73ff408a19b",
-    "infrastructure/render/check.mjs": "1d4a3372fbc478eb99a91e82059ea40b681c4e6a87121888ba03f373db074764",
-    "infrastructure/render/entrypoints.test.mjs": "1e7c22c18c13c5e1fbe4a44cbbf8e664f95040d06cd30ac6ba5fd225945efc4d",
+    "infrastructure/render/check.mjs": "dca17921fd7460459f03c6bc7b5bce9432bd38c4ffc9c5edbeaeb7bc5d2e853b",
+    "infrastructure/render/entrypoints.test.mjs": "bc265b5fcdf81288061e125afcea1832ee2bb22a5682dc8320ba6eaa68eee710",
     "scripts/check-render-roles.sh": "127a6e297cd2b38c9bc435de43e5ec075754794c7dc5668147157795e9056fcd"
   },
   "limitations": [

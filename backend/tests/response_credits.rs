@@ -1,4 +1,5 @@
 use likerts_server::{
+    billing::{CreditCheckoutInput, ProviderCheckout, ProviderEvent},
     credits::{CreditAdjustment, CreditKind},
     postgres::PgStore,
     BillingLimitsInput, DraftInput, Error, Store, Submission,
@@ -282,6 +283,65 @@ async fn postgres_credits_are_atomic_append_only_and_tenant_scoped() {
         free.response_id
     );
     assert_eq!(restarted.credit_entries(&w).await.unwrap().len(), 6);
+    let checkout = api
+        .prepare_credit_checkout(
+            &w,
+            CreditCheckoutInput {
+                amount_cents: 500,
+                idempotency_key: "checkout-500".into(),
+            },
+        )
+        .await
+        .unwrap();
+    assert_eq!(checkout.response_credits, 500);
+    assert_eq!(checkout.status, "pending");
+    assert_eq!(
+        api.prepare_credit_checkout(
+            &w,
+            CreditCheckoutInput {
+                amount_cents: 600,
+                idempotency_key: "checkout-500".into(),
+            },
+        )
+        .await,
+        Err(Error::Conflict)
+    );
+    let provider_checkout = ProviderCheckout {
+        id: format!("cs_test_{}", checkout.id),
+        url: "https://checkout.stripe.test/session".into(),
+        status: "open".into(),
+    };
+    assert_eq!(
+        api.attach_credit_checkout(&w, &checkout.id, &provider_checkout)
+            .await
+            .unwrap()
+            .status,
+        "open"
+    );
+    let checkout_event = ProviderEvent {
+        id: "evt_checkout_paid".into(),
+        event_type: "checkout.session.completed".into(),
+        intent_id: provider_checkout.id,
+        failure_code: None,
+        amount_total: Some(500),
+        currency: Some("usd".into()),
+        payment_status: Some("paid".into()),
+        client_reference_id: Some(checkout.id.clone()),
+    };
+    assert_eq!(
+        api.apply_credit_checkout_event(&checkout_event, &[10u8; 32])
+            .await
+            .unwrap()
+            .status,
+        "paid"
+    );
+    api.apply_credit_checkout_event(&checkout_event, &[10u8; 32])
+        .await
+        .unwrap();
+    assert_eq!(
+        api.usage_summary(&w).await.unwrap().credits.paid_credits,
+        500
+    );
     assert_eq!(
         api.usage_summary(&other)
             .await

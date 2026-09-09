@@ -1,7 +1,7 @@
 use crate::{
     billing::{
-        BillingAccountInput, ProviderEvent, ProviderIntent, RefundInput, Settlement,
-        SettlementCharge, SettlementInput,
+        BillingAccountInput, CreditCheckout, CreditCheckoutInput, ProviderCheckout, ProviderEvent,
+        ProviderIntent, RefundInput, Settlement, SettlementCharge, SettlementInput,
     },
     normalized_answers_for_pages, request_hash, response_page, submission_hash,
     survey_schema_version, validate_collection_security, validate_draft, validate_management_key,
@@ -125,6 +125,16 @@ fn settlement_from_row(row: PgRow) -> Settlement {
         status: row.get("status"),
         provider_intent_id: row.get("provider_intent_id"),
         failure_code: row.get("failure_code"),
+    }
+}
+
+fn credit_checkout_from_row(row: PgRow, checkout_url: Option<String>) -> CreditCheckout {
+    CreditCheckout {
+        id: row.get::<Uuid, _>("id").to_string(),
+        amount_cents: row.get::<i64, _>("amount_cents") as u64,
+        response_credits: row.get::<i64, _>("response_credits") as u64,
+        status: row.get("status"),
+        checkout_url,
     }
 }
 
@@ -2245,6 +2255,96 @@ impl PgStore {
         sqlx::query("insert into likerts.billing_accounts(workspace_id,provider_customer_id,provider_payment_method_id) values($1,$2,$3) on conflict(workspace_id) do update set provider_customer_id=excluded.provider_customer_id,provider_payment_method_id=excluded.provider_payment_method_id,configured_at=now()")
             .bind(workspace).bind(input.provider_customer_id).bind(input.provider_payment_method_id).execute(&mut *tx).await.map_err(database_error)?;
         tx.commit().await.map_err(database_error)
+    }
+
+    pub async fn prepare_credit_checkout(
+        &self,
+        workspace: &str,
+        input: CreditCheckoutInput,
+    ) -> Result<CreditCheckout, Error> {
+        validate_management_key(&input.idempotency_key)?;
+        if !(500..=100_000).contains(&input.amount_cents) {
+            return Err(Error::Invalid(
+                "checkout amount must be between 500 and 100000 cents".into(),
+            ));
+        }
+        let amount = database_integer(input.amount_cents)?;
+        let mut tx = self.workspace_transaction(workspace).await?;
+        sqlx::query(
+            "select pg_advisory_xact_lock(hashtextextended('checkout:' || $1 || ':' || $2,0))",
+        )
+        .bind(workspace)
+        .bind(&input.idempotency_key)
+        .execute(&mut *tx)
+        .await
+        .map_err(database_error)?;
+        if let Some(row) = sqlx::query("select id,amount_cents,response_credits,status from likerts.credit_checkouts where workspace_id=$1 and idempotency_key=$2")
+            .bind(workspace).bind(&input.idempotency_key).fetch_optional(&mut *tx).await.map_err(database_error)? {
+            let checkout = credit_checkout_from_row(row, None);
+            if checkout.amount_cents != input.amount_cents { return Err(Error::Conflict); }
+            tx.commit().await.map_err(database_error)?;
+            return Ok(checkout);
+        }
+        let id = Uuid::new_v4();
+        let row = sqlx::query("insert into likerts.credit_checkouts(workspace_id,id,idempotency_key,amount_cents,response_credits,status) values($1,$2,$3,$4,$4,'pending') returning id,amount_cents,response_credits,status")
+            .bind(workspace).bind(id).bind(input.idempotency_key).bind(amount).fetch_one(&mut *tx).await.map_err(database_error)?;
+        tx.commit().await.map_err(database_error)?;
+        Ok(credit_checkout_from_row(row, None))
+    }
+
+    pub async fn attach_credit_checkout(
+        &self,
+        workspace: &str,
+        id: &str,
+        provider: &ProviderCheckout,
+    ) -> Result<CreditCheckout, Error> {
+        let id = Uuid::parse_str(id).map_err(|_| Error::NotFound)?;
+        let mut tx = self.workspace_transaction(workspace).await?;
+        let status = if provider.status == "expired" {
+            "expired"
+        } else {
+            "open"
+        };
+        let row = sqlx::query("update likerts.credit_checkouts set provider_session_id=coalesce(provider_session_id,$3),provider_session_hash=coalesce(provider_session_hash,$4),status=case when status='pending' then $5 else status end,updated_at=now() where workspace_id=$1 and id=$2 and (provider_session_id is null or provider_session_id=$3) returning id,amount_cents,response_credits,status")
+            .bind(workspace).bind(id).bind(&provider.id).bind(token_hash(&provider.id)).bind(status)
+            .fetch_optional(&mut *tx).await.map_err(database_error)?.ok_or(Error::Conflict)?;
+        tx.commit().await.map_err(database_error)?;
+        let mut checkout = credit_checkout_from_row(row, None);
+        if checkout.status == "open" {
+            checkout.checkout_url = Some(provider.url.clone());
+        }
+        Ok(checkout)
+    }
+
+    pub async fn apply_credit_checkout_event(
+        &self,
+        event: &ProviderEvent,
+        payload_hash: &[u8],
+    ) -> Result<CreditCheckout, Error> {
+        let amount = event
+            .amount_total
+            .ok_or_else(|| Error::Invalid("checkout amount missing".into()))?;
+        let currency = event
+            .currency
+            .as_deref()
+            .ok_or_else(|| Error::Invalid("checkout currency missing".into()))?;
+        let payment_status = event.payment_status.as_deref().unwrap_or("unpaid");
+        let client_reference = event
+            .client_reference_id
+            .as_deref()
+            .ok_or_else(|| Error::Invalid("checkout reference missing".into()))?;
+        let mut tx = self.pool.begin().await.map_err(database_error)?;
+        let applied = sqlx::query("select workspace_id,checkout_id,checkout_status from likerts.apply_credit_checkout_event($1,$2,$3,$4,$5,$6,$7,$8)")
+            .bind(token_hash(&event.intent_id)).bind(&event.id).bind(&event.event_type).bind(payload_hash)
+            .bind(database_integer(amount)?).bind(currency).bind(payment_status).bind(client_reference)
+            .fetch_one(&mut *tx).await.map_err(credit_database_error)?;
+        let workspace: String = applied.get("workspace_id");
+        let id: Uuid = applied.get("checkout_id");
+        Self::set_workspace(&mut tx, &workspace).await?;
+        let row = sqlx::query("select id,amount_cents,response_credits,status from likerts.credit_checkouts where workspace_id=$1 and id=$2")
+            .bind(&workspace).bind(id).fetch_one(&mut *tx).await.map_err(database_error)?;
+        tx.commit().await.map_err(database_error)?;
+        Ok(credit_checkout_from_row(row, None))
     }
 
     pub async fn prepare_settlement(

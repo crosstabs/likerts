@@ -35,6 +35,7 @@ Run any example with `likerts call OPERATION --input contracts/examples/OPERATIO
 | oauth_grants_revoke | DELETE /v1/oauth-grants/{id} | identity:write | 204 | [JSON](examples/oauth_grants_revoke.input.json) |
 | billing_limits_update | PATCH /v1/billing/limits | billing:write | 200 | [JSON](examples/billing_limits_update.input.json) |
 | billing_account_put | PUT /v1/billing/account | billing:write | 204 | [JSON](examples/billing_account_put.input.json) |
+| billing_checkout_create | POST /v1/billing/checkout | billing:write | 200 | [JSON](examples/billing_checkout_create.input.json) |
 | billing_settlements_list | GET /v1/billing/settlements | usage:read | 200 | [JSON](examples/billing_settlements_list.input.json) |
 | billing_settlements_create | POST /v1/billing/settlements | billing:write | 200 | [JSON](examples/billing_settlements_create.input.json) |
 | billing_settlements_reconcile | POST /v1/billing/settlements/{id}/reconcile | billing:write | 200 | [JSON](examples/billing_settlements_reconcile.input.json) |
@@ -77,6 +78,7 @@ Run any example with `likerts call OPERATION --input contracts/examples/OPERATIO
 - **oauth_grants_revoke** — Revokes the scoped grant for subsequent API requests. [Example result](examples/oauth_grants_revoke.output.json). Documented errors: 400, 401, 403, 404, 500.
 - **billing_limits_update** — Monthly cap limits paid-credit consumption; promotional credits remain usable. Unpaid exposure describes legacy postpaid usage. [Example result](examples/billing_limits_update.output.json). Documented errors: 400, 401, 403, 413, 415, 500.
 - **billing_account_put** — Use customer/payment-method IDs from the configured test provider; never send card details. [Example result](examples/billing_account_put.output.json). Documented errors: 400, 401, 403, 413, 415, 500.
+- **billing_checkout_create** — Open checkoutUrl in a browser. Credits are added only after the signed provider event confirms payment. [Example result](examples/billing_checkout_create.output.json). Documented errors: 400, 401, 403, 409, 413, 415, 500.
 - **billing_settlements_list** — Lists durable settlement batches; chargedCents alone is not cash collected. [Example result](examples/billing_settlements_list.output.json). Documented errors: 400, 401, 403, 500.
 - **billing_settlements_create** — May submit a real test-mode charge. Requires eligible unsettled usage and a configured provider account. [Example result](examples/billing_settlements_create.output.json). Documented errors: 400, 401, 403, 404, 409, 413, 415, 500.
 - **billing_settlements_reconcile** — Retrieves provider state and reconciles local settlement accounting. [Example result](examples/billing_settlements_reconcile.output.json). Documented errors: 400, 401, 403, 404, 409, 500.
@@ -109,5 +111,6 @@ After a timeout or 500, a write may have committed. Only retry operations that s
 - **POST /v1/webhooks/stripe** — Provider-signed payment event ingress; never a user or agent tool.
 - **POST /v1/browser/bootstrap** — First-party Clerk session bridge for personal workspace bootstrap and status; not an MCP/CLI capability.
 - **POST /v1/browser/oauth-grants** — Interactive owner consent bridge for registered OAuth clients; not an agent-callable capability.
+- **POST /v1/browser/billing/checkout** — First-party Clerk session bridge for interactive checkout; the equivalent management capability remains available to API, MCP and CLI clients.
 
 This reference covers implemented local operations. Provider sandbox proof, hosted delivery and any later release capabilities have separate release gates.

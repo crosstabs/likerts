@@ -5,7 +5,7 @@ if [ "${LIKERTS_MANAGED_DATABASE_ROLES:-0}" != "1" ]; then
   : "${LIKERTS_BOOTSTRAP_RUNTIME_PASSWORD:?Initial API role password required}"
   : "${LIKERTS_BOOTSTRAP_WORKER_PASSWORD:?Initial worker role password required}"
 fi
-test -z "${DATABASE_URL:-}${LIKERTS_WEBHOOK_DATABASE_URL:-}${LIKERTS_COLLECTION_CREDENTIAL_KEY:-}${LIKERTS_WEBHOOK_CREDENTIAL_KEY:-}${LIKERTS_VERCEL_BLOB_TOKEN:-}" || { echo 'Application secrets forbidden on migration job' >&2; exit 1; }
+test -z "${DATABASE_URL:-}${LIKERTS_WEBHOOK_DATABASE_URL:-}${LIKERTS_COLLECTION_CREDENTIAL_KEY:-}${LIKERTS_WEBHOOK_CREDENTIAL_KEY:-}${LIKERTS_VERCEL_BLOB_TOKEN:-}${LIKERTS_STRIPE_SECRET_KEY:-}${LIKERTS_STRIPE_WEBHOOK_SECRET:-}${LIKERTS_STRIPE_LIVE_MODE:-}${LIKERTS_CHECKOUT_RETURN_ORIGIN:-}" || { echo 'Application secrets forbidden on migration job' >&2; exit 1; }
 case "$LIKERTS_MIGRATION_DATABASE_URL" in *'?sslmode=require'|*'?sslmode=verify-full') ;; *) echo 'Explicit database TLS mode required' >&2; exit 1;; esac
 /usr/local/bin/likerts-migrate
 # Suppress SQL error detail from general job logs: controlled operator diagnosis

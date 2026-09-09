@@ -33,3 +33,4 @@ sdks/ios/Example/*.xcodeproj/
 **/.flutter-plugins-dependencies
 **/local.properties
 .vercel
+.env*.local

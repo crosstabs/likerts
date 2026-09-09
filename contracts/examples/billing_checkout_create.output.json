@@ -1,0 +1,7 @@
+{
+  "id": "123e4567-e89b-12d3-a456-426614174010",
+  "amountCents": 500,
+  "responseCredits": 500,
+  "status": "open",
+  "checkoutUrl": "https://checkout.stripe.com/c/pay/cs_test_example"
+}

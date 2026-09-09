@@ -11,9 +11,9 @@ use base64::{engine::general_purpose::STANDARD as BASE64, Engine};
 use likerts_server::{
     auth::{OidcClaims, OidcVerifier},
     billing::{
-        BillingAccountInput, ChargeRequest, LocalPaymentProvider, PaymentProvider, ProviderEvent,
-        ProviderIntent, RefundInput, Settlement, SettlementCharge, SettlementInput,
-        StripePaymentProvider,
+        BillingAccountInput, ChargeRequest, CheckoutRequest, CreditCheckout, CreditCheckoutInput,
+        LocalPaymentProvider, PaymentProvider, ProviderEvent, ProviderIntent, RefundInput,
+        Settlement, SettlementCharge, SettlementInput, StripePaymentProvider,
     },
     browser_auth::{
         validate_approved_scopes, BrowserClaims, BrowserOAuthClients, BrowserSessionVerifier,
@@ -296,6 +296,37 @@ impl Storage {
     ) -> Result<(), Error> {
         match self {
             Self::Postgres(store) => store.configure_billing_account(workspace, input).await,
+            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
+        }
+    }
+    async fn prepare_credit_checkout(
+        &self,
+        workspace: &str,
+        input: CreditCheckoutInput,
+    ) -> Result<CreditCheckout, Error> {
+        match self {
+            Self::Postgres(store) => store.prepare_credit_checkout(workspace, input).await,
+            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
+        }
+    }
+    async fn attach_credit_checkout(
+        &self,
+        workspace: &str,
+        id: &str,
+        checkout: &likerts_server::billing::ProviderCheckout,
+    ) -> Result<CreditCheckout, Error> {
+        match self {
+            Self::Postgres(store) => store.attach_credit_checkout(workspace, id, checkout).await,
+            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
+        }
+    }
+    async fn apply_credit_checkout_event(
+        &self,
+        event: &ProviderEvent,
+        hash: &[u8],
+    ) -> Result<CreditCheckout, Error> {
+        match self {
+            Self::Postgres(store) => store.apply_credit_checkout_event(event, hash).await,
             Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
         }
     }
@@ -689,6 +720,30 @@ async fn browser_approve_oauth(
         )
         .await?;
     Ok((StatusCode::CREATED, Json(grant)))
+}
+
+async fn browser_create_credit_checkout(
+    State(app): State<App>,
+    headers: HeaderMap,
+    ApiJson(input): ApiJson<CreditCheckoutInput>,
+) -> Result<impl IntoResponse, ApiError> {
+    let claims = browser_claims(&app, &headers).await?;
+    let workspace = headers
+        .get("x-likerts-workspace")
+        .and_then(|value| value.to_str().ok())
+        .filter(|value| !value.trim().is_empty() && value.chars().count() <= 200)
+        .ok_or(ApiError(Error::Invalid(
+            "X-Likerts-Workspace is required".into(),
+        )))?;
+    if app
+        .storage
+        .current_membership(workspace, &claims.sub)
+        .await?
+        != Role::Owner
+    {
+        return Err(ApiError(Error::Forbidden));
+    }
+    checkout_for_workspace(&app, workspace, input).await
 }
 
 struct ApiError(Error);
@@ -1265,6 +1320,45 @@ async fn configure_billing_account(
     Ok(StatusCode::NO_CONTENT)
 }
 
+async fn create_credit_checkout(
+    State(app): State<App>,
+    headers: HeaderMap,
+    ApiJson(input): ApiJson<CreditCheckoutInput>,
+) -> Result<impl IntoResponse, ApiError> {
+    let workspace = workspace(&app, &headers, "billing:write").await?;
+    checkout_for_workspace(&app, &workspace, input).await
+}
+
+async fn checkout_for_workspace(
+    app: &App,
+    workspace: &str,
+    input: CreditCheckoutInput,
+) -> Result<Json<CreditCheckout>, ApiError> {
+    let prepared = app
+        .storage
+        .prepare_credit_checkout(&workspace, input.clone())
+        .await?;
+    if prepared.status == "paid" || prepared.status == "expired" || prepared.status == "failed" {
+        return Ok(Json(prepared));
+    }
+    let checkout = payment_provider(&app)?
+        .create_checkout(CheckoutRequest {
+            idempotency_key: format!(
+                "likerts-checkout-{:x}",
+                Sha256::digest(format!("{workspace}:{}", input.idempotency_key).as_bytes())
+            ),
+            purchase_id: prepared.id.clone(),
+            workspace_id: workspace.to_owned(),
+            amount_cents: prepared.amount_cents,
+        })
+        .await?;
+    Ok(Json(
+        app.storage
+            .attach_credit_checkout(&workspace, &prepared.id, &checkout)
+            .await?,
+    ))
+}
+
 async fn settlements(
     State(app): State<App>,
     headers: HeaderMap,
@@ -1360,7 +1454,13 @@ async fn stripe_webhook(
         .ok_or(Error::Unauthorized)?;
     let event = payment_provider(&app)?.verify_event(signature, &body)?;
     let hash = Sha256::digest(&body);
-    app.storage.apply_payment_event(&event, &hash).await?;
+    if event.event_type.starts_with("checkout.session.") {
+        app.storage
+            .apply_credit_checkout_event(&event, &hash)
+            .await?;
+    } else {
+        app.storage.apply_payment_event(&event, &hash).await?;
+    }
     Ok(StatusCode::NO_CONTENT)
 }
 
@@ -1756,7 +1856,13 @@ async fn main() {
         std::env::var("LIKERTS_STRIPE_WEBHOOK_SECRET").ok(),
     ) {
         (Some(key), Some(secret)) => Some(Arc::new(
-            StripePaymentProvider::new(key, secret).expect("Stripe test-mode configuration required"),
+            StripePaymentProvider::new(
+                key,
+                secret,
+                std::env::var("LIKERTS_CHECKOUT_RETURN_ORIGIN")
+                    .expect("LIKERTS_CHECKOUT_RETURN_ORIGIN is required with Stripe"),
+                std::env::var("LIKERTS_STRIPE_LIVE_MODE").as_deref() == Ok("1"),
+            ).expect("Stripe configuration is invalid"),
         )),
         (None, None) if allow_memory => Some(Arc::new(LocalPaymentProvider::new("local-webhook-secret"))),
         (None, None) => None,
@@ -1892,6 +1998,10 @@ async fn main() {
         .route("/v1/browser/bootstrap", post(browser_bootstrap))
         .route("/v1/browser/oauth-grants", post(browser_approve_oauth))
         .route(
+            "/v1/browser/billing/checkout",
+            post(browser_create_credit_checkout),
+        )
+        .route(
             "/v1/oauth-grants/{id}",
             axum::routing::delete(remove_oauth_grant),
         )
@@ -1907,6 +2017,7 @@ async fn main() {
             "/v1/billing/account",
             axum::routing::put(configure_billing_account),
         )
+        .route("/v1/billing/checkout", post(create_credit_checkout))
         .route(
             "/v1/billing/settlements",
             get(settlements).post(create_settlement),

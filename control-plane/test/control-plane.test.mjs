@@ -69,9 +69,13 @@ test("browser mounts Clerk sign-in or the signed-in user button", async () => {
   assert.match(app, /session\.getToken\(\)/);
   assert.match(app, /\/v1\/browser\/bootstrap/);
   assert.match(app, /\/v1\/browser\/oauth-grants/);
+  assert.match(app, /\/v1\/browser\/billing\/checkout/);
+  assert.match(app, /crypto\.randomUUID/);
   assert.match(app, /credentials: "omit"/);
   assert.match(app, /untrusted Clerk frontend domain/);
   assert.doesNotMatch(html, /type="password"|disabled>Sign in/);
   assert.match(html, /Approve for 30 days/);
   assert.match(html, /value="identity:write"/);
+  assert.match(html, /500 responses — \$5/);
+  assert.match(html, /Web, React Native, iOS, Android and Flutter SDKs/);
 });

@@ -2021,6 +2021,10 @@ async fn persists_and_accounts_concurrent_retries_once() {
         event_type: "payment_intent.succeeded".into(),
         intent_id: intent.id.clone(),
         failure_code: None,
+        amount_total: None,
+        currency: None,
+        payment_status: None,
+        client_reference_id: None,
     };
     assert_eq!(
         restarted
@@ -2135,6 +2139,10 @@ async fn persists_and_accounts_concurrent_retries_once() {
         event_type: "payment_intent.succeeded".into(),
         intent_id: failed_intent.id,
         failure_code: None,
+        amount_total: None,
+        currency: None,
+        payment_status: None,
+        client_reference_id: None,
     };
     assert_eq!(
         restarted
@@ -2156,6 +2164,10 @@ async fn persists_and_accounts_concurrent_retries_once() {
         event_type: "payment_intent.payment_failed".into(),
         intent_id: recovered.intent_id,
         failure_code: Some("late_failure".into()),
+        amount_total: None,
+        currency: None,
+        payment_status: None,
+        client_reference_id: None,
     };
     assert_eq!(
         restarted

@@ -7,7 +7,13 @@ async fn stripe_test_mode_charge_and_refund_agree() {
     let webhook_secret = std::env::var("LIKERTS_STRIPE_TEST_WEBHOOK_SECRET").unwrap();
     let customer_id = std::env::var("LIKERTS_STRIPE_TEST_CUSTOMER_ID").unwrap();
     let payment_method_id = std::env::var("LIKERTS_STRIPE_TEST_PAYMENT_METHOD_ID").unwrap();
-    let provider = StripePaymentProvider::new(secret_key, webhook_secret).unwrap();
+    let provider = StripePaymentProvider::new(
+        secret_key,
+        webhook_secret,
+        "https://example.test".into(),
+        false,
+    )
+    .unwrap();
     let logical_run = uuid::Uuid::new_v4().to_string();
     let intent = provider
         .create_charge(ChargeRequest {

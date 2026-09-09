@@ -29,8 +29,21 @@
           <fieldset><legend>Scopes</legend><label><input type="checkbox" name="scope" value="surveys:read" checked /> Read surveys</label><label><input type="checkbox" name="scope" value="surveys:write" /> Edit surveys</label><label><input type="checkbox" name="scope" value="collections:write" /> Manage collections</label><label><input type="checkbox" name="scope" value="responses:read" checked /> Read responses</label><label><input type="checkbox" name="scope" value="responses:write" /> Erase responses</label><label><input type="checkbox" name="scope" value="usage:read" checked /> Read usage</label><label><input type="checkbox" name="scope" value="exports:read" checked /> Download exports</label><label><input type="checkbox" name="scope" value="exports:write" /> Create/revoke exports</label><label><input type="checkbox" name="scope" value="webhooks:read" /> Read callbacks</label><label><input type="checkbox" name="scope" value="webhooks:write" /> Manage callbacks</label><label><input type="checkbox" name="scope" value="identity:write" /> Manage access</label><label><input type="checkbox" name="scope" value="billing:write" /> Manage billing</label></fieldset>
           <button type="submit">Approve for 30 days</button><output id="approval-status" aria-live="polite"></output>
         </form>
+        <form id="credit-checkout" hidden>
+          <h3>Add response credits</h3>
+          <p>One response costs 1¢. Credits never expire while your workspace remains active.</p>
+          <label>Credit pack
+            <select id="checkout-amount" name="amountCents">
+              <option value="500">500 responses — $5</option>
+              <option value="1000">1,000 responses — $10</option>
+              <option value="2500">2,500 responses — $25</option>
+            </select>
+          </label>
+          <button type="submit">Continue to secure checkout</button>
+          <output id="checkout-status" aria-live="polite"></output>
+        </form>
       </section>
     </main>
-    <footer>API first · MCP first · five native SDKs</footer>
+    <footer>API first · MCP first · Web, React Native, iOS, Android and Flutter SDKs</footer>
   </body>
 </html>

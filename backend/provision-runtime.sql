@@ -52,4 +52,7 @@ grant select, insert, update, delete on likerts.webhook_endpoints, likerts.webho
 grant execute on function likerts.enqueue_response_webhooks(), likerts.erase_response_webhooks(), likerts.revoke_workspace_webhooks() to :"runtime_role";
 grant select,insert on likerts.response_credits to :"runtime_role";
 grant execute on function likerts.ensure_response_credit_onboarding(text), likerts.onboard_response_credits(), likerts.guard_response_credit_insert() to :"runtime_role";
+grant select,insert,update on likerts.credit_checkouts to :"runtime_role";
+grant select,insert on likerts.credit_checkout_events to :"runtime_role";
+grant execute on function likerts.apply_credit_checkout_event(bytea,text,text,bytea,bigint,text,text,text) to :"runtime_role";
 commit;

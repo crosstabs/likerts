@@ -52,6 +52,7 @@ export const examples={
   oauth_grants_revoke:entry({id:grantId},{},'Revokes the scoped grant for subsequent API requests.'),
   billing_limits_update:entry({monthlySpendCapCents:500,unpaidExposureCapCents:500},usage,'Monthly cap limits paid-credit consumption; promotional credits remain usable. Unpaid exposure describes legacy postpaid usage.'),
   billing_account_put:entry({providerCustomerId:'cus_synthetic_example',providerPaymentMethodId:'pm_synthetic_example'},{},'Use customer/payment-method IDs from the configured test provider; never send card details.'),
+  billing_checkout_create:entry({amountCents:500,idempotencyKey:'checkout-001'},{id:'123e4567-e89b-12d3-a456-426614174010',amountCents:500,responseCredits:500,status:'open',checkoutUrl:'https://checkout.stripe.com/c/pay/cs_test_example'},'Open checkoutUrl in a browser. Credits are added only after the signed provider event confirms payment.'),
   billing_settlements_list:entry({},[settlement],'Lists durable settlement batches; chargedCents alone is not cash collected.'),
   billing_settlements_create:entry({idempotencyKey:'settlement-001'},settlement,'May submit a real test-mode charge. Requires eligible unsettled usage and a configured provider account.'),
   billing_settlements_reconcile:entry({id:settlementId},settlement,'Retrieves provider state and reconciles local settlement accounting.'),

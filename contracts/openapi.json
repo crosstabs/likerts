@@ -4334,6 +4334,38 @@
         ]
       }
     },
+    "/v1/billing/checkout": {
+      "post": {
+        "operationId": "billing_checkout_create",
+        "summary": "Create or retry a hosted checkout for prepaid response credits. One US cent buys one response credit; the minimum purchase is US$5.",
+        "security": [{"managementBearer": []}],
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/CreditCheckoutInput"},
+            "example": {"amountCents": 500, "idempotencyKey": "checkout-001"}
+          }}
+        },
+        "responses": {
+          "200": {"description": "Checkout created, or its idempotent current state returned.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CreditCheckout"}, "example": {"id":"123e4567-e89b-12d3-a456-426614174010","amountCents":500,"responseCredits":500,"status":"open","checkoutUrl":"https://checkout.stripe.com/c/pay/cs_test_example"}}}},
+          "400": {"description": "Invalid amount, idempotency key, or payment-provider configuration.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}, "example": {"error":{"code":"invalid_request","message":"Invalid checkout request."}}}}},
+          "401": {"description": "Unauthorized.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}, "example": {"error":{"code":"unauthorized","message":"Unauthorized."}}}}},
+          "403": {"description": "Owner access required.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}, "example": {"error":{"code":"forbidden","message":"Owner access required."}}}}},
+          "409": {"description": "The idempotency key was already used for another amount.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}, "example": {"error":{"code":"conflict","message":"Idempotency key conflicts with another amount."}}}}},
+          "413": {"description": "JSON request body exceeds 65536 bytes.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}, "example": {"error":{"code":"payload_too_large","message":"JSON request body exceeds 65536 bytes."}}}}},
+          "415": {"description": "Content-Type must be application/json.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}, "example": {"error":{"code":"unsupported_media_type","message":"Content-Type must be application/json."}}}}},
+          "500": {"description": "Internal failure; retry only with the original idempotency key and amount.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}, "example": {"error":{"code":"internal_error","message":"Internal failure; retry with the original key."}}}}}
+        },
+        "x-required-scope": "billing:write",
+        "parameters": [{
+          "in": "header",
+          "name": "X-Likerts-Workspace",
+          "required": false,
+          "description": "Required for human OAuth access; service credentials are already workspace-bound.",
+          "schema": {"type": "string", "minLength": 1, "maxLength": 128}
+        }]
+      }
+    },
     "/v1/billing/account": {
       "put": {
         "operationId": "billing_account_put",
@@ -7024,6 +7056,35 @@
         "x-interface-exempt": true
       }
     },
+    "/v1/browser/billing/checkout": {
+      "post": {
+        "operationId": "browser_billing_checkout_create",
+        "summary": "Create or retry a prepaid-credit checkout for the signed-in workspace owner.",
+        "security": [{"browserSessionBearer": []}],
+        "parameters": [{
+          "in": "header", "name": "X-Likerts-Workspace", "required": true,
+          "schema": {"type":"string","minLength":1,"maxLength":128}
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {
+            "schema": {"$ref":"#/components/schemas/CreditCheckoutInput"},
+            "example": {"amountCents":500,"idempotencyKey":"checkout-001"}
+          }}
+        },
+        "responses": {
+          "200": {"description":"Checkout state.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreditCheckout"}}}},
+          "400": {"description":"Invalid checkout request.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}},
+          "401": {"description":"Invalid browser session.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}},
+          "403": {"description":"Owner access required.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}},
+          "409": {"description":"Idempotency conflict.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}},
+          "413": {"description":"Request too large.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}},
+          "415": {"description":"JSON required.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}},
+          "500": {"description":"Internal failure.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}
+        },
+        "x-interface-exempt": true
+      }
+    },
     "/v1/browser/oauth-grants": {
       "post": {
         "operationId": "browser_oauth_grants_create",
@@ -9111,6 +9172,27 @@
         "minProperties": 1,
         "additionalProperties": false
       },
+      "CreditCheckoutInput": {
+        "type": "object",
+        "properties": {
+          "amountCents": {"type": "integer", "minimum": 500, "maximum": 100000},
+          "idempotencyKey": {"type": "string", "minLength": 1, "maxLength": 128}
+        },
+        "required": ["amountCents", "idempotencyKey"],
+        "additionalProperties": false
+      },
+      "CreditCheckout": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string", "format": "uuid"},
+          "amountCents": {"type": "integer", "minimum": 500, "maximum": 100000},
+          "responseCredits": {"type": "integer", "minimum": 500, "maximum": 100000},
+          "status": {"type": "string", "enum": ["pending", "open", "paid", "failed", "expired"]},
+          "checkoutUrl": {"type": ["string", "null"], "format": "uri"}
+        },
+        "required": ["id", "amountCents", "responseCredits", "status", "checkoutUrl"],
+        "additionalProperties": false
+      },
       "BillingAccountInput": {
         "type": "object",
         "properties": {
@@ -9409,6 +9491,7 @@
                       "oauth_grants_revoke",
                       "billing_limits_update",
                       "billing_account_put",
+                      "billing_checkout_create",
                       "billing_settlements_list",
                       "billing_settlements_create",
                       "billing_settlements_reconcile",

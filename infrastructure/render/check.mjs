@@ -19,6 +19,7 @@ for(const service of env.services){assert.equal(service.region,'singapore');asse
 const keys=s=>s.envVars.map(x=>x.key).sort();
 for(const key of ['LIKERTS_OIDC_ISSUER','LIKERTS_OIDC_AUDIENCE','LIKERTS_OIDC_JWKS_URL']) assert.equal(api.envVars.find(v=>v.key===key)?.sync,false);
 for(const key of ['LIKERTS_MANAGEMENT_ORIGINS','LIKERTS_BROWSER_SESSION_ISSUER','LIKERTS_BROWSER_SESSION_AUDIENCE','LIKERTS_BROWSER_SESSION_JWKS_URL','LIKERTS_BROWSER_WORKSPACE_KEY','LIKERTS_BROWSER_OAUTH_CLIENTS']) assert.equal(api.envVars.find(v=>v.key===key)?.sync,false);
+for(const key of ['LIKERTS_STRIPE_SECRET_KEY','LIKERTS_STRIPE_WEBHOOK_SECRET','LIKERTS_STRIPE_LIVE_MODE','LIKERTS_CHECKOUT_RETURN_ORIGIN']) assert.equal(api.envVars.find(v=>v.key===key)?.sync,false);
 assert.equal(api.type,'web');assert.equal(api.numInstances,2);assert.equal(api.healthCheckPath,'/health');
 assert.equal(mcp.type,'web');assert.equal(mcp.plan,'starter');assert.equal(mcp.numInstances,1);assert.equal(mcp.healthCheckPath,'/health');assert.match(mcp.dockerCommand,/start\.sh mcp$/);
 assert.deepEqual(keys(mcp),['LIKERTS_API_URL','LIKERTS_MCP_ALLOWED_ORIGINS','LIKERTS_MCP_PUBLIC_ORIGIN','LIKERTS_OIDC_ISSUER']);
@@ -28,6 +29,8 @@ assert.deepEqual(keys(job),['LIKERTS_BOOTSTRAP_RUNTIME_PASSWORD','LIKERTS_BOOTST
 assert.equal(job.type,'cron');assert.equal(job.dockerCommand,'/bin/true');assert.equal(job.schedule,'0 0 1 1 *');
 for(const service of env.services)for(const variable of service.envVars){if(/PASSWORD|TOKEN|KEY|DATABASE_URL/.test(variable.key)){assert.equal(variable.sync,false);assert.equal(variable.value,undefined);}}
 assert.ok(!keys(api).some(k=>/MIGRATION|BOOTSTRAP|DEV_|ALLOW_MEMORY|RUN_MIGRATIONS|WEBHOOK_DATABASE_URL/.test(k)));
+assert.ok(!keys(worker).some(k=>/STRIPE|CHECKOUT/.test(k)));
+assert.ok(!keys(mcp).some(k=>/STRIPE|CHECKOUT/.test(k)));
 assert.equal(env.databases,undefined);
 const docker=read('infrastructure/render/Dockerfile');assert.match(docker,/USER 10001:10001/);assert.match(docker,/mcp-builder/);assert.match(docker,/\/opt\/likerts\/tools\/mcp\/dist/);assert.match(docker,/tools\/capabilities\.json/);assert.match(docker,/contracts\/openapi\.json/);assert.ok(!docker.includes('ENTRYPOINT'));
 const dockerignore=read('.dockerignore');assert.match(dockerignore,/!tools\/mcp\/package-lock\.json/);assert.match(dockerignore,/!tools\/mcp\/src\/\*\*/);assert.match(dockerignore,/!tools\/capabilities\.json/);assert.match(dockerignore,/!contracts\/openapi\.json/);

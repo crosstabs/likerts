@@ -45,7 +45,7 @@ Configure an MCP client to launch `node` with the absolute path to `tools/mcp/di
 
 ## Remote MCP for Codex and Claude
 
-The same 39-operation registry is available over stateless MCP Streamable HTTP. Each configured endpoint binds one explicit workspace in its path:
+The same 40-operation registry is available over stateless MCP Streamable HTTP. Each configured endpoint binds one explicit workspace in its path:
 
 ```text
 https://mcp.example.com/mcp/{workspaceId}
@@ -71,7 +71,7 @@ npm test --prefix tools/mcp
 cargo test --manifest-path tools/cli/Cargo.toml
 ```
 
-Tests exercise credential separation, retry payload preservation, unsafe URLs/resource IDs and actual MCP tool discovery/invocation over the SDK's in-memory and Streamable HTTP transports. The remote suite also checks all 39 tools, exact workspace forwarding, Bearer discovery challenges, origin allowlisting and fail-closed configuration. `node --test tests/interface-contract.mjs` additionally executes every capability through MCP and the compiled CLI against a validating HTTP fixture. OpenAPI supplies MCP input and output schemas; successful text remains the API JSON, while MCP `structuredContent` wraps it as `{result: ...}`. Safe HTTP failures contain `error.code`, `status`, `operation` and a fixed message; upstream bodies are discarded. The exact registered backend routes, compiled CLI inventory and generated examples also have CI gates. Backend authorization remains authoritative.
+Tests exercise credential separation, retry payload preservation, unsafe URLs/resource IDs and actual MCP tool discovery/invocation over the SDK's in-memory and Streamable HTTP transports. The remote suite also checks all 40 tools, exact workspace forwarding, Bearer discovery challenges, origin allowlisting and fail-closed configuration. `node --test tests/interface-contract.mjs` additionally executes every capability through MCP and the compiled CLI against a validating HTTP fixture. OpenAPI supplies MCP input and output schemas; successful text remains the API JSON, while MCP `structuredContent` wraps it as `{result: ...}`. Safe HTTP failures contain `error.code`, `status`, `operation` and a fixed message; upstream bodies are discarded. The exact registered backend routes, compiled CLI inventory and generated examples also have CI gates. Backend authorization remains authoritative.
 
 See [the complete capability reference](../contracts/CAPABILITIES.md) for every operation's scope, usage note, input file, output example and documented errors.
 

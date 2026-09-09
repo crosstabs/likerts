@@ -43,5 +43,10 @@
     "method": "POST",
     "path": "/v1/browser/oauth-grants",
     "reason": "Interactive owner consent bridge for registered OAuth clients; not an agent-callable capability."
+  },
+  {
+    "method": "POST",
+    "path": "/v1/browser/billing/checkout",
+    "reason": "First-party Clerk session bridge for interactive checkout; the equivalent management capability remains available to API, MCP and CLI clients."
   }
 ]

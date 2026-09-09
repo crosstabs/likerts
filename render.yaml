@@ -125,6 +125,22 @@
                 {
                   "key": "LIKERTS_BROWSER_OAUTH_CLIENTS",
                   "sync": false
+                },
+                {
+                  "key": "LIKERTS_STRIPE_SECRET_KEY",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_STRIPE_WEBHOOK_SECRET",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_STRIPE_LIVE_MODE",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_CHECKOUT_RETURN_ORIGIN",
+                  "sync": false
                 }
               ]
             },

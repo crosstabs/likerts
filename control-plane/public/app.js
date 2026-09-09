@@ -31,7 +31,40 @@ async function loadWorkspace(clerk) {
   set("response-status", String(result.usage.totalResponses), true);
   set("credit-status", String(result.usage.credits.availableCredits), result.usage.credits.availableCredits > 0);
   document.getElementById("oauth-approval").hidden = false;
+  document.getElementById("credit-checkout").hidden = false;
 }
+
+document.getElementById("credit-checkout").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const output = document.getElementById("checkout-status");
+  const button = event.currentTarget.querySelector("button");
+  const amountCents = Number(document.getElementById("checkout-amount").value);
+  const storageKey = `likerts-checkout-${activeWorkspace}-${amountCents}`;
+  const idempotencyKey = sessionStorage.getItem(storageKey) || crypto.randomUUID();
+  sessionStorage.setItem(storageKey, idempotencyKey);
+  output.textContent = "Opening secure checkout…";
+  button.disabled = true;
+  try {
+    if (!activeClerk?.session || !activeWorkspace) throw new Error("missing checkout context");
+    const token = await activeClerk.session.getToken();
+    const response = await fetch(`${apiOrigin}/v1/browser/billing/checkout`, {
+      method: "POST", credentials: "omit", cache: "no-store",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", "X-Likerts-Workspace": activeWorkspace },
+      body: JSON.stringify({ amountCents, idempotencyKey }),
+    });
+    if (!response.ok) throw new Error(`checkout failed: ${response.status}`);
+    const checkout = await response.json();
+    if (!checkout.checkoutUrl) {
+      output.textContent = checkout.status === "paid" ? "Credits added" : `Checkout ${checkout.status}`;
+      sessionStorage.removeItem(storageKey);
+      return;
+    }
+    window.location.assign(checkout.checkoutUrl);
+  } catch {
+    output.textContent = "Checkout could not be started. Retry safely with the same request.";
+    button.disabled = false;
+  }
+});
 
 document.getElementById("oauth-approval").addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -58,6 +91,9 @@ document.getElementById("oauth-approval").addEventListener("submit", async (even
 
 async function loadClerk() {
   const authRoot = document.getElementById("auth-root");
+  const checkoutResult = new URLSearchParams(window.location.search).get("checkout");
+  if (checkoutResult === "success") set("checkout-status", "Payment received. Updating credits…", true);
+  if (checkoutResult === "cancelled") set("checkout-status", "Checkout cancelled", false);
   if (!publishableKey) {
     authRoot.textContent = "Identity configuration pending";
     return;

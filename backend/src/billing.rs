@@ -26,6 +26,21 @@ pub struct RefundInput {
     pub reason: String,
     pub idempotency_key: String,
 }
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct CreditCheckoutInput {
+    pub amount_cents: u64,
+    pub idempotency_key: String,
+}
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct CreditCheckout {
+    pub id: String,
+    pub amount_cents: u64,
+    pub response_credits: u64,
+    pub status: String,
+    pub checkout_url: Option<String>,
+}
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Settlement {
@@ -53,6 +68,21 @@ pub struct ChargeRequest {
     pub amount_cents: u64,
 }
 
+#[derive(Clone, Debug)]
+pub struct CheckoutRequest {
+    pub idempotency_key: String,
+    pub purchase_id: String,
+    pub workspace_id: String,
+    pub amount_cents: u64,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct ProviderCheckout {
+    pub id: String,
+    pub url: String,
+    pub status: String,
+}
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct ProviderIntent {
     pub id: String,
@@ -66,9 +96,17 @@ pub struct ProviderEvent {
     pub event_type: String,
     pub intent_id: String,
     pub failure_code: Option<String>,
+    pub amount_total: Option<u64>,
+    pub currency: Option<String>,
+    pub payment_status: Option<String>,
+    pub client_reference_id: Option<String>,
 }
 
 pub trait PaymentProvider: Send + Sync {
+    fn create_checkout<'a>(
+        &'a self,
+        request: CheckoutRequest,
+    ) -> ProviderFuture<'a, ProviderCheckout>;
     fn create_charge<'a>(&'a self, request: ChargeRequest) -> ProviderFuture<'a, ProviderIntent>;
     fn retrieve<'a>(&'a self, intent_id: &'a str) -> ProviderFuture<'a, ProviderIntent>;
     fn refund<'a>(
@@ -95,6 +133,19 @@ impl LocalPaymentProvider {
 }
 
 impl PaymentProvider for LocalPaymentProvider {
+    fn create_checkout<'a>(
+        &'a self,
+        request: CheckoutRequest,
+    ) -> ProviderFuture<'a, ProviderCheckout> {
+        Box::pin(async move {
+            Ok(ProviderCheckout {
+                id: format!("cs_test_{}", request.purchase_id),
+                url: format!("https://checkout.stripe.test/{}", request.purchase_id),
+                status: "open".into(),
+            })
+        })
+    }
+
     fn create_charge<'a>(&'a self, request: ChargeRequest) -> ProviderFuture<'a, ProviderIntent> {
         Box::pin(async move {
             let mut intents = self.intents.lock().map_err(|_| Error::Internal)?;
@@ -162,23 +213,109 @@ pub struct StripePaymentProvider {
     secret_key: String,
     webhook_secret: Vec<u8>,
     api_origin: String,
+    checkout_return_origin: String,
 }
 
 impl StripePaymentProvider {
-    pub fn new(secret_key: String, webhook_secret: String) -> Result<Self, Error> {
-        if !secret_key.starts_with("sk_test_") || !webhook_secret.starts_with("whsec_") {
-            return Err(Error::Invalid("Stripe test credentials required".into()));
+    pub fn new(
+        secret_key: String,
+        webhook_secret: String,
+        checkout_return_origin: String,
+        allow_live_mode: bool,
+    ) -> Result<Self, Error> {
+        let test_key = secret_key.starts_with("sk_test_");
+        let live_key = secret_key.starts_with("sk_live_");
+        if (!test_key && !(allow_live_mode && live_key)) || !webhook_secret.starts_with("whsec_") {
+            return Err(Error::Invalid(
+                "Stripe credentials do not match the configured mode".into(),
+            ));
+        }
+        let origin = reqwest::Url::parse(&checkout_return_origin)
+            .map_err(|_| Error::Invalid("invalid checkout return origin".into()))?;
+        if origin.scheme() != "https"
+            || origin.host_str().is_none()
+            || origin.path() != "/"
+            || origin.query().is_some()
+            || origin.fragment().is_some()
+        {
+            return Err(Error::Invalid("invalid checkout return origin".into()));
         }
         Ok(Self {
             client: Client::new(),
             secret_key,
             webhook_secret: webhook_secret.into_bytes(),
             api_origin: "https://api.stripe.com".into(),
+            checkout_return_origin: checkout_return_origin.trim_end_matches('/').into(),
         })
     }
 }
 
 impl PaymentProvider for StripePaymentProvider {
+    fn create_checkout<'a>(
+        &'a self,
+        request: CheckoutRequest,
+    ) -> ProviderFuture<'a, ProviderCheckout> {
+        Box::pin(async move {
+            let body = serde_urlencoded::to_string([
+                ("mode", "payment".to_owned()),
+                (
+                    "success_url",
+                    format!("{}/?checkout=success", self.checkout_return_origin),
+                ),
+                (
+                    "cancel_url",
+                    format!("{}/?checkout=cancelled", self.checkout_return_origin),
+                ),
+                ("client_reference_id", request.purchase_id.clone()),
+                ("metadata[likerts_purchase_id]", request.purchase_id),
+                ("metadata[likerts_workspace_id]", request.workspace_id),
+                ("line_items[0][price_data][currency]", "usd".to_owned()),
+                (
+                    "line_items[0][price_data][unit_amount]",
+                    request.amount_cents.to_string(),
+                ),
+                (
+                    "line_items[0][price_data][product_data][name]",
+                    "Likerts response credits".to_owned(),
+                ),
+                ("line_items[0][quantity]", "1".to_owned()),
+            ])
+            .map_err(|_| Error::Internal)?;
+            let response = self
+                .client
+                .post(format!("{}/v1/checkout/sessions", self.api_origin))
+                .basic_auth(&self.secret_key, Some(""))
+                .header("Idempotency-Key", request.idempotency_key)
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .body(body)
+                .send()
+                .await
+                .map_err(|_| Error::Internal)?;
+            let status = response.status();
+            let value: Value = response.json().await.map_err(|_| Error::Internal)?;
+            if !status.is_success() {
+                return Err(Error::Invalid("Stripe checkout rejected".into()));
+            }
+            Ok(ProviderCheckout {
+                id: value
+                    .get("id")
+                    .and_then(Value::as_str)
+                    .ok_or(Error::Internal)?
+                    .into(),
+                url: value
+                    .get("url")
+                    .and_then(Value::as_str)
+                    .ok_or(Error::Internal)?
+                    .into(),
+                status: value
+                    .get("status")
+                    .and_then(Value::as_str)
+                    .unwrap_or("open")
+                    .into(),
+            })
+        })
+    }
+
     fn create_charge<'a>(&'a self, request: ChargeRequest) -> ProviderFuture<'a, ProviderIntent> {
         Box::pin(async move {
             let amount = i64::try_from(request.amount_cents)
@@ -362,6 +499,10 @@ pub fn verify_stripe_event(
             .object
             .last_payment_error
             .and_then(|error| error.code),
+        amount_total: envelope.data.object.amount_total,
+        currency: envelope.data.object.currency,
+        payment_status: envelope.data.object.payment_status,
+        client_reference_id: envelope.data.object.client_reference_id,
     })
 }
 
@@ -390,6 +531,10 @@ struct StripeData {
 struct StripeObject {
     id: String,
     last_payment_error: Option<StripeError>,
+    amount_total: Option<u64>,
+    currency: Option<String>,
+    payment_status: Option<String>,
+    client_reference_id: Option<String>,
 }
 #[derive(Deserialize)]
 struct StripeError {
@@ -402,6 +547,16 @@ mod tests {
     #[tokio::test]
     async fn local_provider_is_idempotent_and_failure_is_deterministic() {
         let provider = LocalPaymentProvider::new("secret");
+        let checkout = provider
+            .create_checkout(CheckoutRequest {
+                idempotency_key: "checkout-one".into(),
+                purchase_id: "purchase-one".into(),
+                workspace_id: "workspace-one".into(),
+                amount_cents: 500,
+            })
+            .await
+            .unwrap();
+        assert_eq!(checkout.status, "open");
         let request = ChargeRequest {
             idempotency_key: "one".into(),
             customer_id: "cus_local".into(),
@@ -440,5 +595,16 @@ mod tests {
             verify_stripe_event(b"secret", &signature, body, timestamp + 301),
             Err(Error::Unauthorized)
         ));
+
+        let checkout_body = br#"{"id":"evt_checkout","type":"checkout.session.completed","data":{"object":{"id":"cs_test_one","last_payment_error":null,"amount_total":500,"currency":"usd","payment_status":"paid","client_reference_id":"123e4567-e89b-12d3-a456-426614174010"}}}"#;
+        let mut mac = Hmac::<Sha256>::new_from_slice(b"secret").unwrap();
+        mac.update(format!("{timestamp}.").as_bytes());
+        mac.update(checkout_body);
+        let signature = format!("t={timestamp},v1={:x}", mac.finalize().into_bytes());
+        let checkout =
+            verify_stripe_event(b"secret", &signature, checkout_body, timestamp).unwrap();
+        assert_eq!(checkout.intent_id, "cs_test_one");
+        assert_eq!(checkout.amount_total, Some(500));
+        assert_eq!(checkout.payment_status.as_deref(), Some("paid"));
     }
 }
