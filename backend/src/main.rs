@@ -868,9 +868,11 @@ async fn workspace(app: &App, headers: &HeaderMap, scope: &str) -> Result<String
         Err(Error::Forbidden) => return Err(ApiError(Error::Forbidden)),
         Err(Error::Unauthorized) => {
             if token.starts_with("lks_") {
+                let fingerprint = format!("{:x}", Sha256::digest(token.as_bytes()));
                 eprintln!(
-                    "service credential lookup rejected; token_length={}",
-                    token.len()
+                    "service credential lookup rejected; token_length={}; fingerprint={}",
+                    token.len(),
+                    &fingerprint[..12]
                 );
             }
             let verifier = app.oidc.as_ref().ok_or(ApiError(Error::Unauthorized))?;
