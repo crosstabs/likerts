@@ -65,6 +65,7 @@ const policy = [
   "style-src 'self' 'unsafe-inline'",
   `script-src ${selfAnd(clerkOrigin)}`,
   `frame-src ${selfAnd(clerkOrigin)}`,
+  "worker-src 'self' blob:",
   "base-uri 'none'",
   `form-action ${selfAnd(clerkOrigin)}`,
 ].join("; ");

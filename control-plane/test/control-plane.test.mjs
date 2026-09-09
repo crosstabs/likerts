@@ -39,6 +39,7 @@ test("build emits an exact-origin CSP without wildcard connectivity", async () =
   assert.ok(policy);
   assert.match(policy, /connect-src 'self' https:\/\/api\.likerts\.example:8443 https:\/\/safe\.clerk\.accounts\.dev/);
   assert.match(policy, /script-src 'self' https:\/\/safe\.clerk\.accounts\.dev/);
+  assert.match(policy, /worker-src 'self' blob:/);
   assert.doesNotMatch(policy, /\*/);
 
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
@@ -67,6 +68,7 @@ test("browser mounts Clerk sign-in or the signed-in user button", async () => {
   assert.match(app, /clerk\.mountSignIn/);
   assert.match(app, /clerk\.mountUserButton/);
   assert.match(app, /dataset\.clerkPublishableKey = publishableKeyForScript/);
+  assert.match(app, /telemetry: false/);
   assert.match(app, /session\.getToken\(\)/);
   assert.match(app, /\/v1\/browser\/bootstrap/);
   assert.match(app, /\/v1\/browser\/oauth-grants/);

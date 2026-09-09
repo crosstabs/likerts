@@ -117,7 +117,7 @@ async function loadClerk() {
   await loadScript(`https://${domain}/npm/@clerk/ui@1/dist/ui.browser.js`);
   await loadScript(`https://${domain}/npm/@clerk/clerk-js@6/dist/clerk.browser.js`, publishableKey);
   const clerk = window.Clerk;
-  await clerk.load({ ui: { ClerkUI: window.__internal_ClerkUICtor } });
+  await clerk.load({ telemetry: false, ui: { ClerkUI: window.__internal_ClerkUICtor } });
   authRoot.replaceChildren();
   const mount = document.createElement("div");
   authRoot.appendChild(mount);
