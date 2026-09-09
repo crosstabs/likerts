@@ -328,6 +328,19 @@
       "stripe": "unavailable"
     },
     "coverageComplete": false,
-    "limitation": "Partial Vercel account period only; excludes Render billing and unavailable Neon, Clerk and Stripe charges. Not margin evidence."
+    "limitation": "Partial Vercel and Render account-period records. Render services were provisioned partway through the month; Neon, Clerk and Stripe charges remain unavailable. Not margin evidence.",
+    "renderLikerts": {
+      "measuredAt": "2026-09-09T08:38:00Z",
+      "monthToDateActiveServicesUsd": 0.61,
+      "services": {
+        "apiUsd": 0.47,
+        "mcpUsd": 0.07,
+        "workerUsd": 0.07
+      },
+      "deletedPostgresUsd": 0.12,
+      "oneOffJobsUsd": 0,
+      "cronJobsUsd": 0,
+      "provisioningTiming": "partway_through_month"
+    }
   }
 }

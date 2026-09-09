@@ -90,6 +90,8 @@ assert.deepEqual(evidence.exportRestartRehearsal, {
 assert.equal(evidence.managedRecoveryAccess.neonMarketplaceConsole, 'blocked_pending_account_email_verification');
 assert.equal(evidence.managedRecoveryAccess.restoreExecuted, false);
 assert.equal(evidence.providerUsageReview.vercelProject.billedCostUsd, 0.028879340130165812);
+assert.equal(evidence.providerUsageReview.renderLikerts.monthToDateActiveServicesUsd, 0.61);
+assert.equal(evidence.providerUsageReview.renderLikerts.deletedPostgresUsd, 0.12);
 assert.equal(evidence.providerUsageReview.coverageComplete, false);
 inspect(evidence.exportRestartRehearsal);
 inspect(evidence.managedRecoveryAccess);
