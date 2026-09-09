@@ -37,7 +37,7 @@ COPY --from=mcp-builder /build/mcp/dist /opt/likerts/tools/mcp/dist
 COPY --from=mcp-builder /build/mcp/node_modules /opt/likerts/tools/mcp/node_modules
 COPY tools/capabilities.json /opt/likerts/tools/capabilities.json
 COPY contracts/openapi.json /opt/likerts/contracts/openapi.json
-COPY infrastructure/render/start.sh infrastructure/render/migrate.sh /opt/likerts/render/
+COPY infrastructure/render/start.sh infrastructure/render/migrate.sh infrastructure/render/diagnose-roles.sh infrastructure/render/diagnose-roles.sql /opt/likerts/render/
 COPY infrastructure/render/bootstrap.sql /opt/likerts/render/bootstrap.sql
 COPY backend/provision-runtime.sql /opt/likerts/render/provision-runtime.sql
 COPY infrastructure/webhooks/provision-worker.sql /opt/likerts/render/provision-worker.sql
