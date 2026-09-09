@@ -185,5 +185,39 @@
     "promotionalCreditsConsumed": 1,
     "exportProviderRoundTrip": true,
     "temporaryWorkspaceTombstoned": true
+  },
+  "logReview": {
+    "source": "Render CLI production API, MCP and worker logs",
+    "recordsReviewed": 500,
+    "windowStart": "2026-09-09T07:02:56.493126993Z",
+    "windowEnd": "2026-09-09T07:12:26.465472192Z",
+    "patternMatches": {
+      "authorizationHeader": 0,
+      "bearerToken": 0,
+      "databaseUrl": 0,
+      "stripeSecret": 0,
+      "jwt": 0,
+      "email": 0,
+      "customerPayloadKeys": 0
+    },
+    "limitation": "A bounded retrospective pattern scan is evidence for this window only; ongoing drain/alerting and support access review remain required."
+  },
+  "boundedHostedLoad": {
+    "evidence": "infrastructure/render/hosted-load-evidence.json",
+    "measuredAt": "2026-09-09T07:42:52.823Z",
+    "submissionAttempts": 260,
+    "uniqueAcceptedResponses": 211,
+    "chargedCents": 211,
+    "promotionalCreditsConsumed": 211,
+    "paidCreditsConsumed": 0,
+    "pacedRequestsPerSecond": 5,
+    "pacedP95Ms": 206.254,
+    "burstConcurrency": 10,
+    "burstRequestsPerSecond": 38.06818913138377,
+    "burstP95Ms": 416.968,
+    "accountingAndFailureInvariants": "passed",
+    "temporaryWorkspaceTombstoned": true,
+    "credentialsDeniedAfterCleanup": true,
+    "limitation": "Bounded single-workspace correctness/latency rehearsal; not sustained capacity, replica placement/failover, SLA or provider-cost evidence."
   }
 }

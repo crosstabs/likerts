@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-09-09T07:42:52.823Z",
+  "base": "https://likerts-api.onrender.com",
+  "temporaryWorkspace": "hosted-launch-load-998a506376fb4412",
+  "status": "passed",
+  "workload": {
+    "pacedResponses": 100,
+    "pacedRequestsPerSecond": 5,
+    "burstResponses": 100,
+    "maximumConcurrency": 10,
+    "duplicateRequests": 20,
+    "invalidRequests": 10,
+    "unauthorizedRequests": 10,
+    "capRaceRequests": 20,
+    "capRaceAcceptances": 10,
+    "expectedAcceptedResponses": 211,
+    "maximumSubmissionRequests": 260
+  },
+  "phases": [
+    {
+      "name": "paced-valid",
+      "requests": 100,
+      "concurrency": 10,
+      "targetRequestsPerSecond": 5,
+      "seconds": 20.054003166999998,
+      "requestsPerSecond": 4.986535564358326,
+      "statuses": {
+        "200": 100
+      },
+      "latencyMs": {
+        "p50": 126.566,
+        "p95": 206.254,
+        "p99": 457.507
+      },
+      "scheduledLatencyP95Ms": 207.497
+    },
+    {
+      "name": "burst-valid",
+      "requests": 100,
+      "concurrency": 10,
+      "targetRequestsPerSecond": null,
+      "seconds": 2.626865167,
+      "requestsPerSecond": 38.06818913138377,
+      "statuses": {
+        "200": 100
+      },
+      "latencyMs": {
+        "p50": 239.487,
+        "p95": 416.968,
+        "p99": 550.53
+      },
+      "scheduledLatencyP95Ms": null
+    },
+    {
+      "name": "duplicate-retries",
+      "requests": 20,
+      "concurrency": 10,
+      "targetRequestsPerSecond": null,
+      "seconds": 0.2728014580000017,
+      "requestsPerSecond": 73.31339116230043,
+      "statuses": {
+        "200": 20
+      },
+      "latencyMs": {
+        "p50": 100.585,
+        "p95": 167.234,
+        "p99": 171.812
+      },
+      "scheduledLatencyP95Ms": null
+    },
+    {
+      "name": "invalid-answers",
+      "requests": 10,
+      "concurrency": 5,
+      "targetRequestsPerSecond": null,
+      "seconds": 0.2886752919999999,
+      "requestsPerSecond": 34.6409972627654,
+      "statuses": {
+        "400": 10
+      },
+      "latencyMs": {
+        "p50": 118.73,
+        "p95": 154.725,
+        "p99": 154.725
+      },
+      "scheduledLatencyP95Ms": null
+    },
+    {
+      "name": "unauthorized",
+      "requests": 10,
+      "concurrency": 5,
+      "targetRequestsPerSecond": null,
+      "seconds": 0.18062770800000363,
+      "requestsPerSecond": 55.362491783374665,
+      "statuses": {
+        "401": 10
+      },
+      "latencyMs": {
+        "p50": 67.426,
+        "p95": 96.323,
+        "p99": 96.323
+      },
+      "scheduledLatencyP95Ms": null
+    },
+    {
+      "name": "cap-race",
+      "requests": 20,
+      "concurrency": 10,
+      "targetRequestsPerSecond": null,
+      "seconds": 0.43925820799999926,
+      "requestsPerSecond": 45.53130626986493,
+      "statuses": {
+        "200": 10,
+        "409": 10
+      },
+      "latencyMs": {
+        "p50": 162.774,
+        "p95": 317.813,
+        "p99": 324.208
+      },
+      "scheduledLatencyP95Ms": null
+    }
+  ],
+  "accounting": {
+    "uniqueAcceptedReceipts": 211,
+    "acceptedResponses": 211,
+    "chargedCents": 211,
+    "promotionalResponses": 211,
+    "promotionalCreditsRemaining": 789,
+    "paidCredits": 0,
+    "paidCreditDebt": 0,
+    "paidResponses": 0,
+    "unpaidExposureCents": 0
+  },
+  "failures": [],
+  "cleanup": {
+    "workspaceTombstoned": true,
+    "bootstrapDenied": true,
+    "childDenied": true
+  },
+  "limitations": [
+    "Short bounded rehearsal within one workspace promotional grant; not sustained capacity, failover, SLA or cost evidence.",
+    "Client latency includes internet transit from the runner. Load-balancer replica placement is not asserted.",
+    "No real respondent data or paid credit purchases. Cleanup verification checks API denial after workspace tombstoning."
+  ]
+}
