@@ -24,7 +24,8 @@ assert.equal(mcp.type,'web');assert.equal(mcp.plan,'starter');assert.equal(mcp.n
 assert.deepEqual(keys(mcp),['LIKERTS_API_URL','LIKERTS_MCP_ALLOWED_ORIGINS','LIKERTS_MCP_PUBLIC_ORIGIN','LIKERTS_OIDC_ISSUER']);
 assert.equal(worker.type,'worker');assert.equal(worker.numInstances,1);
 assert.deepEqual(keys(worker),['LIKERTS_WEBHOOK_CONCURRENCY','LIKERTS_WEBHOOK_CREDENTIAL_KEY','LIKERTS_WEBHOOK_DATABASE_URL']);
-assert.deepEqual(keys(job),['LIKERTS_BOOTSTRAP_RUNTIME_PASSWORD','LIKERTS_BOOTSTRAP_WORKER_PASSWORD','LIKERTS_MIGRATION_DATABASE_URL']);
+assert.deepEqual(keys(job),['LIKERTS_MANAGED_DATABASE_ROLES','LIKERTS_MIGRATION_DATABASE_URL']);
+assert.equal(job.envVars.find(v=>v.key==='LIKERTS_MANAGED_DATABASE_ROLES')?.value,'1');
 assert.equal(job.type,'cron');assert.equal(job.dockerCommand,'/bin/true');assert.equal(job.schedule,'0 0 1 1 *');
 for(const service of env.services)for(const variable of service.envVars){if(/PASSWORD|TOKEN|KEY|DATABASE_URL/.test(variable.key)){assert.equal(variable.sync,false);assert.equal(variable.value,undefined);}}
 assert.ok(!keys(api).some(k=>/MIGRATION|BOOTSTRAP|DEV_|ALLOW_MEMORY|RUN_MIGRATIONS|WEBHOOK_DATABASE_URL/.test(k)));

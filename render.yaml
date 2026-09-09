@@ -172,12 +172,8 @@
                   "sync": false
                 },
                 {
-                  "key": "LIKERTS_BOOTSTRAP_RUNTIME_PASSWORD",
-                  "sync": false
-                },
-                {
-                  "key": "LIKERTS_BOOTSTRAP_WORKER_PASSWORD",
-                  "sync": false
+                  "key": "LIKERTS_MANAGED_DATABASE_ROLES",
+                  "value": "1"
                 }
               ]
             }
