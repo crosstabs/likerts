@@ -69,11 +69,13 @@ const policy = [
   "base-uri 'none'",
   `form-action ${selfAnd(clerkOrigin)}`,
 ].join("; ");
-const htmlPath = new URL("../dist/index.html", import.meta.url);
-const html = await readFile(htmlPath, "utf8");
-await writeFile(htmlPath, html.replace("__LIKERTS_CONTENT_SECURITY_POLICY__", policy));
+for (const relativePath of ["index.html", "app/index.html"]) {
+  const htmlPath = new URL(`../dist/${relativePath}`, import.meta.url);
+  const html = await readFile(htmlPath, "utf8");
+  await writeFile(htmlPath, html.replace("__LIKERTS_CONTENT_SECURITY_POLICY__", policy));
+}
 
-for (const file of ["index.html", "app.js", "styles.css"]) {
+for (const file of ["index.html", "app/index.html", "app.js", "marketing.js", "styles.css"]) {
   const contents = await readFile(new URL(`../dist/${file}`, import.meta.url), "utf8");
   if (/BLOB_READ_WRITE_TOKEN|LIKERTS_VERCEL_BLOB_TOKEN|CLERK_SECRET_KEY|STRIPE_SECRET/i.test(contents)) {
     throw new Error(`server secret reference found in browser asset ${file}`);

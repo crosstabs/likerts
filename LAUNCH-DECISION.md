@@ -11,6 +11,7 @@ Public paid launch begins only after the owner-controlled gates below pass. This
 ## Evidence that passes
 
 - Production passwordless Clerk sign-in renders on `likerts.com` using verified custom domains; the development badge is absent.
+- The public marketing homepage and separate `/app` control plane are deployed on Vercel. Desktop/mobile layouts, navigation, MCP/CLI/API example switching, SDK downloads and the settled Clerk sign-in surface pass production browser verification.
 - Render/Neon tenant isolation, restricted runtime roles, all 22 migrations, API/MCP health and unauthenticated denial pass.
 - A production tenant-binding rehearsal allows the exact service-credential workspace and rejects a mismatched workspace through both direct API and MCP; tombstoning invalidates the credential through both paths.
 - The hosted lifecycle passes scoped credential issue/revocation, survey publication, five-SDK collection, response retrieval, private Blob export/download, data deletion, export revocation and workspace tombstoning.
