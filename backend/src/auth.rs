@@ -1,13 +1,8 @@
-use crate::Error;
+use crate::{jwks::JwksCache, Error};
 use jsonwebtoken::{decode, decode_header, jwk::JwkSet, Algorithm, DecodingKey, Validation};
 use reqwest::{redirect::Policy, Client, Url};
 use serde::Deserialize;
-use std::{
-    collections::HashSet,
-    sync::Arc,
-    time::{Duration, Instant},
-};
-use tokio::sync::RwLock;
+use std::{collections::HashSet, time::Duration};
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct OidcClaims {
@@ -48,7 +43,7 @@ pub struct OidcVerifier {
     audience: String,
     jwks_url: Url,
     client: Client,
-    keys: Arc<RwLock<Option<(JwkSet, Instant)>>>,
+    keys: JwksCache,
 }
 
 impl OidcVerifier {
@@ -100,30 +95,8 @@ impl OidcVerifier {
             audience: audience.into(),
             jwks_url,
             client,
-            keys: Arc::new(RwLock::new(None)),
+            keys: JwksCache::default(),
         })
-    }
-
-    async fn refresh(&self) -> Result<JwkSet, Error> {
-        let response = self
-            .client
-            .get(self.jwks_url.clone())
-            .send()
-            .await
-            .map_err(|_| Error::Internal)?;
-        if !response.status().is_success() {
-            return Err(Error::Internal);
-        }
-        let bytes = response.bytes().await.map_err(|_| Error::Internal)?;
-        if bytes.len() > 256 * 1024 {
-            return Err(Error::Internal);
-        }
-        let keys: JwkSet = serde_json::from_slice(&bytes).map_err(|_| Error::Internal)?;
-        if keys.keys.is_empty() {
-            return Err(Error::Internal);
-        }
-        *self.keys.write().await = Some((keys.clone(), Instant::now()));
-        Ok(keys)
     }
 
     pub async fn verify(&self, token: &str) -> Result<OidcClaims, Error> {
@@ -132,15 +105,10 @@ impl OidcVerifier {
             return Err(Error::Unauthorized);
         }
         let kid = header.kid.ok_or(Error::Unauthorized)?;
-        let cached = self.keys.read().await.clone();
-        let keys = match cached {
-            Some((keys, fetched_at))
-                if fetched_at.elapsed() < Duration::from_secs(600) && keys.find(&kid).is_some() =>
-            {
-                keys
-            }
-            _ => self.refresh().await?,
-        };
+        let keys = self
+            .keys
+            .keys_for(&self.client, &self.jwks_url, &kid)
+            .await?;
         self.verify_with_keys(token, &kid, &keys)
     }
 

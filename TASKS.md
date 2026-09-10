@@ -1,6 +1,6 @@
 # Likerts task list
 
-Current plan, 9 September 2026. Checked items identify verified local or hosted work at the stated boundary, not overall production readiness. Unchecked items remain open. Owner labels identify workstreams, not currently running agents. No delivery dates or effort estimates are committed.
+Detailed implementation record, updated 10 September 2026. Use [LAUNCH-TASKS.md](LAUNCH-TASKS.md) for the current ordered launch queue and [the council report](docs/reviews/2026-09-10/CEO-REPORT.md) for the readiness assessment. Checked items identify verified local or hosted work at the stated boundary, not overall production readiness. Unchecked items remain open. Owner labels identify workstreams, not currently running agents. No delivery dates or effort estimates are committed.
 
 **Product:** customer-controlled embedded surveys; free onboarding with one nonrenewing 1,000-response workspace grant, then US$0.01 per accepted response from paid credits. The minimum US$5 purchase buys 500 responses. No subscription or provisioning fee. All five SDKs at first launch. No hosted survey links, distribution, email campaigns, enterprise SSO or dedicated deployments.
 

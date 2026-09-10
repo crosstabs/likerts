@@ -21,6 +21,7 @@ export LIKERTS_WEBHOOK_TEST_API_URL="postgres://likerts_webhook_api_test:webhook
 export LIKERTS_WEBHOOK_TEST_WORKER_URL="postgres://likerts_webhook_worker:webhook-local-test@127.0.0.1:$port/postgres"
 export LIKERTS_WEBHOOK_TEST_CONTAINER="$container"
 cargo test --manifest-path "$root/backend/Cargo.toml" --locked --test webhook_unit --test webhook_lifecycle -- --nocapture
+cargo test --manifest-path "$root/backend/Cargo.toml" --locked --test credit_notifications -- --nocapture
 cargo build --manifest-path "$root/backend/Cargo.toml" --locked --bins
 cargo build --manifest-path "$root/tools/cli/Cargo.toml" --locked
 npm --prefix "$root/tools/mcp" ci --ignore-scripts

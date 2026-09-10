@@ -296,6 +296,18 @@ async fn postgres_credits_are_atomic_append_only_and_tenant_scoped() {
     assert_eq!(checkout.response_credits, 500);
     assert_eq!(checkout.status, "pending");
     assert_eq!(
+        api.credit_checkout(&w, &checkout.id).await.unwrap(),
+        checkout
+    );
+    assert_eq!(
+        api.credit_checkout(&other, &checkout.id).await,
+        Err(Error::NotFound)
+    );
+    assert_eq!(
+        api.credit_checkout(&w, "invalid-id").await,
+        Err(Error::NotFound)
+    );
+    assert_eq!(
         api.prepare_credit_checkout(
             &w,
             CreditCheckoutInput {
@@ -331,6 +343,13 @@ async fn postgres_credits_are_atomic_append_only_and_tenant_scoped() {
         amount: None,
         status: Some("complete".into()),
     };
+    // Reading the return state before the signed webhook cannot mint credits.
+    for _ in 0..2 {
+        let observed = api.credit_checkout(&w, &checkout.id).await.unwrap();
+        assert_eq!(observed.status, "open");
+        assert_eq!(observed.checkout_url, None);
+        assert_eq!(api.usage_summary(&w).await.unwrap().credits.paid_credits, 0);
+    }
     assert_eq!(
         api.apply_credit_checkout_event(&checkout_event, &[10u8; 32])
             .await
@@ -341,6 +360,13 @@ async fn postgres_credits_are_atomic_append_only_and_tenant_scoped() {
     api.apply_credit_checkout_event(&checkout_event, &[10u8; 32])
         .await
         .unwrap();
+    let observed = api.credit_checkout(&w, &checkout.id).await.unwrap();
+    assert_eq!(observed.status, "paid");
+    assert_eq!(observed.checkout_url, None);
+    assert_eq!(
+        api.credit_checkout(&other, &checkout.id).await,
+        Err(Error::NotFound)
+    );
     assert_eq!(
         api.usage_summary(&w).await.unwrap().credits.paid_credits,
         500

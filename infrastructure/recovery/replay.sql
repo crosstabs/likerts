@@ -35,6 +35,8 @@ set status='revoked',object_key=null,response_count=null,content_sha256=null,man
 -- Quarantine restored callback destinations: a snapshot may predate revocation or key rotation.
 -- Require newly provisioned endpoints after identity/receiver reconciliation; never resume an old queue.
 update likerts.webhook_endpoints set enabled=false,revoked_at=coalesce(revoked_at,now());
+-- Includes response.accepted and credits.threshold_reached. Keep surviving
+-- credit_notification_state high-water marks to avoid replaying old thresholds.
 delete from likerts.webhook_events;
 delete from likerts.webhook_requests;
 commit;

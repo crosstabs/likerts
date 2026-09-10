@@ -1,0 +1,10 @@
+{
+  "id": "10000000-0000-4000-8000-000000000002",
+  "idempotencyKey": "completed-response-001",
+  "answers": {
+    "rating": 5
+  },
+  "metadata": {
+    "channel": "app"
+  }
+}

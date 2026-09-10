@@ -81,7 +81,7 @@ test('runs the existing registry over stateless Streamable HTTP with exact works
   const listed = await fetch(`${base}/mcp/bank_sg`, {method: 'POST', headers, body: JSON.stringify({jsonrpc:'2.0',id:2,method:'tools/list',params:{}})});
   assert.equal(listed.status, 200);
   const payload = await rpc(listed);
-  assert.equal(payload.result.tools.length, 40);
+  assert.equal(payload.result.tools.length, 41);
   const invoked = await fetch(`${base}/mcp/bank_sg`, {method: 'POST', headers, body: JSON.stringify({jsonrpc:'2.0',id:3,method:'tools/call',params:{name:'surveys_list',arguments:{}}})});
   assert.equal(invoked.status, 200);
   assert.deepEqual(calls, [{url:'https://api.example.com/v1/surveys',authorization:'Bearer oauth-access-token',workspace:'bank_sg'}]);

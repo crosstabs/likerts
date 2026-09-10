@@ -1,5 +1,10 @@
 \set ON_ERROR_STOP on
-insert into likerts.workspaces(id) values('webhook-a'),('webhook-b');
+begin;
+set local likerts.workspace_id='webhook-a';
+insert into likerts.workspaces(id) values('webhook-a');
+set local likerts.workspace_id='webhook-b';
+insert into likerts.workspaces(id) values('webhook-b');
+commit;
 insert into likerts.surveys(workspace_id,id,revision,title,questions) values
  ('webhook-a','00000000-0000-4000-8000-000000000001',1,'A','[]'),
  ('webhook-b','00000000-0000-4000-8000-000000000002',1,'B','[]');
@@ -31,6 +36,7 @@ set local likerts.workspace_id='webhook-a';
 do $$ begin
     assert (select count(*) from likerts.webhook_events)=1,'runtime reads must remain tenant scoped';
     assert not exists(select 1 from likerts.webhook_endpoints where workspace_id='webhook-b'),'endpoint isolation';
+    assert not has_table_privilege(current_user,'likerts.credit_notification_state','select,insert,update,delete'),'runtime cannot read or alter notification generations';
     assert not pg_has_role(current_user,'likerts_webhook_worker','member'),'runtime cannot assume worker role';
 end $$;
 commit;
@@ -42,6 +48,8 @@ do $$ begin
     assert (select count(*) from likerts.webhook_deliveries)=2,'worker may discover pending deliveries';
     assert not has_table_privilege(current_user,'likerts.responses','select'),'worker cannot read responses';
     assert not has_table_privilege(current_user,'likerts.survey_versions','select'),'worker cannot read questions';
+    assert not has_table_privilege(current_user,'likerts.credit_notification_state','select,insert,update,delete'),'worker cannot read or alter balance notification state';
+    assert not has_table_privilege(current_user,'likerts.response_credits','select'),'worker cannot read credit balances';
     assert not has_table_privilege(current_user,'likerts.usage_entries','select'),'worker cannot read billing';
     assert not has_table_privilege(current_user,'likerts.workspace_memberships','select'),'worker cannot read identity';
     assert not has_table_privilege(current_user,'likerts.export_jobs','select'),'worker cannot read exports';

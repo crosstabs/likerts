@@ -23,5 +23,6 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: blackbox:9115
-# Internal-network example. Replace static discovery with every ECS task target.
-# Configure Alertmanager and an owned receiver only during staging activation.
+# Internal-network example. Replace static discovery with every Render API instance.
+# Public load-balanced health is a separate check and cannot identify a bad replica.
+# Configure Alertmanager and an owned receiver during operational activation.

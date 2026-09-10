@@ -92,7 +92,7 @@ test("marketing site is separate from the authenticated control plane", async ()
   assert.match(app, /telemetry: false/);
   assert.match(app, /session\.getToken\(\)/);
   assert.match(app, /\/v1\/browser\/bootstrap/);
-  assert.match(app, /\/v1\/browser\/oauth-grants/);
+  assert.doesNotMatch(html, /id="oauth-approval"/);
   assert.match(app, /\/v1\/browser\/service-credentials/);
   assert.match(app, /\/v1\/browser\/billing\/checkout/);
   assert.match(app, /crypto\.randomUUID/);
@@ -100,16 +100,16 @@ test("marketing site is separate from the authenticated control plane", async ()
   assert.match(app, /untrusted Clerk frontend domain/);
   assert.match(app, /clerk\.likerts\.com/);
   assert.doesNotMatch(html, /type="password"|disabled>Sign in/);
-  assert.match(html, /Approve for 30 days/);
+  assert.match(html, /Provider OAuth is not enabled/);
   assert.match(html, /value="identity:write"/);
-  assert.match(html, /500 responses — \$5/);
+  assert.match(html, /500 responses — US\$5/);
   assert.match(html, /Web · React Native · iOS · Android · Flutter/);
   assert.match(html, /href="\/downloads\/"/);
   assert.match(marketingHtml, /Survey collection infrastructure/);
   assert.match(marketingHtml, /Ask more than/);
   assert.match(marketingHtml, /Constant sum/);
   assert.match(marketingHtml, /Operate it from your agent/);
-  assert.match(marketingHtml, /1¢/);
+  assert.match(marketingHtml, /US\$0\.01/);
   assert.match(marketingHtml, /href="\/app\/"/);
   assert.doesNotMatch(marketingHtml, /id="auth-root"/);
 });

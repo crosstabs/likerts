@@ -1,0 +1,4 @@
+{
+  "idempotencyKey": "webhook-create-001",
+  "url": "https://hooks.customer.com/likerts"
+}

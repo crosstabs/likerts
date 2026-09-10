@@ -1,0 +1,27 @@
+{
+  "measuredAt": "2026-09-10T14:08:08.450Z",
+  "base": "https://likerts-api.onrender.com",
+  "cliVersion": "0.1.2",
+  "artifact": "aarch64-apple-darwin",
+  "source": "public-docs-fixtures",
+  "checks": [
+    "create",
+    "publish",
+    "collection",
+    "submit",
+    "identical-retry",
+    "retrieve",
+    "usage",
+    "insufficient-scope-denied",
+    "private-export",
+    "sample-response-deleted"
+  ],
+  "acceptedResponses": 1,
+  "uniqueReceipts": 1,
+  "promotionalCreditsConsumed": 1,
+  "paidCreditsConsumed": 0,
+  "limitations": [
+    "Synthetic service credential, not a fresh human OTP onboarding.",
+    "Workspace cleanup and credential revocation recorded separately."
+  ]
+}

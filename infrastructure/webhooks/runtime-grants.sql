@@ -1,3 +1,4 @@
+-- credit_notification_state is trigger-owned; API runtime gets no direct grants.
 \set ON_ERROR_STOP on
 -- Include after the regular runtime provisioner, with the same runtime_role variable.
 begin;

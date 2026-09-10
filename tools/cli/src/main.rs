@@ -491,6 +491,10 @@ fn endpoint(
 }
 fn run() -> Result<(), String> {
     let args: Vec<String> = env::args().skip(1).collect();
+    if args == ["--version"] {
+        println!("likerts {}", env!("CARGO_PKG_VERSION"));
+        return Ok(());
+    }
     let capabilities = registry();
     if args.is_empty() || args[0] == "--help" {
         println!("likerts capabilities\nlikerts auth login|status|logout\nlikerts call <capability> [--input <file|->]\nCredentials: passwordless OAuth store or LIKERTS_TOKEN / LIKERTS_COLLECTION_TOKEN. Origin: LIKERTS_API_URL.");

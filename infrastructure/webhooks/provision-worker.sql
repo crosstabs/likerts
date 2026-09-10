@@ -1,3 +1,5 @@
+-- Credit threshold events are ID-only. Never grant response_credits or
+-- credit_notification_state: balances and generation baselines remain private.
 \set ON_ERROR_STOP on
 begin;
 do $$

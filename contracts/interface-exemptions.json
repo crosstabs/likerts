@@ -63,5 +63,10 @@
     "method": "DELETE",
     "path": "/v1/browser/service-credentials/{id}",
     "reason": "First-party owner dashboard revokes a selected agent credential; the equivalent management capability remains available to API, MCP and CLI clients."
+  },
+  {
+    "method": "GET",
+    "path": "/v1/browser/billing/checkouts/{id}",
+    "reason": "First-party owner session reads authoritative purchase status after checkout; API, MCP and CLI expose the equivalent scoped management capability."
   }
 ]

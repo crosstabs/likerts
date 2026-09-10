@@ -1,10 +1,12 @@
-# Launch decision — 9 September 2026
+# Launch decision — reviewed 10 September 2026
 
 ## Decision
 
-**GO for an invite-only developer preview. HOLD public paid launch.**
+**Continue only a small, assisted developer preview after correcting the customer-flow and public-example defects. HOLD public paid launch.**
 
-The preview can onboard selected developers to the production control plane, grant 1,000 free accepted responses, create scoped credentials, operate the full platform through API/MCP/CLI, and install all five SDKs from checksummed direct downloads. Keep Stripe in test mode and do not promise an SLA during the preview.
+The preview's intended scope is selected developers using the production control plane, a 1,000-response grant, scoped credentials, API/MCP/CLI and all five SDKs from checksummed direct downloads. Fresh-user identity and real-client acceptance remain unproven; verify actual invitation enforcement before admitting the next cohort. Keep Stripe in test mode and do not promise an SLA during the preview.
+
+The [10 September council review](docs/reviews/2026-09-10/CEO-REPORT.md) found stale checkout return paths after the `/app` split and invalid public CLI/API examples. [LAUNCH-TASKS.md](LAUNCH-TASKS.md) is the current execution queue. These findings are open; the review did not deploy fixes.
 
 Public paid launch begins only after the owner-controlled gates below pass. This is a launch decision, not a claim that those gates passed.
 
@@ -14,7 +16,7 @@ Public paid launch begins only after the owner-controlled gates below pass. This
 - The public marketing homepage and separate `/app` control plane are deployed on Vercel. Desktop/mobile layouts, navigation, MCP/CLI/API example switching, SDK downloads and the settled Clerk sign-in surface pass production browser verification.
 - Render/Neon tenant isolation, restricted runtime roles, all 22 migrations, API/MCP health and unauthenticated denial pass.
 - A production tenant-binding rehearsal allows the exact service-credential workspace and rejects a mismatched workspace through both direct API and MCP; tombstoning invalidates the credential through both paths.
-- The hosted lifecycle passes scoped credential issue/revocation, survey publication, five-SDK collection, response retrieval, private Blob export/download, data deletion, export revocation and workspace tombstoning.
+- The hosted lifecycle passes scoped credential issue/revocation, survey publication, acceptance of a five-SDK capability declaration, one response submission/retrieval, private Blob export/download, data deletion, export revocation and workspace tombstoning. All-five-SDK execution is recorded locally; hosted supported-device acceptance remains open.
 - A bounded production rehearsal sent 260 attempts, accepted exactly 211 unique responses against promotional credits, preserved zero paid exposure and verified cleanup. It is correctness and latency evidence, not a capacity or SLA claim.
 - Stripe test mode passes a real US$5 checkout, exact 500-credit grant and full-refund reconciliation without changing the 1,000 promotional credits.
 - Forty product capabilities have API/MCP/CLI parity across 53 registered HTTP routes.

@@ -36,6 +36,7 @@ fn endpoint(row: &PgRow) -> Endpoint {
         revoked: row.get::<Option<DateTime<Utc>>, _>("revoked_at").is_some(),
         key_id: row.get::<Uuid, _>("key_id").to_string(),
         created_at: row.get("created_at"),
+        event_types: row.get("event_types"),
     }
 }
 fn delivery(row: &PgRow) -> Delivery {
@@ -134,9 +135,17 @@ impl WebhookStore {
     }
     pub async fn list_endpoints(&self, workspace: &str) -> Result<Vec<Endpoint>, Error> {
         let mut tx = self.tenant(workspace, false).await?;
-        let rows=sqlx::query("select id,url,enabled,revoked_at,key_id,created_at from likerts.webhook_endpoints where workspace_id=$1 order by created_at,id limit 100").bind(workspace).fetch_all(&mut *tx).await.map_err(db)?;
+        let rows=sqlx::query("select id,url,enabled,revoked_at,key_id,created_at,event_types from likerts.webhook_endpoints where workspace_id=$1 order by created_at,id limit 100").bind(workspace).fetch_all(&mut *tx).await.map_err(db)?;
         tx.commit().await.map_err(db)?;
         Ok(rows.iter().map(endpoint).collect())
+    }
+    pub async fn get_endpoint(&self, workspace: &str, id: &str) -> Result<Endpoint, Error> {
+        let id = uuid(id)?;
+        let mut tx = self.tenant(workspace, false).await?;
+        let row = sqlx::query("select id,url,enabled,revoked_at,key_id,created_at,event_types from likerts.webhook_endpoints where workspace_id=$1 and id=$2")
+            .bind(workspace).bind(id).fetch_optional(&mut *tx).await.map_err(db)?.ok_or(Error::NotFound)?;
+        tx.commit().await.map_err(db)?;
+        Ok(endpoint(&row))
     }
     pub async fn create_endpoint(
         &self,
@@ -145,7 +154,13 @@ impl WebhookStore {
     ) -> Result<EndpointCredential, Error> {
         key(&input.idempotency_key)?;
         let url = validate_endpoint(&input.url)?.to_string();
-        let payload = hash(&serde_json::json!({"url":url}))?;
+        let event_types = normalized_event_types(&input.event_types)?;
+        // Preserve idempotent retries created before event subscriptions existed.
+        let payload = if event_types == default_event_types() {
+            hash(&serde_json::json!({"url":url}))?
+        } else {
+            hash(&serde_json::json!({"url":url,"eventTypes":event_types}))?
+        };
         let mut tx = self.tenant(workspace, true).await?;
         if let Some(prior) = Self::prior(
             &mut tx,
@@ -180,7 +195,7 @@ impl WebhookStore {
         let generation = Uuid::new_v4();
         let secret = self.keys.secret(workspace, id, generation);
         let digest = secret_digest(&secret);
-        let row=sqlx::query("insert into likerts.webhook_endpoints(workspace_id,id,url,key_id,key_hash) values($1,$2,$3,$4,$5) returning id,url,enabled,revoked_at,key_id,created_at").bind(workspace).bind(id).bind(url).bind(generation).bind(&digest).fetch_one(&mut *tx).await.map_err(db)?;
+        let row=sqlx::query("insert into likerts.webhook_endpoints(workspace_id,id,url,key_id,key_hash,event_types) values($1,$2,$3,$4,$5,$6) returning id,url,enabled,revoked_at,key_id,created_at,event_types").bind(workspace).bind(id).bind(url).bind(generation).bind(&digest).bind(&event_types).fetch_one(&mut *tx).await.map_err(db)?;
         let record = endpoint(&row);
         Self::remember(
             &mut tx,
@@ -216,11 +231,11 @@ impl WebhookStore {
         }
         let id = uuid(id)?;
         let mut tx = self.tenant(workspace, true).await?;
-        let row=sqlx::query("select id,url,enabled,revoked_at,key_id,created_at from likerts.webhook_endpoints where workspace_id=$1 and id=$2 for update").bind(workspace).bind(id).fetch_optional(&mut *tx).await.map_err(db)?.ok_or(Error::NotFound)?;
+        let row=sqlx::query("select id,url,enabled,revoked_at,key_id,created_at,event_types from likerts.webhook_endpoints where workspace_id=$1 and id=$2 for update").bind(workspace).bind(id).fetch_optional(&mut *tx).await.map_err(db)?.ok_or(Error::NotFound)?;
         if row.get::<Option<DateTime<Utc>>, _>("revoked_at").is_some() {
             return Err(Error::Revoked);
         }
-        let row=sqlx::query("update likerts.webhook_endpoints set enabled=case when $4 then false else coalesce($3,enabled) end,revoked_at=case when $4 then now() else revoked_at end where workspace_id=$1 and id=$2 returning id,url,enabled,revoked_at,key_id,created_at").bind(workspace).bind(id).bind(input.enabled).bind(input.revoke==Some(true)).fetch_one(&mut *tx).await.map_err(db)?;
+        let row=sqlx::query("update likerts.webhook_endpoints set enabled=case when $4 then false else coalesce($3,enabled) end,revoked_at=case when $4 then now() else revoked_at end where workspace_id=$1 and id=$2 returning id,url,enabled,revoked_at,key_id,created_at,event_types").bind(workspace).bind(id).bind(input.enabled).bind(input.revoke==Some(true)).fetch_one(&mut *tx).await.map_err(db)?;
         if input.revoke == Some(true) {
             sqlx::query("update likerts.webhook_deliveries set status='cancelled',lease_until=null,failure_code='endpoint_revoked' where workspace_id=$1 and endpoint_id=$2 and status in ('queued','running')").bind(workspace).bind(id).execute(&mut *tx).await.map_err(db)?;
             sqlx::query("update likerts.webhook_attempts a set status='cancelled',completed_at=now(),failure_code='endpoint_revoked' from likerts.webhook_deliveries d where a.workspace_id=$1 and d.workspace_id=a.workspace_id and d.id=a.delivery_id and d.endpoint_id=$2 and a.status='running'").bind(workspace).bind(id).execute(&mut *tx).await.map_err(db)?;
@@ -262,7 +277,7 @@ impl WebhookStore {
         let generation = Uuid::new_v4();
         let secret = self.keys.secret(workspace, id, generation);
         let digest = secret_digest(&secret);
-        let row=sqlx::query("update likerts.webhook_endpoints set key_id=$3,key_hash=$4 where workspace_id=$1 and id=$2 returning id,url,enabled,revoked_at,key_id,created_at").bind(workspace).bind(id).bind(generation).bind(&digest).fetch_one(&mut *tx).await.map_err(db)?;
+        let row=sqlx::query("update likerts.webhook_endpoints set key_id=$3,key_hash=$4 where workspace_id=$1 and id=$2 returning id,url,enabled,revoked_at,key_id,created_at,event_types").bind(workspace).bind(id).bind(generation).bind(&digest).fetch_one(&mut *tx).await.map_err(db)?;
         let record = endpoint(&row);
         Self::remember(
             &mut tx,

@@ -1,24 +1,25 @@
 {
-  "measuredAt": "2026-09-09T07:29:07.736Z",
-  "imageId": "sha256:53cab323999073cff48dc3a780938ba2fcd41a16cda8937f7d39cef6c48f6c47",
+  "measuredAt": "2026-09-10T14:08:48.534Z",
+  "imageId": "sha256:7b1940fbfc773e8b2486351e81de1f36579e4b7acbf548b50600c2049d6e909f",
   "postgresVersion": "17.10",
-  "backupBytes": 172458,
-  "backupMs": 105,
-  "restoreAndVerificationMs": 1969,
+  "backupBytes": 184342,
+  "backupMs": 101,
+  "restoreAndVerificationMs": 1803,
   "journalEvents": 3,
   "restoredAcceptedResponses": 2,
   "visibleResponsesAfterReplay": 1,
   "ledgerCents": 2,
-  "creditEntriesPreserved": 4,
+  "creditEntriesPreserved": 6,
   "promotionalCreditsRemaining": 998,
-  "forcedRlsTables": 28,
-  "appliedMigrations": 22,
+  "forcedRlsTables": 29,
+  "appliedMigrations": 23,
   "checks": [
     "logical backup/restore",
     "post-backup deletion journal replay",
     "old service/collection capabilities denied",
     "restored exports revoked",
-    "restored callback endpoints and queues quarantined",
+    "restored response and credit notification endpoints and queues quarantined",
+    "credit notification dedupe retained and deleted workspace state erased",
     "worker customer-data denial preserved",
     "retained answer readable after new credential issuance",
     "unchanged one-cent ledger",
@@ -40,5 +41,5 @@
     "All restored auth grants/capabilities are quarantined; real identity and payment reconciliation are required before traffic resumes.",
     "No production data or cloud resources were used."
   ],
-  "auditRowsPreserved": 18
+  "auditRowsPreserved": 20
 }

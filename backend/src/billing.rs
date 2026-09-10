@@ -106,6 +106,8 @@ pub struct ProviderEvent {
 }
 
 pub trait PaymentProvider: Send + Sync {
+    /// Public configuration label only; never includes provider credentials.
+    fn mode(&self) -> &'static str;
     fn create_checkout<'a>(
         &'a self,
         request: CheckoutRequest,
@@ -136,6 +138,10 @@ impl LocalPaymentProvider {
 }
 
 impl PaymentProvider for LocalPaymentProvider {
+    fn mode(&self) -> &'static str {
+        "test"
+    }
+
     fn create_checkout<'a>(
         &'a self,
         request: CheckoutRequest,
@@ -217,6 +223,7 @@ pub struct StripePaymentProvider {
     webhook_secret: Vec<u8>,
     api_origin: String,
     checkout_return_origin: String,
+    live_mode: bool,
 }
 
 impl StripePaymentProvider {
@@ -237,6 +244,8 @@ impl StripePaymentProvider {
             .map_err(|_| Error::Invalid("invalid checkout return origin".into()))?;
         if origin.scheme() != "https"
             || origin.host_str().is_none()
+            || !origin.username().is_empty()
+            || origin.password().is_some()
             || origin.path() != "/"
             || origin.query().is_some()
             || origin.fragment().is_some()
@@ -249,11 +258,30 @@ impl StripePaymentProvider {
             webhook_secret: webhook_secret.into_bytes(),
             api_origin: "https://api.stripe.com".into(),
             checkout_return_origin: checkout_return_origin.trim_end_matches('/').into(),
+            live_mode: live_key,
         })
+    }
+
+    fn checkout_return_url(&self, purchase_id: &str, outcome: &str) -> Result<String, Error> {
+        let mut url =
+            reqwest::Url::parse(&self.checkout_return_origin).map_err(|_| Error::Internal)?;
+        url.set_path("/app");
+        url.query_pairs_mut()
+            .append_pair("checkout", outcome)
+            .append_pair("purchase_id", purchase_id);
+        Ok(url.into())
     }
 }
 
 impl PaymentProvider for StripePaymentProvider {
+    fn mode(&self) -> &'static str {
+        if self.live_mode {
+            "live"
+        } else {
+            "test"
+        }
+    }
+
     fn create_checkout<'a>(
         &'a self,
         request: CheckoutRequest,
@@ -263,11 +291,11 @@ impl PaymentProvider for StripePaymentProvider {
                 ("mode", "payment".to_owned()),
                 (
                     "success_url",
-                    format!("{}/?checkout=success", self.checkout_return_origin),
+                    self.checkout_return_url(&request.purchase_id, "success")?,
                 ),
                 (
                     "cancel_url",
-                    format!("{}/?checkout=cancelled", self.checkout_return_origin),
+                    self.checkout_return_url(&request.purchase_id, "cancelled")?,
                 ),
                 ("client_reference_id", request.purchase_id.clone()),
                 ("metadata[likerts_purchase_id]", request.purchase_id.clone()),
@@ -564,6 +592,86 @@ struct StripeError {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[tokio::test]
+    async fn stripe_checkout_returns_to_console_with_nonsecret_purchase_id_and_reports_mode() {
+        let captured = std::sync::Arc::new(Mutex::new(None));
+        let capture = captured.clone();
+        let router = axum::Router::new().route("/v1/checkout/sessions", axum::routing::post(
+            move |axum::Form(form): axum::Form<HashMap<String, String>>| {
+                let capture = capture.clone();
+                async move {
+                    *capture.lock().unwrap() = Some(form);
+                    axum::Json(serde_json::json!({"id":"cs_test_example","url":"https://checkout.stripe.com/c/example","status":"open"}))
+                }
+            },
+        ));
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let address = listener.local_addr().unwrap();
+        let server = tokio::spawn(async move { axum::serve(listener, router).await.unwrap() });
+        let mut provider = StripePaymentProvider::new(
+            "sk_test_fixture".into(),
+            "whsec_fixture".into(),
+            "https://likerts.example".into(),
+            false,
+        )
+        .unwrap();
+        provider.api_origin = format!("http://{address}");
+        assert_eq!(provider.mode(), "test");
+        let purchase_id = Uuid::new_v4().to_string();
+        provider
+            .create_checkout(CheckoutRequest {
+                idempotency_key: "fixture-checkout".into(),
+                purchase_id: purchase_id.clone(),
+                workspace_id: "workspace-one".into(),
+                amount_cents: 500,
+            })
+            .await
+            .unwrap();
+        let form = captured.lock().unwrap().take().unwrap();
+        for (field, outcome) in [("success_url", "success"), ("cancel_url", "cancelled")] {
+            let url = reqwest::Url::parse(&form[field]).unwrap();
+            assert_eq!(
+                url.origin().ascii_serialization(),
+                "https://likerts.example"
+            );
+            assert_eq!(url.path(), "/app");
+            assert_eq!(
+                url.query_pairs().into_owned().collect::<HashMap<_, _>>(),
+                HashMap::from([
+                    ("checkout".into(), outcome.into()),
+                    ("purchase_id".into(), purchase_id.clone())
+                ])
+            );
+        }
+        server.abort();
+        assert!(StripePaymentProvider::new(
+            "sk_live_fixture".into(),
+            "whsec_fixture".into(),
+            "https://likerts.example".into(),
+            false
+        )
+        .is_err());
+        assert_eq!(
+            StripePaymentProvider::new(
+                "sk_live_fixture".into(),
+                "whsec_fixture".into(),
+                "https://likerts.example".into(),
+                true
+            )
+            .unwrap()
+            .mode(),
+            "live"
+        );
+        assert!(StripePaymentProvider::new(
+            "sk_test_fixture".into(),
+            "whsec_fixture".into(),
+            "https://secret@likerts.example".into(),
+            false
+        )
+        .is_err());
+    }
+
     #[tokio::test]
     async fn local_provider_is_idempotent_and_failure_is_deterministic() {
         let provider = LocalPaymentProvider::new("secret");

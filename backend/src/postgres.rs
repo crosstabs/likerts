@@ -2237,6 +2237,21 @@ impl PgStore {
         tx.commit().await.map_err(database_error)
     }
 
+    /// Read only the workspace-owned purchase state committed by provider events.
+    /// Neither a return URL nor this read can settle or credit a purchase.
+    pub async fn credit_checkout(
+        &self,
+        workspace: &str,
+        id: &str,
+    ) -> Result<CreditCheckout, Error> {
+        let id = Uuid::parse_str(id).map_err(|_| Error::NotFound)?;
+        let mut tx = self.workspace_transaction(workspace).await?;
+        let row = sqlx::query("select id,amount_cents,response_credits,status from likerts.credit_checkouts where workspace_id=$1 and id=$2")
+            .bind(workspace).bind(id).fetch_optional(&mut *tx).await.map_err(database_error)?.ok_or(Error::NotFound)?;
+        tx.commit().await.map_err(database_error)?;
+        Ok(credit_checkout_from_row(row, None))
+    }
+
     pub async fn prepare_credit_checkout(
         &self,
         workspace: &str,

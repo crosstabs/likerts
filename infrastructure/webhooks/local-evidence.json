@@ -1,70 +1,95 @@
 {
-  "measuredAt": "2026-09-08T17:03:12.082917+00:00",
-  "scope": "local synthetic fixtures only; no publication, cloud deployment or external receiver",
+  "measuredAt": "2026-09-10T14:08:48.534Z",
+  "scope": "Local synthetic fixtures only; no deployment, external receiver or hosted threshold delivery in these results.",
   "gates": [
     {
       "command": "bash scripts/check-webhook-isolation.sh",
       "result": "passed",
-      "evidence": ".tools/webhook-isolation-final.log",
       "covers": [
-        "PostgreSQL atomic outbox/deduplication/rollback",
-        "tenant API and restricted worker RLS and negative privileges",
-        "concurrent claims, lease recovery, stale completion fencing",
-        "key generation persistence/rotation, wrong master key fails before dispatch, restored key replay",
-        "seven attempt budget, three replay bound, revocation and expiry",
-        "six unit cases including signed loopback HTTP wire/status/redirect tests",
-        "all seven actual API/MCP/CLI operations and one event/one cent for eight retries",
-        "worker process rejects API database identity"
+        "restricted PostgreSQL outbox, tenant isolation, worker privilege denial",
+        "7 lifecycle and6 webhook tests, including wire HMAC and lease/retry/replay/rotation/revocation",
+        "credit threshold test: actual runtime acceptance, independent generations, refund depletion, concurrent dedupe, rollback, no-backfill, erasure and typed references",
+        "all7 webhook API/MCP/CLI operations; explicit subscription scopes and uppercase UUID scope denial",
+        "API/MCP/CLI pending checkout inspection, forged query/tenant/scope denial, no credits minted by polling"
       ]
     },
     {
-      "command": "bash scripts/check-aws-iac.sh",
+      "command": "bash scripts/check-render-roles.sh",
       "result": "passed",
-      "evidence": ".tools/webhook-aws-iac-final.log",
       "covers": [
-        "five assertion groups",
-        "credential-free staging and production synthesis",
-        "worker-only DB and webhook key secrets, empty AWS task role",
-        "callback subnet NAT routes, DNS and stateless return rules, private-destination ACL denies",
-        "worker desired count and three alarms"
+        "non-superuser migration23 with forced RLS and repeated runtime/worker provisioning",
+        "runtime/worker have no direct balance notification state privileges",
+        "operator credit and deletion triggers derive row scope and restore prior context",
+        "injected trigger exception rolls back credit and tenant-context changes"
       ]
+    },
+    {
+      "command": "bash scripts/check-response-credits.sh",
+      "result": "passed",
+      "testCount": 4,
+      "covers": [
+        "restricted PostgreSQL credit accounting and one-time onboarding",
+        "refund/dispute reconciliation and idempotency",
+        "server-authoritative pending/open/paid checkout state and wrong tenant denial"
+      ]
+    },
+    {
+      "command": "cargo test --manifest-path backend/Cargo.toml --lib --bin likerts-server --locked",
+      "result": "passed",
+      "libraryTests": 58,
+      "serverTests": 3
+    },
+    {
+      "command": "npm test --prefix tools/mcp",
+      "result": "passed",
+      "testCount": 11
     },
     {
       "command": "node --test tests/interface-contract.mjs",
       "result": "passed",
-      "evidence": ".tools/webhook-parity.log",
-      "operationCount": 39
+      "operationCount": 41
     },
     {
-      "command": "bash scripts/check-observability.sh",
+      "command": "node --test tests/hosted-credit-notifications.test.mjs",
       "result": "passed",
-      "evidence": ".tools/webhook-alert-check.log",
-      "alertRules": 5
+      "testCount": 3,
+      "covers": [
+        "disposable workspace and independent receiver validation",
+        "signed threshold proof matches API delivery IDs",
+        "failed binding never enables or deletes unverified workspace; only issued child is revoked"
+      ]
     },
     {
-      "command": "LIKERTS_SKIP_IMAGE_BUILD=1 bash scripts/check-recovery.sh",
+      "command": "LIKERTS_RECOVERY_OUTPUT=/tmp/likerts-engineering-recovery-evidence.json bash scripts/check-container.sh",
       "result": "passed",
       "evidence": "infrastructure/recovery/local-evidence.json",
-      "imageId": "sha256:5f0309e820b2f2d519afbf396b4b596152947276fb5fda20eddeee02522472e9",
-      "measuredAt": "2026-09-08T16:54:06.246Z",
-      "appliedMigrations": 17,
-      "forcedRlsTables": 24,
-      "restoreAndVerificationMs": 1235
+      "imageId": "sha256:7b1940fbfc773e8b2486351e81de1f36579e4b7acbf548b50600c2049d6e909f",
+      "appliedMigrations": 23,
+      "forcedRlsTables": 29,
+      "restoreAndVerificationMs": 1803,
+      "covers": [
+        "rebuilt non-root read-only container and migration/runtime separation",
+        "both response and credit queues quarantined after restore",
+        "live bucket dedupe retained; deleted workspace state erased",
+        "ledger/audit preserved, worker restrictions retained, checksum mismatch and failed DDL rejection"
+      ]
     }
   ],
   "sourceSha256": {
-    "backend/src/webhooks.rs": "b490bbb558ba7509dfb9d0ffbdf590fd3ad6194b2ef4427af67888294a53a139",
-    "backend/src/webhook_store.rs": "876b0678ee93908d3aab796e06ccdc51031daf2516238d3ec61035f94642db10",
+    "backend/src/webhooks.rs": "6b1c3b0739918d644ce199ae14bd3d3c40a6baea26770b5481006ad8be31708c",
+    "backend/src/webhook_store.rs": "4df652597c5d0d332ea94c39e8eda6e741b390026ff5cc6b2b566a5045de3cb3",
     "backend/src/bin/likerts-webhook-worker.rs": "3c5c115d926e99c4c4edf79c952591fa19c9a1a63f6d406dd9f55aded87b9342",
-    "backend/migrations/0017_response_webhooks.sql": "93fdf0b5edfbca350f924864dccab51f79a9a5c26c3e26cfbe5337f5b9dc08dd",
-    "backend/tests/webhook_lifecycle.rs": "480cf4f40752066d0c07814db551a6813d7ac215978ee8ff743c29455e0efa88",
-    "infrastructure/aws/lib/likerts-stack.ts": "b62e75083d814123d260e17467fe8c3d5b7c65c13c9903ffc605ee69c4723541",
-    "infrastructure/aws/test/likerts-stack.test.ts": "8abed4bf841c5aa64fc80e359a4587a635ea8b8165cddaa0e4e9bd949e3fac7b"
+    "backend/migrations/0023_credit_threshold_notifications.sql": "0a8cc3f71481a0051b4da83e08e01b8626c26865c78cd8e9f7026ac0bd0a845e",
+    "backend/tests/webhook_lifecycle.rs": "bdac8421df339c608c0fca4a532fe0d30408236822ea0c66b4a35c4a80787af4",
+    "backend/tests/credit_notifications.rs": "7e5fd9199de891784ff03959cc4e3a7633791dfc6b95573e81d42b71254a58cb",
+    "scripts/check-hosted-credit-notifications.mjs": "524cc83432d0a1326beaeb7c09988ae220a65d4637ffc26f4509cc4a7ce1addf",
+    "infrastructure/recovery/drill.mjs": "c11ba689ccd6a0d029ae02353e9d0944eaaa2216212b795e5cd1e1e33afe8833"
   },
   "limitations": [
-    "Loopback HTTP wire verification is not hosted HTTPS receiver evidence.",
-    "Network and alarm configuration is synthesized, not deployed or exercised in AWS.",
-    "Local logical dump timings are not RDS PITR, production RTO/RPO or callback capacity measurements.",
-    "Endpoint signing-key generations persist; transparent master-key ring rotation is not implemented."
+    "Hosted signed credit alert delivery awaits the isolated customer-controlled receiver acceptance runner.",
+    "No distributed invalid/unauthenticated ingress limiter is claimed by these tests; bounded per-process JWKS refresh is implemented.",
+    "Local logical-dump recovery is not managed Neon snapshot/PITR or production RTO/RPO evidence.",
+    "No network-enforced egress or customer-owned DNS claim.",
+    "Current run did not repeat historical AWS synthesis or alarm delivery checks."
   ]
 }

@@ -56,16 +56,24 @@ async fn durable_claims_rotation_replay_revocation_and_least_privilege() {
     let workspace = format!("webhook-life-{}", Uuid::new_v4());
     let survey = Uuid::new_v4();
     let collection = Uuid::new_v4();
-    sqlx::query("insert into likerts.workspaces(id) values($1)")
+    let mut setup = admin.begin().await.unwrap();
+    sqlx::query("select set_config('likerts.workspace_id',$1,true)")
         .bind(&workspace)
-        .execute(&admin)
+        .execute(&mut *setup)
         .await
         .unwrap();
+    sqlx::query("insert into likerts.workspaces(id) values($1)")
+        .bind(&workspace)
+        .execute(&mut *setup)
+        .await
+        .unwrap();
+    setup.commit().await.unwrap();
     sqlx::query("insert into likerts.surveys(workspace_id,id,revision,title,questions) values($1,$2,1,'Callbacks','[]')").bind(&workspace).bind(survey).execute(&admin).await.unwrap();
     let cap = serde_json::json!({"installations":[{"target":"web","sdkVersion":"0.0.1","schemaVersions":[1,2]}]});
     sqlx::query("insert into likerts.survey_versions(workspace_id,survey_id,version,title,questions,sdk_capabilities) values($1,$2,1,'Callbacks','[]',$3)").bind(&workspace).bind(survey).bind(&cap).execute(&admin).await.unwrap();
     sqlx::query("insert into likerts.collections(workspace_id,id,survey_id,version,placement,token_hash,sdk_capabilities) values($1,$2,$3,1,'app',$4,$5)").bind(&workspace).bind(collection).bind(survey).bind(vec![1u8;32]).bind(&cap).execute(&admin).await.unwrap();
     let input = EndpointInput {
+        event_types: likerts_server::webhooks::default_event_types(),
         idempotency_key: "create".into(),
         url: "https://hooks.customer.com/accepted".into(),
     };
@@ -81,6 +89,7 @@ async fn durable_claims_rotation_replay_revocation_and_least_privilege() {
         api.create_endpoint(
             &workspace,
             EndpointInput {
+                event_types: likerts_server::webhooks::default_event_types(),
                 idempotency_key: "create".into(),
                 url: "https://different.customer.com/".into()
             }
@@ -319,6 +328,7 @@ async fn durable_claims_rotation_replay_revocation_and_least_privilege() {
         api.create_endpoint(
             &workspace,
             EndpointInput {
+                event_types: likerts_server::webhooks::default_event_types(),
                 idempotency_key: "create".into(),
                 url: "https://hooks.customer.com/accepted".into()
             }
@@ -330,6 +340,7 @@ async fn durable_claims_rotation_replay_revocation_and_least_privilege() {
         .create_endpoint(
             &workspace,
             EndpointInput {
+                event_types: likerts_server::webhooks::default_event_types(),
                 idempotency_key: "master-fail-closed".into(),
                 url: "https://hooks.customer.com/replacement".into(),
             },

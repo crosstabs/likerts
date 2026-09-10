@@ -25,6 +25,8 @@ const RETRY_DELAYS: [u64; 6] = [60, 240, 960, 3840, 15360, 61440];
 pub struct EndpointInput {
     pub idempotency_key: String,
     pub url: String,
+    #[serde(default = "default_event_types")]
+    pub event_types: Vec<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -46,6 +48,30 @@ pub struct Endpoint {
     pub revoked: bool,
     pub key_id: String,
     pub created_at: DateTime<Utc>,
+    #[serde(default = "default_event_types")]
+    pub event_types: Vec<String>,
+}
+
+pub fn default_event_types() -> Vec<String> {
+    vec!["response.accepted".into()]
+}
+
+pub fn normalized_event_types(values: &[String]) -> Result<Vec<String>, Error> {
+    let mut result = values.to_vec();
+    result.sort();
+    if result.is_empty()
+        || result.len() > 2
+        || result.windows(2).any(|pair| pair[0] == pair[1])
+        || result.iter().any(|value| {
+            !matches!(
+                value.as_str(),
+                "response.accepted" | "credits.threshold_reached"
+            )
+        })
+    {
+        return Err(Error::Invalid("invalid webhook event types".into()));
+    }
+    Ok(result)
 }
 #[derive(Clone, Serialize)]
 #[serde(rename_all = "camelCase")]

@@ -299,6 +299,13 @@ impl Storage {
             Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
         }
     }
+    async fn credit_checkout(&self, workspace: &str, id: &str) -> Result<CreditCheckout, Error> {
+        match self {
+            Self::Postgres(store) => store.credit_checkout(workspace, id).await,
+            Self::Memory(_) => Err(Error::NotFound),
+        }
+    }
+
     async fn prepare_credit_checkout(
         &self,
         workspace: &str,
@@ -689,7 +696,8 @@ async fn browser_bootstrap(
         Json(json!({
             "workspaceId": workspace,
             "created": created,
-            "usage": usage
+            "usage": usage,
+            "paymentMode": app.payments.as_ref().map_or("disabled", |provider| provider.mode())
         })),
     ))
 }
@@ -737,6 +745,15 @@ async fn browser_create_credit_checkout(
 ) -> Result<impl IntoResponse, ApiError> {
     let (_, workspace) = browser_owner_workspace(&app, &headers).await?;
     checkout_for_workspace(&app, &workspace, input).await
+}
+
+async fn browser_credit_checkout(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    headers: HeaderMap,
+) -> Result<impl IntoResponse, ApiError> {
+    let (_, workspace) = browser_owner_workspace(&app, &headers).await?;
+    Ok(Json(app.storage.credit_checkout(&workspace, &id).await?))
 }
 
 async fn browser_list_service_credentials(
@@ -1377,6 +1394,15 @@ async fn create_credit_checkout(
 ) -> Result<impl IntoResponse, ApiError> {
     let workspace = workspace(&app, &headers, "billing:write").await?;
     checkout_for_workspace(&app, &workspace, input).await
+}
+
+async fn credit_checkout(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    headers: HeaderMap,
+) -> Result<impl IntoResponse, ApiError> {
+    let workspace = workspace(&app, &headers, "usage:read").await?;
+    Ok(Json(app.storage.credit_checkout(&workspace, &id).await?))
 }
 
 async fn checkout_for_workspace(
@@ -2063,6 +2089,10 @@ async fn main() {
             post(browser_create_credit_checkout),
         )
         .route(
+            "/v1/browser/billing/checkouts/{id}",
+            get(browser_credit_checkout),
+        )
+        .route(
             "/v1/oauth-grants/{id}",
             axum::routing::delete(remove_oauth_grant),
         )
@@ -2079,6 +2109,7 @@ async fn main() {
             axum::routing::put(configure_billing_account),
         )
         .route("/v1/billing/checkout", post(create_credit_checkout))
+        .route("/v1/billing/checkouts/{id}", get(credit_checkout))
         .route(
             "/v1/billing/settlements",
             get(settlements).post(create_settlement),
@@ -2275,12 +2306,22 @@ async fn webhook_endpoints_create(
     headers: HeaderMap,
     ApiJson(input): ApiJson<EndpointInput>,
 ) -> Result<impl IntoResponse, WebhookApiError> {
-    let workspace = workspace(&app, &headers, "webhooks:write").await?;
+    let workspace_id = workspace(&app, &headers, "webhooks:write").await?;
+    if input
+        .event_types
+        .iter()
+        .any(|kind| kind == "credits.threshold_reached")
+    {
+        let usage_workspace = workspace(&app, &headers, "usage:read").await?;
+        if usage_workspace != workspace_id {
+            return Err(WebhookApiError(Some(Error::Forbidden)));
+        }
+    }
     Ok((
         StatusCode::CREATED,
         Json(
             webhook_store(&app)?
-                .create_endpoint(&workspace, input)
+                .create_endpoint(&workspace_id, input)
                 .await?,
         ),
     ))
@@ -2291,10 +2332,25 @@ async fn webhook_endpoints_update(
     Path(id): Path<String>,
     ApiJson(input): ApiJson<EndpointUpdate>,
 ) -> Result<impl IntoResponse, WebhookApiError> {
-    let workspace = workspace(&app, &headers, "webhooks:write").await?;
+    let workspace_id = workspace(&app, &headers, "webhooks:write").await?;
+    if input.enabled == Some(true) {
+        let endpoint = webhook_store(&app)?
+            .get_endpoint(&workspace_id, &id)
+            .await?;
+        if endpoint
+            .event_types
+            .iter()
+            .any(|kind| kind == "credits.threshold_reached")
+        {
+            let usage_workspace = workspace(&app, &headers, "usage:read").await?;
+            if usage_workspace != workspace_id {
+                return Err(WebhookApiError(Some(Error::Forbidden)));
+            }
+        }
+    }
     Ok(Json(
         webhook_store(&app)?
-            .update_endpoint(&workspace, &id, input)
+            .update_endpoint(&workspace_id, &id, input)
             .await?,
     ))
 }

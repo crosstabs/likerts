@@ -1,0 +1,28 @@
+{
+  "version": "0.1.1",
+  "measuredAt": "2026-09-10T13:49:36.603Z",
+  "host": "aarch64-apple-darwin",
+  "capabilities": 41,
+  "artifacts": [
+    {
+      "file": "likerts-cli-source-0.1.1.tar.gz",
+      "bytes": 26760,
+      "sha256": "32a201a815c55d5faf4dd4587c53229476bd2f11e2e0422ac48dff8458788751"
+    },
+    {
+      "file": "likerts-cli-0.1.1-aarch64-apple-darwin.tar.gz",
+      "bytes": 1795967,
+      "sha256": "5e404e0deaaff5f607628f703203c1142064a11139ebfcfa94c99a61f1fd41de"
+    }
+  ],
+  "verification": [
+    "Release compilation with locked dependencies",
+    "Native --version and exact operation-registry parity",
+    "Fresh native archive extraction and execution"
+  ],
+  "limitations": [
+    "Only the named native target was built and executed.",
+    "Native binary is not notarized; no automatic updater.",
+    "Source archive includes installation instructions; public registry publication is separate."
+  ]
+}

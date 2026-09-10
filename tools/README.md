@@ -4,7 +4,7 @@ The API, Rust CLI and MCP adapter share the operation registry in `capabilities.
 
 ## Connect your workspace
 
-1. Sign in at [likerts.com](https://likerts.com) using passwordless email verification. The control plane creates your personal workspace and shows its ID, accepted responses and available credits.
+1. Request an assisted-preview invitation, then sign in at [likerts.com/app](https://likerts.com/app) using passwordless email verification. The control plane creates your personal workspace and shows its ID, accepted responses and available credits.
 2. Under **Connect Codex, Claude, or the CLI**, name a credential and select the capabilities it needs. Access management (`identity:write`) and billing (`billing:write`) are separate, opt-in scopes.
 3. Select **Create 90-day credential** and copy the token immediately into your secret manager. It is returned only at creation; the credential list cannot retrieve it again. If the token is lost, revoke that credential and create another.
 4. Supply it to your client as `LIKERTS_TOKEN`. Keep management tokens out of application bundles, source control, chat messages and model tool arguments. Each credential belongs to one workspace and authorizes only its selected scopes.
@@ -30,14 +30,14 @@ The header is read from stdin rather than putting the token in curl's arguments.
 The launch path uses the scoped service token above. Download the checksummed source bundle and install it with Cargo:
 
 ```sh
-curl --fail --remote-name https://likerts.com/downloads/likerts-cli-source-0.1.0.tar.gz
+curl --fail --remote-name https://likerts.com/downloads/likerts-cli-source-0.1.2.tar.gz
 curl --fail --remote-name https://likerts.com/downloads/SHA256SUMS
-grep 'likerts-cli-source-0.1.0.tar.gz' SHA256SUMS | shasum -a 256 -c -
-tar -xzf likerts-cli-source-0.1.0.tar.gz
+grep 'likerts-cli-source-0.1.2.tar.gz' SHA256SUMS | shasum -a 256 -c -
+tar -xzf likerts-cli-source-0.1.2.tar.gz
 cargo install --locked --path tools/cli
 ```
 
-This installs `likerts` into Cargo's binary directory. A platform-native binary installer is not published yet.
+This installs `likerts` into Cargo's binary directory. A checksummed Apple Silicon macOS standalone binary is also available on the [downloads page](https://likerts.com/downloads/). It is unsigned and not notarized; other targets use the source bundle. There is no automatic updater.
 
 Human OAuth calls require `LIKERTS_WORKSPACE_ID`; the header selects a tenant and the API still proves current membership and grant authority. Service credentials are already tenant-bound and may omit it. `likerts auth login` discovers RFC OAuth authorization-server metadata, requires authorization code plus refresh support, PKCE S256 and every requested Likerts scope, and sends the protected resource identifier during authorization and token exchange.
 
@@ -131,7 +131,7 @@ npm test --prefix tools/mcp
 cargo test --manifest-path tools/cli/Cargo.toml
 ```
 
-Tests exercise credential separation, retry payload preservation, unsafe URLs/resource IDs and actual MCP tool discovery/invocation over the SDK's in-memory and Streamable HTTP transports. The remote suite also checks all 40 tools, exact workspace forwarding, Bearer discovery challenges, origin allowlisting and fail-closed configuration. `node --test tests/interface-contract.mjs` additionally executes every capability through MCP and the compiled CLI against a validating HTTP fixture. OpenAPI supplies MCP input and output schemas; successful text remains the API JSON, while MCP `structuredContent` wraps it as `{result: ...}`. Safe HTTP failures contain `error.code`, `status`, `operation` and a fixed message; upstream bodies are discarded. The exact registered backend routes, compiled CLI inventory and generated examples also have CI gates. Backend authorization remains authoritative.
+Tests exercise credential separation, retry payload preservation, unsafe URLs/resource IDs and actual MCP tool discovery/invocation over the SDK's in-memory and Streamable HTTP transports. The remote suite also checks all 41 tools, exact workspace forwarding, Bearer discovery challenges, origin allowlisting and fail-closed configuration. `node --test tests/interface-contract.mjs` additionally executes every capability through MCP and the compiled CLI against a validating HTTP fixture. OpenAPI supplies MCP input and output schemas; successful text remains the API JSON, while MCP `structuredContent` wraps it as `{result: ...}`. Safe HTTP failures contain `error.code`, `status`, `operation` and a fixed message; upstream bodies are discarded. The exact registered backend routes, compiled CLI inventory and generated examples also have CI gates. Backend authorization remains authoritative.
 
 See [the complete capability reference](../contracts/CAPABILITIES.md) for every operation's scope, usage note, input file, output example and documented errors.
 

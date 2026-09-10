@@ -1,0 +1,65 @@
+{
+  "title": "Visit follow-up",
+  "questions": [
+    {
+      "id": "return",
+      "type": "single_choice",
+      "label": "Would you return?",
+      "required": true,
+      "options": [
+        {"id": "yes", "label": "Yes"},
+        {"id": "no", "label": "No"}
+      ]
+    },
+    {
+      "id": "highlight",
+      "type": "text",
+      "label": "What went well?",
+      "required": true,
+      "maxLength": 500
+    },
+    {
+      "id": "problem",
+      "type": "text",
+      "label": "What should we fix?",
+      "required": true,
+      "maxLength": 500,
+      "visibleWhen": {"questionId": "return", "operator": "equals", "value": "no"}
+    },
+    {
+      "id": "followUp",
+      "type": "single_choice",
+      "label": "May we follow up?",
+      "options": [
+        {"id": "yes", "label": "Yes"},
+        {"id": "no", "label": "No"}
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "experience",
+      "title": "Your visit",
+      "questionIds": ["return"],
+      "branches": [
+        {
+          "when": {"questionId": "return", "operator": "equals", "value": "no"},
+          "goToPageId": "recovery"
+        }
+      ]
+    },
+    {
+      "id": "praise",
+      "title": "What worked",
+      "questionIds": ["highlight"],
+      "branches": [
+        {
+          "when": {"questionId": "return", "operator": "equals", "value": "yes"},
+          "goToPageId": "contact"
+        }
+      ]
+    },
+    {"id": "recovery", "title": "What to fix", "questionIds": ["problem"]},
+    {"id": "contact", "title": "Follow-up", "questionIds": ["followUp"]}
+  ]
+}

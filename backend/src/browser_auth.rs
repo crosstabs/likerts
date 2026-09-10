@@ -1,4 +1,4 @@
-use crate::Error;
+use crate::{jwks::JwksCache, Error};
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine};
 use hmac::{Hmac, Mac};
 use jsonwebtoken::{decode, decode_header, jwk::JwkSet, Algorithm, DecodingKey, Validation};
@@ -6,11 +6,7 @@ use reqwest::{redirect::Policy, Client, Url};
 use serde::Deserialize;
 use sha2::Sha256;
 use std::collections::HashSet;
-use std::{
-    sync::Arc,
-    time::{Duration, Instant},
-};
-use tokio::sync::RwLock;
+use std::{sync::Arc, time::Duration};
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct BrowserClaims {
@@ -25,7 +21,7 @@ pub struct BrowserSessionVerifier {
     jwks_url: Url,
     workspace_key: Arc<[u8]>,
     client: Client,
-    keys: Arc<RwLock<Option<(JwkSet, Instant)>>>,
+    keys: JwksCache,
 }
 
 #[derive(Clone, Default)]
@@ -117,40 +113,8 @@ impl BrowserSessionVerifier {
             jwks_url,
             workspace_key: workspace_key.into(),
             client,
-            keys: Arc::new(RwLock::new(None)),
+            keys: JwksCache::default(),
         })
-    }
-
-    async fn refresh(&self) -> Result<JwkSet, Error> {
-        let mut response = self
-            .client
-            .get(self.jwks_url.clone())
-            .send()
-            .await
-            .map_err(|_| Error::Internal)?;
-        if !response.status().is_success() {
-            return Err(Error::Internal);
-        }
-        const MAX_JWKS_BYTES: usize = 256 * 1024;
-        if response
-            .content_length()
-            .is_some_and(|size| size > MAX_JWKS_BYTES as u64)
-        {
-            return Err(Error::Internal);
-        }
-        let mut bytes = Vec::new();
-        while let Some(chunk) = response.chunk().await.map_err(|_| Error::Internal)? {
-            if bytes.len().saturating_add(chunk.len()) > MAX_JWKS_BYTES {
-                return Err(Error::Internal);
-            }
-            bytes.extend_from_slice(&chunk);
-        }
-        let keys: JwkSet = serde_json::from_slice(&bytes).map_err(|_| Error::Internal)?;
-        if keys.keys.is_empty() {
-            return Err(Error::Internal);
-        }
-        *self.keys.write().await = Some((keys.clone(), Instant::now()));
-        Ok(keys)
     }
 
     pub async fn verify(&self, token: &str, request_origin: &str) -> Result<BrowserClaims, Error> {
@@ -159,15 +123,10 @@ impl BrowserSessionVerifier {
             return Err(Error::Unauthorized);
         }
         let kid = header.kid.ok_or(Error::Unauthorized)?;
-        let cached = self.keys.read().await.clone();
-        let keys = match cached {
-            Some((keys, fetched))
-                if fetched.elapsed() < Duration::from_secs(600) && keys.find(&kid).is_some() =>
-            {
-                keys
-            }
-            _ => self.refresh().await?,
-        };
+        let keys = self
+            .keys
+            .keys_for(&self.client, &self.jwks_url, &kid)
+            .await?;
         self.verify_with_keys(token, &kid, &keys, request_origin)
     }
 

@@ -1,0 +1,9 @@
+{
+  "title": "Checkout experience",
+  "questions": [
+    {"id":"recommend","type":"scale","preset":"nps","label":"How likely are you to recommend us?","required":true,"min":0,"max":10,"labels":{"0":"Not at all likely","10":"Extremely likely"}},
+    {"id":"easy","type":"scale","label":"Checkout was easy","required":true,"min":1,"max":5,"labels":{"1":"Strongly disagree","2":"Disagree","3":"Neutral","4":"Agree","5":"Strongly agree"}},
+    {"id":"return","type":"single_choice","preset":"yes_no","label":"Would you shop again?","required":true,"options":[{"id":"yes","label":"Yes"},{"id":"no","label":"No"}]},
+    {"id":"improvements","type":"multiple_choice","label":"Choose one or two improvements","required":true,"minSelections":1,"maxSelections":2,"options":[{"id":"speed","label":"Speed"},{"id":"payment","label":"Payment options"},{"id":"navigation","label":"Navigation"}]}
+  ]
+}
