@@ -31,6 +31,8 @@ jobs:
         run: bash scripts/check.sh
       - name: Render Blueprint and fail-closed entrypoint checks
         run: bash scripts/check-render-iac.sh
+      - name: Shared admission across two API processes and real Redis
+        run: bash scripts/check-admission.sh
       - name: Render-compatible non-superuser owner provisioning
         run: bash scripts/check-render-roles.sh
       - name: Real PostgreSQL with restricted runtime role

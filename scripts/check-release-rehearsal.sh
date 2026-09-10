@@ -26,7 +26,7 @@ backend_port="$(node -e "const n=require('net').createServer();n.listen(0,'127.0
 management_token="release-rehearsal-management-token"
 
 DATABASE_URL="postgres://postgres:release-rehearsal@127.0.0.1:${database_port}/postgres" \
-LIKERTS_RUN_MIGRATIONS=1 LIKERTS_ALLOW_MEMORY=1 LIKERTS_ALLOW_DEV_AUTH=1 \
+LIKERTS_ADMISSION_MODE=disabled LIKERTS_RUN_MIGRATIONS=1 LIKERTS_ALLOW_MEMORY=1 LIKERTS_ALLOW_DEV_AUTH=1 \
 LIKERTS_DEV_TOKENS="{\"$management_token\":\"release-rehearsal\"}" \
 LIKERTS_COLLECTION_CREDENTIAL_KEY="$(openssl rand -base64 32 | tr -d '\n')" \
 LIKERTS_EXPORT_DIR="$export_dir" LIKERTS_PORT="$backend_port" \

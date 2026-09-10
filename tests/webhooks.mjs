@@ -11,7 +11,7 @@ const root=fileURLToPath(new URL('../',import.meta.url)),database=process.env.LI
 assert(database,'Run scripts/check-webhook-isolation.sh for a restricted PostgreSQL fixture');
 const probe=netServer();await new Promise(r=>probe.listen(0,'127.0.0.1',r));const port=probe.address().port;await new Promise(r=>probe.close(r));
 const base=`http://127.0.0.1:${port}`,token='webhook-http-local-admin-a',other='webhook-http-local-admin-b';
-const env={...process.env,DATABASE_URL:database,LIKERTS_ALLOW_DEV_AUTH:'1',LIKERTS_ALLOW_MEMORY:'0',LIKERTS_RUN_MIGRATIONS:'0',LIKERTS_PORT:String(port),LIKERTS_DEV_TOKENS:JSON.stringify({[token]:'webhook-http-a',[other]:'webhook-http-b'}),LIKERTS_COLLECTION_CREDENTIAL_KEY:Buffer.alloc(32,6).toString('base64'),LIKERTS_WEBHOOK_CREDENTIAL_KEY:Buffer.alloc(32,73).toString('base64')};
+const env={...process.env,DATABASE_URL:database,LIKERTS_ALLOW_DEV_AUTH:'1',LIKERTS_ADMISSION_MODE:'disabled',LIKERTS_ADMISSION_REST_URL:undefined,LIKERTS_ADMISSION_REST_TOKEN:undefined,LIKERTS_ALLOW_MEMORY:'0',LIKERTS_RUN_MIGRATIONS:'0',LIKERTS_PORT:String(port),LIKERTS_DEV_TOKENS:JSON.stringify({[token]:'webhook-http-a',[other]:'webhook-http-b'}),LIKERTS_COLLECTION_CREDENTIAL_KEY:Buffer.alloc(32,6).toString('base64'),LIKERTS_WEBHOOK_CREDENTIAL_KEY:Buffer.alloc(32,73).toString('base64')};
 const child=spawn(`${root}backend/target/debug/likerts-server`,[],{env,stdio:['ignore','ignore','pipe']});let logs='',server,mcp;child.stderr.on('data',v=>logs+=v);
 try {
  let ready=false;for(let i=0;i<100;i++){try{if((await fetch(base+'/health')).ok){ready=true;break}}catch{}await new Promise(r=>setTimeout(r,50))}assert(ready,logs);

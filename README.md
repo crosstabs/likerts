@@ -17,6 +17,7 @@ source scripts/dev-env.sh
 cargo build --manifest-path backend/Cargo.toml --locked
 export LIKERTS_DEV_TOKENS='{"local-demo-management-token":"demo"}'
 export LIKERTS_ALLOW_MEMORY=1
+export LIKERTS_ADMISSION_MODE=disabled # disposable local development only
 cargo run --manifest-path backend/Cargo.toml --locked
 ```
 

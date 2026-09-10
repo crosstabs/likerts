@@ -32,7 +32,8 @@ for(const match of router.matchAll(pattern)){
 assert.equal([...router.matchAll(/\.route\(/g)].length,[...router.matchAll(pattern)].length,'Nonliteral route requires explicit inventory support');
 assert.deepEqual(routes.map(key).sort(),operations.map(key).sort(),'Registered HTTP routes and OpenAPI must match exactly');
 const documentedCodes=Object.values(codes).flat().sort();
-const mappedCodes=[...source.matchAll(/StatusCode::[A-Z_]+\s*,\s*"([a-z_]+)"/g)].map(m=>m[1]);
+const errorSources=source+readFileSync(new URL('../backend/src/admission.rs',import.meta.url),'utf8');
+const mappedCodes=[...errorSources.matchAll(/StatusCode::[A-Z_]+\s*,\s*"([a-z_]+)"/g)].map(m=>m[1]);
 mappedCodes.push('payload_too_large','unsupported_media_type');
 assert.deepEqual([...new Set(mappedCodes)].sort(),documentedCodes,'New backend error codes require documentation and examples');
 assert.deepEqual(spec.components.schemas.Error.properties.error.properties.code.enum.slice().sort(),documentedCodes);

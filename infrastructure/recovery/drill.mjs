@@ -112,7 +112,7 @@ try{
   // Only a fresh, synthetic post-reconciliation credential can read this copy.
   sql(`insert into likerts.service_credentials(workspace_id,id,name,token_hash,scopes,expires_at) values ('container-smoke','00000000-0000-4000-8000-000000000003','recovery fixture',sha256(convert_to('${newToken}','UTF8')),array['responses:read','usage:read','exports:read'],now()+interval '1 day')`,recovered);
   const runtimeUrl=new URL(process.env.DATABASE_URL);runtimeUrl.pathname=`/${recovered}`;
-  docker(['run','--detach','--name',api,'--network',network,'--read-only','--cap-drop','ALL','--security-opt','no-new-privileges','--tmpfs','/var/lib/likerts/exports:uid=10001,gid=10001,mode=0700','--publish','127.0.0.1::8080','--env','DATABASE_URL','--env','LIKERTS_COLLECTION_CREDENTIAL_KEY',image],{env:{...process.env,DATABASE_URL:runtimeUrl.toString()}});
+  docker(['run','--detach','--name',api,'--network',network,'--read-only','--cap-drop','ALL','--security-opt','no-new-privileges','--tmpfs','/var/lib/likerts/exports:uid=10001,gid=10001,mode=0700','--publish','127.0.0.1::8080','--env','DATABASE_URL','--env','LIKERTS_ADMISSION_MODE=disabled','--env','LIKERTS_ALLOW_DEV_AUTH=1','--env','LIKERTS_COLLECTION_CREDENTIAL_KEY',image],{env:{...process.env,DATABASE_URL:runtimeUrl.toString()}});
   const port=docker(['port',api,'8080/tcp']).split(':').at(-1);
   const origin=`http://127.0.0.1:${port}`;
   let ready=false;

@@ -26,7 +26,8 @@ FROM ${RUNTIME_IMAGE} AS runtime
 RUN apt-get update && apt-get install --yes --no-install-recommends ca-certificates curl postgresql-client \
     && rm -rf /var/lib/apt/lists/* \
     && groupadd --gid 10001 likerts \
-    && useradd --uid 10001 --gid 10001 --no-create-home --shell /usr/sbin/nologin likerts \
+    && useradd --uid 10001 --gid 10001 --create-home --home-dir /home/likerts --shell /bin/sh likerts \
+    && install --directory --owner=10001 --group=10001 --mode=0700 /home/likerts/.ssh \
     && install --directory --owner=10001 --group=10001 --mode=0700 /var/lib/likerts/exports
 COPY --from=builder /out/likerts-server /usr/local/bin/likerts-server
 COPY --from=builder /out/likerts-migrate /usr/local/bin/likerts-migrate

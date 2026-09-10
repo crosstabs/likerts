@@ -100,8 +100,15 @@ if docker run --rm --network "$SMOKE_NETWORK" --read-only --cap-drop ALL \
   printf '%s\n' 'ERROR: runtime credential could run migrations' >&2
   exit 1
 fi
-# A missing durable configuration must fail immediately; no automatic memory fallback.
+# Production admission is mandatory before application dependencies initialize.
 if docker run --rm --read-only --cap-drop ALL --security-opt no-new-privileges "$LIKERTS_IMAGE"; then
+  printf '%s\n' 'ERROR: service started without admission configuration' >&2
+  exit 1
+fi
+# Explicitly bypass admission for this isolated check so it cannot mask the
+# independent durable-storage requirement. Memory mode remains disabled.
+if docker run --rm --read-only --cap-drop ALL --security-opt no-new-privileges \
+  --env LIKERTS_ADMISSION_MODE=disabled --env LIKERTS_ALLOW_DEV_AUTH=1 "$LIKERTS_IMAGE"; then
   printf '%s\n' 'ERROR: service started without durable storage' >&2
   exit 1
 fi
@@ -112,6 +119,7 @@ start_api() {
     --read-only --cap-drop ALL --security-opt no-new-privileges \
     --mount "type=volume,source=${EXPORT_VOLUME},target=/var/lib/likerts/exports" \
     --publish 127.0.0.1::8080 --env DATABASE_URL \
+    --env LIKERTS_ADMISSION_MODE=disabled --env LIKERTS_ALLOW_DEV_AUTH=1 \
     --env LIKERTS_COLLECTION_CREDENTIAL_KEY --env LIKERTS_WEBHOOK_CREDENTIAL_KEY \
     --env LIKERTS_MONITOR_TOKEN=synthetic-container-monitor-token-v1 "$LIKERTS_IMAGE" >/dev/null
   for _ in $(seq 1 60); do

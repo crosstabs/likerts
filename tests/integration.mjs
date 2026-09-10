@@ -16,7 +16,7 @@ const mixedSdkCapabilities={installations:[{target:'web',sdkVersion:'legacy',sch
 const probe=netServer(); await new Promise(resolve=>probe.listen(0,'127.0.0.1',resolve));const port=probe.address().port;await new Promise(resolve=>probe.close(resolve));
 const base=`http://127.0.0.1:${port}`;
 const tokenA='integration-alpha-token-not-production';const tokenB='integration-bravo-token-not-production';
-const child=spawn(`${root}backend/target/debug/likerts-server`,[],{env:{...process.env,LIKERTS_PORT:String(port),LIKERTS_ALLOW_MEMORY:'1',LIKERTS_DEV_TOKENS:JSON.stringify({[tokenA]:'alpha',[tokenB]:'bravo'})},stdio:['ignore','ignore','pipe']});
+const child=spawn(`${root}backend/target/debug/likerts-server`,[],{env:{...process.env,LIKERTS_PORT:String(port),LIKERTS_ADMISSION_MODE:'disabled',LIKERTS_ADMISSION_REST_URL:undefined,LIKERTS_ADMISSION_REST_TOKEN:undefined,LIKERTS_ALLOW_MEMORY:'1',LIKERTS_DEV_TOKENS:JSON.stringify({[tokenA]:'alpha',[tokenB]:'bravo'})},stdio:['ignore','ignore','pipe']});
 let logs='';child.stderr.on('data',c=>logs+=c.toString());
 let mcp;let server;
 try{

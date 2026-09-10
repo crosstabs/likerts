@@ -7,6 +7,7 @@ Run with a current stable Rust toolchain:
 ```sh
 export LIKERTS_DEV_TOKENS='{"local-development-token-a":"workspace-a","local-development-token-b":"workspace-b"}'
 export LIKERTS_ALLOW_DEV_AUTH=1
+export LIKERTS_ADMISSION_MODE=disabled # disposable local development only
 export DATABASE_URL='postgres://likerts:development-password@127.0.0.1:5432/likerts'
 export LIKERTS_COLLECTION_CREDENTIAL_KEY="$(openssl rand -base64 32)"
 export LIKERTS_RUN_MIGRATIONS=1

@@ -7,7 +7,7 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../../../',import.meta.url));
 const freePort=async()=>{const probe=createNetServer();await new Promise(resolve=>probe.listen(0,'127.0.0.1',resolve));const port=probe.address().port;await new Promise(resolve=>probe.close(resolve));return port};
 const backendPort=await freePort();const token='web-browser-management-token';const backendBase=`http://127.0.0.1:${backendPort}`;
-const backend=spawn(`${root}backend/target/debug/likerts-server`,[],{env:{...process.env,LIKERTS_PORT:String(backendPort),LIKERTS_ALLOW_MEMORY:'1',LIKERTS_ALLOW_DEV_AUTH:'1',LIKERTS_DEV_TOKENS:JSON.stringify({[token]:'web-browser'})},stdio:['ignore','ignore','pipe']});
+const backend=spawn(`${root}backend/target/debug/likerts-server`,[],{env:{...process.env,LIKERTS_PORT:String(backendPort),LIKERTS_ADMISSION_MODE:'disabled',LIKERTS_ADMISSION_REST_URL:undefined,LIKERTS_ADMISSION_REST_TOKEN:undefined,LIKERTS_ALLOW_MEMORY:'1',LIKERTS_ALLOW_DEV_AUTH:'1',LIKERTS_DEV_TOKENS:JSON.stringify({[token]:'web-browser'})},stdio:['ignore','ignore','pipe']});
 let backendLogs='';backend.stderr.on('data',chunk=>backendLogs+=chunk);
 const json=async(path,body)=>{const response=await fetch(`${backendBase}${path}`,{method:'POST',headers:{authorization:`Bearer ${token}`,'content-type':'application/json'},body:JSON.stringify(body)});if(!response.ok)throw new Error(`${path}: ${response.status} ${await response.text()}`);return response.json()};
 let ready=false;for(let i=0;i<100;i++){try{if((await fetch(`${backendBase}/health`)).ok){ready=true;break}}catch{}await new Promise(resolve=>setTimeout(resolve,50))}if(!ready)throw new Error(`backend failed: ${backendLogs}`);

@@ -43,6 +43,7 @@
     "internal_error"
   ],
   "503": [
-    "webhooks_unavailable"
+    "webhooks_unavailable",
+    "admission_unavailable"
   ]
 }

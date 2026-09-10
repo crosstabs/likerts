@@ -141,6 +141,18 @@
                 {
                   "key": "LIKERTS_CHECKOUT_RETURN_ORIGIN",
                   "sync": false
+                },
+                {
+                  "key": "LIKERTS_ADMISSION_REST_URL",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_ADMISSION_REST_TOKEN",
+                  "sync": false
+                },
+                {
+                  "key": "LIKERTS_ADMISSION_NAMESPACE",
+                  "sync": false
                 }
               ]
             },

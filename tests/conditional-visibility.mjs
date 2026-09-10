@@ -14,7 +14,7 @@ const fixture=JSON.parse(await readFile(new URL('../contracts/conditional-survey
 const fleet={installations:[{target:'web',sdkVersion:'0.0.2',schemaVersions:[1,2,3]}]};
 const probe=netServer();await new Promise(resolve=>probe.listen(0,'127.0.0.1',resolve));const port=probe.address().port;await new Promise(resolve=>probe.close(resolve));
 const base=`http://127.0.0.1:${port}`,token='conditional-local-test';
-const processServer=spawn(`${root}backend/target/debug/likerts-server`,[],{env:{...process.env,LIKERTS_PORT:String(port),LIKERTS_ALLOW_MEMORY:'1',LIKERTS_DEV_TOKENS:JSON.stringify({[token]:'conditional'})},stdio:['ignore','ignore','pipe']});
+const processServer=spawn(`${root}backend/target/debug/likerts-server`,[],{env:{...process.env,LIKERTS_PORT:String(port),LIKERTS_ADMISSION_MODE:'disabled',LIKERTS_ADMISSION_REST_URL:undefined,LIKERTS_ADMISSION_REST_TOKEN:undefined,LIKERTS_ALLOW_MEMORY:'1',LIKERTS_DEV_TOKENS:JSON.stringify({[token]:'conditional'})},stdio:['ignore','ignore','pipe']});
 let logs='';processServer.stderr.on('data',chunk=>logs+=chunk);let server,mcp;
 try {
  let ready=false;for(let i=0;i<100;i++){try{if((await fetch(`${base}/health`)).ok){ready=true;break}}catch{}await new Promise(resolve=>setTimeout(resolve,50))}assert(ready,logs);

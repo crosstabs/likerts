@@ -20,6 +20,7 @@ const keys=s=>s.envVars.map(x=>x.key).sort();
 for(const key of ['LIKERTS_OIDC_ISSUER','LIKERTS_OIDC_AUDIENCE','LIKERTS_OIDC_JWKS_URL']) assert.equal(api.envVars.find(v=>v.key===key)?.sync,false);
 for(const key of ['LIKERTS_MANAGEMENT_ORIGINS','LIKERTS_BROWSER_SESSION_ISSUER','LIKERTS_BROWSER_SESSION_AUDIENCE','LIKERTS_BROWSER_SESSION_JWKS_URL','LIKERTS_BROWSER_WORKSPACE_KEY','LIKERTS_BROWSER_OAUTH_CLIENTS']) assert.equal(api.envVars.find(v=>v.key===key)?.sync,false);
 for(const key of ['LIKERTS_STRIPE_SECRET_KEY','LIKERTS_STRIPE_WEBHOOK_SECRET','LIKERTS_STRIPE_LIVE_MODE','LIKERTS_CHECKOUT_RETURN_ORIGIN']) assert.equal(api.envVars.find(v=>v.key===key)?.sync,false);
+for(const key of ['LIKERTS_ADMISSION_REST_URL','LIKERTS_ADMISSION_REST_TOKEN','LIKERTS_ADMISSION_NAMESPACE']) assert.equal(api.envVars.find(v=>v.key===key)?.sync,false);
 assert.equal(api.type,'web');assert.equal(api.numInstances,2);assert.equal(api.healthCheckPath,'/health');
 assert.equal(mcp.type,'web');assert.equal(mcp.plan,'starter');assert.equal(mcp.numInstances,1);assert.equal(mcp.healthCheckPath,'/health');assert.match(mcp.dockerCommand,/start\.sh mcp$/);
 assert.deepEqual(keys(mcp),['LIKERTS_API_URL','LIKERTS_MCP_ALLOWED_ORIGINS','LIKERTS_MCP_PUBLIC_ORIGIN','LIKERTS_OIDC_ISSUER']);

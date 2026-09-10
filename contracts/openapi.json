@@ -143,6 +143,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -154,6 +178,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -287,6 +335,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -298,6 +370,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -467,6 +563,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -478,6 +598,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -694,6 +838,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -705,6 +873,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -918,6 +1110,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -929,6 +1145,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -1134,6 +1374,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -1145,6 +1409,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -1293,6 +1581,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -1304,6 +1616,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -1415,6 +1751,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal error.",
             "content": {
@@ -1426,6 +1786,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal error."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -1596,6 +1980,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -1607,6 +2015,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -1771,7 +2203,7 @@
             }
           },
           "429": {
-            "description": "Collection rate window exhausted; no new response is billed.",
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1789,9 +2221,8 @@
               "Retry-After": {
                 "schema": {
                   "type": "integer",
-                  "const": 60
-                },
-                "description": "Seconds before retrying the collection rate window."
+                  "minimum": 1
+                }
               }
             }
           },
@@ -1806,6 +2237,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -1938,6 +2393,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal error.",
             "content": {
@@ -1949,6 +2428,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal error."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -2046,6 +2549,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -2057,6 +2584,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -2227,6 +2778,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -2238,6 +2813,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -2405,6 +3004,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -2416,6 +3039,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -2573,6 +3220,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -2584,6 +3255,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -2692,6 +3387,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -2703,6 +3422,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -2866,6 +3609,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -2877,6 +3644,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -2970,6 +3761,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -2981,6 +3796,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -3065,6 +3904,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -3076,6 +3939,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -3176,6 +4063,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -3187,6 +4098,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -3314,6 +4249,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -3325,6 +4284,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -3453,6 +4436,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -3464,6 +4471,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -3569,6 +4600,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -3580,6 +4635,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -3730,6 +4809,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -3741,6 +4844,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -3863,6 +4990,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -3874,6 +5025,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -4013,6 +5188,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -4024,6 +5223,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -4146,6 +5369,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -4157,6 +5404,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -4302,6 +5573,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -4313,6 +5608,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -4472,6 +5791,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; retry only with the original idempotency key and amount.",
             "content": {
@@ -4483,6 +5826,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; retry with the original key."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -4612,6 +5979,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -4623,6 +6014,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -4726,6 +6141,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -4737,6 +6176,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -4910,6 +6373,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -4921,6 +6408,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -5074,6 +6585,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -5085,6 +6620,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -5272,6 +6831,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -5283,6 +6866,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -5323,6 +6930,54 @@
                   "error": {
                     "code": "unauthorized",
                     "message": "Invalid or stale Stripe signature."
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -5421,6 +7076,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -5432,6 +7111,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -5790,6 +7493,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Webhook operation error (HTTP 500).",
             "content": {
@@ -5807,7 +7534,7 @@
             }
           },
           "503": {
-            "description": "Durable response webhooks are not configured.",
+            "description": "Durable response webhooks are not configured. Request admission can also be unavailable; fail closed and honor Retry-After.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5984,6 +7711,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Webhook operation error (HTTP 500).",
             "content": {
@@ -6001,7 +7752,7 @@
             }
           },
           "503": {
-            "description": "Durable response webhooks are not configured.",
+            "description": "Durable response webhooks are not configured. Request admission can also be unavailable; fail closed and honor Retry-After.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6202,6 +7953,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Webhook operation error (HTTP 500).",
             "content": {
@@ -6219,7 +7994,7 @@
             }
           },
           "503": {
-            "description": "Durable response webhooks are not configured.",
+            "description": "Durable response webhooks are not configured. Request admission can also be unavailable; fail closed and honor Retry-After.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6436,6 +8211,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Webhook operation error (HTTP 500).",
             "content": {
@@ -6453,7 +8252,7 @@
             }
           },
           "503": {
-            "description": "Durable response webhooks are not configured.",
+            "description": "Durable response webhooks are not configured. Request admission can also be unavailable; fail closed and honor Retry-After.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6661,6 +8460,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Webhook operation error (HTTP 500).",
             "content": {
@@ -6678,7 +8501,7 @@
             }
           },
           "503": {
-            "description": "Durable response webhooks are not configured.",
+            "description": "Durable response webhooks are not configured. Request admission can also be unavailable; fail closed and honor Retry-After.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6848,6 +8671,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Webhook operation error (HTTP 500).",
             "content": {
@@ -6865,7 +8712,7 @@
             }
           },
           "503": {
-            "description": "Durable response webhooks are not configured.",
+            "description": "Durable response webhooks are not configured. Request admission can also be unavailable; fail closed and honor Retry-After.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7067,6 +8914,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Webhook operation error (HTTP 500).",
             "content": {
@@ -7084,7 +8955,7 @@
             }
           },
           "503": {
-            "description": "Durable response webhooks are not configured.",
+            "description": "Durable response webhooks are not configured. Request admission can also be unavailable; fail closed and honor Retry-After.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7195,6 +9066,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -7206,6 +9101,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -7270,12 +9189,60 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
+                  }
                 }
               }
             }
@@ -7374,12 +9341,60 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
+                  }
                 }
               }
             }
@@ -7462,12 +9477,60 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
+                  }
                 }
               }
             }
@@ -7582,12 +9645,60 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
+                  }
                 }
               }
             }
@@ -7731,6 +9842,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -7742,6 +9877,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -7865,6 +10024,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -7876,6 +10059,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -8000,6 +10207,30 @@
               }
             }
           },
+          "429": {
+            "description": "Admission or collection rate limit reached. Honor Retry-After in seconds; admission usually returns1, the collection minute window returns60.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "rate_limited",
+                    "message": "Request admission limit reached"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload.",
             "content": {
@@ -8011,6 +10242,30 @@
                   "error": {
                     "code": "internal_error",
                     "message": "Internal failure; do not assume a write failed. Retry only with its original idempotency key and payload."
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Distributed request admission is temporarily unavailable. No protected handler ran; honor Retry-After.",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "admission_unavailable",
+                    "message": "Request admission is temporarily unavailable"
                   }
                 }
               }
@@ -10236,7 +12491,8 @@
                   "unsupported_media_type",
                   "rate_limited",
                   "internal_error",
-                  "webhooks_unavailable"
+                  "webhooks_unavailable",
+                  "admission_unavailable"
                 ]
               },
               "message": {

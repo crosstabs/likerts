@@ -9,6 +9,7 @@ use axum::{
 };
 use base64::{engine::general_purpose::STANDARD as BASE64, Engine};
 use likerts_server::{
+    admission::{self, Admission},
     auth::{OidcClaims, OidcVerifier},
     billing::{
         BillingAccountInput, ChargeRequest, CheckoutRequest, CreditCheckout, CreditCheckoutInput,
@@ -1833,6 +1834,8 @@ async fn main() {
     let allow_memory = std::env::var("LIKERTS_ALLOW_MEMORY").as_deref() == Ok("1");
     let allow_dev_auth =
         std::env::var("LIKERTS_ALLOW_DEV_AUTH").as_deref() == Ok("1") || allow_memory;
+    let admission =
+        Admission::from_env(allow_dev_auth).expect("Invalid request admission configuration");
     let raw = std::env::var("LIKERTS_DEV_TOKENS").unwrap_or_else(|_| "{}".into());
     let tokens: HashMap<String, String> =
         serde_json::from_str(&raw).expect("Invalid LIKERTS_DEV_TOKENS JSON");
@@ -2145,6 +2148,10 @@ async fn main() {
         .layer(middleware::from_fn_with_state(
             protected_resource_metadata,
             oauth_authentication_challenge,
+        ))
+        .layer(middleware::from_fn_with_state(
+            admission,
+            admission::enforce,
         ))
         .layer(middleware::from_fn_with_state(
             management_cors,
