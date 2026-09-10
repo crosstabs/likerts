@@ -42,7 +42,7 @@ The host supplies the key generator because React Native runtime crypto support 
 | 0.86.x | 19.2.3 | TypeScript and Jest native-component integration | Passed on 0.86.3; locked development baseline |
 | 0.87.x | 19.2.3 | TypeScript and Jest native-component integration | Passed on 0.87.0 |
 
-Run `scripts/check-react-native-matrix.sh` from the repository root to reinstall and test all three exact baselines. The suite exercises both `Platform.OS` values and native accessibility/control props. These checks do not claim App Store/Play device certification; physical-device release rehearsal remains part of the cross-platform release gate.
+Run `scripts/check-react-native-matrix.sh` from the repository root to reinstall and test all three exact baselines. The suite exercises both `Platform.OS` values and native accessibility/control props. These checks do not claim App Store/Play device certification; physical-device release rehearsal remains part of the cross-platform release gate. Separate [Android and iOS native-host runners](native-host/README.md) embed the real RN 0.86.3 renderer and exercise validation, accessibility state and exact advanced-question answers. They passed on an API-35 ARM64 emulator and iOS 26.4 simulator; they do not establish hosted networking, offline adapters or every OS/framework version.
 
 React Native 0.85+ requires a supported Node release; this repository uses Node 22. The package uses public React Native component APIs and the New Architecture compatible surface only.
 

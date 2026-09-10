@@ -18,7 +18,7 @@ There are no automatic SDK retries. A timeout, cancellation or connection loss i
 
 ## Compatibility
 
-Schema versions 1 and 2 are supported. Any other version is rejected during collection decoding, before a renderer can present it. Unknown JSON fields remain forward-compatible and are ignored. New behavior that changes stored answer meaning requires a new schema version and SDK capability work under SDK-02.
+The current 0.0.3 SDK fleet supports schema versions 1–5, as recorded in `contracts/sdk-compatibility.json`: baseline/expanded questions, conditional visibility, pages/branching, and advanced ranking/matrix/constant-sum questions. A version outside an installed SDK's declared support is rejected during collection decoding before rendering. Older artifacts retain their original capability records. Unknown JSON fields remain forward-compatible and are ignored. New behavior that changes stored answer meaning requires a new schema version and coordinated SDK capability work.
 
 Each SDK exports its customer-declarable capability record: target, package version and supported schema versions. Management callers combine the records for every installed deployment group when publishing and creating a collection. The service rejects the operation when any declared group lacks the required schema version. These records are customer assertions used to prevent accidental rollout; they are not proof of the software actually installed on a respondent device.
 

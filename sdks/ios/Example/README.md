@@ -1,0 +1,9 @@
+# iOS simulator acceptance host
+
+Run `LIKERTS_IOS_SIMULATOR_ID=<booted-simulator-uuid> bash scripts/check-ios-simulator.sh` from the repository root. XcodeGen and Xcode are required. The script generates the project and removes its build outputs afterwards.
+
+The suite includes the localized SwiftUI renderer flow and two offline queue tests using an actual Keychain generic-password item and CryptoKit AES-GCM. The test adapter writes atomic ciphertext records in Application Support under a directory marked `isExcludedFromBackup`, with file protection until first authentication. It requests and checks `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly` for its key. Fresh adapter/queue objects recover the durable records and key; a retry preserves the payload, an invalid receipt retains it, and a matching accepted receipt removes it. Ciphertext tampering and loss of the key quarantine records without requesting a credential or sending data. Credentials are checked absent from the decrypted persisted envelope.
+
+The app uses a fixed `LIKERTSTEST` application identifier and Keychain access group with simulator ad hoc signing. These are test-only entitlements, not production signing configuration. Without entitlements the Security framework returns `errSecMissingEntitlement` (`-34018`), so the simulator runner must not disable signing.
+
+This passed on iOS 26.4 simulator on 2026-09-10 (three tests: one UI and two crypto/persistence). The fixture uses synthetic send callbacks, not the hosted service. Reopening objects verifies durable readback but does not simulate a process kill or interrupted write. A simulator does not certify physical-device lock behavior, secure hardware, backup/restore exclusion in a customer app, other OS runtimes, or the customer's production adapter. The test adapter is excluded from the SDK package and is not a supported production adapter.

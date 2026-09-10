@@ -1,0 +1,34 @@
+name: LikertsRNAcceptance
+options:
+  deploymentTarget:
+    iOS: "15.1"
+targets:
+  LikertsRNAcceptance:
+    type: application
+    platform: iOS
+    sources: [App]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.likerts.rnhost.ios
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        CODE_SIGNING_ALLOWED: NO
+        OTHER_LDFLAGS: ["$(inherited)", "-ObjC"]
+  LikertsRNAcceptanceUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: LikertsRNAcceptance
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.likerts.rnhost.ios.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+schemes:
+  LikertsRNAcceptance:
+    build:
+      targets:
+        LikertsRNAcceptance: all
+    test:
+      targets: [LikertsRNAcceptanceUITests]

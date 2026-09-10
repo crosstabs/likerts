@@ -1,0 +1,2 @@
+const Metro=require('metro');
+(async()=>{const platform=process.argv[2]??'android';if(!['android','ios'].includes(platform))throw new Error('Expected android or ios');const config=await require('./metro.config.cjs');await Metro.runBuild(config,{entry:'native-host/index.js',platform,dev:false,minify:false,out:require('node:path').join(__dirname,platform==='ios'?'ios/App/main.bundle':'android/app/src/main/assets/index.android.bundle')});})().catch(error=>{console.error(error);process.exit(1)});

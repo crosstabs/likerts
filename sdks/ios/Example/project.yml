@@ -17,7 +17,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.likerts.sample
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
-        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_ENTITLEMENTS: App/LikertsSample.entitlements
   LikertsSampleUITests:
     type: bundle.ui-testing
     platform: iOS
@@ -28,4 +29,23 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.likerts.sample.uitests
         GENERATE_INFOPLIST_FILE: YES
-        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGN_IDENTITY: "-"
+  LikertsSampleTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [Tests]
+    dependencies:
+      - target: LikertsSample
+      - package: Likerts
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.likerts.sample.tests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_IDENTITY: "-"
+schemes:
+  LikertsSample:
+    build:
+      targets:
+        LikertsSample: all
+    test:
+      targets: [LikertsSampleTests, LikertsSampleUITests]

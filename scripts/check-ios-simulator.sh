@@ -16,5 +16,5 @@ command -v xcodegen >/dev/null 2>&1
 device_id="${LIKERTS_IOS_SIMULATOR_ID:-$(xcrun simctl list devices available | sed -n 's/.*(\([0-9A-F-]\{36\}\)) (Booted).*/\1/p' | head -1)}"
 if [ -z "$device_id" ]; then echo "A booted iOS simulator is required" >&2; exit 1; fi
 (cd "$example" && xcodegen generate)
-xcodebuild -quiet -project "$example/LikertsSample.xcodeproj" -scheme LikertsSample -destination "platform=iOS Simulator,id=$device_id" -derivedDataPath "$example/.derived" test CODE_SIGNING_ALLOWED=NO
-echo "PASS: Likerts sample built and its localized accessibility UI test completed on simulator $device_id."
+xcodebuild -quiet -project "$example/LikertsSample.xcodeproj" -scheme LikertsSample -destination "platform=iOS Simulator,id=$device_id" -derivedDataPath "$example/.derived" test CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=-
+echo "PASS: Likerts sample UI and Keychain/CryptoKit offline tests completed on simulator $device_id. Simulator-only ad hoc entitlements do not certify a production host or physical device."
