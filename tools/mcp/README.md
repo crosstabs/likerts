@@ -6,7 +6,13 @@ The hosted server is listed in the [official MCP registry](https://registry.mode
 
 ## Install
 
-Download the MCP npm tarball from the [community release](https://github.com/crosstabs/likerts/releases). Install the downloaded file with `npm install --global /absolute/path/to/the-mcp-package.tgz`. Node.js 22 or newer is required. This package is not yet published to the npm registry.
+Install a published version from npm:
+
+```sh
+npm install --global @likerts/mcp
+```
+
+Alternatively, download the MCP tarball from the [community release](https://github.com/crosstabs/likerts/releases) and run `npm install --global /absolute/path/to/the-mcp-package.tgz`. Node.js 22 or newer is required.
 
 Configure your MCP client to run `likerts-mcp` over stdio. Set `LIKERTS_API_URL` to your API origin and supply a scoped `LIKERTS_TOKEN` through your environment or secret manager. The local API defaults to `http://127.0.0.1:8080`. Collection operations use `LIKERTS_COLLECTION_TOKEN` separately; keep management credentials out of embedded apps and tool arguments.
 
