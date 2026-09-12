@@ -16,7 +16,7 @@ export interface PromptItem {id:string;label:string}
 export interface Question { id: string; type: QuestionType; label: string; required?: boolean; options?: Choice[]; min?: number; max?: number; maxLength?: number; preset?: 'nps' | 'yes_no'; labels?: Record<string, string>; minSelections?: number; maxSelections?: number; visibleWhen?: VisibilityCondition; presentation?:'stars'|'dropdown';rows?:PromptItem[];columns?:Choice[];matrixMode?:'single'|'multiple';items?:PromptItem[];total?:number }
 export interface Collection { id: string; surveyId: string; version: number; placement: string; schema: { schemaVersion: 1 | 2 | 3 | 4 | 5; title: string; questions: Question[]; pages?: SurveyPage[] } }
 export interface Submission { idempotencyKey: string; answers: Record<string, Answer>; metadata: Record<string, unknown> }
-export interface Receipt { responseId: string; collectionId: string; accepted: true; chargedCents: 1 }
+export interface Receipt { responseId: string; collectionId: string; accepted: true }
 export interface RequestOptions { signal?: AbortSignal; timeoutMs?: number }
 export interface CollectionRequestOptions extends RequestOptions { refresh?: boolean }
 export interface SurveyMessages { selectPlaceholder: string; back: string; next: string; progress: string; submit: string; submitting: string; submitted: string; submissionError: string; selectionRange: string; otherError: string; moveUp:string;moveDown:string;remaining:string;advancedError:string }
@@ -71,7 +71,7 @@ export class LikertsClient {
   }
   clearCollectionCache(id?: string): void { if(id)this.collectionCache.delete(id);else this.collectionCache.clear(); }
   /** Retrying requires the same submission object, including its idempotencyKey. */
-  async submit(id: string, submission: Submission, options?: RequestOptions): Promise<Receipt> { const receipt = await this.request<Receipt>(`/v1/collections/${encodeURIComponent(id)}/responses`, submission, options); if (receipt.accepted !== true || receipt.chargedCents !== 1) throw new Error('Invalid Likerts receipt'); return receipt; }
+  async submit(id: string, submission: Submission, options?: RequestOptions): Promise<Receipt> { const receipt = await this.request<Receipt>(`/v1/collections/${encodeURIComponent(id)}/responses`, submission, options); if (receipt.accepted !== true) throw new Error('Invalid Likerts receipt'); return receipt; }
 }
 
 export function conditionMatches(condition: VisibilityCondition, answer: Answer | undefined): boolean {

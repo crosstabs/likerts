@@ -1,6 +1,0 @@
-flowchart LR
-  Client --> Handler
-  Handler --> Checks[Per-handler checks]
-  Checks --> DB[(Forced-RLS PostgreSQL)]
-  Handler --> Audit[Per-handler audit call]
-  DB --> Secret[Credential-bearing retry JSON]

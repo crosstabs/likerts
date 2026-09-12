@@ -202,7 +202,7 @@ def main():
                 matches = re.findall(r'LIKERTS_HOSTED_RESULT (\{[^\r\n]+\})', log_path.read_text(errors='replace'))
                 require(len(matches) == 1, 'flutter_receipt_missing_or_duplicate')
                 result = json.loads(matches[0])
-            require(result and result.get('result') == 'passed' and result.get('target') == args.target and result.get('collectionId') == config['collectionId'] and result.get('chargedCents') == 1 and result.get('identicalRetrySameReceipt') is True, 'receipt_evidence_invalid')
+            require(result and result.get('result') == 'passed' and result.get('target') == args.target and result.get('collectionId') == config['collectionId'] and result.get('identicalRetrySameReceipt') is True, 'receipt_evidence_invalid')
             result['sourceEquivalence'] = 'all runtime source bytes match frozen release 0.0.3'
             result['device'] = args.device
             result['privateLog'] = str(log_path)

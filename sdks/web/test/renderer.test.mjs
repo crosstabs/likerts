@@ -7,7 +7,7 @@ const fixture=JSON.parse(readFileSync(new URL('../../../contracts/expanded-surve
 const collection={id:'c',surveyId:'s',version:1,placement:'test',schema:{schemaVersion:2,...fixture}};
 function setup(c=collection){
  const dom=new JSDOM('<main></main>');globalThis.document=dom.window.document;globalThis.HTMLSelectElement=dom.window.HTMLSelectElement;
- const calls=[];const client={submit:async(id,value)=>{calls.push(value);return {responseId:'r',collectionId:id,accepted:true,chargedCents:1}}};
+ const calls=[];const client={submit:async(id,value)=>{calls.push(value);return {responseId:'r',collectionId:id,accepted:true}}};
  const cleanup=mountSurvey(document.querySelector('main'),c,client,()=>{});
  return {dom,calls,cleanup,form:document.querySelector('form')};
 }
@@ -40,7 +40,7 @@ test('required validation blocks submit and cleanup suppresses late completion',
  const cleanup=mountSurvey(document.querySelector('main'),c,client,value=>completion.push(value));const form=document.querySelector('form');
  form.dispatchEvent(new dom.window.Event('submit',{cancelable:true}));await flush();assert.equal(calls.length,0);
  form.elements.required.value='ok';form.dispatchEvent(new dom.window.Event('input'));form.dispatchEvent(new dom.window.Event('submit',{cancelable:true}));await flush();assert.equal(calls.length,1);
- cleanup();finish({responseId:'r',collectionId:'c',accepted:true,chargedCents:1});await flush();assert.equal(completion.length,0);
+ cleanup();finish({responseId:'r',collectionId:'c',accepted:true});await flush();assert.equal(completion.length,0);
  dom.window.close();
 });
 test('new client accepts baseline, enhanced and conditional schemas, rejects future versions',async()=>{
@@ -78,7 +78,7 @@ test('paged renderer follows actual Back history and validates only the current 
 test('exposes accessible structure, stable styling hooks and localized copy',async()=>{
  const c={...collection,schema:{schemaVersion:1,title:'Localized',questions:[{id:'choice',type:'single_choice',label:'Pick one',required:true,options:[{id:'a',label:'A'}]}]}};
  const dom=new JSDOM('<main></main>');globalThis.document=dom.window.document;globalThis.HTMLSelectElement=dom.window.HTMLSelectElement;
- const cleanup=mountSurvey(document.querySelector('main'),c,{submit:async()=>({responseId:'r',collectionId:'c',accepted:true,chargedCents:1})},()=>{}, {}, {messages:{selectPlaceholder:'Choisissez',submit:'Envoyer'},classNames:{form:'customer-form',control:'customer-control'}});
+ const cleanup=mountSurvey(document.querySelector('main'),c,{submit:async()=>({responseId:'r',collectionId:'c',accepted:true})},()=>{}, {}, {messages:{selectPlaceholder:'Choisissez',submit:'Envoyer'},classNames:{form:'customer-form',control:'customer-control'}});
  const form=document.querySelector('form'),input=form.elements.choice,label=document.querySelector('label');
  assert.equal(form.getAttribute('aria-labelledby'),document.querySelector('h2').id);
  assert.equal(form.getAttribute('aria-describedby'),document.querySelector('[role=status]').id);
@@ -92,7 +92,7 @@ test('exposes accessible structure, stable styling hooks and localized copy',asy
 test('localized server failure becomes a focused alert and retry preserves key',async()=>{
  const c={...collection,schema:{schemaVersion:1,title:'Retry',questions:[{id:'answer',type:'text',label:'Answer'}]}};
  const dom=new JSDOM('<main></main>',{pretendToBeVisual:true});globalThis.document=dom.window.document;globalThis.HTMLSelectElement=dom.window.HTMLSelectElement;
- const calls=[];const client={submit:async(_id,value)=>{calls.push(value);if(calls.length===1)throw new Error('lost');return {responseId:'r',collectionId:'c',accepted:true,chargedCents:1}}};
+ const calls=[];const client={submit:async(_id,value)=>{calls.push(value);if(calls.length===1)throw new Error('lost');return {responseId:'r',collectionId:'c',accepted:true}}};
  const cleanup=mountSurvey(document.querySelector('main'),c,client,()=>{}, {}, {messages:{submissionError:'Réessayez',submit:'Envoyer',submitting:'Envoi',submitted:'Envoyé'}});const form=document.querySelector('form');form.elements.answer.value='ok';
  form.dispatchEvent(new dom.window.Event('submit',{cancelable:true}));await flush();const status=document.querySelector('.likerts-status');assert.equal(status.textContent,'Réessayez');assert.equal(status.getAttribute('role'),'alert');assert.equal(document.activeElement,status);
  form.dispatchEvent(new dom.window.Event('submit',{cancelable:true}));await flush();assert.equal(calls.length,2);assert.equal(calls[0].idempotencyKey,calls[1].idempotencyKey);assert.equal(form.querySelector('button').textContent,'Envoyé');

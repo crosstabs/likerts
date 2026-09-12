@@ -5,9 +5,6 @@
   "401": [
     "unauthorized"
   ],
-  "402": [
-    "spend_limit_reached"
-  ],
   "403": [
     "forbidden"
   ],

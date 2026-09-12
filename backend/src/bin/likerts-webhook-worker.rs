@@ -1,4 +1,4 @@
-//! Restricted callback worker. It never initializes S3, identity or payment providers.
+//! Restricted callback worker. It never initializes S3 or identity providers.
 use base64::{engine::general_purpose::STANDARD, Engine};
 use likerts_server::{
     webhook_store::WebhookStore,

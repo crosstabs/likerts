@@ -57,7 +57,7 @@ const CSS=`body{margin:0;background:#f3f5f8;color:#17212d;font:16px/1.55 system-
 const APP=String.raw`import {LikertsClient,mountSurvey,LIKERTS_SDK_CAPABILITY} from '/sdk/index.js';
 const status=document.querySelector('#host-status'),proof=document.querySelector('#proof'),retryButton=document.querySelector('#retry');
 let captured,firstReceipt,originalSubmit,collectionId;
-const sameReceipt=(a,b)=>a&&b&&a.responseId===b.responseId&&a.collectionId===b.collectionId&&a.accepted===true&&b.accepted===true&&a.chargedCents===1&&b.chargedCents===1;
+const sameReceipt=(a,b)=>a&&b&&a.responseId===b.responseId&&a.collectionId===b.collectionId&&a.accepted===true&&b.accepted===true;
 const deepFreeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(deepFreeze);Object.freeze(value)}return value};
 async function evidence(){const data=await fetch('/evidence',{cache:'no-store'}).then(r=>r.json());proof.textContent=JSON.stringify(data,null,2);return data}
 document.querySelector('#evidence').addEventListener('click',()=>evidence().catch(()=>{status.textContent='Evidence unavailable'}));
@@ -83,7 +83,7 @@ retryButton.addEventListener('click',async()=>{
     return originalSubmit(id,submission,options);
   };
   mountSurvey(document.querySelector('#survey'),collection,client,receipt=>{
-    if(!receipt.accepted||receipt.chargedCents!==1||receipt.collectionId!==collectionId){status.textContent='Receipt mismatch';return}
+    if(!receipt.accepted||receipt.collectionId!==collectionId){status.textContent='Receipt mismatch';return}
     firstReceipt=receipt;retryButton.disabled=false;status.textContent='First accepted receipt confirmed. Retry the identical submission.';evidence();
   },{source:'synthetic-web-hosted',target:'web'});
   status.textContent='Ready — try the required field empty first';
@@ -96,8 +96,8 @@ async function boundedBody(stream,limit){
   return Buffer.concat(chunks);
 }
 function publicReceipt(value,collectionId){
-  if(!value||value.collectionId!==collectionId||value.accepted!==true||value.chargedCents!==1||typeof value.responseId!=='string'||!/^[0-9a-f-]{36}$/i.test(value.responseId))return null;
-  return {responseId:value.responseId,collectionId:value.collectionId,accepted:true,chargedCents:1};
+  if(!value||value.collectionId!==collectionId||value.accepted!==true||typeof value.responseId!=='string'||!/^[0-9a-f-]{36}$/i.test(value.responseId))return null;
+  return {responseId:value.responseId,collectionId:value.collectionId,accepted:true};
 }
 
 export async function startHarness({config:input,port=0,fetchImpl=globalThis.fetch}){

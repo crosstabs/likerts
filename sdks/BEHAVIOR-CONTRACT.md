@@ -6,7 +6,7 @@ This contract applies to Web, React Native, iOS, Android and Flutter. The execut
 
 Renderers provide immediate feedback for a missing required answer and for `minSelections` / `maxSelections` violations. They do not invoke their submit callback while local validation fails. This feedback improves the interaction; the service remains authoritative for every answer and returns structured HTTP errors through the client.
 
-The Web renderer owns its network submission. `onComplete` runs once, only after decoding an accepted one-cent receipt. Cleanup cancels the active request and suppresses later completion. Native renderers emit a locally valid answer snapshot once per submit action; that callback does not mean the service accepted or charged the response. The host owns the async client call, displays server errors, supplies disabled/submitting state, and cancels its task when the containing screen is disposed.
+The Web renderer owns its network submission. `onComplete` runs once, only after decoding an accepted receipt. Cleanup cancels the active request and suppresses later completion. Native renderers emit a locally valid answer snapshot once per submit action; that callback does not mean the service accepted the response. The host owns the async client call, displays server errors, supplies disabled/submitting state, and cancels its task when the containing screen is disposed.
 
 Changing a collection identity starts a new renderer lifecycle. Renderers clear transient answers and validation feedback, or the host remounts them with the collection ID as the component key where the UI framework requires identity to be explicit.
 

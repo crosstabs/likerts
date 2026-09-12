@@ -100,12 +100,12 @@ final class KeychainOfflineTests: XCTestCase {
             let clear = try await reopenedStorage.open(reopenedStorage.load().first!)
             XCTAssertNil(clear.range(of: Data(token.utf8)))
             let invalid = try await reopened.flush(credential: { _ in token }, send: { _, _, _ in
-                OfflineAttempt(status: 200, responseId: "response", receiptCollectionId: "wrong", accepted: true, chargedCents: 1)
+                OfflineAttempt(status: 200, responseId: "response", receiptCollectionId: "wrong", accepted: true)
             })
             XCTAssertEqual(invalid.status.pending, 1)
             let accepted = try await reopened.flush(credential: { _ in token }, send: { collection, _, actual in
                 XCTAssertEqual(actual, payload)
-                return OfflineAttempt(status: 201, responseId: "response", receiptCollectionId: collection, accepted: true, chargedCents: 1)
+                return OfflineAttempt(status: 201, responseId: "response", receiptCollectionId: collection, accepted: true)
             })
             XCTAssertEqual(accepted.accepted, 1)
             let final = try await OfflineQueue(adapter: DeviceQueueAdapter(service: storage.service, file: storage.file)).snapshot()

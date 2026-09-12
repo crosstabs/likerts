@@ -38,7 +38,7 @@ val LIKERTS_SDK_CAPABILITY = SDKInstallationCapability("android", "0.0.3", listO
 @Serializable data class SurveySchema(val schemaVersion: Int, val title: String, val questions: List<Question>,val pages:List<SurveyPage>?=null) { init { require(schemaVersion in 1..5) { "Unsupported schema" } } }
 @Serializable data class Collection(val id: String, val surveyId: String, val version: Int, val placement: String, val schema: SurveySchema)
 @Serializable data class Submission(val idempotencyKey: String = UUID.randomUUID().toString(), val answers: Map<String, JsonElement>, val metadata: JsonObject = JsonObject(emptyMap()))
-@Serializable data class Receipt(val responseId: String, val collectionId: String, val accepted: Boolean, val chargedCents: Int) { init { require(accepted && chargedCents == 1) { "Invalid Likerts receipt" } } }
+@Serializable data class Receipt(val responseId: String, val collectionId: String, val accepted: Boolean) { init { require(accepted) { "Invalid Likerts receipt" } } }
 class LikertsException(val status: Int, val response: String): Exception("Likerts request failed ($status)")
 /** Collection-only credential. Reuse the same Submission on transport retries. */
 class LikertsClient(private val baseUrl: String, private val collectionToken: String, private val connectTimeoutMillis: Int = 15000, private val readTimeoutMillis: Int = 15000, private val cacheMaxAgeMillis: Long = 300000) {

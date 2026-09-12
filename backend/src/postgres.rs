@@ -1,16 +1,12 @@
 use crate::{
-    billing::{
-        BillingAccountInput, CreditCheckout, CreditCheckoutInput, ProviderCheckout, ProviderEvent,
-        ProviderIntent, RefundInput, Settlement, SettlementCharge, SettlementInput,
-    },
     normalized_answers_for_pages, request_hash, response_page, submission_hash,
     survey_schema_version, validate_collection_security, validate_draft, validate_management_key,
-    validate_sdk_capabilities, BillingLimitsInput, Collection, CollectionLimits,
-    CollectionSecurity, CollectionSecurityInput, DraftInput, Error, ExportFormat, ExportInput,
-    ExportJob, ExportManifest, ExportSchema, ExportSnapshot, ExportStatus, LifecycleBatch,
-    OAuthGrant, Question, Receipt, Response, ResponseListInput, ResponsePage, RetentionResult,
-    Role, SdkCapabilities, ServiceCredential, Submission, Survey, SurveyPage, UsageSummary,
-    Version, WorkspaceMembership,
+    validate_sdk_capabilities, Collection, CollectionLimits, CollectionSecurity,
+    CollectionSecurityInput, DraftInput, Error, ExportFormat, ExportInput, ExportJob,
+    ExportManifest, ExportSchema, ExportSnapshot, ExportStatus, LifecycleBatch, OAuthGrant,
+    Question, Receipt, Response, ResponseListInput, ResponsePage, RetentionResult, Role,
+    SdkCapabilities, ServiceCredential, Submission, Survey, SurveyPage, UsageSummary, Version,
+    WorkspaceMembership,
 };
 use base64::{
     engine::general_purpose::{STANDARD as BASE64, URL_SAFE_NO_PAD},
@@ -120,27 +116,6 @@ fn export_job(row: PgRow) -> Result<ExportJob, Error> {
         error_code: row.get("error_code"),
     })
 }
-fn settlement_from_row(row: PgRow) -> Settlement {
-    Settlement {
-        id: row.get::<Uuid, _>("id").to_string(),
-        amount_cents: row.get::<i64, _>("amount_cents") as u64,
-        currency: row.get("currency"),
-        status: row.get("status"),
-        provider_intent_id: row.get("provider_intent_id"),
-        failure_code: row.get("failure_code"),
-    }
-}
-
-fn credit_checkout_from_row(row: PgRow, checkout_url: Option<String>) -> CreditCheckout {
-    CreditCheckout {
-        id: row.get::<Uuid, _>("id").to_string(),
-        amount_cents: row.get::<i64, _>("amount_cents") as u64,
-        response_credits: row.get::<i64, _>("response_credits") as u64,
-        status: row.get("status"),
-        checkout_url,
-    }
-}
-
 fn valid_scope(scope: &str) -> bool {
     matches!(
         scope,
@@ -153,7 +128,6 @@ fn valid_scope(scope: &str) -> bool {
             | "exports:read"
             | "exports:write"
             | "identity:write"
-            | "billing:write"
             | "webhooks:read"
             | "webhooks:write"
     )
@@ -285,7 +259,6 @@ impl PgStore {
                 .execute(&mut *transaction)
                 .await
                 .map_err(database_error)?;
-            Self::ensure_credit_onboarding(&mut transaction, workspace).await?;
             transaction.commit().await.map_err(database_error)?;
         }
         Ok(())
@@ -339,7 +312,6 @@ impl PgStore {
                 return Err(Error::Forbidden);
             }
         }
-        Self::ensure_credit_onboarding(&mut transaction, workspace).await?;
         transaction.commit().await.map_err(database_error)?;
         Ok(created)
     }
@@ -1470,7 +1442,6 @@ impl PgStore {
             response_id: row.get::<Uuid, _>("id").to_string(),
             collection_id: collection_id.to_string(),
             accepted: true,
-            charged_cents: 1,
         }))
     }
 
@@ -1594,29 +1565,6 @@ impl PgStore {
         {
             return Err(Error::Capacity);
         }
-        sqlx::query("select pg_advisory_xact_lock(hashtextextended('billing:' || $1,0))")
-            .bind(&workspace)
-            .execute(&mut *transaction)
-            .await
-            .map_err(database_error)?;
-        let limits = sqlx::query(
-            "select monthly_spend_cap_cents,unpaid_exposure_cap_cents,billing_paused,prepaid_dispute_open from likerts.workspaces where id=$1",
-        )
-        .bind(&workspace)
-        .fetch_one(&mut *transaction)
-        .await
-        .map_err(database_error)?;
-        Self::ensure_credit_onboarding(&mut transaction, &workspace).await?;
-        let credits = Self::credit_balance_tx(&mut transaction, &workspace).await?;
-        if limits.get::<bool, _>("billing_paused")
-            || limits.get::<bool, _>("prepaid_dispute_open")
-            || credits.available_credits == 0
-            || (credits.promotional_credits == 0
-                && credits.month_paid_responses
-                    >= limits.get::<i64, _>("monthly_spend_cap_cents") as u64)
-        {
-            return Err(Error::SpendLimit);
-        }
         let version_row = sqlx::query(
             "select questions,pages from likerts.survey_versions where workspace_id=$1 and survey_id=$2 and version=$3",
         )
@@ -1656,11 +1604,6 @@ impl PgStore {
         .await
         .map_err(database_error)?;
         let receipt = if inserted.is_some() {
-            sqlx::query("insert into likerts.response_credits(workspace_id,idempotency_key,kind,promotional_delta,paid_delta,response_id,reason_code) values($1,$2,'consumption',$3,$4,$5,'accepted_response')")
-                .bind(&workspace).bind(format!("response:{response_id}"))
-                .bind(if credits.promotional_credits>0 {-1i64}else{0})
-                .bind(if credits.promotional_credits>0 {0i64}else{-1})
-                .bind(response_id).execute(&mut *transaction).await.map_err(credit_database_error)?;
             sqlx::query(
                 "insert into likerts.usage_entries(workspace_id,response_id,amount_cents) values ($1,$2,1)",
             )
@@ -1681,7 +1624,6 @@ impl PgStore {
                 response_id: response_id.to_string(),
                 collection_id: id.to_string(),
                 accepted: true,
-                charged_cents: 1,
             }
         } else {
             Self::prior_receipt(&mut transaction, &workspace, id, &submission, &payload_hash)
@@ -1749,7 +1691,6 @@ impl PgStore {
                     response_id: row.get::<Uuid, _>("id").to_string(),
                     collection_id: row.get::<Uuid, _>("collection_id").to_string(),
                     accepted: true,
-                    charged_cents: 1,
                 },
                 answers: match row.get::<Value, _>("answers") {
                     Value::Object(value) => value,
@@ -1925,7 +1866,6 @@ impl PgStore {
                     response_id: row.get::<Uuid, _>("id").to_string(),
                     collection_id: row.get::<Uuid, _>("collection_id").to_string(),
                     accepted: true,
-                    charged_cents: 1,
                 },
                 answers: match row.get::<Value, _>("answers") {
                     Value::Object(v) => v,
@@ -2222,394 +2162,10 @@ impl PgStore {
         Ok(total as u64)
     }
 
-    pub async fn configure_billing_account(
-        &self,
-        workspace: &str,
-        input: BillingAccountInput,
-    ) -> Result<(), Error> {
-        if input.provider_customer_id.trim().is_empty()
-            || input.provider_customer_id.len() > 255
-            || input.provider_payment_method_id.trim().is_empty()
-            || input.provider_payment_method_id.len() > 255
-        {
-            return Err(Error::Invalid("invalid provider account".into()));
-        }
-        let mut tx = self.workspace_transaction(workspace).await?;
-        sqlx::query("insert into likerts.billing_accounts(workspace_id,provider_customer_id,provider_payment_method_id) values($1,$2,$3) on conflict(workspace_id) do update set provider_customer_id=excluded.provider_customer_id,provider_payment_method_id=excluded.provider_payment_method_id,configured_at=now()")
-            .bind(workspace).bind(input.provider_customer_id).bind(input.provider_payment_method_id).execute(&mut *tx).await.map_err(database_error)?;
-        tx.commit().await.map_err(database_error)
-    }
-
-    /// Read only the workspace-owned purchase state committed by provider events.
-    /// Neither a return URL nor this read can settle or credit a purchase.
-    pub async fn credit_checkout(
-        &self,
-        workspace: &str,
-        id: &str,
-    ) -> Result<CreditCheckout, Error> {
-        let id = Uuid::parse_str(id).map_err(|_| Error::NotFound)?;
-        let mut tx = self.workspace_transaction(workspace).await?;
-        let row = sqlx::query("select id,amount_cents,response_credits,status from likerts.credit_checkouts where workspace_id=$1 and id=$2")
-            .bind(workspace).bind(id).fetch_optional(&mut *tx).await.map_err(database_error)?.ok_or(Error::NotFound)?;
-        tx.commit().await.map_err(database_error)?;
-        Ok(credit_checkout_from_row(row, None))
-    }
-
-    pub async fn prepare_credit_checkout(
-        &self,
-        workspace: &str,
-        input: CreditCheckoutInput,
-    ) -> Result<CreditCheckout, Error> {
-        validate_management_key(&input.idempotency_key)?;
-        if !(500..=100_000).contains(&input.amount_cents) {
-            return Err(Error::Invalid(
-                "checkout amount must be between 500 and 100000 cents".into(),
-            ));
-        }
-        let amount = database_integer(input.amount_cents)?;
-        let mut tx = self.workspace_transaction(workspace).await?;
-        sqlx::query(
-            "select pg_advisory_xact_lock(hashtextextended('checkout:' || $1 || ':' || $2,0))",
-        )
-        .bind(workspace)
-        .bind(&input.idempotency_key)
-        .execute(&mut *tx)
-        .await
-        .map_err(database_error)?;
-        if let Some(row) = sqlx::query("select id,amount_cents,response_credits,status from likerts.credit_checkouts where workspace_id=$1 and idempotency_key=$2")
-            .bind(workspace).bind(&input.idempotency_key).fetch_optional(&mut *tx).await.map_err(database_error)? {
-            let checkout = credit_checkout_from_row(row, None);
-            if checkout.amount_cents != input.amount_cents { return Err(Error::Conflict); }
-            tx.commit().await.map_err(database_error)?;
-            return Ok(checkout);
-        }
-        let id = Uuid::new_v4();
-        let row = sqlx::query("insert into likerts.credit_checkouts(workspace_id,id,idempotency_key,amount_cents,response_credits,status) values($1,$2,$3,$4,$4,'pending') returning id,amount_cents,response_credits,status")
-            .bind(workspace).bind(id).bind(input.idempotency_key).bind(amount).fetch_one(&mut *tx).await.map_err(database_error)?;
-        tx.commit().await.map_err(database_error)?;
-        Ok(credit_checkout_from_row(row, None))
-    }
-
-    pub async fn attach_credit_checkout(
-        &self,
-        workspace: &str,
-        id: &str,
-        provider: &ProviderCheckout,
-    ) -> Result<CreditCheckout, Error> {
-        let id = Uuid::parse_str(id).map_err(|_| Error::NotFound)?;
-        let mut tx = self.workspace_transaction(workspace).await?;
-        let status = if provider.status == "expired" {
-            "expired"
-        } else {
-            "open"
-        };
-        let row = sqlx::query("update likerts.credit_checkouts set provider_session_id=coalesce(provider_session_id,$3),provider_session_hash=coalesce(provider_session_hash,$4),status=case when status='pending' then $5 else status end,updated_at=now() where workspace_id=$1 and id=$2 and (provider_session_id is null or provider_session_id=$3) returning id,amount_cents,response_credits,status")
-            .bind(workspace).bind(id).bind(&provider.id).bind(token_hash(&provider.id)).bind(status)
-            .fetch_optional(&mut *tx).await.map_err(database_error)?.ok_or(Error::Conflict)?;
-        tx.commit().await.map_err(database_error)?;
-        let mut checkout = credit_checkout_from_row(row, None);
-        if checkout.status == "open" {
-            checkout.checkout_url = Some(provider.url.clone());
-        }
-        Ok(checkout)
-    }
-
-    pub async fn apply_credit_checkout_event(
-        &self,
-        event: &ProviderEvent,
-        payload_hash: &[u8],
-    ) -> Result<CreditCheckout, Error> {
-        let is_checkout = event.event_type.starts_with("checkout.session.");
-        let amount = (if is_checkout {
-            event.amount_total
-        } else {
-            event.amount
-        })
-        .ok_or_else(|| Error::Invalid("payment event amount missing".into()))?;
-        let currency = event
-            .currency
-            .as_deref()
-            .ok_or_else(|| Error::Invalid("payment event currency missing".into()))?;
-        let mut tx = self.pool.begin().await.map_err(database_error)?;
-        let applied = sqlx::query("select workspace_id,checkout_id,checkout_status from likerts.apply_credit_payment_event($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)")
-            .bind(is_checkout.then(|| token_hash(&event.intent_id)))
-            .bind(event.payment_intent_id.as_deref().map(token_hash))
-            .bind(&event.id).bind(&event.event_type).bind(payload_hash).bind(if is_checkout { event.payment_intent_id.as_deref().unwrap_or("") } else { &event.intent_id })
-            .bind(database_integer(amount)?).bind(currency).bind(event.status.as_deref().unwrap_or(""))
-            .bind(event.payment_status.as_deref().unwrap_or(""))
-            .bind(event.client_reference_id.as_deref().unwrap_or(""))
-            .fetch_one(&mut *tx).await.map_err(credit_database_error)?;
-        let workspace: String = applied.get("workspace_id");
-        let id: Uuid = applied.get("checkout_id");
-        Self::set_workspace(&mut tx, &workspace).await?;
-        let row = sqlx::query("select id,amount_cents,response_credits,status from likerts.credit_checkouts where workspace_id=$1 and id=$2")
-            .bind(&workspace).bind(id).fetch_one(&mut *tx).await.map_err(database_error)?;
-        tx.commit().await.map_err(database_error)?;
-        Ok(credit_checkout_from_row(row, None))
-    }
-
-    pub async fn prepare_settlement(
-        &self,
-        workspace: &str,
-        input: SettlementInput,
-    ) -> Result<SettlementCharge, Error> {
-        validate_management_key(&input.idempotency_key)?;
-        let mut tx = self.workspace_transaction(workspace).await?;
-        sqlx::query("select pg_advisory_xact_lock(hashtextextended('billing:' || $1,0))")
-            .bind(workspace)
-            .execute(&mut *tx)
-            .await
-            .map_err(database_error)?;
-        let account=sqlx::query("select provider_customer_id,provider_payment_method_id from likerts.billing_accounts where workspace_id=$1").bind(workspace).fetch_optional(&mut *tx).await.map_err(database_error)?.ok_or(Error::Invalid("billing account is not configured".into()))?;
-        if let Some(row)=sqlx::query("select id,amount_cents,currency,status,provider_intent_id,failure_code from likerts.settlement_batches where workspace_id=$1 and idempotency_key=$2").bind(workspace).bind(&input.idempotency_key).fetch_optional(&mut *tx).await.map_err(database_error)?{
-            let settlement=settlement_from_row(row);tx.commit().await.map_err(database_error)?;return Ok(SettlementCharge{settlement,customer_id:account.get("provider_customer_id"),payment_method_id:account.get("provider_payment_method_id")});
-        }
-        let ids=sqlx::query_scalar::<_,Uuid>("select u.response_id from likerts.usage_entries u where u.workspace_id=$1 and not exists(select 1 from likerts.response_credits cr where cr.workspace_id=u.workspace_id and cr.response_id=u.response_id) and not exists(select 1 from likerts.settlement_usage s where s.workspace_id=$1 and s.response_id=u.response_id) order by u.created_at,u.response_id limit 50000").bind(workspace).fetch_all(&mut *tx).await.map_err(database_error)?;
-        if ids.is_empty() {
-            return Err(Error::Invalid("no unsettled usage".into()));
-        }
-        let id = Uuid::new_v4();
-        let amount = ids.len() as i64;
-        sqlx::query("insert into likerts.settlement_batches(workspace_id,id,idempotency_key,amount_cents,status) values($1,$2,$3,$4,'pending')").bind(workspace).bind(id).bind(&input.idempotency_key).bind(amount).execute(&mut *tx).await.map_err(database_error)?;
-        sqlx::query("insert into likerts.settlement_usage(workspace_id,settlement_id,response_id,amount_cents) select $1,$2,unnest($3::uuid[]),1").bind(workspace).bind(id).bind(&ids).execute(&mut *tx).await.map_err(database_error)?;
-        tx.commit().await.map_err(database_error)?;
-        Ok(SettlementCharge {
-            settlement: Settlement {
-                id: id.to_string(),
-                amount_cents: amount as u64,
-                currency: "usd".into(),
-                status: "pending".into(),
-                provider_intent_id: None,
-                failure_code: None,
-            },
-            customer_id: account.get("provider_customer_id"),
-            payment_method_id: account.get("provider_payment_method_id"),
-        })
-    }
-
-    pub async fn apply_provider_intent(
-        &self,
-        workspace: &str,
-        id: &str,
-        intent: &ProviderIntent,
-    ) -> Result<Settlement, Error> {
-        let id = Uuid::parse_str(id).map_err(|_| Error::NotFound)?;
-        let mut tx = self.workspace_transaction(workspace).await?;
-        let status = match intent.status.as_str() {
-            "succeeded" => "succeeded",
-            "failed" => "failed",
-            _ => "submitted",
-        };
-        let row=sqlx::query("update likerts.settlement_batches set status=case when status='refunded' then status when status='succeeded' and $3<>'succeeded' then status else $3 end,provider_intent_id=coalesce(provider_intent_id,$4),provider_intent_hash=coalesce(provider_intent_hash,$5),failure_code=case when status in ('succeeded','refunded') and $3<>'succeeded' then failure_code else $6 end,updated_at=now() where workspace_id=$1 and id=$2 and (provider_intent_id is null or provider_intent_id=$4) returning id,amount_cents,currency,status,provider_intent_id,failure_code")
-            .bind(workspace).bind(id).bind(status).bind(&intent.id).bind(token_hash(&intent.id)).bind(&intent.failure_code).fetch_optional(&mut *tx).await.map_err(database_error)?.ok_or(Error::Conflict)?;
-        let result = settlement_from_row(row);
-        if result.status == "failed" {
-            sqlx::query("update likerts.workspaces set billing_paused=true where id=$1")
-                .bind(workspace)
-                .execute(&mut *tx)
-                .await
-                .map_err(database_error)?;
-        } else if result.status == "succeeded" {
-            sqlx::query("update likerts.workspaces set billing_paused=false where id=$1")
-                .bind(workspace)
-                .execute(&mut *tx)
-                .await
-                .map_err(database_error)?;
-        }
-        tx.commit().await.map_err(database_error)?;
-        Ok(result)
-    }
-
-    pub async fn settlements(&self, workspace: &str) -> Result<Vec<Settlement>, Error> {
-        let mut tx = self.workspace_transaction(workspace).await?;
-        let rows=sqlx::query("select id,amount_cents,currency,status,provider_intent_id,failure_code from likerts.settlement_batches where workspace_id=$1 order by created_at,id").bind(workspace).fetch_all(&mut *tx).await.map_err(database_error)?;
-        tx.commit().await.map_err(database_error)?;
-        Ok(rows.into_iter().map(settlement_from_row).collect())
-    }
-
-    pub async fn apply_payment_event(
-        &self,
-        event: &ProviderEvent,
-        payload_hash: &[u8],
-    ) -> Result<Settlement, Error> {
-        let mut tx = self.pool.begin().await.map_err(database_error)?;
-        sqlx::query("select set_config('likerts.payment_intent_hash',$1,true)")
-            .bind(token_hash_hex(&event.intent_id))
-            .execute(&mut *tx)
-            .await
-            .map_err(database_error)?;
-        let row = sqlx::query(
-            "select workspace_id,id from likerts.settlement_batches where provider_intent_hash=$1",
-        )
-        .bind(token_hash(&event.intent_id))
-        .fetch_optional(&mut *tx)
-        .await
-        .map_err(database_error)?
-        .ok_or(Error::NotFound)?;
-        let workspace: String = row.get("workspace_id");
-        let id: Uuid = row.get("id");
-        Self::set_workspace(&mut tx, &workspace).await?;
-        let inserted=sqlx::query("insert into likerts.payment_events(workspace_id,provider_event_id,event_type,payload_hash) values($1,$2,$3,$4) on conflict(provider_event_id) do nothing").bind(&workspace).bind(&event.id).bind(&event.event_type).bind(payload_hash).execute(&mut *tx).await.map_err(database_error)?.rows_affected();
-        if inserted > 0 {
-            let status = if event.event_type == "payment_intent.succeeded" {
-                "succeeded"
-            } else if event.event_type == "payment_intent.payment_failed" {
-                "failed"
-            } else {
-                "submitted"
-            };
-            let applied:String=sqlx::query_scalar("update likerts.settlement_batches set status=case when $3='succeeded' then 'succeeded' when status not in ('succeeded','refunded') then $3 else status end,failure_code=case when $3='succeeded' then null when status not in ('succeeded','refunded') then $4 else failure_code end,updated_at=now() where workspace_id=$1 and id=$2 returning status").bind(&workspace).bind(id).bind(status).bind(&event.failure_code).fetch_one(&mut *tx).await.map_err(database_error)?;
-            if applied == "failed" {
-                sqlx::query("update likerts.workspaces set billing_paused=true where id=$1")
-                    .bind(&workspace)
-                    .execute(&mut *tx)
-                    .await
-                    .map_err(database_error)?;
-            } else if applied == "succeeded" {
-                sqlx::query("update likerts.workspaces set billing_paused=false where id=$1")
-                    .bind(&workspace)
-                    .execute(&mut *tx)
-                    .await
-                    .map_err(database_error)?;
-            }
-        }
-        let result=sqlx::query("select id,amount_cents,currency,status,provider_intent_id,failure_code from likerts.settlement_batches where workspace_id=$1 and id=$2").bind(&workspace).bind(id).fetch_one(&mut *tx).await.map_err(database_error)?;
-        tx.commit().await.map_err(database_error)?;
-        Ok(settlement_from_row(result))
-    }
-
-    pub async fn record_refund(
-        &self,
-        workspace: &str,
-        id: &str,
-        input: &RefundInput,
-        provider_reference: &str,
-    ) -> Result<Settlement, Error> {
-        let id = Uuid::parse_str(id).map_err(|_| Error::NotFound)?;
-        if input.amount_cents == 0 || input.reason.trim().is_empty() || input.reason.len() > 500 {
-            return Err(Error::Invalid("invalid refund".into()));
-        }
-        let mut tx = self.workspace_transaction(workspace).await?;
-        if sqlx::query_scalar::<_, bool>("select exists(select 1 from likerts.billing_adjustments where workspace_id=$1 and provider_reference=$2)")
-            .bind(workspace).bind(provider_reference).fetch_one(&mut *tx).await.map_err(database_error)? {
-            let result=sqlx::query("select id,amount_cents,currency,status,provider_intent_id,failure_code from likerts.settlement_batches where workspace_id=$1 and id=$2").bind(workspace).bind(id).fetch_one(&mut *tx).await.map_err(database_error)?;
-            tx.commit().await.map_err(database_error)?;
-            return Ok(settlement_from_row(result));
-        }
-        let row=sqlx::query("select amount_cents,coalesce((select sum(amount_cents) from likerts.billing_adjustments where workspace_id=$1 and settlement_id=$2 and kind='refund'),0)::bigint refunded from likerts.settlement_batches where workspace_id=$1 and id=$2 and status in ('succeeded','refunded') for update").bind(workspace).bind(id).fetch_optional(&mut *tx).await.map_err(database_error)?.ok_or(Error::Conflict)?;
-        let amount: i64 = row.get("amount_cents");
-        let refunded: i64 = row.get("refunded");
-        let requested = database_integer(input.amount_cents)?;
-        if refunded + requested > amount {
-            return Err(Error::Invalid("refund exceeds settlement".into()));
-        }
-        sqlx::query("insert into likerts.billing_adjustments(workspace_id,id,settlement_id,kind,amount_cents,provider_reference,reason) values($1,$2,$3,'refund',$4,$5,$6) on conflict(provider_reference) do nothing").bind(workspace).bind(Uuid::new_v4()).bind(id).bind(requested).bind(provider_reference).bind(&input.reason).execute(&mut *tx).await.map_err(database_error)?;
-        if refunded + requested == amount {
-            sqlx::query("update likerts.settlement_batches set status='refunded',updated_at=now() where workspace_id=$1 and id=$2").bind(workspace).bind(id).execute(&mut *tx).await.map_err(database_error)?;
-        }
-        let result=sqlx::query("select id,amount_cents,currency,status,provider_intent_id,failure_code from likerts.settlement_batches where workspace_id=$1 and id=$2").bind(workspace).bind(id).fetch_one(&mut *tx).await.map_err(database_error)?;
-        tx.commit().await.map_err(database_error)?;
-        Ok(settlement_from_row(result))
-    }
-
-    async fn ensure_credit_onboarding(
-        tx: &mut Transaction<'_, Postgres>,
-        workspace: &str,
-    ) -> Result<(), Error> {
-        sqlx::query("select likerts.ensure_response_credit_onboarding($1)")
-            .bind(workspace)
-            .execute(&mut **tx)
-            .await
-            .map_err(credit_database_error)?;
-        Ok(())
-    }
-    async fn credit_balance_tx(
-        tx: &mut Transaction<'_, Postgres>,
-        workspace: &str,
-    ) -> Result<crate::credits::CreditBalance, Error> {
-        let row=sqlx::query("select coalesce(sum(promotional_delta),0)::bigint promo, coalesce(sum(paid_delta),0)::bigint paid, coalesce(-sum(promotional_delta) filter(where kind='consumption'),0)::bigint promo_used, coalesce(-sum(paid_delta) filter(where kind='consumption'),0)::bigint paid_used, coalesce(-sum(paid_delta) filter(where kind='consumption' and created_at >= date_trunc('month',now() at time zone 'UTC') at time zone 'UTC'),0)::bigint month_paid from likerts.response_credits where workspace_id=$1")
-            .bind(workspace).fetch_one(&mut **tx).await.map_err(credit_database_error)?;
-        let promo = row.get::<i64, _>("promo");
-        let paid = row.get::<i64, _>("paid");
-        if promo < 0 {
-            return Err(Error::Internal);
-        }
-        Ok(crate::credits::CreditBalance {
-            promotional_credits: promo as u64,
-            paid_credits: paid.max(0) as u64,
-            paid_credit_debt: (-paid).max(0) as u64,
-            available_credits: if paid < 0 { 0 } else { (promo + paid) as u64 },
-            promotional_responses: row.get::<i64, _>("promo_used") as u64,
-            paid_responses: row.get::<i64, _>("paid_used") as u64,
-            month_paid_responses: row.get::<i64, _>("month_paid") as u64,
-        })
-    }
-    /// Trusted operator-only adjustment. Database owner authority is required;
-    /// API runtime RLS cannot mint purchase/grant/refund/correction entries.
-    pub async fn record_credit_adjustment(
-        &self,
-        workspace: &str,
-        input: crate::credits::CreditAdjustment,
-    ) -> Result<crate::credits::CreditEntry, Error> {
-        crate::credits::validate_adjustment(&input)?;
-        let mut tx = self.workspace_transaction(workspace).await?;
-        let owner:bool=sqlx::query_scalar("select current_user=pg_get_userbyid(relowner) from pg_class where oid='likerts.response_credits'::regclass").fetch_one(&mut *tx).await.map_err(credit_database_error)?;
-        if !owner {
-            return Err(Error::Forbidden);
-        }
-        Self::ensure_credit_onboarding(&mut tx, workspace).await?;
-        if let Some(row) = sqlx::query(
-            "select * from likerts.response_credits where workspace_id=$1 and idempotency_key=$2",
-        )
-        .bind(workspace)
-        .bind(&input.idempotency_key)
-        .fetch_optional(&mut *tx)
-        .await
-        .map_err(credit_database_error)?
-        {
-            let previous = credit_entry(row)?;
-            return if previous.adjustment == input {
-                Ok(previous)
-            } else {
-                Err(Error::Conflict)
-            };
-        }
-        let reference = input
-            .reference_id
-            .as_ref()
-            .map(|id| {
-                Uuid::parse_str(id).map_err(|_| Error::Invalid("invalid credit reference".into()))
-            })
-            .transpose()?;
-        let row=sqlx::query("insert into likerts.response_credits(workspace_id,idempotency_key,kind,promotional_delta,paid_delta,reference_id,reason_code) values($1,$2,$3,$4,$5,$6,$7) returning *")
-            .bind(workspace).bind(&input.idempotency_key).bind(input.kind.as_str()).bind(input.promotional_delta).bind(input.paid_delta).bind(reference).bind(&input.reason_code).fetch_one(&mut *tx).await.map_err(credit_database_error)?;
-        let entry = credit_entry(row)?;
-        tx.commit().await.map_err(credit_database_error)?;
-        Ok(entry)
-    }
-    pub async fn credit_entries(
-        &self,
-        workspace: &str,
-    ) -> Result<Vec<crate::credits::CreditEntry>, Error> {
-        let mut tx = self.workspace_transaction(workspace).await?;
-        Self::ensure_credit_onboarding(&mut tx, workspace).await?;
-        let rows = sqlx::query(
-            "select * from likerts.response_credits where workspace_id=$1 order by created_at,id",
-        )
-        .bind(workspace)
-        .fetch_all(&mut *tx)
-        .await
-        .map_err(credit_database_error)?;
-        let entries = rows.into_iter().map(credit_entry).collect();
-        tx.commit().await.map_err(credit_database_error)?;
-        entries
-    }
     pub async fn usage_summary(&self, workspace: &str) -> Result<UsageSummary, Error> {
         let mut tx = self.workspace_transaction(workspace).await?;
-        Self::ensure_credit_onboarding(&mut tx, workspace).await?;
-        let credits = Self::credit_balance_tx(&mut tx, workspace).await?;
         let row = sqlx::query(
-            "select monthly_spend_cap_cents,unpaid_exposure_cap_cents,billing_paused,prepaid_dispute_open, (select coalesce(sum(amount_cents),0)::bigint from likerts.usage_entries where workspace_id=$1) as total, (select coalesce(sum(amount_cents),0)::bigint from likerts.usage_entries where workspace_id=$1 and created_at >= date_trunc('month',now() at time zone 'UTC') at time zone 'UTC') as month_total, (select coalesce(sum(u.amount_cents),0)::bigint from likerts.usage_entries u where u.workspace_id=$1 and not exists(select 1 from likerts.response_credits cr where cr.workspace_id=u.workspace_id and cr.response_id=u.response_id) and not exists(select 1 from likerts.settlement_usage su join likerts.settlement_batches sb on sb.workspace_id=su.workspace_id and sb.id=su.settlement_id where su.workspace_id=$1 and su.response_id=u.response_id and sb.status in ('succeeded','refunded'))) as exposure from likerts.workspaces where id=$1",
+            "select (select count(*)::bigint from likerts.usage_entries where workspace_id=$1) as total, (select count(*)::bigint from likerts.usage_entries where workspace_id=$1 and created_at >= date_trunc('month',now() at time zone 'UTC') at time zone 'UTC') as month_total from likerts.workspaces where id=$1",
         )
         .bind(workspace)
         .fetch_one(&mut *tx)
@@ -2618,72 +2174,10 @@ impl PgStore {
         tx.commit().await.map_err(database_error)?;
         let total = row.get::<i64, _>("total") as u64;
         let month = row.get::<i64, _>("month_total") as u64;
-        let monthly = row.get::<i64, _>("monthly_spend_cap_cents") as u64;
-        let exposure_cap = row.get::<i64, _>("unpaid_exposure_cap_cents") as u64;
-        let unpaid = row.get::<i64, _>("exposure") as u64;
-        let paused = row.get::<bool, _>("billing_paused");
-        let blocked_reason = if row.get::<bool, _>("prepaid_dispute_open") {
-            Some("payment_dispute".into())
-        } else if credits.paid_credit_debt > 0 {
-            Some("payment_reconciliation".into())
-        } else if paused {
-            Some("billing_paused".into())
-        } else if credits.available_credits == 0 {
-            Some("credits_exhausted".into())
-        } else if credits.promotional_credits == 0 && credits.month_paid_responses >= monthly {
-            Some("monthly_spend_cap".into())
-        } else {
-            None
-        };
         Ok(UsageSummary {
             accepted_responses: total,
-            charged_cents: total,
             month_accepted_responses: month,
-            month_charged_cents: month,
-            unpaid_exposure_cents: unpaid,
-            monthly_spend_cap_cents: monthly,
-            unpaid_exposure_cap_cents: exposure_cap,
-            remaining_monthly_cents: monthly.saturating_sub(credits.month_paid_responses),
-            remaining_exposure_cents: exposure_cap.saturating_sub(unpaid),
-            accepting_paid_responses: blocked_reason.is_none(),
-            blocked_reason,
-            credits,
         })
-    }
-
-    pub async fn update_billing_limits(
-        &self,
-        workspace: &str,
-        input: BillingLimitsInput,
-    ) -> Result<UsageSummary, Error> {
-        if input.monthly_spend_cap_cents.is_none() && input.unpaid_exposure_cap_cents.is_none() {
-            return Err(Error::Invalid(
-                "at least one billing limit is required".into(),
-            ));
-        }
-        if input
-            .monthly_spend_cap_cents
-            .into_iter()
-            .chain(input.unpaid_exposure_cap_cents)
-            .any(|value| value > 1_000_000_000)
-        {
-            return Err(Error::Invalid(
-                "billing limit exceeds 1000000000 cents".into(),
-            ));
-        }
-        let mut tx = self.workspace_transaction(workspace).await?;
-        sqlx::query("select pg_advisory_xact_lock(hashtextextended('billing:' || $1,0))")
-            .bind(workspace)
-            .execute(&mut *tx)
-            .await
-            .map_err(database_error)?;
-        sqlx::query("update likerts.workspaces set monthly_spend_cap_cents=coalesce($2,monthly_spend_cap_cents),unpaid_exposure_cap_cents=coalesce($3,unpaid_exposure_cap_cents) where id=$1")
-            .bind(workspace)
-            .bind(input.monthly_spend_cap_cents.map(database_integer).transpose()?)
-            .bind(input.unpaid_exposure_cap_cents.map(database_integer).transpose()?)
-            .execute(&mut *tx).await.map_err(database_error)?;
-        tx.commit().await.map_err(database_error)?;
-        self.usage_summary(workspace).await
     }
 
     pub async fn health(&self) -> Result<(), Error> {
@@ -2693,37 +2187,4 @@ impl PgStore {
             .map(|_| ())
             .map_err(database_error)
     }
-}
-
-fn credit_database_error(error: sqlx::Error) -> Error {
-    match error.as_database_error().and_then(|e| e.code()).as_deref() {
-        Some("P0001") => Error::SpendLimit,
-        Some("42501") => Error::Forbidden,
-        Some("23505") => Error::Conflict,
-        Some("23503" | "23514" | "P0002") => {
-            Error::Invalid("invalid response-credit adjustment".into())
-        }
-        _ => database_error(error),
-    }
-}
-fn credit_entry(row: PgRow) -> Result<crate::credits::CreditEntry, Error> {
-    use crate::credits::{CreditAdjustment, CreditEntry};
-    Ok(CreditEntry {
-        id: row.get::<Uuid, _>("id").to_string(),
-        adjustment: CreditAdjustment {
-            idempotency_key: row.get("idempotency_key"),
-            kind: serde_json::from_value(Value::String(row.get("kind")))
-                .map_err(|_| Error::Internal)?,
-            promotional_delta: row.get("promotional_delta"),
-            paid_delta: row.get("paid_delta"),
-            reference_id: row
-                .get::<Option<Uuid>, _>("reference_id")
-                .map(|id| id.to_string()),
-            reason_code: row.get("reason_code"),
-        },
-        response_id: row
-            .get::<Option<Uuid>, _>("response_id")
-            .map(|id| id.to_string()),
-        created_at: row.get("created_at"),
-    })
 }

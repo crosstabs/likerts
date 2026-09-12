@@ -21,29 +21,18 @@ case "${1:-}" in
     : "${LIKERTS_BROWSER_WORKSPACE_KEY:?Browser workspace derivation key required}"
     : "${LIKERTS_BROWSER_OAUTH_CLIENTS:?Registered browser-approved OAuth clients required}"
     : "${LIKERTS_MONITOR_TOKEN:?Separate monitor token required}"
-    : "${LIKERTS_STRIPE_SECRET_KEY:?Stripe secret key required}"
-    : "${LIKERTS_STRIPE_WEBHOOK_SECRET:?Stripe webhook secret required}"
-    : "${LIKERTS_CHECKOUT_RETURN_ORIGIN:?Exact checkout return origin required}"
-    case "$LIKERTS_STRIPE_SECRET_KEY" in
-      sk_live_*)
-        [ "${LIKERTS_STRIPE_LIVE_MODE:-}" = 1 ] || {
-          echo 'Stripe live key requires LIKERTS_STRIPE_LIVE_MODE=1' >&2
-          exit 1
-        }
-        ;;
-    esac
     case "$DATABASE_URL" in *'?sslmode=require'|*'?sslmode=verify-full') ;; *) echo 'Explicit database TLS mode required' >&2; exit 1;; esac
     export LIKERTS_BIND_ADDRESS=0.0.0.0 LIKERTS_PORT="${PORT:-10000}"
     exec /usr/local/bin/likerts-server
     ;;
   worker)
-    test -z "${LIKERTS_ADMISSION_REST_TOKEN:-}${DATABASE_URL:-}${LIKERTS_MIGRATION_DATABASE_URL:-}${LIKERTS_VERCEL_BLOB_TOKEN:-}${LIKERTS_STRIPE_SECRET_KEY:-}${LIKERTS_STRIPE_WEBHOOK_SECRET:-}${LIKERTS_STRIPE_LIVE_MODE:-}" || { echo 'Non-worker credential forbidden on callback worker' >&2; exit 1; }
+    test -z "${LIKERTS_ADMISSION_REST_TOKEN:-}${DATABASE_URL:-}${LIKERTS_MIGRATION_DATABASE_URL:-}${LIKERTS_VERCEL_BLOB_TOKEN:-}" || { echo 'Non-worker credential forbidden on callback worker' >&2; exit 1; }
     : "${LIKERTS_WEBHOOK_DATABASE_URL:?Restricted worker database URL is required}"
     case "$LIKERTS_WEBHOOK_DATABASE_URL" in *'?sslmode=require'|*'?sslmode=verify-full') ;; *) echo 'Explicit database TLS mode required' >&2; exit 1;; esac
     exec /usr/local/bin/likerts-webhook-worker
     ;;
   mcp)
-    test -z "${LIKERTS_ADMISSION_REST_TOKEN:-}${DATABASE_URL:-}${LIKERTS_MIGRATION_DATABASE_URL:-}${LIKERTS_WEBHOOK_DATABASE_URL:-}${LIKERTS_VERCEL_BLOB_TOKEN:-}${LIKERTS_COLLECTION_CREDENTIAL_KEY:-}${LIKERTS_WEBHOOK_CREDENTIAL_KEY:-}${LIKERTS_MONITOR_TOKEN:-}${LIKERTS_BROWSER_WORKSPACE_KEY:-}${LIKERTS_STRIPE_SECRET_KEY:-}${LIKERTS_STRIPE_WEBHOOK_SECRET:-}" || { echo 'Data-plane credentials forbidden on MCP gateway' >&2; exit 1; }
+    test -z "${LIKERTS_ADMISSION_REST_TOKEN:-}${DATABASE_URL:-}${LIKERTS_MIGRATION_DATABASE_URL:-}${LIKERTS_WEBHOOK_DATABASE_URL:-}${LIKERTS_VERCEL_BLOB_TOKEN:-}${LIKERTS_COLLECTION_CREDENTIAL_KEY:-}${LIKERTS_WEBHOOK_CREDENTIAL_KEY:-}${LIKERTS_MONITOR_TOKEN:-}${LIKERTS_BROWSER_WORKSPACE_KEY:-}" || { echo 'Data-plane credentials forbidden on MCP gateway' >&2; exit 1; }
     : "${LIKERTS_API_URL:?Canonical HTTPS API origin required}"
     : "${LIKERTS_MCP_PUBLIC_ORIGIN:?Canonical OAuth resource origin required}"
     : "${LIKERTS_OIDC_ISSUER:?OIDC issuer required}"

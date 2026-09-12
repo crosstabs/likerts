@@ -7,7 +7,7 @@ import test from 'node:test';
 const exec = promisify(execFile);
 const read = path => readFile(new URL(path, import.meta.url), 'utf8');
 
-test('public API snapshots and demo SDK are exact authoritative release artifacts', async () => {
+test('public API snapshots and demo SDK match the current source tree', async () => {
   await exec(process.execPath, ['scripts/sync-public-reference.mjs', '--check'], { cwd: new URL('../', import.meta.url) });
 });
 
@@ -38,7 +38,7 @@ test('public quickstart declares the capability of the actual demo release and k
 test('sample demo uses released schema fixtures and denies network data connections', async () => {
   const html = await read('../public/demo/index.html');
   assert.match(html, /connect-src 'none'/);
-  assert.match(html, /No response is sent, persisted or billed/);
+  assert.match(html, /No response is sent or persisted/);
   const { examples } = await import('../public/demo/examples.js');
   for (const [name, version, fixture] of [
     ['conditional', 3, 'conditional-survey.example.json'],

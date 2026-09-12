@@ -46,7 +46,7 @@ const validateSubmission = validator('Submission');
 assert.ok(validateSubmission(submission),JSON.stringify(validateSubmission.errors));
 const validateResponsePage = validator('ResponsePage');
 assert.ok(validateResponsePage({items:[{
-  receipt:{responseId:'123e4567-e89b-12d3-a456-426614174000',collectionId:'123e4567-e89b-12d3-a456-426614174001',accepted:true,chargedCents:1},
+  receipt:{responseId:'123e4567-e89b-12d3-a456-426614174000',collectionId:'123e4567-e89b-12d3-a456-426614174001',accepted:true},
   answers:{rating:5},metadata:{},acceptedAt:'2026-09-08T12:00:00Z'
 }],nextCursor:'opaque'}),JSON.stringify(validateResponsePage.errors));
 assert.equal(validateResponsePage({items:[],nextCursor:null,unexpected:true}),false,'Response pages reject unknown fields');

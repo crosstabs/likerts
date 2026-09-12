@@ -40,7 +40,7 @@ test('caller cancellation aborts an active operation',async()=>{
 // SDK-CONTRACT: retry.ambiguous
 test('ambiguous retry preserves caller payload and is never automatic',async()=>{
  const bodies:string[]=[];
- const client=new LikertsClient('https://example.test','token',async(_url,init)=>{bodies.push(String(init?.body));if(bodies.length===1)throw new Error('lost');return response({responseId:'r',collectionId:'c',accepted:true,chargedCents:1});});
+ const client=new LikertsClient('https://example.test','token',async(_url,init)=>{bodies.push(String(init?.body));if(bodies.length===1)throw new Error('lost');return response({responseId:'r',collectionId:'c',accepted:true});});
  const submission={idempotencyKey:'stable',answers:{q:4},metadata:{}};
  await expect(client.submit('c',submission)).rejects.toThrow('lost');expect(bodies).toHaveLength(1);
  await expect(client.submit('c',submission)).resolves.toMatchObject({accepted:true});expect(bodies[0]).toBe(bodies[1]);
@@ -48,7 +48,7 @@ test('ambiguous retry preserves caller payload and is never automatic',async()=>
 
 // SDK-CONTRACT: callback.success
 test('only a valid accepted receipt resolves as completion',async()=>{
- const client=new LikertsClient('https://example.test','token',async()=>response({responseId:'r',collectionId:'c',accepted:false,chargedCents:1}));
+ const client=new LikertsClient('https://example.test','token',async()=>response({responseId:'r',collectionId:'c',accepted:false}));
  await expect(client.submit('c',{idempotencyKey:'k',answers:{},metadata:{}})).rejects.toThrow('Invalid Likerts receipt');
 });
 

@@ -19,11 +19,11 @@ function HostedApp(config) {
         const submission = Object.freeze({idempotencyKey: config.idempotencyKey, answers: {rating: 5}, metadata: {source: 'synthetic-native-hosted', target: 'react_native'}});
         stage = 'submit';
         const receipt = await client.submit(config.collectionId, submission, {signal: cancel.signal});
-        if (receipt.collectionId !== config.collectionId || !receipt.accepted || receipt.chargedCents !== 1 || !receipt.responseId) throw Error();
+        if (receipt.collectionId !== config.collectionId || !receipt.accepted || !receipt.responseId) throw Error();
         stage = 'identical_retry';
         const retry = await client.submit(config.collectionId, submission, {signal: cancel.signal});
-        if (retry.collectionId !== receipt.collectionId || retry.responseId !== receipt.responseId || retry.accepted !== receipt.accepted || retry.chargedCents !== receipt.chargedCents) throw Error();
-        if (live) setStatus('HOSTED PASS ' + JSON.stringify({target:'react_native',sdkVersion:'0.0.3',result:'passed',collectionId:receipt.collectionId,responseId:receipt.responseId,chargedCents:1,identicalRetrySameReceipt:true,sdkRequests:3,boundary:'same-team synthetic native transport; ledger verified separately'}));
+        if (retry.collectionId !== receipt.collectionId || retry.responseId !== receipt.responseId || retry.accepted !== receipt.accepted) throw Error();
+        if (live) setStatus('HOSTED PASS ' + JSON.stringify({target:'react_native',sdkVersion:'0.0.3',result:'passed',collectionId:receipt.collectionId,responseId:receipt.responseId,identicalRetrySameReceipt:true,sdkRequests:3,boundary:'same-team synthetic native transport; ledger verified separately'}));
       } catch (_) { if (live) setStatus('HOSTED FAIL ' + stage); }
     })();
     return () => { live = false; cancel.abort(); };

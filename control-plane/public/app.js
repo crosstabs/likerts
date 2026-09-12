@@ -1,4 +1,4 @@
-import { SCOPE_PRESETS, usageView, checkoutView, connectionExamples } from "/workspace-state.js";
+import { SCOPE_PRESETS, connectionExamples } from "/workspace-state.js";
 
 const publishableKey = "__CLERK_PUBLISHABLE_KEY__";
 const apiOrigin = "__LIKERTS_PUBLIC_API_ORIGIN__";
@@ -8,18 +8,8 @@ let activeClerk;
 let activeWorkspace;
 let sessionVersion = 0;
 let sessionId;
-let paymentMode = "disabled";
-let paymentPoll = 0;
-let activePurchase;
 let issuedCredentialId;
 let connectionCode = "";
-const memoryStorage = new Map();
-const storage = {
-  get(key) { try { return sessionStorage.getItem(key) ?? memoryStorage.get(key); } catch { return memoryStorage.get(key); } },
-  set(key, value) { memoryStorage.set(key, value); try { sessionStorage.setItem(key, value); } catch { /* Same-page retries remain safe. */ } },
-  remove(key) { memoryStorage.delete(key); try { sessionStorage.removeItem(key); } catch { /* In-memory fallback. */ } },
-};
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function browserRequest(path, options = {}) {
   if (!activeClerk?.session) throw new Error("Sign in required");
@@ -47,24 +37,9 @@ async function browserRequest(path, options = {}) {
 }
 
 function renderUsage(usage) {
-  const view = usageView(usage);
-  for (const [id, value] of [["response-status",view.accepted],["promo-status",view.promotional],["paid-status",view.paid]]) text(id, value.toLocaleString());
-  text("collection-status", view.status);
-  $("collection-status").dataset.blocked = String(view.blocked);
-  const label = (name, threshold) => `${name}: ${threshold.percent}% used${threshold.level ? ` — ${threshold.level}% notice reached` : " — below the 80% notice"}.`;
-  text("promo-threshold", label("One-time free grant", view.promotionalThreshold));
-  text("paid-threshold", label("Paid credits", view.paidThreshold));
-  $("credit-debt").hidden = view.debt === 0;
-  text("credit-debt", `${view.debt} paid credits require reconciliation.`);
-  $("credit-details")?.toggleAttribute("open", Boolean(view.promotionalThreshold.level || view.paidThreshold.level || view.blocked));
-}
-
-function renderPaymentMode(mode) {
-  paymentMode = ["test", "live"].includes(mode) ? mode : "disabled";
-  text("billing-mode", paymentMode === "test" ? "Sandbox checkout — test payments only. No real money is charged. Do not enter real card details." : paymentMode === "live" ? "Live checkout — your payment method will be charged for the selected credit pack." : "Credit purchases are currently unavailable. Your existing response credits remain usable.");
-  const button = $("credit-checkout").querySelector('button[type="submit"]');
-  button.disabled = paymentMode === "disabled";
-  button.textContent = paymentMode === "test" ? "Continue to test checkout" : "Continue to checkout";
+  text("response-status", Number(usage.acceptedResponses ?? 0).toLocaleString());
+  text("collection-status", "Ready to accept responses. Likerts does not meter or charge them.");
+  $("collection-status").dataset.blocked = "false";
 }
 
 async function loadWorkspace({initial = false} = {}) {
@@ -75,23 +50,15 @@ async function loadWorkspace({initial = false} = {}) {
   activeWorkspace = result.workspaceId;
   text("workspace-status", activeWorkspace);
   renderUsage(result.usage);
-  renderPaymentMode(result.paymentMode);
   $("signed-out-panel").hidden = true;
   $("workspace-content").hidden = false;
   $("retry-workspace").hidden = true;
   text("session-status", "Signed in. Your workspace is ready.");
-  text("refresh-status", "Updated just now. Refresh to see new responses and credit changes.");
+  text("refresh-status", "Updated just now. Refresh to see new responses.");
   renderConnection();
   if (initial) {
     await loadAgentCredentials();
     if (version !== sessionVersion) return;
-    const navigation = new URLSearchParams(window.location.search);
-    const requestedId = navigation.get("purchase_id");
-    let stored;
-    try { stored = JSON.parse(storage.get(`likerts-purchase-${activeWorkspace}`) || "null"); } catch { stored = null; }
-    activePurchase = requestedId && /^[a-f0-9-]{36}$/i.test(requestedId) ? {id: requestedId, ...(stored?.id === requestedId ? stored : {})} : stored;
-    if (activePurchase?.id) await checkPayment({cancelled: navigation.get("checkout") === "cancelled"});
-    else if (navigation.has("checkout")) text("checkout-status", "No purchase was identified. Payment has not been confirmed. Your current balance is shown above.");
   }
 }
 
@@ -150,7 +117,7 @@ async function copyValue(value, output, fallback) {
 $("scope-preset").addEventListener("change", (event) => {
   const preset = SCOPE_PRESETS[event.target.value];
   if (preset) for (const input of $("agent-credential").querySelectorAll('input[name="scope"]')) input.checked = preset.includes(input.value);
-  text("scope-description", event.target.value === "build" ? "Allows survey edits/publication and collection creation, closure and revocation. Response erasure, access, billing and callback writes remain off unless you choose them." : event.target.value === "read" ? "Read surveys, responses, usage and existing exports. No write permissions." : "Review each selected capability. Write scopes may change or delete resources.");
+  text("scope-description", event.target.value === "build" ? "Allows survey edits/publication and collection creation, closure and revocation. Response erasure, access and callback writes remain off unless you choose them." : event.target.value === "read" ? "Read surveys, responses, usage and existing exports. No write permissions." : "Review each selected capability. Write scopes may change or delete resources.");
 });
 $("agent-credential").querySelectorAll('input[name="scope"]').forEach((input) => input.addEventListener("change", () => { $("scope-preset").value = "custom"; text("scope-description", "Custom permissions. Review each selected capability before creating the credential."); }));
 $("agent-credential").addEventListener("submit", async (event) => {
@@ -177,84 +144,6 @@ $("copy-workspace").addEventListener("click", () => copyValue(activeWorkspace, "
 $("copy-connection").addEventListener("click", () => copyValue(connectionCode, "connection-status"));
 $("connection-client").addEventListener("change", renderConnection);
 
-function clearPurchase() {
-  if (activePurchase?.storageKey) storage.remove(activePurchase.storageKey);
-  storage.remove(`likerts-purchase-${activeWorkspace}`);
-  activePurchase = undefined;
-  paymentPoll++;
-  $("check-payment").hidden = true; $("resume-payment").hidden = true; $("new-payment").hidden = true;
-  const clean = new URL(window.location.href); clean.searchParams.delete("checkout"); clean.searchParams.delete("purchase_id");
-  window.history.replaceState({}, "", clean);
-}
-function validCheckoutUrl(value) {
-  try { const parsed = new URL(value); return parsed.protocol === "https:" && parsed.hostname === "checkout.stripe.com" && !parsed.username && !parsed.password; } catch { return false; }
-}
-async function checkPayment({cancelled = false} = {}) {
-  if (!activePurchase?.id) return;
-  const run = ++paymentPoll;
-  const version = sessionVersion;
-  const purchaseId = activePurchase.id;
-  $("check-payment").hidden = false; $("check-payment").disabled = true;
-  text("checkout-status", "Checking the purchase record…");
-  for (let attempt = 0; attempt < 15; attempt++) {
-    if (run !== paymentPoll || version !== sessionVersion) return;
-    try {
-      const checkout = await browserRequest(`/v1/browser/billing/checkouts/${encodeURIComponent(purchaseId)}`);
-      if (run !== paymentPoll || version !== sessionVersion) return;
-      const view = checkoutView(checkout);
-      text("checkout-status", cancelled && !view.terminal ? "You left checkout. Payment is not confirmed. Resume checkout or check the purchase status again." : view.message);
-      $("checkout-status").dataset.state = view.state;
-      $("resume-payment").hidden = view.terminal || !activePurchase.storageKey;
-      $("new-payment").hidden = !view.terminal;
-      if (view.terminal) {
-        if (activePurchase.storageKey) storage.remove(activePurchase.storageKey);
-        if (view.state === "paid") await loadWorkspace();
-        $("check-payment").disabled = false;
-        return;
-      }
-      if (cancelled) break;
-      if (attempt < 14) await delay(2000);
-    } catch (error) {
-      if (run !== paymentPoll || version !== sessionVersion) return;
-      text("checkout-status", `Payment could not be confirmed. ${error.message} Check again before starting another purchase.`);
-      break;
-    }
-  }
-  if (run === paymentPoll && version === sessionVersion) $("check-payment").disabled = false;
-}
-async function beginCheckout(event) {
-  event?.preventDefault();
-  if (paymentMode === "disabled") return;
-  if (activePurchase) { await checkPayment(); return; }
-  const button = $("credit-checkout").querySelector('button[type="submit"]');
-  const amountCents = Number($("checkout-amount").value);
-  const storageKey = `likerts-checkout-${activeWorkspace}-${amountCents}`;
-  const idempotencyKey = storage.get(storageKey) || crypto.randomUUID();
-  storage.set(storageKey, idempotencyKey);
-  const version = sessionVersion;
-  button.disabled = true; text("checkout-status", "Preparing checkout…");
-  try {
-    const checkout = await browserRequest("/v1/browser/billing/checkout", {method: "POST", body: JSON.stringify({amountCents, idempotencyKey})});
-    if (version !== sessionVersion) return;
-    activePurchase = {id: checkout.id, storageKey, amountCents};
-    storage.set(`likerts-purchase-${activeWorkspace}`, JSON.stringify(activePurchase));
-    if (checkout.checkoutUrl && checkout.status !== "paid") {
-      if (!validCheckoutUrl(checkout.checkoutUrl)) throw new Error("Checkout returned an unavailable payment destination.");
-      window.location.assign(checkout.checkoutUrl);
-    } else await checkPayment();
-  } catch (error) { if (version === sessionVersion) text("checkout-status", `Checkout could not be opened. ${error.message} Retry uses the same purchase request.`); }
-  finally { if (version === sessionVersion) button.disabled = paymentMode === "disabled"; }
-}
-$("credit-checkout").addEventListener("submit", beginCheckout);
-$("check-payment").addEventListener("click", () => checkPayment());
-$("new-payment").addEventListener("click", () => { clearPurchase(); text("checkout-status", "Select a credit pack to start a new checkout."); });
-$("resume-payment").addEventListener("click", async () => {
-  if (!activePurchase?.storageKey) return;
-  const purchase = activePurchase;
-  activePurchase = undefined;
-  $("checkout-amount").value = String(purchase.amountCents);
-  await beginCheckout();
-});
 async function refresh() {
   $("refresh-workspace").disabled = true;
   try { await loadWorkspace(); await loadAgentCredentials(); }
@@ -269,8 +158,7 @@ async function sessionChanged(clerk) {
   if (sessionId === nextId) return;
   sessionId = nextId;
   const version = ++sessionVersion;
-  paymentPoll++;
-  activeClerk = clerk; activeWorkspace = undefined; activePurchase = undefined;
+  activeClerk = clerk; activeWorkspace = undefined;
   clearSecret();
   $("workspace-content").hidden = true; $("signed-out-panel").hidden = false;
   $("agent-credentials").replaceChildren();

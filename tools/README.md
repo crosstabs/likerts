@@ -4,8 +4,8 @@ The API, Rust CLI and MCP adapter share the operation registry in `capabilities.
 
 ## Connect your workspace
 
-1. Request an assisted-preview invitation, then sign in at [likerts.com/app](https://likerts.com/app) using passwordless email verification. The control plane creates your personal workspace and shows its ID, accepted responses and available credits.
-2. Under **Connect Codex, Claude, or the CLI**, name a credential and select the capabilities it needs. Access management (`identity:write`) and billing (`billing:write`) are separate, opt-in scopes.
+1. Run Likerts locally or sign in at [likerts.com/app](https://likerts.com/app) using passwordless email verification. The optional hosted workspace shows its ID and accepted-response count.
+2. Under **Connect Codex, Claude, or the CLI**, name a credential and select the capabilities it needs. Access management (`identity:write`) remains a separate, opt-in scope.
 3. Select **Create 90-day credential** and copy the token immediately into your secret manager. It is returned only at creation; the credential list cannot retrieve it again. If the token is lost, revoke that credential and create another.
 4. Supply it to your client as `LIKERTS_TOKEN`. Keep management tokens out of application bundles, source control, chat messages and model tool arguments. Each credential belongs to one workspace and authorizes only its selected scopes.
 

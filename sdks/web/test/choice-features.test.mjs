@@ -22,7 +22,7 @@ import {JSDOM} from 'jsdom';
 import {mountSurvey} from '../dist/index.js';
 test('renderer sends structured Other, renders numeric stars, and keeps dropdown IDs',async()=>{
  const schema=JSON.parse(fs.readFileSync(new URL('../../../contracts/choice-survey.example.json',import.meta.url)));const dom=new JSDOM('<main></main>');globalThis.document=dom.window.document;globalThis.HTMLSelectElement=dom.window.HTMLSelectElement;
- const calls=[];const cleanup=mountSurvey(document.querySelector('main'),{id:'c',surveyId:'s',version:1,placement:'p',schema:{schemaVersion:3,...schema}},{submit:async(_id,value)=>{calls.push(value);return {responseId:'r',collectionId:'c',accepted:true,chargedCents:1}}},()=>{});
+ const calls=[];const cleanup=mountSurvey(document.querySelector('main'),{id:'c',surveyId:'s',version:1,placement:'p',schema:{schemaVersion:3,...schema}},{submit:async(_id,value)=>{calls.push(value);return {responseId:'r',collectionId:'c',accepted:true}}},()=>{});
  const form=document.querySelector('form'),select=form.elements.reasons,other=form.elements['reasons.otherText'];
  const change=()=>form.dispatchEvent(new dom.window.Event('change'));const submit=async()=>{form.dispatchEvent(new dom.window.Event('submit',{cancelable:true}));await new Promise(r=>setImmediate(r));};
  select.options[0].selected=true;select.options[2].selected=true;change();assert.equal(other.hidden,false);

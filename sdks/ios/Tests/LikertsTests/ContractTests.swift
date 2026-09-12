@@ -16,7 +16,6 @@ final class ContractTests: XCTestCase {
       collectionId: id,
       submission: Submission(idempotencyKey: "rel-ios", answers: ["comment": .text("ios")], metadata: ["sdk": "ios"]))
     XCTAssertTrue(receipt.accepted)
-    XCTAssertEqual(receipt.chargedCents, 1)
   }
   private func fixture(_ name: String) throws -> Data {
     let repository = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
@@ -174,16 +173,14 @@ final class ContractTests: XCTestCase {
       required.validationError(textValue: nil, selected: nil), "Comment: an answer is required.")
     XCTAssertNil(required.validationError(textValue: "answer", selected: nil))
   }
-  func testReceiptRequiresAcceptanceAndExpectedCharge() throws {
+  func testReceiptRequiresAcceptanceAndIdentity() throws {
     // SDK-CONTRACT: callback.success
     let receipt = try JSONDecoder().decode(
       Receipt.self,
-      from: Data(#"{"responseId":"r","collectionId":"c","accepted":true,"chargedCents":1}"#.utf8))
+      from: Data(#"{"responseId":"r","collectionId":"c","accepted":true}"#.utf8))
     XCTAssertTrue(receipt.accepted)
-    XCTAssertEqual(receipt.chargedCents, 1)
     for invalid in [
-      #"{"responseId":"r","collectionId":"c","accepted":false,"chargedCents":1}"#,
-      #"{"responseId":"r","collectionId":"c","accepted":true,"chargedCents":2}"#,
+      #"{"responseId":"r","collectionId":"c","accepted":false}"#,
     ] {
       XCTAssertThrowsError(try JSONDecoder().decode(Receipt.self, from: Data(invalid.utf8)))
     }

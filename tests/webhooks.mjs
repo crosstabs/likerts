@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict';
-import {randomUUID} from 'node:crypto';
 import {spawn,execFileSync} from 'node:child_process';
 import {createServer as netServer} from 'node:net';
 import {fileURLToPath} from 'node:url';
@@ -26,39 +25,11 @@ try {
  const bad=await request('/v1/webhook-endpoints','POST',{idempotencyKey:'bad',url:'https://127.0.0.1/'});assert.equal(bad.status,400);assert.equal((await bad.json()).error.code,'invalid_request');
  const reader=await call('service_credentials_create',{name:'Webhook reader',scopes:['webhooks:read'],expiresAt:new Date(Date.now()+3600000).toISOString()});
  assert.equal((await request('/v1/webhook-endpoints','GET',undefined,reader.token)).status,200);assert.equal((await request('/v1/webhook-endpoints','POST',{idempotencyKey:'forbidden',url:'https://hooks.customer.com/reader'},reader.token)).status,403);
-
-
- // A checkout-return query is an untrusted hint: only the persisted settlement
- // status may be read, using the authenticated workspace and usage permission.
- const purchaseId=randomUUID();
- execFileSync('docker',['exec',process.env.LIKERTS_WEBHOOK_TEST_CONTAINER,'psql','-U','postgres','-v','ON_ERROR_STOP=1','-c',`insert into likerts.credit_checkouts(workspace_id,id,idempotency_key,amount_cents,response_credits,status) values('webhook-http-a','${purchaseId}','status-fixture',500,500,'pending')`],{stdio:'pipe'});
- const pending={id:purchaseId,amountCents:500,responseCredits:500,status:'pending',checkoutUrl:null};
- const spoof=await request(`/v1/billing/checkouts/${purchaseId}?status=paid&checkout=success&workspaceId=webhook-http-b`);
- assert.equal(spoof.status,200);assert.deepEqual(await spoof.json(),pending);
- assert.deepEqual(await call('billing_checkout_get',{id:purchaseId}),pending);
- assert.deepEqual(cli('billing_checkout_get',{id:purchaseId}),pending);
- assert.equal((await request(`/v1/billing/checkouts/${purchaseId}`,'GET',undefined,other)).status,404);
- assert.equal((await request(`/v1/billing/checkouts/${purchaseId}`,'GET',undefined,reader.token)).status,403);
- assert.equal((await request(`/v1/browser/billing/checkouts/${purchaseId}`)).status,401,'service token cannot impersonate a browser owner');
- assert.equal((await request('/v1/billing/checkouts/not-an-id')).status,404);
- assert.equal((await call('usage_get')).credits.paidCredits,0,'status polling must not settle or mint credits');
  assert.deepEqual(created.endpoint.eventTypes,['response.accepted']);
  const writer=await call('service_credentials_create',{name:'Webhook writer only',scopes:['webhooks:write'],expiresAt:new Date(Date.now()+3600000).toISOString()});
- const creditInput={idempotencyKey:'credit-endpoint',url:'https://hooks.customer.com/credits',eventTypes:['credits.threshold_reached']};
- assert.equal((await request('/v1/webhook-endpoints','POST',creditInput,writer.token)).status,403,'credit subscription requires usage:read');
- const credit=await call('webhook_endpoints_create',creditInput);
- assert.deepEqual(credit.endpoint.eventTypes,['credits.threshold_reached']);
- for(const id of [credit.endpoint.id,credit.endpoint.id.toUpperCase()]) assert.equal((await request(`/v1/webhook-endpoints/${id}`,'PATCH',{enabled:true},writer.token)).status,403,'UUID spelling cannot bypass credit scope');
- const billingWriter=await call('service_credentials_create',{name:'Credit notifier',scopes:['webhooks:write','usage:read'],expiresAt:new Date(Date.now()+3600000).toISOString()});
- assert.equal((await request(`/v1/webhook-endpoints/${credit.endpoint.id}`,'PATCH',{enabled:true},billingWriter.token)).status,200);
- assert.equal((await request(`/v1/webhook-endpoints/${credit.endpoint.id}`,'PATCH',{enabled:false},writer.token)).status,200,'pausing does not need usage access');
- assert.equal((await request(`/v1/webhook-endpoints/${credit.endpoint.id}`,'PATCH',{eventTypes:['response.accepted']})).status,400,'subscriptions are immutable');
+ assert.equal((await request(`/v1/webhook-endpoints/${created.endpoint.id}`,'PATCH',{eventTypes:['response.accepted']})).status,400,'subscriptions are immutable');
  for(const eventTypes of [[],['unknown'],['response.accepted','response.accepted']]) assert.equal((await request('/v1/webhook-endpoints','POST',{idempotencyKey:'invalid-event-types',url:'https://hooks.customer.com/',eventTypes})).status,400);
- const combined=cli('webhook_endpoints_create',{idempotencyKey:'combined',url:'https://hooks.customer.com/both',eventTypes:['response.accepted','credits.threshold_reached']});
- assert.deepEqual(combined.endpoint.eventTypes,['credits.threshold_reached','response.accepted']);
- assert.deepEqual(cli('webhook_endpoints_create',{idempotencyKey:'combined',url:'https://hooks.customer.com/both',eventTypes:['credits.threshold_reached','response.accepted']}),combined,'subscription order is semantically idempotent');
- cli('webhook_endpoints_update',{id:combined.endpoint.id,revoke:true});
- cli('webhook_endpoints_update',{id:credit.endpoint.id,revoke:true});
+ assert.equal((await request('/v1/webhook-endpoints','POST',{idempotencyKey:'unsupported-event-type',url:'https://hooks.customer.com/',eventTypes:['survey.published']},writer.token)).status,400);
  cli('webhook_endpoints_update',{id:created.endpoint.id,enabled:true});
  const rotated=await call('webhook_endpoints_rotate',{id:created.endpoint.id,idempotencyKey:'rotate'});assert.notEqual(rotated.signingSecret,created.signingSecret);
  const fleet={installations:[{target:'web',sdkVersion:'0.0.1',schemaVersions:[1,2]}]};
@@ -67,7 +38,7 @@ try {
  const collection=await call('collections_create',{idempotencyKey:'collection',surveyId:survey.id,version:version.version,placement:'app',sdkCapabilities:fleet});
  const body={idempotencyKey:'once',answers:{comment:'must not enter callback'},metadata:{private:'never-send'}};
  const replies=await Promise.all(Array.from({length:8},()=>request(`/v1/collections/${collection.id}/responses`,'POST',body,collection.token).then(async r=>{assert.equal(r.status,200);return r.json()})));assert(replies.every(r=>r.responseId===replies[0].responseId));
- const deliveries=await call('webhook_deliveries_list',{endpointId:created.endpoint.id,limit:100});assert.equal(deliveries.length,1);assert.equal((await call('usage_get')).chargedCents,1);
+ const deliveries=await call('webhook_deliveries_list',{endpointId:created.endpoint.id,limit:100});assert.equal(deliveries.length,1);assert.equal((await call('usage_get')).acceptedResponses,1);
  const delivery=cli('webhook_deliveries_get',{id:deliveries[0].id});assert.equal(delivery.status,'queued');
  assert.equal((await request(`/v1/webhook-deliveries/${delivery.id}`,'GET',undefined,other)).status,404);
  assert.equal((await request('/v1/webhook-deliveries?limit=oops')).status,400);
@@ -77,5 +48,5 @@ try {
  const replay=await call('webhook_deliveries_replay',{id:delivery.id,idempotencyKey:'replay'});assert.equal(replay.replayCount,1);assert.equal(replay.eventId,delivery.eventId);
  cli('webhook_endpoints_update',{id:created.endpoint.id,revoke:true});assert.equal(cli('webhook_deliveries_get',{id:delivery.id}).status,'cancelled');
  const revoked=await request('/v1/webhook-endpoints','POST',{idempotencyKey:'endpoint',url:'https://hooks.customer.com/likerts'});assert.equal(revoked.status,410);assert.equal((await revoked.json()).error.code,'webhook_revoked');
- console.log('Webhook API/MCP/CLI PostgreSQL PASS: all7 operations, typed credentials/scopes, workspace isolation,1 event/1cent for8 retries, rotation/replay/revocation, structured errors.');
+ console.log('Webhook API/MCP/CLI PostgreSQL PASS: typed credentials and scopes, workspace isolation, one response event for eight retries, rotation, replay, revocation, and structured errors.');
 }finally{await mcp?.close();await server?.close();child.kill('SIGTERM');await new Promise(r=>child.exitCode!==null?r():child.once('exit',r));}

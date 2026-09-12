@@ -127,7 +127,7 @@ export class LikertsClient {
     else
         this.collectionCache.clear(); }
     /** Retrying requires the same submission object, including its idempotencyKey. */
-    async submit(id, submission, options) { const receipt = await this.request(`/v1/collections/${encodeURIComponent(id)}/responses`, submission, options); if (receipt.accepted !== true || receipt.chargedCents !== 1)
+    async submit(id, submission, options) { const receipt = await this.request(`/v1/collections/${encodeURIComponent(id)}/responses`, submission, options); if (receipt.accepted !== true)
         throw new Error('Invalid Likerts receipt'); return receipt; }
 }
 export function conditionMatches(condition, answer) {

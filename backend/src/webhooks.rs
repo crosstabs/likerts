@@ -60,14 +60,9 @@ pub fn normalized_event_types(values: &[String]) -> Result<Vec<String>, Error> {
     let mut result = values.to_vec();
     result.sort();
     if result.is_empty()
-        || result.len() > 2
+        || result.len() > 1
         || result.windows(2).any(|pair| pair[0] == pair[1])
-        || result.iter().any(|value| {
-            !matches!(
-                value.as_str(),
-                "response.accepted" | "credits.threshold_reached"
-            )
-        })
+        || result.iter().any(|value| value != "response.accepted")
     {
         return Err(Error::Invalid("invalid webhook event types".into()));
     }

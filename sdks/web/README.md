@@ -42,7 +42,7 @@ The client requires HTTPS except on exact loopback development hosts. Customers 
 
 The renderer works under a strict CSP without `unsafe-inline` or `unsafe-eval`. Load the SDK and customer CSS as external same-origin resources and allow the API origin in `connect-src` when it differs. The client rejects redirects, limits each response body to 256 KiB by default, and permits a smaller limit through the final constructor argument.
 
-Run `npm run build && node --test test/*.test.mjs` for component checks. From the repository root, `scripts/check-web-browser.sh` builds the real backend and uses Chromium to verify accessible labels, keyboard-only completion, strict CSP, host styling/localization and one-cent acceptance through a same-origin proxy.
+Run `npm run build && node --test test/*.test.mjs` for component checks. From the repository root, `scripts/check-web-browser.sh` builds the real backend and uses Chromium to verify accessible labels, keyboard-only completion, strict CSP, host styling/localization and accepted-response accounting through a same-origin proxy.
 
 Schema 3 choice semantics are documented in [CHOICE-FEATURES.md](../../contracts/CHOICE-FEATURES.md): Other answers carry separate selected IDs and text; None is exclusive; stars retain numeric answers and dropdowns retain option IDs.
 

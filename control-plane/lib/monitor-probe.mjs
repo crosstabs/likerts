@@ -5,11 +5,7 @@ export const USAGE_PROBE_URL = 'https://likerts-api.onrender.com/v1/usage';
 // issuer must separately prove that this purpose-issued token has only usage:read.
 const PROBE_TOKEN = /^lks_[a-f0-9]{32}$/;
 const count = value => Number.isSafeInteger(value) && value >= 0;
-const usageCounts = ['acceptedResponses', 'chargedCents', 'unpaidExposureCents',
-  'monthAcceptedResponses', 'monthChargedCents', 'monthlySpendCapCents',
-  'unpaidExposureCapCents', 'remainingMonthlyCents', 'remainingExposureCents'];
-const creditCounts = ['promotionalCredits', 'paidCredits', 'paidCreditDebt',
-  'availableCredits', 'promotionalResponses', 'paidResponses', 'monthPaidResponses'];
+const usageCounts = ['acceptedResponses', 'monthAcceptedResponses'];
 
 export async function collectAdmissionStatus({ environment = process.env, fetcher = fetch, timeoutMs = 4000 } = {}) {
   const token = environment.LIKERTS_MONITOR_USAGE_TOKEN;
@@ -29,10 +25,7 @@ export async function collectAdmissionStatus({ environment = process.env, fetche
         : response.status === 401 || response.status === 403 ? 'credential_rejected' : 'unavailable' };
     }
     const body = await boundedJson(response, signal);
-    const valid = body && usageCounts.every(key => count(body[key]))
-      && typeof body.acceptingPaidResponses === 'boolean'
-      && [null, 'monthly_spend_cap', 'unpaid_exposure_cap', 'billing_paused', 'credits_exhausted'].includes(body.blockedReason)
-      && body.credits && creditCounts.every(key => count(body.credits[key]));
+    const valid = body && usageCounts.every(key => count(body[key]));
     return { id: 'admission', status: valid ? 'reachable' : 'invalid_response' };
   } catch {
     // Never return the upstream payload, credential, identifiers or balances.

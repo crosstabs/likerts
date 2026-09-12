@@ -1,7 +1,7 @@
 <script type="module">
 import {openIndexedDbOfflineQueue} from '../dist/offline.js';
 const name=`likerts-offline-${Date.now()}`;
-const sender=async collectionId=>({status:200,receipt:{responseId:'r',collectionId,accepted:true,chargedCents:1}});
+const sender=async collectionId=>({status:200,receipt:{responseId:'r',collectionId,accepted:true}});
 let queue=await openIndexedDbOfflineQueue(name,sender);
 await queue.enqueue('c',{idempotencyKey:'key',answers:{secret:'answer'},metadata:{}});
 queue=await openIndexedDbOfflineQueue(name,sender);

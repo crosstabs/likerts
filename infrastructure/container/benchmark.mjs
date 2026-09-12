@@ -134,7 +134,7 @@ await phase('invalid-answer', 1000, 100, index => submit(`invalid-${index}`, { b
 await phase('unauthorized-token', 1000, 100, index => submit(`unauthorized-${index}`, { credential: 'invalid-collection-token' }));
 await phase('oversized-body', 200, 25, index => submit(`oversize-${index}`, { body: { ...submission(`oversize-${index}`), metadata: { oversized: 'x'.repeat(70 * 1024) } } }));
 const afterAbuse = await checked('/v1/usage');
-assert.deepEqual(afterAbuse, validBeforeAbuse, 'invalid/unauthorized/oversized requests changed billing');
+assert.deepEqual(afterAbuse, validBeforeAbuse, 'invalid/unauthorized/oversized requests changed usage');
 report.afterAbuse = storage();
 const capped = await makeCollection('benchmark-capped', 25);
 const cap = await phase('response-cap-race', 200, 100, index => query(`/v1/collections/${capped.id}/responses`, {
@@ -145,14 +145,14 @@ report.afterAcceptance = afterAcceptance;
 const usage = await checked('/v1/usage');
 const accepted = Number(afterAcceptance.responseRows) - Number(before.responseRows);
 assert.equal(usage.acceptedResponses, accepted);
-assert.equal(usage.chargedCents, accepted);
+assert.equal(usage.monthAcceptedResponses, accepted);
 assert.equal(afterAcceptance.usageRows - before.usageRows, accepted);
 assert.equal(cap.statuses[200], 25, 'cap did not accept exactly 25');
 assert.equal(cap.statuses[409], 175, 'cap did not reject remaining requests');
 assert.equal(duplicates.statuses[200], 500, 'retry receipt behavior changed');
 assert.equal(accepted, (paced.statuses[200] ?? 0) + (burst.statuses[200] ?? 0) + 1 + 25);
 assert.equal(report.phases.reduce((sum,p) => sum + (p.statuses.transport_error ?? 0) + Object.entries(p.statuses).filter(([s]) => Number(s) >= 500).reduce((n,[,c]) => n+c,0),0), 0, 'transport or server errors occurred');
-report.accounting = { acceptedResponses: accepted, chargedCents: usage.chargedCents, abuseChangedUsage: false };
+report.accounting = { acceptedResponses: accepted, monthAcceptedResponses: usage.monthAcceptedResponses, abuseChangedUsage: false };
 report.storage = {
   relationGrowthBytes: afterAcceptance.tenantRelationBytes - before.tenantRelationBytes,
   physicalRelationBytesPerAcceptedResponse: round((afterAcceptance.tenantRelationBytes - before.tenantRelationBytes) / accepted),

@@ -8,7 +8,7 @@ const config={schemaVersion:1,target:'web',sdkVersion:'0.0.3',baseUrl:'https://u
 const path=`/v1/collections/${config.collectionId}`;
 const headers={authorization:`Bearer ${config.collectionToken}`,'content-type':'application/json'};
 const body=JSON.stringify({idempotencyKey:'generated-ui-key',answers:{rating:5},metadata:{source:'synthetic-web-hosted',target:'web'}});
-const receipt={responseId:'22222222-2222-4222-8222-222222222222',collectionId:config.collectionId,accepted:true,chargedCents:1};
+const receipt={responseId:'22222222-2222-4222-8222-222222222222',collectionId:config.collectionId,accepted:true};
 async function host(t,fetchImpl){const h=await startHarness({config,fetchImpl});t.after(()=>h.close());return h}
 function rawStatus(origin,{path='/',headers={}}={}){
   const url=new URL(origin);

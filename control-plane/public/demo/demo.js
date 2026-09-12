@@ -31,7 +31,7 @@ function reset() {
     sampleSubmission = JSON.parse(init.body);
     const receipt = {
       responseId: crypto.randomUUID(), collectionId: collection.id,
-      accepted: true, chargedCents: 1,
+      accepted: true,
     };
     return new Response(JSON.stringify(receipt), {
       status: 200, headers: { 'Content-Type': 'application/json' },
@@ -49,7 +49,7 @@ function reset() {
       submission: sampleSubmission,
       simulatedReceipt: receipt,
     }, null, 2);
-    state.textContent = 'Sample complete. No network request or charge. chargedCents in the simulated receipt illustrates the real API shape only.';
+    state.textContent = 'Sample complete. No network request was made. The simulated receipt matches the real API shape.';
   }, { source: 'local-sdk-demo' }, {
     messages: { submit: 'Submit local sample', submitted: 'Sample complete — nothing was sent.', submitting: 'Preparing local sample…' },
   });

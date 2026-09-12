@@ -28,7 +28,7 @@ Use an existing candidate image with `LIKERTS_IMAGE=<image> LIKERTS_SKIP_IMAGE_B
 
 ## Artifact and credential separation
 
-The opt-in performance gate is `bash scripts/benchmark-local.sh`. It uses the same isolated setup with a 0.5-vCPU/1-GiB API and 1-vCPU/1.5-GiB PostgreSQL, then measures paced/burst acceptance, unbilled rejects, caps, exports and storage. Results live in economics/local-benchmark.json and the current model in economics/SHARED-ECONOMICS.md. Normal container checks do not run this longer benchmark. No real customer data or cloud resources are involved.
+The opt-in performance gate is `bash scripts/benchmark-local.sh`. It uses an isolated setup with a 0.5-vCPU/1-GiB API and 1-vCPU/1.5-GiB PostgreSQL, then measures paced/burst acceptance, rejected requests, collection caps, exports and storage. Results are written under `.validation-private/`. Normal container checks do not run this longer benchmark. No real customer data or cloud resources are involved.
 
 The recovery gate is `bash scripts/check-recovery.sh`; it includes the container gate and a quarantined logical restore, post-backup deletion replay, append-only audit verification and migration-failure checks. `bash scripts/check-observability.sh` verifies monitoring configuration and alert behavior. [OPERATIONS.md](OPERATIONS.md) describes the monitoring boundaries, incident response, recovery workflow and remaining Render/Neon activation checks.
 

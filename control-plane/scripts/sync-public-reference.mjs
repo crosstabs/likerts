@@ -1,8 +1,4 @@
 import { readFile, writeFile, readdir, mkdir, rm } from 'node:fs/promises';
-import { promisify } from 'node:util';
-import { execFile } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
-const exec = promisify(execFile);
 const root = new URL('../../', import.meta.url);
 const publicRoot = new URL('../public/', import.meta.url);
 const check = process.argv.includes('--check');
@@ -47,13 +43,8 @@ await emit('docs/api/index.html', reference
   .replace(/<!-- OPERATIONS:START -->[\s\S]*?<!-- OPERATIONS:END -->/, `<!-- OPERATIONS:START -->${operations}<!-- OPERATIONS:END -->`)
   .replace(/<span data-capability-count>\d+<\/span>/g, `<span data-capability-count>${capabilities.length}</span>`));
 await emit('docs/survey-create.json', await read('contracts/examples/surveys_create.input.json'));
-const archivedSdk = new URL('releases/0.0.3/likerts-web-0.0.3.tgz', root);
-const { stdout } = await exec('tar', ['-tzf', fileURLToPath(archivedSdk)]);
-const modules = stdout.trim().split('\n').filter(name => /^package\/dist\/[a-z-]+\.js$/.test(name));
-if (!modules.some(name => name.endsWith('/index.js'))) throw new Error('Release SDK modules missing');
-for (const name of modules) {
-  const { stdout: data } = await exec('tar', ['-xOf', fileURLToPath(archivedSdk), name], { encoding: 'buffer', maxBuffer: 1024 * 1024 });
-  await emit(`demo/sdk/${name.split('/').at(-1)}`, data);
-}
+const modules = (await readdir(new URL('sdks/web/dist/', root))).filter(name => /^[a-z-]+\.js$/.test(name)).sort();
+if (!modules.includes('index.js')) throw new Error('Build the Web SDK before syncing public reference files');
+for (const name of modules) await emit(`demo/sdk/${name}`, await read(`sdks/web/dist/${name}`));
 for (const file of ['survey.example.json', 'expanded-survey.example.json', 'choice-survey.example.json', 'conditional-survey.example.json', 'branching-survey.example.json', 'advanced-survey.example.json']) await emit(`docs/examples/${file}`, await read(`contracts/${file}`));
 console.log(`${check ? 'Verified' : 'Synced'} public reference: ${capabilities.length} capabilities, ${modules.length} exact release SDK modules.`);

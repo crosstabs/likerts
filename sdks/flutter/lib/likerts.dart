@@ -71,10 +71,9 @@ class LikertsException implements Exception {
 class Receipt {
   final String responseId, collectionId;
   final bool accepted;
-  final int chargedCents;
   Receipt.fromJson(Map<String,dynamic> value)
-      : responseId=value['responseId'], collectionId=value['collectionId'], accepted=value['accepted'], chargedCents=value['chargedCents'] {
-    if(!accepted || chargedCents != 1) throw const FormatException('Invalid Likerts receipt');
+      : responseId=value['responseId'], collectionId=value['collectionId'], accepted=value['accepted'] {
+    if(!accepted) throw const FormatException('Invalid Likerts receipt');
   }
 }
 class LikertsCancellationToken {

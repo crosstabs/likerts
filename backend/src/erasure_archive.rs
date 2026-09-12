@@ -1,4 +1,4 @@
-//! ID-only independent erasure archive. No answer, identity or payment clients.
+//! ID-only independent erasure archive. No answer or identity clients.
 use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 use reqwest::{header::HeaderValue, Client, Url};
@@ -310,7 +310,7 @@ pub struct Archiver {
 impl Archiver {
     pub async fn new(pool: PgPool, expected_source: &str) -> Result<Self> {
         uuid(expected_source).map_err(|_| ArchiveError::Configuration)?;
-        let safe:bool=sqlx::query_scalar("select current_user='likerts_erasure_archiver' and not (rolsuper or rolbypassrls or rolinherit or rolcreaterole or rolcreatedb) and not exists(select 1 from pg_auth_members where member=r.oid) and not exists(select 1 from pg_database where datname=current_database() and datdba=r.oid) and not exists(select 1 from pg_namespace where nspname='likerts' and nspowner=r.oid) and not exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='likerts' and c.relowner=r.oid) and not has_table_privilege(current_user,'likerts.responses','SELECT') and not has_table_privilege(current_user,'likerts.response_credits','SELECT') from pg_roles r where rolname=current_user").fetch_one(&pool).await.map_err(|_|ArchiveError::Database)?;
+        let safe:bool=sqlx::query_scalar("select current_user='likerts_erasure_archiver' and not (rolsuper or rolbypassrls or rolinherit or rolcreaterole or rolcreatedb) and not exists(select 1 from pg_auth_members where member=r.oid) and not exists(select 1 from pg_database where datname=current_database() and datdba=r.oid) and not exists(select 1 from pg_namespace where nspname='likerts' and nspowner=r.oid) and not exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='likerts' and c.relowner=r.oid) and not has_table_privilege(current_user,'likerts.responses','SELECT') and not has_table_privilege(current_user,'likerts.usage_entries','SELECT') from pg_roles r where rolname=current_user").fetch_one(&pool).await.map_err(|_|ArchiveError::Database)?;
         if !safe {
             return Err(ArchiveError::Configuration);
         }

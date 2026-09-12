@@ -66,7 +66,6 @@ pub fn validate_approved_scopes(scopes: &[String]) -> Result<(), Error> {
         "exports:read",
         "exports:write",
         "identity:write",
-        "billing:write",
         "webhooks:read",
         "webhooks:write",
     ];

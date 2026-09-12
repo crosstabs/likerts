@@ -68,7 +68,7 @@ void main() {
     final client = LikertsClient(baseUrl: 'https://example.test', collectionToken: 'public', client: MockClient((request) async {
       expect(request.headers['Authorization'], 'Bearer public'); bodies.add(request.body);
       if(bodies.length == 1) throw Exception('connection lost');
-      return http.Response(jsonEncode({'responseId':'r','collectionId':'c','accepted':true,'chargedCents':1}),200);
+      return http.Response(jsonEncode({'responseId':'r','collectionId':'c','accepted':true}),200);
     }));
     final submission = Submission(idempotencyKey: 'stable-key', answers: {'q':4});
     await expectLater(client.submit('c',submission), throwsException);
@@ -161,7 +161,7 @@ void main() {
   });
 
   test('invalid receipt never reports completion',() async {
-    final client=LikertsClient(baseUrl:'https://example.test',collectionToken:'t',client:MockClient((_) async=>http.Response(jsonEncode({'responseId':'r','collectionId':'c','accepted':false,'chargedCents':1}),200)));
+    final client=LikertsClient(baseUrl:'https://example.test',collectionToken:'t',client:MockClient((_) async=>http.Response(jsonEncode({'responseId':'r','collectionId':'c','accepted':false}),200)));
     await expectLater(client.submit('c',Submission(idempotencyKey:'k',answers:{})),throwsFormatException);client.close();
   });
 }

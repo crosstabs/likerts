@@ -29,13 +29,13 @@ try{
  const [left,right]=InMemoryTransport.createLinkedPair();await Promise.all([server.connect(left),mcp.connect(right)]);
  const inventory=await mcp.listTools();assert.deepEqual(inventory.tools.map(t=>t.name).sort(),capabilities.map(c=>c.name).sort());
  const call=async(name,args)=>{const result=await mcp.callTool({name,arguments:args});assert(!result.isError,JSON.stringify(result));return JSON.parse(result.content[0].text)};
- const assertUsage=(usage,count)=>{assert.equal(usage.acceptedResponses,count);assert.equal(usage.chargedCents,count);assert.equal(usage.unpaidExposureCents,0);assert.equal(usage.credits.promotionalCredits,1000-count);assert.equal(usage.credits.promotionalResponses,count);assert.equal(usage.monthAcceptedResponses,count);assert.equal(usage.monthChargedCents,count);assert.equal(usage.monthlySpendCapCents,500);assert.equal(usage.unpaidExposureCapCents,500);assert.equal(usage.acceptingPaidResponses,true);};
+ const assertUsage=(usage,count)=>{assert.deepEqual(usage,{acceptedResponses:count,monthAcceptedResponses:count});};
  const version=await call('surveys_publish',{id:survey.id,revision:survey.revision,sdkCapabilities:mixedSdkCapabilities});
  const c=await call('collections_create',{idempotencyKey:'integration-collection',surveyId:survey.id,version:version.version,placement:'checkout',sdkCapabilities:mixedSdkCapabilities});
  assert.deepEqual(await call('collections_create',{idempotencyKey:'integration-collection',surveyId:survey.id,version:version.version,placement:'checkout',sdkCapabilities:mixedSdkCapabilities}),c);
  await assert.rejects(()=>call('collections_create',{idempotencyKey:'integration-collection',surveyId:survey.id,version:version.version,placement:'changed',sdkCapabilities:mixedSdkCapabilities}),/409/);
  const web=new WebClient(base,c.token);const config=await web.collection(c.id);assert.equal(config.schema.schemaVersion,1);assert.deepEqual(config.schema.questions,fixture.questions);
- const receipts=await Promise.all(Array.from({length:16},()=>web.submit(c.id,submission)));assert(receipts.every(r=>r.responseId===receipts[0].responseId));assert.equal(receipts[0].chargedCents,1);
+ const receipts=await Promise.all(Array.from({length:16},()=>web.submit(c.id,submission)));assert(receipts.every(r=>r.responseId===receipts[0].responseId));assert.equal(receipts[0].accepted,true);
  assertUsage(await call('usage_get',{}),1);
  const other=new LikertsClient(base,tokenB);assert.deepEqual(await other.call('responses_list',{}),{items:[],nextCursor:null});assert.deepEqual(await other.call('surveys_list',{}),[]);
  await assert.rejects(()=>other.call('surveys_publish',{id:survey.id,revision:1,sdkCapabilities}),/404/);
@@ -47,7 +47,7 @@ try{
  assert.equal((await web.submit(c.id,submission)).responseId,receipts[0].responseId);
  await assert.rejects(()=>web.submit(c.id,{...submission,idempotencyKey:'new-after-close'}),e=>e.status===409);
  const malformed=await fetch(`${base}/v1/surveys`,{method:'POST',headers:{authorization:`Bearer ${tokenA}`,'content-type':'application/json'},body:'{broken'});assert.equal(malformed.status,400);assert.equal((await malformed.json()).error.code,'invalid_request');
- const final=await call('usage_get',{});assert.equal(final.chargedCents,1);
+ const final=await call('usage_get',{});assert.equal(final.acceptedResponses,1);
  const limited=cli('collections_create',{idempotencyKey:'limited-collection',surveyId:survey.id,version:version.version,placement:'limited-checkout',expiresAt:new Date(Date.now()+60_000).toISOString(),responseCap:1,sdkCapabilities});
  assert.equal(limited.responseCap,1);assert.equal(limited.revoked,false);assert(limited.expiresAt);
  const limitedWeb=new WebClient(base,limited.token);
@@ -71,7 +71,7 @@ try{
  for (const invalid of [{...expandedSubmission.answers,recommend:11},{...expandedSubmission.answers,return:true},{...expandedSubmission.answers,improvements:[]},{...expandedSubmission.answers,improvements:['speed','payment','navigation']}]) {
    await assert.rejects(()=>ew.submit(ec.id,{...expandedSubmission,idempotencyKey:'invalid-expanded',answers:invalid}),e=>e.status===400);
  }
- assert.equal((await call('usage_get',{})).chargedCents,2);
+ assert.equal((await call('usage_get',{})).acceptedResponses,2);
  const enhancedReceipts=await Promise.all(Array.from({length:8},()=>ew.submit(ec.id,expandedSubmission)));
  assert(enhancedReceipts.every(r=>r.responseId===enhancedReceipts[0].responseId));
  assertUsage(await call('usage_get',{}),3);
@@ -117,12 +117,10 @@ try{
  const changedRetry=await fetch(`${base}/v1/collections/${retryCollection.id}/responses`,{method:'POST',headers:{origin:base,authorization:`Bearer ${retryCollection.token}`,'content-type':'application/json'},body:JSON.stringify({...retryPayload,answers:{rating:4}})});assert.equal(changedRetry.status,409);
  const newAtLimit=await fetch(`${base}/v1/collections/${retryCollection.id}/responses`,{method:'POST',headers:{origin:base,authorization:`Bearer ${retryCollection.token}`,'content-type':'application/json'},body:JSON.stringify({...submission,idempotencyKey:'new-after-rate-limit'})});assert.equal(newAtLimit.status,429);
  assert.deepEqual(await call('retention_run',{}),{responsesErased:0,exportsRevoked:0});
- const capped=cli('billing_limits_update',{monthlySpendCapCents:usageBeforeDelete.chargedCents});assert.equal(capped.acceptingPaidResponses,true);assert.equal(capped.blockedReason,null);assert(capped.credits.promotionalCredits>0);
- assert.equal((await call('billing_limits_update',{unpaidExposureCapCents:500})).monthlySpendCapCents,usageBeforeDelete.chargedCents);
- assert.deepEqual(await call('usage_get',{}),capped);
+ const usageAfterRateTest=await call('usage_get',{});assert.equal(usageAfterRateTest.acceptedResponses,usageBeforeDelete.acceptedResponses+1);
  assert.equal((await ew.submit(ec.id,{...expandedSubmission,idempotencyKey:'accepted-after-export-snapshot'})).responseId,acceptedAfterExport.responseId);
  assert.deepEqual(await other.call('responses_list',{}),{items:[],nextCursor:null});
  assert.deepEqual(await call('workspace_delete',{}),{});
  await assert.rejects(()=>api.call('responses_list',{}),/401/);
- console.log('PASS: CLI → MCP → Web SDK; idempotent management creation; declared mixed-fleet compatibility blocks unsafe v2 publish/binding; immutable v1/v2 bindings; concurrent response retries once-accounted; stable filtered response pagination and asynchronous CSV/JSON export snapshots; explicit erasure preserves usage/retries, revokes exports and tombstones workspaces; tenant/credential isolation; promotional balances remain available independently of paid spend caps while preserving retries; invalid answers unbilled; closed retries; atomic response cap; irreversible revocation; operation parity.');
+ console.log('PASS: CLI → MCP → Web SDK; idempotent management creation; declared mixed-fleet compatibility; immutable bindings; unmetered response counting; stable pagination and export snapshots; erasure; tenant and credential isolation; validation; collection caps; revocation; operation parity.');
 }finally{await mcp?.close();await server?.close();child.kill('SIGTERM');}

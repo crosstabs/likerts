@@ -60,5 +60,5 @@ for(const c of registry){
   }
   if(c.auth==='management')assert.ok(spec.components.schemas.OAuthScope.enum.includes(operation['x-required-scope']),`${c.name} scope must be documented`);
 }
-for(const status of ['402','409','410','429'])assert.ok(spec.paths['/v1/collections/{id}/responses'].post.responses[status],`Submission missing ${status}`);
+for(const status of ['409','410','429'])assert.ok(spec.paths['/v1/collections/{id}/responses'].post.responses[status],`Submission missing ${status}`);
 console.log(`Release contract passed: ${registry.length} typed capabilities, ${routes.length} exact HTTP registrations, ${documentedCodes.length} structured API error codes.`);

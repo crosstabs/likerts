@@ -2,128 +2,74 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description" content="Survey collection infrastructure for web and mobile products. Define once, collect through five SDKs, and operate with API, MCP, or CLI." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Likerts is the free, open-source collection backend for surveys embedded in your own web and mobile products." />
     <meta http-equiv="Content-Security-Policy" content="__LIKERTS_CONTENT_SECURITY_POLICY__" />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="canonical" href="https://likerts.com/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://likerts.com/" />
-    <meta property="og:title" content="Likerts — survey collection inside your product" />
-    <meta property="og:description" content="Embed surveys in web and mobile. Operate through API, MCP or CLI. Developer preview with 1,000 free accepted responses." />
+    <meta property="og:title" content="Likerts — Own your survey infrastructure" />
+    <meta property="og:description" content="Free, open-source survey collection through API, MCP, CLI and five native SDKs." />
     <meta property="og:image" content="https://likerts.com/social-preview.png" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <title>Likerts — Open-source survey collection</title>
+    <link rel="icon" href="/favicon.svg" />
     <link rel="stylesheet" href="/styles.css" />
-    <script src="/marketing.js" defer></script>
-    <title>Likerts — survey collection infrastructure</title>
+    <script type="module" src="/marketing.js"></script>
   </head>
   <body class="marketing-page">
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="site-header">
-      <a class="wordmark" href="/" aria-label="Likerts home">Likerts<span class="wordmark-dot">.</span></a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-      <nav id="site-nav" class="site-nav" aria-label="Main navigation"><a href="#product">Product</a><a href="/docs/">Docs</a><a href="#pricing">Pricing</a><a class="mobile-only" href="/app/">Sign in</a><a class="mobile-only" href="/app/">Open preview</a></nav>
-      <div class="header-actions"><a class="text-link" href="/app/">Sign in</a><a class="button button-small" href="/app/">Open preview</a></div>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header marketing-section">
+      <a class="wordmark" href="/">Likerts<span class="wordmark-dot">.</span></a>
+      <nav class="site-nav" aria-label="Main navigation"><a href="#product">Product</a><a href="/docs/">Docs</a><a href="https://github.com/crosstabs/likerts/tree/main/sdks">SDKs</a><a href="https://github.com/crosstabs/likerts">GitHub</a></nav>
+      <a class="header-cta" href="/docs/#run">Self-host Likerts <span>→</span></a>
     </header>
 
-    <main id="main-content">
-      <section class="hero marketing-section" aria-labelledby="hero-title">
+    <main id="main">
+      <section class="marketing-section hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">Developer preview</p>
-          <h1 id="hero-title">Forms without<br />the form backend.</h1>
-          <p class="lede">Add feedback moments to the product you already ship. Likerts handles the collection backend: validation, receipts, storage, credits and exports.</p>
-          <div class="button-row"><a class="button" href="/app/">Open developer preview</a><a class="button button-secondary" href="/demo/">Try the SDK demo</a></div>
-          <p class="preview-context">Invitation-only access · 1,000 free accepted responses · No SLA</p>
-          <ul class="trust-line" aria-label="Product capabilities"><li>Customer-owned distribution</li><li>Accepted-response receipts</li><li>Agent-ready operations</li></ul>
+          <p class="eyebrow">Free · Open source · Self-hosted</p>
+          <h1 id="hero-title">Own your survey infrastructure.</h1>
+          <p class="lede">Embed questions in the products you already ship. Likerts validates responses, stores them in your PostgreSQL database and exposes the whole platform through API, MCP, CLI and native SDKs.</p>
+          <div class="button-row"><a class="button" href="/docs/#run">Run it locally</a><a class="button button-secondary" href="https://github.com/crosstabs/likerts">View source</a></div>
+          <p class="preview-context">No response plans. No checkout. No hosted survey links.</p>
         </div>
-
-        <div class="hero-system" aria-label="A question definition reaching five product surfaces">
-          <div class="definition-card">
-            <div class="code-title"><span></span><span></span><span></span><strong>question.json</strong></div>
-            <pre><code>{
-  <span class="code-blue">"id"</span>: <span class="code-green">"rating"</span>,
-  <span class="code-blue">"type"</span>: <span class="code-green">"scale"</span>,
-  <span class="code-blue">"label"</span>: <span class="code-green">"How was it?"</span>,
-  <span class="code-blue">"min"</span>: <span class="code-lime">1</span>, <span class="code-blue">"max"</span>: <span class="code-lime">5</span>
-}</code></pre>
-          </div>
-          <div class="flow-line" aria-hidden="true"></div>
-          <div class="surface-list">
-            <div><span class="surface-icon">W</span><strong>Web</strong><small>Browser SDK</small></div>
-            <div><span class="surface-icon">R</span><strong>React Native</strong><small>Component</small></div>
-            <div><span class="surface-icon">i</span><strong>iOS</strong><small>Swift package</small></div>
-            <div><span class="surface-icon">A</span><strong>Android</strong><small>Kotlin library</small></div>
-            <div><span class="surface-icon">F</span><strong>Flutter</strong><small>Dart package</small></div>
-          </div>
-          <div class="receipt"><span class="receipt-check">✓</span><div><strong>Accepted response</strong><small>Illustrative receipt</small></div></div>
+        <div class="hero-system" aria-label="Likerts collection flow">
+          <div class="definition-card"><span class="code-label">survey.json</span><pre><code>{
+  "title": "Checkout feedback",
+  "questions": [{
+    "id": "ease",
+    "type": "likert",
+    "min": 1,
+    "max": 5
+  }]
+}</code></pre></div>
+          <div class="surface-list"><p>Present anywhere</p><div><span class="surface-icon">W</span><strong>Web + React Native</strong></div><div><span class="surface-icon">i</span><strong>iOS + Android</strong></div><div><span class="surface-icon">F</span><strong>Flutter</strong></div></div>
+          <div class="flow-line" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="receipt"><span>accepted</span><strong>response_01J…</strong><small>cost: $0.00</small></div>
         </div>
       </section>
 
-      <section id="product" class="marketing-section questions-section" aria-labelledby="questions-title">
-        <p class="eyebrow">Questions that fit the decision</p>
-        <div class="section-heading split-heading"><h2 id="questions-title">Ask more than<br />“How satisfied?”</h2><p>Start with a pulse, then graduate to ranking, matrix or allocation questions when the decision needs structure. Try the Web renderer before adding it to your app.</p></div>
+      <section id="product" class="marketing-section questions-section" aria-labelledby="product-title">
+        <div class="section-heading"><p class="eyebrow">One collection engine</p><h2 id="product-title">Questions are the interface.<br />Your database is the destination.</h2><p>Build fixed, reviewable survey schemas. Present them inside your own customer journey and attach structured metadata from systems you control.</p></div>
         <div class="question-showcase">
-          <div class="question-types" aria-label="Supported question types">
-            <div><span>01</span><strong>Scale</strong><small>Likert, NPS, or custom range</small></div>
-            <div><span>02</span><strong>Single choice</strong><small>One clear selection</small></div>
-            <div><span>03</span><strong>Multiple choice</strong><small>Bounded selections</small></div>
-            <div><span>04</span><strong>Text</strong><small>Open feedback</small></div>
-            <div><span>05</span><strong>Number</strong><small>Validated numeric input</small></div>
-            <div><span>06</span><strong>Date</strong><small>Structured calendar value</small></div>
-            <div><span>07</span><strong>Ranking</strong><small>Priorities in order</small></div>
-            <div><span>08</span><strong>Matrix</strong><small>Single or multiple per row</small></div>
-            <div><span>09</span><strong>Constant sum</strong><small>Allocate an exact total</small></div>
-          </div>
-          <article class="question-preview">
-            <div class="preview-topline"><span>Example survey</span><span>Scale · required</span></div>
-            <p>Working in this product feels effortless.</p>
-            <div class="scale-points" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span class="selected">4</span><span>5</span></div>
-            <div class="scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
-            <div class="preview-meta"><span>See it in action</span><strong><a href="/demo/">Try a conditional survey →</a></strong></div>
-          </article>
+          <div class="question-types"><div><span>01</span><h3>Scales</h3><p>Likert, rating and NPS presets with labels.</p></div><div><span>02</span><h3>Choice</h3><p>Single choice, multiple choice and yes/no.</p></div><div><span>03</span><h3>Open input</h3><p>Text and numeric answers with validation.</p></div><div><span>04</span><h3>Structured</h3><p>Ranking, matrices, constant sum, pages and branching.</p></div></div>
+          <div class="question-preview"><p>How easy was checkout?</p><div class="scale-points"><button type="button">1</button><button type="button">2</button><button type="button" class="selected">3</button><button type="button">4</button><button type="button">5</button></div><div class="scale-labels"><span>Very difficult</span><span>Very easy</span></div><div class="preview-meta"><span>placement</span><strong>checkout_success</strong></div></div>
         </div>
       </section>
 
-      <section id="developers" class="agent-section" aria-labelledby="agent-title">
-        <div class="marketing-section agent-inner">
-          <p class="eyebrow eyebrow-light">Build. Run. Iterate.</p>
-          <div class="section-heading split-heading"><h2 id="agent-title">Operate it from your agent.</h2><p>Create surveys, publish collections, read usage, retrieve exports and revoke access from the tools your team already uses. Scoped credentials keep each session narrow.</p></div>
-          <div class="interface-tabs" role="tablist" aria-label="Developer interfaces"><button id="tab-mcp" type="button" class="interface-tab is-active" role="tab" aria-selected="true" aria-controls="interface-panel" data-interface="mcp">MCP</button><button id="tab-cli" type="button" class="interface-tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="interface-panel" data-interface="cli">CLI</button><button id="tab-api" type="button" class="interface-tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="interface-panel" data-interface="api">API</button></div>
-          <div id="interface-panel" class="agent-console" role="tabpanel" aria-labelledby="tab-mcp" tabindex="0"><div class="console-heading"><span id="interface-label">MCP tool call</span><span>Documented example</span></div><pre id="interface-code"><code>Tool: usage_get
-Arguments: {}
+      <section class="agent-section" aria-labelledby="agent-title"><div class="marketing-section agent-inner"><div><p class="eyebrow eyebrow-light">Agent-native operations</p><h2 id="agent-title">Run the platform from Codex or Claude.</h2><p>Every supported operation has the same name and typed contract across MCP, HTTP and the CLI. OAuth scopes and revocable service credentials keep access narrow.</p></div><div class="agent-console"><div class="console-tabs" role="tablist" aria-label="Interface examples"><button id="tab-mcp" type="button" role="tab" aria-selected="true" data-interface="mcp">MCP</button><button id="tab-cli" type="button" role="tab" aria-selected="false" data-interface="cli">CLI</button><button id="tab-api" type="button" role="tab" aria-selected="false" data-interface="api">API</button></div><div role="tabpanel" aria-labelledby="tab-mcp" tabindex="0"><div class="console-heading"><span id="interface-label">MCP tool call</span><span>Same contract everywhere</span></div><pre id="interface-code"><code>Tool: responses_list
+Arguments: { "limit": 100 }
 
-Connect a scoped service credential first.
-See the Codex and Claude Code setup guide.</code></pre></div>
-          <div class="developer-links"><a href="/docs/#quickstart">Get your first response <span>→</span></a><a href="/docs/#agents">Connect your agent <span>→</span></a><a href="/docs/api/">API reference <span>→</span></a></div>
-        </div>
-      </section>
+Returns a stable, workspace-isolated page.</code></pre></div><div class="developer-links"><a href="/docs/#quickstart">Get your first response <span>→</span></a><a href="/docs/#agents">Connect your agent <span>→</span></a><a href="/docs/api/">API reference <span>→</span></a></div></div></div></section>
 
       <section class="marketing-section ownership-section" aria-labelledby="ownership-title">
-        <p class="eyebrow">Your channel. Your rules.</p>
-        <div class="section-heading split-heading"><h2 id="ownership-title">Distribution<br />stays yours.</h2><p>No survey blasts, no public respondent links, no deliverability game. Your app presents the question; Likerts records the accepted answer and gives you the receipt.</p></div>
-        <div class="principles"><article><span>01</span><h3>You own the channel</h3><p>Trigger feedback after a purchase, support close, feature use or cancellation. Likerts does not send email or create public campaign links.</p></article><article><span>02</span><h3>Metadata stays structured</h3><p>Attach your own non-sensitive context so results are usable in exports, callbacks and downstream analysis.</p></article><article><span>03</span><h3>Credentials stay narrow</h3><p>Give an app, CLI session or agent only the scopes it needs, then revoke it when the job is done.</p></article></div>
+        <p class="eyebrow">Designed around ownership</p>
+        <div class="section-heading split-heading"><h2 id="ownership-title">Your channel.<br />Your data.</h2><p>Likerts never sends surveys or creates public respondent links. Your application decides when a question appears, and your infrastructure controls the response lifecycle.</p></div>
+        <div class="principles"><article><span>01</span><h3>Tenant isolation</h3><p>PostgreSQL row-level security, scoped credentials and explicit workspace selection separate customer data.</p></article><article><span>02</span><h3>Portable clients</h3><p>Use the HTTP API directly or ship with Web, React Native, iOS, Android and Flutter SDKs.</p></article><article><span>03</span><h3>Operational control</h3><p>Export, retain, erase and send signed response callbacks from the same documented interface.</p></article></div>
       </section>
 
-      <section id="pricing" class="pricing-section" aria-labelledby="pricing-title">
-        <div class="marketing-section pricing-inner">
-          <div class="pricing-copy"><p class="eyebrow eyebrow-lime">Simple prepaid pricing</p><h2 id="pricing-title">Enterprise-shaped controls.<br />Hobby-shaped cost.</h2><p>Preview workspaces receive a one-time free grant. Paid pricing below is planned; payment testing only during the preview.</p><a class="button button-lime" href="/app/">Open preview</a></div>
-          <dl class="price-ledger"><div><dt>1,000</dt><dd>responses free per workspace</dd></div><div><dt>US$0.01</dt><dd>per accepted response</dd></div><div><dt>US$5</dt><dd>for 500 response credits</dd></div></dl>
-          <ul class="pricing-notes"><li>No subscription</li><li>No setup fee</li><li>Rejected responses are not charged</li></ul>
-        </div>
-      </section>
+      <section id="pricing" class="pricing-section" aria-labelledby="pricing-title"><div class="marketing-section pricing-inner"><div class="pricing-copy"><p class="eyebrow eyebrow-lime">Community edition</p><h2 id="pricing-title">Every response is free.</h2><p>Run Likerts on your own infrastructure. There are no response credits, paid plans, license keys or checkout flows.</p><a class="button button-lime" href="https://github.com/crosstabs/likerts">Get the source</a></div><dl class="price-ledger"><div><dt>$0</dt><dd>software license cost</dd></div><div><dt>∞</dt><dd>application-level responses</dd></div><div><dt>5</dt><dd>supported client SDKs</dd></div></dl><ul class="pricing-notes"><li>You pay your infrastructure provider</li><li>Security limits stay configurable</li><li>Contributions are welcome</li></ul></div></section>
 
-      <section class="marketing-section pricing-faq" aria-labelledby="faq-title">
-        <h2 id="faq-title">What buyers ask first.</h2>
-        <details><summary>What counts as a response?</summary><p>One accepted survey submission, including its answers. It is not a charge per question. Rejected submissions and identical retries with the same idempotency key consume no additional credit.</p></details>
-        <details><summary>Is the free grant monthly?</summary><p>No. Each eligible verified workspace gets one nonrenewing grant of 1,000 accepted responses. No card is required for the grant.</p></details>
-        <details><summary>What happens when credits run out?</summary><p>New responses pause. Authorized reads, exports and valid prior receipts remain available, subject to retention and access controls. There is no automatic top-up or silent charge.</p></details>
-        <details><summary>Can I buy credits today?</summary><p>Payments are in test mode during this developer preview. Planned paid usage is US$0.01 per accepted response, prepaid in packs starting at US$5. Live payment availability and reviewed credit, refund and tax terms will be published before paid launch.</p></details>
-        <details><summary>Does Likerts send surveys to my customers?</summary><p>Your application decides when, where and to whom a survey appears. Likerts supplies collection tools; your app handles eligibility, consent and distribution.</p></details>
-      </section>
-      <section class="marketing-section final-cta" aria-labelledby="cta-title"><p class="eyebrow">Start collecting</p><h2 id="cta-title">Add one feedback moment.<br />Measure the first answer.</h2><p>Explore the demo, then follow the quickstart to create a collection, submit a response and read the receipt.</p><div class="button-row"><a class="button" href="/docs/">Read the quickstart</a><a class="button button-secondary" href="/demo/">Try the SDK demo</a></div></section>
+      <section class="marketing-section pricing-faq" aria-labelledby="faq-title"><h2 id="faq-title">What stays under your control.</h2><details><summary>Are responses really unlimited?</summary><p>Likerts does not meter or charge responses. Operators should still configure request rates, payload bounds and infrastructure capacity to protect their deployment.</p></details><details><summary>Does Likerts host or distribute survey links?</summary><p>No. Your web or mobile product decides when, where and to whom a survey appears.</p></details><details><summary>Can an AI agent manage Likerts?</summary><p>Yes. The MCP server exposes the same scoped operations as the API and CLI, so Codex or Claude can create surveys, manage collections, retrieve responses and run exports.</p></details><details><summary>Can I use it for multiple customers?</summary><p>Yes. Each workspace is isolated with row-level security and scoped credentials. Deploy separate stacks when a customer requires physical isolation.</p></details></section>
+      <section class="marketing-section final-cta" aria-labelledby="cta-title"><p class="eyebrow">Start with source</p><h2 id="cta-title">Run it. Embed it.<br />Keep the data.</h2><p>Clone the repository, start PostgreSQL and submit your first response from the SDK or tool your team already uses.</p><div class="button-row"><a class="button" href="/docs/#run">Read the quickstart</a><a class="button button-secondary" href="/demo/">Try the SDK demo</a></div></section>
     </main>
-
-    <footer class="site-footer"><div><a class="wordmark" href="/">Likerts<span class="wordmark-dot">.</span></a><p>In-product feedback collection.</p></div><nav aria-label="Footer navigation"><a href="#product">Product</a><a href="/docs/">Docs</a><a href="#pricing">Pricing</a><a href="/downloads/">Downloads</a><a href="/demo/">SDK demo</a><a href="/status/">Service checks</a></nav><p class="preview-note">Developer preview · No SLA</p></footer>
+    <footer class="site-footer"><div><a class="wordmark" href="/">Likerts<span class="wordmark-dot">.</span></a><p>Open-source in-product survey collection.</p></div><nav aria-label="Footer navigation"><a href="#product">Product</a><a href="/docs/">Docs</a><a href="https://github.com/crosstabs/likerts">GitHub</a><a href="https://github.com/crosstabs/likerts/tree/main/sdks">SDKs</a><a href="/status/">Hosted demo status</a></nav><p class="preview-note">Free and self-hostable</p></footer>
   </body>
 </html>

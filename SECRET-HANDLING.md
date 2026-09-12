@@ -11,7 +11,6 @@ Likerts does not provide a support impersonation path or a support API for custo
 | OAuth grant | Grant ID, subject, client, audience, scopes, expiry and revocation | Access/refresh tokens remain at the OIDC provider and authorized client |
 | Webhook signing credential | Endpoint generation IDs and SHA-256 digests; attempt generation/timestamp | Protected reconstruction from the separate API/worker-only `LIKERTS_WEBHOOK_CREDENTIAL_KEY`; see [rotation limits](infrastructure/webhooks/README.md) |
 | Monitor token | HMAC-derived in-process comparison tag | Deployment secret manager and metrics scraper |
-| Stripe secrets | Not stored in Likerts tables | Deployment secret manager only |
 
 `LIKERTS_COLLECTION_CREDENTIAL_KEY` is exactly 32 random bytes encoded as base64. Keep it outside PostgreSQL and supply it only to the API runtime. All running tasks must use the same value. The derived capability binds a domain separator, workspace and random collection UUID; PostgreSQL receives only its SHA-256 digest. Migration `0015_protected_collection_credentials.sql` removes pre-launch collection retry rows that could contain plaintext credentials and adds a database constraint prohibiting that field. Because those old synthetic retry records are deliberately removed, their management idempotency keys cannot be replayed after the migration.
 
@@ -30,7 +29,6 @@ Database errors emitted by the service contain only a SQLSTATE category. Migrati
 - `bash scripts/check-s3-object-store.sh` proves fail-fast bucket access and private put/get/delete behavior. Both S3 and the local adapter bound reads to 64 MiB; a missing S3 key is distinct from an authorization, KMS or service failure. The local adapter creates private, unpredictable temporary files and atomically renames them.
 - `bash scripts/check-aws-iac.sh` proves the runtime alone receives the precreated collection derivation key through a resource-scoped Secrets Manager policy. Its entire secret string must be the standard-base64 encoding of exactly 32 random bytes, and the value must remain stable across task replacement and idempotent retries.
 - `bash scripts/check-recovery.sh` scans audit fixtures for credentials and customer payload sentinels and verifies audit history survives restore unchanged.
-- `bash scripts/check-release-rehearsal.sh` keeps its capability-bearing state and backend log private, never prints the state, and rejects a backend log containing the management credential, collection capability or response-content sentinels. SEC-02A also statically rejects credential-bearing console statements in its driver.
 - `npm --prefix tools/mcp test` includes a separate-process malformed-origin startup regression: URL parser errors must not print a configured credential-bearing input.
 - `bash scripts/check-webhook-isolation.sh` verifies digest-only callback credential persistence, restricted worker privileges, signing-key mismatch failure and customer-content exclusion.
 - `bash scripts/check-container.sh` proves the runtime cannot read unscoped audit rows or mutate them.

@@ -4,7 +4,7 @@ const fixture=JSON.parse(readFileSync(new URL('offline-queue-cases.json',import.
 const {limits,outcomes,record}=fixture;
 assert.ok(limits.maxRecords<=limits.hardMaxRecords&&limits.maxBytes<=limits.hardMaxBytes&&limits.maxAgeSeconds<=limits.hardMaxAgeSeconds);
 assert.ok(Buffer.byteLength(JSON.stringify(record.submission))<=limits.maxRecordBytes);
-assert.deepEqual(outcomes.filter(value=>value.billed).map(value=>value.input),['accepted_receipt']);
+assert.deepEqual(outcomes.filter(value=>value.accepted).map(value=>value.input),['accepted_receipt']);
 assert.deepEqual(outcomes.filter(value=>value.retry).map(value=>value.input),['timeout',429,503]);
 for(const status of [400,409,401,403,404,410])assert.match(outcomes.find(value=>value.input===status).next,/^blocked:/);
 console.log('offline queue contract: ok');

@@ -56,7 +56,6 @@ void main() {
                   responseId: 'r',
                   receiptCollectionId: c,
                   accepted: true,
-                  chargedCents: 1,
                 );
         },
       );

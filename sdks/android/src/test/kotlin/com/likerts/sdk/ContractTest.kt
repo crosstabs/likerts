@@ -14,7 +14,7 @@ class ContractTest {
   val client=LikertsClient(base,token)
   assertEquals("Release rehearsal",client.collection(id).schema.title)
   val receipt=client.submit(id,Submission(idempotencyKey="rel-android",answers=mapOf("comment" to JsonPrimitive("android")),metadata=buildJsonObject { put("sdk","android") }))
-  assertTrue(receipt.accepted);assertEquals(1,receipt.chargedCents)
+  assertTrue(receipt.accepted)
  }
  @Test fun sharedBehaviorContractFixture() {
   val value=Json.parseToJsonElement(java.io.File("../../contracts/sdk-behavior.json").readText()).jsonObject
@@ -93,10 +93,10 @@ class ContractTest {
  }
 
  // SDK-CONTRACT: callback.success
- @Test fun receiptRequiresAcceptanceAndOneCent() {
+ @Test fun receiptRequiresAcceptance() {
   val json=Json { ignoreUnknownKeys=true }
-  assertTrue(json.decodeFromString<Receipt>("""{"responseId":"r","collectionId":"c","accepted":true,"chargedCents":1}""").accepted)
-  for(value in listOf("""{"responseId":"r","collectionId":"c","accepted":false,"chargedCents":1}""","""{"responseId":"r","collectionId":"c","accepted":true,"chargedCents":2}""")) {
+  assertTrue(json.decodeFromString<Receipt>("""{"responseId":"r","collectionId":"c","accepted":true}""").accepted)
+  for(value in listOf("""{"responseId":"r","collectionId":"c","accepted":false}""")) {
    try { json.decodeFromString<Receipt>(value);fail("invalid receipt accepted") } catch(_:IllegalArgumentException) {}
   }
  }

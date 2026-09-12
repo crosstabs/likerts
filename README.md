@@ -1,70 +1,78 @@
 # Likerts
 
-Embedded surveys, controlled by the customer. Preview pricing: **first 1,000 accepted responses free per verified workspace, then US$0.01 per accepted response**, with US$5 buying 500 paid credits.
+Likerts is a free, open-source backend for surveys embedded in your own web and mobile products. It provides one typed platform through HTTP, MCP and a Rust CLI, with SDKs for Web, React Native, iOS, Android and Flutter.
 
-Rust backend, HTTP API, MCP server, Rust CLI, and SDK foundations for Web, React Native, iOS, Android and Flutter. Verified frozen SDK 0.0.3 supports schema versions 1–5, including baseline types, presets, conditional visibility, pages and branching, ranking, matrices, constant-sum questions and durable offline queue APIs. No survey-link hosting, distribution, invitation sending or enterprise deployment layer.
+Likerts does not host respondent links or send invitations. Your application decides when a survey appears and supplies the customer context. Likerts validates the published schema, stores the response, returns an idempotent receipt and makes the data available through scoped reads, exports and signed callbacks.
 
-**The production service is ready for an invite-only developer preview; public paid launch remains on hold.** The first 1,000-response grant, append-only prepaid credit ledger, atomic consumption and Stripe Checkout/refund path are implemented and pass hosted test-mode acceptance. Production passwordless Clerk domains, Render/Neon tenant isolation, private exports, scoped credentials, direct API/MCP operation and checksummed SDK/CLI downloads are deployed. A fresh-user OTP and Codex/Claude journey, live merchant activation, reviewed legal/support ownership, managed recovery/alerts, sustained capacity and the supported native-device/accessibility matrix remain public-launch gates. See [the launch decision](LAUNCH-DECISION.md) for the exact boundary.
+There are no response credits, paid plans, license keys or application-level response quotas. Accepted-response counts are observability data only. Operators still configure request rates, payload bounds, storage capacity and concurrency to protect their infrastructure.
 
-Preview artifacts for all five SDKs and the Rust CLI are available from [the production downloads page](https://likerts.com/downloads/). Likerts does not host or distribute respondent links; the customer's application decides when and where to render a collection.
+## What is included
 
-## Start locally
+- Nine question types: single choice, multiple choice, scale, text, number, date, ranking, matrix and constant sum
+- NPS and yes/no presets, conditional visibility, pages and branching
+- Immutable published survey versions and collection credentials
+- PostgreSQL row-level security for workspace isolation
+- Scoped service credentials and OAuth grants
+- Stable response pagination, bounded exports, retention and erasure
+- Signed response webhooks
+- API, MCP and CLI operation parity
+- Five client SDKs with encrypted offline queue adapters
 
-Requires Rust stable and Node.js 22+; SDK platform builds need their native toolchains. During this build, Rust and selected mobile tooling were installed under ignored `.tools/`, without changing shell profiles. The helper also works with a normal Rust installation.
+## Run locally
+
+You need Rust stable and Node.js 22+. The memory store is intended for a disposable local loop; PostgreSQL is required for durable deployments.
 
 ```bash
 source scripts/dev-env.sh
-cargo build --manifest-path backend/Cargo.toml --locked
 export LIKERTS_DEV_TOKENS='{"local-demo-management-token":"demo"}'
 export LIKERTS_ALLOW_MEMORY=1
-export LIKERTS_ADMISSION_MODE=disabled # disposable local development only
+export LIKERTS_ADMISSION_MODE=disabled
 cargo run --manifest-path backend/Cargo.toml --locked
 ```
 
-Development server: `http://127.0.0.1:8080`. Set `DATABASE_URL` to use PostgreSQL and run migrations separately or set `LIKERTS_RUN_MIGRATIONS=1` for local development. Memory storage requires the explicit `LIKERTS_ALLOW_MEMORY=1` switch. The displayed token is a public local example, not a production secret. You can map a second distinct token to a second workspace for isolation checks. SDK clients use a separate collection credential returned when creating a collection.
-
-In another terminal:
+The API listens on `http://127.0.0.1:8080`. In another terminal:
 
 ```bash
 source scripts/dev-env.sh
 export LIKERTS_API_URL=http://127.0.0.1:8080
 export LIKERTS_TOKEN=local-demo-management-token
 cargo run --manifest-path tools/cli/Cargo.toml --locked -- capabilities
-jq '. + {idempotencyKey:"my-survey-create-1"}' contracts/survey.example.json | cargo run --manifest-path tools/cli/Cargo.toml --locked -- call surveys_create --input -
+jq '. + {idempotencyKey:"my-survey-create-1"}' contracts/survey.example.json | \
+  cargo run --manifest-path tools/cli/Cargo.toml --locked -- call surveys_create --input -
 ```
 
-Use the returned survey ID and revision with `surveys_publish`, then `collections_create`. [The capability reference](contracts/CAPABILITIES.md) covers all implemented operations with scopes, errors and input/output examples. [CLI and MCP setup](tools/README.md) describes input files, environment configuration and the stdio MCP server. Connecting an agent does not authorize deployment to a customer's website or app.
+Use the returned survey ID and revision with `surveys_publish`, then create a collection. The [capability reference](contracts/CAPABILITIES.md) documents every API, MCP and CLI operation. [Tool setup](tools/README.md) covers the CLI and MCP server.
 
-## Verify the complete loop
+For PostgreSQL, set `DATABASE_URL` and use a migration-capable local account with `LIKERTS_RUN_MIGRATIONS=1`. Production should run migrations separately and connect the API with the restricted runtime role in `backend/provision-runtime.sql`.
+
+## Verify
 
 ```bash
 bash scripts/check.sh
 bash scripts/check-postgres.sh
+bash scripts/check-all-sdks.sh
 ```
 
-The first command checks the interfaces and SDK loop. The PostgreSQL check starts an isolated PostgreSQL 17 container and verifies persistence across reconnect, concurrent retry accounting, workspace filtering, closed collections and ledger consistency. Neither command deploys or makes external customer requests.
-
-See [BUILD-STATUS.md](BUILD-STATUS.md) for platform checks and limitations. Mobile SDK build commands are in [sdks/README.md](sdks/README.md).
+The checks cover domain validation, interface parity, tenant isolation, durable idempotency, response lifecycle and all five SDK implementations.
 
 ## Repository map
 
 | Directory | Responsibility |
 | --- | --- |
-| `backend/` | Rust domain validation, PostgreSQL migrations/repositories and local HTTP service |
-| `contracts/` | Versioned API/survey specifications and cross-platform acceptance fixtures |
-| `tools/mcp/` | Typed MCP adapter over the API |
-| `tools/cli/` | Rust terminal client |
-| `tools/capabilities.json` | Implemented API/MCP/CLI operation inventory |
-| `sdks/` | Five rendering and collection SDKs |
-| `tests/` | Cross-interface integration verification |
-| `economics/LAUNCH-PLATFORM-ECONOMICS.md` | Current Render, Vercel and Clerk launch model for the 1¢ service; hosted costs and margins remain unverified |
+| `backend/` | Rust API, domain validation, PostgreSQL repositories and migrations |
+| `contracts/` | OpenAPI, survey schemas and cross-platform fixtures |
+| `tools/mcp/` | Typed MCP adapter |
+| `tools/cli/` | Rust CLI |
+| `sdks/` | Web, React Native, iOS, Android and Flutter SDKs |
+| `control-plane/` | Public site, documentation and optional hosted workspace UI |
+| `infrastructure/` | Render, recovery, export and webhook deployment assets |
 
-## Before public paid launch
+## Security model
 
-All five SDKs remain in scope together. Public release still requires the owner-controlled and managed-operation gates in [LAUNCH-DECISION.md](LAUNCH-DECISION.md), including the real customer identity/agent journey, live payment acceptance, traffic-abuse controls, managed recovery and complete platform testing for accessibility, localization and device integration. Durable response lifecycle, usage visibility, workspace spending caps, scoped service credentials, collection rate limits and the shared five-SDK behavior contract are implemented. Public SDK credentials cannot prove a human, purchase or trusted metadata.
+A collection credential can fetch one immutable collection and submit responses to it. Management credentials are workspace-bound and explicitly scoped. PostgreSQL row-level security enforces tenant boundaries beneath the application layer. Browser origins are policy controls and do not replace authentication.
 
-Customer-configured signed response callbacks are implemented and locally tested; their payload contains IDs, and they do not distribute surveys. See [the callback contract and hosted acceptance limits](infrastructure/webhooks/README.md).
+Never put a management credential in a browser or mobile app. Treat metadata as untrusted input and avoid sending secrets or unnecessary personal data. See [SECURITY.md](SECURITY.md) for reporting and deployment guidance.
 
-No public-launch readiness, SLA or profitable margin is claimed. The current [MODEL.md](MODEL.md) captures intended scope; [BUILD-STATUS.md](BUILD-STATUS.md) distinguishes deployed features from remaining release work.
+## License
 
-Prioritized implementation and launch checklist: [TASKS.md](TASKS.md).
+Likerts is available under the [MIT License](LICENSE).

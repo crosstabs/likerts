@@ -32,13 +32,13 @@ class HostedTransportInstrumentedTest {
                     JsonObject(mapOf("source" to JsonPrimitive("synthetic-native-hosted"), "target" to JsonPrimitive("android"))))
                 stage = "submit"
                 val receipt = client.submit(id, submission)
-                check(receipt.collectionId == id && receipt.accepted && receipt.chargedCents == 1 && receipt.responseId.isNotEmpty())
+                check(receipt.collectionId == id && receipt.accepted && receipt.responseId.isNotEmpty())
                 stage = "identical_retry"
                 val retry = client.submit(id, submission)
                 check(receipt == retry)
                 File(files, "likerts-hosted-result.json").writeText(JSONObject(mapOf(
                     "target" to "android", "sdkVersion" to "0.0.3", "result" to "passed",
-                    "collectionId" to id, "responseId" to receipt.responseId, "chargedCents" to 1,
+                    "collectionId" to id, "responseId" to receipt.responseId,
                     "identicalRetrySameReceipt" to true, "sdkRequests" to 3,
                     "boundary" to "same-team synthetic native transport; ledger verified separately"
                 )).toString())

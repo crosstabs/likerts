@@ -20,7 +20,7 @@ values(
   :'workspace', :'credential_id', 'launch-rehearsal', decode(:'token_hash','hex'),
   array[
     'surveys:read','surveys:write','collections:write','responses:read','responses:write',
-    'exports:read','exports:write','usage:read','billing:write','identity:write',
+    'exports:read','exports:write','usage:read','identity:write',
     'webhooks:read','webhooks:write'
   ],
   now()+interval '2 hours'

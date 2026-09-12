@@ -67,7 +67,7 @@
     "name": "responses_submit",
     "method": "POST",
     "path": "/v1/collections/{id}/responses",
-    "description": "Submit a completed response. Accepted responses incur usage. Reuse the same idempotency key only for identical retries.",
+    "description": "Submit a completed response. Accepted responses are counted for observability and are never metered or charged. Reuse the same idempotency key only for identical retries.",
     "input": "submission",
     "auth": "collection"
   },
@@ -197,70 +197,6 @@
     "path": "/v1/oauth-grants/{id}",
     "description": "Irreversibly revoke an OAuth grant for subsequent requests.",
     "input": "id",
-    "auth": "management"
-  },
-  {
-    "name": "billing_limits_update",
-    "method": "PATCH",
-    "path": "/v1/billing/limits",
-    "description": "Update the workspace's independent monthly spending and unpaid exposure limits and return current usage.",
-    "input": "billing_limits",
-    "auth": "management"
-  },
-  {
-    "name": "billing_account_put",
-    "method": "PUT",
-    "path": "/v1/billing/account",
-    "description": "Configure the workspace's test-mode provider customer and payment method for settlement.",
-    "input": "billing_account",
-    "auth": "management"
-  },
-  {
-    "name": "billing_checkout_create",
-    "method": "POST",
-    "path": "/v1/billing/checkout",
-    "description": "Create or retry a hosted checkout for prepaid response credits. One US cent buys one response credit; the minimum purchase is US$5.",
-    "input": "credit_checkout",
-    "auth": "management"
-  },
-  {
-    "name": "billing_checkout_get",
-    "method": "GET",
-    "path": "/v1/billing/checkouts/{id}",
-    "description": "Read the workspace-owned prepaid purchase state confirmed by signed provider events.",
-    "input": "id",
-    "auth": "management"
-  },
-  {
-    "name": "billing_settlements_list",
-    "method": "GET",
-    "path": "/v1/billing/settlements",
-    "description": "List durable settlement batches and provider status.",
-    "input": "empty",
-    "auth": "management"
-  },
-  {
-    "name": "billing_settlements_create",
-    "method": "POST",
-    "path": "/v1/billing/settlements",
-    "description": "Reserve unsettled one-cent usage and idempotently submit one aggregated provider charge.",
-    "input": "settlement",
-    "auth": "management"
-  },
-  {
-    "name": "billing_settlements_reconcile",
-    "method": "POST",
-    "path": "/v1/billing/settlements/{id}/reconcile",
-    "description": "Reconcile a settlement against current provider state.",
-    "input": "id",
-    "auth": "management"
-  },
-  {
-    "name": "billing_settlements_refund",
-    "method": "POST",
-    "path": "/v1/billing/settlements/{id}/refund",
-    "description": "Create an idempotent provider refund and immutable refund adjustment.",
-    "input": "refund",
     "auth": "management"
   },
   {

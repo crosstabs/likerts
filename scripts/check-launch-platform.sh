@@ -2,9 +2,9 @@
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 
-node --test "$root/economics/launch-platform-model.test.mjs" "$root/tests/hosted-sustained.test.mjs" "$root/tests/hosted-credit-notifications.test.mjs"
-node "$root/economics/launch-platform-model.mjs"
-bash "$root/scripts/verify-sdk-release.sh"
+node "$root/contracts/check-release.mjs"
+npm --prefix "$root/sdks/web" run build
+node "$root/control-plane/scripts/sync-public-reference.mjs"
 (cd "$root/control-plane" && npm ci --ignore-scripts)
 (cd "$root/control-plane" && npm run check)
 
@@ -18,8 +18,8 @@ if rg -Fq '__CLERK_PUBLISHABLE_KEY__' "$root/control-plane/dist/app.js"; then
 fi
 (cd "$root/control-plane" && npm run build >/dev/null)
 
-if rg -n 'LIKERTS_VERCEL_BLOB_TOKEN|BLOB_READ_WRITE_TOKEN|CLERK_SECRET_KEY|STRIPE_SECRET' "$root/control-plane/dist"; then
+if rg -n 'LIKERTS_VERCEL_BLOB_TOKEN|BLOB_READ_WRITE_TOKEN|CLERK_SECRET_KEY|DATABASE_URL' "$root/control-plane/dist"; then
   echo "server secret reference found in control-plane build" >&2
   exit 1
 fi
-echo "launch platform local gate passed"
+echo "community edition launch-platform gate passed"

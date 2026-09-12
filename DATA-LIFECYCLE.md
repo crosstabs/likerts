@@ -11,7 +11,7 @@ This contract applies to raw respondent answers, export objects and workspace id
 
 ## Erasure
 
-Explicit response erasure replaces `answers` and `metadata` with SQL null and records `raw_deleted_at`. The response ID, collection ID, acceptance time, one-cent usage entry, idempotency key and a 32-byte capability-keyed payload digest remain. That minimal record allows an identical authorized retry to return its original receipt and a changed payload to conflict without retaining answer contents.
+Explicit response erasure replaces `answers` and `metadata` with SQL null and records `raw_deleted_at`. The response ID, collection ID, acceptance time, usage entry, idempotency key and a 32-byte capability-keyed payload digest remain. That minimal record allows an identical authorized retry to return its original receipt and a changed payload to conflict without retaining answer contents.
 
 Workspace erasure is a tombstone operation. It marks the workspace deleted, closes and revokes collections, erases raw responses, revokes and removes export objects, and removes membership, OAuth-grant and service-credential records. It retains structural IDs, deletion events and financial usage records. Authentication must reject a deleted workspace on every subsequent request.
 
@@ -21,7 +21,7 @@ Every explicit or retention deletion writes an immutable `deletion_events` row i
 
 New submissions store `HMAC-SHA-256(collection capability, canonical JSON submission)` before raw erasure. The collection capability is never stored in plaintext. Existing pre-migration responses have no digest and must be erased on schedule; after erasure they return the terminal receipt-expired result because their original payload cannot be compared safely.
 
-Minimal retry records live through the collection acceptance lifetime plus 30 days. Once that window ends, an old key returns a terminal expiry result and can never create a new billed response. Collection revocation continues to deny all retries immediately.
+Minimal retry records live through the collection acceptance lifetime plus 30 days. Once that window ends, an old key returns a terminal expiry result and can never create a new accepted response. Collection revocation continues to deny all retries immediately.
 
 ## Backups and restore
 

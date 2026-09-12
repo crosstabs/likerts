@@ -54,7 +54,7 @@ Create and review a CloudFormation change set before each deployment. Record the
 
 Deploy the new service revision with the ECS deployment circuit breaker enabled. A failed health deployment automatically returns to the last healthy task set; confirm this in AWS and run the smoke checks again. Rehearse one deliberately unhealthy image in staging and record the rollback event and elapsed time before claiming rollback works.
 
-Do not automatically roll back a committed database migration. Migrations must use expand/contract compatibility. If a new revision accepts data before failure, keep the database, return to the compatible previous image, reconcile usage/payments and preserve deletion/revocation journals. A database restore is an incident procedure because it can discard accepted responses; follow `infrastructure/OPERATIONS.md` and replay deletions before traffic resumes.
+Do not automatically roll back a committed database migration. Migrations must use expand/contract compatibility. If a new revision accepts data before failure, keep the database, return to the compatible previous image, reconcile usage and preserve deletion/revocation journals. A database restore is an incident procedure because it can discard accepted responses; follow `infrastructure/OPERATIONS.md` and replay deletions before traffic resumes.
 
 Destroying staging does not delete the database snapshots, KMS key, secrets, export objects or retained log groups. Inventory and remove retained resources only under an approved environment-retirement procedure. Production uses `npx cdk deploy -c stage=production Likerts-production` after staging evidence passes; synthesis alone is not authorization to provision it.
 

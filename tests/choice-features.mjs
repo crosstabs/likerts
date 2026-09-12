@@ -34,13 +34,13 @@ try {
  const web=new WebClient(base,collection.token),config=await web.collection(collection.id);assert.equal(config.schema.schemaVersion,3);assert.deepEqual(config.schema.questions,fixture.questions);
  const oldConfig=await new WebClient(base,original.token).collection(original.id);assert.equal(oldConfig.schema.schemaVersion,2);assert.deepEqual(oldConfig.schema.questions,old.questions);
  for(const [index,invalid] of cases.invalid.entries())await assert.rejects(()=>web.submit(collection.id,{...submission,idempotencyKey:`bad-${index}`,answers:{...submission.answers,reasons:invalid}}),e=>e.status===400);
- assert.equal((await call('usage_get')).chargedCents,0);
- const receipts=await Promise.all(Array.from({length:8},()=>web.submit(collection.id,submission)));assert(receipts.every(r=>r.responseId===receipts[0].responseId));assert.equal((await call('usage_get')).chargedCents,1);
+ assert.equal((await call('usage_get')).acceptedResponses,0);
+ const receipts=await Promise.all(Array.from({length:8},()=>web.submit(collection.id,submission)));assert(receipts.every(r=>r.responseId===receipts[0].responseId));assert.equal((await call('usage_get')).acceptedResponses,1);
  const none={...submission,idempotencyKey:'none',answers:{...submission.answers,reasons:{selected:['none'],otherText:{}}}};
- await web.submit(collection.id,none);assert.equal((await call('usage_get')).chargedCents,2);
+ await web.submit(collection.id,none);assert.equal((await call('usage_get')).acceptedResponses,2);
  const rows=cli('responses_list',{collectionId:collection.id});assert.deepEqual(rows.items[0].answers,submission.answers);assert.deepEqual(rows.items[1].answers,none.answers);
  const job=await call('exports_create',{idempotencyKey:'choice-export',format:'json',collectionId:collection.id});let readyJob;
  for(let i=0;i<100;i++){readyJob=await call('exports_get',{id:job.id});if(readyJob.status==='ready')break;await new Promise(r=>setTimeout(r,10))}assert.equal(readyJob.status,'ready');
  const download=await call('exports_download',{id:job.id});const exported=JSON.parse(Buffer.from(download.contentBase64,'base64'));assert.deepEqual(exported.responses[0].answers,submission.answers);assert.equal(download.manifest.schemas[0].schemaVersion,3);
- console.log('Choice v3 API/MCP/CLI/Web integration: v2 immutable, incompatible fleets rejected, Other/None validated, retries billed once, answer/export semantics retained.');
+ console.log('Choice v3 API/MCP/CLI/Web integration: v2 immutable, incompatible fleets rejected, Other/None validated, retries counted once, answer/export semantics retained.');
 } finally {await mcp?.close();await server?.close();processServer.kill('SIGTERM');await new Promise(resolve=>processServer.exitCode!==null?resolve():processServer.once('exit',resolve));}

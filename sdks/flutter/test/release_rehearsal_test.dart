@@ -9,6 +9,6 @@ void main(){
   final client=LikertsClient(baseUrl:base,collectionToken:token);
   expect((await client.collection(id)).title,'Release rehearsal');
   final receipt=await client.submit(id,Submission(idempotencyKey:'rel-flutter',answers:{'comment':'flutter'},metadata:{'sdk':'flutter'}));
-  expect(receipt.accepted,true);expect(receipt.chargedCents,1);client.close();
+  expect(receipt.accepted,true);client.close();
  });
 }

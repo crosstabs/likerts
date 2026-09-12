@@ -242,17 +242,15 @@ public struct Receipt: Codable, Sendable, Equatable {
   public let responseId: String
   public let collectionId: String
   public let accepted: Bool
-  public let chargedCents: Int
   private enum CodingKeys: String, CodingKey {
-    case responseId, collectionId, accepted, chargedCents
+    case responseId, collectionId, accepted
   }
   public init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     responseId = try values.decode(String.self, forKey: .responseId)
     collectionId = try values.decode(String.self, forKey: .collectionId)
     accepted = try values.decode(Bool.self, forKey: .accepted)
-    chargedCents = try values.decode(Int.self, forKey: .chargedCents)
-    guard accepted, chargedCents == 1 else { throw LikertsError.invalidReceipt }
+    guard accepted else { throw LikertsError.invalidReceipt }
   }
 }
 public enum Answer: Encodable, Sendable {

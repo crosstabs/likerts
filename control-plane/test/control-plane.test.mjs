@@ -45,27 +45,14 @@ test("build emits an exact-origin CSP without wildcard connectivity", async () =
   assert.doesNotMatch(appHtml, /__LIKERTS_CONTENT_SECURITY_POLICY__/);
   assert.match(appHtml, /script src="\/app\.js"/);
   assert.doesNotMatch(html, /script src="\/app\.js"/);
-  assert.match(html, /script src="\/marketing\.js"/);
+  assert.match(html, /src="\/marketing\.js"/);
 
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
   const headers = Object.fromEntries(config.headers[0].headers.map(({ key, value }) => [key, value]));
   assert.equal(headers["X-Frame-Options"], "DENY");
   assert.equal(config.outputDirectory, "dist");
 
-  const downloads = await readFile(new URL("../dist/downloads/index.html", import.meta.url), "utf8");
-  assert.match(downloads, /Likerts downloads/);
-  for (const file of [
-    "SHA256SUMS",
-    "likerts-web-0.0.3.tgz",
-    "likerts-react-native-0.0.3.tgz",
-    "Likerts-ios-0.0.3.tar.gz",
-    "likerts-android-maven-0.0.3.tar.gz",
-    "likerts-flutter-0.0.3.tar.gz",
-    "likerts-cli-source-0.1.0.tar.gz",
-  ]) {
-    await access(new URL(`../dist/downloads/${file}`, import.meta.url));
-    assert.match(downloads, new RegExp(file.replaceAll(".", "\\.")));
-  }
+  await access(new URL("../dist/docs/index.html", import.meta.url));
 });
 
 test("build rejects API URLs that are not an exact trusted origin", async () => {
@@ -94,25 +81,23 @@ test("marketing site is separate from the authenticated control plane", async ()
   assert.match(app, /\/v1\/browser\/bootstrap/);
   assert.doesNotMatch(html, /id="oauth-approval"/);
   assert.match(app, /\/v1\/browser\/service-credentials/);
-  assert.match(app, /\/v1\/browser\/billing\/checkout/);
-  assert.match(app, /crypto\.randomUUID/);
+  assert.doesNotMatch(app, /billing|checkout|stripe/i);
   assert.match(app, /credentials: "omit"/);
   assert.match(app, /untrusted Clerk frontend domain/);
   assert.match(app, /clerk\.likerts\.com/);
   assert.doesNotMatch(html, /type="password"|disabled>Sign in/);
   assert.match(html, /Provider OAuth is not enabled/);
   assert.match(html, /value="identity:write"/);
-  assert.match(html, /500 responses — US\$5/);
+  assert.match(html, /There are no response credits/);
   assert.match(html, /Web · React Native · iOS · Android · Flutter/);
-  assert.match(html, /href="\/downloads\/"/);
-  assert.match(marketingHtml, /Survey collection infrastructure/);
-  assert.match(marketingHtml, /Forms without/);
-  assert.match(marketingHtml, /Ask more than/);
-  assert.match(marketingHtml, /Constant sum/);
-  assert.match(marketingHtml, /Operate it from your agent/);
-  assert.match(marketingHtml, /US\$0\.01/);
-  assert.match(marketingHtml, /Service checks/);
-  assert.doesNotMatch(marketingHtml, /Service status/);
-  assert.match(marketingHtml, /href="\/app\/"/);
+  assert.match(html, /github\.com\/crosstabs\/likerts/);
+  assert.match(marketingHtml, /Own your survey infrastructure/);
+  assert.match(marketingHtml, /Open source/);
+  assert.match(marketingHtml, /Your channel/);
+  assert.match(marketingHtml, /constant sum/i);
+  assert.match(marketingHtml, /Run the platform from Codex or Claude/);
+  assert.match(marketingHtml, /Every response is free/);
+  assert.match(marketingHtml, /Hosted demo status/);
+  assert.match(marketingHtml, /github\.com\/crosstabs\/likerts/);
   assert.doesNotMatch(marketingHtml, /id="auth-root"/);
 });

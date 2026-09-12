@@ -21,13 +21,13 @@ void main() {
       final submission = Submission(idempotencyKey: config['idempotencyKey'], answers: {'rating': 5}, metadata: {'source': 'synthetic-native-hosted', 'target': 'flutter'});
       stage = 'submit';
       final receipt = await client.submit(id, submission).timeout(const Duration(seconds: 15));
-      if (receipt.collectionId != id || !receipt.accepted || receipt.chargedCents != 1 || receipt.responseId.isEmpty) throw StateError('invalid');
+      if (receipt.collectionId != id || !receipt.accepted || receipt.responseId.isEmpty) throw StateError('invalid');
       stage = 'identical_retry';
       final retry = await client.submit(id, submission).timeout(const Duration(seconds: 15));
-      if (retry.responseId != receipt.responseId || retry.collectionId != receipt.collectionId || retry.accepted != receipt.accepted || retry.chargedCents != receipt.chargedCents) throw StateError('invalid');
+      if (retry.responseId != receipt.responseId || retry.collectionId != receipt.collectionId || retry.accepted != receipt.accepted) throw StateError('invalid');
       // Only public receipt fields are emitted; never config, token or response bodies.
       // ignore: avoid_print
-      print('LIKERTS_HOSTED_RESULT ${jsonEncode({'target': 'flutter', 'sdkVersion': '0.0.3', 'result': 'passed', 'collectionId': id, 'responseId': receipt.responseId, 'chargedCents': 1, 'identicalRetrySameReceipt': true, 'sdkRequests': 3, 'boundary': 'same-team synthetic native transport; ledger verified separately'})}');
+      print('LIKERTS_HOSTED_RESULT ${jsonEncode({'target': 'flutter', 'sdkVersion': '0.0.3', 'result': 'passed', 'collectionId': id, 'responseId': receipt.responseId, 'identicalRetrySameReceipt': true, 'sdkRequests': 3, 'boundary': 'same-team synthetic native transport; ledger verified separately'})}');
     } catch (_) { fail('Hosted transport acceptance failed at $stage (details redacted)'); }
     finally { client?.close(); }
   }, skip: encodedConfig.isEmpty, timeout: const Timeout(Duration(seconds: 60)));

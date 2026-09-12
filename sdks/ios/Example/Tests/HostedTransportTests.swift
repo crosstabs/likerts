@@ -31,12 +31,12 @@ final class HostedTransportTests: XCTestCase {
             let submission = Submission(idempotencyKey: config.idempotencyKey, answers: ["rating": .number(5)], metadata: ["source": "synthetic-native-hosted", "target": "ios"])
             stage = "submit"
             let receipt = try await client.submit(collectionId: config.collectionId, submission: submission)
-            guard receipt.collectionId == config.collectionId, receipt.accepted, receipt.chargedCents == 1, !receipt.responseId.isEmpty else { throw HostedFailure.invalid }
+            guard receipt.collectionId == config.collectionId, receipt.accepted, !receipt.responseId.isEmpty else { throw HostedFailure.invalid }
             stage = "identical_retry"
             let retry = try await client.submit(collectionId: config.collectionId, submission: submission)
             guard retry == receipt else { throw HostedFailure.invalid }
             let result: [String: Any] = ["target": "ios", "sdkVersion": "0.0.3", "result": "passed", "collectionId": receipt.collectionId,
-                                       "responseId": receipt.responseId, "chargedCents": 1, "identicalRetrySameReceipt": true, "sdkRequests": 3,
+                                       "responseId": receipt.responseId, "identicalRetrySameReceipt": true, "sdkRequests": 3,
                                        "boundary": "same-team synthetic native transport; ledger verified separately"]
             try JSONSerialization.data(withJSONObject: result, options: .sortedKeys).write(to: directory.appendingPathComponent("likerts-hosted-result.json"), options: .atomic)
         } catch { XCTFail("Hosted transport acceptance failed at \(stage) (details redacted)") }

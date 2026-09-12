@@ -41,7 +41,7 @@ test('publishes OAuth resource metadata and browser preflight without wildcard C
     resource: 'https://mcp.example.com',
     authorization_servers: ['https://issuer.example.com'],
     bearer_methods_supported: ['header'],
-    scopes_supported: ['surveys:read','surveys:write','collections:write','responses:read','responses:write','usage:read','exports:read','exports:write','identity:write','billing:write','webhooks:read','webhooks:write']
+    scopes_supported: ['surveys:read','surveys:write','collections:write','responses:read','responses:write','usage:read','exports:read','exports:write','identity:write','webhooks:read','webhooks:write']
   });
   const preflight = await fetch(`${base}/mcp/workspace_1`, {method: 'OPTIONS', headers: {origin: 'https://app.example.com'}});
   assert.equal(preflight.status, 204);
@@ -81,7 +81,7 @@ test('runs the existing registry over stateless Streamable HTTP with exact works
   const listed = await fetch(`${base}/mcp/bank_sg`, {method: 'POST', headers, body: JSON.stringify({jsonrpc:'2.0',id:2,method:'tools/list',params:{}})});
   assert.equal(listed.status, 200);
   const payload = await rpc(listed);
-  assert.equal(payload.result.tools.length, 41);
+  assert.equal(payload.result.tools.length, 33);
   const invoked = await fetch(`${base}/mcp/bank_sg`, {method: 'POST', headers, body: JSON.stringify({jsonrpc:'2.0',id:3,method:'tools/call',params:{name:'surveys_list',arguments:{}}})});
   assert.equal(invoked.status, 200);
   assert.deepEqual(calls, [{url:'https://api.example.com/v1/surveys',authorization:'Bearer oauth-access-token',workspace:'bank_sg'}]);

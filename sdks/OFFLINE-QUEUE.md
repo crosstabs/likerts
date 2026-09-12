@@ -26,4 +26,4 @@ The defaults are 1,000 records, 10 MiB of serialized submissions and seven days.
 
 Web persistence has been exercised in Chromium with real IndexedDB, a non-extractable WebCrypto AES-GCM key, reload and flush. Native core tests exercise strict adapter rejection, authenticated-decryption quarantine and state transitions, but the SDK cannot certify a host-supplied adapter's backup exclusion, hardware protection or durability. React Native and Flutter deliberately ship no fallback adapter. None of the queues request OS background time, synchronize across devices or recover data after the platform key is lost.
 
-Only a valid server receipt with `accepted: true` and `chargedCents: 1` removes an envelope. Local enqueue, inspection, expiry, deletion, quarantine and retry have no billing side effect. Credentials are resolved immediately before each attempt and are never sealed into queue storage.
+Only a valid server receipt with `accepted: true`, a response ID and the matching collection ID removes an envelope. Credentials are resolved immediately before each attempt and are never sealed into queue storage.

@@ -7,5 +7,5 @@ const client=new LikertsClient(base,token);
 const collection=await client.collection(id);
 assert.equal(collection.schema.title,'Release rehearsal');
 const receipt=await client.submit(id,{idempotencyKey:'rel-web',answers:{comment:'web'},metadata:{sdk:'web'}});
-assert.equal(receipt.accepted,true);assert.equal(receipt.chargedCents,1);
+assert.equal(receipt.accepted,true);
 console.log('Web real-backend rehearsal passed');

@@ -93,13 +93,13 @@ class KeystoreOfflineInstrumentedTest {
 
             // A successful HTTP status without a matching accepted receipt must retain the record.
             val invalidReceipt = reopened.flush(credential = { token }, send = { _, _, _ ->
-                OfflineAttempt(200, responseId = "response", receiptCollectionId = "wrong-collection", accepted = true, chargedCents = 1)
+                OfflineAttempt(200, responseId = "response", receiptCollectionId = "wrong-collection", accepted = true)
             })
             assertEquals(0, invalidReceipt.accepted)
             assertEquals(1, invalidReceipt.status.pending)
             val accepted = reopened.flush(credential = { token }, send = { actualCollection, _, actualPayload ->
                 assertArrayEquals(payload, actualPayload)
-                OfflineAttempt(201, responseId = "response", receiptCollectionId = actualCollection, accepted = true, chargedCents = 1)
+                OfflineAttempt(201, responseId = "response", receiptCollectionId = actualCollection, accepted = true)
             })
             assertEquals(1, accepted.accepted)
             assertEquals(0, OfflineQueue(DeviceQueueAdapter(context, adapter.alias)).snapshot().pending)

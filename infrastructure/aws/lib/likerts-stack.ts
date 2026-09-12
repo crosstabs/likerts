@@ -124,7 +124,7 @@ export class LikertsStack extends Stack {
       description: "Runtime receives traffic only from the ALB"
     });
     serviceSecurityGroup.addIngressRule(albSecurityGroup, ec2.Port.tcp(8080), "ALB to API");
-    serviceSecurityGroup.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443), "HTTPS identity, payment and AWS APIs");
+    serviceSecurityGroup.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443), "HTTPS identity and AWS APIs");
     serviceSecurityGroup.addEgressRule(ec2.Peer.ipv4(vpc.vpcCidrBlock), ec2.Port.udp(53), "VPC DNS");
     serviceSecurityGroup.addEgressRule(ec2.Peer.ipv4(vpc.vpcCidrBlock), ec2.Port.tcp(53), "VPC DNS fallback");
 

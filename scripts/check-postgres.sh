@@ -38,4 +38,5 @@ LIKERTS_MIGRATION_DATABASE_URL="$LIKERTS_TEST_DATABASE_URL" \
 docker exec -i "$CONTAINER_NAME" psql --username postgres --set ON_ERROR_STOP=1 \
   --set runtime_role=likerts_runtime_test < "$LIKERTS_ROOT/backend/provision-runtime.sql"
 
+cargo build --manifest-path "$LIKERTS_ROOT/backend/Cargo.toml" --locked --bin likerts-server
 cargo test --manifest-path "$LIKERTS_ROOT/backend/Cargo.toml" --locked --test postgres -- --test-threads=1

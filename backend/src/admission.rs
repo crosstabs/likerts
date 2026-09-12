@@ -14,7 +14,7 @@ use std::{
 };
 use tokio::sync::{OwnedSemaphorePermit, Semaphore};
 
-// All replicas use the same three fixed keys. The first request starts a 1s
+// All replicas use the same two fixed keys. The first request starts a 1s
 // Redis-clock window. Saturation does not increment counters or extend expiry.
 const SCRIPT: &str = r#"
 local count = tonumber(redis.call('GET', KEYS[1]) or '0')
@@ -34,21 +34,17 @@ const MAX_BODY_BYTES: usize = 4096;
 enum Bucket {
     Management = 0,
     Browser = 1,
-    Stripe = 2,
 }
 impl Bucket {
     fn key(self) -> &'static str {
         match self {
             Self::Management => "management",
             Self::Browser => "browser",
-            Self::Stripe => "stripe",
         }
     }
 }
 fn bucket(path: &str) -> Option<Bucket> {
-    if path == "/v1/webhooks/stripe" {
-        Some(Bucket::Stripe)
-    } else if path.starts_with("/v1/browser/") {
+    if path.starts_with("/v1/browser/") {
         Some(Bucket::Browser)
     } else if path.starts_with("/v1/") {
         Some(Bucket::Management)
@@ -63,7 +59,7 @@ struct Inner {
     authorization: HeaderValue,
     namespace: String,
     client: Client,
-    buckets: [LocalBucket; 3],
+    buckets: [LocalBucket; 2],
 }
 struct LocalBucket {
     limit: u32,
@@ -166,7 +162,6 @@ impl Admission {
         let limits = [
             number("LIKERTS_ADMISSION_MANAGEMENT_RPS", 30, 1000)?,
             number("LIKERTS_ADMISSION_BROWSER_RPS", 10, 1000)?,
-            number("LIKERTS_ADMISSION_STRIPE_RPS", 10, 1000)?,
         ];
         let timeout = number("LIKERTS_ADMISSION_TIMEOUT_MS", 750, 2000)?;
         if timeout < 50 {
@@ -185,7 +180,7 @@ impl Admission {
         raw_url: &str,
         token: &str,
         namespace: &str,
-        limits: [u32; 3],
+        limits: [u32; 2],
         timeout: Duration,
         development: bool,
     ) -> Result<Self, &'static str> {
@@ -235,7 +230,7 @@ impl Admission {
             buckets: std::array::from_fn(|i| LocalBucket {
                 limit: limits[i],
                 window: Mutex::new((Instant::now(), 0)),
-                permits: Arc::new(Semaphore::new([32, 8, 8][i])),
+                permits: Arc::new(Semaphore::new([32, 8][i])),
             }),
         }))))
     }
@@ -290,7 +285,7 @@ impl Admission {
 }
 pub async fn enforce(State(admission): State<Admission>, request: Request, next: Next) -> Response {
     // Framework route templates, never forwarded headers, token text or tenant
-    // IDs, choose one of exactly three keys. Unknown routes have no auth handler.
+    // IDs, choose one of exactly two keys. Unknown routes have no auth handler.
     let kind = request
         .extensions()
         .get::<MatchedPath>()
@@ -349,7 +344,7 @@ mod tests {
                 url,
                 "synthetic-token-long",
                 "preview",
-                [30, 10, 10],
+                [30, 10],
                 Duration::from_millis(750),
                 false
             )
@@ -359,7 +354,7 @@ mod tests {
             "http://127.0.0.1:1234",
             "synthetic-token-long",
             "preview",
-            [30, 10, 10],
+            [30, 10],
             Duration::from_millis(750),
             true
         )
@@ -368,7 +363,7 @@ mod tests {
             "https://redis.example",
             "secret\nleak",
             "preview",
-            [30, 10, 10],
+            [30, 10],
             Duration::from_millis(750),
             false
         )
@@ -377,14 +372,14 @@ mod tests {
             "https://redis.example",
             "synthetic-token-long",
             "tenant:attacker",
-            [30, 10, 10],
+            [30, 10],
             Duration::from_millis(750),
             false
         )
         .is_err());
         assert_eq!(bucket("/health"), None);
         assert_eq!(bucket("/.well-known/oauth-protected-resource"), None);
-        assert_eq!(bucket("/v1/webhooks/stripe"), Some(Bucket::Stripe));
+        assert_eq!(bucket("/v1/unknown"), Some(Bucket::Management));
         assert_eq!(bucket("/v1/browser/bootstrap"), Some(Bucket::Browser));
         assert_eq!(
             bucket("/v1/collections/{id}/responses"),
@@ -429,7 +424,7 @@ mod tests {
             &origin,
             "synthetic-token-long",
             "handler-test",
-            [100, 100, 100],
+            [100, 100],
             Duration::from_millis(750),
             true,
         )

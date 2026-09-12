@@ -26,7 +26,7 @@
     "react-test-renderer": "19.2.3",
     "typescript": "^5.9.3"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "files": [
     "lib",
     "src",

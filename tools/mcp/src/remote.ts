@@ -54,7 +54,7 @@ function metadata(config: RemoteMcpConfig) {
     bearer_methods_supported: ['header'],
     scopes_supported: [
       'surveys:read', 'surveys:write', 'collections:write', 'responses:read', 'responses:write',
-      'usage:read', 'exports:read', 'exports:write', 'identity:write', 'billing:write',
+      'usage:read', 'exports:read', 'exports:write', 'identity:write',
       'webhooks:read', 'webhooks:write'
     ]
   };

@@ -10,7 +10,6 @@ use uuid::Uuid;
 
 pub mod advanced_questions;
 pub mod auth;
-pub mod billing;
 pub mod branching;
 pub mod choice_features;
 pub mod conditional;
@@ -418,7 +417,6 @@ pub struct Receipt {
     pub response_id: String,
     pub collection_id: String,
     pub accepted: bool,
-    pub charged_cents: u64,
 }
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -548,28 +546,11 @@ pub struct LifecycleBatch {
     pub object_keys: Vec<String>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct BillingLimitsInput {
-    pub monthly_spend_cap_cents: Option<u64>,
-    pub unpaid_exposure_cap_cents: Option<u64>,
-}
-
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct UsageSummary {
     pub accepted_responses: u64,
-    pub charged_cents: u64,
-    pub credits: credits::CreditBalance,
     pub month_accepted_responses: u64,
-    pub month_charged_cents: u64,
-    pub unpaid_exposure_cents: u64,
-    pub monthly_spend_cap_cents: u64,
-    pub unpaid_exposure_cap_cents: u64,
-    pub remaining_monthly_cents: u64,
-    pub remaining_exposure_cents: u64,
-    pub accepting_paid_responses: bool,
-    pub blocked_reason: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
@@ -672,7 +653,6 @@ pub enum Error {
     ExportRevoked,
     NotReady,
     ReceiptExpired,
-    SpendLimit,
     RateLimited,
     ErasureFenced,
     Internal,
@@ -989,14 +969,12 @@ pub struct Store {
     accepted: HashMap<(String, String), AcceptedRecord>,
     responses: HashMap<String, Vec<Response>>,
     usage: HashMap<String, u64>,
-    credit_books: HashMap<String, credits::CreditBook>,
     management_requests: HashMap<(String, String, String), (Vec<u8>, Value)>,
     next_response_sequence: i64,
     exports: HashMap<(String, String), ExportRecord>,
     export_requests: HashMap<(String, String), (Vec<u8>, String)>,
     deleted_workspaces: HashSet<String>,
     retention_dirty_workspaces: HashSet<String>,
-    billing_limits: HashMap<String, (u64, u64)>,
     collection_security: HashMap<String, CollectionSecurity>,
     collection_rate_windows: HashMap<(String, i64), u32>,
 }
@@ -1055,7 +1033,6 @@ impl Store {
         if self.deleted_workspaces.contains(workspace) {
             return Err(Error::NotFound);
         }
-        self.credit_books.entry(workspace.into()).or_default();
         let survey = Survey {
             id: Uuid::new_v4().to_string(),
             revision: 1,
@@ -1492,23 +1469,6 @@ impl Store {
         }) {
             return Err(Error::Capacity);
         }
-        let balance = self
-            .credit_books
-            .get(workspace)
-            .cloned()
-            .unwrap_or_default()
-            .balance();
-        let monthly_cap = self
-            .billing_limits
-            .get(workspace)
-            .copied()
-            .unwrap_or((500, 500))
-            .0;
-        if balance.available_credits == 0
-            || (balance.promotional_credits == 0 && balance.month_paid_responses >= monthly_cap)
-        {
-            return Err(Error::SpendLimit);
-        }
         if serde_json::to_vec(&submission.metadata).unwrap().len() > 4096 {
             return Err(invalid("metadata exceeds 4096 bytes"));
         }
@@ -1522,12 +1482,7 @@ impl Store {
             response_id: Uuid::new_v4().to_string(),
             collection_id: id.to_owned(),
             accepted: true,
-            charged_cents: 1,
         };
-        self.credit_books
-            .entry(workspace.clone())
-            .or_default()
-            .consume(&receipt.response_id)?;
         self.responses
             .entry(workspace.clone())
             .or_default()
@@ -1583,91 +1538,12 @@ impl Store {
         self.usage.get(workspace).copied().unwrap_or(0)
     }
     pub fn usage_summary(&self, workspace: &str) -> UsageSummary {
-        let charged = self.usage(workspace);
-        let (monthly, exposure) = self
-            .billing_limits
-            .get(workspace)
-            .copied()
-            .unwrap_or((500, 500));
-        let credits = self
-            .credit_books
-            .get(workspace)
-            .cloned()
-            .unwrap_or_default()
-            .balance();
-        let blocked_reason = if credits.available_credits == 0 {
-            Some("credits_exhausted".into())
-        } else if credits.promotional_credits == 0 && credits.month_paid_responses >= monthly {
-            Some("monthly_spend_cap".into())
-        } else {
-            None
-        };
+        let accepted = self.usage(workspace);
         UsageSummary {
-            accepted_responses: charged,
-            charged_cents: charged,
-            month_accepted_responses: charged,
-            month_charged_cents: charged,
-            unpaid_exposure_cents: 0,
-            monthly_spend_cap_cents: monthly,
-            unpaid_exposure_cap_cents: exposure,
-            remaining_monthly_cents: monthly.saturating_sub(credits.month_paid_responses),
-            remaining_exposure_cents: exposure,
-            accepting_paid_responses: blocked_reason.is_none(),
-            blocked_reason,
-            credits,
+            accepted_responses: accepted,
+            month_accepted_responses: accepted,
         }
     }
-    /// Trusted local/operator integration only; never expose this as a customer mint API.
-    pub fn record_credit_adjustment(
-        &mut self,
-        workspace: &str,
-        input: credits::CreditAdjustment,
-    ) -> Result<credits::CreditEntry, Error> {
-        if self.deleted_workspaces.contains(workspace) {
-            return Err(Error::NotFound);
-        }
-        self.credit_books
-            .entry(workspace.into())
-            .or_default()
-            .adjust(input)
-    }
-    pub fn credit_entries(&self, workspace: &str) -> Vec<credits::CreditEntry> {
-        self.credit_books
-            .get(workspace)
-            .map(|book| book.entries.clone())
-            .unwrap_or_default()
-    }
-    pub fn update_billing_limits(
-        &mut self,
-        workspace: &str,
-        input: BillingLimitsInput,
-    ) -> Result<UsageSummary, Error> {
-        if input.monthly_spend_cap_cents.is_none() && input.unpaid_exposure_cap_cents.is_none() {
-            return Err(invalid("at least one billing limit is required"));
-        }
-        if input
-            .monthly_spend_cap_cents
-            .into_iter()
-            .chain(input.unpaid_exposure_cap_cents)
-            .any(|value| value > 1_000_000_000)
-        {
-            return Err(invalid("billing limit exceeds 1000000000 cents"));
-        }
-        let current = self
-            .billing_limits
-            .get(workspace)
-            .copied()
-            .unwrap_or((500, 500));
-        self.billing_limits.insert(
-            workspace.to_owned(),
-            (
-                input.monthly_spend_cap_cents.unwrap_or(current.0),
-                input.unpaid_exposure_cap_cents.unwrap_or(current.1),
-            ),
-        );
-        Ok(self.usage_summary(workspace))
-    }
-
     pub fn create_export(
         &mut self,
         workspace: &str,
@@ -2212,7 +2088,7 @@ mod tests {
         );
     }
     #[test]
-    fn deletion_preserves_billing_and_idempotency_then_blocks_deleted_workspace() {
+    fn deletion_preserves_usage_and_idempotency_then_blocks_deleted_workspace() {
         let mut store = Store::default();
         let survey = store.create_survey("a", draft()).unwrap();
         store.publish("a", &survey.id, 1).unwrap();
@@ -2370,7 +2246,7 @@ mod tests {
         assert!(validate_answers(&d.questions, json!({"nps":8}).as_object().unwrap()).is_err());
     }
     #[test]
-    fn enhanced_versions_are_frozen_and_retries_bill_once() {
+    fn enhanced_versions_are_frozen_and_retries_count_once() {
         assert_eq!(schema_version(&draft().questions), 1);
         assert_eq!(schema_version(&enhanced().questions), 2);
         for field in ["preset", "labels", "minSelections", "maxSelections"] {
@@ -2425,7 +2301,7 @@ mod tests {
         );
     }
     #[test]
-    fn retries_never_double_bill_even_after_close() {
+    fn retries_never_double_count_even_after_close() {
         let mut s = Store::default();
         let survey = s.create_survey("a", draft()).unwrap();
         s.publish("a", &survey.id, 1).unwrap();
@@ -2732,7 +2608,7 @@ mod tests {
         assert!(validate_answers(&d.questions, &duplicate_choices).is_err());
     }
     #[test]
-    fn shared_expanded_contract_fixtures_validate_and_bill_once() {
+    fn shared_expanded_contract_fixtures_validate_and_count_once() {
         let d: DraftInput =
             serde_json::from_str(include_str!("../../contracts/expanded-survey.example.json"))
                 .unwrap();
@@ -2875,42 +2751,14 @@ mod tests {
         );
     }
     #[test]
-    fn concurrent_spend_cap_accepts_only_one_final_cent() {
+    fn concurrent_unique_responses_are_unmetered() {
         use std::sync::{Arc, Mutex};
         let mut store = Store::default();
         let survey = store.create_survey("a", draft()).unwrap();
         store.publish("a", &survey.id, 1).unwrap();
         let collection = store
-            .create_collection("a", &survey.id, 1, "spend-cap")
+            .create_collection("a", &survey.id, 1, "unmetered")
             .unwrap();
-        store
-            .update_billing_limits(
-                "a",
-                BillingLimitsInput {
-                    monthly_spend_cap_cents: Some(1),
-                    unpaid_exposure_cap_cents: Some(5),
-                },
-            )
-            .unwrap();
-        // Exercise paid spending after the one-time promotional grant is exhausted.
-        for (key, kind, promotional_delta, paid_delta) in [
-            ("expire-promo", credits::CreditKind::Correction, -1000, 0),
-            ("paid-test", credits::CreditKind::Purchase, 0, 8),
-        ] {
-            store
-                .record_credit_adjustment(
-                    "a",
-                    credits::CreditAdjustment {
-                        idempotency_key: key.into(),
-                        kind,
-                        promotional_delta,
-                        paid_delta,
-                        reference_id: None,
-                        reason_code: "test_fixture".into(),
-                    },
-                )
-                .unwrap();
-        }
         let shared = Arc::new(Mutex::new(store));
         let workers: Vec<_> = (0..8)
             .map(|attempt| {
@@ -2918,7 +2766,7 @@ mod tests {
                 let collection = collection.clone();
                 std::thread::spawn(move || {
                     let mut input = submission(5);
-                    input.idempotency_key = format!("cap-{attempt}");
+                    input.idempotency_key = format!("free-{attempt}");
                     state
                         .lock()
                         .unwrap()
@@ -2930,18 +2778,10 @@ mod tests {
             .into_iter()
             .map(|worker| worker.join().unwrap())
             .collect();
-        assert_eq!(results.iter().filter(|result| result.is_ok()).count(), 1);
-        assert_eq!(
-            results
-                .iter()
-                .filter(|result| matches!(result, Err(Error::SpendLimit)))
-                .count(),
-            7
-        );
+        assert_eq!(results.iter().filter(|result| result.is_ok()).count(), 8);
         let summary = shared.lock().unwrap().usage_summary("a");
-        assert_eq!(summary.charged_cents, 1);
-        assert_eq!(summary.remaining_monthly_cents, 0);
-        assert_eq!(summary.blocked_reason.as_deref(), Some("monthly_spend_cap"));
+        assert_eq!(summary.accepted_responses, 8);
+        assert_eq!(summary.month_accepted_responses, 8);
     }
 }
 
@@ -2949,5 +2789,4 @@ pub mod webhook_store;
 pub mod webhooks;
 
 pub mod browser_auth;
-pub mod credits;
 pub mod management_cors;

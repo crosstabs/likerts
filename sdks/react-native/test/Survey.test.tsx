@@ -70,7 +70,7 @@ test('collection identity resets host-observable answers and localized validatio
 
 test('host adapter loads, preserves an ambiguous retry key and completes once',async()=>{
  const required:Collection={...collection,schema:{schemaVersion:1,title:'Hosted',questions:[{id:'q',type:'text',label:'Comment',required:true}]}};const submissions:any[]=[];let attempt=0;
- const client={collection:jest.fn(async()=>required),submit:jest.fn(async(_id,value)=>{submissions.push(value);if(attempt++===0)throw new Error('lost');return {responseId:'r',collectionId:'c',accepted:true,chargedCents:1}})} as any;
+ const client={collection:jest.fn(async()=>required),submit:jest.fn(async(_id,value)=>{submissions.push(value);if(attempt++===0)throw new Error('lost');return {responseId:'r',collectionId:'c',accepted:true}})} as any;
  let keyCounter=0;const onComplete=jest.fn(),onError=jest.fn(),createIdempotencyKey=jest.fn(()=>`key-${++keyCounter}`);let tree!:ReactTestRenderer;
  await act(async()=>{tree=create(<SurveyHost client={client} collectionId="c" createIdempotencyKey={createIdempotencyKey} onComplete={onComplete} onError={onError} messages={{submitError:'Retry safely'}}/>);});
  await act(async()=>tree.root.findByProps({testID:'likerts-survey-q'}).props.onChangeText('answer'));

@@ -1,6 +1,0 @@
-flowchart LR
-  Client --> Handler
-  Handler --> Auth[Auth returns workspace string]
-  Handler --> DB[(RLS PostgreSQL)]
-  Handler --> Log[Process/database log]
-  DB --> Retry[Credential-bearing retry JSON]

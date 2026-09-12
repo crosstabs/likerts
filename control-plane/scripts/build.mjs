@@ -6,6 +6,9 @@ const output = fileURLToPath(new URL("../dist/", import.meta.url));
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await cp(new URL("../public/", import.meta.url), output, { recursive: true });
+// Historical preview archives are retained in Git for provenance, but the
+// community edition site distributes the current SDK source from GitHub.
+await rm(new URL("../dist/downloads/", import.meta.url), { recursive: true, force: true });
 
 const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "";
 if (publishableKey && !/^pk_(test|live)_[A-Za-z0-9_-]{10,}$/.test(publishableKey)) {

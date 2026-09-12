@@ -112,7 +112,7 @@ export class OfflineQueue {
             if (!target)
                 continue;
             const receipt = result?.receipt;
-            if (result && result.status >= 200 && result.status < 300 && receipt?.accepted === true && receipt.chargedCents === 1 && receipt.collectionId === target.collectionId && receipt.responseId.length > 0) {
+            if (result && result.status >= 200 && result.status < 300 && receipt?.accepted === true && receipt.collectionId === target.collectionId && receipt.responseId.length > 0) {
                 await this.write(updated.filter(r => r.id !== id), fresh.bad);
                 report.accepted++;
                 report.outcomes.push({ recordId: id, outcome: 'accepted' });

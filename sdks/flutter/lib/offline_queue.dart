@@ -37,14 +37,12 @@ class OfflineAttempt {
   final int status;
   final String? responseId, receiptCollectionId;
   final bool accepted;
-  final int? chargedCents;
   final int? retryAfterSeconds;
   const OfflineAttempt(
     this.status, {
     this.responseId,
     this.receiptCollectionId,
     this.accepted = false,
-    this.chargedCents,
     this.retryAfterSeconds,
   });
 }
@@ -301,7 +299,6 @@ class OfflineQueue {
         if (attempt.status >= 200 &&
             attempt.status < 300 &&
             attempt.accepted &&
-            attempt.chargedCents == 1 &&
             attempt.receiptCollectionId == good[fresh].collectionId &&
             (attempt.responseId?.isNotEmpty ?? false)) {
           good.removeAt(fresh);

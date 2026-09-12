@@ -2,7 +2,7 @@
 
 These checks complement the existing renderer tests. They run the real SDK client on a native runtime against an explicitly provisioned disposable hosted collection. They are **same-team synthetic acceptance**, not independent customer activation, general device certification or a demand signal. No network calls occur merely by importing the runner or running the normal unconfigured test suites.
 
-The host checks exactly three SDK operations: fetch the collection; submit `{rating:5}` once; resubmit the identical immutable payload with the same supplied idempotency key. Both receipts must be accepted, charge one cent, identify the same collection and return the same response ID. The parent/operator independently verifies the workspace ledger has one response and one consumption, then revokes/deletes the dedicated resources. The collection must have `responseCap=1`; the runner requires that provisioning attestation, but public collection fetches do not expose the cap, so operator verification is still necessary. No purchase or paid top-up is performed.
+The host checks exactly three SDK operations: fetch the collection; submit `{rating:5}` once; resubmit the identical immutable payload with the same supplied idempotency key. Both receipts must be accepted, identify the same collection and return the same response ID. The parent/operator independently verifies the workspace has one accepted response, then revokes or deletes the dedicated resources. The collection must have `responseCap=1`; the runner requires that provisioning attestation, but public collection fetches do not expose the cap, so operator verification is still necessary.
 
 ## Private configuration
 
@@ -22,7 +22,7 @@ Provision one fresh disposable workspace/collection per target (`android`, `ios`
 }
 ```
 
-This illustration is not valid provisioning evidence or a usable credential. Never put a management, browser, payment or administrative credential in this file. The runner rejects additional fields, non-HTTPS origins, wrong targets/versions, non-private files, symlinks and tracked configuration. It cannot infer the scope of an opaque token: the provisioning owner must supply the actual collection credential. Keep the same config/key on an ambiguous rerun; do not generate another intended response.
+This illustration is not valid provisioning evidence or a usable credential. Never put a management, browser or administrative credential in this file. The runner rejects additional fields, non-HTTPS origins, wrong targets/versions, non-private files, symlinks and tracked configuration. It cannot infer the scope of an opaque token: the provisioning owner must supply the actual collection credential. Keep the same config/key on an ambiguous rerun; do not generate another intended response.
 
 ## Commands and boundaries
 
@@ -52,10 +52,10 @@ All four source-equivalent 0.0.3 native clients passed hosted fetch → submissi
 
 | Target | Executed native runtime | Result |
 |---|---|---|
-| Kotlin Android | API-35 ARM64 emulator | Same accepted one-cent receipt on retry |
-| Swift iOS | iPhone 17 Pro, iOS 26.4 simulator, Xcode 26.6 | Same accepted one-cent receipt on retry |
-| React Native | RN 0.86.3 / React 19.2.3 / Hermes on API-35 ARM64 emulator | Same accepted one-cent receipt on retry |
-| Flutter | Flutter 3.47.2 / Dart 3.13.2 on API-35 ARM64 emulator | Same accepted one-cent receipt on retry |
+| Kotlin Android | API-35 ARM64 emulator | Same accepted receipt on retry |
+| Swift iOS | iPhone 17 Pro, iOS 26.4 simulator, Xcode 26.6 | Same accepted receipt on retry |
+| React Native | RN 0.86.3 / React 19.2.3 / Hermes on API-35 ARM64 emulator | Same accepted receipt on retry |
+| Flutter | Flutter 3.47.2 / Dart 3.13.2 on API-35 ARM64 emulator | Same accepted receipt on retry |
 
 The parent independently reconciled each dedicated workspace through the management API: **one accepted response, one promotional credit consumed, zero paid consumption and zero unpaid exposure**. Management credentials remained with the parent and never entered these apps. Public receipt evidence and private tool logs are in ignored `.validation-private/native-hosted-*-result.json` / `.log`. The original configs are private and are not release artifacts.
 

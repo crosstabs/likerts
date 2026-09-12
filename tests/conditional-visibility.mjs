@@ -29,8 +29,8 @@ try {
  await assert.rejects(()=>web.submit(collection.id,{idempotencyKey:'visible-missing',answers:{return:'no'},metadata:{}}),error=>error.status===400);
  await web.submit(collection.id,{idempotencyKey:'visible',answers:{return:'no',reason:'late'},metadata:{}});
  const responses=cli('responses_list',{collectionId:collection.id});assert.deepEqual(responses.items.map(item=>item.answers),[{return:'yes'},{return:'no',reason:'late'}]);
- const usage=await call('usage_get');assert.equal(usage.chargedCents,2);
+ const usage=await call('usage_get');assert.equal(usage.acceptedResponses,2);
  const cyclic=structuredClone(fixture);cyclic.questions[0].visibleWhen={questionId:'contactDate',operator:'answered'};
  await assert.rejects(()=>call('surveys_create',{idempotencyKey:'conditional-cycle',...cyclic}),/400/);
- console.log('Conditional API/MCP/CLI/Web integration: v3 schema, hidden-answer persistence, visible requiredness, unbilled rejection and cycle denial passed.');
+ console.log('Conditional API/MCP/CLI/Web integration: v3 schema, hidden-answer persistence, visible requiredness, rejected-response accounting and cycle denial passed.');
 } finally {await mcp?.close();await server?.close();processServer.kill('SIGTERM');await new Promise(resolve=>processServer.exitCode!==null?resolve():processServer.once('exit',resolve));}

@@ -8,5 +8,5 @@ const base=process.env.LIKERTS_REHEARSAL_BASE_URL;
  const client=new LikertsClient(base!,token);
  expect((await client.collection(id)).schema.title).toBe('Release rehearsal');
  const receipt=await client.submit(id,{idempotencyKey:'rel-react-native',answers:{comment:'react-native'},metadata:{sdk:'react-native'}});
- expect(receipt).toMatchObject({accepted:true,chargedCents:1});
+ expect(receipt).toMatchObject({accepted:true});
 });

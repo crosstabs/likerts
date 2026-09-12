@@ -1,7 +1,0 @@
-flowchart LR
-  Client --> Gate[Token + workspace + scope + role gate]
-  Gate --> Context[Typed actor/workspace context]
-  Context --> DB[(Forced-RLS PostgreSQL)]
-  Context --> Audit[Append-only tenant audit]
-  DB --> Secret[Encrypted or derived recoverable capability]
-  CollectionClient --> Limit[Collection/IP abuse gate] --> DB

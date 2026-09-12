@@ -1,5 +1,4 @@
 use axum::{
-    body::Bytes,
     extract::{DefaultBodyLimit, FromRequest, Path, Query, Request, State},
     http::{HeaderMap, HeaderValue, Method, StatusCode},
     middleware,
@@ -11,11 +10,6 @@ use base64::{engine::general_purpose::STANDARD as BASE64, Engine};
 use likerts_server::{
     admission::{self, Admission},
     auth::{OidcClaims, OidcVerifier},
-    billing::{
-        BillingAccountInput, ChargeRequest, CheckoutRequest, CreditCheckout, CreditCheckoutInput,
-        LocalPaymentProvider, PaymentProvider, ProviderEvent, ProviderIntent, RefundInput,
-        Settlement, SettlementCharge, SettlementInput, StripePaymentProvider,
-    },
     browser_auth::{
         validate_approved_scopes, BrowserClaims, BrowserOAuthClients, BrowserSessionVerifier,
     },
@@ -29,15 +23,14 @@ use likerts_server::{
     survey_schema_version,
     webhook_store::WebhookStore,
     webhooks::{EndpointInput, EndpointUpdate, WebhookKeys, WebhookOperationInput},
-    BillingLimitsInput, Collection, CollectionLimits, CollectionSecurity, CollectionSecurityInput,
-    DraftInput, Error, ExportFormat, ExportInput, ExportJob, ExportManifest, ExportSnapshot,
-    LifecycleBatch, OAuthGrant, Receipt, ResponseListInput, ResponsePage, RetentionResult, Role,
-    SdkCapabilities, ServiceCredential, Store, Submission, Survey, SurveyPage, UsageSummary,
-    Version, WorkspaceMembership,
+    Collection, CollectionLimits, CollectionSecurity, CollectionSecurityInput, DraftInput, Error,
+    ExportFormat, ExportInput, ExportJob, ExportManifest, ExportSnapshot, LifecycleBatch,
+    OAuthGrant, Receipt, ResponseListInput, ResponsePage, RetentionResult, Role, SdkCapabilities,
+    ServiceCredential, Store, Submission, Survey, SurveyPage, UsageSummary, Version,
+    WorkspaceMembership,
 };
 use serde::{de::DeserializeOwned, Deserialize};
 use serde_json::json;
-use sha2::{Digest, Sha256};
 use std::{
     collections::{HashMap, HashSet},
     sync::{Arc, Mutex},
@@ -280,114 +273,6 @@ impl Storage {
             Self::Postgres(store) => store.usage_summary(workspace).await,
         }
     }
-    async fn update_billing_limits(
-        &self,
-        workspace: &str,
-        input: BillingLimitsInput,
-    ) -> Result<UsageSummary, Error> {
-        match self {
-            Self::Memory(_) => self.memory_store()?.update_billing_limits(workspace, input),
-            Self::Postgres(store) => store.update_billing_limits(workspace, input).await,
-        }
-    }
-    async fn configure_billing_account(
-        &self,
-        workspace: &str,
-        input: BillingAccountInput,
-    ) -> Result<(), Error> {
-        match self {
-            Self::Postgres(store) => store.configure_billing_account(workspace, input).await,
-            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
-        }
-    }
-    async fn credit_checkout(&self, workspace: &str, id: &str) -> Result<CreditCheckout, Error> {
-        match self {
-            Self::Postgres(store) => store.credit_checkout(workspace, id).await,
-            Self::Memory(_) => Err(Error::NotFound),
-        }
-    }
-
-    async fn prepare_credit_checkout(
-        &self,
-        workspace: &str,
-        input: CreditCheckoutInput,
-    ) -> Result<CreditCheckout, Error> {
-        match self {
-            Self::Postgres(store) => store.prepare_credit_checkout(workspace, input).await,
-            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
-        }
-    }
-    async fn attach_credit_checkout(
-        &self,
-        workspace: &str,
-        id: &str,
-        checkout: &likerts_server::billing::ProviderCheckout,
-    ) -> Result<CreditCheckout, Error> {
-        match self {
-            Self::Postgres(store) => store.attach_credit_checkout(workspace, id, checkout).await,
-            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
-        }
-    }
-    async fn apply_credit_checkout_event(
-        &self,
-        event: &ProviderEvent,
-        hash: &[u8],
-    ) -> Result<CreditCheckout, Error> {
-        match self {
-            Self::Postgres(store) => store.apply_credit_checkout_event(event, hash).await,
-            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
-        }
-    }
-    async fn prepare_settlement(
-        &self,
-        workspace: &str,
-        input: SettlementInput,
-    ) -> Result<SettlementCharge, Error> {
-        match self {
-            Self::Postgres(store) => store.prepare_settlement(workspace, input).await,
-            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
-        }
-    }
-    async fn apply_provider_intent(
-        &self,
-        workspace: &str,
-        id: &str,
-        intent: &ProviderIntent,
-    ) -> Result<Settlement, Error> {
-        match self {
-            Self::Postgres(store) => store.apply_provider_intent(workspace, id, intent).await,
-            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
-        }
-    }
-    async fn settlements(&self, workspace: &str) -> Result<Vec<Settlement>, Error> {
-        match self {
-            Self::Postgres(store) => store.settlements(workspace).await,
-            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
-        }
-    }
-    async fn apply_payment_event(
-        &self,
-        event: &ProviderEvent,
-        hash: &[u8],
-    ) -> Result<Settlement, Error> {
-        match self {
-            Self::Postgres(store) => store.apply_payment_event(event, hash).await,
-            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
-        }
-    }
-    async fn record_refund(
-        &self,
-        workspace: &str,
-        id: &str,
-        input: &RefundInput,
-        reference: &str,
-    ) -> Result<Settlement, Error> {
-        match self {
-            Self::Postgres(store) => store.record_refund(workspace, id, input, reference).await,
-            Self::Memory(_) => Err(Error::Invalid("durable storage required".into())),
-        }
-    }
-
     async fn health(&self) -> Result<&'static str, Error> {
         match self {
             Self::Memory(_) => Ok("development-memory"),
@@ -633,7 +518,6 @@ struct App {
     oidc: Option<OidcVerifier>,
     browser_sessions: Option<BrowserSessionVerifier>,
     browser_oauth_clients: BrowserOAuthClients,
-    payments: Option<Arc<dyn PaymentProvider>>,
     metrics: Metrics,
     webhooks: Option<WebhookStore>,
 }
@@ -697,8 +581,7 @@ async fn browser_bootstrap(
         Json(json!({
             "workspaceId": workspace,
             "created": created,
-            "usage": usage,
-            "paymentMode": app.payments.as_ref().map_or("disabled", |provider| provider.mode())
+            "usage": usage
         })),
     ))
 }
@@ -737,24 +620,6 @@ async fn browser_approve_oauth(
         )
         .await?;
     Ok((StatusCode::CREATED, Json(grant)))
-}
-
-async fn browser_create_credit_checkout(
-    State(app): State<App>,
-    headers: HeaderMap,
-    ApiJson(input): ApiJson<CreditCheckoutInput>,
-) -> Result<impl IntoResponse, ApiError> {
-    let (_, workspace) = browser_owner_workspace(&app, &headers).await?;
-    checkout_for_workspace(&app, &workspace, input).await
-}
-
-async fn browser_credit_checkout(
-    State(app): State<App>,
-    Path(id): Path<String>,
-    headers: HeaderMap,
-) -> Result<impl IntoResponse, ApiError> {
-    let (_, workspace) = browser_owner_workspace(&app, &headers).await?;
-    Ok(Json(app.storage.credit_checkout(&workspace, &id).await?))
 }
 
 async fn browser_list_service_credentials(
@@ -865,11 +730,6 @@ impl IntoResponse for ApiError {
                 "receipt_expired",
                 "The retained retry receipt has expired".into(),
             ),
-            Error::SpendLimit => (
-                StatusCode::PAYMENT_REQUIRED,
-                "spend_limit_reached",
-                "Workspace spending limit reached".into(),
-            ),
             Error::RateLimited => (
                 StatusCode::TOO_MANY_REQUESTS,
                 "rate_limited",
@@ -950,14 +810,13 @@ async fn workspace(app: &App, headers: &HeaderMap, scope: &str) -> Result<String
                 .ok_or(ApiError(Error::Invalid(
                     "X-Likerts-Workspace is required for human OAuth access".into(),
                 )))?;
-            let required_role =
-                if matches!(scope, "identity:write" | "billing:write" | "webhooks:write") {
-                    Role::Owner
-                } else if scope.ends_with(":write") {
-                    Role::Editor
-                } else {
-                    Role::Reader
-                };
+            let required_role = if matches!(scope, "identity:write" | "webhooks:write") {
+                Role::Owner
+            } else if scope.ends_with(":write") {
+                Role::Editor
+            } else {
+                Role::Reader
+            };
             app.storage
                 .authorize_oauth(
                     &claims,
@@ -982,7 +841,7 @@ async fn oauth_protected_resource(State(app): State<App>) -> Result<impl IntoRes
         "bearer_methods_supported": ["header"],
         "scopes_supported": [
             "surveys:read", "surveys:write", "collections:write", "responses:read", "responses:write",
-            "usage:read", "exports:read", "exports:write", "identity:write", "billing:write", "webhooks:read", "webhooks:write"
+            "usage:read", "exports:read", "exports:write", "identity:write", "webhooks:read", "webhooks:write"
         ]
     }))
     .into_response();
@@ -1363,191 +1222,6 @@ async fn responses(
 async fn usage(State(app): State<App>, headers: HeaderMap) -> Result<impl IntoResponse, ApiError> {
     let workspace = workspace(&app, &headers, "usage:read").await?;
     Ok(Json(app.storage.usage_summary(&workspace).await?))
-}
-
-async fn update_billing_limits(
-    State(app): State<App>,
-    headers: HeaderMap,
-    ApiJson(input): ApiJson<BillingLimitsInput>,
-) -> Result<impl IntoResponse, ApiError> {
-    let workspace = workspace(&app, &headers, "billing:write").await?;
-    Ok(Json(
-        app.storage.update_billing_limits(&workspace, input).await?,
-    ))
-}
-
-fn payment_provider(app: &App) -> Result<Arc<dyn PaymentProvider>, ApiError> {
-    app.payments.clone().ok_or(ApiError(Error::Invalid(
-        "payment provider is not configured".into(),
-    )))
-}
-
-async fn configure_billing_account(
-    State(app): State<App>,
-    headers: HeaderMap,
-    ApiJson(input): ApiJson<BillingAccountInput>,
-) -> Result<impl IntoResponse, ApiError> {
-    let workspace = workspace(&app, &headers, "billing:write").await?;
-    app.storage
-        .configure_billing_account(&workspace, input)
-        .await?;
-    Ok(StatusCode::NO_CONTENT)
-}
-
-async fn create_credit_checkout(
-    State(app): State<App>,
-    headers: HeaderMap,
-    ApiJson(input): ApiJson<CreditCheckoutInput>,
-) -> Result<impl IntoResponse, ApiError> {
-    let workspace = workspace(&app, &headers, "billing:write").await?;
-    checkout_for_workspace(&app, &workspace, input).await
-}
-
-async fn credit_checkout(
-    State(app): State<App>,
-    Path(id): Path<String>,
-    headers: HeaderMap,
-) -> Result<impl IntoResponse, ApiError> {
-    let workspace = workspace(&app, &headers, "usage:read").await?;
-    Ok(Json(app.storage.credit_checkout(&workspace, &id).await?))
-}
-
-async fn checkout_for_workspace(
-    app: &App,
-    workspace: &str,
-    input: CreditCheckoutInput,
-) -> Result<Json<CreditCheckout>, ApiError> {
-    let prepared = app
-        .storage
-        .prepare_credit_checkout(&workspace, input.clone())
-        .await?;
-    if prepared.status == "paid" || prepared.status == "expired" || prepared.status == "failed" {
-        return Ok(Json(prepared));
-    }
-    let checkout = payment_provider(&app)?
-        .create_checkout(CheckoutRequest {
-            idempotency_key: format!(
-                "likerts-checkout-{:x}",
-                Sha256::digest(format!("{workspace}:{}", input.idempotency_key).as_bytes())
-            ),
-            purchase_id: prepared.id.clone(),
-            workspace_id: workspace.to_owned(),
-            amount_cents: prepared.amount_cents,
-        })
-        .await?;
-    Ok(Json(
-        app.storage
-            .attach_credit_checkout(&workspace, &prepared.id, &checkout)
-            .await?,
-    ))
-}
-
-async fn settlements(
-    State(app): State<App>,
-    headers: HeaderMap,
-) -> Result<impl IntoResponse, ApiError> {
-    let workspace = workspace(&app, &headers, "usage:read").await?;
-    Ok(Json(app.storage.settlements(&workspace).await?))
-}
-
-async fn create_settlement(
-    State(app): State<App>,
-    headers: HeaderMap,
-    ApiJson(input): ApiJson<SettlementInput>,
-) -> Result<impl IntoResponse, ApiError> {
-    let workspace = workspace(&app, &headers, "billing:write").await?;
-    let charge = app
-        .storage
-        .prepare_settlement(&workspace, input.clone())
-        .await?;
-    if charge.settlement.status == "succeeded" || charge.settlement.status == "refunded" {
-        return Ok(Json(charge.settlement));
-    }
-    let provider = payment_provider(&app)?;
-    let intent = provider
-        .create_charge(ChargeRequest {
-            idempotency_key: input.idempotency_key,
-            customer_id: charge.customer_id,
-            payment_method_id: charge.payment_method_id,
-            amount_cents: charge.settlement.amount_cents,
-        })
-        .await?;
-    Ok(Json(
-        app.storage
-            .apply_provider_intent(&workspace, &charge.settlement.id, &intent)
-            .await?,
-    ))
-}
-
-async fn reconcile_settlement(
-    State(app): State<App>,
-    headers: HeaderMap,
-    Path(id): Path<String>,
-) -> Result<impl IntoResponse, ApiError> {
-    let workspace = workspace(&app, &headers, "billing:write").await?;
-    let settlement = app
-        .storage
-        .settlements(&workspace)
-        .await?
-        .into_iter()
-        .find(|item| item.id == id)
-        .ok_or(Error::NotFound)?;
-    let intent_id = settlement.provider_intent_id.ok_or(Error::NotReady)?;
-    let intent = payment_provider(&app)?.retrieve(&intent_id).await?;
-    Ok(Json(
-        app.storage
-            .apply_provider_intent(&workspace, &id, &intent)
-            .await?,
-    ))
-}
-
-async fn refund_settlement(
-    State(app): State<App>,
-    headers: HeaderMap,
-    Path(id): Path<String>,
-    ApiJson(input): ApiJson<RefundInput>,
-) -> Result<impl IntoResponse, ApiError> {
-    let workspace = workspace(&app, &headers, "billing:write").await?;
-    let settlement = app
-        .storage
-        .settlements(&workspace)
-        .await?
-        .into_iter()
-        .find(|item| item.id == id)
-        .ok_or(Error::NotFound)?;
-    let intent_id = settlement.provider_intent_id.ok_or(Error::NotReady)?;
-    let reference = payment_provider(&app)?
-        .refund(&intent_id, input.amount_cents, &input.idempotency_key)
-        .await?;
-    Ok(Json(
-        app.storage
-            .record_refund(&workspace, &id, &input, &reference)
-            .await?,
-    ))
-}
-
-async fn stripe_webhook(
-    State(app): State<App>,
-    headers: HeaderMap,
-    body: Bytes,
-) -> Result<impl IntoResponse, ApiError> {
-    let signature = headers
-        .get("stripe-signature")
-        .and_then(|v| v.to_str().ok())
-        .ok_or(Error::Unauthorized)?;
-    let event = payment_provider(&app)?.verify_event(signature, &body)?;
-    let hash = Sha256::digest(&body);
-    if event.event_type.starts_with("checkout.session.")
-        || event.event_type.starts_with("refund.")
-        || event.event_type.starts_with("charge.dispute.")
-    {
-        app.storage
-            .apply_credit_checkout_event(&event, &hash)
-            .await?;
-    } else {
-        app.storage.apply_payment_event(&event, &hash).await?;
-    }
-    Ok(StatusCode::NO_CONTENT)
 }
 
 async fn process_export(app: App, workspace: String, id: String) {
@@ -1939,23 +1613,6 @@ async fn main() {
         .unwrap_or_else(|_| "8080".into())
         .parse()
         .expect("Invalid port");
-    let payments: Option<Arc<dyn PaymentProvider>> = match (
-        std::env::var("LIKERTS_STRIPE_SECRET_KEY").ok(),
-        std::env::var("LIKERTS_STRIPE_WEBHOOK_SECRET").ok(),
-    ) {
-        (Some(key), Some(secret)) => Some(Arc::new(
-            StripePaymentProvider::new(
-                key,
-                secret,
-                std::env::var("LIKERTS_CHECKOUT_RETURN_ORIGIN")
-                    .expect("LIKERTS_CHECKOUT_RETURN_ORIGIN is required with Stripe"),
-                std::env::var("LIKERTS_STRIPE_LIVE_MODE").as_deref() == Ok("1"),
-            ).expect("Stripe configuration is invalid"),
-        )),
-        (None, None) if allow_memory => Some(Arc::new(LocalPaymentProvider::new("local-webhook-secret"))),
-        (None, None) => None,
-        _ => panic!("LIKERTS_STRIPE_SECRET_KEY and LIKERTS_STRIPE_WEBHOOK_SECRET must be configured together"),
-    };
     let export_provider = std::env::var("LIKERTS_EXPORT_PROVIDER").unwrap_or_else(|_| {
         if std::env::var("LIKERTS_EXPORT_BUCKET").is_ok_and(|bucket| !bucket.trim().is_empty()) {
             "s3".into()
@@ -2012,11 +1669,6 @@ async fn main() {
         _ => panic!("LIKERTS_EXPORT_PROVIDER must be local, s3, or vercel_blob"),
     };
     let metrics = Metrics::from_env().expect("Invalid metrics configuration");
-    let payment_name = if payments.is_some() {
-        "enabled"
-    } else {
-        "disabled"
-    };
     let webhooks = std::env::var("LIKERTS_WEBHOOK_CREDENTIAL_KEY")
         .ok()
         .map(|encoded| {
@@ -2037,7 +1689,6 @@ async fn main() {
         oidc,
         browser_sessions,
         browser_oauth_clients,
-        payments,
         metrics: metrics.clone(),
         webhooks,
     };
@@ -2094,14 +1745,6 @@ async fn main() {
         )
         .route("/v1/browser/oauth-grants", post(browser_approve_oauth))
         .route(
-            "/v1/browser/billing/checkout",
-            post(browser_create_credit_checkout),
-        )
-        .route(
-            "/v1/browser/billing/checkouts/{id}",
-            get(browser_credit_checkout),
-        )
-        .route(
             "/v1/oauth-grants/{id}",
             axum::routing::delete(remove_oauth_grant),
         )
@@ -2109,29 +1752,6 @@ async fn main() {
         .route("/v1/exports/{id}", get(export_status).delete(revoke_export))
         .route("/v1/exports/{id}/download", get(export_download))
         .route("/v1/usage", get(usage))
-        .route(
-            "/v1/billing/limits",
-            axum::routing::patch(update_billing_limits),
-        )
-        .route(
-            "/v1/billing/account",
-            axum::routing::put(configure_billing_account),
-        )
-        .route("/v1/billing/checkout", post(create_credit_checkout))
-        .route("/v1/billing/checkouts/{id}", get(credit_checkout))
-        .route(
-            "/v1/billing/settlements",
-            get(settlements).post(create_settlement),
-        )
-        .route(
-            "/v1/billing/settlements/{id}/reconcile",
-            post(reconcile_settlement),
-        )
-        .route(
-            "/v1/billing/settlements/{id}/refund",
-            post(refund_settlement),
-        )
-        .route("/v1/webhooks/stripe", post(stripe_webhook))
         .route(
             "/v1/webhook-endpoints",
             get(webhook_endpoints_list).post(webhook_endpoints_create),
@@ -2166,7 +1786,7 @@ async fn main() {
         .layer(middleware::from_fn_with_state(metrics, metrics::observe))
         .with_state(app);
     let bind_address = std::env::var("LIKERTS_BIND_ADDRESS").unwrap_or_else(|_| "127.0.0.1".into());
-    eprintln!("Likerts storage={storage_name}; payments={payment_name}; exports={export_store_name}. Listening on {bind_address}:{port}");
+    eprintln!("Likerts storage={storage_name}; responses=unmetered; exports={export_store_name}. Listening on {bind_address}:{port}");
     let listener = tokio::net::TcpListener::bind((bind_address.as_str(), port))
         .await
         .expect("Unable to bind HTTP listener");
@@ -2260,7 +1880,7 @@ mod tests {
     }
 }
 
-// Callback management is separate from incoming payment-provider webhooks.
+// Callback management uses a dedicated restricted worker.
 struct WebhookApiError(Option<Error>);
 impl From<Error> for WebhookApiError {
     fn from(error: Error) -> Self {
@@ -2320,16 +1940,6 @@ async fn webhook_endpoints_create(
     ApiJson(input): ApiJson<EndpointInput>,
 ) -> Result<impl IntoResponse, WebhookApiError> {
     let workspace_id = workspace(&app, &headers, "webhooks:write").await?;
-    if input
-        .event_types
-        .iter()
-        .any(|kind| kind == "credits.threshold_reached")
-    {
-        let usage_workspace = workspace(&app, &headers, "usage:read").await?;
-        if usage_workspace != workspace_id {
-            return Err(WebhookApiError(Some(Error::Forbidden)));
-        }
-    }
     Ok((
         StatusCode::CREATED,
         Json(
@@ -2346,21 +1956,6 @@ async fn webhook_endpoints_update(
     ApiJson(input): ApiJson<EndpointUpdate>,
 ) -> Result<impl IntoResponse, WebhookApiError> {
     let workspace_id = workspace(&app, &headers, "webhooks:write").await?;
-    if input.enabled == Some(true) {
-        let endpoint = webhook_store(&app)?
-            .get_endpoint(&workspace_id, &id)
-            .await?;
-        if endpoint
-            .event_types
-            .iter()
-            .any(|kind| kind == "credits.threshold_reached")
-        {
-            let usage_workspace = workspace(&app, &headers, "usage:read").await?;
-            if usage_workspace != workspace_id {
-                return Err(WebhookApiError(Some(Error::Forbidden)));
-            }
-        }
-    }
     Ok(Json(
         webhook_store(&app)?
             .update_endpoint(&workspace_id, &id, input)

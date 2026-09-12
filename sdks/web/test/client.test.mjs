@@ -16,7 +16,7 @@ test('collection capability is sent; unknown schema rejected', async()=>{
 // SDK-CONTRACT: retry.ambiguous
 test('ambiguous failure retries preserve payload and key',async()=>{
  const bodies=[];let attempt=0;
- const client=new LikertsClient('https://example.test/','token',async(url,init)=>{bodies.push(init.body);if(attempt++===0) throw new TypeError('network disconnected');return Response.json({accepted:true,chargedCents:1,responseId:'r',collectionId:'c'});});
+ const client=new LikertsClient('https://example.test/','token',async(url,init)=>{bodies.push(init.body);if(attempt++===0) throw new TypeError('network disconnected');return Response.json({accepted:true,responseId:'r',collectionId:'c'});});
  const submission={idempotencyKey:'same-key',answers:{q:4},metadata:{}};
  await assert.rejects(()=>client.submit('c',submission));
  const receipt=await client.submit('c',submission);assert.equal(receipt.accepted,true);assert.equal(bodies[0],bodies[1]);
@@ -26,8 +26,8 @@ test('server denial is not reported as acceptance',async()=>{
  const client=new LikertsClient('https://example.test','token',async()=>new Response('{"error":{"code":"invalid"}}',{status:422}));
  await assert.rejects(()=>client.submit('c',{idempotencyKey:'k',answers:{},metadata:{}}),e=>e instanceof LikertsError&&e.status===422);
 });
-test('unaccepted or incorrectly charged receipts are rejected',async()=>{
- for(const receipt of [{accepted:false,chargedCents:1},{accepted:true,chargedCents:2}]){
+test('unaccepted receipts are rejected',async()=>{
+ for(const receipt of [{accepted:false}]){
   const client=new LikertsClient('https://example.test','token',async()=>Response.json(receipt));
   await assert.rejects(()=>client.submit('c',{idempotencyKey:'k',answers:{},metadata:{}}),/Invalid Likerts receipt/);
  }
