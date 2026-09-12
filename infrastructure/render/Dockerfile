@@ -15,11 +15,14 @@ RUN cargo build --locked --release --bins \
     && rm -rf target
 
 FROM node:22-bookworm-slim AS mcp-builder
-WORKDIR /build/mcp
+WORKDIR /build/tools/mcp
 COPY tools/mcp/package.json tools/mcp/package-lock.json ./
 RUN npm ci
 COPY tools/mcp/tsconfig.json ./
 COPY tools/mcp/src ./src
+COPY tools/mcp/scripts ./scripts
+COPY tools/capabilities.json /build/tools/capabilities.json
+COPY contracts/openapi.json /build/contracts/openapi.json
 RUN npm run build && npm prune --omit=dev
 
 FROM ${RUNTIME_IMAGE} AS runtime
@@ -33,9 +36,9 @@ COPY --from=builder /out/likerts-server /usr/local/bin/likerts-server
 COPY --from=builder /out/likerts-migrate /usr/local/bin/likerts-migrate
 COPY --from=builder /out/likerts-webhook-worker /usr/local/bin/likerts-webhook-worker
 COPY --from=mcp-builder /usr/local/bin/node /usr/local/bin/node
-COPY --from=mcp-builder /build/mcp/package.json /opt/likerts/tools/mcp/package.json
-COPY --from=mcp-builder /build/mcp/dist /opt/likerts/tools/mcp/dist
-COPY --from=mcp-builder /build/mcp/node_modules /opt/likerts/tools/mcp/node_modules
+COPY --from=mcp-builder /build/tools/mcp/package.json /opt/likerts/tools/mcp/package.json
+COPY --from=mcp-builder /build/tools/mcp/dist /opt/likerts/tools/mcp/dist
+COPY --from=mcp-builder /build/tools/mcp/node_modules /opt/likerts/tools/mcp/node_modules
 COPY tools/capabilities.json /opt/likerts/tools/capabilities.json
 COPY contracts/openapi.json /opt/likerts/contracts/openapi.json
 COPY infrastructure/render/start.sh infrastructure/render/migrate.sh infrastructure/render/bootstrap-rehearsal.sh infrastructure/render/verify-export-reclaim.sh infrastructure/render/diagnose-roles.sh infrastructure/render/diagnose-roles.sql /opt/likerts/render/

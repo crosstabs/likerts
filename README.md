@@ -18,7 +18,23 @@ There are no response credits, paid plans, license keys or application-level res
 - API, MCP and CLI operation parity
 - Five client SDKs with encrypted offline queue adapters
 
-## Run locally
+## Try a real embedded survey
+
+Clone the repository, then run:
+
+```bash
+git clone https://github.com/crosstabs/likerts.git
+cd likerts
+bash scripts/run-feedback-demo.sh
+```
+
+Open `http://127.0.0.1:4310`. Answer the survey, then retrieve the matching response and metadata in the operator view. The example uses the real Web SDK, Rust API and CLI. It requires Rust stable, Node.js 22+ and Bash; temporary memory storage clears when you stop it.
+
+[![Watch the real embedded survey walkthrough](control-plane/public/media/embedded-feedback-poster.png)](https://likerts.com/media/embedded-feedback-demo.webm)
+
+[Watch the 40-second walkthrough](https://likerts.com/media/embedded-feedback-demo.webm) · [Example source and instructions](examples/embedded-feedback/README.md) · [Versioned downloads and installation](docs/releases.md)
+
+## Run the API locally
 
 You need Git, Rust stable, Node.js 22+, Bash and `jq`. The memory store is intended for a disposable local loop; PostgreSQL is required for durable deployments.
 
@@ -77,3 +93,9 @@ Never put a management credential in a browser or mobile app. Treat metadata as 
 ## License
 
 Likerts is available under the [MIT License](LICENSE).
+
+## Contribute
+
+Start with the [contribution guide](CONTRIBUTING.md) and [community roadmap](docs/community/ROADMAP.md). Pick a [good first issue](https://github.com/crosstabs/likerts/issues?q=is%3Aissue%20is%3Aopen%20label%3A%22good%20first%20issue%22), explore [help wanted tasks](https://github.com/crosstabs/likerts/issues?q=is%3Aissue%20is%3Aopen%20label%3A%22help%20wanted%22), or describe your integration in [Discussions](https://github.com/crosstabs/likerts/discussions).
+
+Bug reports, documentation fixes and reproducible integration examples are useful contributions. Each area has focused checks so you can contribute without installing every mobile toolchain. See our [code of conduct](CODE_OF_CONDUCT.md) and [maintainer process](docs/community/MAINTAINERS.md).

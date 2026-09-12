@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Likerts · A working embedded feedback example</title><link rel="stylesheet" href="/styles.css"><script type="module" src="/app.js"></script></head>
+<body>
+  <header><a class="brand" href="/">Likerts<span>.</span></a><p><span class="live-dot"></span> LOCAL WORKING EXAMPLE</p><span class="storage-note">Memory storage · clears on exit</span></header>
+  <main>
+    <div class="intro"><p class="eyebrow">FROM A QUESTION TO A REAL RESPONSE</p><h1>In your product.<br><span>In your backend.</span></h1><p>The actual Web SDK sends the answer to a local Likerts API. Open the operator view to read it back.</p></div>
+    <div class="workspace">
+      <nav class="views" aria-label="Example views"><button id="customer-tab" class="active" type="button" aria-pressed="true">1 <span>Customer experience</span></button><button id="operator-tab" type="button" aria-pressed="false">2 <span>Operator view</span></button></nav>
+      <section id="customer-view" aria-labelledby="shop-name">
+        <div class="shop-top"><h2 id="shop-name">DAYLIGHT<span>SUPPLY CO.</span></h2><span>Sample storefront</span></div>
+        <div class="checkout"><div class="order"><div class="check">✓</div><p class="eyebrow">SAMPLE ORDER #1048</p><h2>You're all set.</h2><p>A natural moment to ask.<br>Your customer stays in your app.</p><div class="order-item"><div class="product-mark">D</div><div><strong>Everyday tote</strong><span>Natural canvas · Qty 1</span></div><strong>$24</strong></div><small>This is a fictional order. No purchase is made.</small></div><div class="survey-panel"><p class="eyebrow">EMBEDDED WITH THE REAL WEB SDK</p><div id="survey"><p role="status">Loading the published collection…</p></div><div id="receipt" hidden><p class="receipt-label">✓ Accepted by the local API</p><pre id="receipt-json"></pre><button id="inspect-response" type="button">Read it from the backend <span>→</span></button></div></div></div>
+      </section>
+      <section id="operator-view" aria-labelledby="operator-title" hidden><div class="operator-heading"><div><p class="eyebrow">SERVER-SIDE RESPONSE RETRIEVAL</p><h2 id="operator-title">What your backend holds.</h2></div><button id="refresh-responses" type="button">Refresh responses ↻</button></div><p class="operator-explanation">This view fetches stored responses from the real API. The management credential stays on the local Node server.</p><div class="stats"><div><strong id="response-count">—</strong><span>responses retrieved</span></div><div><strong>Memory</strong><span>temporary local storage</span></div><div><strong>Scoped</strong><span>collection credential in browser</span></div></div><p id="operator-status" role="status">Loading…</p><pre id="stored-json"></pre><button id="back-to-customer" class="text-button" type="button">← Back to customer experience</button></section>
+    </div>
+    <footer><span><b>Real path</b> Web SDK → Node proxy → Rust API → memory store</span><span>CLI creates and publishes the survey at startup.</span></footer>
+  </main>
+</body></html>

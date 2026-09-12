@@ -30,6 +30,26 @@
     "dist",
     "examples",
     "README.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "description": "In-product survey collection for web applications with Likerts.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crosstabs/likerts.git",
+    "directory": "sdks/web"
+  },
+  "homepage": "https://likerts.com/docs",
+  "bugs": {
+    "url": "https://github.com/crosstabs/likerts/issues"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "likerts",
+    "surveys",
+    "feedback",
+    "web"
   ]
 }

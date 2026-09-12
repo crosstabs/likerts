@@ -1,0 +1,19 @@
+WEBVTT
+
+00:00.000 --> 00:04.000
+A real local example: the Web SDK talks to a running Likerts API.
+
+00:04.000 --> 00:09.000
+The operator view starts empty. Responses are held in temporary memory.
+
+00:09.000 --> 00:20.800
+Answer inside the sample storefront using the actual Web SDK renderer.
+
+00:20.800 --> 00:27.400
+The API accepts the answer and returns a real response ID.
+
+00:27.400 --> 00:36.600
+Retrieve the stored answer and metadata. The response ID matches the receipt.
+
+00:36.600 --> 00:40.400
+Refresh reads the same response. Local memory clears when the demo stops.

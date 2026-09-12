@@ -34,7 +34,7 @@ try {
     await rm(join(source,target==='web'?'dist':'lib'),{recursive:true,force:true});
     await run('npm',['ci','--ignore-scripts'],source);await run('npm',['run','build'],source);
     const packed=JSON.parse(await run('npm',['pack','--json','--ignore-scripts','--pack-destination',out],source))[0];
-    for(const file of packed.files){assert.ok(/^(?:package\.json|README\.md|CHANGELOG\.md)$|^(?:dist|lib|src|examples)\//.test(file.path),`Unexpected npm artifact file ${file.path}`);assert.ok(!/(^|\/)(\.env|node_modules|test)(\/|$)/.test(file.path));}
+    for(const file of packed.files){assert.ok(/^(?:package\.json|README\.md|CHANGELOG\.md|LICENSE)$|^(?:dist|lib|src|examples)\//.test(file.path),`Unexpected npm artifact file ${file.path}`);assert.ok(!/(^|\/)(\.env|node_modules|test)(\/|$)/.test(file.path));}
     const tarball=join(out,packed.filename);await artifact(tarball,`npm-${target}`);
     const consumer=join(work,target);await mkdir(consumer,{recursive:true});
     const dependencies={[pkg.name]:`file:${tarball}`};
