@@ -4,7 +4,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { cp, mkdir, mkdtemp, readFile, readdir, rename, rm, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { basename, isAbsolute, join, relative, resolve, sep } from 'node:path';
+import { basename, isAbsolute, join, relative, resolve, sep, win32 } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 
@@ -14,6 +14,13 @@ const command = async (name, args, cwd = root, env = process.env) => (await exec
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const packages = { 'sdks/web': 'web', 'sdks/react-native': 'react-native', 'tools/mcp': 'mcp' };
 const targets = ['linux-x64', 'darwin-arm64', 'windows-x64'];
+
+export function tarCommand(platform = process.platform, systemRoot = process.env.SystemRoot) {
+  if (platform !== 'win32') return 'tar';
+  assert.ok(systemRoot && win32.isAbsolute(systemRoot), 'Windows SystemRoot is required to locate the native tar executable');
+  // Git Bash can put GNU tar ahead of the system binary; it treats drive letters as remote hosts.
+  return win32.join(systemRoot, 'System32', 'tar.exe');
+}
 
 export function validateTag(tag) {
   assert.match(tag, /^community-v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/, 'Use a community-vX.Y.Z tag');
@@ -39,12 +46,12 @@ export function assertCliOutput(versionOutput, capabilitiesOutput, version, regi
 }
 
 async function inspectTar(archive, directory, { npm = false } = {}) {
-  const entries = (await command('tar', ['-tzf', archive])).trim().split(/\r?\n/);
+  const entries = (await command(tarCommand(), ['-tzf', archive])).trim().split(/\r?\n/);
   for (const entry of entries) validateEntry(entry, npm ? 'package' : '');
-  const verbose = (await command('tar', ['-tvzf', archive])).trim().split(/\r?\n/);
+  const verbose = (await command(tarCommand(), ['-tvzf', archive])).trim().split(/\r?\n/);
   assert.ok(verbose.every(line => /^[-d]/.test(line)), 'Links or special files are not permitted in release archives');
   await mkdir(directory, { recursive: true });
-  await command('tar', ['-xzf', archive, '-C', directory]);
+  await command(tarCommand(), ['-xzf', archive, '-C', directory]);
   const license = npm ? 'package/LICENSE' : 'LICENSE';
   assert.ok(entries.includes(license), 'Archive must contain LICENSE');
   assert.equal(await readFile(join(directory, license), 'utf8'), await readFile(join(root, 'LICENSE'), 'utf8'), 'Archive license differs from repository MIT license');
@@ -110,7 +117,7 @@ async function packageCli(options, output, work) {
   await writeFile(join(staging, 'INSTALL.txt'), `Likerts ${options.tag}\nCLI package version: ${version}\nTarget: ${options.target}\n\nVerify this archive with SHA256SUMS, extract it, and put ${executable} on PATH.\nRun: likerts --version\nRun: likerts capabilities\nSetup: https://likerts.com/docs#agents\n\nNative binaries are unsigned and not notarized. Linux builds require glibc 2.35 or newer.\nThis community release tag identifies source independently of the CLI package version.\n`);
   const artifact = join(output, `${options.tag}-cli-${options.target}.tar.gz`);
   await assertAbsent(artifact);
-  await command('tar', ['-czf', artifact, '-C', staging, executable, 'LICENSE', 'INSTALL.txt']);
+  await command(tarCommand(), ['-czf', artifact, '-C', staging, executable, 'LICENSE', 'INSTALL.txt']);
   const extracted = join(work, 'extracted');
   const entries = await inspectTar(artifact, extracted);
   assert.deepEqual(entries.sort(), [executable, 'LICENSE', 'INSTALL.txt'].sort());

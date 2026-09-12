@@ -4,7 +4,16 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import test from 'node:test';
-import { assertCliOutput, catalog, scanText, validateEntry, validateTag } from './package-community-release.mjs';
+import { assertCliOutput, catalog, scanText, tarCommand, validateEntry, validateTag } from './package-community-release.mjs';
+
+test('Windows archives use native system tar regardless of Git Bash PATH precedence', () => {
+  assert.equal(tarCommand('win32', 'C:\\Windows'), 'C:\\Windows\\System32\\tar.exe');
+  assert.equal(tarCommand('win32', 'D:\\Windows'), 'D:\\Windows\\System32\\tar.exe');
+  assert.throws(() => tarCommand('win32', ''), /SystemRoot/);
+  assert.throws(() => tarCommand('win32', 'relative'), /SystemRoot/);
+  assert.equal(tarCommand('darwin'), 'tar');
+  assert.equal(tarCommand('linux'), 'tar');
+});
 
 test('release tags cannot alias old SDK versions or become shell/path input', () => {
   assert.equal(validateTag('community-v0.1.0'), 'community-v0.1.0');
