@@ -16,7 +16,7 @@ The product can credibly say: API-first and MCP-first customer-controlled collec
 - Production MCP gateway deployed at the same commit as `dep-daihrn67bikc738npbj0` and returned `GET /health` healthy.
 - Production callback worker deployed at the same commit as `dep-daihrmp5efls73djicc0`.
 - Public marketing/control-plane site deployed from commit `986013fe5022870370ae8aa0fe39449eb9d1a693` as Vercel production deployment `dpl_ED5QvF8btmaGeBh6qxRjU3p46F8S`, aliased to `https://likerts.com`; live copy verification found the revised hero, pricing and service-check labels present, with the old overclaim strings absent.
-- Current GitHub required checks still fail before running steps on the latest commit: runs `34686752214` and `34686750491`; both `interfaces-and-database` and `container` jobs show zero steps. This remains an owner-controlled GitHub Actions/billing/policy gate.
+- GitHub required checks still fail before running steps; observed runs `34686752214` and `34686750491` and the following evidence-only commit all show the same zero-step pattern for both `interfaces-and-database` and `container`. This remains an owner-controlled GitHub Actions/billing/policy gate.
 
 ## CEO view
 
