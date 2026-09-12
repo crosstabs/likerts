@@ -14,7 +14,7 @@ Factual reference for the founder:
 - Real local collection recording: https://likerts.com/media/embedded-feedback-demo.webm
 - Public downloads: https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0
 - Public Docker image: `ghcr.io/crosstabs/likerts:community-v0.1.0`
-- MIT license; self-hosting uses the operator's infrastructure. npm publication is still pending account access.
+- MIT license; self-hosting uses the operator's infrastructure. Web, React Native and MCP packages are published on npm under `@likerts`.
 
 Follow [Show HN's rules](https://news.ycombinator.com/showhn.html), use the runnable project as the destination, and do not solicit votes or coordinated comments.
 

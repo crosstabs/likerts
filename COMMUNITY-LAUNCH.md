@@ -16,9 +16,10 @@ Keep the MIT license. Make Likerts easy to try, easy to install and easy to cont
 - [x] Publish the [community release announcement](https://github.com/crosstabs/likerts/discussions/14) in GitHub Discussions.
 - [x] Prepare the three npm packages for public publication, build them automatically before packing, and pass publication dry runs and standalone MCP installation checks.
 
+- [x] Publish `@likerts/web@0.0.3`, `@likerts/react-native@0.0.3` and `@likerts/mcp@0.1.0` to npm and verify fresh registry installations, including all 33 MCP tools and an authenticated API call. See [npm installation](docs/releases.md#install-from-npm).
+
 ## Account-dependent work
 
-- npm registry publication needs an authenticated account with publishing rights to the `@likerts` scope. The local `npm whoami` check currently returns HTTP 401. GitHub Release tarballs provide installation while registry access is unresolved.
 - Hacker News sign-in is required. Its current guidelines prohibit generated or AI-edited text, so the founder must supply the actual submission wording. The prepared material is a factual reference, not a comment to paste. The user authorized finishing distribution and announcements on September 12, 2026; GitHub's announcement is posted.
 
 ## After the release
