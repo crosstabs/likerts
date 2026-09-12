@@ -1,5 +1,15 @@
 # Likerts React Native SDK
 
+## Install
+
+Install a published version from npm:
+
+```sh
+npm install @likerts/react-native
+```
+
+You can also use the installable tarballs from the [community release](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0).
+
 ## Install the current source
 
 The free community edition supports schemas 1–5. Clone the repository and run these commands from its root:
@@ -11,7 +21,7 @@ cd sdks/react-native
 npm pack
 ```
 
-From a host app on the supported React/React Native matrix, run `npm install /absolute/path/to/likerts/sdks/react-native/likerts-react-native-0.0.3.tgz` to install the tarball you just built. The package supplies a React Native source entry for Metro and compiled TypeScript declarations. It has no native module, autolinking step or pod installation of its own. React and React Native remain host peer dependencies. No npm package has been published. Frozen archives under `releases/` predate the free edition; build current source rather than installing those historical packages.
+From a host app on the supported React/React Native matrix, run `npm install /absolute/path/to/likerts/sdks/react-native/likerts-react-native-0.0.3.tgz` to install the tarball you just built. The package supplies a React Native source entry for Metro and compiled TypeScript declarations. It has no native module, autolinking step or pod installation of its own. React and React Native remain host peer dependencies. Frozen archives under `releases/` predate the free edition; build current source rather than installing those historical packages.
 
 Import `LikertsClient` and `SurveyHost` from `@likerts/react-native`. `examples/CheckoutFeedback.tsx` shows host-controlled eligibility, a feedback button, dismissal and completion. Supply the host runtime's cryptographically strong key generator and a collection-only token; no management credential belongs in the bundle. Repository build/test commands below are for SDK contributors.
 

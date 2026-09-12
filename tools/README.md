@@ -67,6 +67,16 @@ The backend compares every group with the survey's actual schema version. The ex
 
 ## MCP for local agent clients
 
+Install the public package with Node.js 22 or newer:
+
+```sh
+npm install --global @likerts/mcp@0.1.0
+```
+
+Configure your MCP client to launch `likerts-mcp` with `LIKERTS_API_URL` and a scoped `LIKERTS_TOKEN` in its process environment. Keep credentials in your secret manager. The package includes its operation registry and schemas and works without a repository checkout.
+
+To build the adapter from source instead:
+
 ```sh
 npm ci --prefix tools/mcp
 npm run build --prefix tools/mcp

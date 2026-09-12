@@ -36,6 +36,18 @@ Open `http://127.0.0.1:4310`. Answer the survey, then retrieve the matching resp
 
 [Watch the 40-second walkthrough](https://likerts.com/media/embedded-feedback-demo.webm) · [Example source and instructions](examples/embedded-feedback/README.md) · [Versioned downloads and installation](docs/releases.md)
 
+## Install in your application
+
+```bash
+npm install @likerts/web
+# For a React Native application:
+npm install @likerts/react-native
+# For a local MCP client:
+npm install --global @likerts/mcp
+```
+
+These are client packages; connect them to your Likerts API using the [SDK guides](sdks/) or [MCP setup](tools/README.md#mcp-for-local-agent-clients). See the [installation guide](docs/releases.md#install-from-npm) for versions, compatibility and native SDK source.
+
 ## Run the API locally
 
 You need Git, Rust stable, Node.js 22+, Bash and `jq`. The memory store is intended for a disposable local loop; PostgreSQL is required for durable deployments.

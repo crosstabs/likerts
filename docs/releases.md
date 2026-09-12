@@ -47,23 +47,25 @@ Only the publisher job receives `contents: write` and `packages: write`; candida
 
 All generated files go to ignored `.tools/community-stage` or a temporary output directory. The old frozen release scripts and archives are not rewritten by this pipeline.
 
-## First npm publication
+## Install from npm
 
-The source packages are configured for public npm publication and rebuild before packing. Publication dry runs passed for `@likerts/web@0.0.3`, `@likerts/react-native@0.0.3` and `@likerts/mcp@0.1.0`. They are not yet listed in the npm registry. Sign in using the account with publishing rights to the `@likerts` scope and complete any npm authentication challenge in the browser.
+The first public npm packages are available under the `@likerts` organization:
 
-After verifying the account's scope permissions, publish from a clean, tested checkout:
+| Package | Version | Install |
+| --- | --- | --- |
+| [Web](https://www.npmjs.com/package/@likerts/web) | `0.0.3` | `npm install @likerts/web@0.0.3` |
+| [React Native](https://www.npmjs.com/package/@likerts/react-native) | `0.0.3` | `npm install @likerts/react-native@0.0.3` |
+| [MCP](https://www.npmjs.com/package/@likerts/mcp) | `0.1.0` | `npm install --global @likerts/mcp@0.1.0` |
 
-```sh
-npm whoami
-npm ci --prefix sdks/web
-npm ci --prefix sdks/react-native
-npm ci --prefix tools/mcp
-(cd sdks/web && npm publish)
-(cd sdks/react-native && npm publish)
-(cd tools/mcp && npm publish)
-```
+Use Node.js 22 or newer. The React Native package requires React `^19.2.3` and React Native `>=0.85 <0.88`. iOS, Android and Flutter SDKs remain available from source.
 
-Each package fixes its publishing destination to `https://registry.npmjs.org/` with public access. The historical community-release tarballs remain immutable. After publication, verify registry versions and fresh consumer installations before changing consumer instructions from GitHub tarballs to registry installation. Do not commit login tokens or use another account's scope.
+Fresh registry installations passed Web public/offline export and schema-capability checks, React Native Metro/JavaScript/TypeScript entry-point checks, and MCP stdio discovery of all 33 tools plus an authenticated `usage_get` call against a local test API. React Native rendering is verified separately by the native component tests; package installation alone does not exercise a device.
+
+### Publish a subsequent version
+
+Start from a clean, tested checkout. Bump the changed package's version and lockfile before publishing; npm versions cannot be replaced. Authenticate with an account that has publishing rights to the `@likerts` scope, install its locked dependencies, and run `npm publish` in that package directory. Complete npm's security challenge in the browser.
+
+Each package rebuilds before packing and fixes its publishing destination to `https://registry.npmjs.org/` with public access. Verify registry versions and fresh consumer installations after publication. Historical community-release tarballs and tags remain immutable. Never commit login tokens.
 
 ## Local verification
 

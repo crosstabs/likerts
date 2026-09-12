@@ -1,5 +1,15 @@
 # Likerts Web SDK
 
+## Install
+
+Install a published version from npm:
+
+```sh
+npm install @likerts/web
+```
+
+You can also use the installable tarballs from the [community release](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0).
+
 ## Install the current source
 
 The free community edition supports schemas 1–5. Clone the repository and run these commands from its root:
@@ -11,7 +21,7 @@ cd sdks/web
 npm pack
 ```
 
-Run `npm install /absolute/path/to/likerts/sdks/web/likerts-web-0.0.3.tgz` in your application. This installs the tarball you just built, containing compiled ESM and TypeScript declarations; it needs no repository-relative imports or build step in the consumer. Use a modern browser with Fetch, AbortController and crypto.randomUUID, and bundle the module with your host application. Package metadata remains private; no npm release has been published. Frozen archives under `releases/` predate the free edition; build current source rather than installing those historical packages.
+Run `npm install /absolute/path/to/likerts/sdks/web/likerts-web-0.0.3.tgz` in your application. This installs the tarball you just built, containing compiled ESM and TypeScript declarations; it needs no repository-relative imports or build step in the consumer. Use a modern browser with Fetch, AbortController and crypto.randomUUID, and bundle the module with your host application. Frozen archives under `releases/` predate the free edition; build current source rather than installing those historical packages.
 
 `examples/checkout.ts` supplies a customer-owned button trigger that loads/mounts feedback only when clicked and returns cleanup for navigation. Call it after your own eligibility/consent checks. The client should receive only a collection token. Build/test commands below refer to a source checkout, not the installed tarball.
 
