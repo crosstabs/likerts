@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-09-10T14:35:32.012374+00:00",
+  "apiRevision": "56023673919fcfc944244cfbc829e6a21d9b6b09",
+  "status": "passed",
+  "synthetic": true,
+  "independentCustomer": false,
+  "targets": [
+    {
+      "target": "android",
+      "sdkVersion": "0.0.3",
+      "acceptedResponses": 1,
+      "promotionalResponses": 1,
+      "paidResponses": 0,
+      "unpaidExposureCents": 0,
+      "workspaceTombstoned": true,
+      "credentialDenialVerified": true
+    },
+    {
+      "target": "ios",
+      "sdkVersion": "0.0.3",
+      "acceptedResponses": 1,
+      "promotionalResponses": 1,
+      "paidResponses": 0,
+      "unpaidExposureCents": 0,
+      "workspaceTombstoned": true,
+      "credentialDenialVerified": true
+    },
+    {
+      "target": "react_native",
+      "sdkVersion": "0.0.3",
+      "acceptedResponses": 1,
+      "promotionalResponses": 1,
+      "paidResponses": 0,
+      "unpaidExposureCents": 0,
+      "workspaceTombstoned": true,
+      "credentialDenialVerified": true
+    },
+    {
+      "target": "flutter",
+      "sdkVersion": "0.0.3",
+      "acceptedResponses": 1,
+      "promotionalResponses": 1,
+      "paidResponses": 0,
+      "unpaidExposureCents": 0,
+      "workspaceTombstoned": true,
+      "credentialDenialVerified": true
+    }
+  ],
+  "limitations": [
+    "Same implementation team synthetic host acceptance; not independent-customer onboarding.",
+    "Simulator/emulator runtime versions and UI/secure storage limitations are recorded in sdks/HOSTED-NATIVE-ACCEPTANCE.md.",
+    "Management credentials were never embedded in the native apps."
+  ]
+}

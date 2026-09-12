@@ -2,9 +2,25 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { collectStatus, components } from '../lib/status.mjs';
 import { authorizedMonitor, alertDestination, runMonitor } from '../api/monitor.js';
+import { parseState } from '../lib/monitor-state.mjs';
 
 const healthy = url => Response.json(url.includes('clerk.') ? { keys: [{ kty: 'RSA', n: 'public', e: 'AQAB' }] }
   : url.includes('-mcp.') ? { status: 'ok', service: 'likerts-mcp' } : { status: 'ok', storage: 'postgresql' });
+const armed = {
+  LIKERTS_MONITOR_ARMED: '1',
+  LIKERTS_MONITOR_RESPONDER_ID: 'launch-owner',
+  LIKERTS_ALERT_WEBHOOK_URL: 'https://alerts.example.com/hook',
+  LIKERTS_ALERT_RECEIVER_ORIGIN: 'https://alerts.example.com',
+};
+function memoryStore(initial = null) {
+  let state = initial;
+  let activeLease = null;
+  return {
+    async acquire() { activeLease = 'lease'; return { lease: activeLease, previous: state }; },
+    async save(lease, next) { assert.equal(lease, activeLease); state = parseState(JSON.stringify(next)); },
+    async read() { return state; },
+  };
+}
 test('status checks real response contracts with fixed unauthenticated targets', async () => {
   const requested = [];
   const result = await collectStatus({ fetcher: async (url, options) => { requested.push(url); assert.equal(options.redirect, 'manual'); assert.equal(options.credentials, 'omit'); return healthy(url); } });
@@ -39,14 +55,20 @@ test('alert receiver requires explicit exact origin and forbids redirects and ra
   assert.equal(alertDestination({ ...environment, LIKERTS_ALERT_RECEIVER_ORIGIN: 'https://other.example.com' }), null);
   assert.equal(alertDestination({ ...environment, LIKERTS_ALERT_WEBHOOK_URL: 'http://alerts.example.com/private' }), null);
   const probe = async () => ({ status: 'degraded', checkedAt: new Date().toISOString(), components: [{ id: 'collection', status: 'unavailable', private: 'omit-me' }] });
-  const result = await runMonitor({ environment, probe, fetcher: async (_, options) => { assert.equal(options.redirect, 'manual'); assert.equal(options.body.includes('omit-me'), false); return new Response('', { status: 302 }); } });
+  const result = await runMonitor({ environment: { ...environment, LIKERTS_MONITOR_ARMED: '1', LIKERTS_MONITOR_RESPONDER_ID: 'launch-owner' }, probe,
+    admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }), store: memoryStore(),
+    fetcher: async (_, options) => { assert.equal(options.redirect, 'manual'); assert.equal(options.body.includes('omit-me'), false); return new Response('', { status: 302 }); } });
   assert.equal(result.body.alert, 'delivery_failed');
 });
 test('monitor distinguishes missing receiver, healthy, receiver acceptance and delivery failure', async () => {
   assert.equal((await runMonitor({ environment: {} })).body.status, 'not_armed');
-  const environment = { LIKERTS_ALERT_WEBHOOK_URL: 'https://alerts.example.com/hook', LIKERTS_ALERT_RECEIVER_ORIGIN: 'https://alerts.example.com' };
   const probe = async () => ({ status: 'degraded', checkedAt: new Date().toISOString(), components: [] });
-  assert.equal((await runMonitor({ environment, probe, fetcher: async () => new Response(null, { status: 204 }) })).body.alert, 'receiver_accepted');
-  assert.equal((await runMonitor({ environment, probe, fetcher: async () => { throw new Error('secret'); } })).body.alert, 'delivery_failed');
-  assert.equal((await runMonitor({ environment, probe: async () => ({ status: 'reachable' }), fetcher: () => assert.fail('must not notify when healthy') })).body.alert, 'not_needed');
+  assert.equal((await runMonitor({ environment: armed, probe, admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }),
+    store: memoryStore(), fetcher: async () => new Response(null, { status: 204 }) })).body.alert, 'receiver_accepted');
+  assert.equal((await runMonitor({ environment: armed, probe, admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }),
+    store: memoryStore(), fetcher: async () => { throw new Error('secret'); } })).body.alert, 'delivery_failed');
+  assert.equal((await runMonitor({ environment: armed, probe: async () => ({ status: 'reachable', components: [
+      { id: 'collection', status: 'reachable' }, { id: 'agents', status: 'reachable' }, { id: 'identity', status: 'reachable' },
+    ] }), admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }),
+    store: memoryStore(), fetcher: () => assert.fail('must not notify when healthy') })).body.alert, 'not_needed');
 });

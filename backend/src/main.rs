@@ -880,6 +880,12 @@ impl IntoResponse for ApiError {
                 "internal_error",
                 "Internal service error".into(),
             ),
+            Error::ErasureFenced => (
+                StatusCode::SERVICE_UNAVAILABLE,
+                "erasure_source_fenced",
+                "Deletions are paused for recovery maintenance; no new erasure was committed"
+                    .into(),
+            ),
         };
         let mut response = (
             status,

@@ -24,7 +24,7 @@ Supply `LIKERTS_TOKEN` through your secret manager or a private environment inje
 
 Human inbox step:
 
-1. Open [likerts.com](https://likerts.com) in a fresh browser profile, use an acceptance email address you control, and complete the received email code. Never record the code. Verify that no password is requested.
+1. Use an owner-approved assisted-preview invitation for an acceptance email address you control. Open [likerts.com/app](https://likerts.com/app) in a fresh browser profile and complete the received email code. Production Clerk is invitation-only; do not create a bypass account or substitute a synthetic service credential for this inbox step. Never record the code. Verify that no password is requested.
 2. The workspace must show **0 accepted responses and 1,000 available credits**. Record its workspace ID privately. An account already containing data or credits is unsuitable.
 3. Under **Connect Codex, Claude, or the CLI**, create an acceptance credential. Select survey read/write, collection management, response read/erase, usage, export read/write, and access management. Billing is unnecessary for the automated runner; browser checkout uses its separate owner session.
 4. Copy the token once to the secret manager. Record its credential ID through the metadata list/API. Reload the page: the list must show metadata and revocation controls, never redisplay the old token. The button issues a 90-day credential.

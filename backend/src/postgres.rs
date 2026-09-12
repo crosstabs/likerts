@@ -56,6 +56,9 @@ fn database_error(error: sqlx::Error) -> Error {
         .map(|code| code.into_owned())
         .unwrap_or_else(|| "non_database".into());
     eprintln!("database operation failed; category={category}");
+    if category == "LKF01" {
+        return Error::ErasureFenced;
+    }
     Error::Internal
 }
 

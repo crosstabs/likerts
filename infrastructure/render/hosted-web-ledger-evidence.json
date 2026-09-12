@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-09-12T09:14:07.522Z",
+  "base": "https://likerts-api.onrender.com",
+  "target": "web",
+  "sdkVersion": "0.0.3",
+  "status": "passed",
+  "synthetic": true,
+  "independentCustomer": false,
+  "workspaceDigest": "hosted-launch-web-...",
+  "collectionId": "afd3386e-ea4d-4fa9-b1ec-eb6e65c7c1ac",
+  "browser": {
+    "requiredEmptySubmitBlocked": true,
+    "finalStatus": "HOSTED PASS - identical retry returned the same accepted receipt",
+    "target": "web",
+    "sdkVersion": "0.0.3",
+    "releaseArchiveSha256": "595ac8d2caf5208bd5c93806d608c3cfcf410d5b86b6faa391314d45a16dde59",
+    "collectionId": "afd3386e-ea4d-4fa9-b1ec-eb6e65c7c1ac",
+    "upstreamRequests": {
+      "collectionGets": 1,
+      "responsePosts": 2
+    },
+    "receipts": [
+      {
+        "responseId": "538c1f68-42ad-4ca0-b63c-8675e477f5d6",
+        "collectionId": "afd3386e-ea4d-4fa9-b1ec-eb6e65c7c1ac",
+        "accepted": true,
+        "chargedCents": 1
+      },
+      {
+        "responseId": "538c1f68-42ad-4ca0-b63c-8675e477f5d6",
+        "collectionId": "afd3386e-ea4d-4fa9-b1ec-eb6e65c7c1ac",
+        "accepted": true,
+        "chargedCents": 1
+      }
+    ],
+    "identicalRetrySameReceipt": true,
+    "failures": [],
+    "boundary": "same-team synthetic real browser SDK through localhost proxy; direct CORS and ledger acceptance separate"
+  },
+  "ledger": {
+    "acceptedResponses": 1,
+    "chargedCents": 1,
+    "promotionalResponses": 1,
+    "promotionalCreditsRemaining": 999,
+    "paidCredits": 0,
+    "paidCreditDebt": 0,
+    "paidResponses": 0,
+    "unpaidExposureCents": 0
+  },
+  "cleanup": {
+    "workspaceTombstoned": true,
+    "credentialDenied": true
+  },
+  "limitations": [
+    "Same-team synthetic real browser Web SDK 0.0.3 through localhost-only proxy to hosted API; not direct hosted browser CORS or independent customer activation.",
+    "One required scale question and idempotent retry are proven; full browser/version/accessibility matrix remains bounded by separate SDK acceptance.",
+    "No real respondent data, paid balance, outreach or third-party distribution is used."
+  ]
+}

@@ -34,7 +34,7 @@ function reset() {
       accepted: true, chargedCents: 1,
     };
     return new Response(JSON.stringify(receipt), {
-      status: 201, headers: { 'Content-Type': 'application/json' },
+      status: 200, headers: { 'Content-Type': 'application/json' },
     });
   };
   const client = new LikertsClient('https://local-sample.invalid', 'local-demo-no-credential', localTransport);

@@ -1,6 +1,6 @@
 # React Native runtime acceptance
 
-This app embeds the actual `Survey` export in Android and iOS React Native hosts. It uses RN 0.86.3, React 19.2.3, Hermes and the New Architecture. Its question controls are real native views. No renderer, React Native component, native bridge or submission callback is mocked. Both hosts use bundled JavaScript and a synthetic local fixture; neither contacts the hosted Likerts service.
+This app embeds the actual `Survey` export in Android and iOS React Native hosts. It uses RN 0.86.3, React 19.2.3, Hermes and the New Architecture. Its question controls are real native views. No renderer, React Native component, native bridge or submission callback is mocked. The default UI runners use bundled JavaScript and a synthetic local fixture without hosted networking. A separate, explicitly configured [native hosted transport runner](../../HOSTED-NATIVE-ACCEPTANCE.md) uses the real SDK client on Android; its collection-only credential is supplied at runtime through private native launch properties.
 
 Install the repository's locked JavaScript dependencies with `npm ci --prefix sdks/react-native`, boot an ARM64 Android emulator, then run:
 

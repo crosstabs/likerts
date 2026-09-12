@@ -6,20 +6,29 @@ export const components = Object.freeze([
   { id: 'identity', name: 'Identity key service', url: 'https://clerk.likerts.com/.well-known/jwks.json', kind: 'identity' },
 ]);
 
-async function boundedJson(response) {
+export async function boundedJson(response, signal, maxBytes = 32768) {
   const reader = response.body?.getReader();
   if (!reader) throw new Error('empty');
   const chunks = []; let size = 0;
   try {
     for (;;) {
-      const { done, value } = await reader.read();
+      signal?.throwIfAborted();
+      let abort;
+      const aborted = signal && new Promise((_, reject) => {
+        abort = () => reject(new Error('timeout'));
+        signal.addEventListener('abort', abort, { once: true });
+      });
+      let part;
+      try { part = await (aborted ? Promise.race([reader.read(), aborted]) : reader.read()); }
+      finally { if (abort) signal.removeEventListener('abort', abort); }
+      const { done, value } = part;
       if (done) break;
       size += value.length;
-      if (size > 32768) throw new Error('oversized');
+      if (size > maxBytes) throw new Error('oversized');
       chunks.push(value);
     }
     return JSON.parse(Buffer.concat(chunks).toString('utf8'));
-  } finally { await reader.cancel().catch(() => {}); }
+  } finally { void reader.cancel().catch(() => {}); }
 }
 
 export async function collectStatus({ fetcher = fetch, timeoutMs = 4000, now = () => new Date() } = {}) {
@@ -27,13 +36,14 @@ export async function collectStatus({ fetcher = fetch, timeoutMs = 4000, now = (
   const results = await Promise.all(components.map(async (component) => {
     const started = performance.now();
     try {
+      const signal = AbortSignal.timeout(timeoutMs);
       const response = await fetcher(component.url, {
         method: 'GET', headers: { accept: 'application/json' },
         redirect: 'manual', credentials: 'omit', cache: 'no-store',
-        signal: AbortSignal.timeout(timeoutMs),
+        signal,
       });
-      if (response.status !== 200) throw new Error('http');
-      const body = await boundedJson(response);
+      if (response.status !== 200) { void response.body?.cancel().catch(() => {}); throw new Error('http'); }
+      const body = await boundedJson(response, signal);
       const valid = component.kind === 'identity'
         ? Array.isArray(body.keys) && body.keys.some(key => key.kty === 'RSA' && typeof key.n === 'string' && typeof key.e === 'string')
         : component.kind === 'api' ? body.status === 'ok' && body.storage === 'postgresql'
