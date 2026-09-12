@@ -29,7 +29,12 @@ const artifact=async(path,kind)=>{const bytes=await readFile(path);artifacts.pus
 try {
   for(const target of ['web','react-native']){
     const source=join(root,'sdks',target),pkg=await packageJson(join(source,'package.json'));
-    assert.equal(pkg.version,version);assert.equal(pkg.private,true,'Public registry publication is outside this gate');
+    assert.equal(pkg.version,version);
+    if(pkg.private!==true){
+      assert.equal(pkg.private,false);
+      assert.equal(pkg.publishConfig?.access,'public');
+      assert.equal(pkg.publishConfig?.registry,'https://registry.npmjs.org/');
+    }
     if(target==='react-native')assert.ok((await readFile(join(source,'src/index.ts'),'utf8')).includes(`sdkVersion:'${version}'`));
     await rm(join(source,target==='web'?'dist':'lib'),{recursive:true,force:true});
     await run('npm',['ci','--ignore-scripts'],source);await run('npm',['run','build'],source);

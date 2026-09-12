@@ -1,7 +1,11 @@
 {
   "name": "@likerts/web",
   "version": "0.0.3",
-  "private": true,
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "type": "module",
   "exports": {
     ".": {
@@ -18,7 +22,8 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "prepack": "npm run build"
   },
   "devDependencies": {
     "@playwright/cli": "0.1.19",

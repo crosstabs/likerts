@@ -1,12 +1,17 @@
 {
   "name": "@likerts/react-native",
   "version": "0.0.3",
-  "private": true,
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "main": "lib/index.js",
   "scripts": {
     "check": "tsc --noEmit",
     "test": "jest --runInBand",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "prepack": "npm run build"
   },
   "peerDependencies": {
     "react": "^19.2.3",

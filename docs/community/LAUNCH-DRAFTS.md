@@ -1,24 +1,22 @@
 # Launch drafts
 
-Drafts only. Nothing in this document has been posted. A maintainer should verify the linked demo and quickstart immediately before publishing, adapt wording to their own voice and follow each community's rules.
+External-community drafts and a founder handoff. A separate [GitHub release announcement](https://github.com/crosstabs/likerts/discussions/14) is published; the external drafts below have not been posted. A maintainer should verify the linked demo and quickstart immediately before publishing, adapt wording to their own voice and follow each community's rules.
 
-## Show HN
+## Hacker News founder handoff
 
-**Title:** Show HN: Likerts — open-source surveys embedded in your own product
+The [HN guidelines](https://news.ycombinator.com/newsguidelines.html) prohibit generated or AI-edited text. The previous generated introductory comment has been removed. The founder must write the submission title and any introductory comment in their own words, sign in, and be available for replies. Do not copy an AI-written draft into the submission.
 
-**Submission URL:** https://github.com/crosstabs/likerts
+Factual reference for the founder:
 
-**Introductory comment:**
+- Source and submission destination: https://github.com/crosstabs/likerts
+- Working local example: `bash scripts/run-feedback-demo.sh`; Rust stable, Node.js22+ and Bash required.
+- Online renderer sample: https://likerts.com/demo; sample mode simulates the receipt.
+- Real local collection recording: https://likerts.com/media/embedded-feedback-demo.webm
+- Public downloads: https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0
+- Public Docker image: `ghcr.io/crosstabs/likerts:community-v0.1.0`
+- MIT license; self-hosting uses the operator's infrastructure. npm publication is still pending account access.
 
-Likerts is a survey collection backend for feedback that appears inside your own web or mobile application. Your application controls who sees a question and when. The backend validates the answer against an immutable published survey, stores it and returns an idempotent receipt.
-
-You can try the browser renderer without signing up: https://likerts.com/demo. That online sample keeps answers in page memory and simulates the receipt. For real collection, clone the repository and run `bash scripts/run-feedback-demo.sh`: the Web SDK submits to a local Rust API and an operator view retrieves the stored response. It needs Rust and Node.js 22+. Watch that exact flow at https://likerts.com/media/embedded-feedback-demo.webm.
-
-The backend and CLI are Rust; the platform also exposes HTTP and MCP, with Web, React Native, iOS, Android and Flutter SDKs. It is MIT licensed and self-hostable. There is no paid response meter; you pay for your own infrastructure. It does not send invitations or create public survey links.
-
-It is early software. Check https://github.com/crosstabs/likerts/releases for versioned CLI downloads and installable Web, React Native and MCP tarballs; mobile SDKs are available from source. Packages are not yet on npm. I would especially value feedback on the first-run experience and how cleanly the collection API fits into an existing product.
-
-**Before posting:** Follow the [Show HN guidelines](https://news.ycombinator.com/showhn.html): submit something people can run, make it easy to try, explain the work personally and be available for discussion. Do not solicit votes. Use the repository or runnable demo as the submission destination, not a landing page alone.
+Follow [Show HN's rules](https://news.ycombinator.com/showhn.html), use the runnable project as the destination, and do not solicit votes or coordinated comments.
 
 ## Developer community introduction
 
