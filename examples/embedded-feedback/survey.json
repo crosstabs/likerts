@@ -1,0 +1,21 @@
+{
+  "idempotencyKey": "local-checkout-survey",
+  "title": "How was your checkout?",
+  "questions": [
+    {
+      "id": "rating",
+      "type": "scale",
+      "label": "How easy was it?",
+      "required": true,
+      "min": 1,
+      "max": 5,
+      "labels": { "1": "Very difficult", "2": "Difficult", "3": "Okay", "4": "Easy", "5": "Very easy" }
+    },
+    {
+      "id": "comment",
+      "type": "text",
+      "label": "Anything we could improve? (optional)",
+      "maxLength": 200
+    }
+  ]
+}

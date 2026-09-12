@@ -1,0 +1,32 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.crosstabs/likerts",
+  "title": "Likerts",
+  "description": "Manage open-source in-product surveys, collections, responses and exports with scoped access.",
+  "repository": {
+    "url": "https://github.com/crosstabs/likerts",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "websiteUrl": "https://likerts.com/docs#agents",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://likerts-mcp.onrender.com/mcp/{workspaceId}",
+      "variables": {
+        "workspaceId": {
+          "description": "Your Likerts workspace ID, shown in the hosted workspace.",
+          "isRequired": true
+        }
+      },
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer followed by your workspace's scoped service credential.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

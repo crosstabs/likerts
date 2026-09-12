@@ -1,0 +1,278 @@
+name: Stage community release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing immutable tag (for example community-v0.1.0)
+        required: true
+        type: string
+      commit:
+        description: Exact 40-character commit SHA already verified on main
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: community-release-${{ inputs.tag }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  validate:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      commit: ${{ steps.validate.outputs.commit }}
+      tag: ${{ steps.validate.outputs.tag }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.22.2
+      - name: Validate existing tag, exact commit, and successful required CI
+        id: validate
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+          RELEASE_COMMIT: ${{ inputs.commit }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { execFileSync } from 'node:child_process';
+          import { appendFileSync } from 'node:fs';
+          import { validateTag } from './scripts/package-community-release.mjs';
+          const tag = validateTag(process.env.RELEASE_TAG);
+          const commit = process.env.RELEASE_COMMIT;
+          assert.match(commit, /^[0-9a-f]{40}$/);
+          const run = (name, args) => execFileSync(name, args, {encoding: 'utf8'}).trim();
+          assert.equal(run('git', ['rev-parse', `refs/tags/${tag}^{commit}`]), commit, 'Tag does not match requested commit');
+          run('git', ['merge-base', '--is-ancestor', commit, 'origin/main']);
+          const repo = process.env.GITHUB_REPOSITORY;
+          const api = path => JSON.parse(run('gh', ['api', path]));
+          const verified = api(`repos/${repo}/actions/workflows/verify.yml/runs?head_sha=${commit}&event=push&branch=main&status=success&per_page=100`).workflow_runs
+            .find(item => item.head_sha === commit && item.head_branch === 'main' && item.event === 'push' && item.conclusion === 'success');
+          assert.ok(verified, 'Exact commit has no successful main push verification');
+          const jobs = api(`repos/${repo}/actions/runs/${verified.id}/jobs?per_page=100`).jobs;
+          for (const name of ['interfaces-and-database', 'container']) assert.ok(jobs.some(job => job.name === name && job.conclusion === 'success'), `Required job missing or unsuccessful: ${name}`);
+          appendFileSync(process.env.GITHUB_OUTPUT, `commit=${commit}\ntag=${tag}\n`);
+          console.log(`Validated ${tag} at ${commit}; required CI run ${verified.id}.`);
+          JS
+
+  cli:
+    needs: validate
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-22.04
+            target: linux-x64
+            rust-target: x86_64-unknown-linux-gnu
+            executable: likerts
+          - runner: macos-15
+            target: darwin-arm64
+            rust-target: aarch64-apple-darwin
+            executable: likerts
+          - runner: windows-2022
+            target: windows-x64
+            rust-target: x86_64-pc-windows-msvc
+            executable: likerts.exe
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ needs.validate.outputs.commit }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.22.2
+      - name: Build native CLI with locked dependencies
+        env:
+          RUST_TARGET: ${{ matrix.rust-target }}
+        run: |
+          rustup toolchain install 1.98.0 --profile minimal --target "$RUST_TARGET"
+          cargo +1.98.0 build --locked --release --manifest-path tools/cli/Cargo.toml --target "$RUST_TARGET"
+      - name: Verify native and extracted executable; package allowlisted files
+        env:
+          RELEASE_TAG: ${{ needs.validate.outputs.tag }}
+          NATIVE_TARGET: ${{ matrix.target }}
+          RUST_TARGET: ${{ matrix.rust-target }}
+          EXECUTABLE: ${{ matrix.executable }}
+        run: |
+          node --test scripts/package-community-release.test.mjs
+          node scripts/package-community-release.mjs --kind cli --tag "$RELEASE_TAG" --target "$NATIVE_TARGET" --binary "tools/cli/target/$RUST_TARGET/release/$EXECUTABLE" --output .tools/community-stage
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: community-cli-${{ matrix.target }}
+          path: .tools/community-stage/*
+          if-no-files-found: error
+          retention-days: 7
+
+  npm:
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ needs.validate.outputs.commit }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.22.2
+      - name: Build and test current npm sources
+        run: |
+          npm ci --prefix sdks/web
+          npm run build --prefix sdks/web
+          node --test sdks/web/test/*.test.mjs
+          npm ci --prefix sdks/react-native
+          npm run build --prefix sdks/react-native
+          npm test --prefix sdks/react-native
+          npm ci --prefix tools/mcp
+          npm run build --prefix tools/mcp
+          npm test --prefix tools/mcp
+      - name: Pack and install into fresh consumers; verify license and installed MCP discovery
+        env:
+          RELEASE_TAG: ${{ needs.validate.outputs.tag }}
+        run: |
+          node --test scripts/package-community-release.test.mjs
+          for package in sdks/web sdks/react-native tools/mcp; do
+            node scripts/package-community-release.mjs --kind npm --tag "$RELEASE_TAG" --package "$package" --output .tools/community-stage
+          done
+          node scripts/check-mcp-package.mjs ".tools/community-stage/$RELEASE_TAG-mcp.tgz"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: community-npm
+          path: .tools/community-stage/*
+          if-no-files-found: error
+          retention-days: 7
+
+  runtime:
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ needs.validate.outputs.commit }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.22.2
+      - name: Build and smoke-test the exact runtime candidate
+        env:
+          RELEASE_TAG: ${{ needs.validate.outputs.tag }}
+          RELEASE_COMMIT: ${{ needs.validate.outputs.commit }}
+        run: |
+          docker build --label "org.opencontainers.image.source=https://github.com/$GITHUB_REPOSITORY" --label "org.opencontainers.image.revision=$RELEASE_COMMIT" --label "org.opencontainers.image.version=$RELEASE_TAG" --label "org.opencontainers.image.licenses=MIT" --tag "likerts-community:$RELEASE_COMMIT" .
+          test "$(docker image inspect --format '{{.Config.User}}' "likerts-community:$RELEASE_COMMIT")" = '10001:10001'
+          docker run --rm --entrypoint /bin/sh "likerts-community:$RELEASE_COMMIT" -c 'test -x /usr/local/bin/likerts-server && test -x /usr/local/bin/likerts-migrate && test -x /usr/local/bin/likerts-webhook-worker'
+          name="likerts-community-$GITHUB_RUN_ID"
+          trap 'docker logs "$name"; docker rm -f "$name" >/dev/null' EXIT
+          docker run --detach --name "$name" --publish 127.0.0.1:8080:8080 --env LIKERTS_ALLOW_MEMORY=1 --env LIKERTS_ADMISSION_MODE=disabled --env 'LIKERTS_DEV_TOKENS={"community-smoke-token":"demo"}' "likerts-community:$RELEASE_COMMIT"
+          ready=0
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:8080/health | jq -e '.status == "ok"' >/dev/null; then ready=1; break; fi
+            sleep 1
+          done
+          test "$ready" = 1
+          rustup toolchain install 1.98.0 --profile minimal
+          rustup default 1.98.0
+          LIKERTS_API_URL=http://127.0.0.1:8080 LIKERTS_TOKEN=community-smoke-token bash scripts/first-response.sh
+          mkdir -p .tools/community-stage
+          docker save "likerts-community:$RELEASE_COMMIT" | gzip > ".tools/community-stage/$RELEASE_TAG-runtime-linux-x64.tar.gz"
+          node scripts/package-community-release.mjs --kind record --tag "$RELEASE_TAG" --asset ".tools/community-stage/$RELEASE_TAG-runtime-linux-x64.tar.gz" --output .tools/community-stage
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: community-runtime
+          path: .tools/community-stage/*
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+
+  publish-draft:
+    needs: [validate, cli, npm, runtime]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ needs.validate.outputs.commit }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.22.2
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: community-*
+          path: .tools/community-stage
+          merge-multiple: true
+      - name: Revalidate tag and staged assets; refuse release replacement
+        env:
+          RELEASE_TAG: ${{ needs.validate.outputs.tag }}
+          RELEASE_COMMIT: ${{ needs.validate.outputs.commit }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")" = "$RELEASE_COMMIT"
+          node scripts/package-community-release.mjs --kind catalog --tag "$RELEASE_TAG" --commit "$RELEASE_COMMIT" --output .tools/community-stage
+          (cd .tools/community-stage && sha256sum --check SHA256SUMS)
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { execFileSync } from 'node:child_process';
+          const api = args => JSON.parse(execFileSync('gh', ['api', ...args], {encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe']}));
+          const [owner, name] = process.env.GITHUB_REPOSITORY.toLowerCase().split('/');
+          let release;
+          try { release = api([`repos/${owner}/${name}/releases/tags/${process.env.RELEASE_TAG}`]); }
+          catch (error) { if (!/\(HTTP 404\)/.test(String(error.stderr))) throw error; }
+          assert.ok(!release, 'GitHub release already exists; refusing replacement');
+          const namespace = api([`users/${owner}`]).type === 'Organization' ? 'orgs' : 'users';
+          let versions;
+          try { versions = api(['--paginate', '--slurp', `${namespace}/${owner}/packages/container/${encodeURIComponent(name)}/versions?per_page=100`]).flat(); }
+          catch (error) {
+            if (!/\(HTTP 404\)/.test(String(error.stderr))) throw error;
+            versions = [];
+          }
+          const tags = new Set(versions.flatMap(version => version.metadata?.container?.tags ?? []));
+          for (const tag of [process.env.RELEASE_TAG, `sha-${process.env.RELEASE_COMMIT}`]) assert.ok(!tags.has(tag), 'GHCR tag already exists; inspect partial publication instead of overwriting it');
+          JS
+      - name: Promote the staged image to GHCR and create a draft release
+        env:
+          RELEASE_TAG: ${{ needs.validate.outputs.tag }}
+          RELEASE_COMMIT: ${{ needs.validate.outputs.commit }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          image="ghcr.io/${GITHUB_REPOSITORY,,}"
+          printf '%s' "$GH_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+          trap 'docker logout ghcr.io >/dev/null' EXIT
+          gzip -dc ".tools/community-stage/$RELEASE_TAG-runtime-linux-x64.tar.gz" | docker load
+          test "$(docker image inspect --format '{{index .Config.Labels "org.opencontainers.image.revision"}}' "likerts-community:$RELEASE_COMMIT")" = "$RELEASE_COMMIT"
+          # The preceding API check refuses existing tags, including partial prior runs.
+          for tag in "$RELEASE_TAG" "sha-$RELEASE_COMMIT"; do
+            docker tag "likerts-community:$RELEASE_COMMIT" "$image:$tag"
+            docker push "$image:$tag"
+          done
+          digest=$(docker image inspect --format '{{index .RepoDigests 0}}' "$image:$RELEASE_TAG")
+          export RELEASE_IMAGE_DIGEST="$digest"
+          node --input-type=module <<'JS'
+          import { writeFileSync } from 'node:fs';
+          const { RELEASE_TAG: tag, RELEASE_COMMIT: commit, RELEASE_IMAGE_DIGEST: image, GITHUB_REPOSITORY: repo, GITHUB_RUN_ID: run } = process.env;
+          writeFileSync('.tools/community-stage/RELEASE-NOTES.md', `# Likerts ${tag}\n\nFree MIT community edition at commit ${commit}.\n\nDownload the CLI archive for your OS, or install the Web, React Native, and MCP npm tarballs into your application. Verify assets against SHA256SUMS. Embedded component versions are recorded in release-manifest.json and may differ from the community release tag.\n\nRuntime image (Linux amd64): ${image}\n\nThe runtime archive is a docker-save image; use gzip -dc ARCHIVE | docker load. GitHub supplies source ZIP/tar archives from the tag.\n\nCLI binaries are unsigned and not notarized. Linux CLI requires glibc 2.35+. Native SDKs remain available from source; npm-registry publication is separate. Review this draft before publishing.\n\nBuild evidence: https://github.com/${repo}/actions/runs/${run}\nInstallation: https://github.com/${repo}/blob/${tag}/docs/releases.md\n`);
+          JS
+          gh release create "$RELEASE_TAG" --verify-tag --draft --title "Likerts $RELEASE_TAG" --notes-file .tools/community-stage/RELEASE-NOTES.md .tools/community-stage/*.tar.gz .tools/community-stage/*.tgz .tools/community-stage/SHA256SUMS .tools/community-stage/release-manifest.json

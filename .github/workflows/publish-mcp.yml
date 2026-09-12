@@ -1,0 +1,67 @@
+name: Publish MCP registry listing
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Published community release tag
+        required: true
+        default: community-v0.1.0
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-mcp-registry
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require a published release on main
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_TAG" =~ ^community-v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          test "$(git rev-parse HEAD)" = "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
+          git merge-base --is-ancestor HEAD origin/main
+          gh release view "$RELEASE_TAG" --json isDraft,tagName > "$RUNNER_TEMP/release.json"
+          jq -e --arg tag "$RELEASE_TAG" '.isDraft == false and .tagName == $tag' "$RUNNER_TEMP/release.json"
+          jq -e --arg version "${RELEASE_TAG#community-v}" '.version == $version and .name == "io.github.crosstabs/likerts"' tools/mcp/server.json
+      - name: Check hosted transport
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --max-time 20 https://likerts-mcp.onrender.com/health | jq -e '.status == "ok" and .service == "likerts-mcp"'
+          status=$(curl --silent --show-error --max-time 20 --output "$RUNNER_TEMP/mcp-probe.json" --write-out '%{http_code}' --request POST https://likerts-mcp.onrender.com/mcp/registry-verification)
+          test "$status" = 401
+      - name: Install verified publisher
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          curl --fail --location --silent --show-error --retry 2 --output publisher.tar.gz https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz
+          printf '%s  %s\n' a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc publisher.tar.gz | sha256sum --check -
+          tar -xzf publisher.tar.gz mcp-publisher
+      - name: Publish remote listing using GitHub identity
+        working-directory: tools/mcp
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/mcp-publisher" login github-oidc
+          "$RUNNER_TEMP/mcp-publisher" publish

@@ -1,1 +1,53 @@
-{"name":"@likerts/mcp","version":"0.1.0","private":true,"license":"MIT","type":"module","scripts":{"build":"tsc","test":"tsx --test test/*.test.ts","start":"node dist/main.js","start:remote":"node dist/remote-main.js"},"dependencies":{"@modelcontextprotocol/sdk":"1.30.0","ajv":"8.20.0","zod":"^3.25.0"},"devDependencies":{"@types/node":"^22.0.0","tsx":"^4.20.0","typescript":"^5.9.0"}}
+{
+  "name": "@likerts/mcp",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && node scripts/package-data.mjs",
+    "test": "tsx --test test/*.test.ts",
+    "start": "node dist/main.js",
+    "start:remote": "node dist/remote-main.js",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "ajv": "8.20.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  },
+  "description": "Typed MCP server for the free Likerts survey collection platform.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crosstabs/likerts.git",
+    "directory": "tools/mcp"
+  },
+  "homepage": "https://likerts.com/docs",
+  "bugs": {
+    "url": "https://github.com/crosstabs/likerts/issues"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "likerts",
+    "surveys",
+    "feedback",
+    "mcp",
+    "model-context-protocol"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "bin": {
+    "likerts-mcp": "dist/main.js"
+  },
+  "mcpName": "io.github.crosstabs/likerts"
+}

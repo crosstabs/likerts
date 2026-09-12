@@ -1,0 +1,33 @@
+name: Feature or integration proposal
+description: Suggest a focused improvement grounded in a real use case.
+title: "Proposal: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the user workflow and where the current product gets in the way.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Smallest useful change
+      description: Include an example of the behavior and how someone could verify it.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and compatibility
+      description: Existing workarounds, affected clients or deployment constraints, if known.
+  - type: dropdown
+    id: participation
+    attributes:
+      label: How would you like to help?
+      options:
+        - Share the use case
+        - Test a proposed solution
+        - Write documentation or an example
+        - Implement the change

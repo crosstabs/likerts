@@ -1,6 +1,6 @@
-import { readFileSync } from 'node:fs';
+import { readContractResource } from './resources.js';
 export interface Capability { name: string; method: string; path: string; description: string; input: string; auth: 'management' | 'collection' }
-export const capabilities: Capability[] = JSON.parse(readFileSync(new URL('../../capabilities.json', import.meta.url), 'utf8'));
+export const capabilities: Capability[] = readContractResource('capabilities.json');
 export class LikertsHttpError extends Error {
   constructor(public operation: string, public status: number) {
     super(`Likerts ${operation} failed (HTTP ${status})`);

@@ -32,7 +32,8 @@
     "src",
     "examples",
     "README.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "types": "lib/index.d.ts",
   "react-native": "src/index.ts",
@@ -47,5 +48,24 @@
       "react-native": "./src/offline.ts",
       "default": "./lib/offline.js"
     }
-  }
+  },
+  "description": "In-product survey collection for React Native with Likerts.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crosstabs/likerts.git",
+    "directory": "sdks/react-native"
+  },
+  "homepage": "https://likerts.com/docs",
+  "bugs": {
+    "url": "https://github.com/crosstabs/likerts/issues"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "likerts",
+    "surveys",
+    "feedback",
+    "react-native"
+  ]
 }

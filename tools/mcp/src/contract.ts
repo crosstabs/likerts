@@ -1,10 +1,10 @@
-import { readFileSync } from 'node:fs';
+import { readContractResource } from './resources.js';
 import { createRequire } from 'node:module';
 import type { ValidateFunction } from 'ajv';
 import { capabilities } from './client.js';
 
 type Schema = Record<string, any>;
-const spec = JSON.parse(readFileSync(new URL('../../../contracts/openapi.json', import.meta.url), 'utf8'));
+const spec = readContractResource('openapi.json');
 const Ajv = createRequire(import.meta.url)('ajv/dist/2020').default;
 const ajv = new Ajv({strict: false, allErrors: true});
 ajv.addFormat('uuid', /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);

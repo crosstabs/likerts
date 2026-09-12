@@ -38,6 +38,8 @@ tools/mcp/**
 !tools/mcp/tsconfig.json
 !tools/mcp/src/
 !tools/mcp/src/**
+!tools/mcp/scripts/
+!tools/mcp/scripts/**
 !tools/capabilities.json
 !contracts/
 contracts/**
