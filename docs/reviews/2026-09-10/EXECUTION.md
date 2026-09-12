@@ -29,6 +29,7 @@ This rollout deploys the erasure-archive migration and latest startup/test corre
 - Ran the complete backend/API/MCP/CLI/Web contract suite, all-five-SDK suite, callback PostgreSQL isolation and credit-notification suite, Prometheus config/rule tests and the launch-platform gate. All completed successfully after one contract defect was corrected.
 - Fixed the public interface drift for `erasure_source_fenced`: the backend's recovery-maintenance 503 now appears in the stable error-code registry, OpenAPI document and generated capability guidance. The exact interface gate now reports 41 typed capabilities, 55 HTTP registrations, 75 schemas and 24 documented API error codes.
 - Added `scripts/verify-sdk-release.sh`. It checks the five immutable SDK 0.0.3 archives against their release manifest, declared compatibility fleet, public download copies and `SHA256SUMS`, and has a negative test proving a changed public artifact is rejected.
+- Deployed commit `c98eb8fe63ba30babb14902e2949c56fac855795` through Vercel as production artifact `dpl_AEmXyjBvi2nvrcXTujgECtRQkAyf`, verified the exact unaliased artifact, then promoted it to `likerts.com`. Production returned the corrected OpenAPI code, revised marketing hero and three reachable status components; a bounded post-deploy Vercel error-log query returned no entries.
 
 ## Provider actions actually performed
 

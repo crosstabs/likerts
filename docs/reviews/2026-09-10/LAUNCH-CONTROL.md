@@ -21,6 +21,7 @@ The product can credibly say: API-first and MCP-first customer-controlled collec
 - The complete local PostgreSQL release rehearsal passed through Web, React Native, iOS, Android and Flutter clients, then verified retrieval/export, duplicate accounting, invalid-work denial, response/export/collection revocation and workspace deletion.
 - The clean production container and recovery drill passed all 24 migrations, restricted roles, forced tenant isolation, deletion replay/quarantine and a 2.047-second local restore. Prometheus configuration and five rules passed syntax and rule tests; callback isolation and credit-threshold outbox tests passed.
 - A release-integrity gate now verifies all five immutable SDK 0.0.3 artifacts against their manifest, compatibility fleet, public download mirrors and SHA-256 list. The broad interface gate exposed and fixed missing public documentation for the recovery-fence 503 error; API/MCP/CLI now agree on 24 structured error codes.
+- Public contract commit `c98eb8fe63ba30babb14902e2949c56fac855795` deployed through Vercel as `dpl_AEmXyjBvi2nvrcXTujgECtRQkAyf` and was promoted to `likerts.com`. Exact-deployment and production checks found the revised homepage, corrected OpenAPI error, three reachable dependency components and no Vercel error logs in the post-deploy window.
 
 ## CEO view
 
