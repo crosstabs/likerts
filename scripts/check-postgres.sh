@@ -17,7 +17,7 @@ docker run --rm --detach \
 
 ready=0
 for _ in $(seq 1 60); do
-  if [ "$(docker exec "$CONTAINER_NAME" psql --username postgres --dbname postgres --quiet --tuples-only --no-align --command 'select 1' 2>/dev/null || true)" = "1" ]; then
+  if [ "$(docker exec "$CONTAINER_NAME" psql --host 127.0.0.1 --username postgres --dbname postgres --quiet --tuples-only --no-align --command 'select 1' 2>/dev/null || true)" = "1" ]; then
     ready=1
     break
   fi
