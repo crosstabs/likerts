@@ -110,6 +110,8 @@ test("marketing site is separate from the authenticated control plane", async ()
   assert.match(marketingHtml, /Constant sum/);
   assert.match(marketingHtml, /Operate it from your agent/);
   assert.match(marketingHtml, /US\$0\.01/);
+  assert.match(marketingHtml, /Service checks/);
+  assert.doesNotMatch(marketingHtml, /Service status/);
   assert.match(marketingHtml, /href="\/app\/"/);
   assert.doesNotMatch(marketingHtml, /id="auth-root"/);
 });
