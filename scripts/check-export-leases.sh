@@ -15,13 +15,19 @@ docker run --rm --detach \
   --publish 127.0.0.1::5432 \
   postgres:17-alpine >/dev/null
 
+ready=0
 for _ in $(seq 1 60); do
-  if docker exec "$CONTAINER_NAME" pg_isready --username postgres >/dev/null 2>&1; then
+  if [ "$(docker exec "$CONTAINER_NAME" psql --username postgres --dbname postgres --quiet --tuples-only --no-align --command 'select 1' 2>/dev/null || true)" = "1" ]; then
+    ready=1
     break
   fi
   sleep 1
 done
-docker exec "$CONTAINER_NAME" pg_isready --username postgres >/dev/null
+if [ "$ready" -ne 1 ]; then
+  docker logs "$CONTAINER_NAME" >&2
+  echo 'PostgreSQL test container did not become query-ready' >&2
+  exit 1
+fi
 
 docker exec "$CONTAINER_NAME" psql --username postgres --set ON_ERROR_STOP=1 \
   --command "create role likerts_runtime_test login password 'likerts-runtime-test' noinherit nobypassrls"
