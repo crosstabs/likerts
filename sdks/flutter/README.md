@@ -1,20 +1,20 @@
 # Likerts Flutter SDK
 
-## Install the local 0.0.3 artifact
+## Install the current source
 
-This local package supports schemas 1–5. The release manifest records artifact and clean-install verification; frozen 0.0.1 and 0.0.2 artifacts remain available separately.
+The free community edition supports schemas 1–5. Clone the repository and use its `sdks/flutter` package. Frozen archives under `releases/` predate the free edition; use current source rather than those historical packages.
 
-Extract `likerts-flutter-0.0.3.tar.gz`, then add the extracted `likerts/` directory as a path dependency in your host app:
+Add the current source package as a path dependency in your host app:
 
 ```yaml
 dependencies:
   likerts:
-    path: ../likerts
+    path: /absolute/path/to/likerts/sdks/flutter
 ```
 
 Run `flutter pub get` using Dart 3.8+ / Flutter 3.32+. The package needs `http` 1.6+ for abortable requests and remains `publish_to: none`; no pub.dev release has been published. Import the client from `package:likerts/likerts.dart` and renderer from `package:likerts/survey.dart`.
 
-`installation-example/checkout_feedback.dart` shows a host-owned feedback button, eligibility and dismissal. The host loads the collection, holds the same immutable submission/key across ambiguous failures and cancels pending work when dismissed. The archive contains package sources and the trigger example; full Android/iOS app examples and simulator gates remain in the repository.
+`installation-example/checkout_feedback.dart` shows a host-owned feedback button, eligibility and dismissal. The host loads the collection, holds the same immutable submission/key across ambiguous failures and cancels pending work when dismissed. The checkout contains package sources, the trigger example, full Android/iOS app examples, and simulator gates.
 
 This package provides the collection-only client and a native Flutter survey renderer. Administrative credentials must never be shipped in a mobile application; use only a collection-scoped token.
 

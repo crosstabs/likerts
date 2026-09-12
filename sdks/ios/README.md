@@ -1,16 +1,16 @@
 # Likerts iOS SDK
 
-## Install the local 0.0.3 artifact
+## Install the current source
 
-This local package supports schemas 1–5. The release manifest records artifact and clean-install verification; frozen 0.0.1 and 0.0.2 artifacts remain available separately.
+The free community edition supports schemas 1–5. Clone the repository and use its `sdks/ios` package. Frozen archives under `releases/` predate the free edition; use current source rather than those historical packages.
 
-Extract `Likerts-ios-0.0.3.tar.gz`; it contains a `Likerts/` Swift package. In Xcode, choose **Add Package Dependencies → Add Local** and select that folder, then link its `Likerts` product to your app target. For a SwiftPM consumer, use `.package(path: "../Likerts")` and `.product(name: "Likerts", package: "Likerts")`. The package uses Swift tools 5.9 and supports iOS 15+; local install verification also compiles its SwiftUI API in a separate macOS 12+ consumer. No remote repository tag or binary framework has been published.
+In Xcode, choose **Add Package Dependencies → Add Local** and select `/absolute/path/to/likerts/sdks/ios`, then link its `Likerts` product to your app target. For a SwiftPM consumer, use `.package(name: "Likerts", path: "/absolute/path/to/likerts/sdks/ios")` and `.product(name: "Likerts", package: "Likerts")`. The package uses Swift tools 5.9 and supports iOS 15+ and macOS 12+. The repository is a monorepo, so its root URL is not a standalone Swift package; use the local package path. No remote repository tag or binary framework has been published.
 
-`InstallationExample/CheckoutFeedback.swift` demonstrates host-controlled eligibility and sheet presentation. The host owns collection loading, stable submission/retry state and cancellation on dismissal. The archive includes public sources and package tests; the full XcodeGen app referenced below belongs to the repository checkout.
+`InstallationExample/CheckoutFeedback.swift` demonstrates host-controlled eligibility and sheet presentation. The host owns collection loading, stable submission/retry state and cancellation on dismissal. The checkout includes public sources, package tests, and the full XcodeGen app referenced below.
 
 The Swift package provides `LikertsClient`, typed collection/submission models and the SwiftUI `SurveyView`. Add the local package during development and import `Likerts`. Only a public collection token belongs in an application bundle.
 
-`SurveyView` renders the six launch question types and returns a locally validated `[String: Answer]` snapshot. The host owns the async submit task, server-error UI, placement and dismissal. Cancel that task when its containing screen disappears and retain the same `Submission` value after an ambiguous failure.
+`SurveyView` renders all nine question types and returns a locally validated `[String: Answer]` snapshot. The host owns the async submit task, server-error UI, placement and dismissal. Cancel that task when its containing screen disappears and retain the same `Submission` value after an ambiguous failure.
 
 ```swift
 SurveyView(

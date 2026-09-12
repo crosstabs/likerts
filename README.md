@@ -20,9 +20,11 @@ There are no response credits, paid plans, license keys or application-level res
 
 ## Run locally
 
-You need Rust stable and Node.js 22+. The memory store is intended for a disposable local loop; PostgreSQL is required for durable deployments.
+You need Git, Rust stable, Node.js 22+, Bash and `jq`. The memory store is intended for a disposable local loop; PostgreSQL is required for durable deployments.
 
 ```bash
+git clone https://github.com/crosstabs/likerts.git
+cd likerts
 source scripts/dev-env.sh
 export LIKERTS_DEV_TOKENS='{"local-demo-management-token":"demo"}'
 export LIKERTS_ALLOW_MEMORY=1

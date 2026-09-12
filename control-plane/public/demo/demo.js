@@ -45,7 +45,7 @@ function reset() {
     if (generation !== currentGeneration) return;
     result.textContent = JSON.stringify({
       mode: 'local sample — not sent or stored',
-      actualCreditsUsed: 0,
+      responsesStored: 0,
       submission: sampleSubmission,
       simulatedReceipt: receipt,
     }, null, 2);
