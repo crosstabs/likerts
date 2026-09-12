@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Run Likerts, create a survey, and collect responses through API, MCP, CLI, or five SDKs." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
+  <link rel="canonical" href="https://likerts.com/docs/" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <title>Likerts documentation</title>
+  <script src="/marketing.js" defer></script>
+  <script src="/docs/docs.js" defer></script>
+</head>
+<body class="docs-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header"><a class="wordmark" href="/">Likerts<span class="wordmark-dot">.</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav id="site-nav" class="site-nav" aria-label="Main navigation"><a href="/docs/">Docs</a><a href="/docs/api/">API reference</a><a href="/demo/">SDK demo</a><a href="https://github.com/crosstabs/likerts">GitHub</a></nav></header>
+  <div class="docs-layout">
+    <aside class="docs-sidebar"><nav aria-label="Documentation sections"><p class="eyebrow">Build with Likerts</p><a href="#start">Overview</a><a href="#run">Run locally</a><a href="#flow">First response</a><a href="#agents">MCP and CLI</a><a href="#sdks">SDKs</a><a href="#questions">Question types</a><a href="#security">Security</a><a href="/docs/api/">API reference →</a></nav></aside>
+    <main id="main-content" class="docs-main">
+      <section id="start" class="docs-section"><p class="eyebrow">Free community edition</p><h1>Collection infrastructure you control.</h1><p class="docs-lede">Likerts stores survey definitions, issues collection credentials, validates answers, and accepts idempotent responses. It does not distribute survey links or send messages.</p><div class="docs-notice"><strong>MIT licensed.</strong> Likerts has no response credits, paid plans, checkout flow, or application-level response quota. Your infrastructure costs and safety settings remain yours.</div></section>
+      <section id="run" class="docs-section"><h2>Run it locally.</h2><p>You need Rust stable and Node.js 22 or newer. This disposable loop uses the in-memory store; durable deployments use PostgreSQL.</p><div class="docs-code"><div class="code-toolbar"><span>shell</span><button type="button" class="copy-code">Copy</button></div><pre><code>git clone https://github.com/crosstabs/likerts.git
+cd likerts
+source scripts/dev-env.sh
+export LIKERTS_DEV_TOKENS='{"local-demo-management-token":"demo"}'
+export LIKERTS_ALLOW_MEMORY=1
+export LIKERTS_ADMISSION_MODE=disabled
+cargo run --manifest-path backend/Cargo.toml --locked</code></pre></div><p>The API listens on <code>http://127.0.0.1:8080</code>. Use the local token only for this disposable environment and generate new secrets before exposing a deployment.</p></section>
+      <section id="flow" class="docs-section"><h2>Create, publish, collect.</h2><p>The resource flow is <strong>survey draft → immutable published version → collection → accepted response</strong>. A collection binds one version to a placement and returns a restricted credential for the embedded client.</p><div class="docs-code"><div class="code-toolbar"><span>shell</span><button type="button" class="copy-code">Copy</button></div><pre><code>export LIKERTS_API_URL=http://localhost:8080
+export LIKERTS_TOKEN=your_management_token
+likerts call surveys_create --input survey.json
+likerts call surveys_publish --input publish.json
+likerts call collections_create --input collection.json
+likerts call responses_submit --input response.json
+likerts call usage_get</code></pre></div><p>Every write accepts an idempotency key. Retrying the same request returns the same resource or receipt. Reusing a key with different content returns a conflict.</p></section>
+      <section id="agents" class="docs-section"><h2>Operate the whole platform from an agent.</h2><p>The API, MCP server, and Rust CLI expose the same capability registry. Issue a narrow service credential, then connect Codex or Claude Code to the workspace-bound MCP endpoint.</p><div class="docs-code"><div class="code-toolbar"><span>shell</span><button type="button" class="copy-code">Copy</button></div><pre><code>codex mcp add likerts \
+  --url "https://YOUR_MCP_HOST/mcp/$LIKERTS_WORKSPACE_ID" \
+  --bearer-token-env-var LIKERTS_TOKEN</code></pre></div><p>Management credentials stay on trusted systems. Browser and mobile apps receive only a collection credential restricted to one collection.</p></section>
+      <section id="sdks" class="docs-section"><h2>Embed the collection experience.</h2><p>Renderer and transport SDKs are included for Web, React Native, iOS, Android, and Flutter. The host app owns placement, eligibility, consent, localization, and retry timing. The optional encrypted offline queues flush only when the host asks them to.</p><p>Try the <a href="/demo/">network-free SDK demo</a> or use the SDK packages in the <a href="https://github.com/crosstabs/likerts/tree/main/sdks">source repository</a>.</p></section>
+      <section id="questions" class="docs-section"><h2>Nine bounded question types.</h2><div class="docs-table-wrap"><table><thead><tr><th>Type</th><th>Answer shape</th></tr></thead><tbody><tr><td>Scale</td><td>Integer within configured bounds, with optional Likert or NPS labels.</td></tr><tr><td>Single choice</td><td>One option ID, with optional structured Other text.</td></tr><tr><td>Multiple choice</td><td>Unique option IDs within configured selection bounds.</td></tr><tr><td>Text</td><td>Bounded string.</td></tr><tr><td>Number</td><td>Number within configured bounds.</td></tr><tr><td>Date</td><td>Calendar date.</td></tr><tr><td>Ranking</td><td>Complete option-ID permutation.</td></tr><tr><td>Matrix</td><td>Row IDs mapped to one or more column IDs.</td></tr><tr><td>Constant sum</td><td>Nonnegative integer allocation matching the configured total.</td></tr></tbody></table></div><p>Conditional visibility and bounded page branching are part of the shared schema contract. Hidden answers are pruned before submission.</p></section>
+      <section id="security" class="docs-section"><h2>Isolation is enforced at every boundary.</h2><p>Workspace identity is derived from the verified credential and carried through API authorization and database access. Collection credentials cannot perform management actions. Exports and webhook delivery use separate restricted paths.</p><p>Read <a href="https://github.com/crosstabs/likerts/blob/main/SECURITY.md">SECURITY.md</a> before an internet-facing deployment. Rate limits, payload bounds, queue sizes, storage capacity, backups, encryption keys, and monitoring are operator responsibilities.</p></section>
+    </main>
+  </div>
+  <footer class="simple-footer"><a href="/">Likerts</a> · <a href="https://github.com/crosstabs/likerts">Source</a> · MIT licensed</footer>
+  <div id="copy-status" class="sr-only" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "idempotencyKey": "choice-features-example",
+  "answers": {
+    "reasons": {
+      "selected": [
+        "quality",
+        "other"
+      ],
+      "otherText": {
+        "other": "Speed"
+      }
+    },
+    "rating": 4,
+    "channel": "app"
+  },
+  "metadata": {
+    "placement": "checkout"
+  }
+}

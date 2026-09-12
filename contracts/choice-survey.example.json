@@ -1,0 +1,61 @@
+{
+  "title": "Embedded feedback with explicit choice semantics",
+  "questions": [
+    {
+      "id": "reasons",
+      "type": "multiple_choice",
+      "label": "What mattered?",
+      "required": true,
+      "minSelections": 2,
+      "maxSelections": 3,
+      "options": [
+        {
+          "id": "quality",
+          "label": "Quality"
+        },
+        {
+          "id": "service",
+          "label": "Service"
+        },
+        {
+          "id": "other",
+          "label": "Other",
+          "other": {
+            "maxLength": 10
+          }
+        },
+        {
+          "id": "none",
+          "label": "None of the above",
+          "exclusive": true
+        }
+      ]
+    },
+    {
+      "id": "rating",
+      "type": "scale",
+      "label": "Rate your visit",
+      "required": true,
+      "min": 1,
+      "max": 5,
+      "presentation": "stars"
+    },
+    {
+      "id": "channel",
+      "type": "single_choice",
+      "label": "Preferred channel",
+      "presentation": "dropdown",
+      "options": [
+        {
+          "id": "app",
+          "label": "App"
+        },
+        {
+          "id": "store",
+          "label": "Store"
+        }
+      ],
+      "required": false
+    }
+  ]
+}

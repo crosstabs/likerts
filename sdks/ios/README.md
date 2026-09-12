@@ -1,0 +1,45 @@
+# Likerts iOS SDK
+
+## Install the local 0.0.3 artifact
+
+This local package supports schemas 1–5. The release manifest records artifact and clean-install verification; frozen 0.0.1 and 0.0.2 artifacts remain available separately.
+
+Extract `Likerts-ios-0.0.3.tar.gz`; it contains a `Likerts/` Swift package. In Xcode, choose **Add Package Dependencies → Add Local** and select that folder, then link its `Likerts` product to your app target. For a SwiftPM consumer, use `.package(path: "../Likerts")` and `.product(name: "Likerts", package: "Likerts")`. The package uses Swift tools 5.9 and supports iOS 15+; local install verification also compiles its SwiftUI API in a separate macOS 12+ consumer. No remote repository tag or binary framework has been published.
+
+`InstallationExample/CheckoutFeedback.swift` demonstrates host-controlled eligibility and sheet presentation. The host owns collection loading, stable submission/retry state and cancellation on dismissal. The archive includes public sources and package tests; the full XcodeGen app referenced below belongs to the repository checkout.
+
+The Swift package provides `LikertsClient`, typed collection/submission models and the SwiftUI `SurveyView`. Add the local package during development and import `Likerts`. Only a public collection token belongs in an application bundle.
+
+`SurveyView` renders the six launch question types and returns a locally validated `[String: Answer]` snapshot. The host owns the async submit task, server-error UI, placement and dismissal. Cancel that task when its containing screen disappears and retain the same `Submission` value after an ambiguous failure.
+
+```swift
+SurveyView(
+    collection: collection,
+    disabled: isSubmitting,
+    strings: SurveyStrings(submit: "Enviar", requiredSuffix: "obligatorio"),
+    theme: SurveyTheme(accentColor: .purple),
+    accessibilityIdentifierPrefix: "checkout.feedback"
+) { answers in
+    submit(answers)
+}
+```
+
+`SurveyStrings` localizes operational copy and validation templates while survey titles, questions and choices remain customer-authored content. `SurveyTheme` controls the accent, title font and validation color; normal SwiftUI environment and container modifiers remain available to the host. Stable accessibility identifiers cover the title, question labels, controls, validation message and submit button. Required state is voiced in labels, option labels include their question context, invalid submission posts an accessibility announcement, and collection identity changes clear transient answers and feedback.
+
+The reproducible sample under `Example/` uses XcodeGen to create an iOS 15+ app. It demonstrates Spanish copy, a customer color and completion. `scripts/check-ios-simulator.sh` generates the project, builds it, launches it on an already booted simulator, and runs an XCTest UI flow that checks identifiers/labels, translated required feedback, text entry and completion.
+
+## Supported OS matrix
+
+| OS target | Verification |
+|---|---|
+| iOS 15 | Package deployment floor and simulator SDK typecheck |
+| iOS 16 | Simulator SDK typecheck |
+| iOS 17 | Simulator SDK typecheck |
+| iOS 18 | Simulator SDK typecheck |
+| iOS 26 | Simulator SDK typecheck; sample UI test passed on iOS 26.4 |
+
+Run `scripts/check-ios-matrix.sh` for all deployment-target checks and `swift test --package-path sdks/ios` for the model/state suite. Only the installed iOS 26.4 simulator runtime was executed locally; older OS runtime and physical-device rehearsal remain release work.
+
+Schema 3 choice semantics are documented in [CHOICE-FEATURES.md](../../contracts/CHOICE-FEATURES.md): Other answers carry separate selected IDs and text; None is exclusive; stars retain numeric answers and dropdowns retain option IDs.
+
+Schema 5 adds the bounded advanced families in [ADVANCED-QUESTIONS.md](../../contracts/ADVANCED-QUESTIONS.md). Ranking uses explicit accessible Move up/down controls. Matrix rows are stacked for narrow screens and emit row-to-column ID maps. Constant-sum fields announce the remaining amount and emit every item ID only when integer allocations equal the configured total.

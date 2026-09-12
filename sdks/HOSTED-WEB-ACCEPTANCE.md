@@ -1,0 +1,25 @@
+# Opt-in Web SDK hosted browser acceptance
+
+Run `node scripts/check-web-hosted.mjs --config /PRIVATE/native-web.json --port 4389` from the repository root. Use `--validate-only` first to check the private file and released archive without starting a server or contacting the hosted API. The server binds **127.0.0.1 only** and automatically stops after 20 minutes. It prints a localhost URL and a read-only evidence URL, never the credential. The operator must explicitly provision and supply a disposable collection before any run.
+
+Use the exact private config schema from [native acceptance](HOSTED-NATIVE-ACCEPTANCE.md), with `target:"web"`, `sdkVersion:"0.0.3"`, one required scale question `rating` from 1 to 5, and an independently verified `responseCap:1`. Mode must be `0600`; the file must be regular, untracked and contain only the allowed fields. The opaque credential must be **collection-only**; no management, browser or administrative token enters the server or page. Keep management provisioning and response-count verification in the parent/operator task.
+
+The harness reads the frozen `likerts-web-0.0.3.tgz`, verifies its checksum and size against the release manifest, then serves its exact compiled JavaScript modules. It does not rebuild or replace the SDK. The page constructs the real `LikertsClient` with its normal browser `fetch` and mounts the real required-rating form through `mountSurvey`.
+
+`mountSurvey` 0.0.3 does not accept a supplied idempotency key. Its own generated key is captured by a narrow `client.submit` observer, which passes the original payload/options to the bound, unmodified SDK method. That captured immutable payload is used for the explicit retry. The config's `idempotencyKey` is consequently **unused in this Web UI test**. The observer does not replace fetch, server responses or any SDK code. Do not reload the page after submission and attempt a second intended response; the captured key is in memory only. If the page is lost, stop and have the owner reconcile/provision a fresh fixture instead of inventing an acceptance result.
+
+## Parent browser checklist
+
+1. Open the printed localhost URL in a real browser. Wait for “Ready — try the required field empty first.” Confirm the required numeric rating control is mounted by the released SDK.
+2. Click the SDK's Submit with the rating empty. Verify native form validation blocks it; inspect `/evidence` or the page's “Refresh request evidence”: response POST count must remain **zero**. This manual observation is separate from server receipt evidence.
+3. Enter **5** and submit once. Confirm the page displays “First accepted receipt confirmed” and the evidence has one valid receipt with `accepted:true` for the correct collection.
+4. Click **Retry identical submission**. Confirm “HOSTED PASS”, two response POSTs, two equal response IDs/receipts and `identicalRetrySameReceipt:true` in the evidence. Save only this sanitized evidence plus browser observations; never capture `/bootstrap` or page memory containing the collection token.
+5. Parent independently confirms exactly one accepted response and one promotional debit, zero paid usage/exposure, then revokes/deletes the disposable workspace/collection through approved management paths. Stop the local server. Server shutdown drops its in-memory credential and captured request body; the operator's original private config is retained/deleted under their cleanup process.
+
+## Proxy limits and evidence boundary
+
+The browser receives only its collection ID/token from a same-origin, no-store bootstrap. The local proxy allows only the exact configured collection GET and its response POST path, requires that exact collection credential, and sends only fixed authorization/content-type headers to the fixed HTTPS origin. Other paths/methods, alternate origins/hosts, redirect destinations, changed retry bodies and non-fixture answers are rejected. There is at most one active upstream request, **two collection GETs and two response POSTs** for the process, 16 KiB request bodies, 256 KiB responses and a 15-second request deadline. The normal successful browser flow uses one GET and two POSTs. The second GET budget permits initial browser troubleshooting before any submission; it is not an invitation to reload after submitting.
+
+No generic proxy, management route, arbitrary upstream URL, cookie forwarding or unrestricted download route exists. Responses have no-store, a restrictive CSP and no cross-origin permission. Errors and evidence exclude credentials and response payloads; evidence contains public synthetic receipt fields and request counters only.
+
+This is same-team synthetic **real browser renderer/client → localhost proxy → hosted API** proof. It does not establish direct browser-to-hosted CORS, independent customer onboarding, organic activation, general capacity, all browser versions, offline storage, or artifact registry publication. A proxy-only Node test is not browser acceptance. The parent must perform the browser steps and independent ledger reconciliation before recording a pass.

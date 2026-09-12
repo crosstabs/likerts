@@ -1,0 +1,44 @@
+{
+  "title": "Product tradeoffs",
+  "questions": [
+    {
+      "id": "priorities",
+      "type": "ranking",
+      "label": "Rank the priorities",
+      "required": true,
+      "options": [
+        {"id": "quality", "label": "Quality"},
+        {"id": "speed", "label": "Speed"},
+        {"id": "price", "label": "Price"}
+      ]
+    },
+    {
+      "id": "experience",
+      "type": "matrix",
+      "label": "Rate each part of the experience",
+      "required": true,
+      "matrixMode": "single",
+      "rows": [
+        {"id": "service", "label": "Service"},
+        {"id": "product", "label": "Product"}
+      ],
+      "columns": [
+        {"id": "poor", "label": "Poor"},
+        {"id": "good", "label": "Good"},
+        {"id": "excellent", "label": "Excellent"}
+      ]
+    },
+    {
+      "id": "investment",
+      "type": "constant_sum",
+      "label": "Allocate 100 points",
+      "required": true,
+      "total": 100,
+      "items": [
+        {"id": "product", "label": "Product"},
+        {"id": "support", "label": "Support"},
+        {"id": "marketing", "label": "Marketing"}
+      ]
+    }
+  ]
+}

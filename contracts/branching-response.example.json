@@ -1,0 +1,11 @@
+{
+  "idempotencyKey": "visit-follow-up-0001",
+  "answers": {
+    "return": "no",
+    "problem": "The wait was too long",
+    "followUp": "yes"
+  },
+  "metadata": {
+    "touchpoint": "receipt"
+  }
+}

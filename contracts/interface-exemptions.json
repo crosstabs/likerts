@@ -1,0 +1,57 @@
+[
+  {
+    "method": "GET",
+    "path": "/health",
+    "reason": "Operational storage health probe, not a tenant capability."
+  },
+  {
+    "method": "GET",
+    "path": "/internal/metrics",
+    "reason": "Private monitoring endpoint with a separate secret."
+  },
+  {
+    "method": "GET",
+    "path": "/.well-known/oauth-protected-resource",
+    "reason": "OAuth resource discovery used before an authenticated capability call."
+  },
+  {
+    "method": "OPTIONS",
+    "path": "/.well-known/oauth-protected-resource",
+    "reason": "Browser CORS preflight for public OAuth resource discovery."
+  },
+  {
+    "method": "OPTIONS",
+    "path": "/v1/collections/{id}",
+    "reason": "Browser CORS preflight; the collection capability remains GET."
+  },
+  {
+    "method": "OPTIONS",
+    "path": "/v1/collections/{id}/responses",
+    "reason": "Browser CORS preflight; submission remains POST."
+  },
+  {
+    "method": "POST",
+    "path": "/v1/browser/bootstrap",
+    "reason": "First-party Clerk session bridge for personal workspace bootstrap and status; not an MCP/CLI capability."
+  },
+  {
+    "method": "POST",
+    "path": "/v1/browser/oauth-grants",
+    "reason": "Interactive owner consent bridge for registered OAuth clients; not an agent-callable capability."
+  },
+  {
+    "method": "GET",
+    "path": "/v1/browser/service-credentials",
+    "reason": "First-party owner dashboard lists agent credential metadata without exposing bearer tokens."
+  },
+  {
+    "method": "POST",
+    "path": "/v1/browser/service-credentials",
+    "reason": "First-party owner dashboard issues a scoped agent token once; the equivalent management capability remains available to API, MCP and CLI clients."
+  },
+  {
+    "method": "DELETE",
+    "path": "/v1/browser/service-credentials/{id}",
+    "reason": "First-party owner dashboard revokes a selected agent credential; the equivalent management capability remains available to API, MCP and CLI clients."
+  }
+]

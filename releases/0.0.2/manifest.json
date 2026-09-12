@@ -1,0 +1,76 @@
+{
+  "version": "0.0.2",
+  "schemaVersions": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "measuredAt": "2026-09-08T16:28:52.472Z",
+  "published": false,
+  "artifacts": [
+    {
+      "file": "likerts-web-0.0.2.tgz",
+      "kind": "npm-web",
+      "bytes": 12583,
+      "sha256": "0e10808a0c8518bf57ecff0af7dd79c3377092793ea3bd52fae9ccfb8ebb0b88"
+    },
+    {
+      "file": "likerts-react-native-0.0.2.tgz",
+      "kind": "npm-react-native",
+      "bytes": 19301,
+      "sha256": "8bdae288eb14fa10582a75ec5c450a439c51d821cc2c43f3b6a246e497852a7b"
+    },
+    {
+      "file": "Likerts-ios-0.0.2.tar.gz",
+      "kind": "swift-package-source",
+      "bytes": 21279,
+      "sha256": "d079eaae4c1f6da2c365b3341b5bf8c9dbdd290e5076d3f39be5ffbf8e3de795"
+    },
+    {
+      "file": "likerts-android-maven-0.0.2.tar.gz",
+      "kind": "android-maven-repository",
+      "bytes": 171166,
+      "sha256": "b025c4181417538df16a31c19ca139088458e6c6dc90d37a7c95ab7fc292c52c"
+    },
+    {
+      "file": "likerts-flutter-0.0.2.tar.gz",
+      "kind": "flutter-source-package",
+      "bytes": 11947,
+      "sha256": "5ee9c53528c31e9699a724eaa7b9560b488efb7eab8b412d089e1dba91de38ed"
+    }
+  ],
+  "checks": [
+    {
+      "target": "web",
+      "passed": true,
+      "verification": "Fresh npm tarball install, TypeScript consumer, public exports and DOM trigger setup/cleanup"
+    },
+    {
+      "target": "react-native",
+      "passed": true,
+      "verification": "Fresh npm tarball install with RN 0.86.3/React 19.2.3, TypeScript consumer and Babel native source/trigger compilation"
+    },
+    {
+      "target": "ios",
+      "passed": true,
+      "verification": "Fresh extraction, packaged fixture/test suite, independent SwiftPM consumer compilation/run and SwiftUI trigger compilation on macOS; existing iOS-target/device gates remain separate"
+    },
+    {
+      "target": "android",
+      "passed": true,
+      "verification": "AAR/source JAR/POM/Gradle metadata in local Maven bundle; independent extracted-repository Android APK build without project dependency"
+    },
+    {
+      "target": "flutter",
+      "passed": true,
+      "verification": "Fresh source-archive extraction, independent Flutter pub resolution/analyze and widget trigger/dismissal test"
+    }
+  ],
+  "limitations": [
+    "Local install/artifact evidence only; no packages were uploaded to a registry.",
+    "Swift install consumer runs on macOS; OS-version, simulator and physical-device release gates remain separate.",
+    "React Native install probe checks TypeScript/Babel packaging, not native app device behavior.",
+    "Archives are versioned and checksummed; byte-for-byte reproducible builds and artifact signing are not claimed."
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 3,
+  "question": {
+    "id": "reasons",
+    "type": "multiple_choice",
+    "label": "What mattered?",
+    "required": true,
+    "minSelections": 2,
+    "maxSelections": 3,
+    "options": [
+      {
+        "id": "quality",
+        "label": "Quality"
+      },
+      {
+        "id": "service",
+        "label": "Service"
+      },
+      {
+        "id": "other",
+        "label": "Other",
+        "other": {
+          "maxLength": 10
+        }
+      },
+      {
+        "id": "none",
+        "label": "None of the above",
+        "exclusive": true
+      }
+    ]
+  },
+  "valid": [
+    {
+      "selected": [
+        "quality",
+        "other"
+      ],
+      "otherText": {
+        "other": "Speed"
+      }
+    },
+    {
+      "selected": [
+        "quality",
+        "service"
+      ],
+      "otherText": {}
+    },
+    {
+      "selected": [
+        "none"
+      ],
+      "otherText": {}
+    }
+  ],
+  "invalid": [
+    {
+      "selected": [
+        "quality",
+        "other"
+      ],
+      "otherText": {}
+    },
+    {
+      "selected": [
+        "quality",
+        "other"
+      ],
+      "otherText": {
+        "other": " "
+      }
+    },
+    {
+      "selected": [
+        "quality",
+        "other"
+      ],
+      "otherText": {
+        "other": "eleven chars"
+      }
+    },
+    {
+      "selected": [
+        "quality",
+        "service"
+      ],
+      "otherText": {
+        "other": "orphan"
+      }
+    },
+    {
+      "selected": [
+        "none",
+        "quality"
+      ],
+      "otherText": {}
+    },
+    {
+      "selected": [
+        "quality",
+        "quality"
+      ],
+      "otherText": {}
+    },
+    {
+      "selected": [
+        "quality"
+      ],
+      "otherText": {}
+    },
+    {
+      "selected": [
+        "unknown",
+        "quality"
+      ],
+      "otherText": {}
+    },
+    [
+      "quality",
+      "service"
+    ]
+  ]
+}

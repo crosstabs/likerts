@@ -1,0 +1,27 @@
+{
+  "surveyId": "10000000-0000-4000-8000-000000000001",
+  "version": 1,
+  "title": "Checkout feedback",
+  "questions": [
+    {
+      "id": "rating",
+      "type": "scale",
+      "label": "How was your experience?",
+      "required": true,
+      "min": 1,
+      "max": 5
+    }
+  ],
+  "sdkCapabilities": {
+    "installations": [
+      {
+        "target": "web",
+        "sdkVersion": "0.0.1",
+        "schemaVersions": [
+          1,
+          2
+        ]
+      }
+    ]
+  }
+}

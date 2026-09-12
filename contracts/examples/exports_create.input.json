@@ -1,0 +1,5 @@
+{
+  "idempotencyKey": "export-001",
+  "format": "json",
+  "collectionId": "10000000-0000-4000-8000-000000000002"
+}

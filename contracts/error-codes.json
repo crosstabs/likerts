@@ -1,0 +1,47 @@
+{
+  "400": [
+    "invalid_request"
+  ],
+  "401": [
+    "unauthorized"
+  ],
+  "403": [
+    "forbidden"
+  ],
+  "404": [
+    "not_found"
+  ],
+  "409": [
+    "conflict",
+    "collection_closed",
+    "collection_capacity",
+    "export_not_ready",
+    "webhook_capacity"
+  ],
+  "410": [
+    "collection_expired",
+    "collection_revoked",
+    "export_expired",
+    "export_revoked",
+    "receipt_expired",
+    "webhook_expired",
+    "webhook_revoked"
+  ],
+  "413": [
+    "payload_too_large"
+  ],
+  "415": [
+    "unsupported_media_type"
+  ],
+  "429": [
+    "rate_limited"
+  ],
+  "500": [
+    "internal_error"
+  ],
+  "503": [
+    "webhooks_unavailable",
+    "admission_unavailable",
+    "erasure_source_fenced"
+  ]
+}

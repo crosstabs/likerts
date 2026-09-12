@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="Connect your product or agent to a Likerts workspace." />
+    <meta http-equiv="Content-Security-Policy" content="__LIKERTS_CONTENT_SECURITY_POLICY__" />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/workspace.css" />
+    <script src="/app.js" type="module"></script>
+    <title>Your workspace — Likerts</title>
+  </head>
+  <body class="console-page">
+    <header class="console-header"><a class="wordmark wordmark-inverse" href="/">Likerts<span class="wordmark-dot">.</span></a><span class="console-badge">Free community edition</span></header>
+    <main class="console-main">
+      <section class="console-intro">
+        <p class="eyebrow eyebrow-light">Your workspace</p><h1>Start with<br />one response.</h1>
+        <p>Connect your app or agent, create a survey, and collect feedback where your customers already are.</p>
+        <div id="auth-root" class="auth-root" aria-live="polite"><span>Loading secure sign-in…</span></div>
+        <p id="session-status" role="status">Sign in with an email code to continue.</p>
+        <button id="retry-workspace" type="button" hidden>Retry workspace</button>
+        <div class="console-quick-links"><a href="/docs/">First-response guide</a><a href="https://github.com/crosstabs/likerts">Source and SDKs</a><a href="/">Product site</a></div>
+        <p class="console-note">Sign in uses an email code; no Likerts password is needed. For full control, run the same platform from the public source repository.</p>
+      </section>
+      <div class="workspace-content">
+        <section id="signed-out-panel" class="workspace-panel"><h2>From sign-in to collection</h2><ol class="onboarding-steps"><li><strong>Open your workspace</strong><span>There are no response credits or application-level quotas.</span></li><li><strong>Connect a tool</strong><span>Create a scoped credential for API, CLI, Codex or Claude Code.</span></li><li><strong>Embed your survey</strong><span>Use the guide for Web, React Native, iOS, Android or Flutter.</span></li></ol></section>
+        <div id="workspace-content" hidden>
+          <section class="workspace-panel" aria-labelledby="workspace-title">
+            <div class="workspace-heading"><div><p class="eyebrow eyebrow-light">Overview</p><h2 id="workspace-title">Collection activity</h2></div><button id="refresh-workspace" type="button" class="quiet-button">Refresh</button></div>
+            <p class="workspace-identity">Workspace <code id="workspace-status"></code> <button id="copy-workspace" type="button" class="quiet-button">Copy ID</button></p>
+            <div class="balance-grid"><div><span>Accepted total</span><strong id="response-status">—</strong></div><div><span>Response cost</span><strong>$0</strong></div><div><span>Application quota</span><strong>None</strong></div></div>
+            <p id="collection-status" class="notice" role="status"></p><p id="refresh-status" role="status"></p>
+            <p class="muted">Likerts counts accepted responses for observability. It does not meter, charge or pause them. Your deployment still enforces configured security and resource-safety controls.</p>
+            <ol class="onboarding-steps compact"><li><a href="#credentials">Create a credential</a></li><li><a href="#connection">Connect your tool</a></li><li><a href="/docs/">Follow the first-response guide</a></li></ol>
+          </section>
+          <section id="credentials" class="workspace-panel" aria-labelledby="credential-title">
+            <p class="eyebrow eyebrow-light">Step 1</p><h2 id="credential-title">Create a credential</h2><p>Management tokens belong in your secret manager. Embedded apps use a separate collection credential.</p>
+            <form id="agent-credential">
+              <label>Credential name<input id="agent-name" name="name" value="My agent" required maxlength="100" /></label>
+              <label>Starting permissions<select id="scope-preset"><option value="read">Read only</option><option value="build">Create and manage surveys/collections</option><option value="custom">Custom</option></select></label>
+              <p id="scope-description" class="muted">Read surveys, responses, usage and existing exports. No write permissions.</p>
+              <details><summary>Review and choose capabilities</summary><fieldset><legend>Allowed capabilities</legend>
+                <label><input type="checkbox" name="scope" value="surveys:read" checked /> Read surveys</label><label><input type="checkbox" name="scope" value="surveys:write" /> Create/edit/publish surveys</label><label><input type="checkbox" name="scope" value="collections:write" /> Create, close and revoke collections</label><label><input type="checkbox" name="scope" value="responses:read" checked /> Read responses</label><label><input type="checkbox" name="scope" value="responses:write" /> Erase responses</label><label><input type="checkbox" name="scope" value="usage:read" checked /> Read usage</label><label><input type="checkbox" name="scope" value="exports:read" checked /> Download exports</label><label><input type="checkbox" name="scope" value="exports:write" /> Create and revoke exports</label><label><input type="checkbox" name="scope" value="webhooks:read" /> Read callbacks</label><label><input type="checkbox" name="scope" value="webhooks:write" /> Create/change/revoke callbacks</label><label><input type="checkbox" name="scope" value="identity:write" /> Manage access and delete workspace</label>
+              </fieldset></details><button type="submit">Create 90-day credential</button><output id="agent-status" aria-live="polite"></output>
+              <div id="agent-secret" hidden><label>Copy your token now — shown once<textarea id="agent-token" readonly rows="3" spellcheck="false" autocomplete="off"></textarea></label><div class="button-row"><button id="copy-agent-token" type="button">Copy token</button><button id="hide-agent-token" type="button" class="quiet-button">I have saved it</button></div><p class="muted">Never paste this token into a chat, source code, or your browser/mobile app.</p></div>
+            </form>
+            <h3>Active credentials</h3><div id="agent-credentials"></div><p id="credential-list-status" role="status"></p>
+          </section>
+          <section id="connection" class="workspace-panel" aria-labelledby="connection-title"><p class="eyebrow eyebrow-light">Step 2</p><h2 id="connection-title">Connect your tool</h2><p>Supply <code>LIKERTS_TOKEN</code> through your secret manager. These examples contain your workspace ID, never your token.</p><label>Tool<select id="connection-client"><option value="codex">Codex</option><option value="claude">Claude Code</option><option value="cli">Rust CLI</option><option value="api">HTTP API</option></select></label><pre><code id="connection-code"></code></pre><button id="copy-connection" type="button">Copy setup</button><p id="connection-status" role="status"></p><p id="connection-help" class="muted"></p><p><a href="/docs/">Continue to your first survey →</a></p><p class="muted">The preview uses scoped service credentials. Provider OAuth is not enabled in this console.</p></section>
+        </div>
+      </div>
+    </main>
+    <footer class="console-footer">API · MCP · CLI · Web · React Native · iOS · Android · Flutter</footer>
+  </body>
+</html>

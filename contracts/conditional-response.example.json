@@ -1,0 +1,12 @@
+{
+  "idempotencyKey": "response_conditional_001",
+  "answers": {
+    "return": "no",
+    "reason": "Delivery was late",
+    "improvements": ["delivery"],
+    "deliveryDetails": "Show a delivery estimate"
+  },
+  "metadata": {
+    "orderId": "ord_123"
+  }
+}

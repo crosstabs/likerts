@@ -1,0 +1,151 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.likerts",
+    "module": "likerts-android",
+    "version": "0.0.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.11.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.8.0"
+          }
+        },
+        {
+          "group": "androidx.compose",
+          "module": "compose-bom",
+          "version": {
+            "requires": "2025.04.01"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "androidx.compose.ui",
+          "module": "ui"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "likerts-android-0.0.2.aar",
+          "url": "likerts-android-0.0.2.aar",
+          "size": 153516,
+          "sha512": "4fc9a7453a72474d372eef8664a10064a7bbff039a99d1bae20c02754545f544dec8cde26e4688d6b823091565ea082033be2223c58c3a2da1fe2af9bf7c5be9",
+          "sha256": "ec5848cebf1cf41eb0384ea2457b9c5b3d11428a0b6ea493155c506f0264ced0",
+          "sha1": "7fdd126eceb935caff5f64c393ee953447427b88",
+          "md5": "53637e39c70ec28e473f05e7f443b29c"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.10.1"
+          }
+        },
+        {
+          "group": "androidx.compose.material3",
+          "module": "material3"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.8.0"
+          }
+        },
+        {
+          "group": "androidx.compose",
+          "module": "compose-bom",
+          "version": {
+            "requires": "2025.04.01"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "androidx.compose.ui",
+          "module": "ui"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "likerts-android-0.0.2.aar",
+          "url": "likerts-android-0.0.2.aar",
+          "size": 153516,
+          "sha512": "4fc9a7453a72474d372eef8664a10064a7bbff039a99d1bae20c02754545f544dec8cde26e4688d6b823091565ea082033be2223c58c3a2da1fe2af9bf7c5be9",
+          "sha256": "ec5848cebf1cf41eb0384ea2457b9c5b3d11428a0b6ea493155c506f0264ced0",
+          "sha1": "7fdd126eceb935caff5f64c393ee953447427b88",
+          "md5": "53637e39c70ec28e473f05e7f443b29c"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "likerts-android-0.0.2-sources.jar",
+          "url": "likerts-android-0.0.2-sources.jar",
+          "size": 9674,
+          "sha512": "fb47436d38c071ec43eed691c82045266fba5912e24619b53611fb65422e02a842b1702943fbc3963f8b764a508728833a6545cc14e386bc8c004048e565db0f",
+          "sha256": "3d4a0eab806fd9b86338565135500810a66a324f6d935af131ba9b2fac165b1b",
+          "sha1": "1cda4e1e46ab2d7f7e4a825782ebc9faf3871d91",
+          "md5": "5e679981bf75e0973ccc4488fcfd4787"
+        }
+      ]
+    }
+  ]
+}

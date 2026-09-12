@@ -1,0 +1,12 @@
+{
+  "id": "10000000-0000-4000-8000-000000000043",
+  "endpointId": "10000000-0000-4000-8000-000000000041",
+  "eventId": "10000000-0000-4000-8000-000000000044",
+  "status": "failed",
+  "attempts": 7,
+  "replayCount": 0,
+  "nextAttemptAt": "2026-09-10T00:00:00Z",
+  "lastStatus": 503,
+  "failureCode": "attempts_exhausted",
+  "expiresAt": "2026-09-16T00:00:00Z"
+}

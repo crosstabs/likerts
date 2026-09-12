@@ -1,0 +1,24 @@
+{
+  "limits": {"maxRecords":1000,"maxBytes":10485760,"maxAgeSeconds":604800,"hardMaxRecords":10000,"hardMaxBytes":104857600,"hardMaxAgeSeconds":2592000,"maxRecordBytes":65536},
+  "record": {
+    "collectionId":"col_advanced",
+    "createdAt":"2026-09-09T00:00:00Z",
+    "state":"pending",
+    "attemptCount":0,
+    "submission":{"idempotencyKey":"018f4f20-a5f5-7c18-b5ba-7f3f5f37c005","answers":{"rank":["a","b"]},"metadata":{}}
+  },
+  "outcomes": [
+    {"input":"accepted_receipt","next":"removed","retry":false,"accepted":true},
+    {"input":"timeout","next":"pending","retry":true,"accepted":false},
+    {"input":429,"next":"pending","retry":true,"accepted":false},
+    {"input":503,"next":"pending","retry":true,"accepted":false},
+    {"input":400,"next":"blocked:invalid","retry":false,"accepted":false},
+    {"input":409,"next":"blocked:conflict","retry":false,"accepted":false},
+    {"input":401,"next":"blocked:unauthorized","retry":false,"accepted":false},
+    {"input":403,"next":"blocked:revoked","retry":false,"accepted":false},
+    {"input":404,"next":"blocked:deleted","retry":false,"accepted":false},
+    {"input":410,"next":"blocked:expired","retry":false,"accepted":false},
+    {"input":"max_age","next":"expired_local","retry":false,"accepted":false},
+    {"input":"decrypt_failure","next":"quarantined","retry":false,"accepted":false}
+  ]
+}

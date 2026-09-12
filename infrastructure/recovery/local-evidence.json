@@ -1,0 +1,39 @@
+{
+  "measuredAt": "2026-09-12T11:23:40.341Z",
+  "imageId": "sha256:309a21464284e79466e6a22a2a452e249e7831ddfcaef7c0b234c961a52eb6e5",
+  "postgresVersion": "17.10",
+  "backupBytes": 135833,
+  "backupMs": 95,
+  "restoreAndVerificationMs": 1598,
+  "journalEvents": 3,
+  "restoredAcceptedResponses": 2,
+  "visibleResponsesAfterReplay": 1,
+  "usageRowsPreserved": 2,
+  "forcedRlsTables": 21,
+  "appliedMigrations": 25,
+  "checks": [
+    "logical backup/restore",
+    "post-backup deletion journal replay",
+    "old service/collection capabilities denied",
+    "restored exports revoked",
+    "restored response webhook endpoints and queues quarantined",
+    "worker customer-data denial preserved",
+    "retained answer readable after new credential issuance",
+    "accepted-response counters preserved",
+    "forced RLS preserved",
+    "failed transactional DDL rolls back",
+    "migration checksum mismatch blocks promotion",
+    "correct checksum reruns safely",
+    "workspace deletion tombstone and survey/version redaction",
+    "audit rows preserved and runtime append-only grants retained",
+    "no public audit-trigger execution",
+    "no customer payload or tokens in audit fixture"
+  ],
+  "limitations": [
+    "Tiny local logical-dump fixture; not a managed snapshot/PITR or production RTO/RPO result.",
+    "Deletion journal is copied independently in this drill; durable off-database replication and lag monitoring remain a hosted implementation gate.",
+    "All restored auth grants and capabilities are quarantined; operator identity reconciliation is required before traffic resumes.",
+    "No production data or cloud resources were used."
+  ],
+  "auditRowsPreserved": 13
+}

@@ -1,0 +1,45 @@
+/* Workspace-only presentation, independent of the public marketing layout. */
+.console-main { grid-template-columns: minmax(240px,.65fr) minmax(0,1.35fr); gap: 48px; padding-block: 56px; }
+.console-intro > h1 { font-size: clamp(44px,5.5vw,70px); }
+.workspace-content { min-width: 0; }
+.workspace-panel { margin-bottom: 24px; padding: 28px; }
+.workspace-panel h2 { font-size: 27px; margin: 0 0 18px; }
+.workspace-panel h3 { font-size: 18px; }
+.workspace-panel p, .workspace-panel label, .workspace-panel li { color: #becbd7; font-size: 14px; line-height: 1.6; }
+.workspace-panel a, .console-quick-links a { color: #cadcff; }
+.console-page button { cursor: pointer; padding: 10px 14px; border: 1px solid transparent; border-radius: 5px; background: #315cff; color: white; font: inherit; font-size: 13px; }
+.console-page button:disabled { cursor: wait; opacity: .6; }
+.console-page button.quiet-button { background: transparent; border-color: #506477; }
+.console-page button:focus-visible, .console-page a:focus-visible, .console-page summary:focus-visible { outline: 3px solid #b7ff4a; outline-offset: 3px; }
+.console-page input:not([type="checkbox"]), .console-page select, .console-page textarea { display: block; width: 100%; padding: 11px; margin: 7px 0 16px; border: 1px solid #607286; border-radius: 4px; background: #091521; color: white; font: inherit; }
+.console-page input[type="checkbox"] { width: 16px; height: 16px; accent-color: #315cff; }
+.console-page fieldset { grid-template-columns: 1fr; gap: 12px; }
+.console-page fieldset label { display: flex; gap: 8px; align-items: start; }
+.console-page details { padding-block: 12px; border-block: 1px solid #304151; margin-block: 18px; }
+.console-page summary { cursor: pointer; font-size: 14px; }
+.console-page #agent-credential, .console-page #credit-checkout { margin-top: 18px; padding-top: 0; border: 0; }
+.console-page .notice { background: #172b42; padding: 12px 15px; border-left: 3px solid #7ca0ff; }
+.console-page .notice[data-blocked="true"] { border-left-color: #ffd08a; color: #ffe2b8; }
+.balance-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; padding-block: 12px; }
+.balance-grid span { display: block; color: #aebdcb; font-size: 12px; }
+.balance-grid strong { display: block; color: #b7ff4a; font-size: 34px; margin-top: 8px; }
+.workspace-identity { overflow-wrap: anywhere; }
+.workspace-identity button { margin-top: 8px; }
+.onboarding-steps { list-style: decimal-leading-zero; padding-left: 25px; }
+.onboarding-steps li { padding: 10px 0 10px 10px; }
+.onboarding-steps strong, .onboarding-steps span { display: block; }
+.onboarding-steps strong { color: white; }
+.compact { font-size: 13px; }
+.console-page .muted, #session-status { color: #a5b6c6; font-size: 12px; line-height: 1.65; }
+.console-page pre { max-width: 100%; overflow: auto; padding: 16px; background: #06111e; border: 1px solid #304151; color: #d2e3f6; font-size: 12px; line-height: 1.7; }
+.console-page output { display: block; margin-top: 12px; color: #b7ff4a; font-size: 13px; line-height: 1.6; }
+.console-page .credential-row { align-items: start; font-size: 13px; }
+.credential-info { min-width: 0; overflow-wrap: anywhere; }
+.credential-info strong, .credential-info small { display: block; margin-bottom: 5px; }
+.credential-info small { color: #a5b6c6; }
+.console-page [hidden] { display: none !important; }
+.console-page .button-row { flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+@media(max-width:900px) { .console-main { grid-template-columns: 1fr; } .console-intro { position: static; } }
+@media(max-width:540px) { .console-main { padding-block: 35px; gap: 28px; } .workspace-panel { padding: 21px 17px; } .balance-grid { gap: 8px; } .balance-grid strong { font-size: 27px; } .balance-grid span { font-size: 11px; } .workspace-heading { gap: 10px; } .workspace-panel h2 { font-size: 25px; } }
+
+.console-page p code { color: #d6e8ff; background: #172b42; padding: 2px 4px; border-radius: 3px; }

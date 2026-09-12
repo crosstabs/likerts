@@ -1,0 +1,15 @@
+{
+  "installations": [
+    {
+      "target": "web",
+      "sdkVersion": "0.0.3",
+      "schemaVersions": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ]
+}

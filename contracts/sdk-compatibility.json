@@ -1,0 +1,24 @@
+{
+  "contractVersion": 1,
+  "cache": {
+    "defaultMaxAgeMilliseconds": 300000,
+    "staleOnRefreshError": false,
+    "explicitRefresh": true,
+    "immutableBindingFields": ["id", "surveyId", "version", "schema.schemaVersion"]
+  },
+  "currentFleet": {
+    "installations": [
+      {"target": "web", "sdkVersion": "0.0.3", "schemaVersions": [1, 2, 3, 4, 5]},
+      {"target": "react_native", "sdkVersion": "0.0.3", "schemaVersions": [1, 2, 3, 4, 5]},
+      {"target": "ios", "sdkVersion": "0.0.3", "schemaVersions": [1, 2, 3, 4, 5]},
+      {"target": "android", "sdkVersion": "0.0.3", "schemaVersions": [1, 2, 3, 4, 5]},
+      {"target": "flutter", "sdkVersion": "0.0.3", "schemaVersions": [1, 2, 3, 4, 5]}
+    ]
+  },
+  "mixedOldAndNew": {
+    "installations": [
+      {"target": "ios", "sdkVersion": "legacy-v1", "schemaVersions": [1]},
+      {"target": "ios", "sdkVersion": "0.0.3", "schemaVersions": [1, 2, 3, 4, 5]}
+    ]
+  }
+}

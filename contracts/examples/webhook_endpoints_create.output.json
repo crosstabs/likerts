@@ -1,0 +1,14 @@
+{
+  "endpoint": {
+    "id": "10000000-0000-4000-8000-000000000041",
+    "url": "https://hooks.customer.com/likerts",
+    "eventTypes": [
+      "response.accepted"
+    ],
+    "enabled": false,
+    "revoked": false,
+    "keyId": "10000000-0000-4000-8000-000000000042",
+    "createdAt": "2026-09-09T00:00:00Z"
+  },
+  "signingSecret": "whsec_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}
