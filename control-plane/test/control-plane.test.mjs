@@ -106,6 +106,7 @@ test("marketing site is separate from the authenticated control plane", async ()
   assert.match(html, /Web · React Native · iOS · Android · Flutter/);
   assert.match(html, /href="\/downloads\/"/);
   assert.match(marketingHtml, /Survey collection infrastructure/);
+  assert.match(marketingHtml, /Forms without/);
   assert.match(marketingHtml, /Ask more than/);
   assert.match(marketingHtml, /Constant sum/);
   assert.match(marketingHtml, /Operate it from your agent/);
