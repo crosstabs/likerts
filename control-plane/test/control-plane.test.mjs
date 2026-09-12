@@ -91,12 +91,12 @@ test("marketing site is separate from the authenticated control plane", async ()
   assert.match(html, /There are no response credits/);
   assert.match(html, /Web · React Native · iOS · Android · Flutter/);
   assert.match(html, /github\.com\/crosstabs\/likerts/);
-  assert.match(marketingHtml, /Own your survey infrastructure/);
+  assert.match(marketingHtml, /Feedback belongs/);
   assert.match(marketingHtml, /Open source/);
   assert.match(marketingHtml, /Your channel/);
   assert.match(marketingHtml, /constant sum/i);
-  assert.match(marketingHtml, /Run the platform from Codex or Claude/);
-  assert.match(marketingHtml, /Every response is free/);
+  assert.match(marketingHtml, /from Codex or Claude/);
+  assert.match(marketingHtml, /No response fees/);
   assert.match(marketingHtml, /Hosted demo status/);
   assert.match(marketingHtml, /github\.com\/crosstabs\/likerts/);
   assert.doesNotMatch(marketingHtml, /id="auth-root"/);

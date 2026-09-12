@@ -1,24 +1,28 @@
 # Likerts Android SDK
 
-## Install the local 0.0.3 artifact
+## Install the current source
 
-This local package supports schemas 1–5. The release manifest records artifact and clean-install verification; frozen 0.0.1 and 0.0.2 artifacts remain available separately.
+The free community edition supports schemas 1–5. Clone the repository. With Gradle 8.11.1, JDK 17 and Android SDK 35 configured, run this from its root to build a local Maven repository:
 
-Extract `likerts-android-maven-0.0.3.tar.gz` and add its `maven/` directory to the host project's dependency repositories:
+```sh
+gradle --no-daemon -p sdks/android publishReleasePublicationToLocalReleaseRepository
+```
+
+Add the generated `sdks/android/build/local-release/` directory to your host project's dependency repositories:
 
 ```kotlin
 dependencyResolutionManagement {
     repositories {
-        maven { url = uri("/path/to/extracted/maven") }
+        maven { url = uri("/absolute/path/to/likerts/sdks/android/build/local-release") }
         google()
         mavenCentral()
     }
 }
 ```
 
-Then add `implementation("com.likerts:likerts-android:0.0.3")` to the app module and enable Compose with compatible Kotlin/Compose versions from the matrix below. The local Maven bundle contains the release AAR, source JAR, POM and Gradle metadata so transitive dependencies resolve. Copying only the AAR loses that dependency metadata. No remote Maven registry has been written.
+Then add `implementation("com.likerts:likerts-android:0.0.3")` to the app module and enable Compose with compatible Kotlin/Compose versions from the matrix below. The local Maven repository contains the release AAR, source JAR, POM and Gradle metadata so transitive dependencies resolve. Copying only the AAR loses that dependency metadata. No remote Maven registry has been written. Frozen archives under `releases/` predate the free edition; build current source rather than installing those historical packages.
 
-`android-guide/CheckoutFeedback.kt` in the archive (or `installation-example/CheckoutFeedback.kt` in a source checkout) demonstrates explicit host eligibility, a feedback button and dismissal. Pass collection-only credentials to `LikertsClient`; the host owns coroutine cancellation, submission keys and completion. The clean install gate compiles the packaged example in a new application that depends only on the extracted Maven repository.
+`installation-example/CheckoutFeedback.kt` demonstrates explicit host eligibility, a feedback button and dismissal. Pass collection-only credentials to `LikertsClient`; the host owns coroutine cancellation, submission keys and completion.
 
 The Android SDK includes the collection client and a Jetpack Compose renderer. Administrative credentials must never be embedded in an application; use only a collection-scoped token.
 

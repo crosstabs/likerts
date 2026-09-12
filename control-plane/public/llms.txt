@@ -1,0 +1,38 @@
+# Likerts
+
+> Likerts is MIT-licensed, open-source survey collection infrastructure for questions embedded in your own web and mobile products. Operate it through HTTP API, MCP or CLI, and integrate with Web, React Native, iOS, Android and Flutter SDKs.
+
+Likerts is self-hostable. The software has no response charges or paid response quotas; operators pay for their infrastructure and configure operational capacity and safety limits. It does not distribute surveys or provide public respondent links. Customer applications control presentation, eligibility and consent.
+
+Survey definitions are published as immutable versions. Collections accept validated responses using collection-scoped credentials. Management access is workspace-scoped. Use the linked contracts and examples for exact operation names, request fields, authentication and supported question types.
+
+## Start here
+
+- [Product overview](https://likerts.com/): What Likerts does and who it is for.
+- [Quickstart and integration guides](https://likerts.com/docs): Self-hosting, first response, SDKs and agent setup.
+- [Repository README](https://raw.githubusercontent.com/crosstabs/likerts/main/README.md): Current source installation and local first-response walkthrough.
+- [MIT license](https://raw.githubusercontent.com/crosstabs/likerts/main/LICENSE): Software license terms.
+
+## API, MCP and CLI
+
+- [OpenAPI contract](https://likerts.com/docs/openapi.json): HTTP operations, authentication and typed request/response schemas.
+- [Capabilities manifest](https://likerts.com/docs/capabilities.json): Supported operations and interface mappings.
+- [API reference](https://likerts.com/docs/api): Human-readable contract reference.
+- [Tools guide](https://raw.githubusercontent.com/crosstabs/likerts/main/tools/README.md): CLI and MCP setup, credentials and execution.
+- [Survey creation example](https://likerts.com/docs/survey-create.json): Valid input for creating a survey.
+- [SDK capabilities example](https://likerts.com/docs/sdk-capabilities.json): Client capabilities used in the publishing flow.
+
+## SDKs
+
+- [Web SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/web/README.md): Browser integration and source installation.
+- [React Native SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/react-native/README.md): React Native integration and source installation.
+- [iOS SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/ios/README.md): Swift integration and source installation.
+- [Android SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/android/README.md): Kotlin integration and source installation.
+- [Flutter SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/flutter/README.md): Dart integration and source installation.
+
+## Operations and contribution
+
+- [Backend guide](https://raw.githubusercontent.com/crosstabs/likerts/main/backend/README.md): Storage, authentication and runtime configuration.
+- [Deployment guide](https://raw.githubusercontent.com/crosstabs/likerts/main/infrastructure/README.md): Deployment and operational infrastructure.
+- [Security policy](https://raw.githubusercontent.com/crosstabs/likerts/main/SECURITY.md): Supported versions and vulnerability reporting.
+- [Contributing](https://raw.githubusercontent.com/crosstabs/likerts/main/CONTRIBUTING.md): Development and contribution workflow.

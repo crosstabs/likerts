@@ -1,31 +1,40 @@
-# SDK installation and package availability
+# SDK installation
 
-Frozen 0.0.3 artifacts declare schemas 1–5 and include advanced questions plus durable offline queue APIs. Frozen 0.0.2 artifacts declare schemas 1–4; frozen 0.0.1 artifacts retain schemas 1/2. The gate refuses to overwrite an existing successful release manifest; increment `RELEASE-VERSION` for a new candidate.
+Use the current source checkout for the free, MIT-licensed community edition. The SDKs support schema versions 1–5 and return accepted-response receipts without billing fields. They are not published to npm, Maven Central, pub.dev, or a Swift package registry.
 
-## Connect to the hosted service
+```sh
+git clone https://github.com/crosstabs/likerts.git
+cd likerts
+```
 
-Sign in at [likerts.com](https://likerts.com), copy your workspace ID, and create a scoped 90-day credential under **Connect Codex, Claude, or the CLI**. Copy its token at creation into your secret manager; it cannot be retrieved later. Revoke or replace it from the same page. [The management setup guide](../tools/README.md) covers direct API/CLI use and remote MCP configuration for Codex and Claude Code.
+The frozen archives under `releases/` are historical snapshots from before the free edition. They are no longer downloadable from the website and should not be used for a new community-edition integration.
 
-Use `https://likerts-api.onrender.com` as the API origin. Create a survey, publish it with the capability records from every installed SDK group, then create a collection. These management operations use the service credential; `collections_create` returns the separate collection credential used by an embedded SDK. Configure the SDK with the production API origin, collection ID and collection credential according to its platform guide. Never put the management credential in a browser or mobile app. Remote management uses `https://likerts-mcp.onrender.com/mcp/{workspaceId}`; SDK collection traffic goes directly to the API.
+## Choose a platform
 
-## Available artifacts
+| Platform | Install from current source | Guide |
+| --- | --- | --- |
+| Web | Build `sdks/web`, run `npm pack` there, and install the resulting tarball in your app. | [Web](web/README.md) |
+| React Native | Build `sdks/react-native`, run `npm pack` there, and install the resulting tarball in your compatible host app. | [React Native](react-native/README.md) |
+| iOS | Add `sdks/ios` as a local Swift package in Xcode or SwiftPM and link its `Likerts` product. | [iOS](ios/README.md) |
+| Android | Publish `sdks/android` to its local Maven repository, add that repository to your host, and depend on `com.likerts:likerts-android:0.0.3`. | [Android](android/README.md) |
+| Flutter | Add `sdks/flutter` as a path dependency in your host's `pubspec.yaml`. | [Flutter](flutter/README.md) |
 
-Version 0.0.3 is publicly downloadable from [likerts.com/downloads](https://likerts.com/downloads/). Verify each archive against [SHA256SUMS](https://likerts.com/downloads/SHA256SUMS), then follow the platform guide included in the archive. These are direct preview downloads: package-registry publication has not occurred, so an unqualified npm, Maven, pub.dev or Swift registry install is not yet supported. The hosted MCP endpoint requires no local MCP package.
+Each platform guide includes exact build/install commands, framework requirements, and a customer-controlled presentation example. For reproducible application builds, pin the repository commit you consume and store generated packages in your own artifact repository.
 
-## Maintainer artifact gate
+## Connect your collection
 
-For a new candidate version, run `bash scripts/check-sdk-release.sh` from the repository. The gate builds all five versioned SDK artifacts and installs each into a new consumer project under `.tools/`, using packaged files rather than repository project dependencies. It writes `releases/<version>/manifest.json` only after every install check passes. The latest evidence is `releases/0.0.3/manifest.json`. The manifest records artifact size, SHA-256 and the exact verification boundary. No package registry is contacted for publication; dependency downloads and the Android file-based Maven repository are local build/install steps.
+Start the local API using the [quickstart](https://likerts.com/docs#run), or sign in at [likerts.com/app](https://likerts.com/app) for the optional hosted workspace. For hosted management, copy your workspace ID and create a scoped credential under **Connect Codex, Claude, or the CLI**. Store the token in your secret manager; it is returned only at creation. [The management guide](../tools/README.md) covers direct API/CLI use and remote MCP configuration for Codex and Claude Code.
 
-The gate requires Node/npm, Swift/Xcode on macOS, JDK17, Android SDK35, Gradle8.11.1 and Flutter3.32+. It uses installed toolchains or this repository's `.tools` defaults. Override `JAVA_HOME`, `ANDROID_HOME`, `GRADLE_COMMAND`, `GRADLE_USER_HOME` and `FLUTTER_COMMAND` when appropriate. Set `LIKERTS_KEEP_INSTALL_PROJECTS=1` to retain the disposable consumers for inspection. Failed consumers are retained automatically; a failed run never leaves a fresh success manifest.
+The hosted API origin is `https://likerts-api.onrender.com`; local development uses `http://127.0.0.1:8080`. Create a survey, publish it with the capability records from every installed SDK group, then create a collection. These management operations use the service credential. `collections_create` returns a separate collection credential for the embedded SDK.
 
-| Target | Artifact | Independent install check | Guide |
-| --- | --- | --- | --- |
-| Web | [`likerts-web-0.0.3.tgz`](https://likerts.com/downloads/likerts-web-0.0.3.tgz) | npm install, public ESM and offline exports, TypeScript host trigger and DOM setup/cleanup | [Web](web/README.md) |
-| React Native | [`likerts-react-native-0.0.3.tgz`](https://likerts.com/downloads/likerts-react-native-0.0.3.tgz) | npm install with RN0.86.3/React19.2.3, offline subpath/declaration checks, Babel compilation and host trigger | [React Native](react-native/README.md) |
-| iOS | [`Likerts-ios-0.0.3.tar.gz`](https://likerts.com/downloads/Likerts-ios-0.0.3.tar.gz) | Extracted Swift tests plus fresh consumer compilation of public advanced/offline and SwiftUI APIs | [iOS](ios/README.md) |
-| Android | [`likerts-android-maven-0.0.3.tar.gz`](https://likerts.com/downloads/likerts-android-maven-0.0.3.tar.gz) | Extracted Maven repository resolves advanced/offline types and metadata into a new Android app | [Android](android/README.md) |
-| Flutter | [`likerts-flutter-0.0.3.tar.gz`](https://likerts.com/downloads/likerts-flutter-0.0.3.tar.gz) | Extracted path dependency resolves advanced/offline APIs; analysis and widget trigger/dismissal test | [Flutter](flutter/README.md) |
+Configure the SDK with the API origin, collection ID, and collection credential. Never put the management credential in a browser or mobile app. For browser traffic, use a same-origin proxy or configure exact HTTPS origins through `collections_security_update`. Remote MCP management uses a different origin, `https://likerts-mcp.onrender.com/mcp/{workspaceId}`; SDK requests go to the API.
 
-Every artifact contains its installation guide, changelog and a customer-controlled presentation example. The host decides consent, eligibility, placement and timing. Native callbacks leave submission/retry/cancellation ownership with the app; only the React Native host adapter and Web renderer manage those mechanics themselves. Keep the same complete submission and key after ambiguous failures. A collection credential belongs in the collector; management credentials do not.
+The host decides consent, eligibility, placement, styling, and timing. Native callbacks leave submission/retry/cancellation ownership with the app; the React Native `SurveyHost` adapter and Web renderer can manage those mechanics. Keep the same complete submission and key after ambiguous failures. Optional offline queues do not enqueue or flush automatically.
 
-The version in `RELEASE-VERSION`, package metadata and each SDK capability record must agree. Record every installed customer SDK group during survey publication and collection binding. Hashes identify each frozen local artifact; source archives and build timestamps are not a byte-for-byte reproducibility claim. Public registry names, repository tags, artifact signing, package publication and release support commitments remain separate decisions. Existing platform, simulator, accessibility and physical-device gates are still required; a clean install does not establish runtime certification.
+## Maintainer package verification
+
+`bash scripts/check-sdk-release.sh` builds all five versioned artifacts and installs each into a new consumer project under `.tools/`. It writes a release manifest only after all install checks pass and refuses to overwrite a successful frozen manifest. Increment the candidate version consistently before producing a new frozen release; do not interpret the old manifests as verification of later source changes.
+
+The gate requires Node/npm, Swift/Xcode on macOS, JDK 17, Android SDK 35, Gradle 8.11.1, and Flutter 3.32+. It uses installed toolchains or this repository's `.tools` defaults. Override `JAVA_HOME`, `ANDROID_HOME`, `GRADLE_COMMAND`, `GRADLE_USER_HOME`, and `FLUTTER_COMMAND` as needed. `LIKERTS_KEEP_INSTALL_PROJECTS=1` retains disposable consumers for inspection.
+
+This gate builds local artifacts; it does not publish packages. Source and installed package tests, browser/simulator flows, and physical-device coverage have separate verification boundaries. See [the SDK overview](README.md) for checks and recorded evidence.
