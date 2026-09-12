@@ -52,6 +52,7 @@ fn start_server(database_url: &str, port: u16, token: &str, workspace: &str) -> 
             .env("LIKERTS_PORT", port.to_string())
             .env("LIKERTS_DEV_TOKENS", tokens)
             .env("LIKERTS_ALLOW_DEV_AUTH", "1")
+            .env("LIKERTS_ADMISSION_MODE", "disabled")
             .stdout(Stdio::null())
             .stderr(Stdio::null())
             .spawn()
@@ -70,6 +71,8 @@ fn start_service_auth_server(database_url: &str, port: u16) -> TestServer {
                 "LIKERTS_OIDC_JWKS_URL",
                 "https://tenant.example/.well-known/jwks.json",
             )
+            .env("LIKERTS_ALLOW_DEV_AUTH", "1")
+            .env("LIKERTS_ADMISSION_MODE", "disabled")
             .stdout(Stdio::null())
             .stderr(Stdio::null())
             .spawn()

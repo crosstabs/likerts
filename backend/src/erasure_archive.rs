@@ -672,7 +672,13 @@ mod tests {
         let source = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
         let fence = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";
         let event_id = "cccccccc-cccc-4ccc-8ccc-cccccccccccc";
-        let event_bytes = event(source, event_id, "ws_archive_gap", "workspace", "ws_archive_gap");
+        let event_bytes = event(
+            source,
+            event_id,
+            "ws_archive_gap",
+            "workspace",
+            "ws_archive_gap",
+        );
         let event_ref = ObjectRef {
             id: event_id.into(),
             sha256: hash(&event_bytes),
@@ -692,7 +698,9 @@ mod tests {
             duplicate_checkpoint,
         );
         assert_eq!(
-            verify(&objects, source, fence, duplicate_head).await.unwrap_err(),
+            verify(&objects, source, fence, duplicate_head)
+                .await
+                .unwrap_err(),
             ArchiveError::Capacity
         );
 
@@ -714,7 +722,9 @@ mod tests {
             missing_checkpoint,
         );
         assert_eq!(
-            verify(&missing, source, fence, missing_head).await.unwrap_err(),
+            verify(&missing, source, fence, missing_head)
+                .await
+                .unwrap_err(),
             ArchiveError::CoverageUnproven
         );
     }
