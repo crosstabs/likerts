@@ -1,6 +1,10 @@
 # Community release distribution
 
-[Download community-v0.1.0](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0). All seven assets are public, with checksums and a source manifest. The GHCR copy of the runtime is currently private because the organization disables public package visibility; use the attached runtime archive for installation without registry credentials.
+[Download community-v0.1.0](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0). All seven assets are public, with checksums and a source manifest. The runtime is also public in GHCR; an anonymous pull was verified against the release digest.
+
+```sh
+docker pull --platform linux/amd64 ghcr.io/crosstabs/likerts@sha256:351e34416b49102b325a7e14b40f22430490c29978f386b4aaa364c91a4e3057
+```
 
 Community releases use tags such as `community-v0.1.0`. The tag identifies a complete source snapshot and is independent of the embedded component versions: Web and React Native currently identify as `0.0.3`, MCP as `0.1.0`, and the Rust CLI as `0.1.2`. Historical archives under `releases/` remain unchanged and predate the community edition.
 
@@ -42,6 +46,24 @@ Use the digest recorded in release notes for the runtime image, or load the down
 Only the publisher job receives `contents: write` and `packages: write`; candidate builds have read-only repository access. Artifact transfer actions are pinned to verified commit SHAs. The publisher downloads and promotes the exact tested image rather than rebuilding it. Release reruns refuse to replace an existing GitHub release or either GHCR tag. If publication fails after a registry push, inspect the partial result and recover it manually; a rerun will not overwrite it. Network and authorization failures during the registry preflight stop publication rather than being treated as an absent tag.
 
 All generated files go to ignored `.tools/community-stage` or a temporary output directory. The old frozen release scripts and archives are not rewritten by this pipeline.
+
+## First npm publication
+
+The source packages are configured for public npm publication and rebuild before packing. Publication dry runs passed for `@likerts/web@0.0.3`, `@likerts/react-native@0.0.3` and `@likerts/mcp@0.1.0`. They are not yet listed in the npm registry. Sign in using the account with publishing rights to the `@likerts` scope and complete any npm authentication challenge in the browser.
+
+After verifying the account's scope permissions, publish from a clean, tested checkout:
+
+```sh
+npm whoami
+npm ci --prefix sdks/web
+npm ci --prefix sdks/react-native
+npm ci --prefix tools/mcp
+(cd sdks/web && npm publish)
+(cd sdks/react-native && npm publish)
+(cd tools/mcp && npm publish)
+```
+
+Each package fixes its publishing destination to `https://registry.npmjs.org/` with public access. The historical community-release tarballs remain immutable. After publication, verify registry versions and fresh consumer installations before changing consumer instructions from GitHub tarballs to registry installation. Do not commit login tokens or use another account's scope.
 
 ## Local verification
 
