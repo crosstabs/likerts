@@ -1,5 +1,7 @@
 # Community release distribution
 
+[Download community-v0.1.0](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0). All seven assets are public, with checksums and a source manifest. The GHCR copy of the runtime is currently private because the organization disables public package visibility; use the attached runtime archive for installation without registry credentials.
+
 Community releases use tags such as `community-v0.1.0`. The tag identifies a complete source snapshot and is independent of the embedded component versions: Web and React Native currently identify as `0.0.3`, MCP as `0.1.0`, and the Rust CLI as `0.1.2`. Historical archives under `releases/` remain unchanged and predate the community edition.
 
 The release workflow builds candidates first. Only after every candidate succeeds does its publisher push the tested runtime image to GHCR and create a **draft** GitHub release. It does not promote that draft to a public release, publish npm packages, or deploy the hosted service. The GHCR push itself happens before the draft is reviewed; GitHub package visibility is managed separately.
