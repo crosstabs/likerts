@@ -17,6 +17,10 @@ The product can credibly say: API-first and MCP-first customer-controlled collec
 - Production callback worker deployed at the same commit as `dep-daihrmp5efls73djicc0`.
 - Public marketing/control-plane site deployed from commit `986013fe5022870370ae8aa0fe39449eb9d1a693` as Vercel production deployment `dpl_ED5QvF8btmaGeBh6qxRjU3p46F8S`, aliased to `https://likerts.com`; live copy verification found the revised hero, pricing and service-check labels present, with the old overclaim strings absent.
 - GitHub required checks still fail before running steps; observed runs `34686752214` and `34686750491` and the following evidence-only commit all show the same zero-step pattern for both `interfaces-and-database` and `container`. This remains an owner-controlled GitHub Actions/billing/policy gate.
+- L02 checkout return and settlement acceptance is closed. Hosted Stripe-test evidence covers an actual US$5 checkout, signed webhook settlement, exactly 500 purchased credits, repeated server reads, full refund, `/app` return and query-spoof denial. The current control-plane gate also covers cancellation, delayed settlement polling, refresh, retry-key behavior and post-auth listener routing. Live money remains under L09 and fresh human identity under L04.
+- The complete local PostgreSQL release rehearsal passed through Web, React Native, iOS, Android and Flutter clients, then verified retrieval/export, duplicate accounting, invalid-work denial, response/export/collection revocation and workspace deletion.
+- The clean production container and recovery drill passed all 24 migrations, restricted roles, forced tenant isolation, deletion replay/quarantine and a 2.047-second local restore. Prometheus configuration and five rules passed syntax and rule tests; callback isolation and credit-threshold outbox tests passed.
+- A release-integrity gate now verifies all five immutable SDK 0.0.3 artifacts against their manifest, compatibility fleet, public download mirrors and SHA-256 list. The broad interface gate exposed and fixed missing public documentation for the recovery-fence 503 error; API/MCP/CLI now agree on 24 structured error codes.
 
 ## CEO view
 
@@ -68,7 +72,6 @@ The acquisition sequence is:
 
 ## Remaining engineering task list
 
-- Close L02 with production checkout return/settlement verification after the latest backend deploy.
 - Close L03 only after GitHub Actions execute real green jobs on the reviewed SHA.
 - Close L04 with fresh human onboarding and real API/CLI/Codex/Claude evidence.
 - Close L05 when an outside developer reaches first response from public docs unaided.

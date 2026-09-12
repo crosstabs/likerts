@@ -44,6 +44,7 @@
   ],
   "503": [
     "webhooks_unavailable",
-    "admission_unavailable"
+    "admission_unavailable",
+    "erasure_source_fenced"
   ]
 }

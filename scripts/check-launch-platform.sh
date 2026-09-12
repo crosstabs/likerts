@@ -4,6 +4,7 @@ root="$(cd "$(dirname "$0")/.." && pwd)"
 
 node --test "$root/economics/launch-platform-model.test.mjs" "$root/tests/hosted-sustained.test.mjs" "$root/tests/hosted-credit-notifications.test.mjs"
 node "$root/economics/launch-platform-model.mjs"
+bash "$root/scripts/verify-sdk-release.sh"
 (cd "$root/control-plane" && npm ci --ignore-scripts)
 (cd "$root/control-plane" && npm run check)
 

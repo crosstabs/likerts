@@ -21,6 +21,15 @@ After local backend, control-plane and restricted PostgreSQL checks passed, the 
 
 This rollout deploys the erasure-archive migration and latest startup/test corrections, but it does not close managed Neon restore/PITR, real responder alerting, live billing, real onboarding or independent activation.
 
+## Autonomous release-candidate pass on 12 September 2026
+
+- Closed L02 from existing hosted Stripe-test evidence plus the current control-plane gate: `/app` return, cancellation, delayed signed settlement, server-authoritative refresh, retry-key behavior, query-spoof denial, one US$5/500-credit grant and full refund all pass. This does not claim live merchant or fresh-human identity acceptance.
+- Ran the full PostgreSQL release rehearsal through all five SDK public clients. Web, React Native, iOS, Android and Flutter each submitted through the same real local backend; lifecycle finalization confirmed retrieval/export, one-accounted retries, unbilled rejection, revocation and deletion behavior.
+- Ran the clean production-container recovery gate. All 24 migrations, restricted runtime/worker roles, forced RLS, fail-closed startup and deletion quarantine/replay passed; local restore/replay/verification measured 2.047 seconds. This remains local evidence, not Neon PITR evidence.
+- Ran the complete backend/API/MCP/CLI/Web contract suite, all-five-SDK suite, callback PostgreSQL isolation and credit-notification suite, Prometheus config/rule tests and the launch-platform gate. All completed successfully after one contract defect was corrected.
+- Fixed the public interface drift for `erasure_source_fenced`: the backend's recovery-maintenance 503 now appears in the stable error-code registry, OpenAPI document and generated capability guidance. The exact interface gate now reports 41 typed capabilities, 55 HTTP registrations, 75 schemas and 24 documented API error codes.
+- Added `scripts/verify-sdk-release.sh`. It checks the five immutable SDK 0.0.3 archives against their release manifest, declared compatibility fleet, public download copies and `SHA256SUMS`, and has a negative test proving a changed public artifact is rejected.
+
 ## Provider actions actually performed
 
 - Production Clerk admission changed from Open to Invite-only; dashboard confirmed saved mode. Application display name changed from `likerts-auth` to `Likerts` and saved. Email OTP required/verified configuration inspected. No production user or invitation was created; inbox delivery and real first sign-in remain unverified.
@@ -53,7 +62,7 @@ Hosted Web/native/sustained evidence added after the original report:
 
 ## Still in execution
 
-Current source integration after the latest footer-label change, recovery gate provider execution, final public browser QA after the next Vercel deployment, real responder alerting, customer-owned DNS/adverse callback drills, live billing, real-client onboarding and independent activation. The main queue remains open until each task’s complete acceptance condition is evidenced.
+GitHub-hosted source integration, recovery gate provider execution, real responder alerting, customer-owned DNS/adverse callback drills, live billing, real-client onboarding and independent activation. The main queue remains open until each task’s complete acceptance condition is evidenced.
 
 ## Pending owner-controlled inputs
 

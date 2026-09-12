@@ -1,6 +1,6 @@
 # Likerts launch execution queue
 
-Updated 10 September 2026 after the [CEO council review](docs/reviews/2026-09-10/CEO-REPORT.md). This is the current execution order; [TASKS.md](TASKS.md) retains implementation history and detailed requirements. Department reports are supporting evidence, not additional parallel backlogs.
+Updated 12 September 2026 after the [CEO council review](docs/reviews/2026-09-10/CEO-REPORT.md) and autonomous release-candidate pass. This is the current execution order; [TASKS.md](TASKS.md) retains implementation history and detailed requirements. Department reports are supporting evidence, not additional parallel backlogs.
 
 **Release state: assisted preview, subject to the immediate fixes below; public paid launch on hold.** Task acceptance remains open unless checked below; implementation progress and actual provider/runtime evidence are tracked in [the execution record](docs/reviews/2026-09-10/EXECUTION.md). The [Launch-control owner checklist](docs/reviews/2026-09-10/LAUNCH-CONTROL.md) is the current CEO/engineering/product/marketing report for remaining launch readiness. Scope remains all five SDKs, API/MCP/CLI, customer-controlled distribution, 1,000 one-time free responses and prepaid US$0.01 accepted responses. No new enterprise or distribution features are required.
 
@@ -14,9 +14,10 @@ P0 = fix before opening the affected path to the next external preview user. P1 
   - **Evidence:** commits `15dbdf3` and `986013f`, production deployments `dpl_6CyEaEp9g1o5y5LPZFB2Ze6SCQV8` and `dpl_ED5QvF8btmaGeBh6qxRjU3p46F8S`, [public-site acceptance](docs/reviews/2026-09-10/PUBLIC-SITE-ACCEPTANCE.md), hosted CLI/Web evidence and `npm --prefix control-plane test` prove the corrected public examples, SDK demo contract, preview/pricing copy, download metadata and “Service checks” status label. This closes public-example accuracy only; it does not close first-user onboarding, L05 independent-docs success or L12 incident monitoring.
   - **Depends:** existing contracts; the independent admission inspection at the start of L04. Unapproved promises can be removed immediately; later commercial wording uses L06A decisions. **Maps:** IF-01, REL-02/03.
 
-- [ ] **L02 — Repair checkout return and settlement states** · Frontend + billing · **1–2 days**
+- [x] **L02 — Repair checkout return and settlement states** · Frontend + billing · **1–2 days**
   - Send success/cancel to `/app`; derive pending/settled/failed states from the server, not a query parameter. Refresh credits after settlement and clearly label or gate sandbox checkout.
   - **Done:** cancellation, delayed webhook, refresh/retry and a US$5 test purchase show correct states and exactly 500 purchased credits once; spoofed success query cannot claim payment. Verify post-sign-in routing with L04. Preserve independent ledger guarantees.
+  - **Evidence:** [hosted Stripe-test checkout evidence](infrastructure/render/hosted-sandbox-checkout-evidence.json) records the actual US$5 checkout, signed settlement, 500-credit grant, stable repeated reads, full refund, `/app` return and signed-out query-spoof denial. The 12 September control-plane gate passed cancellation, pending-to-paid polling, server-authoritative refresh, retry-key reuse/new-purchase rotation and sign-in-listener routing tests. Live merchant acceptance remains L09; fresh human OTP onboarding remains L04.
   - **Depends:** deployed console and Stripe sandbox. **Maps:** BILL-02, REL-01.
 
 - [ ] **L03 — Restore CI and release checks** · Release engineering + repository billing owner · **0.5–1 day after account unblock**
