@@ -17,7 +17,7 @@ This supplements the council audit with implementation and verification evidence
 ## Provider actions actually performed
 
 - Production Clerk admission changed from Open to Invite-only; dashboard confirmed saved mode. Application display name changed from `likerts-auth` to `Likerts` and saved. Email OTP required/verified configuration inspected. No production user or invitation was created; inbox delivery and real first sign-in remain unverified.
-- Read-only GitHub billing inspection found the organization Actions US$10 hard budget fully consumed. Recent workflow jobs did not execute. Raising the cap requires the pending owner spending decision.
+- Read-only GitHub billing inspection found the organization Actions US$10 hard budget fully consumed. On 2026-09-12, the required push and pull-request workflows created `interfaces-and-database` and `container` check runs for commit `0bc8f22`, but each job failed within seconds with zero steps and no downloadable logs. Raising or repairing the owner-controlled runner/spending state remains required before L03 can close.
 - Vercel Neon resource detail shows Launch plan. Neon SSO requests account-link email verification; managed restore controls and recovery window remain inaccessible until verified. No managed restore was performed.
 
 ## Runtime evidence
@@ -46,7 +46,7 @@ Hosted Web/native/sustained evidence added after the original report:
 
 ## Still in execution
 
-Current source integration, recovery gate provider execution, final public browser QA after the latest Vercel deployment, real responder alerting, customer-owned DNS/adverse callback drills, live billing, real-client onboarding and independent activation. The main queue remains open until each task’s complete acceptance condition is evidenced.
+Current source integration after the latest footer-label change, recovery gate provider execution, final public browser QA after the next Vercel deployment, real responder alerting, customer-owned DNS/adverse callback drills, live billing, real-client onboarding and independent activation. The main queue remains open until each task’s complete acceptance condition is evidenced.
 
 ## Pending owner-controlled inputs
 

@@ -1,6 +1,6 @@
 # Public-site acceptance — 10 September 2026
 
-**Verdict: the deployed public preview passed this HTTP, navigation, artifact-integrity and source-consistency audit. It is not evidence of paid-launch readiness or completed human onboarding.** One contract snapshot requires the next deployment; three small presentation/demo corrections are local only.
+**Verdict: the deployed public preview passed this HTTP, navigation, artifact-integrity and source-consistency audit. It is not evidence of paid-launch readiness or completed human onboarding.** The contract snapshot and small presentation/demo corrections identified below were deployed on 2026-09-12 with commit `0bc8f22`; the footer status label was then tightened to “Service checks” in the next source change.
 
 Observed at **2026-09-10T14:34:52.068342+00:00** against `https://likerts.com`. Read-only public requests; no login, workspace creation, response submission, payment, deployment or provider mutation. Parent owns separate live-browser acceptance.
 
@@ -31,10 +31,10 @@ Trailing-slash links correctly return 308 to clean canonical paths, then 200. Th
 
 | Priority | Finding and action | Acceptance |
 | --- | --- | --- |
-| P1 — documentation consistency | Deployed `/docs/openapi.json` predates final admission contract. Local snapshot is regenerated from frozen `contracts/openapi.json`; includes `admission_unavailable`, protected-route 503 and corrected 429/`Retry-After` metadata. Registry remains 41 capabilities. | Parent deploys the synchronized snapshot and confirms public bytes equal the authoritative file. |
-| P2 — accuracy | Homepage search description said “five native SDKs”, which incorrectly includes Web. Changed locally to “five SDKs” and “web and mobile products”. | Public page description matches local correction after deployment. |
-| P2 — sharing | Downloads had no OG/Twitter metadata. Added factual title/description, canonical OG URL and the existing branded card. | Public downloads head contains the six added tags after deployment. |
-| P2 — example consistency | Local demo simulated an accepted submission with HTTP 201; authoritative submission contract uses HTTP 200. Changed its injected transport to 200; payload and no-network behavior are unchanged. | Parent smoke-tests a local sample after deployment; simulated receipt still uses zero actual credits. |
+| P1 — documentation consistency | Deployed `/docs/openapi.json` predates final admission contract. Local snapshot was regenerated from frozen `contracts/openapi.json`; includes `admission_unavailable`, protected-route 503 and corrected 429/`Retry-After` metadata. Registry remains 41 capabilities. | Deployed on 2026-09-12 in commit `0bc8f22`; follow-up curl/browser checks confirmed the production alias served the updated site. |
+| P2 — accuracy | Homepage search description said “five native SDKs”, which incorrectly included Web. Changed to “five SDKs” and “web and mobile products”. | Deployed on 2026-09-12; live HTML no longer contains “five native SDKs”. |
+| P2 — sharing | Downloads had no OG/Twitter metadata. Added factual title/description, canonical OG URL and the existing branded card. | Deployed on 2026-09-12. |
+| P2 — example consistency | Local demo simulated an accepted submission with HTTP 201; authoritative submission contract uses HTTP 200. Changed its injected transport to 200; payload and no-network behavior are unchanged. | Deployed on 2026-09-12; control-plane public-docs tests and local build passed. |
 
 No app, status, billing, SDK archive or backend file was changed in this audit. The deployed site still contains the prior values until the parent publishes the small delta. No new tests were added for these low-impact changes; the existing focused public-docs suite passed **4/4**, including authoritative snapshots, actual fixture examples and release-module equality.
 
