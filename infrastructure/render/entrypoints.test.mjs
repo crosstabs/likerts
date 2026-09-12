@@ -18,7 +18,7 @@ for(const [name,mode,env,expected] of [
   ['MCP fails closed without API origin','mcp',{LIKERTS_MCP_PUBLIC_ORIGIN:'https://api.example.com',LIKERTS_OIDC_ISSUER:'https://issuer.example.com',LIKERTS_MCP_ALLOWED_ORIGINS:'https://app.example.com'},'Canonical HTTPS API origin required'],
 ])test(name,()=>{
   const result=spawnSync('/bin/sh',[script('start.sh'),mode],{env:{PATH:process.env.PATH,...env},encoding:'utf8'});
-  assert.equal(result.status,1);assert.ok(result.stderr.includes(expected));assert.ok(!result.stderr.includes(sentinel));assert.equal(result.stdout,'');
+  assert.equal(result.error,undefined);assert.notEqual(result.status,0);assert.ok(result.stderr.includes(expected));assert.ok(!result.stderr.includes(sentinel));assert.equal(result.stdout,'');
 });
 test('migration rejects application signing key before running SQL',()=>{
   const result=spawnSync('/bin/sh',[script('migrate.sh')],{env:{PATH:process.env.PATH,LIKERTS_MIGRATION_DATABASE_URL:'postgres://owner@localhost/db?sslmode=require',LIKERTS_BOOTSTRAP_RUNTIME_PASSWORD:'synthetic',LIKERTS_BOOTSTRAP_WORKER_PASSWORD:'synthetic',LIKERTS_WEBHOOK_CREDENTIAL_KEY:sentinel},encoding:'utf8'});

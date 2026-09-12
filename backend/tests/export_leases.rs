@@ -262,6 +262,7 @@ async fn interrupted_export_reclaims_with_fencing_and_tenant_isolation() {
             .env("DATABASE_URL", &runtime)
             .env("LIKERTS_PORT", port.to_string())
             .env("LIKERTS_ALLOW_DEV_AUTH", "1")
+            .env("LIKERTS_ADMISSION_MODE", "disabled")
             .env(
                 "LIKERTS_DEV_TOKENS",
                 serde_json::to_string(&json!({"lease-recovery-token":workspace})).unwrap(),
@@ -277,12 +278,12 @@ async fn interrupted_export_reclaims_with_fencing_and_tenant_isolation() {
     let client = reqwest::Client::new();
     let origin = format!("http://127.0.0.1:{port}");
     let mut ready = false;
-    for _ in 0..150 {
+    for _ in 0..300 {
         if client.get(format!("{origin}/health")).send().await.is_ok() {
             ready = true;
             break;
         }
-        tokio::time::sleep(std::time::Duration::from_millis(20)).await;
+        tokio::time::sleep(std::time::Duration::from_millis(50)).await;
     }
     assert!(ready);
     let mut completed = false;

@@ -37,11 +37,10 @@ source scripts/dev-env.sh
 export LIKERTS_API_URL=http://127.0.0.1:8080
 export LIKERTS_TOKEN=local-demo-management-token
 cargo run --manifest-path tools/cli/Cargo.toml --locked -- capabilities
-jq '. + {idempotencyKey:"my-survey-create-1"}' contracts/survey.example.json | \
-  cargo run --manifest-path tools/cli/Cargo.toml --locked -- call surveys_create --input -
+bash scripts/first-response.sh
 ```
 
-Use the returned survey ID and revision with `surveys_publish`, then create a collection. The [capability reference](contracts/CAPABILITIES.md) documents every API, MCP and CLI operation. [Tool setup](tools/README.md) covers the CLI and MCP server.
+The script creates and publishes a survey, creates a collection, submits one response twice with the same idempotency key, verifies one stored response, and prints the receipt. The [capability reference](contracts/CAPABILITIES.md) documents every API, MCP and CLI operation. [Tool setup](tools/README.md) covers the CLI and MCP server.
 
 For PostgreSQL, set `DATABASE_URL` and use a migration-capable local account with `LIKERTS_RUN_MIGRATIONS=1`. Production should run migrations separately and connect the API with the restricted runtime role in `backend/provision-runtime.sql`.
 

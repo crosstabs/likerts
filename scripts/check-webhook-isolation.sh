@@ -4,7 +4,19 @@ root="$(cd "$(dirname "$0")/.." && pwd)"
 container="likerts-webhook-isolation-$$"
 trap 'docker rm -f "$container" >/dev/null 2>&1 || true' EXIT
 docker run --rm --detach --name "$container" --env POSTGRES_PASSWORD=webhook-local-test -p 127.0.0.1::5432 postgres:17-alpine >/dev/null
-for _ in $(seq 1 60); do if docker exec "$container" pg_isready -U postgres >/dev/null 2>&1; then break; fi; sleep 1; done
+ready=0
+for _ in $(seq 1 60); do
+  if [ "$(docker exec "$container" psql --host 127.0.0.1 --username postgres --dbname postgres --quiet --tuples-only --no-align --command 'select 1' 2>/dev/null || true)" = "1" ]; then
+    ready=1
+    break
+  fi
+  sleep 1
+done
+if [ "$ready" -ne 1 ]; then
+  docker logs "$container" >&2
+  echo 'PostgreSQL webhook-test container did not become query-ready' >&2
+  exit 1
+fi
 psql=(docker exec -i "$container" psql -U postgres -v ON_ERROR_STOP=1)
 for migration in "$root"/backend/migrations/*.sql; do "${psql[@]}" < "$migration" >/dev/null; done
 "${psql[@]}" -c "create role likerts_webhook_worker login password 'webhook-local-test' noinherit nobypassrls nocreatedb nocreaterole; create role likerts_webhook_api_test login password 'webhook-local-test' noinherit nobypassrls nocreatedb nocreaterole;" >/dev/null

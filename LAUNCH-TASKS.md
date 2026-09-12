@@ -12,13 +12,13 @@
 
 - [x] Add MIT license, contribution guide, and security policy.
 - [x] Replace the README with a self-hosted quickstart and architecture map.
-- [ ] Verify a fresh clone can reach its first accepted response.
+- [x] Verify a fresh clone can reach its first accepted response.
 - [x] Scan publishable files and Git history for credentials and private evidence.
-- [ ] Publish the GitHub repository and set its description, homepage, and topics.
+- [x] Publish the GitHub repository and set its description, homepage, and topics.
 
 ## Hosted reference deployment
 
-- [ ] Deploy the database migration and unmetered Rust API.
-- [ ] Deploy the matching MCP server.
-- [ ] Deploy the revised marketing site and documentation.
-- [ ] Verify health, login, MCP discovery, and one idempotent response on production.
+- [x] Deploy the database migration and unmetered Rust API.
+- [x] Deploy the matching MCP server and callback worker.
+- [x] Deploy the revised marketing site and documentation.
+- [x] Verify service health, the passwordless login surface, MCP discovery and denial, and one idempotent response on production.

@@ -1,6 +1,6 @@
 # Build status
 
-Likerts is preparing its first public release as a free, MIT-licensed, self-hosted survey collection platform. No customers used the earlier preview billing model, so response credits, payment routes, checkout UI, and commercial quotas were removed before release.
+Likerts is publicly released as a free, MIT-licensed, self-hosted survey collection platform. No customers used the earlier preview billing model, so response credits, payment routes, checkout UI, and commercial quotas were removed before release.
 
 ## Implemented
 
@@ -16,8 +16,8 @@ Likerts is preparing its first public release as a free, MIT-licensed, self-host
 
 - [x] All repository checks pass against the unmetered contract.
 - [x] Secret scan of publishable files and Git history is clean apart from documented test fixtures. Ignored local environment files remain outside version control.
-- [ ] Hosted API, MCP, and website run the same commit.
-- [ ] GitHub repository is public with the MIT license, security policy, and contribution guide.
-- [ ] Fresh-clone setup and first-response flow are verified from the public README.
+- [x] Hosted API, MCP, worker, migration image, and website run release commit `8588b67`.
+- [x] GitHub repository is public with the MIT license, security policy, and contribution guide.
+- [x] Fresh-clone setup and first-response flow are verified from the public README.
 
 Operational rate limits, payload limits, queue bounds, storage capacity, backups, and monitoring remain necessary deployment controls.
