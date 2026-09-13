@@ -1,0 +1,7 @@
+{
+  "name": "likerts-temporary-acceptance-receiver",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "22.x" },
+  "scripts": { "test": "node --test test/*.test.mjs" }
+}
