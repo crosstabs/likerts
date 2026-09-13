@@ -12,6 +12,8 @@ The operator inspected the device state and confirmed both fixture bundle identi
 
 The executed selection was the `KeychainOfflineTests` class and the single renderer UI method above in scheme `LikertsSample`, with a physical iOS destination and parallel testing disabled. `HostedTransportTests` was explicitly excluded. The operator retained the private XCTest result bundle, its summary/test-case JSON and signing evidence. Device identifiers, profile/team details and raw logs are not published.
 
+This sanitized evidence is published on main through [PR #23](https://github.com/crosstabs/likerts/pull/23), merged as `7d87f9f799ccd6c4acaf636a431b5d7ba23f3ee6` after [PR CI](https://github.com/crosstabs/likerts/actions/runs/34738694898) passed. [Exact-main CI](https://github.com/crosstabs/likerts/actions/runs/34739157847) also passed both required jobs. The test execution source remains `2996ebc`; the documentation merge is not a new device run.
+
 ## Boundaries and cleanup
 
 The offline tests use a test-only host adapter and synthetic send callbacks. They prove device cryptography, storage and the exercised queue state transitions; they do not prove real HTTP collection, network-loss recovery, process-kill/reboot recovery, locked-device behavior, Secure Enclave storage or restored-backup exclusion. The renderer case proves the exercised localized text flow, not every question type, actual VoiceOver usability or reviewed translations. Android, Flutter and React Native physical-device rendering are not established by this iPhone result.

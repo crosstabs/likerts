@@ -17,10 +17,10 @@ There are nine wire question types: single choice, multiple choice, scale, text,
 | Framework hosts | [Next.js](../../examples/nextjs-feedback/README.md), [Vue](../../examples/vue-feedback/README.md), [Svelte](../../examples/svelte-feedback/README.md) |
 | Interactive renderer | [Browser demo](https://likerts.com/demo); local sample mode, simulated receipt, no responses sent |
 | Social image | [1200 × 630 PNG](https://likerts.com/social-preview.png) |
-| Full community snapshot | [community-v0.1.0](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0), native CLI `0.1.2` for Linux x64, macOS arm64 and Windows x64 |
+| Full community snapshot | [community-v0.1.2](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.2), native CLI `0.1.2` for Linux x64, macOS arm64 and Windows x64 |
 | npm packages | [@likerts/web `0.0.3`](https://www.npmjs.com/package/@likerts/web), [@likerts/react-native `0.0.3`](https://www.npmjs.com/package/@likerts/react-native), [@likerts/mcp `0.1.0`](https://www.npmjs.com/package/@likerts/mcp) |
 | iOS / Android / Flutter | Source SDKs in the repository; see [installation](../releases.md). No public Maven Central/pub.dev listing or consumer app is implied. |
-| Container | `ghcr.io/crosstabs/likerts:community-v0.1.0`; see [digest and checksums](../releases.md) |
+| Container | `ghcr.io/crosstabs/likerts:community-v0.1.2`; see [digest and checksums](../releases.md) |
 | MCP registry | [io.github.crosstabs/likerts](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.crosstabs%2Flikerts/versions/latest), registered version `0.1.1` with npm stdio and remote HTTP; npm package remains `0.1.0`. A registry listing is not a guarantee of client compatibility or hosting availability |
 | Help | [Community support](SUPPORT.md), [private security reporting](../../SECURITY.md) |
 
@@ -63,7 +63,7 @@ bash scripts/run-feedback-demo.sh
 
 You need Rust stable, Node.js 22+, npm and Bash. The example binds to loopback and uses temporary memory storage; production deployments require PostgreSQL and operator-managed configuration. The software does not send survey invitations or provide public respondent links.
 
-[Source and setup](https://github.com/crosstabs/likerts) · [recorded walkthrough](https://likerts.com/media/embedded-feedback-demo.webm) · [versioned downloads](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0)
+[Source and setup](https://github.com/crosstabs/likerts) · [recorded walkthrough](https://likerts.com/media/embedded-feedback-demo.webm) · [versioned downloads](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.2)
 
 Feedback on the Rust setup path, CLI ergonomics and reproductions of integration failures would be useful. The repository has focused checks and contributor tasks for people who want to explore it.
 

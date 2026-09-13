@@ -11,7 +11,7 @@ import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const release = 'community-v0.1.0';
+const release = 'community-v0.1.2';
 const webVersion = '0.0.3';
 const playwrightVersion = '1.63.0';
 const target = `${process.platform}-${process.arch}`;

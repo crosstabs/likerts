@@ -14,8 +14,8 @@ Factual reference for the founder:
 - Working local example: `bash scripts/run-feedback-demo.sh`; Rust stable, Node.js22+ and Bash required.
 - Online renderer sample: https://likerts.com/demo; sample mode simulates the receipt.
 - Real local collection recording: https://likerts.com/media/embedded-feedback-demo.webm
-- Public downloads: https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0
-- Public Docker image: `ghcr.io/crosstabs/likerts:community-v0.1.0`
+- Public downloads: https://github.com/crosstabs/likerts/releases/tag/community-v0.1.2
+- Public Docker image: `ghcr.io/crosstabs/likerts:community-v0.1.2`
 - MIT license; self-hosting uses the operator's infrastructure. Web, React Native and MCP packages are published on npm under `@likerts`.
 
 Follow [Show HN's rules](https://news.ycombinator.com/showhn.html), use the runnable project as the destination, and do not solicit votes or coordinated comments.

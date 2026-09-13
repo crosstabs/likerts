@@ -27,7 +27,7 @@ These notes were checked against the current [HTTP error/CORS implementation](..
 
 ## Versions and fix propagation
 
-The current distribution is `community-v0.1.0`, with Web and React Native `0.0.3`, MCP `0.1.0` and CLI `0.1.2`. Native SDKs are distributed through source; use the community tag or record the exact commit. See [release installation and compatibility](../releases.md) rather than assuming equal version numbers mean identical historical archives.
+The current distribution is `community-v0.1.2`, with backend runtime `0.1.2`, Web and React Native `0.0.3`, MCP `0.1.0` and CLI `0.1.2`. Native SDKs are distributed through source; use the community tag or record the exact commit. See [release installation and compatibility](../releases.md) rather than assuming equal version numbers mean identical historical archives.
 
 As [SECURITY.md](../../SECURITY.md) states, fixes target the latest published version; before a stable release they land on the default branch and may break compatibility. Historical snapshots are immutable and are not silently patched. There is no promised backport window or automatic updater.
 

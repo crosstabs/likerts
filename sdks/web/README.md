@@ -8,7 +8,7 @@ Install a published version from npm:
 npm install @likerts/web
 ```
 
-You can also use the installable tarballs from the [community release](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0).
+You can also use the installable tarballs from the [community release](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.2).
 
 ## Install the current source
 

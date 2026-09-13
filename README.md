@@ -2,7 +2,7 @@
 
 Likerts is a free, open-source backend for surveys embedded in your own web and mobile products. It provides one typed platform through HTTP, MCP and a Rust CLI, with SDKs for Web, React Native, iOS, Android and Flutter.
 
-[Download the community release](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0) · [Installation guide](docs/releases.md) · [Contribute](CONTRIBUTING.md)
+[Download the community release](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.2) · [Installation guide](docs/releases.md) · [Contribute](CONTRIBUTING.md)
 
 Likerts does not host respondent links or send invitations. Your application decides when a survey appears and supplies the customer context. Likerts validates the published schema, stores the response, returns an idempotent receipt and makes the data available through scoped reads, exports and signed callbacks.
 
