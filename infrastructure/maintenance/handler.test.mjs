@@ -77,6 +77,31 @@ test('real child timeout and output flood are bounded and sanitized',async()=>{
   await assert.rejects(runChild(process.execPath,['-e',"process.stdout.write('private'.repeat(20000));setInterval(()=>{},1000)"],{},2000),{message:'worker_output_limit'});
   await assert.rejects(runChild('/nonexistent/maintenance-worker',[],{},1000),{message:'worker_start_failed'});
 });
+test('archive failure diagnostics accept only the complete fixed enum line',async()=>{
+  const categories = { Configuration:'archive_configuration',Database:'archive_database',Storage:'archive_storage',InvalidArchive:'archive_invalid',CoverageUnproven:'archive_coverage_unproven',FenceReleased:'archive_fence_released',Capacity:'archive_capacity',StaleLease:'archive_stale_lease' };
+  for(const [category,safeCode] of Object.entries(categories)) {
+    const line=`erasure_archive failed category=${category}; inspect restricted operational diagnostics\n`;
+    await assert.rejects(runChild(process.execPath,['-e',`process.stderr.write(${JSON.stringify(line)});process.exit(1)`],{},2000),{message:safeCode,safeCode});
+  }
+  const known='erasure_archive failed category=Storage; inspect restricted operational diagnostics';
+  for(const stderr of [known+' private-token', 'private-provider-body\n'+known, known+'\n'+known, known.replace('Storage','PrivateToken'),known+'\n\n',known+'\r\n']) {
+    await assert.rejects(runChild(process.execPath,['-e',`process.stderr.write(${JSON.stringify(stderr)});process.exit(1)`],{},2000),{message:'worker_failed'});
+  }
+  await assert.rejects(runChild(process.execPath,['-e',`process.stderr.write(${JSON.stringify(known)});process.exit(2)`],{},2000),{message:'worker_failed'});
+});
+test('split diagnostic writes remain bounded and a failed partial batch is not HTTP success',async()=>{
+  const partial=JSON.stringify({operation:'drain',archivedThisRun:2,checkpoint:null,status:{pendingEvents:8,coveredEvents:0,oldestPendingSeconds:1,sourceId:'private-source'}});
+  const script=`process.stdout.write(${JSON.stringify(partial)});process.stderr.write('erasure_archive failed cate');setTimeout(()=>{process.stderr.write('gory=Storage; inspect restricted operational diagnostics\\n');process.exit(1)},30)`;
+  const result=await invoke(handler('archive',{execute:()=>runChild(process.execPath,['-e',script],{},2000)}));
+  assert.equal(result.status,503);
+  assert.deepEqual(result.body,{ok:false,error:'archive_storage'});
+  assert.doesNotMatch(JSON.stringify(result),/private-source|archivedThisRun|diagnostics/);
+});
+test('deadline takes precedence over a known diagnostic and signal exit stays distinct',async()=>{
+  const diagnostic="process.stderr.write('erasure_archive failed category=Storage; inspect restricted operational diagnostics\\n');";
+  await assert.rejects(runChild(process.execPath,['-e',diagnostic+'setInterval(()=>{},1000)'],{},100),{message:'worker_timeout'});
+  await assert.rejects(runChild(process.execPath,['-e',diagnostic+"process.kill(process.pid,'SIGTERM')"],{},2000),{message:'worker_terminated'});
+});
 test('missing or wrong-platform bundle fails closed',async()=>{
   await assert.rejects(verifyBundle(new URL('./missing/',import.meta.url),'cleanup'),{message:'bundle_invalid'});
 });

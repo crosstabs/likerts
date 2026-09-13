@@ -36,6 +36,6 @@ for (const kind of ['cleanup', 'archive']) {
   } finally { await rm(fixture, { recursive: true, force: true }); }
   // Direct execution proves ELF/OS compatibility. Missing configuration must
   // fail immediately; there are no database/provider credentials or requests.
-  await assert.rejects(runChild(resolve(folder, 'worker'), [kind === 'cleanup' ? 'once' : 'drain'], {}, 5000), { message: 'worker_failed' });
+  await assert.rejects(runChild(resolve(folder, 'worker'), [kind === 'cleanup' ? 'once' : 'drain'], {}, 5000), { message: kind === 'archive' ? 'archive_configuration' : 'worker_failed' });
   console.log(JSON.stringify({ kind, architecture: process.arch, nativeBinaryExecuted: true, expectedConfigurationFailure: true, sourceDirty: manifest.sourceDirty, providerConnectivityVerified: false }));
 }
