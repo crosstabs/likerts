@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "startedAt": "2026-09-13T06:39:29.716603+00:00",
+  "finishedAt": "2026-09-13T06:40:17.349178+00:00",
+  "sourceCommit": "2996ebcbb9821cff67e0a6e8cae4722f0abf9e42",
+  "releasedImage": "ghcr.io/crosstabs/likerts@sha256:40042f29d15f7fb18a1d95287b099fd94cf2185df3c637e3304d73764488ae7c",
+  "fixtureImageId": "sha256:9b524c44f348916ee0bf95c4182ecd14853294b353e1076cb2327555a15da1a2",
+  "binaryHashes": {
+    "api": "7a44648d0245119ceb4c9b7754a52f181aa6e1ff6420992135e005533f01afd6",
+    "worker": "136e387a55769eee12fe88c90e8cd0245b5dc2b124a1d99dd24244169368d4b6"
+  },
+  "memoryBytes": {
+    "current": 188329984,
+    "peak": 188841984,
+    "max": 536870912
+  },
+  "webCpuLimit": 0.1,
+  "postgresVersion": 16,
+  "runtimeArchitecture": "amd64 under ARM64-host QEMU",
+  "identityBoundary": "local emulation adapter; native exact-executable guard tested separately",
+  "authenticatedServiceCredential": true,
+  "anonymousApiDenied": true,
+  "oneResponseIdempotentRetry": true,
+  "apiAndWorkerSigkillReplacement": true,
+  "responseSurvivedApiLoss": true,
+  "oneResponseExportReady": true,
+  "inFlightLeaseReclaimProven": false,
+  "hostedProven": false
+}
