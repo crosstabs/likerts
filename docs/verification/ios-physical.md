@@ -1,0 +1,21 @@
+# Physical iOS renderer and offline-host verification
+
+On **13 September 2026**, source `2996ebcbb9821cff67e0a6e8cae4722f0abf9e42` passed **three tests on an actual paired iPhone17,2 running iOS 26.6.1**: three passed, zero failed, zero skipped and zero expected failures. The iOS SDK capability version is `0.0.3`. This executed the current repository package and sample test host; it is not a fresh Swift registry/Git consumer check or an app-store release.
+
+| Test | Device result | What it exercised |
+| --- | --- | --- |
+| `KeychainOfflineTests.testKeychainCiphertextReopensAndRequiresAcceptedReceipt` | Passed, 0.023 s | Actual device Security Keychain item, `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`, CryptoKit AES-GCM encryption, atomic ciphertext persistence in Application Support, backup-exclusion/file-protection configuration, reopened adapter/queue state, idempotent enqueue, retained payload after a synthetic 503, rejection of a mismatched receipt and removal after an accepted matching receipt. |
+| `KeychainOfflineTests.testTamperingAndLostKeyQuarantineWithoutSending` | Passed, 0.0086 s | Modified ciphertext and a missing Keychain key quarantine the record without credential lookup or send; explicit purge empties quarantine. |
+| `LikertsSampleUITests.testLocalizedAccessibleSurveyCompletesOnSimulator` | Passed, 8 s | Physical SwiftUI rendering, accessible title/identifiers, required-field validation, keyboard entry of Spanish text and local submit-callback completion. Despite its historical method name, XCTest ran this case on the physical device. |
+
+The operator inspected the device state and confirmed both fixture bundle identifiers were absent before installation. Build-for-testing used an isolated generated project with the existing development identity, team and matching registered-device profile. The existing profile was Xcode-managed; the first Manual-signing build failed, then Automatic selection without provisioning updates built successfully using the same existing assets. App, UI runner and unit-test signatures verified. Real application identifiers replaced the simulator-only entitlements; no signing account, certificate or profile was created. Tracked project settings were unchanged.
+
+The executed selection was the `KeychainOfflineTests` class and the single renderer UI method above in scheme `LikertsSample`, with a physical iOS destination and parallel testing disabled. `HostedTransportTests` was explicitly excluded. The operator retained the private XCTest result bundle, its summary/test-case JSON and signing evidence. Device identifiers, profile/team details and raw logs are not published.
+
+## Boundaries and cleanup
+
+The offline tests use a test-only host adapter and synthetic send callbacks. They prove device cryptography, storage and the exercised queue state transitions; they do not prove real HTTP collection, network-loss recovery, process-kill/reboot recovery, locked-device behavior, Secure Enclave storage or restored-backup exclusion. The renderer case proves the exercised localized text flow, not every question type, actual VoiceOver usability or reviewed translations. Android, Flutter and React Native physical-device rendering are not established by this iPhone result.
+
+Each offline test creates a unique test Keychain service and isolated Application Support directory. Success and caught-error paths attempt `SecItemDelete` and directory removal, but the current tests ignore deletion status/errors. Therefore successful test execution is not independent proof of zero residue; a crash can leave a Keychain item, and app uninstall alone does not establish its removal. After testing, the operator uninstalled both newly installed fixture apps and verified that each targeted bundle inventory was empty. This confirms app removal, not Keychain erasure. No real respondent data or hosted collection credentials were used by the selected tests.
+
+Together with the [Chromium/Firefox/WebKit keyboard and RTL evidence](browser-coverage.md), this closes the bounded A05 browser-expansion and physical offline-host evidence task. The additional coverage limits above remain explicit; it does not close hosted onboarding, recovery or live native HTTP acceptance gates in [PUBLIC-LAUNCH.md](../../PUBLIC-LAUNCH.md).

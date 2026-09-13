@@ -6,7 +6,7 @@ Checked 2026-09-13: provider API inspection at 01:50 UTC, followed by the existi
 | --- | --- | --- |
 | Render API | `GET /v1/services/srv-dagbp57qj5pc738fe96g`: Singapore, Docker runtime, plan `1c-2g`, two instances. CLI instance listing returned two live instance IDs. | Admission traffic originates in Singapore. |
 | Vercel integration store | `GET /storage/stores/store_n8l8UgcAdw9fAJJG`: available; `usageQuotaExceeded=false`. | The provider did not report an exceeded quota at inspection time. This does not establish remaining allowance. |
-| Redis placement | Store metadata: primary `iad1`, no read regions. | API and Redis primary are in different regions. No round-trip timing was obtained from the API host. |
+| Redis placement | Store metadata: primary `iad1`, no read regions. | API and Redis primary are in different regions. The later source-local timing sample is recorded below. |
 | Redis plan | Store billing plan: Free, 500,000 monthly commands. | A monthly budget, separate from instantaneous throughput limits. |
 | Store options | Eviction, automatic upgrade, and Prod Pack all false. | These features are not enabled on the inspected store. |
 | Redis data limit | Actual admission Redis `INFO`: `max_data_size=268435456`, `total_data_size=603`, three keys. | 256 MiB configured data ceiling; 603 bytes reported at that moment. No keys or values were read. |
@@ -33,10 +33,45 @@ For live-instance access, `render ssh` required interactive mode. A PTY invocati
 
 The existing authenticated Render dashboard subsequently exposed its web shell for one already-running API instance. A Node HTTPS probe used the instance's existing admission URL/token without printing either value. It issued eleven sequential `PING` requests, each with a five-second deadline: one initial connection and ten requests using a keep-alive agent. Only count, failure count and timing aggregates were printed. This supplies the previously missing Singapore-to-Redis sample without adding SSH access, a test instance or a load generator. The configured timeout was read separately as a numeric value. The measurements were completed by 02:14 UTC on 13 September 2026; one short sample cannot establish regional tail latency or throughput.
 
+## Authenticated API sample and command execution — runtime 0.1.2
+
+The controlled export-revocation regression at exact deployed source `2996ebcbb9821cff67e0a6e8cae4722f0abf9e42` supplied the following twelve client-observed request timings. This reuses the completed, erased fixture; no new production request was issued for this analysis. [Lifecycle and cleanup evidence](managed-maintenance.md#runtime-012-rollout-and-regression).
+
+| Operation | HTTP status | Client elapsed time, ms |
+| --- | --- | --- |
+| Credential preflight | 200 | 573.1 |
+| Create survey | 201 | 607.1 |
+| Publish | 200 | 513.1 |
+| Create collection | 201 | 488.8 |
+| Submit response | 200 | 532.6 |
+| Create export | 202 | 481.8 |
+| Export poll, first | 200 | 459.3 |
+| Export poll, second | 200 | 511.8 |
+| First revoke | 204 | 1645.3 |
+| Revoked download | 410 | 493.8 |
+| Identical revoke | 204 | 575.6 |
+| Revoked credential | 401 | 464.0 |
+
+This small mixed-operation sample has minimum **459.3 ms**, median **512.45 ms** and maximum **1645.3 ms**. It is not a p95, throughput or load test. Client wall time includes client-to-Render transport, admission, authentication/database work and applicable Blob operations; it does not isolate Redis script service time or attribute the longest request to a particular dependency.
+
+Current [admission source](../../backend/src/admission.rs) performs one REST `EVAL` after local rate/concurrency admission and before authentication, with HTTP retries disabled. Consequently, source analysis implies twelve wire `EVAL` requests for these twelve requests that reached their handlers; these were not independently captured in a provider billing trace. Identical retries and 401/410 application denials still pass through admission. Export polling adds one `EVAL` per poll. Local admission denial emits none; shared saturation emits one.
+
+The exact source Lua script was separately executed against isolated Redis 7; all three branches passed their execution-count assertions:
+
+| Lua branch | Wire command | Nested commands executed |
+| --- | --- | --- |
+| New window, allowed | `EVAL` × 1 | `GET` + `SET`: 2 |
+| Existing window, allowed | `EVAL` × 1 | `GET` + `PTTL` + `INCR`: 3 |
+| Shared saturation, denied | `EVAL` × 1 | `GET` + `PTTL`: 2 |
+
+For the twelve admitted fixture requests, this means **24–36 nested Lua command executions**, or **36–48 total executions including the twelve `EVAL`s**. Those are execution counts, **not provider-billed units**. The fixture's direct SQL setup/journal/erasure, asynchronous export generation and exact-key Blob cleanup introduce no application Redis calls. Other traffic can still use the shared service.
+
+The billable multiplier remains unknown. The rounded `12k / 500k` console reading and Redis `INFO` processing counter cannot establish a precise workflow billing delta. Upstash also documents console-generated `SCAN`, `GET`, `TTL` and `EXISTS` traffic, which must be separated when interpreting a controlled sample. [Official console command-count explanation](https://upstash.com/docs/redis/troubleshooting/command_count_increases_unexpectedly). Current reviewed pricing/REST material does not explicitly resolve how nested Lua commands map to billed units; no numeric response allowance is inferred.
+
 ## Remaining acceptance evidence
 
 1. **Engineering/provider console:** Monthly usage, limit, storage and region have now been observed. Obtain exact billing-period start/end and sufficiently precise command/bandwidth readings for a controlled workflow delta. Provider service-time charts do not include the Singapore network round trip. [Upstash metric definitions](https://upstash.com/docs/redis/howto/metrics-and-charts)
-2. **Engineering:** The bounded source-local `PING` sample and configured timeout comparison are complete. Measure normal authenticated API/admission latency through a controlled synthetic workflow; the `PING` sample does not include the admission script or database/authentication work.
-3. **Engineering:** Record the actual billable-command multiplier from that workflow and provider usage delta before forecasting monthly traffic. Verify exhaustion alerts and the operational response. Review the region/plan only after this evidence; this inspection made no changes.
+2. **Engineering:** The bounded source-local `PING` sample, timeout comparison and twelve-request authenticated API workflow timings are complete. Keep their distinct measurement boundaries; isolated admission service time and representative operational tail latency remain unmeasured.
+3. **Engineering/provider:** Establish documented Lua billing semantics and exact billed-counter readings tied to a billing period, reporting delay and an approved bounded workload, with background/dashboard traffic accounted for. Usage/Top Commands is suitable only if precise, complete and tied to the billed meter. The erased fixture must not be rerun; any future measurement needs a fresh disposable fixture. Then record the billable multiplier before forecasting traffic, verify exhaustion alerts and decide the operational region/plan. This analysis made no provider changes.
 
-Hosted admission capacity remains unverified until these usage and source-local latency checks complete. Health success and local multi-process limiter tests remain useful evidence of different properties.
+Hosted admission capacity remains unverified until billing, exhaustion alerting and an operational capacity decision are supported. The bounded network and API timing evidence above is complete for its stated scope. Health success and local multi-process limiter tests remain useful evidence of different properties.
