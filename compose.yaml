@@ -1,0 +1,66 @@
+# Development only. Generate local credentials with infrastructure/local/compose.sh.
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_PASSWORD: ${LIKERTS_LOCAL_POSTGRES_PASSWORD:?Run infrastructure/local/compose.sh first}
+      LIKERTS_LOCAL_MIGRATOR_PASSWORD: ${LIKERTS_LOCAL_MIGRATOR_PASSWORD:?Missing local credentials}
+      LIKERTS_LOCAL_RUNTIME_PASSWORD: ${LIKERTS_LOCAL_RUNTIME_PASSWORD:?Missing local credentials}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infrastructure/local/init-db.sh:/docker-entrypoint-initdb.d/10-likerts.sh:ro
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -h 127.0.0.1 -U postgres -d likerts"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    # No database port is published.
+  migrate:
+    image: ${LIKERTS_LOCAL_IMAGE:-likerts:local}
+    build: .
+    entrypoint: [/usr/local/bin/likerts-migrate]
+    environment:
+      LIKERTS_MIGRATION_DATABASE_URL: postgres://likerts_migrator:${LIKERTS_LOCAL_MIGRATOR_PASSWORD:?Missing local credentials}@postgres:5432/likerts
+    depends_on:
+      postgres:
+        condition: service_healthy
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+  provision:
+    image: postgres:17-alpine
+    entrypoint: [psql]
+    command: [-h, postgres, -U, likerts_migrator, -d, likerts, -v, ON_ERROR_STOP=1, -v, runtime_role=likerts_runtime, -f, /setup/provision-runtime.sql]
+    environment:
+      PGPASSWORD: ${LIKERTS_LOCAL_MIGRATOR_PASSWORD:?Missing local credentials}
+    volumes:
+      - ./backend/provision-runtime.sql:/setup/provision-runtime.sql:ro
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+  api:
+    image: ${LIKERTS_LOCAL_IMAGE:-likerts:local}
+    build: .
+    environment:
+      DATABASE_URL: postgres://likerts_runtime:${LIKERTS_LOCAL_RUNTIME_PASSWORD:?Missing local credentials}@postgres:5432/likerts
+      LIKERTS_ALLOW_DEV_AUTH: '1'
+      LIKERTS_ADMISSION_MODE: disabled
+      LIKERTS_DEV_TOKENS: '{"${LIKERTS_LOCAL_TOKEN:?Missing local credentials}":"local-development"}'
+      LIKERTS_COLLECTION_CREDENTIAL_KEY: ${LIKERTS_LOCAL_COLLECTION_KEY:?Missing local credentials}
+      LIKERTS_WEBHOOK_CREDENTIAL_KEY: ${LIKERTS_LOCAL_WEBHOOK_KEY:?Missing local credentials}
+    ports:
+      - '127.0.0.1:${LIKERTS_LOCAL_PORT:-8080}:8080'
+    volumes:
+      - export-data:/var/lib/likerts/exports
+    depends_on:
+      provision:
+        condition: service_completed_successfully
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+volumes:
+  postgres-data:
+  export-data:

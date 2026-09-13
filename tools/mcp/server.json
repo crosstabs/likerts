@@ -5,9 +5,10 @@
   "description": "Manage open-source in-product surveys, collections, responses and exports with scoped access.",
   "repository": {
     "url": "https://github.com/crosstabs/likerts",
-    "source": "github"
+    "source": "github",
+    "subfolder": "tools/mcp"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "websiteUrl": "https://likerts.com/docs#agents",
   "remotes": [
     {
@@ -24,6 +25,37 @@
           "name": "Authorization",
           "description": "Bearer followed by your workspace's scoped service credential.",
           "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@likerts/mcp",
+      "version": "0.1.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "LIKERTS_API_URL",
+          "description": "Your Likerts API origin. Requires HTTPS outside exact loopback development hosts.",
+          "default": "https://likerts-api.onrender.com",
+          "isRequired": true
+        },
+        {
+          "name": "LIKERTS_TOKEN",
+          "description": "Workspace-bound service credential with only the scopes needed by this agent.",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "LIKERTS_COLLECTION_TOKEN",
+          "description": "Optional collection credential for collection configuration and response submission only.",
           "isSecret": true
         }
       ]

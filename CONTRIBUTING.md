@@ -2,7 +2,7 @@
 
 Help make it easier to put feedback inside a product. Useful contributions include a reproducible bug report, a clearer installation step, a working framework example, a keyboard-accessibility fix or a focused SDK improvement. You do not need to install every mobile toolchain to contribute.
 
-Start with the [browser demo](https://likerts.com/demo), or follow the [local first-response walkthrough](README.md#run-locally). The browser demo keeps answers in page memory; the local walkthrough exercises the API and verifies a stored response.
+Start with the [browser demo](https://likerts.com/demo), or follow the [local first-response walkthrough](README.md#run-the-api-locally). The browser demo keeps answers in page memory; the local walkthrough exercises the API and verifies a stored response.
 
 ## Pick a change
 

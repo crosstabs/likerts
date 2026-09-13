@@ -46,7 +46,18 @@ npm install @likerts/react-native
 npm install --global @likerts/mcp
 ```
 
-These are client packages; connect them to your Likerts API using the [SDK guides](sdks/) or [MCP setup](tools/README.md#mcp-for-local-agent-clients). See the [installation guide](docs/releases.md#install-from-npm) for versions, compatibility and native SDK source.
+These are client packages; connect them to your Likerts API using the [SDK guides](sdks/) or [MCP setup](tools/README.md#mcp-for-local-agent-clients). The [Next.js App Router example](examples/nextjs-feedback/README.md) demonstrates explicit mounting, navigation cleanup and safe retry of an ambiguous submission. See the [installation guide](docs/releases.md#install-from-npm) for versions, compatibility and native SDK source.
+
+## Run with durable local storage
+
+With Docker Compose and OpenSSL installed:
+
+```bash
+bash infrastructure/local/compose.sh up --build --detach --wait
+curl --fail http://127.0.0.1:8080/health
+```
+
+The [local guide](infrastructure/local/README.md) takes you through your first stored response, stop/restart and explicit reset. For an automated clean-consumer rehearsal using the published CLI and Web SDK, run `node scripts/check-newcomer.mjs`; see [prerequisites and verification boundaries](docs/verification/newcomer.md). The API binds only to loopback and PostgreSQL data survives container recreation. This setup uses development authentication; follow the [self-host operations guide](docs/SELF-HOSTING.md) before any public deployment.
 
 ## Run the API locally
 
@@ -112,4 +123,4 @@ Likerts is available under the [MIT License](LICENSE).
 
 Start with the [contribution guide](CONTRIBUTING.md) and [community roadmap](docs/community/ROADMAP.md). Pick a [good first issue](https://github.com/crosstabs/likerts/issues?q=is%3Aissue%20is%3Aopen%20label%3A%22good%20first%20issue%22), explore [help wanted tasks](https://github.com/crosstabs/likerts/issues?q=is%3Aissue%20is%3Aopen%20label%3A%22help%20wanted%22), or describe your integration in [Discussions](https://github.com/crosstabs/likerts/discussions).
 
-Bug reports, documentation fixes and reproducible integration examples are useful contributions. Each area has focused checks so you can contribute without installing every mobile toolchain. See our [code of conduct](CODE_OF_CONDUCT.md) and [maintainer process](docs/community/MAINTAINERS.md).
+Bug reports, documentation fixes and reproducible integration examples are useful contributions. Each area has focused checks so you can contribute without installing every mobile toolchain. See our [code of conduct](CODE_OF_CONDUCT.md) and [maintainer process](docs/community/MAINTAINERS.md). For setup problems, see [support and troubleshooting](docs/community/SUPPORT.md).

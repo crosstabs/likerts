@@ -1,5 +1,7 @@
 # Build status
 
+Current public-launch tasks, evidence and hosted-service gates are tracked in [PUBLIC-LAUNCH.md](PUBLIC-LAUNCH.md). The implementation inventory below is not a hosted readiness guarantee.
+
 Likerts is publicly released as a free, MIT-licensed, self-hosted survey collection platform. No customers used the earlier preview billing model, so response credits, payment routes, checkout UI, and commercial quotas were removed before release.
 
 ## Implemented

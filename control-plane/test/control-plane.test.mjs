@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 import { promisify } from "node:util";
 import { containsSecretField, healthDocument } from "../api/health.js";
@@ -53,6 +53,12 @@ test("build emits an exact-origin CSP without wildcard connectivity", async () =
   assert.equal(config.outputDirectory, "dist");
 
   await access(new URL("../dist/docs/index.html", import.meta.url));
+  // Restoring the installation page must not re-publish frozen pre-community archives.
+  assert.deepEqual(await readdir(new URL("../dist/downloads/", import.meta.url)), ["index.html"]);
+  const downloads = await readFile(new URL("../dist/downloads/index.html", import.meta.url), "utf8");
+  assert.match(downloads, /https:\/\/www\.npmjs\.com\/package\/@likerts\/web/);
+  assert.doesNotMatch(downloads, /href="\/downloads\/[^"]+\.(tgz|tar\.gz)"/);
+  await access(new URL("../dist/preview/index.html", import.meta.url));
 });
 
 test("build rejects API URLs that are not an exact trusted origin", async () => {

@@ -25,6 +25,17 @@ Preserve the product: free MIT software, customer-owned placement and distributi
 
 The council performed a readiness review, not an exhaustive security audit. “Not verified” identifies missing evidence; it does not automatically mean the implementation is absent or broken.
 
+## Live deployment inventory
+
+Read-only provider checks on 2026-09-13 identify the current reference services below. A live provider deploy status is deployment evidence, not a completed fresh-user or recovery drill. Source changes after these commits are not presumed deployed there.
+
+| Component | Provider deployment | Source / boundary |
+| --- | --- | --- |
+| API | Render `dep-daijk15g1s2s73fk5630` | `8588b67d26bb564417fc06db65c0093e5e49bf0e`; live, Singapore, two instances |
+| MCP gateway | Render `dep-daijk15g1s2s73fk55vg` | Same `8588b67` source; live, Singapore |
+| Callback worker | Render `dep-daijk13m8hqs73d4pla0` | Same `8588b67` source; live, Singapore |
+| Website | Vercel `dpl_B4od4acDLtdFDyL4r29rC5y8yPWD` | `95dc397` checkout; production alias likerts.com and npm docs checked |
+
 ## Execution rules
 
 - **P0:** required before broad public promotion, or before the explicitly named hosted capability.
@@ -37,11 +48,11 @@ The council performed a readiness review, not an exhaustive security audit. “N
 
 ## Public-launch tasks — tracked goal scope
 
-All tasks below start open. Owners are accountable roles; the coordinating agent carries work forward and records any external dependency.
+Owners are accountable roles; the coordinating agent records acceptance evidence and external dependencies. Implementation progress below does not close deployed or CI acceptance gates early.
 
 | Status / ID | Priority / owner | Deliverable and acceptance evidence | Depends on |
 | --- | --- | --- | --- |
-| [ ] L01 | P0 · CEO + engineering | Publish this consolidated plan and a dated release inventory. Link exact API/MCP/worker/web deployment identities, source, artifacts and checks; link older launch documents here and distinguish historical completion from current gaps. | — |
+| [x] L01 | P0 · CEO + engineering | Publish this consolidated plan and a dated release inventory. Link exact API/MCP/worker/web deployment identities, source, artifacts and checks; link older launch documents here and distinguish historical completion from current gaps. | — |
 | [ ] L02 | P0 · DevRel + engineering | Reconcile active installation and operations docs. Fix false no-npm claims in `sdks/INSTALLATION.md`, stale downloads content, CONTRIBUTING README anchor, obsolete paid/AWS/CI-budget statements and lifecycle assertions. Verify served routes as well as source; preserve historical archives. | L01 |
 | [ ] L03 | P0 · product + engineering | State hosted-preview scope consistently at `/app`, docs and remote MCP entry points: who operates it, intended use, actual data handling/deletion, known operational limits and support route. Identify missing owner facts explicitly; do not invent retention/backup promises. Keep self-host instructions clear and existing access changes deliberate. | L01, L02 |
 | [ ] L04 | P1 · engineering + DevRel | Deliver a durable loopback-only Docker Compose developer environment using existing [#7](https://github.com/crosstabs/likerts/issues/7): PostgreSQL volume, migrations, restricted runtime role, startup/readiness and documented stop/reset. A response survives API restart; secrets stay out of tracked defaults. Clearly separate local development from production deployment. | L02 |
@@ -101,3 +112,7 @@ For every closed task, append a short evidence entry here: ID, date, source/depl
 ## Evidence log
 
 - 2026-09-13: Three independent council reviews completed (DevRel, engineering, marketing). This task list is their consolidated work order. No new deployment, operational drill, outreach or adoption is claimed by creating the plan.
+
+- 2026-09-13 — L01: Plan published through [PR #17](https://github.com/crosstabs/likerts/pull/17), merged as `41f1502ae5016abb9d2e21943d38fe15b5037e5a`; [required main checks](https://github.com/crosstabs/likerts/actions/runs/34727311857) passed. Live provider inventory above was read directly; prior launch records link here.
+- 2026-09-13 — implementation review: durable Compose persistence and anonymous released-client collection lifecycle passed locally ([rehearsal and sanitized evidence](docs/verification/newcomer.md)). The published Web SDK also passed production-build Next.js browser checks for navigation cleanup, lost-reply retry with one stored response, server retrieval and credential boundaries ([example](examples/nextjs-feedback/README.md)). [Rendered launch-page checks](docs/verification/launch-pages.md) passed locally. Final-source CI and production deployment remain pending.
+- 2026-09-13 — L07 progress: official registry schema and published npm identity validated; installed MCP `0.1.0` completed the scoped PostgreSQL lifecycle, denial and revocation tests. Codex CLI `0.154.0` returned without a verified tool completion; Claude Code `2.1.201` required authentication. These client probes are not recorded as successes. Registry `0.1.1` publication is pending protected merge and exact-source checks.
