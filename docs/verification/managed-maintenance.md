@@ -44,7 +44,7 @@ These `a9f8b95` and `ce31662` observations preceded the further retry/journal ro
 
 ## Runtime 0.1.2 rollout and regression
 
-[PR #22](https://github.com/crosstabs/likerts/pull/22) merged as `2996ebcbb9821cff67e0a6e8cae4722f0abf9e42` after [PR CI](https://github.com/crosstabs/likerts/actions/runs/34736866461) passed. The [exact-main workflow](https://github.com/crosstabs/likerts/actions/runs/34737342053) was queued at this evidence cutoff; its completion is not claimed. Provider readback at 04:24 UTC on 2026-09-13 confirmed Render API, MCP gateway and callback worker LIVE at this exact source. The API/callback backend runtime is `0.1.2`; the MCP package remains `0.1.0`. API/MCP health returned 200. Callback delivery and process-loss recovery were not exercised by that readback.
+[PR #22](https://github.com/crosstabs/likerts/pull/22) merged as `2996ebcbb9821cff67e0a6e8cae4722f0abf9e42` after [PR CI](https://github.com/crosstabs/likerts/actions/runs/34736866461) passed. The [exact-main workflow](https://github.com/crosstabs/likerts/actions/runs/34737342053) subsequently passed at `2996ebc`; the earlier queued observation is superseded by that completed check. Provider readback at 04:24 UTC on 2026-09-13 confirmed Render API, MCP gateway and callback worker LIVE at this exact source. The API/callback backend runtime is `0.1.2`; the MCP package remains `0.1.0`. API/MCP health returned 200. Callback delivery and process-loss recovery were not exercised by that readback.
 
 | Component | Exact verified deployment | Source |
 | --- | --- | --- |
@@ -68,3 +68,23 @@ At **04:40 UTC**, the first subsequent drain round completed four managed invoca
 The operator's private runtime-deployment, explicit-revocation orchestration, first/second database readback, object-absence, allowlisted reconciliation and source-specific managed-result records support these aggregates. This documentation update performed no new provider operation. Fixture identifiers, credentials, object keys and raw records remain private.
 
 The remaining hosted gates are unchanged: fresh human/second-tenant onboarding, full archive continuity and fixture coverage, a completed drain, verified provider backup/PITR and quarantine restore/replay, safe reopening, actual recurring scheduling, failure/missed-run/backlog alert delivery with a responding owner, capacity acceptance and managed recovery drills. A paused schedule and successful manual invocation are different evidence. See [PUBLIC-LAUNCH.md](../../PUBLIC-LAUNCH.md).
+
+
+## Due-work completion and interrupted archive drain
+
+The evidence above was published through [PR #23](https://github.com/crosstabs/likerts/pull/23), merged as `7d87f9f799ccd6c4acaf636a431b5d7ba23f3ee6` after [PR CI](https://github.com/crosstabs/likerts/actions/runs/34738694898) passed. [Exact-main CI](https://github.com/crosstabs/likerts/actions/runs/34739157847) subsequently passed both required jobs at `7d87f9f`. That documentation merge does not change the deployed worker source: the following managed operations still used exact `2996ebc` and the cleanup/archive deployment identities listed above.
+
+At **04:56 UTC**, a read-only restricted-role status check found four retained cleanup tombstones, zero pending objects, zero retrying objects and 30 workspaces due for a retention visit. Two bounded managed cleanup invocations then completed the due-work snapshot:
+
+| Managed invocation | Observed result | Due workspaces afterward |
+| --- | --- | --- |
+| 04:58:08 UTC | HTTP 200 in 4.3 seconds, 20 rounds; `idle: false`, **`budgetExhausted: true`**. | 30 → 10 |
+| 04:58:51 UTC | HTTP 200 in 3.5 seconds, 11 rounds; `idle: true`, `budgetExhausted: false`. | 10 → 0 |
+
+Both invocations reported zero object deletions, zero raw-response erasures and zero export revocations. The final restricted-role readback retained all four tombstones, with zero pending/retrying objects and zero due workspaces. Completing a due retention visit is not evidence that a response was deleted; earlier synthetic deletion/age-isolation proof remains attributed to its original fixture. Cron remained paused. This establishes that the observed due-work snapshot drained within successive bounded invocations, not that future work is scheduled or that all historical provider objects were inventoried.
+
+The archive drain completed **eight rounds with four successful invocations each**, then stopped in round nine at **05:00 UTC** after one invocation returned HTTP 503 `archive_storage`; its three peers returned HTTP 200. This failure remains part of the record. At **05:03 UTC**, an independent retry-state snapshot conserved **5,954 total events = 4,111 covered + 1,843 pending**. It found zero active leases, zero attempted events still pending, zero archived events awaiting checkpoint coverage and no pending checkpoint. All 1,843 pending events were retry-eligible.
+
+One event observed as retried during round nine was archived by the snapshot. Concurrent execution prevents attributing that event uniquely to the failed HTTP invocation; it is not a verified reconstruction of that invocation's partial work or proof of the specific storage failure cause. The next bounded resume used the same four-invocation concurrency. Its first round passed, but its second stopped at 05:09:19 UTC after another HTTP 503 `archive_storage` (41.7 seconds) and three successful 100-event peers. The terminal readback conserved 5,954 total = 4,835 covered + 1,118 pending + one archived event awaiting checkpoint coverage. It found zero active leases, zero attempted pending events, all 1,118 pending retry-eligible and no pending checkpoint marker. The one uncovered archived event remains checkpoint lag despite that absent marker; this is not proof of full checkpoint coverage. The operator was preparing a single-concurrency batch afterward. No completed drain, full independent archive chain verification, fixture replay or recovery completion is claimed here.
+
+H02 remains open for actual scheduling, failure/missed-run alert delivery and acknowledgment. H03 remains open for complete verified archive coverage and provider restore/replay evidence; the interrupted drain and later resume cannot be labeled complete until terminal results are inspected.

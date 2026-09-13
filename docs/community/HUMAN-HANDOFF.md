@@ -21,7 +21,7 @@ The [HN guidelines](https://news.ycombinator.com/newsguidelines.html) prohibit g
 - Product: MIT-licensed embedded survey infrastructure; application-owned placement, no respondent-link distribution or email invitations.
 - Implementations: Rust API/CLI; HTTP and MCP management interfaces; Web, React Native, iOS, Android and Flutter SDKs.
 - Real example: `bash scripts/run-feedback-demo.sh`, Rust stable, Node.js 22+, npm and Bash; local memory storage clears on shutdown.
-- Proof to explore: [recording](https://likerts.com/media/embedded-feedback-demo.webm), [example source](../../examples/embedded-feedback/README.md), [public release](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0).
+- Proof to explore: [recording](https://likerts.com/media/embedded-feedback-demo.webm), [example source](../../examples/embedded-feedback/README.md), [public release](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.2).
 - Online [renderer demo](https://likerts.com/demo): browser sample mode, no response persistence.
 - Software cost: no response fees; operator supplies hosting and capacity.
 - npm: Web/React Native `0.0.3`, MCP `0.1.0`; native SDKs available from source.

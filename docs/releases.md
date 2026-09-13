@@ -1,12 +1,14 @@
 # Community release distribution
 
-[Download community-v0.1.0](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0). All seven assets are public, with checksums and a source manifest. The runtime is also public in GHCR; an anonymous pull was verified against the release digest.
+[Download community-v0.1.2](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.2). All seven archives plus `SHA256SUMS` and `release-manifest.json` are public: nine assets in total. The runtime is also public in GHCR; an anonymous pull was verified against the release digest.
 
 ```sh
-docker pull --platform linux/amd64 ghcr.io/crosstabs/likerts@sha256:351e34416b49102b325a7e14b40f22430490c29978f386b4aaa364c91a4e3057
+docker pull --platform linux/amd64 ghcr.io/crosstabs/likerts@sha256:40042f29d15f7fb18a1d95287b099fd94cf2185df3c637e3304d73764488ae7c
 ```
 
-Community releases use tags such as `community-v0.1.0`. The tag identifies a complete source snapshot and is independent of the embedded component versions: Web and React Native currently identify as `0.0.3`, MCP as `0.1.0`, and the Rust CLI as `0.1.2`. Historical archives under `releases/` remain unchanged and predate the community edition.
+Community releases use tags such as `community-v0.1.2`. The tag identifies a complete source snapshot and is independent of the embedded component versions: Web and React Native currently identify as `0.0.3`, MCP as `0.1.0`, and the Rust CLI as `0.1.2`. The current snapshot is source `2996ebcbb9821cff67e0a6e8cae4722f0abf9e42`; backend runtime `0.1.2` includes export-revocation journaling and bounded archive storage retries. Use this runtime for new installations; updating a CLI or SDK alone does not update an operator's backend. Earlier community tags/assets and historical archives under `releases/` remain unchanged.
+
+Publication was anonymously verified on 2026-09-13 at 05:15:31 UTC: the release is public, all nine asset digests match the reviewed draft, and anonymous GHCR manifest bytes match the digest above. Fresh downloaded CLI/runtime checks passed scoped collection, identical retry, one-response readback and revocation. The provider still reports `immutable: false`; protected tags and preserved assets are not a claim of provider-enforced release locking. [Release workflow](https://github.com/crosstabs/likerts/actions/runs/34739207955), [launch evidence](../PUBLIC-LAUNCH.md).
 
 The release workflow builds candidates first. Only after every candidate succeeds does its publisher push the tested runtime image to GHCR and create a **draft** GitHub release. It does not promote that draft to a public release, publish npm packages, or deploy the hosted service. The GHCR push itself happens before the draft is reviewed; GitHub package visibility is managed separately.
 
@@ -14,13 +16,13 @@ The release workflow builds candidates first. Only after every candidate succeed
 
 | Asset | Use |
 | --- | --- |
-| `community-v0.1.0-cli-linux-x64.tar.gz` | Native Linux amd64 CLI; glibc 2.35 or newer. |
-| `community-v0.1.0-cli-darwin-arm64.tar.gz` | Native Apple Silicon macOS CLI. |
-| `community-v0.1.0-cli-windows-x64.tar.gz` | Native Windows amd64 CLI, including `likerts.exe`. |
-| `community-v0.1.0-web.tgz` | Installable Web npm package with compiled JavaScript and declarations. |
-| `community-v0.1.0-react-native.tgz` | Installable React Native npm package with Metro source and declarations. |
-| `community-v0.1.0-mcp.tgz` | Installable MCP npm package with its bundled operation registry and API schemas. |
-| `community-v0.1.0-runtime-linux-x64.tar.gz` | Compressed `docker save` archive of the tested Linux amd64 runtime. |
+| `community-v0.1.2-cli-linux-x64.tar.gz` | Native Linux amd64 CLI; glibc 2.35 or newer. |
+| `community-v0.1.2-cli-darwin-arm64.tar.gz` | Native Apple Silicon macOS CLI. |
+| `community-v0.1.2-cli-windows-x64.tar.gz` | Native Windows amd64 CLI, including `likerts.exe`. |
+| `community-v0.1.2-web.tgz` | Installable Web npm package with compiled JavaScript and declarations. |
+| `community-v0.1.2-react-native.tgz` | Installable React Native npm package with Metro source and declarations. |
+| `community-v0.1.2-mcp.tgz` | Installable MCP npm package with its bundled operation registry and API schemas. |
+| `community-v0.1.2-runtime-linux-x64.tar.gz` | Compressed `docker save` archive of the tested Linux amd64 runtime. |
 | `SHA256SUMS`, `release-manifest.json` | Asset checksums, source SHA, embedded package versions, and verification boundaries. |
 | GitHub source ZIP and tar.gz | GitHub-generated source snapshot for the tag, including iOS, Android, and Flutter SDK sources. |
 
@@ -32,9 +34,9 @@ Download the appropriate assets and `SHA256SUMS` from the same release. On Linux
 
 Extract the CLI archive and put `likerts` or `likerts.exe` on `PATH`, then run `likerts --version` and `likerts capabilities`. The binaries are unsigned and not notarized. Follow [the management guide](../tools/README.md) to supply an API origin and scoped credentials.
 
-From a compatible application directory, install the downloaded package using `npm install /absolute/path/to/community-v0.1.0-web.tgz` or the React Native tarball. The package names remain `@likerts/web` and `@likerts/react-native`. Install the MCP tarball in a dedicated Node project and use the package's stdio entry point as documented in [the MCP guide](../tools/README.md). No package-registry login is needed to install a local tarball.
+From a compatible application directory, install the downloaded package using `npm install /absolute/path/to/community-v0.1.2-web.tgz` or the React Native tarball. The package names remain `@likerts/web` and `@likerts/react-native`. Install the MCP tarball in a dedicated Node project and use the package's stdio entry point as documented in [the MCP guide](../tools/README.md). No package-registry login is needed to install a local tarball.
 
-Use the digest recorded in release notes for the runtime image, or load the downloaded image with `gzip -dc community-v0.1.0-runtime-linux-x64.tar.gz | docker load`. The image contains the server, migrator, and webhook worker. Production operation still requires PostgreSQL, role provisioning, secrets, admission controls, and the other settings in [the repository setup guide](../README.md). Loading an image alone does not provision a deployment.
+Use the digest recorded in release notes for the runtime image, or load the downloaded image with `gzip -dc community-v0.1.2-runtime-linux-x64.tar.gz | docker load`. The backend runtime is `0.1.2` and contains all five binaries: `likerts-server`, `likerts-migrate`, `likerts-webhook-worker`, `likerts-export-cleanup` and `likerts-erasure-archive`. Including maintenance binaries does not configure or start their schedules. Production operation still requires PostgreSQL, role provisioning, secrets, admission controls, and the other settings in [the repository setup guide](../README.md). Loading an image alone does not provision a deployment.
 
 ## Maintainer flow
 
@@ -73,10 +75,10 @@ Each package rebuilds before packing and fixes its publishing destination to `ht
 node --test scripts/package-community-release.test.mjs
 source scripts/dev-env.sh
 cargo build --locked --release --manifest-path tools/cli/Cargo.toml
-node scripts/package-community-release.mjs --kind cli --tag community-v0.1.0 --target darwin-arm64 --binary tools/cli/target/release/likerts
+node scripts/package-community-release.mjs --kind cli --tag community-v0.1.2 --target darwin-arm64 --binary tools/cli/target/release/likerts
 npm ci --prefix sdks/web
 npm run build --prefix sdks/web
-node scripts/package-community-release.mjs --kind npm --tag community-v0.1.0 --package sdks/web
+node scripts/package-community-release.mjs --kind npm --tag community-v0.1.2 --package sdks/web
 ```
 
 Use the target matching your native operating system and CPU; the script refuses cross-target claims. Pass `--output /absolute/temporary/directory` to select a fresh location. Existing asset paths are never overwritten. The packager verifies CLI version and exact capability parity before and after extraction, checks archive paths and MIT license bytes, scans text for recognizable credential patterns, and installs npm tarballs in fresh consumers. MCP additionally performs installed stdio tool discovery. React Native packaging checks its installed entry points; renderer behavior is checked separately in the native component suite. Credential-pattern scanning is a bounded check, not proof that arbitrary secrets cannot exist.

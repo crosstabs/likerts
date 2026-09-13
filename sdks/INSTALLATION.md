@@ -1,6 +1,6 @@
 # SDK installation
 
-The free, MIT-licensed SDKs support schema versions 1–5 and return accepted-response receipts without billing fields. Web and React Native are published on npm as version `0.0.3`. Native iOS, Android and Flutter installation currently uses the source checkout; Maven Central, pub.dev and remote Swift package distribution are not claimed. See [published versions](../docs/releases.md#install-from-npm).
+The free, MIT-licensed SDKs support schema versions 1–5 and return accepted-response receipts without billing fields. Web and React Native are published on npm as version `0.0.3`. iOS is available through the public Swift Git package tag `0.1.0`, with a local package option. Android and Flutter currently use source installation; Maven Central and pub.dev publication remain pending. See [published versions](../docs/releases.md#install-from-npm).
 
 Clone the source if you need a native SDK or want to build locally:
 
@@ -17,7 +17,7 @@ The frozen archives under `releases/` are historical snapshots from before the f
 | --- | --- | --- |
 | Web | `npm install @likerts/web@0.0.3` (Node.js 22+). | [Web](web/README.md) |
 | React Native | `npm install @likerts/react-native@0.0.3` (React `^19.2.3`, React Native `>=0.85 <0.88`). | [React Native](react-native/README.md) |
-| iOS | Add `sdks/ios` as a local Swift package in Xcode or SwiftPM and link its `Likerts` product. | [iOS](ios/README.md) |
+| iOS | Add `https://github.com/crosstabs/likerts.git` at exact Swift package version `0.1.0` and link `Likerts`; local `sdks/ios` is also supported. | [iOS](ios/README.md) |
 | Android | Publish `sdks/android` to its local Maven repository, add that repository to your host, and depend on `com.likerts:likerts-android:0.0.3`. | [Android](android/README.md) |
 | Flutter | Add `sdks/flutter` as a path dependency in your host's `pubspec.yaml`. | [Flutter](flutter/README.md) |
 
