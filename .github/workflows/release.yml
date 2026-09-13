@@ -179,7 +179,7 @@ jobs:
         run: |
           docker build --label "org.opencontainers.image.source=https://github.com/$GITHUB_REPOSITORY" --label "org.opencontainers.image.revision=$RELEASE_COMMIT" --label "org.opencontainers.image.version=$RELEASE_TAG" --label "org.opencontainers.image.licenses=MIT" --tag "likerts-community:$RELEASE_COMMIT" .
           test "$(docker image inspect --format '{{.Config.User}}' "likerts-community:$RELEASE_COMMIT")" = '10001:10001'
-          docker run --rm --entrypoint /bin/sh "likerts-community:$RELEASE_COMMIT" -c 'test -x /usr/local/bin/likerts-server && test -x /usr/local/bin/likerts-migrate && test -x /usr/local/bin/likerts-webhook-worker'
+          docker run --rm --entrypoint /bin/sh "likerts-community:$RELEASE_COMMIT" -c 'test -x /usr/local/bin/likerts-server && test -x /usr/local/bin/likerts-migrate && test -x /usr/local/bin/likerts-webhook-worker && test -x /usr/local/bin/likerts-export-cleanup && test -x /usr/local/bin/likerts-erasure-archive'
           name="likerts-community-$GITHUB_RUN_ID"
           trap 'docker logs "$name"; docker rm -f "$name" >/dev/null' EXIT
           docker run --detach --name "$name" --publish 127.0.0.1:8080:8080 --env LIKERTS_ALLOW_MEMORY=1 --env LIKERTS_ADMISSION_MODE=disabled --env 'LIKERTS_DEV_TOKENS={"community-smoke-token":"demo"}' "likerts-community:$RELEASE_COMMIT"

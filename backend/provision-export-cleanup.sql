@@ -19,7 +19,8 @@ revoke all on all tables in schema likerts from likerts_export_cleanup;
 revoke all on all sequences in schema likerts from likerts_export_cleanup;
 revoke all on all functions in schema likerts from likerts_export_cleanup;
 revoke create on schema likerts from likerts_export_cleanup;
--- Table REVOKE does not remove separately granted column privileges.
+-- Explicitly restate the column boundary after the table-level revocation.
+-- PostgreSQL also revokes corresponding column grants with table privileges.
 do $$ declare relation record; columns text; begin
   for relation in select c.oid,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
     where n.nspname='likerts' and c.relkind in ('r','p','v','m','f') loop
