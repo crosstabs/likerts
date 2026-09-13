@@ -34,6 +34,8 @@ jobs:
       - name: Community archive integrity and standalone MCP installation
         run: |
           node --test scripts/package-community-release.test.mjs
+          node --test scripts/bounded-client-command.test.mjs scripts/check-markdown-links.test.mjs
+          node scripts/check-markdown-links.mjs
           node scripts/check-mcp-package.mjs
       - name: Render Blueprint and fail-closed entrypoint checks
         run: bash scripts/check-render-iac.sh
@@ -43,6 +45,10 @@ jobs:
         run: bash scripts/check-render-roles.sh
       - name: Real PostgreSQL with restricted runtime role
         run: bash scripts/check-postgres.sh
+      - name: Restricted erasure archiver executable
+        run: |
+          cargo build --manifest-path backend/Cargo.toml --locked --bin likerts-erasure-archive --bin likerts-migrate
+          node infrastructure/erasure-archive/check-local.mjs
       - name: Durable export lease recovery
         run: bash scripts/check-export-leases.sh
       - name: Durable response webhooks, restricted worker and interface parity
@@ -85,6 +91,20 @@ jobs:
           npm run build --prefix examples/nextjs-feedback
           node examples/nextjs-feedback/node_modules/playwright/cli.js install --with-deps chromium
           npm run check --prefix examples/nextjs-feedback
+
+      - name: Published Web SDK in Vue and Svelte hosts
+        run: |
+          for framework in vue svelte; do
+            npm ci --prefix "examples/$framework-feedback"
+            npm run build --prefix "examples/$framework-feedback"
+            node "examples/$framework-feedback/node_modules/playwright/cli.js" install --with-deps chromium
+            npm run check --prefix "examples/$framework-feedback"
+          done
+      - name: Chromium Firefox and WebKit keyboard and RTL matrix
+        run: |
+          npm ci --prefix sdks/web
+          node sdks/web/node_modules/playwright/cli.js install --with-deps chromium firefox webkit
+          bash scripts/check-web-browsers.sh
 
 # No registry push, cloud deployment or credentials are configured here.
 # Mobile device, platform and all-SDK gates remain part of release rehearsal.

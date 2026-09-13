@@ -12,7 +12,7 @@ dependencies:
     path: /absolute/path/to/likerts/sdks/flutter
 ```
 
-Run `flutter pub get` using Dart 3.8+ / Flutter 3.32+. The package needs `http` 1.6+ for abortable requests and remains `publish_to: none`; no pub.dev release has been published. Import the client from `package:likerts/likerts.dart` and renderer from `package:likerts/survey.dart`.
+Run `flutter pub get` using Dart 3.8+ / Flutter 3.32+. The package needs `http` 1.6+ for abortable requests and has publication metadata prepared for pub.dev; no pub.dev release has been published. Import the client from `package:likerts/likerts.dart` and renderer from `package:likerts/survey.dart`.
 
 `installation-example/checkout_feedback.dart` shows a host-owned feedback button, eligibility and dismissal. The host loads the collection, holds the same immutable submission/key across ambiguous failures and cancels pending work when dismissed. The checkout contains package sources, the trigger example, full Android/iOS app examples, and simulator gates.
 

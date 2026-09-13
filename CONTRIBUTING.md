@@ -15,7 +15,7 @@ Security reports belong in the [private reporting path](SECURITY.md). Please fol
 
 ## Work locally
 
-Fork the repository, clone your fork and create a descriptive branch. Commands below run from the repository root. Node.js work needs Node 22+ and npm; Rust work needs stable Rust. `source scripts/dev-env.sh` makes an existing local toolchain available without installing one.
+Fork the repository, clone your fork and create a descriptive branch. Commands below run from the repository root. Node.js work needs Node 22.12+ and npm; Rust work needs stable Rust. `source scripts/dev-env.sh` makes an existing local toolchain available without installing one.
 
 Choose checks for the area you changed:
 
@@ -30,11 +30,13 @@ Choose checks for the area you changed:
 | iOS SDK | `swift test --package-path sdks/ios`; see [iOS setup](sdks/ios/README.md) for simulator/UI work |
 | Android SDK | With the [Android prerequisites](sdks/android/README.md), `gradle --no-daemon -p sdks/android testDebugUnitTest` |
 | Flutter SDK | With Flutter installed, run `flutter pub get`, `flutter analyze`, `flutter test` from `sdks/flutter` |
+| Vue/Svelte hosts | `npm ci`, `npm run build` and `npm run check` with `--prefix examples/vue-feedback` or `--prefix examples/svelte-feedback`; each README documents Chromium prerequisites |
+| Markdown links and client harness | `node scripts/check-markdown-links.mjs` and `node --test scripts/check-markdown-links.test.mjs scripts/bounded-client-command.test.mjs` |
 | Contracts/examples | `node contracts/check.mjs` and `node contracts/generate-examples.mjs --check` |
 
 Public-reference checks need a built Web SDK. If they report missing or stale SDK output, run `npm ci --prefix sdks/web` and `npm run build --prefix sdks/web`. When deliberately changing the API reference or SDK snapshot, run `node control-plane/scripts/sync-public-reference.mjs` and include the corresponding source change.
 
-For a PostgreSQL storage or isolation change, also run `bash scripts/check-postgres.sh` with Docker available. Web renderer changes should run `bash scripts/check-web-browser.sh` for real browser submission. Interface changes should run `bash scripts/check.sh`, which covers API/MCP/CLI parity. A change spanning all SDKs requires the matching [SDK matrix checks](sdks/README.md); maintainers can help with platforms you cannot run locally.
+For a PostgreSQL storage or isolation change, also run `bash scripts/check-postgres.sh` with Docker available. Web renderer changes should run `bash scripts/check-web-browsers.sh` for Chromium, Firefox and WebKit keyboard/RTL submission after installing those engines with `node sdks/web/node_modules/playwright/cli.js install --with-deps chromium firefox webkit`. Interface changes should run `bash scripts/check.sh`, which covers API/MCP/CLI parity. A change spanning all SDKs requires the matching [SDK matrix checks](sdks/README.md); maintainers can help with platforms you cannot run locally.
 
 A prose-only change needs a careful read and working links, not the full build matrix. Mention checks you could not run and why. CI and maintainer review provide broader coverage before merge.
 

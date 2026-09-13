@@ -12,6 +12,8 @@ RUN cargo build --locked --release --bins \
     && install --mode=0755 target/release/likerts-server /out/likerts-server \
     && install --mode=0755 target/release/likerts-migrate /out/likerts-migrate \
     && install --mode=0755 target/release/likerts-webhook-worker /out/likerts-webhook-worker \
+    && install --mode=0755 target/release/likerts-export-cleanup /out/likerts-export-cleanup \
+    && install --mode=0755 target/release/likerts-erasure-archive /out/likerts-erasure-archive \
     && rm -rf target
 
 FROM ${RUNTIME_IMAGE} AS runtime
@@ -23,6 +25,8 @@ RUN apt-get update && apt-get install --yes --no-install-recommends ca-certifica
 COPY --from=builder /out/likerts-server /usr/local/bin/likerts-server
 COPY --from=builder /out/likerts-migrate /usr/local/bin/likerts-migrate
 COPY --from=builder /out/likerts-webhook-worker /usr/local/bin/likerts-webhook-worker
+COPY --from=builder /out/likerts-export-cleanup /usr/local/bin/likerts-export-cleanup
+COPY --from=builder /out/likerts-erasure-archive /usr/local/bin/likerts-erasure-archive
 USER 10001:10001
 ENV LIKERTS_BIND_ADDRESS=0.0.0.0 \
     LIKERTS_PORT=8080 \
