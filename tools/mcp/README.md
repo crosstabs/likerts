@@ -36,7 +36,7 @@ The optional hosted endpoint is `https://likerts-mcp.onrender.com/mcp/{workspace
 
 ## Registry metadata and release verification
 
-`server.json` prepares registry listing `0.1.1`, adding the published npm package `@likerts/mcp@0.1.0` alongside the remote endpoint. The listing version and npm package version are independent. The existing registry `0.1.0` record and npm tarball stay immutable; the new listing is not live until its publication workflow succeeds.
+`server.json` matches published registry listing [`0.1.1`](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.crosstabs%2Flikerts/versions/0.1.1), adding npm package `@likerts/mcp@0.1.0` alongside the remote endpoint. The [publication workflow](https://github.com/crosstabs/likerts/actions/runs/34728964011) passed on 13 September 2026 at source `fe7588fabf2ee596a963ed943764021084f7d49e`; independent readback matched both npm and remote metadata. Listing and npm package versions are independent. Registry `0.1.0` and the npm tarball remain immutable.
 
 From a source checkout with Docker, Rust stable and Node 22+, run:
 
@@ -53,7 +53,7 @@ Maintainers publish metadata from an exact `main` commit only after both require
 ```sh
 gh workflow run publish-mcp.yml --ref main \
   -f source_sha=FULL_TESTED_MAIN_COMMIT \
-  -f registry_version=0.1.1
+  -f registry_version=NEW_UNPUBLISHED_REGISTRY_VERSION
 ```
 
 The workflow requires that SHA to match its dispatch commit, rejects an existing registry version, repeats schema/npm/lifecycle checks, checks remote health/authentication denial, publishes through GitHub OIDC, and verifies the resulting record. It does not publish npm or rebuild the historical community release. If publication succeeds but final verification fails, inspect that exact registry version before retrying; existing records are never overwritten.

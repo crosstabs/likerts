@@ -19,7 +19,7 @@ There are nine wire question types: single choice, multiple choice, scale, text,
 | npm packages | [@likerts/web `0.0.3`](https://www.npmjs.com/package/@likerts/web), [@likerts/react-native `0.0.3`](https://www.npmjs.com/package/@likerts/react-native), [@likerts/mcp `0.1.0`](https://www.npmjs.com/package/@likerts/mcp) |
 | iOS / Android / Flutter | Source SDKs in the repository; see [installation](../releases.md). No public Maven Central/pub.dev listing or consumer app is implied. |
 | Container | `ghcr.io/crosstabs/likerts:community-v0.1.0`; see [digest and checksums](../releases.md) |
-| MCP registry | [io.github.crosstabs/likerts](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.crosstabs%2Flikerts/versions/latest), registered version `0.1.0`; registry listing is not a guarantee of client compatibility or hosting availability |
+| MCP registry | [io.github.crosstabs/likerts](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.crosstabs%2Flikerts/versions/latest), registered version `0.1.1` with npm stdio and remote HTTP; npm package remains `0.1.0`. A registry listing is not a guarantee of client compatibility or hosting availability |
 | Help | [Community support](SUPPORT.md), [private security reporting](../../SECURITY.md) |
 
 The real walkthrough runs with Rust stable, Node.js 22+, npm and Bash:
@@ -74,7 +74,7 @@ Feedback on the Rust setup path, CLI ergonomics and reproductions of integration
 
 | Channel | Status | URL / time / accountable maintainer |
 | --- | --- | --- |
-| GitHub community announcement | Published | [Discussion #14](https://github.com/crosstabs/likerts/discussions/14); existing release announcement |
+| GitHub community announcement | Published | [Discussion #14](https://github.com/crosstabs/likerts/discussions/14); updated 2026-09-13 with current quickstarts, registry, evidence and preview limits |
 | Hacker News | Pending human authorship and account | — |
 | Rust users | Draft only | — |
 | DEV | Human article candidate only | — |

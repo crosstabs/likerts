@@ -4,12 +4,12 @@ The API, Rust CLI and MCP adapter share the operation registry in `capabilities.
 
 ## Connect your workspace
 
-1. Run Likerts locally or sign in at [likerts.com/app](https://likerts.com/app) using passwordless email verification. The optional hosted workspace shows its ID and accepted-response count.
+1. Run Likerts locally, or review the [hosted reference preview](https://likerts.com/preview) scope before signing in at [likerts.com/app](https://likerts.com/app) using passwordless email verification. Use synthetic, non-sensitive evaluation data in the preview. The workspace shows its ID and accepted-response count.
 2. Under **Connect Codex, Claude, or the CLI**, name a credential and select the capabilities it needs. Access management (`identity:write`) remains a separate, opt-in scope.
 3. Select **Create 90-day credential** and copy the token immediately into your secret manager. It is returned only at creation; the credential list cannot retrieve it again. If the token is lost, revoke that credential and create another.
 4. Supply it to your client as `LIKERTS_TOKEN`. Keep management tokens out of application bundles, source control, chat messages and model tool arguments. Each credential belongs to one workspace and authorizes only its selected scopes.
 
-The production API origin is `https://likerts-api.onrender.com`; remote MCP is `https://likerts-mcp.onrender.com/mcp/{workspaceId}`. Copy the exact workspace ID from the control plane. A service credential selects its own workspace for direct API/CLI calls; the MCP path must match that workspace.
+The hosted reference preview API origin is `https://likerts-api.onrender.com`; remote MCP is `https://likerts-mcp.onrender.com/mcp/{workspaceId}`. Copy the exact workspace ID from the control plane. A service credential selects its own workspace for direct API/CLI calls; the MCP path must match that workspace.
 
 **Revoke** beside a credential in the control plane disables subsequent API operations, including operations forwarded by MCP. To rotate, create a replacement, update your client and revoke the old credential. Service credentials expire and do not refresh automatically. `likerts auth logout` manages separately stored OAuth credentials; it does not revoke a service token supplied through the environment. Remove the environment value when finished, and revoke it in Likerts when access should end.
 
