@@ -51,4 +51,5 @@ docker exec -i "$CONTAINER_NAME" psql --username postgres --set ON_ERROR_STOP=1 
 
 cargo build --manifest-path "$LIKERTS_ROOT/backend/Cargo.toml" --locked --bin likerts-server
 cargo test --manifest-path "$LIKERTS_ROOT/backend/Cargo.toml" --locked --test export_cleanup -- --test-threads=1
+cargo test --manifest-path "$LIKERTS_ROOT/backend/Cargo.toml" --locked --test export_revocation -- --test-threads=1
 cargo test --manifest-path "$LIKERTS_ROOT/backend/Cargo.toml" --locked --test postgres -- --test-threads=1

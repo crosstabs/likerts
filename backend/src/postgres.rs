@@ -1976,6 +1976,15 @@ impl PgStore {
         .map_err(database_error)?
         .ok_or(Error::NotFound)?;
         sqlx::query("update likerts.export_jobs set status='revoked',object_key=null,response_count=null,content_sha256=null,manifest=null,error_code=null where workspace_id=$1 and id=$2").bind(workspace).bind(id).execute(&mut *tx).await.map_err(database_error)?;
+        // The archive trigger must record this revocation in the same
+        // transaction, or roll back the job and cleanup changes when fenced.
+        sqlx::query("insert into likerts.deletion_events(workspace_id,id,kind,resource_id) values ($1,$2,'export',$3) on conflict (workspace_id,kind,resource_id) do nothing")
+            .bind(workspace)
+            .bind(Uuid::new_v4())
+            .bind(id.to_string())
+            .execute(&mut *tx)
+            .await
+            .map_err(database_error)?;
         tx.commit().await.map_err(database_error)?;
         Ok(key)
     }
