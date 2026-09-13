@@ -2,7 +2,7 @@
 
 **Launch target: Render Singapore.** Start with [the Render Blueprint and runbook](render/README.md). AWS/CDK below is retained as an optional alternate target. Platform-specific network, secrets, object storage and recovery checks must be repeated on Render.
 
-The OCI image, isolated database migration job and container integration gate are implemented. These commands are reproducible **local gates**. Render API/MCP/worker, Neon PostgreSQL and Vercel web/private Blob exports are deployed for assisted preview. GitHub Actions is currently blocked before execution by the exhausted organization Actions budget; local results do not substitute for hosted CI. Public paid release remains on hold; see [the current launch queue](../LAUNCH-TASKS.md).
+The OCI image, isolated database migration job and container integration gate are implemented. These commands are reproducible **local gates**. Render API/MCP/worker, Neon PostgreSQL and Vercel web/private Blob exports are deployed for assisted preview. Required hosted CI has since passed, including [PR #16 verification](https://github.com/crosstabs/likerts/actions/runs/34726436497). The free MIT community release and npm packages are public. Operational evidence for unrestricted hosted service remains separate; see [the current public launch plan](../PUBLIC-LAUNCH.md).
 
 ## Build and verify
 
@@ -62,4 +62,4 @@ After a successful migration job and restricted-role provisioning, replace the s
 
 On a migration failure, keep the old service and stop promotion. Never automatically undo migrations or edit applied migration files. If an incompatible migration already committed, stop new acceptance and choose a forward correction or coordinated database restore; a database restore alone can discard newer accepted responses. Before serving restored data, reapply deletion/revocation records and reconcile accounting. Measure recovery time/data loss in the OPS-03 drill.
 
-Pending launch evidence includes executed hosted CI, failed-rollout rehearsal, managed Neon recovery, deployed failure/alert acceptance, sustained capacity/cost and all-platform customer-host acceptance. Existing hosted private Blob/lifecycle evidence is recorded separately from these open gates. AWS/ECR provisioning is not a requirement for the selected Render/Vercel launch.
+Pending hosted-service evidence includes failed-rollout rehearsal, managed Neon recovery, deployed failure/alert acceptance and measured capacity/cost. Current CI and package-install evidence must be kept distinct from those provider-level gates. Existing hosted private Blob/lifecycle evidence is recorded separately from these open gates. AWS/ECR provisioning is not a requirement for the selected Render/Vercel launch.

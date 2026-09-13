@@ -1,5 +1,7 @@
 # Launch drafts
 
+The current channel-specific material is in the [launch kit](LAUNCH-KIT.md); account, authorship and support commitments are tracked in the [human handoff](HUMAN-HANDOFF.md). The generic material below is an internal reference, not a destination-approved post. In particular, do not use it for HN or as an AI-generated promotional article on DEV.
+
 External-community drafts and a founder handoff. A separate [GitHub release announcement](https://github.com/crosstabs/likerts/discussions/14) is published; the external drafts below have not been posted. A maintainer should verify the linked demo and quickstart immediately before publishing, adapt wording to their own voice and follow each community's rules.
 
 ## Hacker News founder handoff

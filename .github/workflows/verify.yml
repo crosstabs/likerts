@@ -64,6 +64,27 @@ jobs:
           node-version: 22.22.2
       - name: Build immutable runtime candidate and exercise deployment boundaries
         run: bash scripts/check-recovery.sh
+      - name: Select pinned Rust for the documented first-response flow
+        run: |
+          rustup toolchain install 1.98.0 --profile minimal
+          rustup default 1.98.0
+      - name: Durable Compose quickstart and restart persistence
+        env:
+          LIKERTS_SKIP_IMAGE_BUILD: '1'
+          LIKERTS_LOCAL_IMAGE: likerts:container-check
+        run: bash scripts/check-local-compose.sh
+      - name: Anonymous released CLI and npm Web browser lifecycle
+        env:
+          LIKERTS_SKIP_IMAGE_BUILD: '1'
+          LIKERTS_LOCAL_IMAGE: likerts:container-check
+        run: node scripts/check-newcomer.mjs
+
+      - name: Published Web SDK in a production Next.js host
+        run: |
+          npm ci --prefix examples/nextjs-feedback
+          npm run build --prefix examples/nextjs-feedback
+          node examples/nextjs-feedback/node_modules/playwright/cli.js install --with-deps chromium
+          npm run check --prefix examples/nextjs-feedback
 
 # No registry push, cloud deployment or credentials are configured here.
 # Mobile device, platform and all-SDK gates remain part of release rehearsal.

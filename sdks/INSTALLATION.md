@@ -1,6 +1,8 @@
 # SDK installation
 
-Use the current source checkout for the free, MIT-licensed community edition. The SDKs support schema versions 1–5 and return accepted-response receipts without billing fields. They are not published to npm, Maven Central, pub.dev, or a Swift package registry.
+The free, MIT-licensed SDKs support schema versions 1–5 and return accepted-response receipts without billing fields. Web and React Native are published on npm as version `0.0.3`. Native iOS, Android and Flutter installation currently uses the source checkout; Maven Central, pub.dev and remote Swift package distribution are not claimed. See [published versions](../docs/releases.md#install-from-npm).
+
+Clone the source if you need a native SDK or want to build locally:
 
 ```sh
 git clone https://github.com/crosstabs/likerts.git
@@ -11,10 +13,10 @@ The frozen archives under `releases/` are historical snapshots from before the f
 
 ## Choose a platform
 
-| Platform | Install from current source | Guide |
+| Platform | Installation | Guide |
 | --- | --- | --- |
-| Web | Build `sdks/web`, run `npm pack` there, and install the resulting tarball in your app. | [Web](web/README.md) |
-| React Native | Build `sdks/react-native`, run `npm pack` there, and install the resulting tarball in your compatible host app. | [React Native](react-native/README.md) |
+| Web | `npm install @likerts/web@0.0.3` (Node.js 22+). | [Web](web/README.md) |
+| React Native | `npm install @likerts/react-native@0.0.3` (React `^19.2.3`, React Native `>=0.85 <0.88`). | [React Native](react-native/README.md) |
 | iOS | Add `sdks/ios` as a local Swift package in Xcode or SwiftPM and link its `Likerts` product. | [iOS](ios/README.md) |
 | Android | Publish `sdks/android` to its local Maven repository, add that repository to your host, and depend on `com.likerts:likerts-android:0.0.3`. | [Android](android/README.md) |
 | Flutter | Add `sdks/flutter` as a path dependency in your host's `pubspec.yaml`. | [Flutter](flutter/README.md) |
@@ -23,7 +25,7 @@ Each platform guide includes exact build/install commands, framework requirement
 
 ## Connect your collection
 
-Start the local API using the [quickstart](https://likerts.com/docs#run), or sign in at [likerts.com/app](https://likerts.com/app) for the optional hosted workspace. For hosted management, copy your workspace ID and create a scoped credential under **Connect Codex, Claude, or the CLI**. Store the token in your secret manager; it is returned only at creation. [The management guide](../tools/README.md) covers direct API/CLI use and remote MCP configuration for Codex and Claude Code.
+Start the local API using the [quickstart](https://likerts.com/docs#run), or sign in at [likerts.com/app](https://likerts.com/app) for the optional [hosted reference preview](https://likerts.com/preview). Use synthetic, non-sensitive data while its operational gates remain open. For hosted management, copy your workspace ID and create a scoped credential under **Connect Codex, Claude, or the CLI**. Store the token in your secret manager; it is returned only at creation. [The management guide](../tools/README.md) covers direct API/CLI use and remote MCP configuration for Codex and Claude Code.
 
 The hosted API origin is `https://likerts-api.onrender.com`; local development uses `http://127.0.0.1:8080`. Create a survey, publish it with the capability records from every installed SDK group, then create a collection. These management operations use the service credential. `collections_create` returns a separate collection credential for the embedded SDK.
 

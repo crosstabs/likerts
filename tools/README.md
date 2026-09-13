@@ -75,6 +75,45 @@ npm install --global @likerts/mcp@0.1.0
 
 Configure your MCP client to launch `likerts-mcp` with `LIKERTS_API_URL` and a scoped `LIKERTS_TOKEN` in its process environment. Keep credentials in your secret manager. The package includes its operation registry and schemas and works without a repository checkout.
 
+### Local Codex setup
+
+Install the pinned npm package above, then add this to `~/.codex/config.toml` (or your project's `.codex/config.toml`), preserving existing server entries:
+
+```toml
+[mcp_servers.likerts]
+command = "likerts-mcp"
+env_vars = ["LIKERTS_API_URL", "LIKERTS_TOKEN"]
+```
+
+Set `LIKERTS_API_URL` to your hosted or self-hosted API origin. Launch Codex from an environment where your secret manager has supplied `LIKERTS_TOKEN`; the configuration forwards the variable without storing its value. Restart the client after changing environment values. If the executable is not on its PATH, use its absolute installed path. [Codex stdio configuration](https://developers.openai.com/codex/mcp/)
+
+### Local Claude Code setup
+
+Add this server to your project's `.mcp.json`, preserving other entries:
+
+```json
+{
+  "mcpServers": {
+    "likerts": {
+      "type": "stdio",
+      "command": "likerts-mcp",
+      "env": {
+        "LIKERTS_API_URL": "${LIKERTS_API_URL}",
+        "LIKERTS_TOKEN": "${LIKERTS_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+Start Claude Code with both variables available, then approve the project server through its normal MCP trust prompt. These `${...}` values are environment references, not tokens to replace in the file. [Claude Code stdio setup and environment expansion](https://code.claude.com/docs/en/mcp#environment-variable-expansion-in-mcp-json)
+
+For either client, ask it to list surveys first using a `surveys:read` credential. A survey authoring workflow additionally needs `surveys:write` and `collections:write`; response inspection needs `responses:read`. Add capabilities only when the workflow requires them. All 33 tools remain discoverable; a missing scope produces a denied call. Do not grant `identity:write` just to create surveys. Tool results can contain customer content and newly issued collection tokens, so choose the client and model access appropriate for that workspace.
+
+If connection fails, check Node 22+, the executable PATH, API origin and process environment. A `401` usually needs a valid, unexpired credential; a `403` requires inspecting workspace/scope authorization. Do not paste a credential into a chat to diagnose it. Local stdio uses the API origin, not the remote `/mcp/{workspaceId}` URL.
+
+### Build from source
+
 To build the adapter from source instead:
 
 ```sh

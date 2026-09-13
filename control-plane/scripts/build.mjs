@@ -7,8 +7,10 @@ await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await cp(new URL("../public/", import.meta.url), output, { recursive: true });
 // Historical preview archives are retained in Git for provenance, but the
-// community edition site distributes the current SDK source from GitHub.
+// community edition site links current public packages and release assets.
 await rm(new URL("../dist/downloads/", import.meta.url), { recursive: true, force: true });
+await mkdir(new URL("../dist/downloads/", import.meta.url), { recursive: true });
+await cp(new URL("../public/downloads/index.html", import.meta.url), new URL("../dist/downloads/index.html", import.meta.url));
 
 const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "";
 if (publishableKey && !/^pk_(test|live)_[A-Za-z0-9_-]{10,}$/.test(publishableKey)) {

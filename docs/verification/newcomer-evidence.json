@@ -1,0 +1,41 @@
+{
+  "measuredAt": "2026-09-13T00:16:31.922Z",
+  "release": "community-v0.1.0",
+  "cliVersion": "likerts 0.1.2",
+  "cliTarget": "darwin-arm64",
+  "cliSha256": "e4b6a32fcd907fdb1768e790e169a84a1066d0b5f23c11c1bc6633211b2f43d6",
+  "webVersion": "0.0.3",
+  "webIntegrity": "sha512-ZP81wEV5O73j+qIuaAuSEc0J8bEGY6w9ht8Np1MXrEpltAaAKnHU/IZFQ4TTgTAVS6jUXkhBXjA5EFhKLOC3Fg==",
+  "playwrightVersion": "1.63.0",
+  "backendCheckout": "6d5618a917e1ae80e7919da04decabeffbcda43f",
+  "backendImageId": "sha256:9eab00c5cb22fb274cb743dea9ca6a4b7905e2ba7bf9973d9642e622fca8a5f9",
+  "backendBuiltDuringRun": true,
+  "serverMode": "durable-local-compose",
+  "durationSeconds": 13,
+  "checks": [
+    {
+      "check": "anonymous-cli-download-and-sha256",
+      "result": "passed"
+    },
+    {
+      "check": "fresh-public-npm-install",
+      "result": "passed"
+    },
+    {
+      "check": "released-cli-create-publish-collection",
+      "result": "passed"
+    },
+    {
+      "check": "browser-mount-submit-sdk-identical-retry-cli-retrieval",
+      "result": "passed"
+    },
+    {
+      "check": "revocation-denies-original-collection-credential",
+      "result": "passed"
+    }
+  ],
+  "limitations": [
+    "Synthetic isolated local data; does not verify hosted sign-in, managed recovery, or production capacity.",
+    "CLI and SDK downloaded anonymously from their public release channels. Backend image identity and whether it was built during this run are recorded separately."
+  ]
+}

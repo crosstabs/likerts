@@ -3,10 +3,13 @@ name: Publish MCP registry listing
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: Published community release tag
+      source_sha:
+        description: Full tested main commit containing the registry metadata
         required: true
-        default: community-v0.1.0
+        type: string
+      registry_version:
+        description: New immutable registry listing version (independent of npm version)
+        required: true
         type: string
 
 permissions:
@@ -20,29 +23,47 @@ jobs:
   publish:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 30
     permissions:
       contents: read
+      actions: read
       id-token: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ${{ inputs.tag }}
+          ref: ${{ inputs.source_sha }}
           fetch-depth: 0
           persist-credentials: false
-      - name: Require a published release on main
+      - name: Require exact tested main source and a new registry version
         env:
-          RELEASE_TAG: ${{ inputs.tag }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          REGISTRY_VERSION: ${{ inputs.registry_version }}
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$RELEASE_TAG" =~ ^community-v[0-9]+\.[0-9]+\.[0-9]+$ ]]
-          test "$(git rev-parse HEAD)" = "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
+          [[ "$SOURCE_SHA" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$REGISTRY_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          test "$SOURCE_SHA" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
           git merge-base --is-ancestor HEAD origin/main
-          gh release view "$RELEASE_TAG" --json isDraft,tagName > "$RUNNER_TEMP/release.json"
-          jq -e --arg tag "$RELEASE_TAG" '.isDraft == false and .tagName == $tag' "$RUNNER_TEMP/release.json"
-          jq -e --arg version "${RELEASE_TAG#community-v}" '.version == $version and .name == "io.github.crosstabs/likerts"' tools/mcp/server.json
+          jq -e --arg version "$REGISTRY_VERSION" '.version == $version and .name == "io.github.crosstabs/likerts"' tools/mcp/server.json
+          gh run list --workflow verify.yml --commit "$SOURCE_SHA" --event push --status success --json databaseId,headSha --limit 20 > "$RUNNER_TEMP/verified-runs.json"
+          run_id=$(jq -er --arg sha "$SOURCE_SHA" '[.[] | select(.headSha == $sha)][0].databaseId' "$RUNNER_TEMP/verified-runs.json")
+          gh run view "$run_id" --json jobs > "$RUNNER_TEMP/verified-jobs.json"
+          jq -e '.jobs as $jobs | all(["interfaces-and-database", "container"][]; . as $required | any($jobs[]; .name == $required and .conclusion == "success"))' "$RUNNER_TEMP/verified-jobs.json"
+          status=$(curl --silent --show-error --max-time 20 --output "$RUNNER_TEMP/existing-listing.json" --write-out '%{http_code}' "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.crosstabs%2Flikerts/versions/$REGISTRY_VERSION")
+          test "$status" = 404
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.22.2
+      - name: Verify schema, published npm identity, and real API lifecycle
+        run: |
+          rustup toolchain install 1.98.0 --profile minimal
+          rustup default 1.98.0
+          npm ci --prefix tools/mcp
+          node scripts/check-mcp-registry.mjs
+          node scripts/check-mcp-lifecycle.mjs
       - name: Check hosted transport
         shell: bash
         run: |
@@ -58,10 +79,12 @@ jobs:
           curl --fail --location --silent --show-error --retry 2 --output publisher.tar.gz https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz
           printf '%s  %s\n' a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc publisher.tar.gz | sha256sum --check -
           tar -xzf publisher.tar.gz mcp-publisher
-      - name: Publish remote listing using GitHub identity
+      - name: Publish new listing using GitHub identity
         working-directory: tools/mcp
         shell: bash
         run: |
           set -euo pipefail
           "$RUNNER_TEMP/mcp-publisher" login github-oidc
           "$RUNNER_TEMP/mcp-publisher" publish
+      - name: Verify the published immutable record
+        run: node scripts/check-mcp-registry.mjs --published
