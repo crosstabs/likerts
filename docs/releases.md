@@ -1,6 +1,6 @@
 # Community release distribution
 
-[Download community-v0.1.2](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.2). All seven archives plus `SHA256SUMS` and `release-manifest.json` are public: nine assets in total. The runtime is also public in GHCR; an anonymous pull was verified against the release digest.
+[Download community-v0.1.2](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.2). All seven archives plus `SHA256SUMS` and `release-manifest.json` are public: nine assets in total. Anonymous GHCR registry manifest access and its digest were verified. The full Docker pull used the operator's existing Docker configuration; it is not claimed as an anonymous full-image pull.
 
 ```sh
 docker pull --platform linux/amd64 ghcr.io/crosstabs/likerts@sha256:40042f29d15f7fb18a1d95287b099fd94cf2185df3c637e3304d73764488ae7c
