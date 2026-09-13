@@ -1,5 +1,7 @@
 # Likerts community launch plan
 
+Current public-launch work, hosted-service gates and council ownership are tracked in [PUBLIC-LAUNCH.md](PUBLIC-LAUNCH.md). The completed items below record earlier release milestones.
+
 Keep the MIT license. Make Likerts easy to try, easy to install and easy to contribute to before a public launch. Trending placement is not a release requirement or a guaranteed outcome.
 
 ## Delivery status
