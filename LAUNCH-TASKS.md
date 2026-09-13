@@ -1,5 +1,7 @@
 # Community edition launch tasks
 
+Current public-launch work, hosted-service gates and council ownership are tracked in [PUBLIC-LAUNCH.md](PUBLIC-LAUNCH.md). The completed items below record earlier release milestones.
+
 ## Code and contract
 
 - [x] Remove billing, checkout, settlement, payment-webhook, credit, and commercial-limit operations.
