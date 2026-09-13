@@ -36,3 +36,26 @@ The synthetic Redis namespace was not purged. Its configured nonextending one-ho
 ## Remaining H06 acceptance
 
 Use the [failure-drill procedure](../operations/HOSTED-FAILURE-DRILL.md) for actual API/worker delivery, reviewed isolated process topology, an expired old lease and successful new attempt, export winning-fence evidence, DNS validation/restoration and compatible rollback. The selected live API was observed as PID 1, so it fails the proposed child-PID interruption gate. This receiver verification does not remove the outstanding H03/H04, account-access or isolated-resource prerequisites.
+
+## Direct preview URL reachability — 13 September 2026
+
+At 11:43:54–11:44:11 UTC, one temporary **preview** deployment of the unchanged receiver source `1757db408568f34013ac0d265269c91735001415` passed direct-route checks. Its signing-key map was empty; it received no real worker event. This resolves a receiver access prerequisite and does not establish webhook recovery.
+
+Vercel rejected an earlier attempt to put the existing production deployment URL in Deployment Protection Exceptions with HTTP 400, `Cannot add a production alias to Deployment Protection Exceptions`. Its direct URL remained protected. The controller then created the separate empty preview and applied the documented exact-URL protection override to its deployment ID. The project-wide protection setting remained `all_except_custom_domains`; existing receiver aliases were unchanged. [Vercel exception scope](https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection/deployment-protection-exceptions), [URL override API](https://vercel.com/docs/rest-api/aliases/update-the-protection-bypass-for-a-url)
+
+Requests used ordinary HTTPS with redirects refused and **no Vercel bypass header, query secret or cookie**:
+
+| Check | Observed result |
+| --- | --- |
+| Before override | 302 to Vercel SSO. |
+| Anonymous receipt read after propagation | Application JSON 401 `unauthorized`. |
+| Receiver-admin receipt read | 200 with zero events and zero received count. |
+| Malformed unsigned POST | Application JSON 400 `invalid_delivery_ids`; this is parser denial, not a valid-envelope HMAC test. |
+| Existing production receiver deployment | Still 302 to Vercel SSO. |
+| After override revocation | 302 to Vercel SSO restored. |
+
+Immediate requests after the first override/revocation attempt saw inconsistent propagation; even an authorized request could still reach SSO after an anonymous request reached the application. The final probe used bounded observation of each relevant request shape before claiming readiness, and independently observed restored protection after revocation. A successful settings response alone is insufficient.
+
+The preview used four fresh acceptance variables, a new Redis namespace and administrator token, and the existing fixture Redis credentials. Those two existing sensitive Redis variables temporarily gained the preview target through target-only updates; their values were neither read nor changed. Cleanup completed at 11:44:59 UTC: the temporary deployment was deleted and absent from inventory, its four preview variables were removed, the two Redis targets were restored to production only, and the original project protection was reverified. No new project, plan upgrade, custom DNS record, production alias reassignment or project-wide protection change occurred. The empty Redis namespace retains the receiver's bounded TTL behavior; physical expiry was not independently observed.
+
+A real worker test must use a fresh signed preview with the same direct-access checks. Because endpoint creation returns its signing key and endpoint URLs cannot be edited, use one newly owned stable preview alias: point it to an empty preview, create the disabled endpoint, deploy its actual key, move only that alias to the signed preview, verify identity/access/empty receipts, and then enable the endpoint. Verify the alias's exact deployment/project before adding its exception; remove only that alias/override and the owned deployments during cleanup. This sequence is prepared work, not an executed callback claim.
