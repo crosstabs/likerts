@@ -245,9 +245,8 @@ async fn bounded(mut response: reqwest::Response) -> Result<Vec<u8>> {
     }
     Ok(bytes)
 }
-#[async_trait]
-impl ArchiveObjects for PrivateBlob {
-    async fn put_once(&self, key: &str, bytes: &[u8]) -> Result<()> {
+impl PrivateBlob {
+    async fn put_attempt(&self, key: &str, bytes: &[u8]) -> Result<()> {
         if bytes.len() > MAX_OBJECT {
             return Err(ArchiveError::Capacity);
         }
@@ -278,6 +277,22 @@ impl ArchiveObjects for PrivateBlob {
             Some(existing) if existing == bytes => Ok(()),
             Some(_) => Err(ArchiveError::InvalidArchive),
             None => Err(ArchiveError::Storage),
+        }
+    }
+}
+#[async_trait]
+impl ArchiveObjects for PrivateBlob {
+    async fn put_once(&self, key: &str, bytes: &[u8]) -> Result<()> {
+        match self.put_attempt(key, bytes).await {
+            Err(ArchiveError::Storage) => {
+                // Retry a storage failure once with the same immutable
+                // key and bytes. Four HTTP calls at most, each capped at 10s,
+                // plus 100ms delay. Database completion still checks the 60s
+                // lease; overhead or a slow DB must never acknowledge stale work.
+                tokio::time::sleep(Duration::from_millis(100)).await;
+                self.put_attempt(key, bytes).await
+            }
+            result => result,
         }
     }
     async fn get(&self, key: &str) -> Result<Option<Vec<u8>>> {
@@ -559,7 +574,200 @@ pub async fn verify(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::{collections::HashMap, sync::Mutex};
+    use std::{
+        collections::{HashMap, VecDeque},
+        sync::{Arc, Mutex},
+    };
+
+    struct HttpRequest {
+        method: axum::http::Method,
+        uri: axum::http::Uri,
+        headers: axum::http::HeaderMap,
+        body: Vec<u8>,
+    }
+    struct HttpFixture {
+        blob: PrivateBlob,
+        requests: Arc<Mutex<Vec<HttpRequest>>>,
+        server: tokio::task::JoinHandle<()>,
+    }
+    impl Drop for HttpFixture {
+        fn drop(&mut self) {
+            self.server.abort();
+        }
+    }
+    impl HttpFixture {
+        async fn new(responses: Vec<(u16, Vec<u8>)>) -> Self {
+            let requests = Arc::new(Mutex::new(Vec::new()));
+            let observed = requests.clone();
+            let responses = Arc::new(Mutex::new(VecDeque::from(responses)));
+            let handler = move |request: axum::http::Request<axum::body::Body>| {
+                let observed = observed.clone();
+                let responses = responses.clone();
+                async move {
+                    let (parts, body) = request.into_parts();
+                    let body = axum::body::to_bytes(body, MAX_OBJECT + 1).await.unwrap();
+                    observed.lock().unwrap().push(HttpRequest {
+                        method: parts.method,
+                        uri: parts.uri,
+                        headers: parts.headers,
+                        body: body.to_vec(),
+                    });
+                    let (status, body) = responses
+                        .lock()
+                        .unwrap()
+                        .pop_front()
+                        .unwrap_or((500, vec![]));
+                    axum::http::Response::builder()
+                        .status(status)
+                        .header("location", "/must-not-follow")
+                        .body(axum::body::Body::from(body))
+                        .unwrap()
+                }
+            };
+            let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+            let base = Url::parse(&format!("http://{}/", listener.local_addr().unwrap())).unwrap();
+            let server = tokio::spawn(async move {
+                axum::serve(listener, axum::Router::new().fallback(handler))
+                    .await
+                    .unwrap();
+            });
+            let blob = PrivateBlob::with_endpoints(
+                "synthetic-token",
+                "fixture",
+                "fixture-prefix".into(),
+                base.join("control").unwrap(),
+                base.join("read/").unwrap(),
+            )
+            .unwrap();
+            Self {
+                blob,
+                requests,
+                server,
+            }
+        }
+    }
+    const HTTP_KEY: &str = "events/11111111-1111-4111-8111-111111111111.json";
+
+    #[tokio::test]
+    async fn private_blob_retries_transient_readback_with_identical_immutable_write() {
+        let bytes = b"exact immutable archive";
+        let fixture = HttpFixture::new(vec![
+            (200, vec![]),
+            (503, vec![]),
+            (409, vec![]),
+            (200, bytes.to_vec()),
+        ])
+        .await;
+        fixture.blob.put_once(HTTP_KEY, bytes).await.unwrap();
+        let requests = fixture.requests.lock().unwrap();
+        assert_eq!(requests.len(), 4);
+        for (index, request) in requests.iter().enumerate() {
+            assert_eq!(request.headers["authorization"], "Bearer synthetic-token");
+            if index % 2 == 0 {
+                assert_eq!(request.method, "PUT");
+                assert_eq!(request.body, bytes);
+                let url = Url::parse(&format!("http://fixture{}", request.uri)).unwrap();
+                assert_eq!(url.path(), "/control");
+                assert_eq!(
+                    url.query_pairs().collect::<Vec<_>>(),
+                    vec![(
+                        "pathname".into(),
+                        format!("fixture-prefix/{HTTP_KEY}").into()
+                    )]
+                );
+                for (name, value) in [
+                    ("x-allow-overwrite", "0"),
+                    ("x-add-random-suffix", "0"),
+                    ("x-vercel-blob-access", "private"),
+                    ("x-vercel-blob-store-id", "fixture"),
+                    ("x-api-version", "12"),
+                ] {
+                    assert_eq!(request.headers[name], value);
+                }
+            } else {
+                assert_eq!(request.method, "GET");
+                assert_eq!(
+                    request.uri.path(),
+                    format!("/read/fixture-prefix/{HTTP_KEY}")
+                );
+                assert_eq!(request.uri.query(), Some("cache=0"));
+            }
+        }
+    }
+
+    #[tokio::test]
+    async fn private_blob_stops_after_two_failed_attempts() {
+        let fixture = HttpFixture::new(vec![
+            (503, vec![]),
+            (404, vec![]),
+            (503, vec![]),
+            (404, vec![]),
+        ])
+        .await;
+        assert_eq!(
+            fixture.blob.put_once(HTTP_KEY, b"archive").await,
+            Err(ArchiveError::Storage)
+        );
+        assert_eq!(fixture.requests.lock().unwrap().len(), 4);
+    }
+
+    #[tokio::test]
+    async fn private_blob_never_retries_or_accepts_mismatched_readback() {
+        let fixture =
+            HttpFixture::new(vec![(409, vec![]), (200, b"different bytes".to_vec())]).await;
+        assert_eq!(
+            fixture.blob.put_once(HTTP_KEY, b"archive").await,
+            Err(ArchiveError::InvalidArchive)
+        );
+        assert_eq!(fixture.requests.lock().unwrap().len(), 2);
+    }
+
+    #[tokio::test]
+    async fn private_blob_does_not_follow_redirects_or_acknowledge_them() {
+        let fixture = HttpFixture::new(vec![
+            (200, vec![]),
+            (307, vec![]),
+            (200, vec![]),
+            (307, vec![]),
+        ])
+        .await;
+        assert_eq!(
+            fixture.blob.put_once(HTTP_KEY, b"archive").await,
+            Err(ArchiveError::Storage)
+        );
+        let requests = fixture.requests.lock().unwrap();
+        assert_eq!(requests.len(), 4);
+        assert!(requests.iter().all(|r| r.uri.path() != "/must-not-follow"));
+    }
+
+    #[tokio::test]
+    async fn private_blob_capacity_and_invalid_key_fail_without_retry() {
+        let fixture = HttpFixture::new(vec![(200, vec![]), (200, vec![0; MAX_OBJECT + 1])]).await;
+        assert_eq!(
+            fixture
+                .blob
+                .put_once(HTTP_KEY, &vec![0; MAX_OBJECT + 1])
+                .await,
+            Err(ArchiveError::Capacity)
+        );
+        assert_eq!(
+            fixture
+                .blob
+                .put_once("events/not-a-uuid.json", b"archive")
+                .await,
+            Err(ArchiveError::InvalidArchive)
+        );
+        assert!(fixture.requests.lock().unwrap().is_empty());
+        assert_eq!(
+            fixture.blob.put_once(HTTP_KEY, b"archive").await,
+            Err(ArchiveError::Capacity)
+        );
+        assert_eq!(fixture.requests.lock().unwrap().len(), 2);
+        assert!(matches!(
+            PrivateBlob::new("invalid", "fixture", "11111111-1111-4111-8111-111111111111"),
+            Err(ArchiveError::Configuration)
+        ));
+    }
 
     #[derive(Default)]
     struct MemoryObjects(Mutex<HashMap<String, Vec<u8>>>);
