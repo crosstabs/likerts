@@ -285,7 +285,7 @@ impl ArchiveObjects for PrivateBlob {
     async fn put_once(&self, key: &str, bytes: &[u8]) -> Result<()> {
         match self.put_attempt(key, bytes).await {
             Err(ArchiveError::Storage) => {
-                // Retry only a transient storage failure with the same immutable
+                // Retry a storage failure once with the same immutable
                 // key and bytes. Four HTTP calls at most, each capped at 10s,
                 // plus 100ms delay. Database completion still checks the 60s
                 // lease; overhead or a slow DB must never acknowledge stale work.
