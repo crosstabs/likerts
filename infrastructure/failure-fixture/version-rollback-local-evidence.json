@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "startedAt": "2026-09-13T11:40:53.866544+00:00",
+  "finishedAt": "2026-09-13T11:43:24.725698+00:00",
+  "releases": {
+    "0.1.1": {
+      "source": "a9f8b95b9f345129d91d961bee1070ad7f92e9e3",
+      "digest": "9b9662f9fd085bce4172f0526a4a4ef74a32243c1cfc14ca462416c962231900",
+      "api": "12a4c2a47c8be8a6d2f51263eff33b82c449ab8ce7e87684d9afb82fd279bd77",
+      "worker": "a965b455c0730679c239c8578aadfae44bfc6e3a847198ec396a350bc38fcccb"
+    },
+    "0.1.2": {
+      "source": "2996ebcbb9821cff67e0a6e8cae4722f0abf9e42",
+      "digest": "40042f29d15f7fb18a1d95287b099fd94cf2185df3c637e3304d73764488ae7c",
+      "api": "7a44648d0245119ceb4c9b7754a52f181aa6e1ff6420992135e005533f01afd6",
+      "worker": "136e387a55769eee12fe88c90e8cd0245b5dc2b124a1d99dd24244169368d4b6"
+    }
+  },
+  "sequence": [
+    "0.1.1",
+    "0.1.2",
+    "0.1.1"
+  ],
+  "postgresVersion": 16,
+  "schemaVersions": 27,
+  "schemaChecksumsUnchanged": true,
+  "strictRoles": true,
+  "responses": 3,
+  "crossVersionIdempotency": true,
+  "newVersionRevocationPersisted": true,
+  "journalAndOutboxUnchanged": true,
+  "revokedCredentialDenied": true,
+  "finalExportReceiptSetAndHashVerified": true,
+  "anonymousDenied": true,
+  "distinctSupervisorBoots": 3,
+  "runtimeArchitecture": "amd64 under ARM-host QEMU",
+  "identityBoundary": "local emulation adapter",
+  "hostedRollbackProven": false,
+  "productionTouched": false,
+  "oldRuntimeKnownRevocationGapStillPresent": true,
+  "ownedResourcesRemoved": true
+}
