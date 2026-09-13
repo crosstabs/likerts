@@ -1,0 +1,54 @@
+# Isolated Vercel maintenance candidate
+
+This directory packages the existing Rust cleanup and erasure archive executables as **two separate Vercel projects**. Each project has one authenticated `/api/run` handler and its own production secrets. It is a deployment candidate: local tests and Linux execution do not establish live Vercel invocation, provider connectivity, scheduled delivery, independent alerting, or recovery completion.
+
+The coordinator verified the existing team has active Pro service on 2026-09-13. Cron has no separate fixed fee, but Function, Blob and Neon usage remains metered. Check current usage and spend controls before deployment. Do not change plans automatically. [Vercel Cron pricing](https://vercel.com/docs/cron-jobs/usage-and-pricing)
+
+## Build and verify
+
+Requirements: Docker, Bash, Git and Node 22+. Run from the repository root. This does not deploy, read secrets or create hosted resources.
+
+```sh
+node --test infrastructure/maintenance/handler.test.mjs
+bash infrastructure/maintenance/build.sh linux/arm64 infrastructure/maintenance/build/review-arm64
+bash infrastructure/maintenance/check-linux.sh infrastructure/maintenance/build/review-arm64 linux/arm64
+```
+
+Use a new output directory each time. `linux/amd64` is also accepted, but must be built and verified on that platform before use. An emulated build can take substantially longer. Builds copy only Cargo manifests, Rust sources and migrations into a temporary Docker context. No host environment or provider credential is passed to compilation. The builder uses Alpine musl, checks that both binaries have no ELF interpreter or dynamic library dependencies, and packages a public CA certificate bundle. The packager verifies ELF machine architecture and records binary SHA-256 and source commit. Generated bundles live in ignored `build/` directories, never source control.
+
+The default Rust image is pinned to its reviewed digest. `LIKERTS_MAINTENANCE_RUST_IMAGE` can select a separately reviewed build image; record that provenance and rebuild after an update. Do not use binaries from PR artifacts, untrusted caches, arbitrary release URLs or a mutable `latest` image in a privileged deployment. Production artifacts must come from the protected, checked commit. Dirty source builds are marked and the handler rejects them, even if someone mistakenly deploys them.
+
+The output contains `projects/cleanup` and `projects/archive`, each with a ready `.vercel/output` bundle. Each bundle includes exactly one worker, its fixed handler, certificate bundle and manifest. Runtime is Node 22, explicitly selected `arm64` or `x86_64`, region `sin1`, maximum duration 240 seconds. No public static directory contains private operational output. [Build Output API functions](https://vercel.com/docs/build-output-api/primitives), [configuration](https://vercel.com/docs/build-output-api/configuration)
+
+`check-linux.sh` executes both static binaries inside the official AWS Node 22 Lambda image with networking disabled and no credentials. It expects immediate configuration failure; this proves executable/OS compatibility, not database or Blob connectivity. Vercel preview validation is still required because its complete managed launcher and deployment environment are not reproduced by that container.
+
+## Runtime boundaries
+
+Use a distinct generated `CRON_SECRET` of 32–256 characters per project. The handler accepts only authenticated `GET /api/run`; query strings, other methods and caller-selected commands are rejected. Authentication compares fixed-length SHA-256 digests with `timingSafeEqual`. Responses have `Cache-Control: no-store`. Each child receives only the listed role-specific variables and the bundled certificate path. It does not inherit `CRON_SECRET`, other provider credentials, proxy settings, `NODE_OPTIONS`, or the parent process environment. Known mixed-role/owner credentials in a project fail closed.
+
+| Cleanup project | Archive project |
+| --- | --- |
+| `LIKERTS_CLEANUP_DATABASE_URL` for `likerts_export_cleanup` | `LIKERTS_ERASURE_DATABASE_URL` for `likerts_erasure_archiver` |
+| `LIKERTS_VERCEL_BLOB_TOKEN` for the API's exact export store | `LIKERTS_ERASURE_BLOB_TOKEN` for the separate private archive store |
+| `LIKERTS_EXPORT_PREFIX` matching the API, normally `exports` | `LIKERTS_ERASURE_SOURCE_ID` independently pinned to the source database |
+| Store selector fixed by code to `vercel_blob` | `LIKERTS_ERASURE_NAMESPACE` chosen and recorded once |
+
+Production secrets must be scoped only to their own project and production environment, absent from previews, frontend projects, shared environment groups, build jobs and the other maintenance project. Vercel project administrators retain provider-level access: two projects do not create an independent organization or WORM archive. The API and cleanup worker must never receive the archive token. Blob read/write tokens remain broader than each program's database role. See [archive prerequisites](../erasure-archive/README.md) and [cleanup operations](../../docs/operations/RETENTION-WORKER.md).
+
+Cleanup runs at minutes 7/22/37/52. It calls fixed `once` operations until idle, 20 rounds, or the 200-second budget (including allowance for the next 45-second child). Each round selects at most one scheduled tenant retention batch and deletes at most one export object. `budgetExhausted` means remaining work may require later invocations. This caps physical deletion throughput at 1,920 objects/day before retries or runtime constraints; measure backlog before scaling. Repeated retained tombstones also consume this budget. An in-process Rust bounded `drain` mode would avoid repeated connections if measured load requires it; this candidate does not change the worker binary.
+
+Archive runs at minutes 11/26/41/56. It calls fixed `drain` with at most 100 new archive events and a 200-second deadline, then lets the existing executable attempt a checkpoint. The endpoint returns only counts and a checkpoint-written boolean. It never exposes source, event, object, checkpoint or fence identifiers. A full batch is not proof that all pending events are covered. The handler has no fence, release, restore or arbitrary SQL operation.
+
+Children receive SIGTERM on deadline/output overflow, then SIGKILL after one second if needed. The HTTP handler waits for child closure and returns a fixed failure category. Database leases, retries and immutable pending checkpoint bodies remain authoritative after interruption. Raw stdout/stderr is bounded in memory and never forwarded to HTTP responses or application logs. Unknown errors are sanitized. Do not enable shell tracing or upload private operational files as public CI artifacts.
+
+## Promotion runbook
+
+1. Merge the candidate through protected checks; build from that exact clean commit in a job with **no production credentials**. Verify both bundles, hashes, architecture and source provenance. The normal public Actions workflow may build/test/deploy; it does not execute recurring production retention or archival work.
+2. Verify Pro plan, region, current Function/Blob/Neon usage and spending controls. Create two named maintenance projects and the dedicated **private** archive store using the existing plan. Record ownership, retention/protection limits and the stable source/namespace independently. The source database alone must not hold the only recoverable checkpoint reference.
+3. Link each generated project directory explicitly to its corresponding project and team. Inspect `.vercel/project.json` before any deployment. Use the existing installed CLI, authenticated without token flags. Do not run a new source build with production environment variables. A prebuilt preview deployment can use a synthetic preview `CRON_SECRET` only; verify unauthorized denial, exact route behavior and sanitized configuration failure, while leaving production database/provider secrets absent.
+4. After reviewed preview evidence, configure each project's production-only secret allowlist and deploy the same clean bundle with `vercel deploy --prebuilt --prod` from its correctly linked generated project directory. This command is a deployment step, not part of the local checks above. Preserve deployment protection; use authorized CLI access for preview checks. Only production activates the packaged cron schedules.
+5. Verify actual `sin1` architecture and function duration, protected requests, synthetic export deletion from the exact API store, archive readback/checkpoint persistence, and interrupted-run recovery. Record source/deployment identity and sanitized outcomes. Observe actual scheduled invocations; manually invoking the endpoint does not prove the scheduler works.
+6. Arm H04 outside these scheduled functions: missed-run detection, backlog age/retries, archive pending-versus-covered progress, receiver failure and a named responding owner. A recent HTTP success with an exhausted batch budget is not sufficient health evidence. Idle archives may legitimately retain an old checkpoint.
+7. For rollback, disable the affected project's cron first, then promote the reviewed compatible bundle and explicitly reconcile the schedule. Vercel instant rollback does not automatically restore previous cron definitions. Do not automatically fence/release the archive or point workers at a restored database. [Cron operation and rollback](https://vercel.com/docs/cron-jobs/manage-cron-jobs)
+
+Repurposing the existing inert Render migration cron is possible but is not this candidate. It would require revoking/removing its owner credential, proving the new restricted role and preserving a separate controlled migration path. Reusing the service's existing minimum fee does not guarantee that additional runtime incurs no extra usage. Keeping maintenance in separate Vercel projects avoids changing the privileged migration mechanism during this launch.

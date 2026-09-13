@@ -48,7 +48,9 @@ jobs:
       - name: Restricted erasure archiver executable
         run: |
           cargo build --manifest-path backend/Cargo.toml --locked --bin likerts-erasure-archive --bin likerts-migrate
-          node infrastructure/erasure-archive/check-local.mjs
+          node infrastructure/erasure-archive/check-local.mjs --delayed-init
+      - name: Isolated maintenance handler boundaries
+        run: node --test infrastructure/maintenance/handler.test.mjs
       - name: Durable export lease recovery
         run: bash scripts/check-export-leases.sh
       - name: Durable response webhooks, restricted worker and interface parity
