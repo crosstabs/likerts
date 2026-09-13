@@ -46,7 +46,9 @@ npm install @likerts/react-native
 npm install --global @likerts/mcp
 ```
 
-These are client packages; connect them to your Likerts API using the [SDK guides](sdks/) or [MCP setup](tools/README.md#mcp-for-local-agent-clients). The [Next.js App Router example](examples/nextjs-feedback/README.md) demonstrates explicit mounting, navigation cleanup and safe retry of an ambiguous submission. See the [installation guide](docs/releases.md#install-from-npm) for versions, compatibility and native SDK source.
+These are client packages; connect them to your Likerts API using the [SDK guides](sdks/) or [MCP setup](tools/README.md#mcp-for-local-agent-clients). Runnable [Next.js](examples/nextjs-feedback/README.md), [Vue](examples/vue-feedback/README.md) and [Svelte](examples/svelte-feedback/README.md) hosts demonstrate explicit mounting, cleanup and safe retry of an ambiguous submission. See the [installation guide](docs/releases.md#install-from-npm) for versions, compatibility and native SDK source.
+
+Follow the tested [checkout feedback walkthrough](docs/guides/checkout-feedback.md) to attach metadata and retrieve a real receipt, or the [MCP lifecycle walkthrough](docs/guides/agent-survey-lifecycle.md) to create, publish and manage a survey with scoped tools.
 
 ## Run with durable local storage
 

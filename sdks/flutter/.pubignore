@@ -1,0 +1,21 @@
+# Repository tests use shared fixtures outside this package; run them from Git.
+test/
+# Keep the host example Dart source and platform projects, exclude generated state.
+.dart_tool/
+build/
+.pub/
+pubspec.lock
+**/.dart_tool/
+**/build/
+**/.gradle/
+**/.idea/
+**/Pods/
+**/.symlinks/
+**/ephemeral/
+**/xcuserdata/
+**/local.properties
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/*.xcuserstate
+**/*.log
+**/.DS_Store

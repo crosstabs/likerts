@@ -1,5 +1,7 @@
 plugins {
     `maven-publish`
+    signing
+    id("org.jetbrains.dokka") version "2.2.0"
     id("com.android.library") version "8.9.2"
     id("com.android.application") version "8.9.2" apply false
     kotlin("android") version "2.1.20"
@@ -23,6 +25,20 @@ android {
 }
 kotlin { jvmToolchain(17) }
 
+val documentationJar by tasks.registering(Jar::class) {
+    dependsOn("dokkaGeneratePublicationHtml")
+    archiveClassifier.set("javadoc")
+    from(layout.buildDirectory.dir("dokka/html"))
+    from(rootProject.file("../../LICENSE")) { into("META-INF") }
+}
+
+val centralStaging = providers.gradleProperty("likertsCentralStaging").orNull == "true"
+if (centralStaging) {
+    require(providers.environmentVariable("LIKERTS_MAVEN_SIGNING_KEY").isPresent) {
+        "Central staging requires LIKERTS_MAVEN_SIGNING_KEY from your secret manager"
+    }
+}
+
 afterEvaluate {
     publishing {
         publications {
@@ -31,6 +47,19 @@ afterEvaluate {
                 groupId = "com.likerts"
                 artifactId = "likerts-android"
                 version = "0.0.3"
+                artifact(documentationJar)
+                pom {
+                    name.set("Likerts Android SDK")
+                    description.set("Typed embedded survey collection and Jetpack Compose controls for Android applications.")
+                    url.set("https://likerts.com")
+                    licenses { license { name.set("MIT License"); url.set("https://opensource.org/license/mit/") } }
+                    developers { developer { id.set("crosstabs"); name.set("Likerts contributors"); url.set("https://github.com/crosstabs/likerts/graphs/contributors") } }
+                    scm {
+                        url.set("https://github.com/crosstabs/likerts")
+                        connection.set("scm:git:https://github.com/crosstabs/likerts.git")
+                        developerConnection.set("scm:git:ssh://git@github.com/crosstabs/likerts.git")
+                    }
+                }
             }
         }
         repositories {
@@ -39,6 +68,15 @@ afterEvaluate {
                 url = uri(providers.gradleProperty("likertsReleaseRepository")
                     .getOrElse(layout.buildDirectory.dir("local-release").get().asFile.absolutePath))
             }
+        }
+    }
+    if (centralStaging) {
+        signing {
+            useInMemoryPgpKeys(
+                providers.environmentVariable("LIKERTS_MAVEN_SIGNING_KEY").get(),
+                providers.environmentVariable("LIKERTS_MAVEN_SIGNING_PASSWORD").orNull
+            )
+            sign(publishing.publications["release"])
         }
     }
 }

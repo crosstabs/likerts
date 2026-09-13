@@ -31,10 +31,13 @@ fi
 
 docker exec "$CONTAINER_NAME" psql --username postgres --set ON_ERROR_STOP=1 \
   --command "create role likerts_runtime_test login password 'likerts-runtime-test' noinherit nobypassrls"
+docker exec "$CONTAINER_NAME" psql --username postgres --set ON_ERROR_STOP=1 \
+  --command "create role likerts_export_cleanup login password 'likerts-cleanup-test' noinherit nobypassrls"
 
 PORT="$(docker port "$CONTAINER_NAME" 5432/tcp | sed 's/.*://')"
 export LIKERTS_TEST_DATABASE_URL="postgres://postgres:likerts-test@127.0.0.1:${PORT}/postgres"
 export LIKERTS_TEST_RUNTIME_DATABASE_URL="postgres://likerts_runtime_test:likerts-runtime-test@127.0.0.1:${PORT}/postgres"
+export LIKERTS_TEST_CLEANUP_DATABASE_URL="postgres://likerts_export_cleanup:likerts-cleanup-test@127.0.0.1:${PORT}/postgres"
 source "$LIKERTS_ROOT/scripts/dev-env.sh"
 
 # Exercise the same migration and exact grants used by deployment. Keeping a
@@ -43,6 +46,9 @@ LIKERTS_MIGRATION_DATABASE_URL="$LIKERTS_TEST_DATABASE_URL" \
   cargo run --manifest-path "$LIKERTS_ROOT/backend/Cargo.toml" --locked --bin likerts-migrate
 docker exec -i "$CONTAINER_NAME" psql --username postgres --set ON_ERROR_STOP=1 \
   --set runtime_role=likerts_runtime_test < "$LIKERTS_ROOT/backend/provision-runtime.sql"
+docker exec -i "$CONTAINER_NAME" psql --username postgres --set ON_ERROR_STOP=1 \
+  < "$LIKERTS_ROOT/backend/provision-export-cleanup.sql"
 
 cargo build --manifest-path "$LIKERTS_ROOT/backend/Cargo.toml" --locked --bin likerts-server
+cargo test --manifest-path "$LIKERTS_ROOT/backend/Cargo.toml" --locked --test export_cleanup -- --test-threads=1
 cargo test --manifest-path "$LIKERTS_ROOT/backend/Cargo.toml" --locked --test postgres -- --test-threads=1

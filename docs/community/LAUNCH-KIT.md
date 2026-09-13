@@ -13,6 +13,8 @@ There are nine wire question types: single choice, multiple choice, scale, text,
 | Product site | [likerts.com](https://likerts.com) |
 | Runnable source and contribution entry | [crosstabs/likerts](https://github.com/crosstabs/likerts), [contributing](../../CONTRIBUTING.md), [open issues](https://github.com/crosstabs/likerts/issues) |
 | Real collection recording | [40-second walkthrough](https://likerts.com/media/embedded-feedback-demo.webm), [poster](https://likerts.com/media/embedded-feedback-poster.png), [captions](https://likerts.com/media/embedded-feedback-demo.vtt) |
+| Tested implementation guides | [Checkout feedback with metadata](../guides/checkout-feedback.md), [MCP survey lifecycle](../guides/agent-survey-lifecycle.md) |
+| Framework hosts | [Next.js](../../examples/nextjs-feedback/README.md), [Vue](../../examples/vue-feedback/README.md), [Svelte](../../examples/svelte-feedback/README.md) |
 | Interactive renderer | [Browser demo](https://likerts.com/demo); local sample mode, simulated receipt, no responses sent |
 | Social image | [1200 × 630 PNG](https://likerts.com/social-preview.png) |
 | Full community snapshot | [community-v0.1.0](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0), native CLI `0.1.2` for Linux x64, macOS arm64 and Windows x64 |
@@ -33,6 +35,8 @@ bash scripts/run-feedback-demo.sh
 Open `http://127.0.0.1:4310`, submit, then select **Read it from the backend** and compare the response ID. The first build can take several minutes. The API stores data in memory until shutdown; this is real local collection, not durable production storage. The example's unauthenticated operator view must remain on loopback. See [example instructions](../../examples/embedded-feedback/README.md).
 
 ## Two candidate developer communities
+
+The expanded-goal review supersedes these older candidates with [current introductions and rule checks](COMMUNITY-INTRODUCTIONS.md). In particular, the Rust announcement draft below is historical preparation, not a cleared current destination. Do not publish it without the new account-time rule check.
 
 Rules were read on 2026-09-13. Recheck them and any account/category restrictions immediately before posting. Publication and replies require a responsible maintainer; nothing here authorizes mass messages or coordinated votes.
 

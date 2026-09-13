@@ -1,10 +1,18 @@
 name: likerts
 version: 0.0.3
-publish_to: none
-description: Embedded Likerts collection client foundation.
-homepage: https://github.com/crosstabs/likerts
+publish_to: https://pub.dev
+description: Embed typed surveys and feedback in Flutter applications with collection credentials, native controls, and host-owned presentation.
+homepage: https://likerts.com
+repository: https://github.com/crosstabs/likerts/tree/main/sdks/flutter
+issue_tracker: https://github.com/crosstabs/likerts/issues
+topics:
+  - surveys
+  - feedback
+  - likert
+  - sdk
 environment:
   sdk: '>=3.8.0 <4.0.0'
+  flutter: '>=3.32.0'
 dependencies:
   flutter:
     sdk: flutter

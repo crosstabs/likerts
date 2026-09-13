@@ -14,6 +14,7 @@ pub mod branching;
 pub mod choice_features;
 pub mod conditional;
 pub mod erasure_archive;
+pub mod export_cleanup;
 pub mod exports;
 mod jwks;
 pub mod metrics;

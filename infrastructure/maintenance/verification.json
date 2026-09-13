@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-13",
+  "scope": "local deployment candidate; no hosted resources or credentials",
+  "backendSourceCommit": "06d2ad75e79f363eefe58602867eae616050c3b7",
+  "candidateSourceDirty": true,
+  "deploymentAllowedForThisDirtyCandidate": false,
+  "architecture": "linux/arm64",
+  "rustImage": "rust:1.98.0-alpine@sha256:a10e64dd139b7387337c7fbe8aca31b959b57b2fd4c8ae20a02cf1d6ea424dce",
+  "lambdaTestImage": "public.ecr.aws/lambda/nodejs:22@sha256:c71939cdffffb125e6255fdb284ccde3c748bcba60658c7efc6d3a2241b2398b",
+  "binarySha256": {
+    "cleanup": "671d9d10b9af4df77c59dfd5cbab5ce7914843f018fd9d41cb301086c1727321",
+    "archive": "b2427a1f7377831432ffb03c87ed5d21df6331e2ae27210065eff6a2b30c10d8"
+  },
+  "checks": {
+    "nodeHandlerTests": { "passed": 11, "failed": 0 },
+    "staticMuslBuild": "passed; no ELF interpreter or needed dynamic libraries",
+    "packagedEntrypointImports": "passed in Amazon Linux Node 22 Lambda image",
+    "unauthorizedDenial": "passed for both packaged handlers",
+    "dirtySourceDenial": "passed for both bundles",
+    "binaryChecksumTamperDenial": "passed for both bundles using isolated synthetic manifests",
+    "actualNativeBinaryExecution": "both reached expected missing-configuration failure with networking disabled",
+    "markdownLinks": { "documents": 89, "links": 312, "broken": 0 }
+  },
+  "unverified": [
+    "Linux amd64 build and execution",
+    "Vercel preview and production managed launcher",
+    "production credential provisioning and provider connectivity",
+    "actual scheduled invocations and independent missed-run monitoring",
+    "physical hosted export deletion, archive storage readback and recovery replay"
+  ]
+}

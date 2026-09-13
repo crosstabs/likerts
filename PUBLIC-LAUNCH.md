@@ -1,6 +1,6 @@
 # Likerts public launch: council decision and task list
 
-Reviewed 13 September 2026 by developer relations, chief engineering and marketing agents, consolidated by the CEO agent. This is the current launch execution record. Role names assign responsibility for work; they do not imply hired human staff or an on-call service.
+Reviewed 13 September 2026 by developer relations, chief engineering and marketing agents, consolidated by the CEO agent. This is the current launch execution record. **The expanded finish-all goal is active:** the completed L milestone does not finish H01–H07, A01–A08 or remaining client verification. Role names assign responsibility for work; they do not imply hired human staff or an on-call service.
 
 ## Decision
 
@@ -39,14 +39,14 @@ Read-only provider checks on 2026-09-13 identify the current reference services 
 ## Execution rules
 
 - **P0:** required before broad public promotion, or before the explicitly named hosted capability.
-- **P1:** planned public-launch deliverable; complete the L tasks for the tracked launch-readiness goal.
-- **P2:** adoption/maturity work after the launch. Keep it visible without making launch depend on outside people.
+- **P1:** planned public-launch deliverable; the active finish-all goal includes remaining hosted, distribution and adoption work as well as the completed L milestone.
+- **P2:** adoption/maturity work now being pursued under the expanded goal. Record outside dependencies without inventing their completion.
 - An unchecked task stays open until its acceptance evidence is linked. Preparing a script, starting CI, generating a draft or receiving a provider 200 is not necessarily completion.
 - Reuse existing issues and tests. Do not close all contributor opportunities to manufacture a completed checklist. If taking an issue, link the implementation PR and satisfy its acceptance criteria.
 - Keep credentials, respondent data and raw private operational logs out of public evidence. Record versions, aggregate outcomes and sanitized commands.
 - Publish code/deployments within existing authorization. Prepare new third-party outreach for a concrete owner-approved destination; never infer permission to message people from this task list. Human authentication and destination authorship rules remain human tasks.
 
-## Public-launch tasks — tracked goal scope
+## Completed public-launch milestone — L tasks
 
 Owners are accountable roles; the coordinating agent records acceptance evidence and external dependencies. Implementation progress below does not close deployed or CI acceptance gates early.
 
@@ -103,7 +103,7 @@ An appointed human responder, HN authorship/login, an approved alert receiver, p
 
 ## Goal completion and release evidence
 
-The tracked goal is the public OSS launch-readiness milestone, L01–L15. It is complete when required deliverables are merged/deployed where applicable, reproducible acceptance evidence is recorded, the advertised scope has no unresolved P0, and human-only announcement/support handoffs are explicit and reviewable. H and A tasks remain open until actually completed; they are not automatically closed when this milestone is achieved.
+The original public OSS launch-readiness milestone, L01–L15, is complete. On 13 September the owner requested that the remaining work also be finished. The new active goal includes H01–H07, A01–A08 and unverified real client sessions. Shipping code or preparing a handoff does not complete a deployed operation, human acknowledgment, external publication or genuine adoption outcome. Continue independent work while account, provider and owner decisions remain pending; do not close the expanded goal merely by narrowing its scope.
 
 A human handoff is preparation, not a claimed live support operation or posted announcement. If the advertised launch scope requires an unresolved human/provider action, keep that gate open rather than silently excluding it. No promise of Trending placement, search indexing, adoption, enterprise certification or hosted SLA is a completion criterion.
 
@@ -128,10 +128,27 @@ For every closed task, append a short evidence entry here: ID, date, source/depl
 - 2026-09-13 - L14: Chief engineering and marketing reviewed the changed scope; no unresolved P0 was found for the advertised self-hosted OSS launch. [PR CI](https://github.com/crosstabs/likerts/actions/runs/34728128535), [merged-source CI](https://github.com/crosstabs/likerts/actions/runs/34728551170), [registry publication checks](https://github.com/crosstabs/likerts/actions/runs/34728964011) and [live website evidence](docs/verification/launch-pages.md) passed. The implementation changed onboarding/examples/docs and registry metadata, not runtime or SDK package code; no unnecessary npm/runtime release was made. The existing community tag/assets and npm versions were preserved unchanged. H01-H07 and native/browser/client coverage limits remain open and disclosed. This final evidence/copy update uses the same protected PR checks before merging to main.
 - 2026-09-13 - L15: Updated the existing [community release notes](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.0) and [GitHub Discussion #14](https://github.com/crosstabs/likerts/discussions/14) with durable setup, Next.js, current packages/registry, support, evidence and hosted-preview boundaries. API readback matched the reviewed bodies. No release asset or tag changed. [Launch kit](docs/community/LAUNCH-KIT.md) and [human handoff](docs/community/HUMAN-HANDOFF.md) contain destination rules, assets, authorship/account/owner decisions and draft/publication status; no new third-party announcement or external adoption is claimed.
 
-## Final council disposition
+## Original milestone disposition — expanded work remains active
 
 **Go for the public self-hosted open-source launch.** L01-L15 deliverables have acceptance evidence above. Closure applies to this record on `main` after its protected merge; a pull-request copy remains proposed until required checks pass. The website and MCP listing are publicly verified; community release artifacts remain available unchanged.
 
 **Keep unrestricted hosted production gated.** H01-H07 remain open: a fresh hosted-account/second-tenant journey, scheduled physical cleanup, verified provider backup and erasure replay, real alert ownership/delivery, measured capacity and managed failure/recovery evidence are not established by this milestone.
 
-**Human/adoption handoffs remain real work.** Assign support coverage, complete authenticated Codex/Claude verification, select and personally author/review permitted announcements, obtain Search Console access and collect consented external setup evidence. The A rows remain open. There is no claimed customer count, staffed support window, Trending placement or search-indexing result.
+**Human/adoption handoffs remain real work.** Assign support coverage, complete authenticated Claude verification (Codex now has actual tool-call evidence), select and personally author/review permitted announcements, obtain Search Console access and collect consented external setup evidence. The A rows remain open. There is no claimed customer count, staffed support window, Trending placement or search-indexing result.
+
+## Expanded-goal execution — 13 September 2026
+
+These are working-tree results until their implementation PR and required checks are linked. They do not claim a new deployment or registry publication.
+
+| Work | Current evidence | Remaining acceptance |
+| --- | --- | --- |
+| A04 Vue/Svelte | Both production hosts pass actual API/browser cleanup, accepted-but-lost reply retry, exactly one stored response, readback and credential boundaries. [Framework evidence](docs/verification/frameworks.md). | Protected merge, Ubuntu CI and issue closure against implementation. |
+| A05 browser expansion; issue #10 | Chromium/Firefox/WebKit × LTR/RTL all pass; maintained Markdown links and checker fixtures pass. [Browser evidence](docs/verification/browser-coverage.md). | Ubuntu CI/merge; physical devices, screen readers and reviewed localization remain unverified. |
+| Real Codex client | CLI 0.154.0 with Astra completed initialization, discovery of 33 tools and `surveys_list` through public MCP 0.1.0. [Client evidence](docs/verification/agent-clients.md). | Claude is signed out; owner login requested, then run only its bounded client probe. |
+| A06 native distribution | Swift repository-root manifest and fresh local semantic-version consumer pass. Flutter clean package dry-run has zero warnings. Android Central artifact/POM/docs preparation passes locally. [Native evidence](docs/verification/native-distribution.md). | Protected Swift tag/public Git consumer; pub.dev login/publication/fresh consumer; Central namespace/account/signing and actual release. |
+| H02 cleanup/retention | Durable export tombstones and restricted maintenance worker implemented; bounded retention scheduler added. Regression and non-superuser role checks pass locally. Two isolated [Vercel maintenance candidates](infrastructure/maintenance/README.md) pass handler and ARM64 Amazon Linux execution checks. [Operations](docs/operations/RETENTION-WORKER.md). | Protected merge, clean bundle rebuild, actual Vercel schedule/storage deletion and alert proof. |
+| H03 archive | Runnable restricted archiver, sanitized commands and local role/source smoke pass. [Runbook](infrastructure/erasure-archive/README.md). | Live independent storage, source/checkpoint continuity, Neon window and quarantine restore/replay proof. |
+| H05 provider inventory | Neon Launch reports Singapore (`sin1`). Redis reports US East (`iad1`), Free plan, rounded 12k/500k monthly commands, no read regions, auto-upgrade/eviction disabled. Actual Render instance `PING`: 292.82 ms cold, 232.61 ms warm median, zero failures, against configured 750 ms timeout. [Evidence](docs/verification/hosted-capacity.md). | Authenticated API timing, billable workflow multiplier, operational capacity decision and alert coverage. No plan/region changed. |
+| A03 Search Console | Existing verified domain property and successful August 30 sitemap receipt found; homepage indexed, `/docs`, `/demo`, `/docs/api` unknown in URL inspections. [Evidence](docs/verification/search-console.md). | Requested permission for sitemap resubmission and three indexing requests is pending. Requests do not establish indexing. |
+
+Pending owner requests already sent: Claude subscription login, pub.dev login, and launch support/alert recipient ownership. No passwords, account tokens or webhook secrets are requested in chat.

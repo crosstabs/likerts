@@ -9,6 +9,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import { runBoundedClient } from './bounded-client-command.mjs';
 import { Client } from '../tools/mcp/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js';
 import { StdioClientTransport } from '../tools/mcp/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js';
 
@@ -26,6 +27,9 @@ let databaseStarted = false;
 const bootstrapToken = randomUUID();
 const clientBootstrapToken = randomUUID();
 const clientResults = [];
+const clientMode = process.argv.slice(2).find(value => value === '--clients' || value.startsWith('--clients='));
+const requestedClients = clientMode ? (clientMode === '--clients' ? ['codex', 'claude'] : clientMode.slice('--clients='.length).split(',')) : [];
+assert.ok(requestedClients.every(value => ['codex', 'claude'].includes(value)), 'Supported client names: codex, claude');
 try {
   await exec('cargo', ['build', '--locked', '--manifest-path', join(root, 'backend/Cargo.toml'), '--bins'], { cwd: root, maxBuffer: 4 * 1024 * 1024 });
   await writeFile(join(work, 'package.json'), JSON.stringify({ name: 'likerts-public-mcp-lifecycle', version: '1.0.0', private: true }));
@@ -114,33 +118,55 @@ try {
   const limitedCredential = await call(bootstrap, 'service_credentials_create', { name: 'Read only MCP probe', scopes: ['surveys:read'], expiresAt: new Date(Date.now() + 3600000).toISOString() });
   const reader = await connect(limitedCredential.token);
   await call(reader, 'surveys_list');
-  if (process.argv.includes('--clients')) {
+  if (requestedClients.length) {
     const clientBootstrap = await connect(clientBootstrapToken);
     const clientCredential = await call(clientBootstrap, 'service_credentials_create', { name: 'Temporary real-client read probe', scopes: ['surveys:read'], expiresAt: new Date(Date.now() + 3600000).toISOString() });
-    const executable = join(work, 'node_modules/.bin/likerts-mcp');
+    const executable = process.execPath;
+    const relay = join(root, 'scripts/mcp-stdio-audit.mjs');
+    const entry = join(installed, 'dist/main.js');
     // Preserve account/config locations unchanged, without forwarding unrelated provider or production secrets.
     const clientEnv = Object.fromEntries(['PATH', 'HOME', 'CODEX_HOME', 'USER', 'LOGNAME', 'SHELL', 'TMPDIR', 'LANG', 'LC_ALL', 'TERM'].flatMap(key => process.env[key] === undefined ? [] : [[key, process.env[key]]]));
     Object.assign(clientEnv, { LIKERTS_API_URL: origin, LIKERTS_TOKEN: clientCredential.token });
     const prompt = 'This is a bounded integration test. Use only the Likerts MCP surveys_list tool exactly once with empty arguments. Do not read files, environment variables, credentials, or use shell/network/other tools. Report whether the returned survey list is empty. Do not substitute a guess if the MCP call is unavailable.';
     const configPath = join(work, 'client-mcp.json');
-    await writeFile(configPath, JSON.stringify({ mcpServers: { likerts_probe: { type: 'stdio', command: executable, env: { LIKERTS_API_URL: '${LIKERTS_API_URL}', LIKERTS_TOKEN: '${LIKERTS_TOKEN}' } } } }));
+    await writeFile(configPath, JSON.stringify({ mcpServers: { likerts_probe: { type: 'stdio', command: executable, args: [relay, entry, join(work, 'claude-audit.json')], env: { LIKERTS_API_URL: '${LIKERTS_API_URL}', LIKERTS_TOKEN: '${LIKERTS_TOKEN}' } } } }));
     const probes = [
-      { name: 'codex', args: ['exec', '--ignore-user-config', '--ephemeral', '--skip-git-repo-check', '--sandbox', 'read-only', '--model', 'gpt-6-astra', '-c', 'model_reasoning_effort="low"', '--json', '-c', 'approval_policy="never"', '-c', `mcp_servers.likerts_probe.command=${JSON.stringify(executable)}`, '-c', 'mcp_servers.likerts_probe.env_vars=["LIKERTS_API_URL","LIKERTS_TOKEN"]', '-c', 'mcp_servers.likerts_probe.enabled_tools=["surveys_list"]', prompt] },
+      { name: 'codex', args: ['exec', '--ignore-user-config', '--ephemeral', '--skip-git-repo-check', '--sandbox', 'read-only', '--model', 'gpt-6-astra', '-c', 'model_reasoning_effort="low"', '--json', '-c', 'approval_policy="never"', '-c', `mcp_servers.likerts_probe.command=${JSON.stringify(executable)}`, '-c', `mcp_servers.likerts_probe.args=${JSON.stringify([relay, entry, join(work, 'codex-audit.json')])}`, '-c', 'mcp_servers.likerts_probe.env_vars=["LIKERTS_API_URL","LIKERTS_TOKEN"]', '-c', 'mcp_servers.likerts_probe.enabled_tools=["surveys_list"]', prompt] },
       { name: 'claude', args: ['--print', '--no-session-persistence', '--strict-mcp-config', '--mcp-config', configPath, '--setting-sources', '', '--tools', '', '--allowedTools', 'mcp__likerts_probe__surveys_list', '--output-format', 'stream-json', '--verbose', prompt] },
     ];
-    for (const probe of probes) {
+    // Prove the relay against the installed npm server before spending a model request.
+    const relayAudit = join(work, 'sdk-relay-audit.json');
+    const relayTransport = new StdioClientTransport({ command: executable, args: [relay, entry, relayAudit], cwd: work, env: { PATH: process.env.PATH ?? '', LIKERTS_API_URL: origin, LIKERTS_TOKEN: clientCredential.token }, stderr: 'pipe' });
+    const relayClient = new Client({ name: 'audit-relay-preflight', version: '1.0.0' });
+    connections.push({ client: relayClient, transport: relayTransport });
+    await relayClient.connect(relayTransport);
+    await relayClient.listTools();
+    assert.deepEqual(await call(relayClient, 'surveys_list'), []);
+    const relayEvidence = JSON.parse(await readFile(relayAudit, 'utf8'));
+    assert.equal(relayEvidence.initializeResults, 1);
+    assert.equal(relayEvidence.discoveredTools, expected.length);
+    assert.equal(relayEvidence.emptySurveyListResults, 1);
+    await relayClient.close();
+    for (const probe of probes.filter(value => requestedClients.includes(value.name))) {
       let version = 'unavailable';
       try { version = (await exec(probe.name, ['--version'], { timeout: 10000 })).stdout.trim(); } catch {}
-      let result;
-      let output = '';
-      let diagnostics = '';
+      let authenticated = false;
       try {
-        const run = await exec(probe.name, probe.args, { cwd: work, env: clientEnv, timeout: 180000, maxBuffer: 4 * 1024 * 1024 });
-        output = run.stdout; diagnostics = run.stderr; result = 'completed';
-      } catch (error) {
-        output = error.stdout ?? ''; diagnostics = error.stderr ?? '';
-        result = error.killed ? 'timeout' : error.code === 'ENOENT' ? 'client_not_installed' : 'client_failed';
+        const auth = await exec(probe.name, probe.name === 'codex' ? ['login', 'status'] : ['auth', 'status', '--json'], { cwd: work, env: clientEnv, timeout: 15000 });
+        authenticated = probe.name === 'codex' ? /Logged in/.test(auth.stdout + auth.stderr) : JSON.parse(auth.stdout).loggedIn === true;
+      } catch {}
+      if (!authenticated) {
+        const summary = { client: probe.name, version, status: 'authentication_required', authenticated: false, modelRequestAttempted: false, surveyListToolInvoked: false, emptyListVerified: false };
+        clientResults.push(summary); console.log(JSON.stringify({ clientProbe: summary })); continue;
       }
+      console.log(JSON.stringify({ clientProbeStarted: { client: probe.name, version, authenticated: true, timeoutSeconds: 180 } }));
+      let exitCode = null;
+      let timedOut = false;
+      const run = await runBoundedClient(probe.name, probe.args, { cwd: work, env: clientEnv, timeout: 180000 });
+      const output = run.stdout;
+      const diagnostics = run.stderr;
+      exitCode = run.exitCode; timedOut = run.timedOut;
+      const result = timedOut ? 'timeout' : run.spawnError ? 'client_not_installed' : run.outputLimit ? 'output_limit' : exitCode === 0 ? 'completed' : 'client_failed';
       const events = output.split('\n').flatMap(line => { try { return [JSON.parse(line)]; } catch { return []; } });
       const serialized = JSON.stringify(events);
       // Report classifications only: raw logs may contain process settings or tool results.
@@ -148,20 +174,15 @@ try {
       const claudeCalls = events.filter(event => event.type === 'assistant').flatMap(event => event.message?.content ?? []).filter(block => block.type === 'tool_use' && block.name === 'mcp__likerts_probe__surveys_list');
       const claudeResults = events.filter(event => event.type === 'user').flatMap(event => event.message?.content ?? []).filter(block => block.type === 'tool_result' && claudeCalls.some(call => call.id === block.tool_use_id));
       const called = probe.name === 'codex' ? codexCalls.length > 0 : claudeCalls.length > 0;
-      const replies = probe.name === 'codex' ? codexCalls.filter(call => call.status === 'completed' && !call.error && call.result?.isError !== true).map(call => call.result) : claudeResults.filter(result => !result.is_error);
-      function emptyList(value) {
-        const empty = payload => Array.isArray(payload) && payload.length === 0;
-        if (typeof value === 'string') { try { const parsed = JSON.parse(value); return empty(parsed) || empty(parsed?.result); } catch { return false; } }
-        if (!value || typeof value !== 'object') return false;
-        if (empty(value.structuredContent?.result) || empty(value.structured_content?.result)) return true;
-        if (typeof value.content === 'string') return emptyList(value.content);
-        return Array.isArray(value.content) && value.content.some(block => block.type === 'text' && emptyList(block.text));
-      }
-      const verified = called && replies.some(emptyList);
+      let audit = null;
+      try { audit = JSON.parse(await readFile(join(work, `${probe.name}-audit.json`), 'utf8')); } catch {}
+      const verified = audit?.surveyListRequests === 1 && audit?.emptySurveyListResults === 1 && audit?.toolErrors === 0;
       const text = `${serialized} ${diagnostics}`;
-      const classification = verified ? 'empty_survey_list_verified' : called ? 'tool_result_unverified' : /not logged in|login required|authentication|invalid api key|please run.*login|401/i.test(text) ? 'authentication_required'
+      const classification = timedOut ? 'timeout' : verified ? 'empty_survey_list_verified' : called ? 'tool_result_unverified' : /not logged in|login required|authentication|invalid api key|please run.*login|401/i.test(text) ? 'authentication_required'
         : /permission|approval|not trusted/i.test(text) ? 'approval_required' : /usage limit|rate.?limit|quota|429/i.test(text) ? 'usage_limit' : result === 'completed' ? 'client_finished_without_verified_tool' : result;
-      const summary = { client: probe.name, version, status: classification, surveyListToolInvoked: called, emptyListVerified: verified };
+      const signals = { startupFailure: !audit?.initializeResults && /MCP.*(failed|error)|failed to start|spawn.*ENOENT|No such file/i.test(text), networkFailure: /connection refused|connection reset|network error|stream disconnected|timed out/i.test(text), modelUnavailable: /model.*not (found|available|supported)|unsupported model/i.test(text), permissionDenied: /permission denied|requires approval|not trusted/i.test(text) };
+      const eventTypes = [...new Set(events.map(event => event.type).filter(type => ['thread.started', 'turn.started', 'item.started', 'item.updated', 'item.completed', 'turn.completed', 'turn.failed', 'error', 'system', 'assistant', 'user', 'result'].includes(type)))];
+      const summary = { client: probe.name, version, status: classification, authenticated: true, modelRequestAttempted: true, exitCode, timedOut, durationMs: run.durationMs, eventTypes, signals, protocolAudit: audit, surveyListToolInvoked: audit?.surveyListRequests > 0 || called, emptyListVerified: verified };
       clientResults.push(summary);
       console.log(JSON.stringify({ clientProbe: summary }));
     }
