@@ -58,20 +58,35 @@ Current [admission source](../../backend/src/admission.rs) performs one REST `EV
 
 The exact source Lua script was separately executed against isolated Redis 7; all three branches passed their execution-count assertions:
 
-| Lua branch | Wire command | Nested commands executed |
-| --- | --- | --- |
-| New window, allowed | `EVAL` × 1 | `GET` + `SET`: 2 |
-| Existing window, allowed | `EVAL` × 1 | `GET` + `PTTL` + `INCR`: 3 |
-| Shared saturation, denied | `EVAL` × 1 | `GET` + `PTTL`: 2 |
+| Lua branch | Wire command | Nested commands executed | Modeled command cost |
+| --- | --- | --- | --- |
+| New window, allowed | `EVAL` × 1 | `GET` + `SET`: 2 | 3 |
+| Existing window, allowed | `EVAL` × 1 | `GET` + `PTTL` + `INCR`: 3 | 4 |
+| Shared saturation, denied | `EVAL` × 1 | `GET` + `PTTL`: 2 | 3 |
 
-For the twelve admitted fixture requests, this means **24–36 nested Lua command executions**, or **36–48 total executions including the twelve `EVAL`s**. Those are execution counts, **not provider-billed units**. The fixture's direct SQL setup/journal/erasure, asynchronous export generation and exact-key Blob cleanup introduce no application Redis calls. Other traffic can still use the shared service.
+Upstash's regional rate-limit cost documentation counts both `EVAL` and nested commands: its fixed-window examples cost three commands on the first request and two on intermediate requests; its denied token-bucket example counts `EVAL` plus `HMGET`. Applying that documented model to Likerts' custom Lua gives the costs above and zero for local admission denial. The inspected store has no read regions, and this script emits no analytics command. [Official command-cost model](https://upstash.com/docs/redis/sdks/ratelimit-ts/costs).
 
-The billable multiplier remains unknown. The rounded `12k / 500k` console reading and Redis `INFO` processing counter cannot establish a precise workflow billing delta. Upstash also documents console-generated `SCAN`, `GET`, `TTL` and `EXISTS` traffic, which must be separated when interpreting a controlled sample. [Official console command-count explanation](https://upstash.com/docs/redis/troubleshooting/command_count_increases_unexpectedly). Current reviewed pricing/REST material does not explicitly resolve how nested Lua commands map to billed units; no numeric response allowance is inferred.
+The twelve admitted fixture requests therefore model **36–48 commands**, including twelve wire `EVAL`s and 24–36 nested executions. This is source-based application of the provider's documented model, not a measured monthly billing delta or response allowance. Direct SQL fixture work, asynchronous export generation and exact-key Blob cleanup add no application Redis calls; unrelated traffic may still use the shared service.
+
+At **05:36 UTC**, the refreshed authenticated Upstash console's Past 3 hours Top Commands table showed the following change. Its displayed timestamps did not label a timezone; the browser used Asia/Singapore, so they are not asserted as UTC.
+
+| Command | Displayed 11:22 | Displayed 12:28 | Difference |
+| --- | --- | --- | --- |
+| `EVAL` | 26 | 38 | 12 |
+| `GET` | 26 | 38 | 12 |
+| `INCR` | 14 | 19 | 5 |
+| `PTTL` | 14 | 19 | 5 |
+| `SET` | 12 | 19 | 7 |
+| Sum | 92 | 133 | **41** |
+
+The difference is consistent with seven new-window and five existing-window calls: `7 × 3 + 5 × 4 = 41`. It does not uniquely identify the fixture workload or exclude other traffic. The Sunday display also rose from 92 to 133. At displayed 13:28 all five series became zero, so this is not a monotonic monthly billing counter. Monthly usage remained rounded `12k / 500k`; Vercel Current Period and Period Total were absent.
+
+An exact billed-period delta remains unmeasured. Redis processing counters and the observed series cannot substitute for it. Separate background/dashboard traffic when measuring: Upstash documents console-generated `SCAN`, `GET`, `TTL` and `EXISTS` commands. [Official console command-count explanation](https://upstash.com/docs/redis/troubleshooting/command_count_increases_unexpectedly). No provider mutation or load test was performed for this inspection.
 
 ## Remaining acceptance evidence
 
 1. **Engineering/provider console:** Monthly usage, limit, storage and region have now been observed. Obtain exact billing-period start/end and sufficiently precise command/bandwidth readings for a controlled workflow delta. Provider service-time charts do not include the Singapore network round trip. [Upstash metric definitions](https://upstash.com/docs/redis/howto/metrics-and-charts)
 2. **Engineering:** The bounded source-local `PING` sample, timeout comparison and twelve-request authenticated API workflow timings are complete. Keep their distinct measurement boundaries; isolated admission service time and representative operational tail latency remain unmeasured.
-3. **Engineering/provider:** Establish documented Lua billing semantics and exact billed-counter readings tied to a billing period, reporting delay and an approved bounded workload, with background/dashboard traffic accounted for. Usage/Top Commands is suitable only if precise, complete and tied to the billed meter. The erased fixture must not be rerun; any future measurement needs a fresh disposable fixture. Then record the billable multiplier before forecasting traffic, verify exhaustion alerts and decide the operational region/plan. This analysis made no provider changes.
+3. **Engineering/provider:** The documented command-cost model is now established and applied above. Obtain exact billed-counter readings tied to a billing period, reporting delay and an approved fresh bounded workload, accounting for background/dashboard traffic, and compare the observed delta with the model. Usage/Top Commands is suitable only if precise, complete and tied to the billed meter. The erased fixture must not be rerun; any future measurement needs a fresh disposable fixture. Then record the billable multiplier before forecasting traffic, verify exhaustion alerts and decide the operational region/plan. This analysis made no provider changes.
 
 Hosted admission capacity remains unverified until billing, exhaustion alerting and an operational capacity decision are supported. The bounded network and API timing evidence above is complete for its stated scope. Health success and local multi-process limiter tests remain useful evidence of different properties.
