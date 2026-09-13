@@ -9,6 +9,7 @@
 /contracts/
 /docs/
 /economics/
+/examples/
 /infrastructure/
 /release/
 /releases/
@@ -19,5 +20,6 @@
 /tests/
 /tools/
 /Dockerfile
+/compose.yaml
 /render.yaml
 /*.md
