@@ -6,6 +6,13 @@ import { fileURLToPath } from 'node:url';
 const digest = value => createHash('sha256').update(value).digest();
 const failure = code => Object.assign(new Error(code), { safeCode: code });
 const integer = value => Number.isSafeInteger(value) && value >= 0;
+const archiveFailureCodes = {
+  Configuration: 'archive_configuration', Database: 'archive_database', Storage: 'archive_storage',
+  InvalidArchive: 'archive_invalid', CoverageUnproven: 'archive_coverage_unproven',
+  FenceReleased: 'archive_fence_released', Capacity: 'archive_capacity', StaleLease: 'archive_stale_lease',
+};
+const archiveFailureLines = new Map(Object.entries(archiveFailureCodes).map(([category, code]) =>
+  [`erasure_archive failed category=${category}; inspect restricted operational diagnostics`, code]));
 const roleKeys = {
   cleanup: ['LIKERTS_CLEANUP_DATABASE_URL', 'LIKERTS_VERCEL_BLOB_TOKEN', 'LIKERTS_EXPORT_PREFIX'],
   archive: ['LIKERTS_ERASURE_DATABASE_URL', 'LIKERTS_ERASURE_BLOB_TOKEN', 'LIKERTS_ERASURE_SOURCE_ID', 'LIKERTS_ERASURE_NAMESPACE'],
@@ -26,11 +33,11 @@ export function childEnvironment(kind, environment, certificateFile) {
   return result;
 }
 
-// stdout/stderr never reach application logs or HTTP responses. No shell,
+// Raw stdout/stderr never reach application logs or HTTP responses. No shell,
 // inherited credentials, user-selected arguments, or process-global env writes.
 export function runChild(binary, args, environment, timeoutMs, spawnProcess = spawn) {
   return new Promise((resolve, reject) => {
-    let output = '', bytes = 0, errorBytes = 0, problem, hardKill;
+    let output = '', errorOutput = '', bytes = 0, errorBytes = 0, problem, hardKill;
     const child = spawnProcess(binary, args, { env: environment, shell: false, stdio: ['ignore', 'pipe', 'pipe'] });
     const stop = code => {
       if (problem) return;
@@ -47,11 +54,16 @@ export function runChild(binary, args, environment, timeoutMs, spawnProcess = sp
     child.stderr.on('data', data => {
       errorBytes += data.length;
       if (errorBytes > 8192) stop('worker_output_limit');
+      else errorOutput += data.toString('utf8');
     });
     child.once('error', () => { problem = 'worker_start_failed'; });
-    child.once('close', code => {
+    child.once('close', (code, signal) => {
       clearTimeout(deadline); clearTimeout(hardKill);
-      if (problem || code !== 0) reject(failure(problem || 'worker_failed'));
+      // Match the entire fixed Rust diagnostic, optionally with its final LF.
+      // Provider bodies, additional lines, unknown categories and identifiers
+      // never become diagnostics. A timeout/output limit takes precedence.
+      const category = code === 1 && archiveFailureLines.get(errorOutput.replace(/\n$/, ''));
+      if (problem || code !== 0) reject(failure(problem || (signal ? 'worker_terminated' : category || 'worker_failed')));
       else resolve(output);
     });
   });
@@ -121,7 +133,7 @@ export function makeHandler(kind, directory, dependencies = {}) {
       return send(200, { ok: true, kind, rounds, deleted, responsesErased, exportsRevoked, idle, budgetExhausted: !idle });
     } catch (error) {
       // Even unknown exceptions and provider error bodies are never serialized.
-      const allowed = ['credential_boundary_failed', 'configuration_missing', 'bundle_invalid', 'worker_timeout', 'worker_output_limit', 'worker_start_failed', 'worker_failed', 'worker_output_invalid'];
+      const allowed = ['credential_boundary_failed', 'configuration_missing', 'bundle_invalid', 'worker_timeout', 'worker_output_limit', 'worker_start_failed', 'worker_failed', 'worker_terminated', 'worker_output_invalid', ...Object.values(archiveFailureCodes)];
       return send(503, { ok: false, error: allowed.includes(error?.safeCode) ? error.safeCode : 'maintenance_failed' });
     }
   };
