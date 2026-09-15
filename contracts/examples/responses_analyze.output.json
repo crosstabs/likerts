@@ -1,0 +1,73 @@
+{
+  "generatedAt": "2026-09-08T12:00:00Z",
+  "responseCount": 3,
+  "collectionCount": 1,
+  "privacy": {
+    "minimumGroupSize": 3,
+    "smallCellsSuppressed": true,
+    "textAnswersIncluded": false,
+    "respondentMetadataIncluded": false,
+    "note": "Question results are withheld for small collections, small distribution cells are omitted, and free text plus respondent metadata never appear in this payload."
+  },
+  "collections": [
+    {
+      "collectionId": "10000000-0000-4000-8000-000000000002",
+      "surveyId": "10000000-0000-4000-8000-000000000001",
+      "version": 1,
+      "title": "Checkout feedback",
+      "responseCount": 3,
+      "suppressed": false,
+      "questions": [
+        {
+          "questionId": "rating",
+          "label": "How was your experience?",
+          "kind": "scale",
+          "answeredCount": 3,
+          "missingCount": 0,
+          "suppressedValueCount": 0,
+          "numeric": {
+            "mean": 5,
+            "median": 5
+          },
+          "distribution": [
+            {
+              "value": "5",
+              "label": "5",
+              "count": 3,
+              "percentage": 100
+            }
+          ],
+          "note": null
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "kind": "numeric",
+      "title": "How was your experience?",
+      "detail": "Mean 5 and median 5 across 3 answered responses.",
+      "collectionId": "10000000-0000-4000-8000-000000000002",
+      "questionId": "rating"
+    }
+  ],
+  "visualizations": [
+    {
+      "id": "10000000-0000-4000-8000-000000000002:rating",
+      "collectionId": "10000000-0000-4000-8000-000000000002",
+      "questionId": "rating",
+      "title": "How was your experience?",
+      "kind": "bar",
+      "xField": "label",
+      "yField": "count",
+      "data": [
+        {
+          "value": "5",
+          "label": "5",
+          "count": 3,
+          "percentage": 100
+        }
+      ]
+    }
+  ]
+}

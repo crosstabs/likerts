@@ -10,6 +10,7 @@ let sessionVersion = 0;
 let sessionId;
 let issuedCredentialId;
 let connectionCode = "";
+let activeAnalysis;
 
 async function browserRequest(path, options = {}) {
   if (!activeClerk?.session) throw new Error("Sign in required");
@@ -42,6 +43,68 @@ function renderUsage(usage) {
   $("collection-status").dataset.blocked = "false";
 }
 
+function metric(label, value) {
+  const root = document.createElement("div");
+  const name = document.createElement("span"); name.textContent = label;
+  const number = document.createElement("strong"); number.textContent = Number(value ?? 0).toLocaleString();
+  root.append(name, number); return root;
+}
+
+function renderResults(analysis) {
+  activeAnalysis = analysis;
+  const selected = $("results-collection").value;
+  const collections = selected ? analysis.collections.filter((item) => item.collectionId === selected) : analysis.collections;
+  const findings = analysis.findings.filter((item) => !selected || !item.collectionId || item.collectionId === selected);
+  const visualizations = analysis.visualizations.filter((item) => !selected || item.collectionId === selected);
+  const responseCount = collections.reduce((sum, item) => sum + Number(item.responseCount || 0), 0);
+  $("results-summary").replaceChildren(metric("Responses", responseCount), metric("Collections", collections.length), metric("Charts", visualizations.length));
+  const findingRoot = $("results-findings"); findingRoot.replaceChildren();
+  for (const finding of findings.slice(0, 6)) {
+    const item = document.createElement("article"); item.className = "result-finding";
+    const title = document.createElement("h3"); title.textContent = finding.title;
+    const detail = document.createElement("p"); detail.textContent = finding.detail;
+    item.append(title, detail); findingRoot.append(item);
+  }
+  const chartRoot = $("results-charts"); chartRoot.replaceChildren();
+  for (const visualization of visualizations) {
+    const figure = document.createElement("figure"); figure.className = "result-chart";
+    const caption = document.createElement("figcaption"); caption.textContent = visualization.title;
+    const max = Math.max(...visualization.data.map((point) => Number(point.count)), 1);
+    const plot = document.createElement("div"); plot.className = "bar-plot";
+    for (const point of visualization.data) {
+      const row = document.createElement("div"); row.className = "bar-row";
+      const label = document.createElement("span"); label.className = "bar-label"; label.textContent = point.label;
+      const track = document.createElement("div"); track.className = "bar-track";
+      const bar = document.createElement("span"); bar.className = "bar-fill"; bar.style.width = `${Math.max(2, Number(point.count) / max * 100)}%`;
+      track.append(bar);
+      const value = document.createElement("span"); value.className = "bar-value"; value.textContent = `${Number(point.count).toLocaleString()} · ${point.percentage}%`;
+      row.setAttribute("aria-label", `${point.label}: ${point.count} responses, ${point.percentage} percent`);
+      row.append(label, track, value); plot.append(row);
+    }
+    figure.append(caption, plot); chartRoot.append(figure);
+  }
+  text("results-status", analysis.responseCount ? `Updated ${new Date(analysis.generatedAt).toLocaleString()}.` : "No responses yet. Publish and distribute a collection, then refresh.");
+  text("results-privacy", analysis.privacy.note);
+}
+
+async function loadResults() {
+  text("results-status", "Loading privacy-safe results…");
+  try {
+    const analysis = await browserRequest("/v1/browser/results?minimumGroupSize=3");
+    const select = $("results-collection");
+    const previous = select.value;
+    select.replaceChildren(new Option("All collections", ""));
+    for (const collection of analysis.collections) select.append(new Option(`${collection.title} · ${collection.responseCount}`, collection.collectionId));
+    if ([...select.options].some((option) => option.value === previous)) select.value = previous;
+    renderResults(analysis);
+  } catch (error) {
+    activeAnalysis = undefined;
+    $("results-summary").replaceChildren(); $("results-findings").replaceChildren(); $("results-charts").replaceChildren();
+    text("results-status", `Results are unavailable. ${error.message}`);
+    text("results-privacy", "No response data was placed in the page.");
+  }
+}
+
 async function loadWorkspace({initial = false} = {}) {
   const version = sessionVersion;
   text("refresh-status", "Refreshing workspace…");
@@ -56,6 +119,8 @@ async function loadWorkspace({initial = false} = {}) {
   text("session-status", "Signed in. Your workspace is ready.");
   text("refresh-status", "Updated just now. Refresh to see new responses.");
   renderConnection();
+  await loadResults();
+  if (version !== sessionVersion) return;
   if (initial) {
     await loadAgentCredentials();
     if (version !== sessionVersion) return;
@@ -143,6 +208,7 @@ $("hide-agent-token").addEventListener("click", () => { clearSecret(); text("age
 $("copy-workspace").addEventListener("click", () => copyValue(activeWorkspace, "refresh-status"));
 $("copy-connection").addEventListener("click", () => copyValue(connectionCode, "connection-status"));
 $("connection-client").addEventListener("change", renderConnection);
+$("results-collection").addEventListener("change", () => { if (activeAnalysis) renderResults(activeAnalysis); });
 
 async function refresh() {
   $("refresh-workspace").disabled = true;
@@ -159,9 +225,11 @@ async function sessionChanged(clerk) {
   sessionId = nextId;
   const version = ++sessionVersion;
   activeClerk = clerk; activeWorkspace = undefined;
+  activeAnalysis = undefined;
   clearSecret();
   $("workspace-content").hidden = true; $("signed-out-panel").hidden = false;
   $("agent-credentials").replaceChildren();
+  $("results-summary").replaceChildren(); $("results-findings").replaceChildren(); $("results-charts").replaceChildren();
   const root = $("auth-root"); root.replaceChildren();
   const mount = document.createElement("div"); root.appendChild(mount);
   if (!nextId) {

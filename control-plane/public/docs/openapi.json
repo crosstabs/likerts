@@ -2660,6 +2660,52 @@
         "x-required-scope": "responses:read"
       }
     },
+    "/v1/responses/aggregate": {
+      "get": {
+        "operationId": "responses_aggregate",
+        "summary": "Return privacy-safe response aggregates.",
+        "description": "Reads a stable response snapshot, excludes respondent metadata and free-text values, withholds question results below minimumGroupSize, and omits smaller distribution cells. Analysis is bounded to 50000 responses; narrow the acceptance window for larger workspaces.",
+        "security": [{"managementBearer": []}],
+        "parameters": [
+          {"name":"collectionId","in":"query","schema":{"type":"string","format":"uuid"}},
+          {"name":"acceptedFrom","in":"query","schema":{"type":"string","format":"date-time"},"description":"Inclusive acceptance-time lower bound."},
+          {"name":"acceptedTo","in":"query","schema":{"type":"string","format":"date-time"},"description":"Exclusive acceptance-time upper bound."},
+          {"name":"minimumGroupSize","in":"query","schema":{"type":"integer","minimum":3,"maximum":100,"default":3}},
+          {"in":"header","name":"X-Likerts-Workspace","required":false,"schema":{"type":"string","minLength":1,"maxLength":128}}
+        ],
+        "responses": {
+          "200": {"description":"Success","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResponseAggregate"},"example":{"generatedAt":"2026-09-08T12:00:00Z","responseCount":3,"collectionCount":1,"privacy":{"minimumGroupSize":3,"smallCellsSuppressed":true,"textAnswersIncluded":false,"respondentMetadataIncluded":false,"note":"Question results are withheld for small collections, small distribution cells are omitted, and free text plus respondent metadata never appear in this payload."},"collections":[{"collectionId":"10000000-0000-4000-8000-000000000002","surveyId":"10000000-0000-4000-8000-000000000001","version":1,"title":"Checkout feedback","responseCount":3,"suppressed":false,"questions":[{"questionId":"rating","label":"How was your experience?","kind":"scale","answeredCount":3,"missingCount":0,"suppressedValueCount":0,"numeric":{"mean":5,"median":5},"distribution":[{"value":"5","label":"5","count":3,"percentage":100}],"note":null}]}]}}}},
+          "400":{"description":"Invalid filters or the bounded analysis limit was exceeded.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"invalid_request","message":"Invalid filters or the bounded analysis limit was exceeded."}}}}},
+          "401":{"description":"Missing or invalid credential.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"unauthorized","message":"Missing or invalid credential."}}}}},
+          "403":{"description":"The credential lacks responses:read.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"forbidden","message":"The credential lacks responses:read."}}}}},
+          "500":{"description":"Internal service error.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"internal_error","message":"Internal service error."}}}}}
+        },
+        "x-required-scope":"responses:read"
+      }
+    },
+    "/v1/responses/analyze": {
+      "get": {
+        "operationId": "responses_analyze",
+        "summary": "Return privacy-safe findings and chart-ready data.",
+        "description": "Uses the same privacy and bounded-snapshot policy as responses_aggregate, adding descriptive findings and bar-chart data. Findings are observational and do not claim causality.",
+        "security": [{"managementBearer": []}],
+        "parameters": [
+          {"name":"collectionId","in":"query","schema":{"type":"string","format":"uuid"}},
+          {"name":"acceptedFrom","in":"query","schema":{"type":"string","format":"date-time"},"description":"Inclusive acceptance-time lower bound."},
+          {"name":"acceptedTo","in":"query","schema":{"type":"string","format":"date-time"},"description":"Exclusive acceptance-time upper bound."},
+          {"name":"minimumGroupSize","in":"query","schema":{"type":"integer","minimum":3,"maximum":100,"default":3}},
+          {"in":"header","name":"X-Likerts-Workspace","required":false,"schema":{"type":"string","minLength":1,"maxLength":128}}
+        ],
+        "responses": {
+          "200": {"description":"Success","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResponseAnalysis"},"example":{"generatedAt":"2026-09-08T12:00:00Z","responseCount":3,"collectionCount":1,"privacy":{"minimumGroupSize":3,"smallCellsSuppressed":true,"textAnswersIncluded":false,"respondentMetadataIncluded":false,"note":"Question results are withheld for small collections, small distribution cells are omitted, and free text plus respondent metadata never appear in this payload."},"collections":[{"collectionId":"10000000-0000-4000-8000-000000000002","surveyId":"10000000-0000-4000-8000-000000000001","version":1,"title":"Checkout feedback","responseCount":3,"suppressed":false,"questions":[{"questionId":"rating","label":"How was your experience?","kind":"scale","answeredCount":3,"missingCount":0,"suppressedValueCount":0,"numeric":{"mean":5,"median":5},"distribution":[{"value":"5","label":"5","count":3,"percentage":100}],"note":null}]}],"findings":[{"kind":"numeric","title":"How was your experience?","detail":"Mean 5 and median 5 across 3 answered responses.","collectionId":"10000000-0000-4000-8000-000000000002","questionId":"rating"}],"visualizations":[{"id":"10000000-0000-4000-8000-000000000002:rating","collectionId":"10000000-0000-4000-8000-000000000002","questionId":"rating","title":"How was your experience?","kind":"bar","xField":"label","yField":"count","data":[{"value":"5","label":"5","count":3,"percentage":100}]}]}}}},
+          "400":{"description":"Invalid filters or the bounded analysis limit was exceeded.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"invalid_request","message":"Invalid filters or the bounded analysis limit was exceeded."}}}}},
+          "401":{"description":"Missing or invalid credential.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"unauthorized","message":"Missing or invalid credential."}}}}},
+          "403":{"description":"The credential lacks responses:read.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"forbidden","message":"The credential lacks responses:read."}}}}},
+          "500":{"description":"Internal service error.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"internal_error","message":"Internal service error."}}}}}
+        },
+        "x-required-scope":"responses:read"
+      }
+    },
     "/v1/responses/{id}": {
       "delete": {
         "operationId": "responses_delete",
@@ -7549,6 +7595,28 @@
         "x-interface-exempt": true
       }
     },
+    "/v1/browser/results": {
+      "get": {
+        "operationId":"browser_results",
+        "summary":"Return privacy-safe results to the signed-in workspace owner.",
+        "security":[{"browserSessionBearer":[]}],
+        "parameters":[
+          {"name":"collectionId","in":"query","schema":{"type":"string","format":"uuid"}},
+          {"name":"acceptedFrom","in":"query","schema":{"type":"string","format":"date-time"}},
+          {"name":"acceptedTo","in":"query","schema":{"type":"string","format":"date-time"}},
+          {"name":"minimumGroupSize","in":"query","schema":{"type":"integer","minimum":3,"maximum":100,"default":3}},
+          {"in":"header","name":"X-Likerts-Workspace","required":true,"schema":{"type":"string","minLength":1,"maxLength":200}}
+        ],
+        "responses":{
+          "200":{"description":"Privacy-safe results.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResponseAnalysis"}}}},
+          "400":{"description":"Invalid filters.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"invalid_request","message":"Invalid filters."}}}}},
+          "401":{"description":"Missing or invalid browser session.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"unauthorized","message":"Missing or invalid browser session."}}}}},
+          "403":{"description":"Owner access is required.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"forbidden","message":"Owner access is required."}}}}},
+          "500":{"description":"Internal service error.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":{"code":"internal_error","message":"Internal service error."}}}}}
+        },
+        "x-interface-exempt":true
+      }
+    },
     "/v1/browser/service-credentials": {
       "get": {
         "operationId": "browser_service_credentials_list",
@@ -9566,6 +9634,44 @@
         ],
         "additionalProperties": false
       },
+      "AnalysisPrivacy": {
+        "type":"object",
+        "properties":{
+          "minimumGroupSize":{"type":"integer","minimum":3,"maximum":100},
+          "smallCellsSuppressed":{"const":true},
+          "textAnswersIncluded":{"const":false},
+          "respondentMetadataIncluded":{"const":false},
+          "note":{"type":"string"}
+        },
+        "required":["minimumGroupSize","smallCellsSuppressed","textAnswersIncluded","respondentMetadataIncluded","note"],
+        "additionalProperties":false
+      },
+      "ResponseAggregate": {
+        "type":"object",
+        "properties":{
+          "generatedAt":{"type":"string","format":"date-time"},
+          "responseCount":{"type":"integer","minimum":0},
+          "collectionCount":{"type":"integer","minimum":0},
+          "privacy":{"$ref":"#/components/schemas/AnalysisPrivacy"},
+          "collections":{"type":"array","items":{"type":"object","additionalProperties":true}}
+        },
+        "required":["generatedAt","responseCount","collectionCount","privacy","collections"],
+        "additionalProperties":false
+      },
+      "ResponseAnalysis": {
+        "type":"object",
+        "properties":{
+          "generatedAt":{"type":"string","format":"date-time"},
+          "responseCount":{"type":"integer","minimum":0},
+          "collectionCount":{"type":"integer","minimum":0},
+          "privacy":{"$ref":"#/components/schemas/AnalysisPrivacy"},
+          "collections":{"type":"array","items":{"type":"object","additionalProperties":true}},
+          "findings":{"type":"array","items":{"type":"object","additionalProperties":true}},
+          "visualizations":{"type":"array","items":{"type":"object","additionalProperties":true}}
+        },
+        "required":["generatedAt","responseCount","collectionCount","privacy","collections","findings","visualizations"],
+        "additionalProperties":false
+      },
       "ExportInput": {
         "type": "object",
         "properties": {
@@ -10207,6 +10313,8 @@
                       "collections_get",
                       "responses_submit",
                       "responses_list",
+                      "responses_aggregate",
+                      "responses_analyze",
                       "responses_delete",
                       "exports_create",
                       "exports_get",

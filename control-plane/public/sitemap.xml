@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://likerts.com/</loc></url>
-  <url><loc>https://likerts.com/docs</loc></url>
-  <url><loc>https://likerts.com/docs/api</loc></url>
-  <url><loc>https://likerts.com/demo</loc></url>
-  <url><loc>https://likerts.com/downloads</loc></url>
-  <url><loc>https://likerts.com/preview</loc></url>
+  <url><loc>https://likerts.com/</loc><lastmod>2026-09-15</lastmod></url>
+  <url><loc>https://likerts.com/docs</loc><lastmod>2026-09-15</lastmod></url>
+  <url><loc>https://likerts.com/docs/api</loc><lastmod>2026-09-15</lastmod></url>
+  <url><loc>https://likerts.com/demo</loc><lastmod>2026-09-15</lastmod></url>
+  <url><loc>https://likerts.com/downloads</loc><lastmod>2026-09-15</lastmod></url>
+  <url><loc>https://likerts.com/preview</loc><lastmod>2026-09-15</lastmod></url>
 </urlset>

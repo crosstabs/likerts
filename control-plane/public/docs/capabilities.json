@@ -80,6 +80,22 @@
     "auth": "management"
   },
   {
+    "name": "responses_aggregate",
+    "method": "GET",
+    "path": "/v1/responses/aggregate",
+    "description": "Return privacy-safe question aggregates without respondent metadata or free-text values. Small collections and distribution cells are suppressed.",
+    "input": "response_analysis",
+    "auth": "management"
+  },
+  {
+    "name": "responses_analyze",
+    "method": "GET",
+    "path": "/v1/responses/analyze",
+    "description": "Return privacy-safe findings and chart-ready data derived from response aggregates. No respondent metadata or free-text values are included.",
+    "input": "response_analysis",
+    "auth": "management"
+  },
+  {
     "name": "responses_delete",
     "method": "DELETE",
     "path": "/v1/responses/{id}",

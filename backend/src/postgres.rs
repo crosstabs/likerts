@@ -1708,6 +1708,45 @@ impl PgStore {
         response_page(responses, cursor)
     }
 
+    pub async fn response_schemas(
+        &self,
+        workspace: &str,
+        collection_id: Option<&str>,
+    ) -> Result<Vec<crate::ResponseSchema>, Error> {
+        let collection_id = collection_id
+            .map(Uuid::parse_str)
+            .transpose()
+            .map_err(|_| Error::Invalid("invalid collectionId".into()))?;
+        let mut transaction = self.workspace_transaction(workspace).await?;
+        let rows = sqlx::query(
+            "select c.id,c.survey_id,c.version,v.title,v.questions
+             from likerts.collections c
+             join likerts.survey_versions v
+               on v.workspace_id=c.workspace_id and v.survey_id=c.survey_id and v.version=c.version
+             where c.workspace_id=$1 and ($2::uuid is null or c.id=$2)
+             order by c.created_at,c.id",
+        )
+        .bind(workspace)
+        .bind(collection_id)
+        .fetch_all(&mut *transaction)
+        .await
+        .map_err(database_error)?;
+        let schemas = rows
+            .into_iter()
+            .map(|row| {
+                Ok(crate::ResponseSchema {
+                    collection_id: row.get::<Uuid, _>("id").to_string(),
+                    survey_id: row.get::<Uuid, _>("survey_id").to_string(),
+                    version: row.get::<i64, _>("version") as u64,
+                    title: row.get("title"),
+                    questions: questions(row.get("questions"))?,
+                })
+            })
+            .collect::<Result<Vec<_>, Error>>()?;
+        transaction.commit().await.map_err(database_error)?;
+        Ok(schemas)
+    }
+
     pub async fn create_export(
         &self,
         workspace: &str,

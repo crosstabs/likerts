@@ -1,4 +1,5 @@
 pub mod admission;
+pub mod analysis;
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine};
 use chrono::{DateTime, Duration, Utc};
 use hmac::{Hmac, Mac};
@@ -20,6 +21,7 @@ mod jwks;
 pub mod metrics;
 pub mod postgres;
 
+pub use analysis::{ResponseAggregate, ResponseAnalysis, ResponseAnalysisInput, ResponseSchema};
 pub use branching::{PageBranch, SurveyPage};
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
@@ -1534,6 +1536,35 @@ impl Store {
             .cloned()
             .collect();
         response_page(items, cursor)
+    }
+    pub fn response_schemas(
+        &self,
+        workspace: &str,
+        collection_id: Option<&str>,
+    ) -> Result<Vec<ResponseSchema>, Error> {
+        if collection_id.is_some_and(|id| Uuid::parse_str(id).is_err()) {
+            return Err(invalid("invalid collectionId"));
+        }
+        let mut schemas = self
+            .collections
+            .values()
+            .filter(|(owner, collection)| {
+                owner == workspace && collection_id.is_none_or(|id| collection.id == id)
+            })
+            .filter_map(|(_, collection)| {
+                self.versions
+                    .get(&(collection.survey_id.clone(), collection.version))
+                    .map(|(_, version)| ResponseSchema {
+                        collection_id: collection.id.clone(),
+                        survey_id: collection.survey_id.clone(),
+                        version: collection.version,
+                        title: version.title.clone(),
+                        questions: version.questions.clone(),
+                    })
+            })
+            .collect::<Vec<_>>();
+        schemas.sort_by(|a, b| a.collection_id.cmp(&b.collection_id));
+        Ok(schemas)
     }
     pub fn usage(&self, workspace: &str) -> u64 {
         self.usage.get(workspace).copied().unwrap_or(0)
