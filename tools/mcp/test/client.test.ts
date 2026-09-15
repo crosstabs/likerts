@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 import { capabilities, LikertsClient } from '../src/client.js';
 import { createServer } from '../src/server.js';
+import { operationContracts } from '../src/contract.js';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { examples } from '../../../contracts/example-data.mjs';
@@ -58,6 +59,18 @@ test('MCP exposes exactly registry operations and dispatches calls', async () =>
     const invalid = await client.callTool({name:'surveys_publish',arguments:{id:'survey-1',revision:-1}});
     assert.equal(invalid.isError,true);
   } finally { await client.close(); await server.close(); }
+});
+
+test('analysis tools publish privacy-safe filters and structured output', () => {
+  for (const name of ['responses_aggregate', 'responses_analyze']) {
+    const contract = operationContracts.get(name)!;
+    assert.equal(contract.inputSchema.properties.minimumGroupSize.minimum, 3);
+    assert.equal(contract.inputSchema.properties.minimumGroupSize.maximum, 100);
+    assert.equal(contract.validateInput({minimumGroupSize: 2}), false);
+    assert.equal(contract.validateOutput({result: examples[name].output}), true);
+    assert.equal(examples[name].output.privacy.textAnswersIncluded, false);
+    assert.equal(examples[name].output.privacy.respondentMetadataIncluded, false);
+  }
 });
 
 test('MCP publishes expanded input shapes and preserves create/update question definitions', async () => {

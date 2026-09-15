@@ -18,6 +18,8 @@ Run any example with `likerts call OPERATION --input contracts/examples/OPERATIO
 | collections_get | GET /v1/collections/{id} | collection credential | 200 | [JSON](examples/collections_get.input.json) |
 | responses_submit | POST /v1/collections/{id}/responses | collection credential | 200 | [JSON](examples/responses_submit.input.json) |
 | responses_list | GET /v1/responses | responses:read | 200 | [JSON](examples/responses_list.input.json) |
+| responses_aggregate | GET /v1/responses/aggregate | responses:read | 200 | [JSON](examples/responses_aggregate.input.json) |
+| responses_analyze | GET /v1/responses/analyze | responses:read | 200 | [JSON](examples/responses_analyze.input.json) |
 | responses_delete | DELETE /v1/responses/{id} | responses:write | 204 | [JSON](examples/responses_delete.input.json) |
 | exports_create | POST /v1/exports | exports:write | 202 | [JSON](examples/exports_create.input.json) |
 | exports_get | GET /v1/exports/{id} | exports:read | 200 | [JSON](examples/exports_get.input.json) |
@@ -54,6 +56,8 @@ Run any example with `likerts call OPERATION --input contracts/examples/OPERATIO
 - **collections_get** — Use the collection credential, never a management token in a respondent app. [Example result](examples/collections_get.output.json). Documented errors: 400, 401, 403, 410, 429, 500, 503.
 - **responses_submit** — An accepted new response is counted but never metered or charged; identical retries return the same receipt. [Example result](examples/responses_submit.output.json). Documented errors: 400, 401, 403, 409, 410, 413, 415, 429, 500, 503.
 - **responses_list** — Continue with nextCursor and the same filters; it fixes a snapshot boundary. [Example result](examples/responses_list.output.json). Documented errors: 400, 401, 403, 429, 500, 503.
+- **responses_aggregate** — Use privacy-safe aggregates for dashboards; narrow the acceptance window when a workspace exceeds the bounded analysis limit. [Example result](examples/responses_aggregate.output.json). Documented errors: 400, 401, 403, 500.
+- **responses_analyze** — Use findings as descriptive evidence, not causal proof, and render visualization data with the declared xField and yField. [Example result](examples/responses_analyze.output.json). Documented errors: 400, 401, 403, 500.
 - **responses_delete** — Permanently erases raw answers/metadata and revokes affected exports; usage remains. [Example result](examples/responses_delete.output.json). Documented errors: 400, 401, 403, 404, 429, 500, 503.
 - **exports_create** — Poll exports_get until ready; CSV is also supported. [Example result](examples/exports_create.output.json). Documented errors: 400, 401, 403, 409, 410, 413, 415, 429, 500, 503.
 - **exports_get** — Poll until ready; polling resumes queued jobs and reclaims expired execution leases within this workspace. [Example result](examples/exports_get.output.json). Documented errors: 400, 401, 403, 404, 410, 429, 500, 503.
@@ -95,6 +99,7 @@ After a timeout or 500, a write may have committed. Only retry operations that s
 - **OPTIONS /v1/collections/{id}** — Browser CORS preflight; the collection capability remains GET.
 - **OPTIONS /v1/collections/{id}/responses** — Browser CORS preflight; submission remains POST.
 - **POST /v1/browser/bootstrap** — First-party Clerk session bridge for personal workspace bootstrap and status; not an MCP/CLI capability.
+- **GET /v1/browser/results** — First-party owner dashboard bridge for the same privacy-safe result analysis exposed to scoped MCP and CLI clients.
 - **POST /v1/browser/oauth-grants** — Interactive owner consent bridge for registered OAuth clients; not an agent-callable capability.
 - **GET /v1/browser/service-credentials** — First-party owner dashboard lists agent credential metadata without exposing bearer tokens.
 - **POST /v1/browser/service-credentials** — First-party owner dashboard issues a scoped agent token once; the equivalent management capability remains available to API, MCP and CLI clients.

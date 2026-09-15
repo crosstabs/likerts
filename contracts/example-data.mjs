@@ -15,6 +15,10 @@ const version={surveyId,version:1,...draft,sdkCapabilities};
 const collection={id:collectionId,surveyId,version:1,placement:'checkout',token:'10000000-0000-4000-8000-000000000008',accepting:true,expiresAt:null,responseCap:100,revoked:false,sdkCapabilities};
 const receipt={responseId,collectionId,accepted:true};
 const response={receipt,answers:{rating:5},metadata:{channel:'app'},acceptedAt:createdAt};
+const privacy={minimumGroupSize:3,smallCellsSuppressed:true,textAnswersIncluded:false,respondentMetadataIncluded:false,note:'Question results are withheld for small collections, small distribution cells are omitted, and free text plus respondent metadata never appear in this payload.'};
+const collectionAnalysis={collectionId,surveyId,version:1,title:'Checkout feedback',responseCount:3,suppressed:false,questions:[{questionId:'rating',label:'How was your experience?',kind:'scale',answeredCount:3,missingCount:0,suppressedValueCount:0,numeric:{mean:5,median:5},distribution:[{value:'5',label:'5',count:3,percentage:100}],note:null}]};
+const aggregate={generatedAt:createdAt,responseCount:3,collectionCount:1,privacy,collections:[collectionAnalysis]};
+const analysis={...aggregate,findings:[{kind:'numeric',title:'How was your experience?',detail:'Mean 5 and median 5 across 3 answered responses.',collectionId,questionId:'rating'}],visualizations:[{id:`${collectionId}:rating`,collectionId,questionId:'rating',title:'How was your experience?',kind:'bar',xField:'label',yField:'count',data:collectionAnalysis.questions[0].distribution}]};
 const usage={acceptedResponses:1,monthAcceptedResponses:1};
 const job={id:exportId,format:'json',status:'queued',createdAt,expiresAt,responseCount:null,contentSha256:null,manifest:null,errorCode:null};
 const manifest={formatVersion:1,responseCount:0,snapshotUpperSequence:0,collectionId:null,acceptedFrom:null,acceptedTo:null,schemas:[]};
@@ -33,6 +37,8 @@ export const examples={
   collections_get:entry({id:collectionId},{id:collectionId,surveyId,version:1,placement:'checkout',schema:{schemaVersion:1,...draft}},'Use the collection credential, never a management token in a respondent app.'),
   responses_submit:entry({id:collectionId,idempotencyKey:'completed-response-001',answers:{rating:5},metadata:{channel:'app'}},receipt,'An accepted new response is counted but never metered or charged; identical retries return the same receipt.'),
   responses_list:entry({limit:100,collectionId},{items:[response],nextCursor:null},'Continue with nextCursor and the same filters; it fixes a snapshot boundary.'),
+  responses_aggregate:entry({collectionId,minimumGroupSize:3},aggregate,'Use privacy-safe aggregates for dashboards; narrow the acceptance window when a workspace exceeds the bounded analysis limit.'),
+  responses_analyze:entry({collectionId,minimumGroupSize:3},analysis,'Use findings as descriptive evidence, not causal proof, and render visualization data with the declared xField and yField.'),
   responses_delete:entry({id:responseId},{},'Permanently erases raw answers/metadata and revokes affected exports; usage remains.'),
   exports_create:entry({idempotencyKey:'export-001',format:'json',collectionId},job,'Poll exports_get until ready; CSV is also supported.'),
   exports_get:entry({id:exportId},job,'Poll until ready; polling resumes queued jobs and reclaims expired execution leases within this workspace.'),

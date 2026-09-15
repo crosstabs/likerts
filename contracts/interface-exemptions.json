@@ -35,6 +35,11 @@
     "reason": "First-party Clerk session bridge for personal workspace bootstrap and status; not an MCP/CLI capability."
   },
   {
+    "method": "GET",
+    "path": "/v1/browser/results",
+    "reason": "First-party owner dashboard bridge for the same privacy-safe result analysis exposed to scoped MCP and CLI clients."
+  },
+  {
     "method": "POST",
     "path": "/v1/browser/oauth-grants",
     "reason": "Interactive owner consent bridge for registered OAuth clients; not an agent-callable capability."

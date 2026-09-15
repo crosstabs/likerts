@@ -9,6 +9,7 @@ use axum::{
 use base64::{engine::general_purpose::STANDARD as BASE64, Engine};
 use likerts_server::{
     admission::{self, Admission},
+    analysis::{analyze_responses, MAX_ANALYSIS_RESPONSES},
     auth::{OidcClaims, OidcVerifier},
     browser_auth::{
         validate_approved_scopes, BrowserClaims, BrowserOAuthClients, BrowserSessionVerifier,
@@ -25,9 +26,9 @@ use likerts_server::{
     webhooks::{EndpointInput, EndpointUpdate, WebhookKeys, WebhookOperationInput},
     Collection, CollectionLimits, CollectionSecurity, CollectionSecurityInput, DraftInput, Error,
     ExportFormat, ExportInput, ExportJob, ExportManifest, ExportSnapshot, LifecycleBatch,
-    OAuthGrant, Receipt, ResponseListInput, ResponsePage, RetentionResult, Role, SdkCapabilities,
-    ServiceCredential, Store, Submission, Survey, SurveyPage, UsageSummary, Version,
-    WorkspaceMembership,
+    OAuthGrant, Receipt, ResponseAnalysis, ResponseAnalysisInput, ResponseListInput, ResponsePage,
+    RetentionResult, Role, SdkCapabilities, ServiceCredential, Store, Submission, Survey,
+    SurveyPage, UsageSummary, Version, WorkspaceMembership,
 };
 use serde::{de::DeserializeOwned, Deserialize};
 use serde_json::json;
@@ -265,6 +266,57 @@ impl Storage {
             Self::Memory(_) => self.memory_store()?.responses(workspace, input),
             Self::Postgres(store) => store.responses(workspace, input).await,
         }
+    }
+
+    async fn response_analysis(
+        &self,
+        workspace: &str,
+        input: ResponseAnalysisInput,
+    ) -> Result<ResponseAnalysis, Error> {
+        let minimum_group_size = input.minimum_group_size()?;
+        let schemas = match self {
+            Self::Memory(_) => self
+                .memory_store()?
+                .response_schemas(workspace, input.collection_id.as_deref())?,
+            Self::Postgres(store) => {
+                store
+                    .response_schemas(workspace, input.collection_id.as_deref())
+                    .await?
+            }
+        };
+        let mut cursor = None;
+        let mut responses = Vec::new();
+        loop {
+            let page = self
+                .responses(
+                    workspace,
+                    ResponseListInput {
+                        limit: Some(1_000),
+                        cursor,
+                        collection_id: input.collection_id.clone(),
+                        accepted_from: input.accepted_from,
+                        accepted_to: input.accepted_to,
+                    },
+                )
+                .await?;
+            responses.extend(page.items);
+            if responses.len() > MAX_ANALYSIS_RESPONSES {
+                return Err(Error::Invalid(
+                    "analysis is limited to 50000 responses; narrow acceptedFrom and acceptedTo"
+                        .into(),
+                ));
+            }
+            let Some(next_cursor) = page.next_cursor else {
+                break;
+            };
+            cursor = Some(next_cursor);
+        }
+        Ok(analyze_responses(
+            schemas,
+            responses,
+            minimum_group_size,
+            chrono::Utc::now(),
+        ))
     }
 
     async fn usage_summary(&self, workspace: &str) -> Result<UsageSummary, Error> {
@@ -583,6 +635,18 @@ async fn browser_bootstrap(
             "created": created,
             "usage": usage
         })),
+    ))
+}
+
+async fn browser_results(
+    State(app): State<App>,
+    headers: HeaderMap,
+    input: Result<Query<ResponseAnalysisInput>, axum::extract::rejection::QueryRejection>,
+) -> Result<impl IntoResponse, ApiError> {
+    let (_, workspace) = browser_owner_workspace(&app, &headers).await?;
+    let Query(input) = input.map_err(|error| ApiError(Error::Invalid(error.body_text())))?;
+    Ok(Json(
+        app.storage.response_analysis(&workspace, input).await?,
     ))
 }
 
@@ -1219,6 +1283,33 @@ async fn responses(
     Ok(Json(app.storage.responses(&workspace, input).await?))
 }
 
+async fn response_aggregate(
+    State(app): State<App>,
+    headers: HeaderMap,
+    input: Result<Query<ResponseAnalysisInput>, axum::extract::rejection::QueryRejection>,
+) -> Result<impl IntoResponse, ApiError> {
+    let workspace = workspace(&app, &headers, "responses:read").await?;
+    let Query(input) = input.map_err(|error| ApiError(Error::Invalid(error.body_text())))?;
+    Ok(Json(
+        app.storage
+            .response_analysis(&workspace, input)
+            .await?
+            .into_aggregate(),
+    ))
+}
+
+async fn response_analysis(
+    State(app): State<App>,
+    headers: HeaderMap,
+    input: Result<Query<ResponseAnalysisInput>, axum::extract::rejection::QueryRejection>,
+) -> Result<impl IntoResponse, ApiError> {
+    let workspace = workspace(&app, &headers, "responses:read").await?;
+    let Query(input) = input.map_err(|error| ApiError(Error::Invalid(error.body_text())))?;
+    Ok(Json(
+        app.storage.response_analysis(&workspace, input).await?,
+    ))
+}
+
 async fn usage(State(app): State<App>, headers: HeaderMap) -> Result<impl IntoResponse, ApiError> {
     let workspace = workspace(&app, &headers, "usage:read").await?;
     Ok(Json(app.storage.usage_summary(&workspace).await?))
@@ -1720,6 +1811,8 @@ async fn main() {
             post(submit).options(collection_preflight),
         )
         .route("/v1/responses", get(responses))
+        .route("/v1/responses/aggregate", get(response_aggregate))
+        .route("/v1/responses/analyze", get(response_analysis))
         .route("/v1/responses/{id}", axum::routing::delete(erase_response))
         .route("/v1/retention", post(run_retention))
         .route("/v1/workspace", axum::routing::delete(erase_workspace))
@@ -1735,6 +1828,7 @@ async fn main() {
         )
         .route("/v1/oauth-grants", post(create_oauth_grant))
         .route("/v1/browser/bootstrap", post(browser_bootstrap))
+        .route("/v1/browser/results", get(browser_results))
         .route(
             "/v1/browser/service-credentials",
             get(browser_list_service_credentials).post(browser_create_service_credential),

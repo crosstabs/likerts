@@ -37,6 +37,13 @@ async function fixture({ signedIn = true, revokeFails = false } = {}) {
     requests.push({ url, options });
     let body; let status = 200;
     if (url.endsWith("/bootstrap")) body = { workspaceId: "ws_test", usage: { acceptedResponses: 901, monthAcceptedResponses: 22 } };
+    else if (url.includes("/browser/results")) body = {
+      generatedAt: "2026-09-15T12:00:00Z", responseCount: 3, collectionCount: 1,
+      privacy: { minimumGroupSize: 3, smallCellsSuppressed: true, textAnswersIncluded: false, respondentMetadataIncluded: false, note: "No raw text or metadata included." },
+      collections: [{ collectionId: "collection-1", surveyId: "survey-1", version: 1, title: "Product pulse", responseCount: 3, suppressed: false, questions: [] }],
+      findings: [{ kind: "numeric", title: "Satisfaction", detail: "Mean 4.3 across 3 answered responses.", collectionId: "collection-1", questionId: "rating" }],
+      visualizations: [{ id: "collection-1:rating", collectionId: "collection-1", questionId: "rating", title: "Satisfaction", kind: "bar", xField: "label", yField: "count", data: [{ value: "5", label: "Very satisfied", count: 3, percentage: 100 }] }],
+    };
     else if (options.method === "DELETE") { if (revokeFails) { status = 503; body = {}; } else { credentials = []; status = 204; } }
     else if (options.method === "POST" && url.endsWith("/service-credentials")) {
       const input = JSON.parse(options.body); const credential = { id: "cred-2", name: input.name, scopes: input.scopes, expiresAt: input.expiresAt, revoked: false };
@@ -58,6 +65,10 @@ test("signed-in workspace renders unmetered response activity and scoped setup",
     assert.match($("connection-code").textContent, /ws_test/);
     assert.equal(f.clerk.userButtonOptions.afterSignOutUrl, "/app");
     assert.equal($("scope-preset").value, "read");
+    await until(() => $("results-charts").querySelector(".bar-row"));
+    assert.equal($("results-summary").textContent.includes("3"), true);
+    assert.match($("results-findings").textContent, /Mean 4.3/);
+    assert.match($("results-privacy").textContent, /No raw text or metadata/);
     assert.equal(f.requests.some(({ url }) => url.includes("billing")), false);
   } finally { f.close(); }
 });

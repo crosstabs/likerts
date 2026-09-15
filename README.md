@@ -15,7 +15,8 @@ There are no response credits, paid plans, license keys or application-level res
 - Immutable published survey versions and collection credentials
 - PostgreSQL row-level security for workspace isolation
 - Scoped service credentials and OAuth grants
-- Stable response pagination, bounded exports, retention and erasure
+- Stable response pagination, privacy-safe aggregates and chart-ready analysis
+- Bounded exports, retention and erasure
 - Signed response webhooks
 - API, MCP and CLI operation parity
 - Five client SDKs with encrypted offline queue adapters
