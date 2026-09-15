@@ -1,6 +1,6 @@
 # Hosted callback receiver preparation
 
-Verified 13 September 2026. The isolated receiver now has actual Vercel/Redis evidence for authentication, marker visibility and duplicate acknowledgment during its eight-second hold. **H06 remains open:** the accepted test event was signed by a local synthetic fixture, not emitted by the hosted API/worker; no abrupt process loss, expired worker lease, export reclaim, DNS transition or compatible Render rollback was exercised here.
+Verified 13 September 2026. The isolated receiver now has actual Vercel/Redis evidence for authentication, marker visibility and duplicate acknowledgment during its eight-second hold. This was an H06 prerequisite at the time; the real hosted worker-loss, DNS and rollback work subsequently passed on 15 September in the [combined recovery evidence](hosted-callback-recovery.md).
 
 ## Reviewed source and environment
 
@@ -35,7 +35,7 @@ The synthetic Redis namespace was not purged. Its configured nonextending one-ho
 
 ## Remaining H06 acceptance
 
-Use the [failure-drill procedure](../operations/HOSTED-FAILURE-DRILL.md) for actual API/worker delivery, reviewed isolated process topology, an expired old lease and successful new attempt, export winning-fence evidence, DNS validation/restoration and compatible rollback. The selected live API was observed as PID 1, so it fails the proposed child-PID interruption gate. This receiver verification does not remove the outstanding H03/H04, account-access or isolated-resource prerequisites.
+At this checkpoint, the [failure-drill procedure](../operations/HOSTED-FAILURE-DRILL.md) still required actual API/worker delivery, reviewed isolated process topology, an expired old lease and successful new attempt, export winning-fence evidence, DNS validation/restoration and compatible rollback. Those bounded H06 tests are now complete in the [15 September evidence](hosted-callback-recovery.md). They do not remove H03/H04 or account-access prerequisites.
 
 ## Direct preview URL reachability — 13 September 2026
 

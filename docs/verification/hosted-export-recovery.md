@@ -1,6 +1,6 @@
 # Hosted API export process-loss drill
 
-Verified 13 September 2026, 11:19:40–11:24:52 UTC. **The isolated native hosted export process-loss test passed:** the API child was killed with a committed running export lease, and its replacement recovered the same job after the real 300-second lease expiry. A different winning lease, one-response download/hash and unauthorized denial were verified. Fixture revocation and deletion passed at 11:25:56–11:26:00 UTC. H06 remains open for its remaining scope.
+Verified 13 September 2026, 11:19:40–11:24:52 UTC. **The isolated native hosted export process-loss test passed:** the API child was killed with a committed running export lease, and its replacement recovered the same job after the real 300-second lease expiry. A different winning lease, one-response download/hash and unauthorized denial were verified. Fixture revocation and deletion passed at 11:25:56–11:26:00 UTC. The remaining H06 callback, DNS and rollback scope subsequently passed in the [15 September evidence](hosted-callback-recovery.md).
 
 ## Source and isolation
 
@@ -53,4 +53,4 @@ The supervisor's 30-minute lifetime was not the cleanup mechanism: provider reso
 
 This isolated fixture uses PostgreSQL persistence across API child loss and a local export directory in the surviving web container. It excludes VM/container loss, persistent-disk recovery, multi-replica takeover, managed Blob recovery, Neon PITR, compatible Render rollback, webhook lease reclaim, DNS transitions/rebinding, throughput and availability guarantees. Its explicit empty development-token map still requires hashed service credentials; admission is disabled only in this disposable fixture. Clerk, shared admission and the production startup wrapper are outside this test's scope.
 
-The [hosted receiver checks](hosted-receiver.md) remain separate evidence from a locally signed event. Follow the [failure-drill procedure](../operations/HOSTED-FAILURE-DRILL.md) for the remaining callback, DNS and rollback work. Completing this export portion does not close H06 or the H01–H07 hosted decision.
+The [hosted receiver checks](hosted-receiver.md) remain separate evidence from this export test. The later [combined recovery drill](hosted-callback-recovery.md) completed the bounded callback, DNS and rollback work. Completing H06 did not satisfy the still-open H01–H05 gates.
