@@ -271,6 +271,25 @@ test('v3 Redis keys isolate callback state from older rollback readers', async (
     coverage: 'admission', incidentId: null, notification: null })), /monitor_state_unavailable/);
 });
 
+test('monitor state reuses the Vercel Upstash integration without exposing or copying its token', async () => {
+  const requests = [];
+  const store = monitorStore({ environment: {
+    UPSTASH_REDIS_REST_URL: 'https://existing.upstash.io',
+    UPSTASH_REDIS_REST_TOKEN: 'u'.repeat(32), LIKERTS_MONITOR_STATE_NAMESPACE: 'b'.repeat(32),
+  }, fetcher: async (url, options) => {
+    requests.push({ url, options });
+    return Response.json({ result: [1, ''] });
+  } });
+  await store.acquire();
+  assert.equal(requests[0].url, 'https://existing.upstash.io');
+  assert.equal(requests[0].options.headers.authorization, `Bearer ${'u'.repeat(32)}`);
+  assert.match(requests[0].options.body, /likerts:monitor:b{32}:v3:/);
+  assert.throws(() => monitorStore({ environment: {
+    LIKERTS_MONITOR_STATE_REDIS_URL: 'https://explicit.upstash.io',
+    UPSTASH_REDIS_REST_TOKEN: 'u'.repeat(32), LIKERTS_MONITOR_STATE_NAMESPACE: 'b'.repeat(32),
+  } }), /monitor_state_unavailable/);
+});
+
 test('alert attempts are durable and stop after the fixed retry budget', async () => {
   const store = memoryStore();
   const degraded = async () => ({ components: [
