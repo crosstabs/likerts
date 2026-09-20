@@ -138,10 +138,9 @@ function parseArchiveStatus(output) {
 
 function requestAction(request) {
   if (typeof request?.url !== 'string' || request.url.endsWith('?')) return null;
-  let target;
-  try { target = new URL(request.url, 'https://maintenance.invalid'); } catch { return null; }
-  if (target.hash) return null;
-  const pathAndQuery = `${target.pathname}${target.search}`;
+  const absolute = request.url.match(/^https?:\/\/[^/?#]+(\/[^#]*)$/i);
+  const pathAndQuery = absolute ? absolute[1] : request.url;
+  if (!absolute && (!pathAndQuery.startsWith('/') || pathAndQuery.startsWith('//') || pathAndQuery.includes('#'))) return null;
   if (pathAndQuery === '/api/status' || pathAndQuery === '/api/run?likerts_action=status') return 'status';
   return pathAndQuery === '/api/run' ? 'run' : null;
 }

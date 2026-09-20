@@ -51,6 +51,10 @@ test('authentication accepts Node and Web header collections', async () => {
     'https://likerts-cleanup.vercel.app/api/status?',
     'https://likerts-cleanup.vercel.app/api/status#ignored',
     'https://likerts-cleanup.vercel.app/api/status?likerts_action=status',
+    'https://likerts-cleanup.vercel.app/api/other/../status',
+    'https://likerts-cleanup.vercel.app?redirect=/api/status',
+    '//likerts-cleanup.vercel.app/api/status',
+    '/api/other/../status',
   ]) assert.equal((await invoke(statusHandler, {
     url, headers: new Headers({ authorization: `Bearer ${secret}` }),
   })).status, 400);
