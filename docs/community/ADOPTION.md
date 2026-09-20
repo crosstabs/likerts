@@ -29,6 +29,31 @@ Release asset counts from the [public release API](https://api.github.com/repos/
 
 These counts include internal verification and repeated/bot downloads. They cannot establish unique installations or users. The release was published at `2026-09-12T13:50:23Z`.
 
+## Public-signal refresh — 2026-09-20, approximately 02:00 UTC
+
+| Measure | Observed value | Source and limitation |
+| --- | --- | --- |
+| GitHub stars / forks / subscribers | 0 / 0 / 0 | [Public repository API](https://api.github.com/repos/crosstabs/likerts). These are interest signals, not installations. |
+| Open issue/PR count | 0 | Same API. All prepared contributor issues are closed; zero open work is not evidence of adoption. |
+| Repository contributors | One account: `barangaroo` | [Public contributors API](https://api.github.com/repos/crosstabs/likerts/contributors). No accepted outside contributor is visible. Bots, private activity and unmerged help are not inferred. |
+| npm downloads: Web | 217 | [npm point API](https://api.npmjs.org/downloads/point/2026-09-12:2026-09-18/@likerts%2Fweb), window `2026-09-12` through `2026-09-18`. May include maintainer, CI and other automated package requests. |
+| npm downloads: React Native | 170 | [Same source/window](https://api.npmjs.org/downloads/point/2026-09-12:2026-09-18/@likerts%2Freact-native); not device-use evidence. |
+| npm downloads: MCP | 192 | [Same source/window](https://api.npmjs.org/downloads/point/2026-09-12:2026-09-18/@likerts%2Fmcp); not a successful client session count. |
+| Confirmed external successful installations | Unknown | No voluntary external confirmation or observed outside onboarding is recorded. Download and clone counters cannot close this measure. |
+| External first persisted responses / setup time | Unknown | No consented external lifecycle observation is recorded. |
+| Outside contributors / repeat contributors | 0 / 0 confirmed | The public contributors list contains only the maintainer account. |
+
+Release asset counts from the current [`community-v0.1.2` release API](https://api.github.com/repos/crosstabs/likerts/releases/tags/community-v0.1.2) at this refresh:
+
+| Asset | Downloads |
+| --- | --- |
+| CLI macOS arm64 / Linux x64 / Windows x64 | 3 / 21 / 2 |
+| Web / React Native / MCP / runtime archives | 2 each |
+| Release manifest | 2 |
+| Checksums | 22 |
+
+The Linux archive and checksum totals are especially likely to include repository CI and maintainer verification. They are distribution traffic, not 21 external installations. A08 therefore remains open.
+
 ## Recording new evidence
 
 Keep public aggregate observations here and sensitive support details in the appropriate private channel. Do not instrument self-hosted installations or add response-level telemetry for this ledger. A voluntary report can be anonymized; get permission before publishing a person's name, organization, quote or integration story.
@@ -51,7 +76,8 @@ Refresh public counts with read-only requests, retaining dates and windows:
 
 ```sh
 gh api repos/crosstabs/likerts --jq '{stargazers_count,forks_count,subscribers_count,open_issues_count}'
-gh api repos/crosstabs/likerts/releases/tags/community-v0.1.0 --jq '.assets[] | {name,download_count}'
+gh api repos/crosstabs/likerts/releases/tags/community-v0.1.2 --jq '.assets[] | {name,download_count}'
+gh api repos/crosstabs/likerts/contributors --paginate --jq '.[] | {login,contributions,type}'
 curl --fail-with-body 'https://api.npmjs.org/downloads/point/last-week/@likerts%2Fweb'
 curl --fail-with-body 'https://api.npmjs.org/downloads/point/last-week/@likerts%2Freact-native'
 curl --fail-with-body 'https://api.npmjs.org/downloads/point/last-week/@likerts%2Fmcp'
