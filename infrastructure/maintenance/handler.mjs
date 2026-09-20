@@ -153,10 +153,13 @@ export function makeHandler(kind, directory, dependencies = {}) {
     const send = (status, value) => { response.statusCode = status; response.end(JSON.stringify(value)); };
     const action = requestAction(request);
     const secret = action === 'status' ? environment.LIKERTS_MONITOR_SECRET : environment.CRON_SECRET;
-    const authorization = request.headers.authorization;
+    const credential = action === 'status'
+      ? request.headers['x-likerts-monitor-secret']
+      : request.headers.authorization;
     if (typeof secret !== 'string' || secret.length < 32 || secret.length > 256) return send(503, { ok: false, error: 'configuration_missing' });
     if (action === 'status' && secret === environment.CRON_SECRET) return send(503, { ok: false, error: 'configuration_missing' });
-    if (typeof authorization !== 'string' || authorization.length > 1024 || !timingSafeEqual(digest(authorization), digest(`Bearer ${secret}`))) return send(401, { ok: false, error: 'unauthorized' });
+    const expected = action === 'status' ? secret : `Bearer ${secret}`;
+    if (typeof credential !== 'string' || credential.length > 1024 || !timingSafeEqual(digest(credential), digest(expected))) return send(401, { ok: false, error: 'unauthorized' });
     if (request.method !== 'GET' || action === null) return send(400, { ok: false, error: 'invalid_request' });
     try {
       const binary = await verify(directory, kind);

@@ -81,13 +81,15 @@ test('monitor distinguishes missing receiver, healthy, receiver acceptance and d
 test('maintenance probes require exact Vercel status targets and classify bounded backlog', async () => {
   const environment = {
     LIKERTS_CLEANUP_STATUS_URL: 'https://likerts-cleanup.vercel.app/api/status', LIKERTS_CLEANUP_STATUS_TOKEN: 'c'.repeat(40),
-    LIKERTS_CLEANUP_STATUS_ORIGIN: 'https://likerts-cleanup.vercel.app',
+    LIKERTS_CLEANUP_STATUS_ORIGIN: 'https://likerts-cleanup.vercel.app', LIKERTS_CLEANUP_STATUS_BYPASS: 'b'.repeat(40),
     LIKERTS_ARCHIVE_STATUS_URL: 'https://likerts-erasure-archive.vercel.app/api/status', LIKERTS_ARCHIVE_STATUS_TOKEN: 'a'.repeat(40),
-    LIKERTS_ARCHIVE_STATUS_ORIGIN: 'https://likerts-erasure-archive.vercel.app',
+    LIKERTS_ARCHIVE_STATUS_ORIGIN: 'https://likerts-erasure-archive.vercel.app', LIKERTS_ARCHIVE_STATUS_BYPASS: 'd'.repeat(40),
   };
   const requested = [];
   const result = await collectMaintenanceStatus({ environment, fetcher: async (url, options) => {
-    requested.push(url); assert.match(options.headers.authorization, /^Bearer [ac]{40}$/);
+    requested.push(url); assert.match(options.headers['x-likerts-monitor-secret'], /^[ac]{40}$/);
+    assert.match(options.headers['x-vercel-protection-bypass'], /^[bd]{40}$/);
+    assert.equal(options.headers.authorization, undefined);
     return url.includes('cleanup') ? Response.json({ ok: true, kind: 'cleanup', status: { pendingObjects: 1,
       retryingObjects: 0, tombstones: 4, oldestDueSeconds: 100, dueWorkspaces: 1,
       oldestRetentionSeconds: 100, lastCompletedAt: null } })
@@ -108,8 +110,10 @@ test('maintenance probes reject cache, wrong origins, credentials and inconsiste
   const base = {
     LIKERTS_CLEANUP_STATUS_URL: 'https://cleanup.vercel.app/api/status',
     LIKERTS_CLEANUP_STATUS_ORIGIN: 'https://cleanup.vercel.app', LIKERTS_CLEANUP_STATUS_TOKEN: 'c'.repeat(40),
+    LIKERTS_CLEANUP_STATUS_BYPASS: 'b'.repeat(40),
     LIKERTS_ARCHIVE_STATUS_URL: 'https://archive.vercel.app/api/status',
     LIKERTS_ARCHIVE_STATUS_ORIGIN: 'https://archive.vercel.app', LIKERTS_ARCHIVE_STATUS_TOKEN: 'a'.repeat(40),
+    LIKERTS_ARCHIVE_STATUS_BYPASS: 'd'.repeat(40),
   };
   const cached = await collectMaintenanceStatus({ environment: base, fetcher: async () => new Response('{}', {
     status: 200, headers: { 'x-vercel-cache': 'HIT' },
@@ -128,6 +132,7 @@ test('maintenance probes reject cache, wrong origins, credentials and inconsiste
   assert.equal((await collectMaintenanceStatus({ environment: {
     LIKERTS_ARCHIVE_STATUS_URL: base.LIKERTS_ARCHIVE_STATUS_URL,
     LIKERTS_ARCHIVE_STATUS_TOKEN: base.LIKERTS_ARCHIVE_STATUS_TOKEN,
+    LIKERTS_ARCHIVE_STATUS_BYPASS: base.LIKERTS_ARCHIVE_STATUS_BYPASS,
     LIKERTS_ARCHIVE_STATUS_ORIGIN: 'https://preview.vercel.app',
   } }))[1].status, 'invalid_configuration');
 });

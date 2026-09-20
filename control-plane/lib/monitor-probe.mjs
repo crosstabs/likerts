@@ -14,13 +14,15 @@ function maintenanceTarget(environment, kind) {
   const urlValue = environment[`${prefix}_STATUS_URL`];
   const origin = environment[`${prefix}_STATUS_ORIGIN`];
   const token = environment[`${prefix}_STATUS_TOKEN`];
-  if (!urlValue && !origin && !token) return null;
+  const bypass = environment[`${prefix}_STATUS_BYPASS`];
+  if (!urlValue && !origin && !token && !bypass) return null;
   try {
     const url = new URL(urlValue);
     if (url.protocol !== 'https:' || url.username || url.password || url.port || url.search || url.hash
       || url.pathname !== '/api/status' || !url.hostname.endsWith('.vercel.app') || url.origin !== origin
-      || typeof token !== 'string' || !/^[\x21-\x7e]{32,256}$/.test(token)) return false;
-    return { url: url.toString(), token };
+      || typeof token !== 'string' || !/^[\x21-\x7e]{32,256}$/.test(token)
+      || typeof bypass !== 'string' || !/^[\x21-\x7e]{32,256}$/.test(bypass)) return false;
+    return { url: url.toString(), token, bypass };
   } catch { return false; }
 }
 
@@ -102,7 +104,8 @@ export async function collectMaintenanceStatus({ environment = process.env, fetc
     try {
       const signal = AbortSignal.timeout(timeoutMs);
       const response = await fetcher(target.url, { method: 'GET', redirect: 'manual', credentials: 'omit', cache: 'no-store', signal,
-        headers: { accept: 'application/json', authorization: `Bearer ${target.token}`, 'cache-control': 'no-cache, no-store' } });
+        headers: { accept: 'application/json', 'x-likerts-monitor-secret': target.token,
+          'x-vercel-protection-bypass': target.bypass, 'cache-control': 'no-cache, no-store' } });
       const cacheHit = /(?:HIT|STALE)/i.test(`${response.headers.get('x-vercel-cache') ?? ''} ${response.headers.get('cf-cache-status') ?? ''}`)
         || Number(response.headers.get('age') ?? 0) > 0;
       if (response.status !== 200 || cacheHit) {
