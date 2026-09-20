@@ -1,6 +1,6 @@
 import { timingSafeEqual } from 'node:crypto';
 import { collectStatus } from '../lib/status.mjs';
-import { collectAdmissionStatus, collectMaintenanceStatus } from '../lib/monitor-probe.mjs';
+import { collectAdmissionStatus, collectCallbackStatus, collectMaintenanceStatus } from '../lib/monitor-probe.mjs';
 import { COMPONENT_IDS, COMPONENT_STATUSES, MAX_ALERT_ATTEMPTS, monitorStore, prepareState } from '../lib/monitor-state.mjs';
 
 export function authorizedMonitor(header, secret) {
@@ -26,7 +26,7 @@ export function monitorIsArmed(environment) {
 }
 
 export async function runMonitor({ environment = process.env, probe = collectStatus,
-  admissionProbe = collectAdmissionStatus, maintenanceProbe = collectMaintenanceStatus,
+  admissionProbe = collectAdmissionStatus, maintenanceProbe = collectMaintenanceStatus, callbackProbe = collectCallbackStatus,
   fetcher = fetch, store, now = Date.now } = {}) {
   if (!monitorIsArmed(environment)) return { statusCode: 503, body: { status: 'not_armed', reason: 'approved_receiver_and_responder_required' } };
   try {
@@ -34,21 +34,26 @@ export async function runMonitor({ environment = process.env, probe = collectSta
     if (!store) return { statusCode: 503, body: { status: 'not_armed', reason: 'durable_state_required' } };
     const lock = await store.acquire();
     if (!lock) return { statusCode: 503, body: { status: 'run_in_progress' } };
-    const [result, admission, maintenance] = await Promise.all([
-      probe({ fetcher }), admissionProbe({ environment, fetcher }), maintenanceProbe({ environment, fetcher }),
+    const [result, admission, maintenance, callback] = await Promise.all([
+      probe({ fetcher }), admissionProbe({ environment, fetcher }), maintenanceProbe({ environment, fetcher }), callbackProbe({ environment, fetcher }),
     ]);
     // Select known classifications only. Never copy upstream objects into state,
     // notifications, logs or responses. Use our clock, not an upstream string.
     const components = COMPONENT_IDS.map(id => {
       const c = id === 'admission' ? admission
+        : id === 'callback' ? callback
         : id === 'cleanup' || id === 'archive' ? maintenance?.find(c => c.id === id)
           : result?.components?.find(c => c.id === id);
       return { id, status: COMPONENT_STATUSES.includes(c?.status) ? c.status : 'unavailable' };
     });
     const admissionCovered = components.find(c => c.id === 'admission').status !== 'not_configured';
     const maintenanceCovered = components.filter(c => c.id === 'cleanup' || c.id === 'archive').every(c => c.status !== 'not_configured');
-    const coverage = admissionCovered && maintenanceCovered ? 'admission_and_maintenance_db'
-      : maintenanceCovered ? 'maintenance_db' : admissionCovered ? 'admission' : 'reachability_only';
+    const callbackCovered = components.find(c => c.id === 'callback').status !== 'not_configured';
+    const coverage = admissionCovered && maintenanceCovered && callbackCovered ? 'admission_maintenance_callback_db'
+      : maintenanceCovered && callbackCovered ? 'maintenance_callback_db'
+        : admissionCovered && callbackCovered ? 'admission_callback_db' : callbackCovered ? 'callback_db'
+          : admissionCovered && maintenanceCovered ? 'admission_maintenance_db'
+            : maintenanceCovered ? 'maintenance_db' : admissionCovered ? 'admission' : 'reachability_only';
     const health = components.every(c => c.status === 'reachable') ? 'reachable' : 'degraded';
     const state = prepareState(lock.previous, health, components, coverage, now());
     let alert = state.notification?.accepted ? 'already_accepted' : 'not_needed';
@@ -79,7 +84,8 @@ export async function runMonitor({ environment = process.env, probe = collectSta
     const statusCode = health === 'reachable' && !['delivery_failed', 'retry_exhausted'].includes(alert) ? 200 : 503;
     return { statusCode, body: { status: health, checkedAt: new Date(state.completedAt).toISOString(), coverage, alert,
       admission: components.find(c => c.id === 'admission').status,
-      maintenance: components.filter(c => c.id === 'cleanup' || c.id === 'archive'), independentWatcherRequired: true } };
+      maintenance: components.filter(c => c.id === 'cleanup' || c.id === 'archive'),
+      callback: components.find(c => c.id === 'callback').status, independentWatcherRequired: true } };
   } catch {
     return { statusCode: 503, body: { status: 'monitor_unavailable', reason: 'probe_or_state_unavailable' } };
   }

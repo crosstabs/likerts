@@ -5748,6 +5748,97 @@
         }
       }
     },
+    "/internal/callback-status": {
+      "get": {
+        "operationId": "internal_callback_status",
+        "summary": "Read sanitized callback queue-poll liveness.",
+        "security": [
+          {
+            "monitorBearer": []
+          }
+        ],
+        "x-interface-exempt": true,
+        "responses": {
+          "200": {
+            "description": "Fixed callback worker database-poll classification; no tenant, endpoint, payload, process, or credential data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "reachable",
+                        "stale",
+                        "unavailable"
+                      ]
+                    }
+                  }
+                },
+                "example": {
+                  "status": "reachable"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or incorrect monitor secret; body remains the fixed unavailable classification.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "unavailable"
+                      ]
+                    }
+                  }
+                },
+                "example": {
+                  "status": "unavailable"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Callback liveness storage unavailable; body remains the fixed unavailable classification.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "unavailable"
+                      ]
+                    }
+                  }
+                },
+                "example": {
+                  "status": "unavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/internal/metrics": {
       "get": {
         "operationId": "internal_metrics",

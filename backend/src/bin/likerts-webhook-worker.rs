@@ -5,8 +5,37 @@ use likerts_server::{
     webhooks::{deliver, WebhookKeys},
 };
 use sqlx::postgres::PgPoolOptions;
-use std::time::Duration;
-use tokio::{sync::watch, task::JoinSet};
+use std::{
+    sync::Arc,
+    time::{Duration, Instant},
+};
+use tokio::{
+    sync::{watch, Mutex},
+    task::JoinSet,
+};
+
+struct Heartbeat {
+    last_success: Mutex<Option<Instant>>,
+}
+
+impl Heartbeat {
+    fn new() -> Self {
+        Self {
+            last_success: Mutex::new(None),
+        }
+    }
+
+    async fn after_successful_claim(&self, store: &WebhookStore) {
+        let mut last = self.last_success.lock().await;
+        if last.is_some_and(|value| value.elapsed() < Duration::from_secs(30)) {
+            return;
+        }
+        match tokio::time::timeout(Duration::from_secs(5), store.record_heartbeat()).await {
+            Ok(Ok(())) => *last = Some(Instant::now()),
+            _ => eprintln!("webhook_worker heartbeat_failed"),
+        }
+    }
+}
 
 async fn shutdown() {
     #[cfg(unix)]
@@ -52,21 +81,31 @@ async fn main() {
         .check_worker_role()
         .await
         .expect("Worker requires the restricted likerts_webhook_worker database role");
+    store
+        .check_heartbeat_contract()
+        .await
+        .expect("Worker heartbeat migration and restricted grant are required");
     if std::env::var("LIKERTS_WEBHOOK_CHECK_CONFIG").as_deref() == Ok("1") {
         println!("Webhook worker configuration and restricted role verified");
         return;
     }
     let (stop, receiver) = watch::channel(false);
     let mut tasks = JoinSet::new();
+    let heartbeat = Arc::new(Heartbeat::new());
     for _ in 0..concurrency {
         let store = store.clone();
+        let heartbeat = heartbeat.clone();
         let mut receiver = receiver.clone();
         tasks.spawn(async move {
             loop {
                 if *receiver.borrow() {
                     break;
                 }
-                let delay = match store.claim().await {
+                let claimed = store.claim().await;
+                if claimed.is_ok() {
+                    heartbeat.after_successful_claim(&store).await;
+                }
+                let delay = match claimed {
                     Ok(Some(dispatch)) => {
                         match store.dispatch_active(&dispatch).await {
                             Ok(true) => {

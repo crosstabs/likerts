@@ -1,6 +1,7 @@
 import { boundedJson } from './status.mjs';
 
 export const USAGE_PROBE_URL = 'https://likerts-api.onrender.com/v1/usage';
+export const CALLBACK_STATUS_URL = 'https://likerts-api.onrender.com/internal/callback-status';
 // This never accepts an owner JWT, collection credential, or provider key. The
 // issuer must separately prove that this purpose-issued token has only usage:read.
 const PROBE_TOKEN = /^lks_[a-f0-9]{32}$/;
@@ -69,6 +70,28 @@ export async function collectAdmissionStatus({ environment = process.env, fetche
     // Never return the upstream payload, credential, identifiers or balances.
     return { id: 'admission', status: 'unavailable' };
   }
+}
+
+export async function collectCallbackStatus({ environment = process.env, fetcher = fetch, timeoutMs = 4000 } = {}) {
+  const token = environment.LIKERTS_CALLBACK_STATUS_TOKEN;
+  if (!token) return { id: 'callback', status: 'not_configured' };
+  if (typeof token !== 'string' || !/^[\x21-\x7e]{32,512}$/.test(token)) return { id: 'callback', status: 'invalid_configuration' };
+  try {
+    const signal = AbortSignal.timeout(timeoutMs);
+    const response = await fetcher(CALLBACK_STATUS_URL, { method: 'GET', redirect: 'manual', credentials: 'omit', cache: 'no-store', signal,
+      headers: { accept: 'application/json', authorization: `Bearer ${token}`, 'cache-control': 'no-cache, no-store' } });
+    const cacheHit = /(?:HIT|STALE)/i.test(`${response.headers.get('x-vercel-cache') ?? ''} ${response.headers.get('cf-cache-status') ?? ''}`)
+      || Number(response.headers.get('age') ?? 0) > 0;
+    if (response.status !== 200 || cacheHit) {
+      void response.body?.cancel().catch(() => {});
+      return { id: 'callback', status: cacheHit ? 'cached_response'
+        : response.status === 401 || response.status === 403 ? 'credential_rejected' : 'unavailable' };
+    }
+    const body = await boundedJson(response, signal, 1024);
+    const valid = body && typeof body === 'object' && !Array.isArray(body)
+      && Object.keys(body).length === 1 && ['reachable', 'stale', 'unavailable'].includes(body.status);
+    return { id: 'callback', status: valid ? body.status : 'invalid_response' };
+  } catch { return { id: 'callback', status: 'unavailable' }; }
 }
 
 export async function collectMaintenanceStatus({ environment = process.env, fetcher = fetch, timeoutMs = 10000 } = {}) {

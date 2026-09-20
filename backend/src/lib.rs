@@ -12,6 +12,7 @@ use uuid::Uuid;
 pub mod advanced_questions;
 pub mod auth;
 pub mod branching;
+pub mod callback_liveness;
 pub mod choice_features;
 pub mod conditional;
 pub mod erasure_archive;

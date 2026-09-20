@@ -2,7 +2,14 @@
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 container="likerts-webhook-isolation-$$"
-trap 'docker rm -f "$container" >/dev/null 2>&1 || true' EXIT
+worker_pid=""
+worker_log="$(mktemp "${TMPDIR:-/tmp}/likerts-webhook-worker.XXXXXX")"
+cleanup() {
+  if [ -n "$worker_pid" ]; then kill -KILL "$worker_pid" >/dev/null 2>&1 || true; wait "$worker_pid" >/dev/null 2>&1 || true; fi
+  docker rm -f "$container" >/dev/null 2>&1 || true
+  rm -f "$worker_log"
+}
+trap cleanup EXIT
 docker run --rm --detach --name "$container" --env POSTGRES_PASSWORD=webhook-local-test -p 127.0.0.1::5432 postgres:17-alpine >/dev/null
 ready=0
 for _ in $(seq 1 60); do
@@ -44,4 +51,40 @@ LIKERTS_WEBHOOK_DATABASE_URL="$LIKERTS_WEBHOOK_TEST_WORKER_URL" LIKERTS_WEBHOOK_
 if LIKERTS_WEBHOOK_DATABASE_URL="$LIKERTS_WEBHOOK_TEST_API_URL" LIKERTS_WEBHOOK_CHECK_CONFIG=1 "$root/backend/target/debug/likerts-webhook-worker" 2>/dev/null; then
   echo 'ERROR: API database identity could start the webhook worker' >&2;exit 1
 fi
+
+# A real forced process loss must stop freshness, then a replacement worker's
+# first successful empty queue poll must recover it. Database time is aged by
+# the fixture owner to avoid turning this deterministic gate into a 120s sleep.
+callback_status() {
+  docker exec -e PGPASSWORD=webhook-local-test "$container" psql -X -h 127.0.0.1 -U likerts_webhook_api_test -d postgres -Atqc 'select likerts.callback_worker_status()'
+}
+start_callback_worker() {
+  LIKERTS_WEBHOOK_DATABASE_URL="$LIKERTS_WEBHOOK_TEST_WORKER_URL" \
+    LIKERTS_WEBHOOK_CREDENTIAL_KEY="$LIKERTS_WEBHOOK_CREDENTIAL_KEY" \
+    LIKERTS_WEBHOOK_CONCURRENCY=1 "$root/backend/target/debug/likerts-webhook-worker" >"$worker_log" 2>&1 &
+  worker_pid=$!
+  for _ in $(seq 1 40); do
+    [ "$(callback_status)" = reachable ] && return 0
+    kill -0 "$worker_pid" >/dev/null 2>&1 || { cat "$worker_log" >&2; return 1; }
+    sleep 0.25
+  done
+  return 1
+}
+# The lifecycle test records through the worker role. Remove that fixture signal
+# so this process-loss gate cannot pass on a heartbeat from an earlier process.
+"${psql[@]}" -qc 'delete from likerts.callback_worker_heartbeats' >/dev/null
+[ "$(callback_status)" = unavailable ] || { echo 'ERROR: callback heartbeat fixture did not reset' >&2; exit 1; }
+start_callback_worker
+heartbeat_before="$("${psql[@]}" -Atqc 'select extract(epoch from heartbeat_at)::text from likerts.callback_worker_heartbeats')"
+[ -n "$heartbeat_before" ] || { echo 'ERROR: launched callback worker did not record heartbeat' >&2; exit 1; }
+kill -KILL "$worker_pid"; wait "$worker_pid" >/dev/null 2>&1 || true; worker_pid=""
+sleep 2
+heartbeat_after="$("${psql[@]}" -Atqc 'select extract(epoch from heartbeat_at)::text from likerts.callback_worker_heartbeats')"
+[ "$heartbeat_before" = "$heartbeat_after" ] || { echo 'ERROR: callback heartbeat advanced after worker termination' >&2; exit 1; }
+"${psql[@]}" -qc "update likerts.callback_worker_heartbeats set heartbeat_at=clock_timestamp()-interval '120 seconds'" >/dev/null
+[ "$(callback_status)" = stale ] || { echo 'ERROR: terminated callback worker did not become stale' >&2; exit 1; }
+start_callback_worker
+[ "$(callback_status)" = reachable ] || { echo 'ERROR: replacement callback worker did not recover liveness' >&2; exit 1; }
+kill -KILL "$worker_pid"; wait "$worker_pid" >/dev/null 2>&1 || true; worker_pid=""
+printf '%s\n' 'Callback liveness PASS: claim-gated freshness stops on SIGKILL, becomes stale, and recovers on replacement.'
 node "$root/tests/webhooks.mjs"

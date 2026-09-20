@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { collectStatus, components } from '../lib/status.mjs';
 import { authorizedMonitor, alertDestination, runMonitor } from '../api/monitor.js';
-import { collectMaintenanceStatus } from '../lib/monitor-probe.mjs';
+import { CALLBACK_STATUS_URL, collectCallbackStatus, collectMaintenanceStatus } from '../lib/monitor-probe.mjs';
 import { MAX_ALERT_ATTEMPTS, MONITOR_STATE_SCHEMA_VERSION, monitorStore, parseState, prepareState, readHeartbeat } from '../lib/monitor-state.mjs';
 
 const healthy = url => Response.json(url.includes('clerk.') ? { keys: [{ kty: 'RSA', n: 'public', e: 'AQAB' }] }
@@ -16,6 +16,7 @@ const armed = {
 const maintenanceHealthy = async () => [
   { id: 'cleanup', status: 'reachable' }, { id: 'archive', status: 'reachable' },
 ];
+const callbackHealthy = async () => ({ id: 'callback', status: 'reachable' });
 function memoryStore(initial = null) {
   let state = initial;
   let activeLease = null;
@@ -60,20 +61,20 @@ test('alert receiver requires explicit exact origin and forbids redirects and ra
   assert.equal(alertDestination({ ...environment, LIKERTS_ALERT_WEBHOOK_URL: 'http://alerts.example.com/private' }), null);
   const probe = async () => ({ status: 'degraded', checkedAt: new Date().toISOString(), components: [{ id: 'collection', status: 'unavailable', private: 'omit-me' }] });
   const result = await runMonitor({ environment: { ...environment, LIKERTS_MONITOR_ARMED: '1', LIKERTS_MONITOR_RESPONDER_ID: 'launch-owner' }, probe,
-    admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }), maintenanceProbe: maintenanceHealthy, store: memoryStore(),
+    admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }), maintenanceProbe: maintenanceHealthy, callbackProbe: callbackHealthy, store: memoryStore(),
     fetcher: async (_, options) => { assert.equal(options.redirect, 'manual'); assert.equal(options.body.includes('omit-me'), false); return new Response('', { status: 302 }); } });
   assert.equal(result.body.alert, 'delivery_failed');
 });
 test('monitor distinguishes missing receiver, healthy, receiver acceptance and delivery failure', async () => {
   assert.equal((await runMonitor({ environment: {} })).body.status, 'not_armed');
   const probe = async () => ({ status: 'degraded', checkedAt: new Date().toISOString(), components: [] });
-  assert.equal((await runMonitor({ environment: armed, probe, admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }), maintenanceProbe: maintenanceHealthy,
+  assert.equal((await runMonitor({ environment: armed, probe, admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }), maintenanceProbe: maintenanceHealthy, callbackProbe: callbackHealthy,
     store: memoryStore(), fetcher: async () => new Response(null, { status: 204 }) })).body.alert, 'receiver_accepted');
-  assert.equal((await runMonitor({ environment: armed, probe, admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }), maintenanceProbe: maintenanceHealthy,
+  assert.equal((await runMonitor({ environment: armed, probe, admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }), maintenanceProbe: maintenanceHealthy, callbackProbe: callbackHealthy,
     store: memoryStore(), fetcher: async () => { throw new Error('secret'); } })).body.alert, 'delivery_failed');
   assert.equal((await runMonitor({ environment: armed, probe: async () => ({ status: 'reachable', components: [
       { id: 'collection', status: 'reachable' }, { id: 'agents', status: 'reachable' }, { id: 'identity', status: 'reachable' },
-    ] }), admissionProbe: async () => ({ id: 'admission', status: 'reachable' }), maintenanceProbe: maintenanceHealthy,
+    ] }), admissionProbe: async () => ({ id: 'admission', status: 'reachable' }), maintenanceProbe: maintenanceHealthy, callbackProbe: callbackHealthy,
     store: memoryStore(), fetcher: () => assert.fail('must not notify when healthy') })).body.alert, 'not_needed');
 });
 
@@ -131,33 +132,92 @@ test('maintenance probes reject cache, wrong origins, credentials and inconsiste
   } }))[1].status, 'invalid_configuration');
 });
 
+test('callback probe accepts only the fixed authenticated three-state contract', async () => {
+  const environment = { LIKERTS_CALLBACK_STATUS_TOKEN: 'w'.repeat(40) };
+  for (const status of ['reachable', 'stale', 'unavailable']) {
+    const result = await collectCallbackStatus({ environment, fetcher: async (url, options) => {
+      assert.equal(url, CALLBACK_STATUS_URL);
+      assert.equal(options.headers.authorization, `Bearer ${environment.LIKERTS_CALLBACK_STATUS_TOKEN}`);
+      assert.equal(options.redirect, 'manual'); assert.equal(options.cache, 'no-store');
+      return Response.json({ status });
+    } });
+    assert.deepEqual(result, { id: 'callback', status });
+  }
+  assert.deepEqual(await collectCallbackStatus({ environment: {} }), { id: 'callback', status: 'not_configured' });
+  assert.deepEqual(await collectCallbackStatus({ environment: { LIKERTS_CALLBACK_STATUS_TOKEN: 'short' } }),
+    { id: 'callback', status: 'invalid_configuration' });
+});
+
+test('callback probe fails closed for stale cache, rejection, malformed data and transport loss', async () => {
+  const environment = { LIKERTS_CALLBACK_STATUS_TOKEN: 'w'.repeat(40) };
+  const cases = [
+    [async () => new Response('{"status":"reachable"}', { headers: { age: '1' } }), 'cached_response'],
+    [async () => new Response('', { status: 401 }), 'credential_rejected'],
+    [async () => new Response('', { status: 302, headers: { location: 'https://private.example/' } }), 'unavailable'],
+    [async () => new Response('', { status: 503 }), 'unavailable'],
+    [async () => Response.json({ status: 'reachable', processId: 'private' }), 'invalid_response'],
+    [async () => Response.json({ status: 'healthy' }), 'invalid_response'],
+    [async () => new Response('x'.repeat(2048)), 'unavailable'],
+    [async () => { throw new Error('private transport detail'); }, 'unavailable'],
+  ];
+  for (const [fetcher, expected] of cases) {
+    const result = await collectCallbackStatus({ environment, fetcher });
+    assert.deepEqual(result, { id: 'callback', status: expected });
+    assert.doesNotMatch(JSON.stringify(result), /private/);
+  }
+});
+
+test('stale callback liveness degrades the durable monitor', async () => {
+  const result = await runMonitor({ environment: armed, probe: async () => ({ components: [
+    { id: 'collection', status: 'reachable' }, { id: 'agents', status: 'reachable' }, { id: 'identity', status: 'reachable' },
+  ] }), admissionProbe: async () => ({ id: 'admission', status: 'reachable' }), maintenanceProbe: maintenanceHealthy,
+  callbackProbe: async () => ({ id: 'callback', status: 'stale' }), store: memoryStore(),
+  fetcher: async () => new Response(null, { status: 204 }) });
+  assert.equal(result.statusCode, 503);
+  assert.equal(result.body.status, 'degraded');
+  assert.equal(result.body.callback, 'stale');
+});
+
+test('missing callback token remains a required degraded component', async () => {
+  const result = await runMonitor({ environment: armed, probe: async () => ({ components: [
+    { id: 'collection', status: 'reachable' }, { id: 'agents', status: 'reachable' }, { id: 'identity', status: 'reachable' },
+  ] }), admissionProbe: async () => ({ id: 'admission', status: 'reachable' }), maintenanceProbe: maintenanceHealthy,
+  callbackProbe: async () => ({ id: 'callback', status: 'not_configured' }), store: memoryStore(),
+  fetcher: async () => new Response(null, { status: 204 }) });
+  assert.equal(result.statusCode, 503);
+  assert.equal(result.body.callback, 'not_configured');
+  assert.equal(result.body.coverage, 'admission_maintenance_db');
+});
+
 test('monitor degrades when maintenance coverage is absent', async () => {
   const result = await runMonitor({ environment: armed, probe: async () => ({ components: [
     { id: 'collection', status: 'reachable' }, { id: 'agents', status: 'reachable' }, { id: 'identity', status: 'reachable' },
   ] }), admissionProbe: async () => ({ id: 'admission', status: 'not_configured' }),
   maintenanceProbe: async () => [{ id: 'cleanup', status: 'not_configured' }, { id: 'archive', status: 'not_configured' }],
+  callbackProbe: callbackHealthy,
   store: memoryStore(), fetcher: async () => new Response(null, { status: 204 }) });
   assert.equal(result.body.status, 'degraded');
-  assert.equal(result.body.coverage, 'reachability_only');
+  assert.equal(result.body.coverage, 'callback_db');
   assert.deepEqual(result.body.maintenance, [{ id: 'cleanup', status: 'not_configured' }, { id: 'archive', status: 'not_configured' }]);
 });
 
-test('six-component monitor state keeps stable incidents and emits one recovery', () => {
+test('seven-component monitor state keeps stable incidents and emits one recovery', () => {
   const components = [
     { id: 'collection', status: 'unavailable' }, { id: 'agents', status: 'reachable' },
     { id: 'identity', status: 'reachable' }, { id: 'admission', status: 'reachable' },
     { id: 'cleanup', status: 'reachable' }, { id: 'archive', status: 'reachable' },
+    { id: 'callback', status: 'reachable' },
   ];
   const ids = ['10000000-0000-4000-8000-000000000001', '10000000-0000-4000-8000-000000000002',
     '10000000-0000-4000-8000-000000000003'];
   const uuid = () => ids.shift();
-  const degraded = prepareState(null, 'degraded', components, 'admission_and_maintenance_db', 1_000, uuid);
+  const degraded = prepareState(null, 'degraded', components, 'admission_maintenance_callback_db', 1_000, uuid);
   const incident = degraded.incidentId;
   const event = degraded.notification.eventId;
   degraded.notification.accepted = true;
-  const repeated = prepareState(degraded, 'degraded', components, 'admission_and_maintenance_db', 2_000, uuid);
+  const repeated = prepareState(degraded, 'degraded', components, 'admission_maintenance_callback_db', 2_000, uuid);
   assert.equal(repeated.incidentId, incident); assert.equal(repeated.notification.eventId, event);
-  const recovered = prepareState(repeated, 'reachable', components.map(value => ({ ...value, status: 'reachable' })), 'admission_and_maintenance_db', 3_000, uuid);
+  const recovered = prepareState(repeated, 'reachable', components.map(value => ({ ...value, status: 'reachable' })), 'admission_maintenance_callback_db', 3_000, uuid);
   assert.equal(recovered.notification.event, 'dependency_recovered');
   assert.equal(recovered.notification.incidentId, incident);
   assert.doesNotThrow(() => parseState(JSON.stringify(recovered)));
@@ -166,10 +226,10 @@ test('six-component monitor state keeps stable incidents and emits one recovery'
 
 test('heartbeat distinguishes missing, pending, degraded, current and future state', async () => {
   assert.equal((await readHeartbeat({ store: { read: async () => null }, now: () => 1_000 })).body.status, 'missing_signal');
-  const base = { version: MONITOR_STATE_SCHEMA_VERSION, completedAt: 1_000, health: 'reachable', coverage: 'admission_and_maintenance_db', incidentId: null, notification: null };
+  const base = { version: MONITOR_STATE_SCHEMA_VERSION, completedAt: 1_000, health: 'reachable', coverage: 'admission_maintenance_callback_db', incidentId: null, notification: null };
   assert.equal((await readHeartbeat({ store: { read: async () => base }, now: () => 2_000 })).body.status, 'current');
   assert.equal((await readHeartbeat({ store: { read: async () => ({ ...base, health: 'degraded' }) }, now: () => 2_000 })).body.status, 'degraded');
-  const pending = prepareState(base, 'degraded', [{ id: 'collection', status: 'unavailable' }], 'admission_and_maintenance_db', 1_500,
+  const pending = prepareState(base, 'degraded', [{ id: 'collection', status: 'unavailable' }], 'admission_maintenance_callback_db', 1_500,
     () => '10000000-0000-4000-8000-000000000010');
   pending.completedAt = 1_500;
   assert.equal((await readHeartbeat({ store: { read: async () => pending }, now: () => 2_000 })).body.status, 'alert_delivery_pending');
@@ -180,17 +240,17 @@ test('a changed degraded component set emits a new event in the same incident', 
   const ids = ['10000000-0000-4000-8000-000000000020', '10000000-0000-4000-8000-000000000021',
     '10000000-0000-4000-8000-000000000022'];
   const firstComponents = [{ id: 'collection', status: 'unavailable' }, { id: 'archive', status: 'reachable' }];
-  const first = prepareState(null, 'degraded', firstComponents, 'admission_and_maintenance_db', 1_000, () => ids.shift());
+  const first = prepareState(null, 'degraded', firstComponents, 'admission_maintenance_callback_db', 1_000, () => ids.shift());
   first.notification.accepted = true;
   const changed = prepareState(first, 'degraded', [{ id: 'collection', status: 'reachable' },
-    { id: 'archive', status: 'backlog' }], 'admission_and_maintenance_db', 2_000, () => ids.shift());
+    { id: 'archive', status: 'backlog' }], 'admission_maintenance_callback_db', 2_000, () => ids.shift());
   assert.equal(changed.incidentId, first.incidentId);
   assert.notEqual(changed.notification.eventId, first.notification.eventId);
   assert.equal(changed.notification.accepted, false);
   assert.deepEqual(changed.notification.components, [{ id: 'collection', status: 'reachable' }, { id: 'archive', status: 'backlog' }]);
 });
 
-test('v2 Redis keys isolate expanded state from v1 rollback readers', async () => {
+test('v3 Redis keys isolate callback state from older rollback readers', async () => {
   const keys = [];
   const store = monitorStore({ environment: {
     LIKERTS_MONITOR_STATE_REDIS_URL: 'https://fixture.upstash.io',
@@ -201,8 +261,8 @@ test('v2 Redis keys isolate expanded state from v1 rollback readers', async () =
   } });
   await store.acquire();
   assert.equal(keys.length, 2);
-  assert.equal(keys.every(key => key.includes(':v2:')), true);
-  assert.throws(() => parseState(JSON.stringify({ version: 1, completedAt: 0, health: 'reachable',
+  assert.equal(keys.every(key => key.includes(':v3:')), true);
+  assert.throws(() => parseState(JSON.stringify({ version: 2, completedAt: 0, health: 'reachable',
     coverage: 'admission', incidentId: null, notification: null })), /monitor_state_unavailable/);
 });
 
@@ -213,12 +273,12 @@ test('alert attempts are durable and stop after the fixed retry budget', async (
   ] });
   for (let attempt = 0; attempt < MAX_ALERT_ATTEMPTS; attempt++) {
     const result = await runMonitor({ environment: armed, probe: degraded,
-      admissionProbe: async () => ({ id: 'admission', status: 'reachable' }), maintenanceProbe: maintenanceHealthy,
+      admissionProbe: async () => ({ id: 'admission', status: 'reachable' }), maintenanceProbe: maintenanceHealthy, callbackProbe: callbackHealthy,
       store, fetcher: async () => { throw new Error('ambiguous receiver failure'); } });
     assert.equal(result.body.alert, 'delivery_failed');
   }
   const exhausted = await runMonitor({ environment: armed, probe: degraded,
-    admissionProbe: async () => ({ id: 'admission', status: 'reachable' }), maintenanceProbe: maintenanceHealthy,
+    admissionProbe: async () => ({ id: 'admission', status: 'reachable' }), maintenanceProbe: maintenanceHealthy, callbackProbe: callbackHealthy,
     store, fetcher: () => assert.fail('must not send beyond retry budget') });
   assert.equal(exhausted.body.alert, 'retry_exhausted');
 });

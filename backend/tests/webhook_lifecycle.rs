@@ -1,5 +1,8 @@
 use likerts_server::Error;
 #[allow(dead_code)]
+#[path = "../src/callback_liveness.rs"]
+mod callback_liveness;
+#[allow(dead_code)]
 #[path = "../src/webhook_store.rs"]
 mod webhook_store;
 #[allow(dead_code)]
@@ -24,14 +27,77 @@ async fn durable_claims_rotation_replay_revocation_and_least_privilege() {
         .await
         .unwrap();
     let keys = WebhookKeys::new(&[73; 32]).unwrap();
-    let api = WebhookStore::new(api_pool, keys.clone());
+    let api = WebhookStore::new(api_pool.clone(), keys.clone());
     let worker = WebhookStore::new(worker_pool.clone(), keys.clone());
     worker.check_worker_role().await.unwrap();
+    worker.check_heartbeat_contract().await.unwrap();
     assert!(matches!(
         api.check_worker_role().await,
         Err(Error::Unauthorized)
     ));
     assert!(matches!(api.claim().await, Err(Error::Unauthorized)));
+    assert!(api.check_heartbeat_contract().await.is_err());
+    assert!(api.record_heartbeat().await.is_err());
+    let initial: String = sqlx::query_scalar("select likerts.callback_worker_status()")
+        .fetch_one(&api_pool)
+        .await
+        .unwrap();
+    assert_eq!(initial, "unavailable");
+    worker.record_heartbeat().await.unwrap();
+    let reachable: String = sqlx::query_scalar("select likerts.callback_worker_status()")
+        .fetch_one(&api_pool)
+        .await
+        .unwrap();
+    assert_eq!(reachable, "reachable");
+    for statement in [
+        "select * from likerts.callback_worker_heartbeats",
+        "update likerts.callback_worker_heartbeats set heartbeat_at=now()",
+    ] {
+        assert_eq!(
+            sqlx::query(statement)
+                .execute(&api_pool)
+                .await
+                .unwrap_err()
+                .as_database_error()
+                .unwrap()
+                .code()
+                .as_deref(),
+            Some("42501")
+        );
+    }
+    assert!(
+        sqlx::query("select * from likerts.callback_worker_heartbeats")
+            .fetch_all(&worker_pool)
+            .await
+            .is_err()
+    );
+    assert!(sqlx::query("select likerts.callback_worker_status()")
+        .fetch_one(&worker_pool)
+        .await
+        .is_err());
+    sqlx::query("update likerts.callback_worker_heartbeats set heartbeat_at=clock_timestamp()-interval '120 seconds'")
+        .execute(&admin).await.unwrap();
+    let stale: String = sqlx::query_scalar("select likerts.callback_worker_status()")
+        .fetch_one(&api_pool)
+        .await
+        .unwrap();
+    assert_eq!(stale, "stale");
+    sqlx::query("update likerts.callback_worker_heartbeats set heartbeat_at=clock_timestamp()+interval '1 second'")
+        .execute(&admin).await.unwrap();
+    let future: String = sqlx::query_scalar("select likerts.callback_worker_status()")
+        .fetch_one(&api_pool)
+        .await
+        .unwrap();
+    assert_eq!(future, "unavailable");
+    // A replacement process's first successful poll restores the singleton.
+    worker.record_heartbeat().await.unwrap();
+    assert_eq!(
+        sqlx::query_scalar::<_, i64>("select count(*) from likerts.callback_worker_heartbeats")
+            .fetch_one(&admin)
+            .await
+            .unwrap(),
+        1
+    );
     for table in [
         "responses",
         "surveys",
