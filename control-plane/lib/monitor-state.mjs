@@ -5,9 +5,10 @@ export const MONITOR_STATE_TTL_SECONDS = 604800;
 export const MONITOR_LOCK_SECONDS = 45;
 export const MAX_ALERT_ATTEMPTS = 3;
 export const MISSING_SIGNAL_MS = 12 * 60 * 1000;
+export const MONITOR_STATE_SCHEMA_VERSION = 2;
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
-export const COMPONENT_IDS = ['collection', 'agents', 'identity', 'admission'];
-export const COMPONENT_STATUSES = ['reachable', 'unavailable', 'not_configured', 'invalid_configuration', 'cached_response', 'rate_limited', 'credential_rejected', 'invalid_response'];
+export const COMPONENT_IDS = ['collection', 'agents', 'identity', 'admission', 'cleanup', 'archive'];
+export const COMPONENT_STATUSES = ['reachable', 'unavailable', 'not_configured', 'invalid_configuration', 'cached_response', 'rate_limited', 'credential_rejected', 'invalid_response', 'backlog', 'fenced'];
 const integer = value => Number.isSafeInteger(value) && value >= 0;
 const fail = () => { throw new Error('monitor_state_unavailable'); };
 const exact = (value, keys) => value && typeof value === 'object' && !Array.isArray(value)
@@ -19,9 +20,9 @@ export function parseState(raw) {
   let state;
   try { state = JSON.parse(raw); } catch { return fail(); }
   if (!exact(state, ['version', 'completedAt', 'health', 'coverage', 'incidentId', 'notification'])
-    || state.version !== 1 || !integer(state.completedAt)
+    || state.version !== MONITOR_STATE_SCHEMA_VERSION || !integer(state.completedAt)
     || !['reachable', 'degraded'].includes(state.health)
-    || !['admission', 'reachability_only'].includes(state.coverage)
+    || !['admission_and_maintenance_db', 'maintenance_db', 'admission', 'reachability_only'].includes(state.coverage)
     || !(state.incidentId === null || UUID.test(state.incidentId))) return fail();
   const n = state.notification;
   if (n !== null && (!exact(n, ['eventId', 'event', 'incidentId', 'checkedAt', 'components', 'attempts', 'accepted'])
@@ -29,17 +30,19 @@ export function parseState(raw) {
     || !['dependency_unavailable', 'dependency_recovered'].includes(n.event)
     || typeof n.checkedAt !== 'string' || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(n.checkedAt)
     || !Number.isFinite(Date.parse(n.checkedAt)) || !integer(n.attempts) || n.attempts > MAX_ALERT_ATTEMPTS
-    || typeof n.accepted !== 'boolean' || !Array.isArray(n.components) || n.components.length > 4
+    || typeof n.accepted !== 'boolean' || !Array.isArray(n.components) || n.components.length > COMPONENT_IDS.length
     || n.components.some(c => !exact(c, ['id', 'status']) || !COMPONENT_IDS.includes(c.id) || !COMPONENT_STATUSES.includes(c.status)))) return fail();
   if ((state.incidentId === null) !== (n === null)) return fail();
   return state;
 }
 
 export function prepareState(previous, health, components, coverage, nowMs, uuid = randomUUID) {
-  const state = previous ? structuredClone(previous) : { version: 1, completedAt: 0, health: 'reachable', coverage, incidentId: null, notification: null };
+  const state = previous ? structuredClone(previous) : { version: MONITOR_STATE_SCHEMA_VERSION, completedAt: 0, health: 'reachable', coverage, incidentId: null, notification: null };
   const event = health === 'degraded' ? 'dependency_unavailable' : state.incidentId ? 'dependency_recovered' : null;
-  if (event && state.notification?.event !== event) {
-    if (event === 'dependency_unavailable') state.incidentId = uuid();
+  const changedDegradation = event === 'dependency_unavailable' && state.notification?.event === event
+    && JSON.stringify(state.notification.components) !== JSON.stringify(components);
+  if (event && (state.notification?.event !== event || changedDegradation)) {
+    if (event === 'dependency_unavailable' && state.incidentId === null) state.incidentId = uuid();
     state.notification = { eventId: uuid(), event, incidentId: state.incidentId,
       checkedAt: new Date(nowMs).toISOString(), components, attempts: 0, accepted: false };
   }
@@ -69,8 +72,10 @@ export function monitorStore({ environment = process.env, fetcher = fetch } = {}
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || url.port || url.pathname !== '/'
     || !/^[a-z0-9-]+\.upstash\.io$/.test(url.hostname) || !/^[a-f0-9]{32}$/.test(namespace ?? '')
     || typeof token !== 'string' || !/^[\x21-\x7e]{16,4096}$/.test(token)) return fail();
-  const stateKey = `likerts:monitor:${namespace}:state`;
-  const lockKey = `likerts:monitor:${namespace}:lock`;
+  // Schema-isolated keys keep rollback safe: v1 readers never see v2 state,
+  // while a rolled-back release retains its own untouched v1 state and lock.
+  const stateKey = `likerts:monitor:${namespace}:v2:state`;
+  const lockKey = `likerts:monitor:${namespace}:v2:lock`;
   async function command(value) {
     const signal = AbortSignal.timeout(2000);
     const response = await fetcher(url.origin, { method: 'POST', redirect: 'manual', cache: 'no-store', credentials: 'omit', signal,
