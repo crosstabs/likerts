@@ -141,6 +141,12 @@ function requestAction(request) {
   return request.url === '/api/run' ? 'run' : null;
 }
 
+function requestHeader(request, name) {
+  const headers = request?.headers;
+  if (typeof headers?.get === 'function') return headers.get(name);
+  return headers?.[name];
+}
+
 export function makeHandler(kind, directory, dependencies = {}) {
   if (!Object.hasOwn(roleKeys, kind)) throw new Error('unknown maintenance kind');
   const execute = dependencies.execute || runChild;
@@ -154,8 +160,8 @@ export function makeHandler(kind, directory, dependencies = {}) {
     const action = requestAction(request);
     const secret = action === 'status' ? environment.LIKERTS_MONITOR_SECRET : environment.CRON_SECRET;
     const credential = action === 'status'
-      ? request.headers['x-likerts-monitor-secret']
-      : request.headers.authorization;
+      ? requestHeader(request, 'x-likerts-monitor-secret')
+      : requestHeader(request, 'authorization');
     if (typeof secret !== 'string' || secret.length < 32 || secret.length > 256) return send(503, { ok: false, error: 'configuration_missing' });
     if (action === 'status' && secret === environment.CRON_SECRET) return send(503, { ok: false, error: 'configuration_missing' });
     const expected = action === 'status' ? secret : `Bearer ${secret}`;

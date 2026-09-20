@@ -27,6 +27,21 @@ test('authentication and exact route fail before verification or child launch', 
   assert.equal((await invoke(h, { method: 'POST' })).status, 400);
   assert.equal((await invoke(handler('cleanup', { environment: { ...environment, CRON_SECRET: '' } }))).status, 503);
 });
+test('authentication accepts Node and Web header collections', async () => {
+  assert.equal((await invoke(handler('cleanup'), {
+    headers: new Headers({ authorization: `Bearer ${secret}` }),
+  })).status, 200);
+  const statusHandler = handler('cleanup', { execute: async () => JSON.stringify({
+    cleanup: { pendingObjects: 0, retryingObjects: 0, tombstones: 0, oldestDueSeconds: 0 },
+    retention: { dueWorkspaces: 0, oldestDueSeconds: 0, lastCompletedAt: null },
+  }) });
+  assert.equal((await status(statusHandler, {
+    headers: new Headers({ 'x-likerts-monitor-secret': monitorSecret }),
+  })).status, 200);
+  assert.equal((await status(statusHandler, {
+    headers: new Headers({ 'x-likerts-monitor-secret': 'wrong' }),
+  })).status, 401);
+});
 test('only fixed command and credential allowlist reach the worker', async () => {
   const result = await invoke(handler('cleanup', { execute: async (binary, args, env, timeout) => {
     assert.equal(binary, '/fixed/worker'); assert.deepEqual(args, ['once']); assert.equal(timeout,45000);
