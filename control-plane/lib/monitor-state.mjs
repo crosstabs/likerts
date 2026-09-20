@@ -64,8 +64,11 @@ return 1
 `;
 
 export function monitorStore({ environment = process.env, fetcher = fetch } = {}) {
-  const urlValue = environment.LIKERTS_MONITOR_STATE_REDIS_URL;
-  const token = environment.LIKERTS_MONITOR_STATE_REDIS_TOKEN;
+  const explicitUrl = environment.LIKERTS_MONITOR_STATE_REDIS_URL;
+  const explicitToken = environment.LIKERTS_MONITOR_STATE_REDIS_TOKEN;
+  const explicitStore = Boolean(explicitUrl || explicitToken);
+  const urlValue = explicitStore ? explicitUrl : environment.UPSTASH_REDIS_REST_URL;
+  const token = explicitStore ? explicitToken : environment.UPSTASH_REDIS_REST_TOKEN;
   const namespace = environment.LIKERTS_MONITOR_STATE_NAMESPACE;
   if (!urlValue && !token && !namespace) return null;
   let url;

@@ -14,7 +14,7 @@ async function invoke(handler, overrides = {}) {
   return { status: response.statusCode, body, headers: response.headers };
 }
 async function status(handler, overrides = {}) {
-  return invoke(handler, { url: '/api/status', headers: { authorization: `Bearer ${monitorSecret}` }, ...overrides });
+  return invoke(handler, { url: '/api/status', headers: { 'x-likerts-monitor-secret': monitorSecret }, ...overrides });
 }
 function handler(kind = 'cleanup', overrides = {}) {
   return makeHandler(kind, new URL('./', import.meta.url), { environment: kind === 'cleanup' ? environment : archiveEnv, verify: async () => '/fixed/worker', execute: async () => idle, ...overrides });
@@ -48,11 +48,12 @@ test('read-only status has a distinct credential and fixed child command', async
     tombstones: 4, oldestDueSeconds: 8, dueWorkspaces: 3, oldestRetentionSeconds: 9,
     lastCompletedAt: '2026-09-20T01:02:03Z' } });
   assert.doesNotMatch(JSON.stringify(cleanup), /private|fixture/);
-  assert.equal((await status(handler('cleanup'), { headers: { authorization: `Bearer ${secret}` } })).status, 401);
+  assert.equal((await status(handler('cleanup'), { headers: { 'x-likerts-monitor-secret': secret } })).status, 401);
+  assert.equal((await status(handler('cleanup'), { headers: { authorization: `Bearer ${monitorSecret}` } })).status, 401);
   assert.equal((await invoke(handler('cleanup', { execute: async () => JSON.stringify({
     cleanup: { pendingObjects: 0, retryingObjects: 0, tombstones: 0, oldestDueSeconds: 0 },
     retention: { dueWorkspaces: 0, oldestDueSeconds: 0, lastCompletedAt: null },
-  }) }), { url: '/api/run?likerts_action=status', headers: { authorization: `Bearer ${monitorSecret}` } })).status, 200);
+  }) }), { url: '/api/run?likerts_action=status', headers: { 'x-likerts-monitor-secret': monitorSecret } })).status, 200);
   assert.equal((await status(handler('cleanup', { environment: { ...environment, LIKERTS_MONITOR_SECRET: secret } }))).status, 503);
 });
 test('archive status omits identifiers and cannot invoke mutating work', async () => {

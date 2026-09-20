@@ -81,13 +81,15 @@ test('monitor distinguishes missing receiver, healthy, receiver acceptance and d
 test('maintenance probes require exact Vercel status targets and classify bounded backlog', async () => {
   const environment = {
     LIKERTS_CLEANUP_STATUS_URL: 'https://likerts-cleanup.vercel.app/api/status', LIKERTS_CLEANUP_STATUS_TOKEN: 'c'.repeat(40),
-    LIKERTS_CLEANUP_STATUS_ORIGIN: 'https://likerts-cleanup.vercel.app',
+    LIKERTS_CLEANUP_STATUS_ORIGIN: 'https://likerts-cleanup.vercel.app', LIKERTS_CLEANUP_STATUS_BYPASS: 'b'.repeat(40),
     LIKERTS_ARCHIVE_STATUS_URL: 'https://likerts-erasure-archive.vercel.app/api/status', LIKERTS_ARCHIVE_STATUS_TOKEN: 'a'.repeat(40),
-    LIKERTS_ARCHIVE_STATUS_ORIGIN: 'https://likerts-erasure-archive.vercel.app',
+    LIKERTS_ARCHIVE_STATUS_ORIGIN: 'https://likerts-erasure-archive.vercel.app', LIKERTS_ARCHIVE_STATUS_BYPASS: 'd'.repeat(40),
   };
   const requested = [];
   const result = await collectMaintenanceStatus({ environment, fetcher: async (url, options) => {
-    requested.push(url); assert.match(options.headers.authorization, /^Bearer [ac]{40}$/);
+    requested.push(url); assert.match(options.headers['x-likerts-monitor-secret'], /^[ac]{40}$/);
+    assert.match(options.headers['x-vercel-protection-bypass'], /^[bd]{40}$/);
+    assert.equal(options.headers.authorization, undefined);
     return url.includes('cleanup') ? Response.json({ ok: true, kind: 'cleanup', status: { pendingObjects: 1,
       retryingObjects: 0, tombstones: 4, oldestDueSeconds: 100, dueWorkspaces: 1,
       oldestRetentionSeconds: 100, lastCompletedAt: null } })
@@ -108,8 +110,10 @@ test('maintenance probes reject cache, wrong origins, credentials and inconsiste
   const base = {
     LIKERTS_CLEANUP_STATUS_URL: 'https://cleanup.vercel.app/api/status',
     LIKERTS_CLEANUP_STATUS_ORIGIN: 'https://cleanup.vercel.app', LIKERTS_CLEANUP_STATUS_TOKEN: 'c'.repeat(40),
+    LIKERTS_CLEANUP_STATUS_BYPASS: 'b'.repeat(40),
     LIKERTS_ARCHIVE_STATUS_URL: 'https://archive.vercel.app/api/status',
     LIKERTS_ARCHIVE_STATUS_ORIGIN: 'https://archive.vercel.app', LIKERTS_ARCHIVE_STATUS_TOKEN: 'a'.repeat(40),
+    LIKERTS_ARCHIVE_STATUS_BYPASS: 'd'.repeat(40),
   };
   const cached = await collectMaintenanceStatus({ environment: base, fetcher: async () => new Response('{}', {
     status: 200, headers: { 'x-vercel-cache': 'HIT' },
@@ -128,6 +132,7 @@ test('maintenance probes reject cache, wrong origins, credentials and inconsiste
   assert.equal((await collectMaintenanceStatus({ environment: {
     LIKERTS_ARCHIVE_STATUS_URL: base.LIKERTS_ARCHIVE_STATUS_URL,
     LIKERTS_ARCHIVE_STATUS_TOKEN: base.LIKERTS_ARCHIVE_STATUS_TOKEN,
+    LIKERTS_ARCHIVE_STATUS_BYPASS: base.LIKERTS_ARCHIVE_STATUS_BYPASS,
     LIKERTS_ARCHIVE_STATUS_ORIGIN: 'https://preview.vercel.app',
   } }))[1].status, 'invalid_configuration');
 });
@@ -264,6 +269,25 @@ test('v3 Redis keys isolate callback state from older rollback readers', async (
   assert.equal(keys.every(key => key.includes(':v3:')), true);
   assert.throws(() => parseState(JSON.stringify({ version: 2, completedAt: 0, health: 'reachable',
     coverage: 'admission', incidentId: null, notification: null })), /monitor_state_unavailable/);
+});
+
+test('monitor state reuses the Vercel Upstash integration without exposing or copying its token', async () => {
+  const requests = [];
+  const store = monitorStore({ environment: {
+    UPSTASH_REDIS_REST_URL: 'https://existing.upstash.io',
+    UPSTASH_REDIS_REST_TOKEN: 'u'.repeat(32), LIKERTS_MONITOR_STATE_NAMESPACE: 'b'.repeat(32),
+  }, fetcher: async (url, options) => {
+    requests.push({ url, options });
+    return Response.json({ result: [1, ''] });
+  } });
+  await store.acquire();
+  assert.equal(requests[0].url, 'https://existing.upstash.io');
+  assert.equal(requests[0].options.headers.authorization, `Bearer ${'u'.repeat(32)}`);
+  assert.match(requests[0].options.body, /likerts:monitor:b{32}:v3:/);
+  assert.throws(() => monitorStore({ environment: {
+    LIKERTS_MONITOR_STATE_REDIS_URL: 'https://explicit.upstash.io',
+    UPSTASH_REDIS_REST_TOKEN: 'u'.repeat(32), LIKERTS_MONITOR_STATE_NAMESPACE: 'b'.repeat(32),
+  } }), /monitor_state_unavailable/);
 });
 
 test('alert attempts are durable and stop after the fixed retry budget', async () => {
