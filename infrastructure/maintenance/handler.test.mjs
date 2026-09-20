@@ -3,14 +3,18 @@ import assert from 'node:assert/strict';
 import { makeHandler, childEnvironment, runChild, verifyBundle } from './handler.mjs';
 
 const secret = 'a'.repeat(40);
-const environment = { CRON_SECRET: secret, LIKERTS_CLEANUP_DATABASE_URL: 'postgres://fixture', LIKERTS_VERCEL_BLOB_TOKEN: 'private-export-token', LIKERTS_EXPORT_PREFIX: 'exports', HOME: '/private', NODE_OPTIONS: '--require=bad', UNRELATED_SECRET: 'must-not-inherit' };
-const archiveEnv = { CRON_SECRET: secret, LIKERTS_ERASURE_DATABASE_URL: 'postgres://archive-fixture', LIKERTS_ERASURE_BLOB_TOKEN: 'private-archive-token', LIKERTS_ERASURE_SOURCE_ID: 'private-source', LIKERTS_ERASURE_NAMESPACE: 'fixture' };
+const monitorSecret = 'm'.repeat(40);
+const environment = { CRON_SECRET: secret, LIKERTS_MONITOR_SECRET: monitorSecret, LIKERTS_CLEANUP_DATABASE_URL: 'postgres://fixture', LIKERTS_VERCEL_BLOB_TOKEN: 'private-export-token', LIKERTS_EXPORT_PREFIX: 'exports', HOME: '/private', NODE_OPTIONS: '--require=bad', UNRELATED_SECRET: 'must-not-inherit' };
+const archiveEnv = { CRON_SECRET: secret, LIKERTS_MONITOR_SECRET: monitorSecret, LIKERTS_ERASURE_DATABASE_URL: 'postgres://archive-fixture', LIKERTS_ERASURE_BLOB_TOKEN: 'private-archive-token', LIKERTS_ERASURE_SOURCE_ID: 'private-source', LIKERTS_ERASURE_NAMESPACE: 'fixture' };
 const idle = 'retention={"worked":false}\ncleanup_worked=false\n';
 async function invoke(handler, overrides = {}) {
   let body;
   const response = { headers: {}, setHeader(key, value) { this.headers[key] = value; }, end(value) { body = JSON.parse(value); } };
   await handler({ method: 'GET', url: '/api/run', headers: { authorization: `Bearer ${secret}` }, ...overrides }, response);
   return { status: response.statusCode, body, headers: response.headers };
+}
+async function status(handler, overrides = {}) {
+  return invoke(handler, { url: '/api/status', headers: { authorization: `Bearer ${monitorSecret}` }, ...overrides });
 }
 function handler(kind = 'cleanup', overrides = {}) {
   return makeHandler(kind, new URL('./', import.meta.url), { environment: kind === 'cleanup' ? environment : archiveEnv, verify: async () => '/fixed/worker', execute: async () => idle, ...overrides });
@@ -31,6 +35,48 @@ test('only fixed command and credential allowlist reach the worker', async () =>
     return idle;
   } }));
   assert.equal(result.status,200); assert.equal(result.body.rounds,1); assert.equal(result.body.idle,true); assert.equal(result.headers['Cache-Control'],'no-store');
+});
+test('read-only status has a distinct credential and fixed child command', async () => {
+  const cleanup = await status(handler('cleanup', { execute: async (binary, args, env, timeout) => {
+    assert.deepEqual(args, ['status']); assert.equal(timeout, 20000);
+    assert.equal(env.CRON_SECRET, undefined); assert.equal(env.LIKERTS_MONITOR_SECRET, undefined);
+    assert.equal(env.LIKERTS_VERCEL_BLOB_TOKEN, undefined); assert.equal(env.LIKERTS_EXPORT_PREFIX, undefined);
+    return JSON.stringify({ cleanup: { pendingObjects: 2, retryingObjects: 1, tombstones: 4, oldestDueSeconds: 8 },
+      retention: { dueWorkspaces: 3, oldestDueSeconds: 9, lastCompletedAt: '2026-09-20T01:02:03Z' }, private: 'omit' });
+  } }));
+  assert.deepEqual(cleanup.body, { ok: true, kind: 'cleanup', status: { pendingObjects: 2, retryingObjects: 1,
+    tombstones: 4, oldestDueSeconds: 8, dueWorkspaces: 3, oldestRetentionSeconds: 9,
+    lastCompletedAt: '2026-09-20T01:02:03Z' } });
+  assert.doesNotMatch(JSON.stringify(cleanup), /private|fixture/);
+  assert.equal((await status(handler('cleanup'), { headers: { authorization: `Bearer ${secret}` } })).status, 401);
+  assert.equal((await invoke(handler('cleanup', { execute: async () => JSON.stringify({
+    cleanup: { pendingObjects: 0, retryingObjects: 0, tombstones: 0, oldestDueSeconds: 0 },
+    retention: { dueWorkspaces: 0, oldestDueSeconds: 0, lastCompletedAt: null },
+  }) }), { url: '/api/run?likerts_action=status', headers: { authorization: `Bearer ${monitorSecret}` } })).status, 200);
+  assert.equal((await status(handler('cleanup', { environment: { ...environment, LIKERTS_MONITOR_SECRET: secret } }))).status, 503);
+});
+test('archive status omits identifiers and cannot invoke mutating work', async () => {
+  const result = await status(handler('archive', { execute: async (binary, args, env, timeout) => {
+    assert.deepEqual(args, ['monitor-status']); assert.equal(timeout, 30000);
+    assert.equal(env.LIKERTS_ERASURE_BLOB_TOKEN, undefined); assert.equal(env.LIKERTS_ERASURE_NAMESPACE, undefined);
+    return JSON.stringify({ sourceId: 'private-source', fenceId: null, fencedAt: null,
+      checkpointId: 'private-checkpoint', checkpointHash: 'private-hash', coveredEvents: 5954,
+      pendingEvents: 0, oldestPendingSeconds: 0, uncheckpointedEvents: 0, oldestUncheckpointedSeconds: 0,
+      retryingEvents: 0, activeLeases: 0, staleLeases: 0, pendingCheckpoint: false,
+      pendingCheckpointAgeSeconds: 0 });
+  } }));
+  assert.deepEqual(result.body, { ok: true, kind: 'archive', status: { pendingEvents: 0,
+    coveredEvents: 5954, oldestPendingSeconds: 0, uncheckpointedEvents: 0, oldestUncheckpointedSeconds: 0,
+    retryingEvents: 0, activeLeases: 0, staleLeases: 0, pendingCheckpoint: false,
+    pendingCheckpointAgeSeconds: 0, fenced: false, checkpointed: true } });
+  assert.doesNotMatch(JSON.stringify(result), /private/);
+});
+test('malformed status output is sanitized', async () => {
+  for (const [kind, output] of [['cleanup', '{"cleanup":{"pendingObjects":-1}}'], ['archive', '{"pendingEvents":0,"coveredEvents":0,"oldestPendingSeconds":0,"fenceId":null,"checkpointId":{"private":true}}']]) {
+    const result = await status(handler(kind, { execute: async () => output }));
+    assert.deepEqual(result.body, { ok: false, error: 'worker_output_invalid' });
+    assert.doesNotMatch(JSON.stringify(result), /private/);
+  }
 });
 test('mixed role credentials and owner connections fail closed', () => {
   for (const key of ['DATABASE_URL','LIKERTS_MIGRATION_DATABASE_URL','LIKERTS_ERASURE_BLOB_TOKEN']) assert.throws(() => childEnvironment('cleanup',{...environment,[key]:'not-permitted'},'/ca'),/credential_boundary_failed/);

@@ -58,9 +58,19 @@ try {
   const archiver = binary('backend/Cargo.toml', 'likerts-erasure-archive');
   const env = { ...minimal, LIKERTS_ERASURE_DATABASE_URL: `postgres://likerts_erasure_archiver:${archiverPassword}@127.0.0.1:${port}/likerts`, LIKERTS_ERASURE_SOURCE_ID: source, LIKERTS_ERASURE_ALLOW_LOCAL_INSECURE: '1' };
   const call = (args, extra = {}) => execFileSync(archiver, args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...env, ...extra } });
-  stage = 'verify-status';
-  const status = JSON.parse(call(['status']));
+  stage = 'verify-legacy-status-contract';
+  const legacyRaw = psql("select set_config('application_name','likerts-erasure-archive',false); select likerts.erasure_archive_status();", true).trim().split('\n').at(-1);
+  const legacyStatus = JSON.parse(legacyRaw);
+  assert.equal(legacyStatus.sourceId, source); assert.equal(legacyStatus.pendingEvents, 0);
+  assert.equal(Object.hasOwn(legacyStatus, 'uncheckpointedEvents'), false,
+    'New schema changed the legacy worker status contract.');
+  assert.equal(JSON.parse(call(['status'])).sourceId, source);
+  stage = 'verify-monitor-status';
+  const status = JSON.parse(call(['monitor-status']));
   assert.equal(status.sourceId, source); assert.equal(status.pendingEvents, 0);
+  for (const key of ['uncheckpointedEvents', 'oldestUncheckpointedSeconds', 'retryingEvents',
+    'activeLeases', 'staleLeases', 'pendingCheckpointAgeSeconds']) assert.equal(status[key], 0);
+  assert.equal(status.pendingCheckpoint, false);
   stage = 'verify-raw-data-denial';
   for (const sql of ['select * from likerts.responses limit 1;', 'select * from likerts.usage_entries limit 1;']) {
     assert.throws(() => psql(sql, true), 'Archiver unexpectedly had raw data access.');
@@ -122,7 +132,7 @@ try {
   const checked = JSON.parse(call(['check-config'], { LIKERTS_ERASURE_BLOB_TOKEN: 'vercel_blob_rw_LocalFixture_not_a_real_credential', LIKERTS_ERASURE_NAMESPACE: 'local-check' }));
   assert.equal(checked.databaseRoleAndSourceVerified, true);
   assert.equal(checked.archiveConnectivityVerified, false);
-  console.log('PASS: real PostgreSQL restricted archiver role/source/status; raw answer/usage reads denied; old startup column-ACL gap reproduced and provisioning removes it; nine additional unsafe grants rejected; owner and source mismatch rejected; maintenance requires attestation; config check explicitly does not claim archive connectivity. No provider request made.');
+  console.log('PASS: real PostgreSQL restricted archiver role/source/status; legacy status contract remains rollback-safe while monitor status exposes aggregates; raw answer/usage reads denied; old startup column-ACL gap reproduced and provisioning removes it; nine additional unsafe grants rejected; owner and source mismatch rejected; maintenance requires attestation; config check explicitly does not claim archive connectivity. No provider request made.');
 } catch {
   // Stage names are fixed literals. Never print caught child errors, argv, SQL,
   // stderr or connection strings: those can contain generated credentials.

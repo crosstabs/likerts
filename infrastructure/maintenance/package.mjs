@@ -35,7 +35,11 @@ for (const kind of ['cleanup', 'archive']) {
   await copyFile(join(here, kind, 'index.mjs'), join(functionDir, 'index.mjs'));
   await writeJson(join(functionDir, 'manifest.json'), { ...source, kind, arch, sourceCommit, sourceDirty, sha256: digest(bytes) });
   await writeJson(join(functionDir, '.vc-config.json'), { runtime: 'nodejs22.x', handler: 'index.mjs', launcherType: 'Nodejs', shouldAddHelpers: true, architecture: arch === 'arm64' ? 'arm64' : 'x86_64', maxDuration: 240, regions: ['sin1'] });
-  await writeJson(join(output, 'config.json'), { version: 3, routes: [{ src: '/api/run', dest: '/api/run' }, { src: '/.*', status: 404 }], crons: [{ path: '/api/run', schedule: kind === 'cleanup' ? '7,22,37,52 * * * *' : '11,26,41,56 * * * *' }] });
+  await writeJson(join(output, 'config.json'), { version: 3, routes: [
+    { src: '/api/run', dest: '/api/run' },
+    { src: '/api/status', dest: '/api/run?likerts_action=status' },
+    { src: '/.*', status: 404 },
+  ], crons: [{ path: '/api/run', schedule: kind === 'cleanup' ? '7,22,37,52 * * * *' : '11,26,41,56 * * * *' }] });
   await writeJson(join(project, 'vercel.json'), { version: 2, framework: null });
   console.log(JSON.stringify({ kind, arch, sourceCommit, sourceDirty, binarySha256: digest(bytes), project }));
 }

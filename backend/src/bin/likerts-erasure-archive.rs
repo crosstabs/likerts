@@ -8,7 +8,7 @@ use std::{process::ExitCode, str::FromStr, time::Duration};
 use uuid::Uuid;
 
 type Result<T> = std::result::Result<T, ArchiveError>;
-const HELP: &str = "likerts-erasure-archive <status|check-config|drain|checkpoint|run|verify|fence|release>\n\
+const HELP: &str = "likerts-erasure-archive <status|monitor-status|check-config|drain|checkpoint|run|verify|fence|release>\n\
 Credentials/configuration are read only from LIKERTS_ERASURE_* environment variables.\n\
 'fence --ack I_ACCEPT_DELETIONS_WILL_BE_REJECTED' rejects new source deletions.\n\
 'release --ack I_ACCEPT_OLD_CHECKPOINT_NO_LONGER_COVERS_FUTURE_DELETIONS' invalidates the fence checkpoint.\n\
@@ -17,6 +17,7 @@ See infrastructure/erasure-archive/README.md before maintenance commands.";
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Mode {
     Status,
+    MonitorStatus,
     Check,
     Drain,
     Checkpoint,
@@ -28,6 +29,7 @@ enum Mode {
 fn mode(args: &[String]) -> Result<Mode> {
     let value = match args.first().map(String::as_str) {
         Some("status") => Mode::Status,
+        Some("monitor-status") => Mode::MonitorStatus,
         Some("check-config") => Mode::Check,
         Some("drain") => Mode::Drain,
         Some("checkpoint") => Mode::Checkpoint,
@@ -85,7 +87,7 @@ fn number(value: Option<String>, default: u64, min: u64, max: u64) -> Result<u64
     }
     Ok(value)
 }
-fn database_options(value: &str, local: bool) -> Result<PgConnectOptions> {
+fn database_options(value: &str, local: bool, mode: Mode) -> Result<PgConnectOptions> {
     let url = reqwest::Url::parse(value).map_err(|_| ArchiveError::Configuration)?;
     if !matches!(url.scheme(), "postgres" | "postgresql")
         || url.username() != "likerts_erasure_archiver"
@@ -114,7 +116,11 @@ fn database_options(value: &str, local: bool) -> Result<PgConnectOptions> {
         } else {
             PgSslMode::VerifyFull
         })
-        .application_name("likerts-erasure-archive")
+        .application_name(if mode == Mode::MonitorStatus {
+            "likerts-erasure-archive-observability-v2"
+        } else {
+            "likerts-erasure-archive"
+        })
         .options([("statement_timeout", "15000"), ("lock_timeout", "5000")]))
 }
 fn objects(source: &str) -> Result<PrivateBlob> {
@@ -169,17 +175,23 @@ async fn execute(mode: Mode) -> Result<()> {
         Ok("0") | Err(_) => false,
         _ => return Err(ArchiveError::Configuration),
     };
-    let options = database_options(&env("LIKERTS_ERASURE_DATABASE_URL")?, local)?;
+    let options = database_options(&env("LIKERTS_ERASURE_DATABASE_URL")?, local, mode)?;
     let pool = PgPoolOptions::new()
         .max_connections(1)
         .acquire_timeout(Duration::from_secs(10))
         .connect_with(options)
         .await
         .map_err(|_| ArchiveError::Database)?;
+    if mode == Mode::MonitorStatus {
+        let (_, status) = Archiver::new_observability(pool.clone(), &source).await?;
+        pool.close().await;
+        return emit(status);
+    }
     let archiver = Archiver::new(pool.clone(), &source).await?;
     let result = async {
         match mode {
             Mode::Status => emit(archiver.status().await?),
+            Mode::MonitorStatus => unreachable!(),
             Mode::Fence => emit(json!({"operation":"fence","sourceId":source,"fenceId":archiver.fence(FENCE_ATTESTATION).await?})),
             Mode::Check => {
                 let _ = objects(&source)?;
@@ -239,6 +251,10 @@ mod tests {
     #[test]
     fn maintenance_is_explicit_and_unknown_arguments_fail_closed() {
         assert_eq!(mode(&args(&["drain"])).unwrap(), Mode::Drain);
+        assert_eq!(
+            mode(&args(&["monitor-status"])).unwrap(),
+            Mode::MonitorStatus
+        );
         for value in [
             vec![],
             vec!["fence"],
@@ -262,20 +278,26 @@ mod tests {
         let safe =
             "postgresql://likerts_erasure_archiver:secret@db.example.test/archive?sslmode=disable";
         assert!(matches!(
-            database_options(safe, false).unwrap().get_ssl_mode(),
+            database_options(safe, false, Mode::Status)
+                .unwrap()
+                .get_ssl_mode(),
             PgSslMode::VerifyFull
         ));
-        assert!(database_options(safe, true).is_err());
-        assert!(database_options("postgres://admin:secret@localhost/test", true).is_err());
+        assert!(database_options(safe, true, Mode::Status).is_err());
+        assert!(
+            database_options("postgres://admin:secret@localhost/test", true, Mode::Status).is_err()
+        );
         assert!(database_options(
             "postgres://likerts_erasure_archiver:secret@localhost/test?host=remote.test",
-            true
+            true,
+            Mode::Status
         )
         .is_err());
         assert!(matches!(
             database_options(
                 "postgres://likerts_erasure_archiver:secret@127.0.0.1/test",
-                true
+                true,
+                Mode::Status
             )
             .unwrap()
             .get_ssl_mode(),

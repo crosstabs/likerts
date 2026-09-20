@@ -2,7 +2,7 @@
 
 `likerts-erasure-archive` makes the existing ID-only archive library runnable. It uses only the dedicated `likerts_erasure_archiver` database role and its own private Blob credential. It does not initialize the API, identity provider, webhook worker, raw-answer client or normal export storage.
 
-This is an implementation and local verification artifact. It has **not** been deployed to Render or connected to a live independent archive here. It does not establish a provider backup window, a managed recovery guarantee, a completed Neon restore drill or an alerting operation. See the separate H03 gate in [the launch plan](../../PUBLIC-LAUNCH.md).
+The worker has been deployed as a separate Vercel maintenance project and completed the bounded historical-prefix drain recorded in the [managed evidence](../../docs/verification/managed-maintenance.md). Its recurring schedule remains disabled. That deployment does not establish a provider backup window, a managed recovery guarantee, a completed Neon restore drill, future-write coverage or an alerting operation. See the separate H03 gate in [the launch plan](../../PUBLIC-LAUNCH.md).
 
 ## Provisioning prerequisites
 
@@ -56,15 +56,19 @@ If Cargo uses a custom target directory, use the emitted binary there. With the 
 
 ```sh
 backend/target/release/likerts-erasure-archive status
+backend/target/release/likerts-erasure-archive monitor-status
 backend/target/release/likerts-erasure-archive check-config
 backend/target/release/likerts-erasure-archive drain
 ```
 
-- `status` is a read-only database/source/role check. It reports source/fence/checkpoint identifiers, covered and pending counts, and oldest pending age. It does not need Blob credentials or test storage.
+- `status` is the rollback-compatible read-only database/source/role check. Its response shape remains frozen for older workers.
+- `monitor-status` uses the same restricted function grant with an explicit versioned application name. It adds uncheckpointed, retrying and lease aggregates and their bounded lag signals without changing the response seen by an old or rolled-back worker. It does not need Blob credentials or test storage.
 - `check-config` checks the role/source and parses archive configuration. Its JSON explicitly reports `archiveConnectivityVerified: false`; it never writes a test object or claims live durability.
 - `drain` archives up to the configured batch size, then tries one checkpoint and emits sanitized JSON. A successful bounded batch does not prove the whole backlog is empty. `pendingEvents` counts unarchived events; already archived events can still await checkpoint coverage. Compare checkpoint movement/covered count as well as backlog.
 - `checkpoint` tries to persist/confirm the next checkpoint without claiming another event. It can return null when no new checkpoint is needed.
 - `run` repeats bounded drain/checkpoint iterations until SIGINT/SIGTERM. Any database/storage/validation failure exits nonzero; configure supervisor backoff and alerting. It does not swallow failures and pretend the worker is healthy.
+
+Apply migration `0028_erasure_archive_observability.sql` before deploying a worker that invokes `monitor-status`. Existing and rolled-back workers continue to receive the legacy `status` shape after that migration. The new worker also accepts the legacy shape for core operations, so migration-first deployment and binary rollback remain safe; `monitor-status` fails closed until the migration is present.
 
 ```sh
 backend/target/release/likerts-erasure-archive run
@@ -115,7 +119,7 @@ cargo build --locked --manifest-path backend/Cargo.toml --bin likerts-erasure-ar
 node infrastructure/erasure-archive/check-local.mjs
 ```
 
-The Node smoke uses a disposable `postgres:16-alpine` Docker container bound to loopback, current migrations and existing archiver-role provisioning. It proves role/source status, denied raw answer/usage reads, rejection of owner credentials and source mismatch, and rejection of unattested maintenance. Its fake Blob token is used only by non-network `check-config`. Container/volume and generated credentials are removed. The script does not contact Blob or any cloud provider.
+The Node smoke uses a disposable `postgres:16-alpine` Docker container bound to loopback, current migrations and existing archiver-role provisioning. It proves the old application name still receives the exact legacy status contract, the versioned monitor command receives aggregate fields, raw answer/usage reads are denied, owner credentials and source mismatch are rejected, and maintenance requires attestation. Its fake Blob token is used only by non-network `check-config`. Container/volume and generated credentials are removed. The script does not contact Blob or any cloud provider.
 
 Local checks passed on 2026-09-13. Unit checks cover argument/attestation handling, TLS/role URL constraints and batch bounds; existing library tests cover fenced-chain verification and rejected released/missing/duplicate archives. The PostgreSQL smoke passed with the restricted role and reported no provider connectivity claim.
 

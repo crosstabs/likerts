@@ -137,6 +137,25 @@ pub struct Status {
     pub pending_events: u64,
     pub oldest_pending_seconds: u64,
 }
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ObservabilityStatus {
+    pub source_id: String,
+    pub fence_id: Option<String>,
+    pub fenced_at: Option<DateTime<Utc>>,
+    pub checkpoint_id: Option<String>,
+    pub checkpoint_hash: Option<String>,
+    pub covered_events: u64,
+    pub pending_events: u64,
+    pub oldest_pending_seconds: u64,
+    pub uncheckpointed_events: u64,
+    pub oldest_uncheckpointed_seconds: u64,
+    pub retrying_events: u64,
+    pub active_leases: u64,
+    pub stale_leases: u64,
+    pub pending_checkpoint: bool,
+    pub pending_checkpoint_age_seconds: u64,
+}
 #[async_trait]
 pub trait ArchiveObjects: Send + Sync {
     /// Never overwrite an existing object. An exact existing object is success.
@@ -323,7 +342,7 @@ pub struct Archiver {
     source: String,
 }
 impl Archiver {
-    pub async fn new(pool: PgPool, expected_source: &str) -> Result<Self> {
+    async fn checked(pool: PgPool, expected_source: &str) -> Result<Self> {
         uuid(expected_source).map_err(|_| ArchiveError::Configuration)?;
         let safe:bool=sqlx::query_scalar("select current_user='likerts_erasure_archiver' and r.rolcanlogin and not (r.rolsuper or r.rolbypassrls or r.rolinherit or r.rolcreaterole or r.rolcreatedb or r.rolreplication) and not exists(select 1 from pg_auth_members where member=r.oid) and not exists(select 1 from pg_database where datname=current_database() and datdba=r.oid) and not has_schema_privilege(current_user,'likerts','CREATE') and not exists(select 1 from pg_namespace where nspname='likerts' and nspowner=r.oid) and not exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='likerts' and (c.relowner=r.oid or (c.relkind in ('r','p','v','m','f') and (has_table_privilege(current_user,c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER') or has_any_column_privilege(current_user,c.oid,'SELECT,INSERT,UPDATE,REFERENCES'))))) and not exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='likerts' and (p.proowner=r.oid or (p.prosecdef and has_function_privilege(current_user,p.oid,'EXECUTE') and p.oid not in ('likerts.erasure_archive_status()'::regprocedure,'likerts.claim_erasure_archive()'::regprocedure,'likerts.finish_erasure_archive(uuid,uuid,text)'::regprocedure,'likerts.retry_erasure_archive(uuid,uuid)'::regprocedure,'likerts.prepare_erasure_checkpoint()'::regprocedure,'likerts.finish_erasure_checkpoint(uuid,text)'::regprocedure,'likerts.fence_erasure_source(uuid,text)'::regprocedure,'likerts.release_erasure_source(uuid,uuid,text)'::regprocedure)))) from pg_roles r where r.rolname=current_user").fetch_one(&pool).await.map_err(|_|ArchiveError::Database)?;
         if !safe {
@@ -333,8 +352,20 @@ impl Archiver {
             pool,
             source: expected_source.into(),
         };
+        Ok(result)
+    }
+    pub async fn new(pool: PgPool, expected_source: &str) -> Result<Self> {
+        let result = Self::checked(pool, expected_source).await?;
         result.status().await?;
         Ok(result)
+    }
+    pub async fn new_observability(
+        pool: PgPool,
+        expected_source: &str,
+    ) -> Result<(Self, ObservabilityStatus)> {
+        let result = Self::checked(pool, expected_source).await?;
+        let status = result.observability_status().await?;
+        Ok((result, status))
     }
     pub async fn status(&self) -> Result<Status> {
         let raw: serde_json::Value = sqlx::query_scalar("select likerts.erasure_archive_status()")
@@ -342,6 +373,19 @@ impl Archiver {
             .await
             .map_err(|_| ArchiveError::Database)?;
         let status: Status = serde_json::from_value(raw).map_err(|_| ArchiveError::Database)?;
+        if status.source_id != self.source {
+            return Err(ArchiveError::Configuration);
+        }
+        Ok(status)
+    }
+
+    pub async fn observability_status(&self) -> Result<ObservabilityStatus> {
+        let raw: serde_json::Value = sqlx::query_scalar("select likerts.erasure_archive_status()")
+            .fetch_one(&self.pool)
+            .await
+            .map_err(|_| ArchiveError::Database)?;
+        let status: ObservabilityStatus =
+            serde_json::from_value(raw).map_err(|_| ArchiveError::Database)?;
         if status.source_id != self.source {
             return Err(ArchiveError::Configuration);
         }
@@ -578,6 +622,34 @@ mod tests {
         collections::{HashMap, VecDeque},
         sync::{Arc, Mutex},
     };
+
+    #[test]
+    fn status_contracts_allow_both_safe_deployment_orders() {
+        let legacy = serde_json::json!({
+            "sourceId":"11111111-1111-4111-8111-111111111111",
+            "fenceId":null,"fencedAt":null,"checkpointId":null,"checkpointHash":null,
+            "coveredEvents":0,"pendingEvents":0,"oldestPendingSeconds":0
+        });
+        assert!(serde_json::from_value::<Status>(legacy.clone()).is_ok());
+        assert!(serde_json::from_value::<ObservabilityStatus>(legacy.clone()).is_err());
+
+        let mut expanded = legacy;
+        let object = expanded.as_object_mut().unwrap();
+        object.extend(
+            serde_json::json!({
+                "uncheckpointedEvents":0,"oldestUncheckpointedSeconds":0,"retryingEvents":0,
+                "activeLeases":0,"staleLeases":0,"pendingCheckpoint":false,
+                "pendingCheckpointAgeSeconds":0
+            })
+            .as_object()
+            .unwrap()
+            .clone(),
+        );
+        // Core operations retain an exact legacy contract while the monitor path
+        // strictly requires every negotiated aggregate.
+        assert!(serde_json::from_value::<Status>(expanded.clone()).is_err());
+        assert!(serde_json::from_value::<ObservabilityStatus>(expanded).is_ok());
+    }
 
     struct HttpRequest {
         method: axum::http::Method,

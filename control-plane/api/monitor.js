@@ -1,6 +1,6 @@
 import { timingSafeEqual } from 'node:crypto';
 import { collectStatus } from '../lib/status.mjs';
-import { collectAdmissionStatus } from '../lib/monitor-probe.mjs';
+import { collectAdmissionStatus, collectMaintenanceStatus } from '../lib/monitor-probe.mjs';
 import { COMPONENT_IDS, COMPONENT_STATUSES, MAX_ALERT_ATTEMPTS, monitorStore, prepareState } from '../lib/monitor-state.mjs';
 
 export function authorizedMonitor(header, secret) {
@@ -26,24 +26,30 @@ export function monitorIsArmed(environment) {
 }
 
 export async function runMonitor({ environment = process.env, probe = collectStatus,
-  admissionProbe = collectAdmissionStatus, fetcher = fetch, store, now = Date.now } = {}) {
+  admissionProbe = collectAdmissionStatus, maintenanceProbe = collectMaintenanceStatus,
+  fetcher = fetch, store, now = Date.now } = {}) {
   if (!monitorIsArmed(environment)) return { statusCode: 503, body: { status: 'not_armed', reason: 'approved_receiver_and_responder_required' } };
   try {
     store ??= monitorStore({ environment, fetcher });
     if (!store) return { statusCode: 503, body: { status: 'not_armed', reason: 'durable_state_required' } };
     const lock = await store.acquire();
     if (!lock) return { statusCode: 503, body: { status: 'run_in_progress' } };
-    const [result, admission] = await Promise.all([
-      probe({ fetcher }), admissionProbe({ environment, fetcher }),
+    const [result, admission, maintenance] = await Promise.all([
+      probe({ fetcher }), admissionProbe({ environment, fetcher }), maintenanceProbe({ environment, fetcher }),
     ]);
     // Select known classifications only. Never copy upstream objects into state,
     // notifications, logs or responses. Use our clock, not an upstream string.
     const components = COMPONENT_IDS.map(id => {
-      const c = id === 'admission' ? admission : result?.components?.find(c => c.id === id);
+      const c = id === 'admission' ? admission
+        : id === 'cleanup' || id === 'archive' ? maintenance?.find(c => c.id === id)
+          : result?.components?.find(c => c.id === id);
       return { id, status: COMPONENT_STATUSES.includes(c?.status) ? c.status : 'unavailable' };
     });
-    const coverage = components[3].status === 'not_configured' ? 'reachability_only' : 'admission';
-    const health = components.every(c => c.status === 'reachable' || (c.id === 'admission' && c.status === 'not_configured')) ? 'reachable' : 'degraded';
+    const admissionCovered = components.find(c => c.id === 'admission').status !== 'not_configured';
+    const maintenanceCovered = components.filter(c => c.id === 'cleanup' || c.id === 'archive').every(c => c.status !== 'not_configured');
+    const coverage = admissionCovered && maintenanceCovered ? 'admission_and_maintenance_db'
+      : maintenanceCovered ? 'maintenance_db' : admissionCovered ? 'admission' : 'reachability_only';
+    const health = components.every(c => c.status === 'reachable') ? 'reachable' : 'degraded';
     const state = prepareState(lock.previous, health, components, coverage, now());
     let alert = state.notification?.accepted ? 'already_accepted' : 'not_needed';
     const notification = state.notification;
@@ -72,7 +78,8 @@ export async function runMonitor({ environment = process.env, probe = collectSta
     await store.save(lock.lease, state, true);
     const statusCode = health === 'reachable' && !['delivery_failed', 'retry_exhausted'].includes(alert) ? 200 : 503;
     return { statusCode, body: { status: health, checkedAt: new Date(state.completedAt).toISOString(), coverage, alert,
-      admission: components[3].status, independentWatcherRequired: true } };
+      admission: components.find(c => c.id === 'admission').status,
+      maintenance: components.filter(c => c.id === 'cleanup' || c.id === 'archive'), independentWatcherRequired: true } };
   } catch {
     return { statusCode: 503, body: { status: 'monitor_unavailable', reason: 'probe_or_state_unavailable' } };
   }

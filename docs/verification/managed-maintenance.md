@@ -1,5 +1,7 @@
 # Managed maintenance rehearsal — 13 September 2026
 
+> Source update pending deployment: the current repository adds a separately authenticated, read-only maintenance status route and durable-monitor probes for cleanup and archive aggregate state. Until its exact protected commit is deployed and exercised, the evidence below remains the authoritative hosted record. Database status does not prove scheduled invocation, Blob reachability, independent checkpoint readback, callback-worker liveness or alert delivery.
+
 This is partial operational evidence, not acceptance of hosted production readiness. The initial rehearsal below used source `a9f8b95b9f345129d91d961bee1070ad7f92e9e3`, [protected main CI](https://github.com/crosstabs/likerts/actions/runs/34733414936). Its failed attempts remain part of the record. The [later managed execution](#managed-execution-update) identifies what subsequently passed and what remains unproved.
 
 ## Initial rehearsal
