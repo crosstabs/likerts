@@ -19,13 +19,14 @@ async function fixture({ signedIn = true, revokeFails = false } = {}) {
   const dom = new JSDOM(html, { url: "https://likerts.test/app", runScripts: "outside-only" });
   const { window } = dom;
   const requests = [];
+  const tokenRequests = [];
   let listener;
   let credentials = [{ id: "cred-1", name: "Existing", scopes: ["usage:read"], expiresAt: "2027-01-01T00:00:00Z", revoked: false }];
   Object.assign(window, state);
   window.setTimeout = (fn, ms) => setTimeout(fn, Math.min(ms, 5));
   Object.defineProperty(window.navigator, "clipboard", { value: { writeText: async () => { throw new Error("denied"); } } });
   const clerk = {
-    session: signedIn ? { id: "session-1", getToken: async () => "owner-token" } : null,
+    session: signedIn ? { id: "session-1", getToken: async (options) => { tokenRequests.push(options); return "owner-token"; } } : null,
     load: async () => {}, addListener: (fn) => { listener = fn; },
     mountSignIn: (_root, options) => { clerk.signInOptions = options; },
     mountUserButton: (_root, options) => { clerk.userButtonOptions = options; },
@@ -53,7 +54,7 @@ async function fixture({ signedIn = true, revokeFails = false } = {}) {
   };
   window.eval(source);
   await until(() => signedIn ? !window.document.getElementById("workspace-content").hidden : Boolean(clerk.signInOptions));
-  return { window, clerk, requests, close: () => dom.window.close(), changeSession: () => listener() };
+  return { window, clerk, requests, tokenRequests, close: () => dom.window.close(), changeSession: () => listener() };
 }
 
 test("signed-in workspace renders unmetered response activity and scoped setup", async () => {
@@ -70,6 +71,9 @@ test("signed-in workspace renders unmetered response activity and scoped setup",
     assert.match($("results-findings").textContent, /Mean 4.3/);
     assert.match($("results-privacy").textContent, /No raw text or metadata/);
     assert.equal(f.requests.some(({ url }) => url.includes("billing")), false);
+    assert.ok(f.tokenRequests.length >= 1);
+    assert.deepEqual(Object.keys(f.tokenRequests[0]), ["template"]);
+    assert.equal(f.tokenRequests[0].template, "likerts-api");
   } finally { f.close(); }
 });
 

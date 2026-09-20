@@ -83,7 +83,8 @@ test("marketing site is separate from the authenticated control plane", async ()
   assert.match(app, /clerk\.mountUserButton/);
   assert.match(app, /dataset\.clerkPublishableKey = publishableKeyForScript/);
   assert.match(app, /telemetry: false/);
-  assert.match(app, /session\.getToken\(\)/);
+  assert.match(app, /session\.getToken\(\{template: apiTokenTemplate\}\)/);
+  assert.match(app, /apiTokenTemplate = "likerts-api"/);
   assert.match(app, /\/v1\/browser\/bootstrap/);
   assert.doesNotMatch(html, /id="oauth-approval"/);
   assert.match(app, /\/v1\/browser\/service-credentials/);

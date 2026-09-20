@@ -1,8 +1,9 @@
 # Hosted provider state
 
-This is a read-only provider audit from 20 September 2026. It records the
-current state without enabling schedules, changing plans, exhausting quotas,
-contacting an alert receiver, or running a recovery drill.
+This is a provider audit from 20 September 2026. It records the current state
+and bounded read-only runtime probes without enabling schedules, changing
+plans, exhausting quotas, contacting an alert receiver, or running a recovery
+drill.
 
 ## Lifecycle jobs
 
@@ -42,11 +43,33 @@ from the Singapore operator host measured 249.9–283.2 ms, with a 251.6 ms
 median. `DBSIZE` reported three keys, and `INFO` reported 12,240 processed
 commands and a 64 MiB `maxmemory` value. These were bounded read-only probes;
 they do not establish Render-to-Upstash latency, sustained throughput, fairness,
-or exhaustion behavior. Upstash's current public free-plan page advertises 500K
-commands per month, 256 MB and 10 GB monthly bandwidth, but the live instance's
-reported 64 MiB limit is the operational value that needs provider confirmation.
-[Current Upstash pricing](https://upstash.com/pricing/redis)
+or exhaustion behavior.
 
-H05 remains open until the Render path is measured against an approved workload
-boundary, the actual account quota/limit behavior is confirmed, and exhaustion
-plus alert delivery are tested without unapproved load or spend.
+Upstash's current public free-plan page defines the account limits as 500K
+commands per month, 256 MB of data and 10 GB of monthly bandwidth. Its official
+FAQ explains that Redis data is kept across memory and block storage and that
+idle entries can leave memory while remaining on disk. The observed 64 MiB
+`maxmemory` field therefore cannot be treated as the account's maximum data
+size; 256 MB is the documented provider quota. The provider does not document
+how that internal field maps to its memory tier. The pricing page also says
+operational commands such as `PING` and `INFO` are not billed.
+[Current Upstash pricing](https://upstash.com/pricing/redis)
+[Upstash FAQ](https://upstash.com/docs/redis/help/faq)
+
+### Render Singapore path
+
+The production API service `srv-dagbp57qj5pc738fe96g` is configured in Render's
+Singapore region. A one-off job inherited that service's admission URL and token,
+required an HTTPS `*.upstash.io` origin, then made five sequential authenticated
+`PING` requests. Each request had a 50 ms connection and total timeout, required
+HTTP 200 and required the exact `PONG` response. Job
+`job-danm106gekts739dh92g` succeeded on 20 September from 04:26:40–04:26:50 UTC.
+
+This establishes five successful REST round trips below 50 ms from a production
+service container. It does not establish database-command latency for the Lua
+admission workflow, sustained throughput, tail latency, fairness, or provider
+exhaustion behavior. The probe issued five read-only commands and did not alter
+the service, plan or quota configuration.
+
+H05 remains open until exhaustion plus alert delivery are tested against an
+approved workload boundary without unapproved load or spend.

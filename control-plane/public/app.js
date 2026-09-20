@@ -2,6 +2,7 @@ import { SCOPE_PRESETS, connectionExamples } from "/workspace-state.js";
 
 const publishableKey = "__CLERK_PUBLISHABLE_KEY__";
 const apiOrigin = "__LIKERTS_PUBLIC_API_ORIGIN__";
+const apiTokenTemplate = "likerts-api";
 const $ = (id) => document.getElementById(id);
 const text = (id, value) => { $(id).textContent = value; };
 let activeClerk;
@@ -16,7 +17,7 @@ async function browserRequest(path, options = {}) {
   if (!activeClerk?.session) throw new Error("Sign in required");
   const version = sessionVersion;
   const workspace = activeWorkspace;
-  const token = await activeClerk.session.getToken();
+  const token = await activeClerk.session.getToken({template: apiTokenTemplate});
   if (version !== sessionVersion) throw new Error("Session changed. Try again.");
   if (!token) throw new Error("Sign in required");
   const response = await fetch(`${apiOrigin}${path}`, {
