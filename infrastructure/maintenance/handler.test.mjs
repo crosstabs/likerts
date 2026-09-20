@@ -29,6 +29,7 @@ test('authentication and exact route fail before verification or child launch', 
 });
 test('authentication accepts Node and Web header collections', async () => {
   assert.equal((await invoke(handler('cleanup'), {
+    url: 'https://likerts-cleanup.vercel.app/api/run',
     headers: new Headers({ authorization: `Bearer ${secret}` }),
   })).status, 200);
   const statusHandler = handler('cleanup', { execute: async () => JSON.stringify({
@@ -36,11 +37,23 @@ test('authentication accepts Node and Web header collections', async () => {
     retention: { dueWorkspaces: 0, oldestDueSeconds: 0, lastCompletedAt: null },
   }) });
   assert.equal((await status(statusHandler, {
+    url: 'https://likerts-cleanup.vercel.app/api/status',
+    headers: new Headers({ 'x-likerts-monitor-secret': monitorSecret }),
+  })).status, 200);
+  assert.equal((await status(statusHandler, {
+    url: 'https://likerts-cleanup.vercel.app/api/run?likerts_action=status',
     headers: new Headers({ 'x-likerts-monitor-secret': monitorSecret }),
   })).status, 200);
   assert.equal((await status(statusHandler, {
     headers: new Headers({ 'x-likerts-monitor-secret': 'wrong' }),
   })).status, 401);
+  for (const url of [
+    'https://likerts-cleanup.vercel.app/api/status?',
+    'https://likerts-cleanup.vercel.app/api/status#ignored',
+    'https://likerts-cleanup.vercel.app/api/status?likerts_action=status',
+  ]) assert.equal((await invoke(statusHandler, {
+    url, headers: new Headers({ authorization: `Bearer ${secret}` }),
+  })).status, 400);
 });
 test('only fixed command and credential allowlist reach the worker', async () => {
   const result = await invoke(handler('cleanup', { execute: async (binary, args, env, timeout) => {
