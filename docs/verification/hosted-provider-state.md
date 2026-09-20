@@ -73,3 +73,20 @@ the service, plan or quota configuration.
 
 H05 remains open until exhaustion plus alert delivery are tested against an
 approved workload boundary without unapproved load or spend.
+
+## Browser identity path
+
+Fresh production-browser testing found that the API still trusted the old Clerk
+development issuer/JWKS and that the management-origin allowlist named an old
+Vercel preview. The live API configuration now trusts the exact production
+issuer and JWKS at `clerk.likerts.com` and accepts only `https://likerts.com` as
+its browser management origin. A dedicated Clerk template supplies the exact
+Render API audience; the web control plane requests that template instead of a
+default session token.
+
+Render deployment `dep-danmd53tqb8s73cd74d0` retained reviewed source
+`ec8a581c2c7b9c739bc94a14633741bd5af8a9e4`. Vercel production deployment
+`dpl_8gMT5pEp32DnF9hLZQD1nntV9vrK` serves the matching browser change from main
+source `1e2b9c5d929042521102dd7ee9da3c9b60a80184`. The resulting two-account
+lifecycle and cleanup are recorded in
+[hosted onboarding and tenant-isolation verification](hosted-onboarding-isolation.md).
