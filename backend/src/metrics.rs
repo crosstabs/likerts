@@ -70,7 +70,7 @@ impl Metrics {
         }
     }
 
-    fn authorized(&self, headers: &HeaderMap) -> bool {
+    pub fn authorized(&self, headers: &HeaderMap) -> bool {
         let Some(expected_tag) = &self.0.token_tag else {
             return false;
         };

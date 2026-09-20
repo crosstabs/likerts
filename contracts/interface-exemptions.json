@@ -6,6 +6,11 @@
   },
   {
     "method": "GET",
+    "path": "/internal/callback-status",
+    "reason": "Private callback queue-poll liveness endpoint protected by the separate monitor secret."
+  },
+  {
+    "method": "GET",
     "path": "/internal/metrics",
     "reason": "Private monitoring endpoint with a separate secret."
   },

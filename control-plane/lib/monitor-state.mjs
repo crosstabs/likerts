@@ -5,10 +5,10 @@ export const MONITOR_STATE_TTL_SECONDS = 604800;
 export const MONITOR_LOCK_SECONDS = 45;
 export const MAX_ALERT_ATTEMPTS = 3;
 export const MISSING_SIGNAL_MS = 12 * 60 * 1000;
-export const MONITOR_STATE_SCHEMA_VERSION = 2;
+export const MONITOR_STATE_SCHEMA_VERSION = 3;
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
-export const COMPONENT_IDS = ['collection', 'agents', 'identity', 'admission', 'cleanup', 'archive'];
-export const COMPONENT_STATUSES = ['reachable', 'unavailable', 'not_configured', 'invalid_configuration', 'cached_response', 'rate_limited', 'credential_rejected', 'invalid_response', 'backlog', 'fenced'];
+export const COMPONENT_IDS = ['collection', 'agents', 'identity', 'admission', 'cleanup', 'archive', 'callback'];
+export const COMPONENT_STATUSES = ['reachable', 'unavailable', 'not_configured', 'invalid_configuration', 'cached_response', 'rate_limited', 'credential_rejected', 'invalid_response', 'backlog', 'fenced', 'stale'];
 const integer = value => Number.isSafeInteger(value) && value >= 0;
 const fail = () => { throw new Error('monitor_state_unavailable'); };
 const exact = (value, keys) => value && typeof value === 'object' && !Array.isArray(value)
@@ -22,7 +22,8 @@ export function parseState(raw) {
   if (!exact(state, ['version', 'completedAt', 'health', 'coverage', 'incidentId', 'notification'])
     || state.version !== MONITOR_STATE_SCHEMA_VERSION || !integer(state.completedAt)
     || !['reachable', 'degraded'].includes(state.health)
-    || !['admission_and_maintenance_db', 'maintenance_db', 'admission', 'reachability_only'].includes(state.coverage)
+    || !['admission_maintenance_callback_db', 'maintenance_callback_db', 'admission_callback_db', 'callback_db',
+      'admission_maintenance_db', 'maintenance_db', 'admission', 'reachability_only'].includes(state.coverage)
     || !(state.incidentId === null || UUID.test(state.incidentId))) return fail();
   const n = state.notification;
   if (n !== null && (!exact(n, ['eventId', 'event', 'incidentId', 'checkedAt', 'components', 'attempts', 'accepted'])
@@ -72,10 +73,10 @@ export function monitorStore({ environment = process.env, fetcher = fetch } = {}
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || url.port || url.pathname !== '/'
     || !/^[a-z0-9-]+\.upstash\.io$/.test(url.hostname) || !/^[a-f0-9]{32}$/.test(namespace ?? '')
     || typeof token !== 'string' || !/^[\x21-\x7e]{16,4096}$/.test(token)) return fail();
-  // Schema-isolated keys keep rollback safe: v1 readers never see v2 state,
-  // while a rolled-back release retains its own untouched v1 state and lock.
-  const stateKey = `likerts:monitor:${namespace}:v2:state`;
-  const lockKey = `likerts:monitor:${namespace}:v2:lock`;
+  // Schema-isolated keys keep rollback safe: older readers never see v3 state,
+  // while a rolled-back release retains its own untouched state and lock.
+  const stateKey = `likerts:monitor:${namespace}:v3:state`;
+  const lockKey = `likerts:monitor:${namespace}:v3:lock`;
   async function command(value) {
     const signal = AbortSignal.timeout(2000);
     const response = await fetcher(url.origin, { method: 'POST', redirect: 'manual', cache: 'no-store', credentials: 'omit', signal,

@@ -46,4 +46,5 @@ grant select, insert, update, delete on likerts.collection_rate_windows to :"run
 grant execute on function likerts.append_management_audit() to :"runtime_role";
 grant select, insert, update, delete on likerts.webhook_endpoints, likerts.webhook_events, likerts.webhook_deliveries, likerts.webhook_attempts, likerts.webhook_requests to :"runtime_role";
 grant execute on function likerts.enqueue_response_webhooks(), likerts.erase_response_webhooks(), likerts.revoke_workspace_webhooks() to :"runtime_role";
+grant execute on function likerts.callback_worker_status() to :"runtime_role";
 commit;

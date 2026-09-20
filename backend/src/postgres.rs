@@ -2235,4 +2235,17 @@ impl PgStore {
             .map(|_| ())
             .map_err(database_error)
     }
+
+    pub async fn callback_worker_status(&self) -> Result<&'static str, Error> {
+        let status: String = sqlx::query_scalar("select likerts.callback_worker_status()")
+            .fetch_one(&self.pool)
+            .await
+            .map_err(database_error)?;
+        match status.as_str() {
+            "reachable" => Ok("reachable"),
+            "stale" => Ok("stale"),
+            "unavailable" => Ok("unavailable"),
+            _ => Err(Error::Internal),
+        }
+    }
 }

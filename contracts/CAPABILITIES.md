@@ -93,6 +93,7 @@ After a timeout or 500, a write may have committed. Only retry operations that s
 ## Deliberate transport exceptions
 
 - **GET /health** — Operational storage health probe, not a tenant capability.
+- **GET /internal/callback-status** — Private callback queue-poll liveness endpoint protected by the separate monitor secret.
 - **GET /internal/metrics** — Private monitoring endpoint with a separate secret.
 - **GET /.well-known/oauth-protected-resource** — OAuth resource discovery used before an authenticated capability call.
 - **OPTIONS /.well-known/oauth-protected-resource** — Browser CORS preflight for public OAuth resource discovery.

@@ -27,4 +27,5 @@ grant select on likerts.webhook_endpoints to likerts_webhook_worker;
 grant select,delete on likerts.webhook_events to likerts_webhook_worker;
 grant select,update on likerts.webhook_deliveries to likerts_webhook_worker;
 grant select,insert,update on likerts.webhook_attempts to likerts_webhook_worker;
+grant execute on function likerts.record_callback_worker_heartbeat() to likerts_webhook_worker;
 commit;

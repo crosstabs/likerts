@@ -53,8 +53,16 @@ do $$ begin
     assert not has_table_privilege(current_user,'likerts.audit_events','select'),'worker cannot read audit';
     assert not has_table_privilege(current_user,'likerts.webhook_endpoints','update'),'worker cannot alter endpoints or signing generations';
     assert not has_table_privilege(current_user,'likerts.webhook_requests','select'),'worker cannot reconstruct management idempotency references';
+    assert not has_table_privilege(current_user,'likerts.callback_worker_heartbeats','select'),'worker cannot read heartbeat metadata';
+    assert not has_table_privilege(current_user,'likerts.callback_worker_heartbeats','insert'),'worker cannot write heartbeat table directly';
+    assert has_function_privilege(current_user,'likerts.record_callback_worker_heartbeat()','execute'),'worker heartbeat recorder unavailable';
+    assert not has_function_privilege(current_user,'likerts.callback_worker_status()','execute'),'worker cannot read monitor status';
     assert not has_schema_privilege(current_user,'likerts','create'),'worker cannot migrate schema';
 end $$;
+do $$ begin
+    perform likerts.record_callback_worker_heartbeat();
+    raise exception 'SET ROLE spoofed directly authenticated callback worker';
+exception when insufficient_privilege then null; end $$;
 begin;
 set local likerts.workspace_id='webhook-a';
 do $$ declare deleted integer; begin

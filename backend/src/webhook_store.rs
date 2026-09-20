@@ -1,5 +1,5 @@
 //! Durable webhook management and worker claims; the worker role has no customer-data grants.
-use crate::{webhooks::*, Error};
+use crate::{callback_liveness, webhooks::*, Error};
 use chrono::{DateTime, Duration, Utc};
 use serde_json::Value;
 use sha2::{Digest, Sha256};
@@ -57,6 +57,12 @@ fn delivery(row: &PgRow) -> Delivery {
 impl WebhookStore {
     pub fn new(pool: PgPool, keys: WebhookKeys) -> Self {
         Self { pool, keys }
+    }
+    pub async fn check_heartbeat_contract(&self) -> Result<(), Error> {
+        callback_liveness::check_contract(&self.pool).await
+    }
+    pub async fn record_heartbeat(&self) -> Result<(), Error> {
+        callback_liveness::record_heartbeat(&self.pool).await
     }
     async fn tenant(
         &self,

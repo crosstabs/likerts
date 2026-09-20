@@ -334,6 +334,12 @@ impl Storage {
             }
         }
     }
+    async fn callback_worker_status(&self) -> Result<&'static str, Error> {
+        match self {
+            Self::Memory(_) => Ok("unavailable"),
+            Self::Postgres(store) => store.callback_worker_status().await,
+        }
+    }
 
     async fn authenticate_service(&self, token: &str, scope: &str) -> Result<String, Error> {
         match self {
@@ -974,6 +980,27 @@ async fn health(State(app): State<App>) -> Result<impl IntoResponse, ApiError> {
 
 async fn scrape_metrics(State(app): State<App>, headers: HeaderMap) -> AxumResponse {
     metrics::scrape(State(app.metrics), headers).await
+}
+
+async fn callback_worker_status(State(app): State<App>, headers: HeaderMap) -> AxumResponse {
+    const UNAVAILABLE: &str = "unavailable";
+    let (code, status) = if !app.metrics.authorized(&headers) {
+        (StatusCode::UNAUTHORIZED, UNAVAILABLE)
+    } else {
+        match app.storage.callback_worker_status().await {
+            Ok(status) => (StatusCode::OK, status),
+            Err(_) => (StatusCode::SERVICE_UNAVAILABLE, UNAVAILABLE),
+        }
+    };
+    let mut response = (code, Json(json!({"status":status}))).into_response();
+    response
+        .headers_mut()
+        .insert("cache-control", HeaderValue::from_static("no-store"));
+    response.headers_mut().insert(
+        "x-robots-tag",
+        HeaderValue::from_static("noindex, nofollow"),
+    );
+    response
 }
 
 async fn create(
@@ -1794,6 +1821,7 @@ async fn main() {
         )
         .route("/health", get(health))
         .route("/internal/metrics", get(scrape_metrics))
+        .route("/internal/callback-status", get(callback_worker_status))
         .route("/v1/surveys", get(surveys).post(create))
         .route("/v1/surveys/{id}", axum::routing::put(update))
         .route("/v1/surveys/{id}/publish", post(publish))
