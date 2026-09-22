@@ -1,0 +1,32 @@
+# Optional independent watcher. Use prom/blackbox-exporter:v0.28.0.
+# Never expose this exporter publicly: /probe can send its bearer to a supplied target.
+modules:
+  likerts_monitor_heartbeat:
+    prober: http
+    timeout: 10s
+    http:
+      method: GET
+      valid_status_codes: [200]
+      preferred_ip_protocol: ip4
+      follow_redirects: false
+      fail_if_not_ssl: true
+      body_size_limit: 4KB
+      headers:
+        Accept: application/json
+        Cache-Control: no-cache, no-store
+      authorization:
+        type: Bearer
+        credentials_file: /run/secrets/likerts_cron_secret
+      tls_config:
+        min_version: TLS12
+      fail_if_header_not_matches:
+        - header: Content-Type
+          regexp: '(?i)^application/json(?:;.*)?$'
+        - header: Cache-Control
+          regexp: '(?i)(^|,)\s*no-store\s*(,|$)'
+      fail_if_body_json_not_matches_cel: >-
+        body.status == "current" &&
+        body.coverage == "admission_maintenance_callback_db" &&
+        body.independentWatcherRequired == true &&
+        type(body.lastCompletedAt) == string &&
+        body.lastCompletedAt.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{3}Z$')
