@@ -1,18 +1,17 @@
 # Likerts Flutter SDK
 
-## Install the current source
+## Install
 
-The free community edition supports schemas 1–5. Clone the repository and use its `sdks/flutter` package. Frozen archives under `releases/` predate the free edition; use current source rather than those historical packages.
-
-Add the current source package as a path dependency in your host app:
+The free community edition supports schemas 1–5. Install version `0.0.3` from [pub.dev](https://pub.dev/packages/likerts):
 
 ```yaml
 dependencies:
-  likerts:
-    path: /absolute/path/to/likerts/sdks/flutter
+  likerts: 0.0.3
 ```
 
-Run `flutter pub get` using Dart 3.8+ / Flutter 3.32+. The package needs `http` 1.6+ for abortable requests and has publication metadata prepared for pub.dev; no pub.dev release has been published. Import the client from `package:likerts/likerts.dart` and renderer from `package:likerts/survey.dart`.
+Run `flutter pub get` using Dart 3.8+ / Flutter 3.32+. The package needs `http` 1.6+ for abortable requests. Import the client from `package:likerts/likerts.dart` and renderer from `package:likerts/survey.dart`.
+
+For local development, clone the repository and use `sdks/flutter` as a path dependency instead. Frozen archives under `releases/` predate the free edition and should not be used for new integrations.
 
 `installation-example/checkout_feedback.dart` shows a host-owned feedback button, eligibility and dismissal. The host loads the collection, holds the same immutable submission/key across ambiguous failures and cancels pending work when dismissed. The checkout contains package sources, the trigger example, full Android/iOS app examples, and simulator gates.
 
