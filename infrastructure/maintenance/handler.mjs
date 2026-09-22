@@ -137,8 +137,18 @@ function parseArchiveStatus(output) {
 }
 
 function requestAction(request) {
-  if (request.url === '/api/status' || request.url === '/api/run?likerts_action=status') return 'status';
-  return request.url === '/api/run' ? 'run' : null;
+  if (typeof request?.url !== 'string' || request.url.endsWith('?')) return null;
+  const absolute = request.url.match(/^https?:\/\/[^/?#]+(\/[^#]*)$/i);
+  const pathAndQuery = absolute ? absolute[1] : request.url;
+  if (!absolute && (!pathAndQuery.startsWith('/') || pathAndQuery.startsWith('//') || pathAndQuery.includes('#'))) return null;
+  if (pathAndQuery === '/api/status' || pathAndQuery === '/api/run?likerts_action=status') return 'status';
+  return pathAndQuery === '/api/run' ? 'run' : null;
+}
+
+function requestHeader(request, name) {
+  const headers = request?.headers;
+  if (typeof headers?.get === 'function') return headers.get(name);
+  return headers?.[name];
 }
 
 export function makeHandler(kind, directory, dependencies = {}) {
@@ -154,8 +164,8 @@ export function makeHandler(kind, directory, dependencies = {}) {
     const action = requestAction(request);
     const secret = action === 'status' ? environment.LIKERTS_MONITOR_SECRET : environment.CRON_SECRET;
     const credential = action === 'status'
-      ? request.headers['x-likerts-monitor-secret']
-      : request.headers.authorization;
+      ? requestHeader(request, 'x-likerts-monitor-secret')
+      : requestHeader(request, 'authorization');
     if (typeof secret !== 'string' || secret.length < 32 || secret.length > 256) return send(503, { ok: false, error: 'configuration_missing' });
     if (action === 'status' && secret === environment.CRON_SECRET) return send(503, { ok: false, error: 'configuration_missing' });
     const expected = action === 'status' ? secret : `Bearer ${secret}`;
