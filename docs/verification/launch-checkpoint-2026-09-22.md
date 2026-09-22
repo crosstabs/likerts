@@ -1,6 +1,6 @@
 # Launch checkpoint — 22 September 2026
 
-The MIT software, website, npm packages, MCP registry entry, Swift release and Flutter package
+The MIT software, website, npm packages, MCP registry entry, Swift release, Flutter package and Android Maven coordinate
 are public. The managed service remains a bounded preview for synthetic,
 non-sensitive evaluation. Unrestricted hosted production is not yet verified.
 
@@ -19,10 +19,12 @@ non-sensitive evaluation. Unrestricted hosted production is not yet verified.
   missing/wrong credentials and extra queries were denied. The monitor correctly
   reports their current backlog. The regression first failed, then all 19 handler
   tests and observability checks passed. The diagnostic deployment was removed.
-- Android's approved signing identity, encrypted key, public-key distribution,
-  signed five-artifact bundle and independent signature/checksum checks are ready.
-  Central remains signed in with verified `com.likerts` ownership. Direct browser
-  upload avoids creating another publisher credential.
+- Android `com.likerts:likerts-android:0.0.3` is published on Maven Central. The
+  approved signed bundle passed both Central component validations; deployment
+  `20c72da8-64ac-4ee1-9396-9d0ad6d2d8f5` reports PUBLISHED. Five public artifact
+  hashes and signatures matched the release. A consumer with an empty dependency
+  cache compiled the Compose host and passed both SDK tests, completing A06.
+  Direct browser upload required no new publisher token.
 - Flutter `likerts 0.0.3` is published on pub.dev. A fresh application with an
   empty package cache resolved the hosted dependency, passed analysis and the
   widget trigger/dismissal test. All library files and the registry archive hash
@@ -52,13 +54,12 @@ Existing-account sign-in cannot prove fresh public registration.
 | Item | Next action | Completion evidence |
 | --- | --- | --- |
 | H01 public signup | Clerk is currently invitation-only (`sign_up.mode = restricted`). Resolve the registration policy with the preview gates, then perform a real email-code signup at `https://likerts.com/app`. | Successful self-service authentication and workspace opening without synthetic sign-in tickets. |
-| H02 scheduled cleanup | Owner supplies retention duration and accepts the proposed schedule; establish monitoring, then enable and observe it. | Real scheduled executions, physical cleanup, retry/failure handling and delivered alerts. |
-| H03 hosted recovery | Neon access is verified; Launch has a one-day history window and no snapshots/snapshot schedule. Approve the [bounded isolated drill](../operations/NEON-RECOVERY-DRILL.md) and its incremental spending, then execute it. | Verified backup access, quarantine restore, deletion/revocation replay and safe reopening. |
+| H02 scheduled cleanup | Operational setup is approved. Owner supplies the actual retention duration; establish monitoring, then enable and observe the proposed schedule. | Real scheduled executions, physical cleanup, retry/failure handling and delivered alerts. |
+| H03 archive operations | Neon access and its one-day history window are verified. The owner declined the [isolated recovery drill](../operations/NEON-RECOVERY-DRILL.md) on 22 September; remove it from the execution queue. Configure archive scheduling/protection after the operations details are supplied. | Independent archive protection, checkpoint continuity and scheduled operation. Hosted restore/replay is waived and remains unverified. |
 | H04 alerting | Name primary/backup humans and an approved receiver. Deploy the prepared independent watcher on an approved host with a dead-man check, then arm and schedule the monitor. | Delivered failure and recovery notifications, receiver/missed-run detection and human acknowledgment. |
 | H05 capacity | Agree the workload/cost boundary after H04. | Bounded provider-exhaustion/fairness checks with alert evidence; no unapproved production load or plan change. |
 | A01 Show HN | Founder writes and submits their own text and remains available for replies. | Actual submission URL. AI-written or AI-edited submission text is not permitted by HN's recorded rules. |
 | A02 community launch | Choose the posting accounts/destinations and approve the specific introductions. | Real publication URLs and recorded replies. |
-| A06 Android | Approve the specific signed ZIP upload; complete Central validation/publication, then run the prepared fresh registry consumer. | Public coordinate, matching five artifact hashes/signatures and successful fresh consumer build/tests. |
 | Claude client | Complete `claude auth login --claudeai`, then run the bounded Claude-only MCP rehearsal. | Actual returned survey-list tool result. |
 | A08 adoption | Real outside developers install or contribute after authorized outreach. | Consented reports and actual outside contributions. Download counts alone do not establish installations. |
 
@@ -68,7 +69,7 @@ These aggregate observations are not customer or adoption counts. Scheduled
 work remained disabled; no retention policy, alert recipient or human
 acknowledgment was invented.
 
-The public Android signing identity is approved. Monitoring activation still
+Android publication and fresh public-registry installation are complete. Monitoring activation still
 requires the actual responder names, alert destination and retention duration.
 
 Account login, authorship, support commitments and real external adoption cannot

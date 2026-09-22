@@ -1,6 +1,30 @@
 # Likerts Android SDK
 
-## Install the current source
+## Install from Maven Central
+
+Add the repositories to your host project's `settings.gradle.kts`:
+
+```kotlin
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+```
+
+Add the SDK to your app module's `build.gradle.kts`:
+
+```kotlin
+dependencies {
+    implementation("com.likerts:likerts-android:0.0.3")
+}
+```
+
+Enable Compose and use compatible Kotlin/Compose versions from the matrix below.
+Maven Central supplies the signed AAR, POM, Gradle metadata, sources and API documentation.
+
+## Build from source
 
 The free community edition supports schemas 1–5. Clone the repository. With Gradle 8.11.1, JDK 17 and Android SDK 35 configured, run this from its root to build a local Maven repository:
 
@@ -20,7 +44,7 @@ dependencyResolutionManagement {
 }
 ```
 
-Then add `implementation("com.likerts:likerts-android:0.0.3")` to the app module and enable Compose with compatible Kotlin/Compose versions from the matrix below. The local Maven repository contains the release AAR, source JAR, POM and Gradle metadata so transitive dependencies resolve. Copying only the AAR loses that dependency metadata. No remote Maven registry has been written. Frozen archives under `releases/` predate the free edition; build current source rather than installing those historical packages.
+Then add `implementation("com.likerts:likerts-android:0.0.3")` to the app module and enable Compose with compatible Kotlin/Compose versions from the matrix below. The local Maven repository contains the release AAR, source JAR, POM and Gradle metadata so transitive dependencies resolve. Copying only the AAR loses that dependency metadata. This build command writes to the local Maven repository. Frozen archives under `releases/` predate the free edition; build current source rather than installing those historical packages.
 
 `installation-example/CheckoutFeedback.kt` demonstrates explicit host eligibility, a feedback button and dismissal. Pass collection-only credentials to `LikertsClient`; the host owns coroutine cancellation, submission keys and completion.
 
