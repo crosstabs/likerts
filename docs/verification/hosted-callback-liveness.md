@@ -24,8 +24,40 @@ the fixed body `{"status":"unavailable"}`.
 This proves the deployed worker can complete an empty queue claim and advance
 the database-clock singleton through its restricted function, and that the
 deployed API exposes the protected sanitized route. It does not prove active
-alerting. The Vercel monitor remains unarmed and unscheduled, and its production
-environment does not yet have `LIKERTS_CALLBACK_STATUS_TOKEN`. No receiver was
+alerting. At that initial cutoff the Vercel monitor was unarmed and unscheduled, and its
+production environment did not yet have `LIKERTS_CALLBACK_STATUS_TOKEN`. No receiver was
 configured or contacted. Named primary/backup responders, an approved receiver,
 failure and recovery delivery, independent missed-run detection, and human
 acknowledgment remain required to close H04.
+
+## Production configuration follow-up — 22 September 2026
+
+Protected PR #41 merged as `0e24bf510581af22f0a884e7998c7ac1e9d80331`.
+Vercel production `dpl_7ZDWBUv4UEmyXn58mkEbjuLHu2YD` is READY at that commit.
+All 12 prepared monitor configuration variables, including the callback token,
+were read back as sensitive and production-only. The arming flag is absent.
+An authenticated production `/api/monitor` request returned HTTP 503 with
+`{"status":"not_armed","reason":"approved_receiver_and_responder_required"}`.
+The configured admission and callback read-only probes both returned
+`reachable` from the operator host. No receiver was contacted.
+
+Cleanup/archive status initially failed on their friendly route despite valid
+credentials. A credential-free diagnostic preview confirmed that the Vercel Node
+launcher retains `/api/status` and appends `?likerts_action=status`; this
+request shape was missing from the exact route allowlist. Both direct read-only
+selectors returned HTTP 200. PR #42 adds the observed exact form, with a
+regression test that first failed with the production 401 and then passed.
+The temporary diagnostic deployment was removed after reproduction.
+
+This configuration progress does not close H04: a scheduled monitor, approved
+receiver, named primary/backup responders, independent missed-run coverage,
+delivered failure/recovery alerts and human acknowledgment remain outstanding.
+
+PR #42 subsequently passed both required checks and merged as
+`351824d754969aba72ceef635def73d17bbc0470`. Both rebuilt production maintenance
+services returned HTTP 200 on authenticated `/api/status`. Missing/wrong monitor
+credentials and extra query parameters returned HTTP 401. The actual monitor
+probe implementation now returns `backlog` for both services, matching one
+pending cleanup object, 40 due retention workspaces and 10 pending archive
+events. Their schedules remain disabled. Admission and callback probes remain
+`reachable`, and the production monitor still fails closed as `not_armed`.
