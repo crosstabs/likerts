@@ -27,7 +27,7 @@ Survey definitions are published as immutable versions. Collections accept valid
 - [Web SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/web/README.md): Browser integration and source installation.
 - [React Native SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/react-native/README.md): React Native integration and source installation.
 - [iOS SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/ios/README.md): Swift integration and source installation.
-- [Android SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/android/README.md): Kotlin integration and source installation.
+- [Android SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/android/README.md): Kotlin/Compose integration and Maven Central installation (`com.likerts:likerts-android:0.0.3`).
 - [Flutter SDK](https://raw.githubusercontent.com/crosstabs/likerts/main/sdks/flutter/README.md): Dart integration; install likerts 0.0.3 from pub.dev.
 
 ## Operations and contribution

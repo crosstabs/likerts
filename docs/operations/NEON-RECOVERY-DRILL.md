@@ -1,6 +1,10 @@
 # Bounded Neon recovery drill
 
-Prepared 22 September 2026; **not executed or approved for spending**. The existing
+Prepared 22 September 2026; **execution declined by the owner on 22 September**.
+This is an inactive reference plan, not a pending approval request or launch task.
+No test resources will be provisioned and no recovery-test spending is authorized.
+Hosted restore/replay remains unverified; the waiver is not successful test evidence.
+The existing
 Likerts Neon project is accessible, on Launch in Singapore with PostgreSQL 18 and
 a one-day history window. No manual snapshots or snapshot schedule were present.
 See the [provider readback](../verification/hosted-provider-state.md#neon-access-and-history-window--22-september-2026).

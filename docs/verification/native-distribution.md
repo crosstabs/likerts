@@ -1,12 +1,12 @@
 # Native distribution
 
-Updated 22 September 2026. Swift tag `0.1.0` is public at protected, CI-verified main `a9f8b95b9f345129d91d961bee1070ad7f92e9e3`; a fresh consumer resolved the actual GitHub dependency, built/imported Likerts, asserted capability `0.0.3`/schemas 1–5 and decoded a collection. Tag update/deletion protection was read back. Flutter `likerts 0.0.3` is now [published on pub.dev](https://pub.dev/packages/likerts/versions/0.0.3), with a fresh registry consumer verified. Maven Central remains unpublished. Central's refreshed, settled namespace UI now shows organization Likerts / `com.likerts` as **Verified**; this establishes namespace acceptance, not package publication. The DNS proof remains visible at authoritative and public resolvers. The target-specific evidence below distinguishes preparation from publication. Web/React Native/MCP npm publication is separate.
+Updated 22 September 2026. Swift tag `0.1.0` is public at protected, CI-verified main `a9f8b95b9f345129d91d961bee1070ad7f92e9e3`; a fresh consumer resolved the actual GitHub dependency, built/imported Likerts, asserted capability `0.0.3`/schemas 1–5 and decoded a collection. Tag update/deletion protection was read back. Flutter `likerts 0.0.3` is now [published on pub.dev](https://pub.dev/packages/likerts/versions/0.0.3), with a fresh registry consumer verified. Android `com.likerts:likerts-android:0.0.3` is published on [Maven Central](https://repo.maven.apache.org/maven2/com/likerts/likerts-android/0.0.3/). Central reports **PUBLISHED** for deployment `20c72da8-64ac-4ee1-9396-9d0ad6d2d8f5`; the public POM returns HTTP 200. A fresh consumer with an empty dependency cache compiled a Compose host and passed both SDK tests; all five public artifact hashes and detached signatures matched the reviewed bundle. The target-specific evidence below distinguishes preparation from publication. Web/React Native/MCP npm publication is separate.
 
 | Target | Prepared | Verified | Still required |
 | --- | --- | --- | --- |
 | Swift/iOS | Root `Package.swift` exposes the existing `Likerts` sources as a repository dependency; the local `sdks/ios` package remains intact. | Root test suite: 23 tests, 22 passed and the opt-in live rehearsal skipped. A fresh consumer cloned an isolated local Git fixture at semver `0.1.0`, imported the library, checked SDK capability `0.0.3`/schemas 1–5 and decoded a collection. | Complete: protected merge, exact-main CI, protected public `0.1.0` tag and fresh GitHub consumer passed. Physical-device coverage remains separate. |
 | Flutter | Default pub.dev target, full metadata and Flutter/Dart constraints, MIT `LICENSE`, archive exclusions. | Clean source passed 23 tests and zero-warning dry run. Published `0.0.3`; fresh hosted registry consumer passed resolution, analysis, widget trigger/dismissal and source/archive integrity checks. | Complete for package publication and fresh registry installation. Verified-publisher transfer and physical-device coverage remain separate. |
-| Android | Central-ready POM fields, source JAR, generated Dokka HTML inside the `javadoc` JAR, optional in-memory signing. | Unsigned local Maven staging succeeded with AAR/POM/module/source/docs artifacts and checksums; docs JAR has 300 entries including index and MIT license. Required POM sections are present. | Namespace verification is complete. Owner-approved signing identity, encrypted signing key, public-key distribution and local signed-bundle validation are complete (22 September update below). Browser upload approval, Central validation/publication and fresh registry consumption remain required; the signed-in Portal supports direct upload without a publisher token. |
+| Android | Central-ready POM fields, source JAR, generated Dokka HTML inside the `javadoc` JAR and encrypted release signing. | Published `com.likerts:likerts-android:0.0.3` after both Central validations passed. Five public artifact hashes/signatures matched the signed bundle. A fresh empty-cache consumer compiled its Compose host and passed both SDK tests. | Complete for publication and fresh registry installation. Physical-device and production-network coverage remain separate. |
 
 The Git fixture used for Swift verification was temporary and local. It did not create a commit or tag in the Likerts source repository, create another GitHub repository or publish any artifacts. The later public GitHub/tag check described above passed independently of that local fixture. The Swift package release tag is independent of the SDK capability version embedded in code.
 
@@ -27,12 +27,31 @@ failed verification. The 1,173,642-byte Central ZIP has SHA-256
 SDK and contract source match protected main
 `0e24bf510581af22f0a884e7998c7ac1e9d80331`.
 
-Central's existing session remains authenticated and `com.likerts` remains
-Verified. Its direct upload form is prepared, so no new publisher credential is
-needed for this release. Specific browser-upload approval is pending. The public
-Maven coordinate still returned 404 on 22 September; Android registry publication
-and a fresh registry consumer remain unproved. Flutter subsequently published
-and passed its fresh registry checks as recorded below.
+The owner approved publication on 22 September. The existing authenticated
+Portal session uploaded the reviewed ZIP without creating a publisher token.
+Deployment `20c72da8-64ac-4ee1-9396-9d0ad6d2d8f5` passed both Central component
+validations and, after the final Publish action, reached **PUBLISHED**. The public
+POM returns HTTP 200. The five public AAR/POM/module/source/documentation artifacts
+were downloaded without authentication, matched the reviewed release's SHA-256
+hashes and passed detached-signature verification with the published key.
+
+A separate consumer with a fresh home and empty Gradle dependency cache resolved
+`com.likerts` exclusively from `https://repo.maven.apache.org/maven2`, with no
+local Maven repository, source substitution or inherited Gradle init scripts.
+Gradle 8.11.1 / JDK 17.0.20.1 / Android SDK 35 passed
+`verifyPublishedArtifact assembleDebug testDebugUnitTest`: the Compose host
+compiled and both tests passed with zero skips. The resolved AAR hash matches
+the independent public download. Tests covered capability/schema metadata,
+collection serialization, a real SDK HTTP request to an isolated loopback
+receiver, collection caching, collection-only authorization and two submissions
+preserving the same idempotency key and answers. The scripted receipt checks
+client transport; it does not establish server-side deduplication.
+
+The first consumer attempt compiled the host but its test fixture could not
+compile an unavailable `com.sun.net.httpserver` import. Replacing that fixture
+with MockWebServer 4.12.0 allowed a second wholly fresh consumer to pass; the
+published SDK was unchanged. No production API call or physical-device test
+was made. This completes A06's Android distribution requirement.
 
 ## Swift release steps
 
@@ -80,7 +99,7 @@ SDK libraries, documentation, MIT license and host examples are included.
 
 ## Maven Central staging and release steps
 
-Current coordinates are `com.likerts:likerts-android:0.0.3`. The anonymous Maven metadata URL returned 404 during inspection. Gradle 8.11.1, JDK 17 and Android SDK 35 are installed under `.tools`; a GPG executable and configured Gradle publishing credential file were not found on PATH/in the standard location. No account or key was created.
+The original 13 September preparation used `com.likerts:likerts-android:0.0.3`. At that inspection the anonymous Maven metadata URL returned 404; the 22 September publication above supersedes that observation. Gradle 8.11.1, JDK 17 and Android SDK 35 are installed under `.tools`; a GPG executable and configured Gradle publishing credential file were not found on PATH/in the standard location. No account or key was created during that original inspection.
 
 Use the existing `publishReleasePublicationToLocalReleaseRepository` task with a fresh output directory. To prepare signatures, supply the owner's armored private signing key and optional password through the secret environment, then add `-PlikertsCentralStaging=true`. The configuration fails before staging if the required signing key is absent; normal local development does not require signing secrets.
 
@@ -99,4 +118,4 @@ The namespace and the owner-approved release-signing identity are now verified a
 
 Before upload, verify the issuer account and token authority, make the public signing key available as required, inspect/verify the POM, AAR, sources, documentation and `.asc` signatures, and package the Maven coordinate directory plus checksums into a bundle. Follow the [Central publication requirements](https://central.sonatype.org/publish/requirements/) and [Publisher API](https://central.sonatype.org/publish/publish-portal-api/) using a Portal token from the owner's secret manager. Upload as a user-managed deployment for validation before final publication. Sonatype does not currently provide its own official Gradle Portal plugin; this preparation deliberately stages standard Maven artifacts and leaves the controlled upload explicit. [Gradle options](https://central.sonatype.org/publish/publish-portal-gradle/)
 
-The original 13 September staging check was unsigned. Local signing and signature verification subsequently passed on 22 September; Central validation and public registry consumption remain required. The local build emitted an Android SDK XML-version warning but completed successfully; this is not evidence of a physical-device test or compatibility certification.
+The original 13 September staging check was unsigned. Local signing, signature verification, Central publication and fresh public registry consumption subsequently passed on 22 September. The local build emitted an Android SDK XML-version warning but completed successfully; this is not evidence of a physical-device test or compatibility certification.

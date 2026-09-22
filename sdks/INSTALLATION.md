@@ -1,8 +1,8 @@
 # SDK installation
 
-The free, MIT-licensed SDKs support schema versions 1–5 and return accepted-response receipts without billing fields. Web and React Native are published on npm as version `0.0.3`. iOS is available through the public Swift Git package tag `0.1.0`, with a local package option. Flutter is published on pub.dev as `likerts 0.0.3`. Android currently uses source installation; Maven Central publication remains pending. See [published versions](../docs/releases.md#install-from-npm).
+The free, MIT-licensed SDKs support schema versions 1–5 and return accepted-response receipts without billing fields. Web and React Native are published on npm as version `0.0.3`. iOS is available through the public Swift Git package tag `0.1.0`, with a local package option. Flutter is published on pub.dev as `likerts 0.0.3`. Android is published on Maven Central as `com.likerts:likerts-android:0.0.3`. See [published versions](../docs/releases.md#install-from-npm).
 
-Clone the source for Android or to build locally:
+Clone the source to build locally:
 
 ```sh
 git clone https://github.com/crosstabs/likerts.git
@@ -18,7 +18,7 @@ The frozen archives under `releases/` are historical snapshots from before the f
 | Web | `npm install @likerts/web@0.0.3` (Node.js 22+). | [Web](web/README.md) |
 | React Native | `npm install @likerts/react-native@0.0.3` (React `^19.2.3`, React Native `>=0.85 <0.88`). | [React Native](react-native/README.md) |
 | iOS | Add `https://github.com/crosstabs/likerts.git` at exact Swift package version `0.1.0` and link `Likerts`; local `sdks/ios` is also supported. | [iOS](ios/README.md) |
-| Android | Publish `sdks/android` to its local Maven repository, add that repository to your host, and depend on `com.likerts:likerts-android:0.0.3`. | [Android](android/README.md) |
+| Android | Add `google()` and `mavenCentral()` to your dependency repositories, then `implementation("com.likerts:likerts-android:0.0.3")` to your app module. | [Android](android/README.md) |
 | Flutter | Add `likerts: 0.0.3` to your host's `pubspec.yaml`, then run `flutter pub get` (Dart 3.8+ / Flutter 3.32+). | [Flutter](flutter/README.md) |
 
 Each platform guide includes exact build/install commands, framework requirements, and a customer-controlled presentation example. For reproducible application builds, pin the repository commit you consume and store generated packages in your own artifact repository.

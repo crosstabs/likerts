@@ -107,8 +107,8 @@ inspected and cancelled without provisioning. No production restore, settings
 change, fence, snapshot or new compute was started. The existing compute range
 was 1–9 CU; it must not be inherited for an unbounded drill.
 
-The next step is the [bounded recovery drill](../operations/NEON-RECOVERY-DRILL.md),
-with explicit incremental-spend authorization because Launch compute is metered.
-Provider login is no longer the next action. An isolated restore/replay result,
-independent archive protection and the remaining operational gates are still
-required for H03.
+The owner declined the [bounded recovery drill](../operations/NEON-RECOVERY-DRILL.md)
+on 22 September. It is removed from the execution queue and no recovery-test
+spending is authorized. Hosted restore/replay remains unverified; it must not be
+represented as a passed test. Independent archive protection, checkpoint
+continuity and recurring operation remain the outstanding H03 work.
