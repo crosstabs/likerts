@@ -46,6 +46,8 @@ non-sensitive evaluation. Unrestricted hosted production is not yet verified.
   `dpl_4cE7p1edXErePkkVZKk4vLrX3imG` is READY. Home, downloads, docs and `llms.txt`
   returned HTTP 200; the unauthenticated heartbeat returned HTTP 401.
 
+23 September policy clarification: the existing database default is 90 days and the worker reads each workspace’s stored retention setting. No new global duration is needed to activate that worker.
+
 The signup form loads, but the live Clerk configuration is invitation-only.
 Existing-account sign-in cannot prove fresh public registration.
 
@@ -54,7 +56,7 @@ Existing-account sign-in cannot prove fresh public registration.
 | Item | Next action | Completion evidence |
 | --- | --- | --- |
 | H01 public signup | Clerk is currently invitation-only (`sign_up.mode = restricted`). Resolve the registration policy with the preview gates, then perform a real email-code signup at `https://likerts.com/app`. | Successful self-service authentication and workspace opening without synthetic sign-in tickets. |
-| H02 scheduled cleanup | Operational setup is approved. Owner supplies the actual retention duration; establish monitoring, then enable and observe the proposed schedule. | Real scheduled executions, physical cleanup, retry/failure handling and delivered alerts. |
+| H02 scheduled cleanup | Operational setup is approved. The worker uses each workspace’s stored 1–90-day policy (90-day database default). Establish alert ownership, then enable and observe the proposed schedule. | Real scheduled executions, physical cleanup, retry/failure handling and delivered alerts. |
 | H03 archive operations | Neon access and its one-day history window are verified. The owner declined the [isolated recovery drill](../operations/NEON-RECOVERY-DRILL.md) on 22 September; remove it from the execution queue. Configure archive scheduling/protection after the operations details are supplied. | Independent archive protection, checkpoint continuity and scheduled operation. Hosted restore/replay is waived and remains unverified. |
 | H04 alerting | Name primary/backup humans and an approved receiver. Deploy the prepared independent watcher on an approved host with a dead-man check, then arm and schedule the monitor. | Delivered failure and recovery notifications, receiver/missed-run detection and human acknowledgment. |
 | H05 capacity | Agree the workload/cost boundary after H04. | Bounded provider-exhaustion/fairness checks with alert evidence; no unapproved production load or plan change. |
@@ -70,7 +72,7 @@ work remained disabled; no retention policy, alert recipient or human
 acknowledgment was invented.
 
 Android publication and fresh public-registry installation are complete. Monitoring activation still
-requires the actual responder names, alert destination and retention duration.
+requires the actual responder names and alert destination. The existing database default is 90 days; workspace overrides remain authoritative.
 
 Account login, authorship, support commitments and real external adoption cannot
 be replaced by prepared files or simulated evidence. See the
