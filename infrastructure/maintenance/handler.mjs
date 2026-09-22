@@ -141,7 +141,8 @@ function requestAction(request) {
   const absolute = request.url.match(/^https?:\/\/[^/?#]+(\/[^#]*)$/i);
   const pathAndQuery = absolute ? absolute[1] : request.url;
   if (!absolute && (!pathAndQuery.startsWith('/') || pathAndQuery.startsWith('//') || pathAndQuery.includes('#'))) return null;
-  if (pathAndQuery === '/api/status' || pathAndQuery === '/api/run?likerts_action=status') return 'status';
+  if (pathAndQuery === '/api/status' || pathAndQuery === '/api/status?likerts_action=status'
+    || pathAndQuery === '/api/run?likerts_action=status') return 'status';
   return pathAndQuery === '/api/run' ? 'run' : null;
 }
 
