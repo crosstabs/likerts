@@ -1,6 +1,5 @@
 name: likerts
 version: 0.0.3
-publish_to: https://pub.dev
 description: Embed typed surveys and feedback in Flutter applications with collection credentials, native controls, and host-owned presentation.
 homepage: https://likerts.com
 repository: https://github.com/crosstabs/likerts/tree/main/sdks/flutter

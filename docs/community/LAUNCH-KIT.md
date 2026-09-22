@@ -19,7 +19,7 @@ There are nine wire question types: single choice, multiple choice, scale, text,
 | Social image | [1200 × 630 PNG](https://likerts.com/social-preview.png) |
 | Full community snapshot | [community-v0.1.2](https://github.com/crosstabs/likerts/releases/tag/community-v0.1.2), native CLI `0.1.2` for Linux x64, macOS arm64 and Windows x64 |
 | npm packages | [@likerts/web `0.0.3`](https://www.npmjs.com/package/@likerts/web), [@likerts/react-native `0.0.3`](https://www.npmjs.com/package/@likerts/react-native), [@likerts/mcp `0.1.0`](https://www.npmjs.com/package/@likerts/mcp) |
-| iOS / Android / Flutter | Source SDKs in the repository; see [installation](../releases.md). No public Maven Central/pub.dev listing or consumer app is implied. |
+| iOS / Android / Flutter | iOS Swift Git tag `0.1.0`; [Flutter `0.0.3` on pub.dev](https://pub.dev/packages/likerts/versions/0.0.3); Android from source. See [installation](../../sdks/INSTALLATION.md). Maven Central publication remains pending; SDK packages do not imply a consumer app. |
 | Container | `ghcr.io/crosstabs/likerts:community-v0.1.2`; see [digest and checksums](../releases.md) |
 | MCP registry | [io.github.crosstabs/likerts](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.crosstabs%2Flikerts/versions/latest), registered version `0.1.1` with npm stdio and remote HTTP; npm package remains `0.1.0`. A registry listing is not a guarantee of client compatibility or hosting availability |
 | Help | [Community support](SUPPORT.md), [private security reporting](../../SECURITY.md) |

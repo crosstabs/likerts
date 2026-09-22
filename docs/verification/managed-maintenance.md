@@ -101,3 +101,35 @@ The independent read-only verifier captured a repeatable database snapshot at **
 At **05:42:49 UTC**, a separate comparison also confirmed that the previously pinned retried event was included in the verified prefix, with exact archived bytes matching its prior database hash and matching event/source identity. This does not uniquely attribute that event to a failed HTTP 503 invocation.
 
 **Scope: unfenced historical prefix integrity only.** The drain and this pinned prefix's continuity/known-fixture coverage are now proved; `recoveryCoverageProven` remains false. This is not proof of a fenced recovery cut, coverage of future writes, provider backup/PITR, quarantine restore/replay or safe reopening. H02/H03 remain open for their outstanding schedule, alert/owner and recovery requirements. No live recurring schedule or completed provider recovery drill is claimed.
+
+
+## Authenticated status deployment — 22 September 2026
+
+PR #42 passed the required `interfaces-and-database` and `container` checks
+before merging as `351824d754969aba72ceef635def73d17bbc0470`. Both ARM64 bundles
+were built from that clean maintenance/backend source and passed execution in
+the compatible Linux environment.
+
+| Service | Production deployment | Worker SHA-256 |
+| --- | --- | --- |
+| Cleanup | `dpl_9yjGBNPgbtsFdohg8EM5zpdK8KBe` | `7234d78707699f4bb102c0762bb558177eb9d286402db616d1ff25289b82719d` |
+| Archive | `dpl_B9167L61A1ZQ3FL87bpk8NJt5kNq` | `4ea170940bbc23caff2a701b320b31b4a9490340179f11569eb0a37d36aca176` |
+
+At 11:41 UTC both authenticated public `/api/status` routes returned HTTP 200.
+Missing credentials, incorrect monitor credentials and extra query parameters
+returned HTTP 401. The fix recognizes the exact path/query combination supplied
+by Vercel's rewrite launcher; it retains the dedicated monitor credential and
+read-only subprocess allowlists. The earlier header/absolute-URL compatibility
+change alone did not fix the deployed route.
+
+Cleanup reported one pending object, zero retrying objects, five tombstones and
+40 due retention workspaces. Archive reported 10 pending / 5,954 covered events,
+zero uncheckpointed or retrying events, zero active/stale leases, no pending
+checkpoint, and an existing checkpoint without a fence. The real control-plane
+probe parser classified both services as `backlog`. Schedules were read back as
+disabled before and after deployment. No `/api/run` maintenance mutation or
+retention-policy change was performed in this verification.
+
+These are authenticated database status and route-boundary results. They do not
+prove recurring execution, private object readback, delivered alerts, provider
+recovery, or human acknowledgment. H02–H04 remain open for those separate gates.
