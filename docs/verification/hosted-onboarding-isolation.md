@@ -58,6 +58,23 @@ The identities were created through Clerk's authorized backend API and entered
 the browser through 15-minute sign-in tickets. This proves the hosted
 post-authentication onboarding and tenant-isolation path, but it does not prove
 that an unaided public user can complete the email-code sign-up screen. H01
-therefore remains open only for one owner-observed self-service email-code
-authentication followed by the already verified workspace opening. No customer
+therefore remains open for self-service registration configuration and one
+owner-observed email-code signup followed by the verified workspace opening. No customer
 or external-user onboarding is claimed.
+
+
+## Registration policy readback — 22 September 2026
+
+The public Clerk environment endpoint returned HTTP 200 with
+`user_settings.sign_up.mode = restricted`, while the configured first factors
+were `email_code` and `ticket` and email verification used `email_code`.
+The production app rendered the sign-in email field without a public sign-up
+entry. This is invitation-only registration, not an email-delivery test failure.
+A fresh public user cannot complete unrestricted self-service registration in
+this configuration. Existing-account email-code sign-in would not close that gap.
+
+No registration setting was changed. Any opening of registration must be an
+explicit decision consistent with the bounded hosted-preview policy and its
+remaining operational gates. H01 requires that decision and a real email-code
+signup test; the earlier synthetic ticket evidence remains valid only for its
+stated post-authentication scope.

@@ -24,11 +24,14 @@ non-sensitive evaluation. Unrestricted hosted production is not yet verified.
   Central remains signed in with verified `com.likerts` ownership. Direct browser
   upload avoids creating another publisher credential.
 
+The signup form loads, but the live Clerk configuration is invitation-only.
+Existing-account sign-in cannot prove fresh public registration.
+
 ## Remaining actions and acceptance evidence
 
 | Item | Next action | Completion evidence |
 | --- | --- | --- |
-| H01 public signup | Owner completes ordinary email-code signup at `https://likerts.com/app`. | Successful self-service authentication and workspace opening without synthetic sign-in tickets. |
+| H01 public signup | Clerk is currently invitation-only (`sign_up.mode = restricted`). Resolve the registration policy with the preview gates, then perform a real email-code signup at `https://likerts.com/app`. | Successful self-service authentication and workspace opening without synthetic sign-in tickets. |
 | H02 scheduled cleanup | Owner supplies retention duration and accepts the proposed schedule; establish monitoring, then enable and observe it. | Real scheduled executions, physical cleanup, retry/failure handling and delivered alerts. |
 | H03 hosted recovery | Owner completes Neon login/email verification; inspect backup window and plan, then agree the safe recovery drill boundary. | Verified backup access, quarantine restore, deletion/revocation replay and safe reopening. |
 | H04 alerting | Name primary/backup humans and an approved receiver. Configure the independent missed-run watcher, then arm and schedule the monitor. | Delivered failure and recovery notifications, receiver/missed-run detection and human acknowledgment. |
