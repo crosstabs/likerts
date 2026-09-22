@@ -1,11 +1,11 @@
-# Native distribution preparation
+# Native distribution
 
-Updated 22 September 2026. Swift tag `0.1.0` is public at protected, CI-verified main `a9f8b95b9f345129d91d961bee1070ad7f92e9e3`; a fresh consumer resolved the actual GitHub dependency, built/imported Likerts, asserted capability `0.0.3`/schemas 1–5 and decoded a collection. Tag update/deletion protection was read back. Maven Central and pub.dev remain unpublished. Central's refreshed, settled namespace UI now shows organization Likerts / `com.likerts` as **Verified**; this establishes namespace acceptance, not package publication. The DNS proof remains visible at authoritative and public resolvers. Preparation below is not publication evidence. Web/React Native/MCP npm publication is separate.
+Updated 22 September 2026. Swift tag `0.1.0` is public at protected, CI-verified main `a9f8b95b9f345129d91d961bee1070ad7f92e9e3`; a fresh consumer resolved the actual GitHub dependency, built/imported Likerts, asserted capability `0.0.3`/schemas 1–5 and decoded a collection. Tag update/deletion protection was read back. Flutter `likerts 0.0.3` is now [published on pub.dev](https://pub.dev/packages/likerts/versions/0.0.3), with a fresh registry consumer verified. Maven Central remains unpublished. Central's refreshed, settled namespace UI now shows organization Likerts / `com.likerts` as **Verified**; this establishes namespace acceptance, not package publication. The DNS proof remains visible at authoritative and public resolvers. The target-specific evidence below distinguishes preparation from publication. Web/React Native/MCP npm publication is separate.
 
 | Target | Prepared | Verified | Still required |
 | --- | --- | --- | --- |
 | Swift/iOS | Root `Package.swift` exposes the existing `Likerts` sources as a repository dependency; the local `sdks/ios` package remains intact. | Root test suite: 23 tests, 22 passed and the opt-in live rehearsal skipped. A fresh consumer cloned an isolated local Git fixture at semver `0.1.0`, imported the library, checked SDK capability `0.0.3`/schemas 1–5 and decoded a collection. | Complete: protected merge, exact-main CI, protected public `0.1.0` tag and fresh GitHub consumer passed. Physical-device coverage remains separate. |
-| Flutter | Explicit `https://pub.dev` target, full metadata and Flutter/Dart constraints, MIT `LICENSE`, archive exclusions. | Clean staged `flutter pub publish --dry-run`: 53 KB, zero warnings. Fresh source archive consumer resolved dependencies, passed analysis and a widget trigger/dismissal test. | Owner pub.dev authentication and package/publisher rights, reviewed clean source, actual publication, then a fresh registry consumer. |
+| Flutter | Default pub.dev target, full metadata and Flutter/Dart constraints, MIT `LICENSE`, archive exclusions. | Clean source passed 23 tests and zero-warning dry run. Published `0.0.3`; fresh hosted registry consumer passed resolution, analysis, widget trigger/dismissal and source/archive integrity checks. | Complete for package publication and fresh registry installation. Verified-publisher transfer and physical-device coverage remain separate. |
 | Android | Central-ready POM fields, source JAR, generated Dokka HTML inside the `javadoc` JAR, optional in-memory signing. | Unsigned local Maven staging succeeded with AAR/POM/module/source/docs artifacts and checksums; docs JAR has 300 entries including index and MIT license. Required POM sections are present. | Namespace verification is complete. Owner-approved signing identity, encrypted signing key, public-key distribution and local signed-bundle validation are complete (22 September update below). Browser upload approval, Central validation/publication and fresh registry consumption remain required; the signed-in Portal supports direct upload without a publisher token. |
 
 The Git fixture used for Swift verification was temporary and local. It did not create a commit or tag in the Likerts source repository, create another GitHub repository or publish any artifacts. The later public GitHub/tag check described above passed independently of that local fixture. The Swift package release tag is independent of the SDK capability version embedded in code.
@@ -30,8 +30,9 @@ SDK and contract source match protected main
 Central's existing session remains authenticated and `com.likerts` remains
 Verified. Its direct upload form is prepared, so no new publisher credential is
 needed for this release. Specific browser-upload approval is pending. The public
-Maven coordinate and pub.dev package still returned 404 on 22 September; neither
-registry publication nor a fresh registry consumer has yet been proved.
+Maven coordinate still returned 404 on 22 September; Android registry publication
+and a fresh registry consumer remain unproved. Flutter subsequently published
+and passed its fresh registry checks as recorded below.
 
 ## Swift release steps
 
@@ -45,26 +46,37 @@ registry publication nor a fresh registry consumer has yet been proved.
 
 Link `.product(name: "Likerts", package: "likerts")`. Check `likertsSDKCapability`, decode a collection and compile the supported host. Update the iOS/public installation guides only with the real published tag. No separate Swift registry or source-split repository is required.
 
-## Flutter release steps
+## Flutter publication — 22 September 2026
 
-The installed Dart command supports login without publishing:
+The owner completed Google account authorization. The initial upload was rejected
+by the server for explicit `publish_to: https://pub.dev`, despite a successful local
+dry run. Removing that field uses Dart's documented default registry; the local
+source-archive gate now accepts that default or `none`. See the official
+[pubspec guidance](https://dart.dev/tools/pub/pubspec#publish_to).
 
-```sh
-/Users/adi/likerts/.tools/flutter/bin/cache/dart-sdk/bin/dart pub login
-```
+A clean export of commit `5ff0747` passed all 23 package tests and an ordinary
+`flutter pub publish --dry-run` with zero warnings. The library source is unchanged
+from protected main `351824d`; the release correction changes publishing metadata
+and the README. The normal interactive publish command succeeded at
+`2026-09-22T11:55:46Z`, without force, skipped validation or ignored warnings.
 
-The owner completes that account flow personally. This machine had no tokens in `dart pub token list` and no standard pub.dev credential file during the inventory; this does not establish whether an account exists elsewhere. The anonymous `likerts` package API returned 404 during inspection; publication must recheck availability/ownership.
+The public [version API](https://pub.dev/api/packages/likerts/versions/0.0.3)
+returned version `0.0.3` and a 54,219-byte archive. Its downloaded SHA-256 is
+`c9c0b627f0ba286b4186d43a9e5c541b1a8f8bd16ed7319e130f4b87422cdd84`,
+matching the registry metadata and the fresh consumer's lockfile.
 
-The package now explicitly targets pub.dev; source tests that require repository-level contract fixtures are excluded from its archive, while the repository keeps those tests. SDK source, documentation, MIT license and host example files remain in the package. The existing local archive gate now accepts either disabled publishing or the explicit pub.dev target, and includes the license in newly generated archives; frozen archives are unchanged.
+A separate application with an empty `PUB_CACHE` and exact hosted dependency
+`likerts: 0.0.3` passed `flutter pub get`, `flutter analyze`, and the widget test
+at 11:56 UTC. The test checks capability `0.0.3`, collection decoding, host-triggered
+survey presentation and dismissal. All seven installed library files, pubspec,
+README and license match the clean release source. No local/path override was
+used. This verifies distribution and the exercised host flow, not physical-device
+coverage or a verified pub.dev domain publisher.
 
-From a clean, reviewed checkout, run the package's ordinary tests and:
-
-```sh
-cd sdks/flutter
-../../.tools/flutter/bin/flutter pub publish --dry-run
-```
-
-A dry run from the working tree reported the expected uncommitted-file warning. Repeating in clean isolated staging reported zero warnings; no warnings were suppressed. Once authenticated and approved for the intended publisher, use `flutter pub publish` from that same reviewed package, then install `likerts: 0.0.3` into a fresh application and run its integration check. Do not use `--force`, `--skip-validation` or `--ignore-warnings` to bypass review. A domain-verified publisher is useful but requires the owner's account/domain verification. See [Dart publishing instructions](https://dart.dev/tools/pub/publishing).
+Future versions must start from clean tested source, use ordinary validation,
+and repeat a fresh registry installation after publication. Source tests requiring
+repository-level contract fixtures remain excluded from the package archive;
+SDK libraries, documentation, MIT license and host examples are included.
 
 ## Maven Central staging and release steps
 

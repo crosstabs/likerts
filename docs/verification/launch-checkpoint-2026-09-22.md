@@ -1,6 +1,6 @@
 # Launch checkpoint — 22 September 2026
 
-The MIT software, website, npm packages, MCP registry entry and Swift release
+The MIT software, website, npm packages, MCP registry entry, Swift release and Flutter package
 are public. The managed service remains a bounded preview for synthetic,
 non-sensitive evaluation. Unrestricted hosted production is not yet verified.
 
@@ -23,6 +23,10 @@ non-sensitive evaluation. Unrestricted hosted production is not yet verified.
   signed five-artifact bundle and independent signature/checksum checks are ready.
   Central remains signed in with verified `com.likerts` ownership. Direct browser
   upload avoids creating another publisher credential.
+- Flutter `likerts 0.0.3` is published on pub.dev. A fresh application with an
+  empty package cache resolved the hosted dependency, passed analysis and the
+  widget trigger/dismissal test. All library files and the registry archive hash
+  match the tested release. Public installation instructions now use pub.dev.
 
 The signup form loads, but the live Clerk configuration is invitation-only.
 Existing-account sign-in cannot prove fresh public registration.
@@ -39,7 +43,6 @@ Existing-account sign-in cannot prove fresh public registration.
 | A01 Show HN | Founder writes and submits their own text and remains available for replies. | Actual submission URL. AI-written or AI-edited submission text is not permitted by HN's recorded rules. |
 | A02 community launch | Choose the posting accounts/destinations and approve the specific introductions. | Real publication URLs and recorded replies. |
 | A06 Android | Approve the specific signed ZIP upload; complete Central validation/publication, then run the prepared fresh registry consumer. | Public coordinate, matching five artifact hashes/signatures and successful fresh consumer build/tests. |
-| A06 Flutter | Complete `dart pub login` for the intended package owner, then publish the reviewed package. | Public pub.dev version and a fresh registry consumer. |
 | Claude client | Complete `claude auth login --claudeai`, then run the bounded Claude-only MCP rehearsal. | Actual returned survey-list tool result. |
 | A08 adoption | Real outside developers install or contribute after authorized outreach. | Consented reports and actual outside contributions. Download counts alone do not establish installations. |
 

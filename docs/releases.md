@@ -59,7 +59,7 @@ The first public npm packages are available under the `@likerts` organization:
 | [React Native](https://www.npmjs.com/package/@likerts/react-native) | `0.0.3` | `npm install @likerts/react-native@0.0.3` |
 | [MCP](https://www.npmjs.com/package/@likerts/mcp) | `0.1.0` | `npm install --global @likerts/mcp@0.1.0` |
 
-Use Node.js 22 or newer. The React Native package requires React `^19.2.3` and React Native `>=0.85 <0.88`. iOS, Android and Flutter SDKs remain available from source.
+Use Node.js 22 or newer. The React Native package requires React `^19.2.3` and React Native `>=0.85 <0.88`. iOS is available at Swift Git tag `0.1.0`; Flutter is published as [likerts `0.0.3`](https://pub.dev/packages/likerts/versions/0.0.3). Android remains available from source. See the [installation matrix](../sdks/INSTALLATION.md).
 
 Fresh registry installations passed Web public/offline export and schema-capability checks, React Native Metro/JavaScript/TypeScript entry-point checks, and MCP stdio discovery of all 33 tools plus an authenticated `usage_get` call against a local test API. React Native rendering is verified separately by the native component tests; package installation alone does not exercise a device.
 
