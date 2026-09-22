@@ -50,7 +50,6 @@ test('authentication accepts Node and Web header collections', async () => {
   for (const url of [
     'https://likerts-cleanup.vercel.app/api/status?',
     'https://likerts-cleanup.vercel.app/api/status#ignored',
-    'https://likerts-cleanup.vercel.app/api/status?likerts_action=status',
     'https://likerts-cleanup.vercel.app/api/other/../status',
     'https://likerts-cleanup.vercel.app?redirect=/api/status',
     '//likerts-cleanup.vercel.app/api/status',
@@ -58,6 +57,27 @@ test('authentication accepts Node and Web header collections', async () => {
   ]) assert.equal((await invoke(statusHandler, {
     url, headers: new Headers({ authorization: `Bearer ${secret}` }),
   })).status, 400);
+});
+test('Vercel status rewrite preserves the public path and appends its selector', async () => {
+  let calls = 0;
+  const h = handler('cleanup', { execute: async (_binary, args, env) => {
+    calls++;
+    assert.deepEqual(args, ['status']);
+    assert.equal(env.LIKERTS_VERCEL_BLOB_TOKEN, undefined);
+    return JSON.stringify({ cleanup: { pendingObjects: 0, retryingObjects: 0, tombstones: 0, oldestDueSeconds: 0 },
+      retention: { dueWorkspaces: 0, oldestDueSeconds: 0, lastCompletedAt: null } });
+  } });
+  // Observed in Vercel's Node launcher: /api/status -> /api/run?likerts_action=status
+  // invokes the function with the original pathname plus the destination query.
+  for (const url of ['/api/status?likerts_action=status', 'https://likerts-cleanup.vercel.app/api/status?likerts_action=status']) {
+    assert.equal((await status(h, { url })).status, 200);
+    assert.equal((await invoke(h, { url })).status, 401);
+    assert.equal((await status(h, { url, method: 'POST' })).status, 400);
+  }
+  for (const suffix of ['&extra=1', '&likerts_action=status', '#ignored', '?']) {
+    assert.equal((await invoke(h, { url: `/api/status?likerts_action=status${suffix}` })).status, 400);
+  }
+  assert.equal(calls, 2);
 });
 test('only fixed command and credential allowlist reach the worker', async () => {
   const result = await invoke(handler('cleanup', { execute: async (binary, args, env, timeout) => {
