@@ -90,3 +90,25 @@ Render deployment `dep-danmd53tqb8s73cd74d0` retained reviewed source
 source `1e2b9c5d929042521102dd7ee9da3c9b60a80184`. The resulting two-account
 lifecycle and cleanup are recorded in
 [hosted onboarding and tenant-isolation verification](hosted-onboarding-isolation.md).
+
+## Neon access and history window — 22 September 2026
+
+A fresh authenticated Console visit at approximately 12:17 UTC opened
+`likerts-postgres-neon` in the existing Vercel-managed organization. The earlier
+login/email-verification blocker has cleared. The project overview showed Launch,
+AWS Singapore, PostgreSQL 18, one branch (`main`), and a **one-day history window**.
+The Backup & Restore page exposed restore controls and an earliest recoverable
+time approximately 24 hours earlier; it showed **no snapshots and no snapshot
+schedule**. These are configuration/read-access observations, not a successful
+restore or a promised recovery point.
+
+The create-branch form offers schema-only roots and historical branching. It was
+inspected and cancelled without provisioning. No production restore, settings
+change, fence, snapshot or new compute was started. The existing compute range
+was 1–9 CU; it must not be inherited for an unbounded drill.
+
+The next step is the [bounded recovery drill](../operations/NEON-RECOVERY-DRILL.md),
+with explicit incremental-spend authorization because Launch compute is metered.
+Provider login is no longer the next action. An isolated restore/replay result,
+independent archive protection and the remaining operational gates are still
+required for H03.

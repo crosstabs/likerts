@@ -61,3 +61,20 @@ probe implementation now returns `backlog` for both services, matching one
 pending cleanup object, 40 due retention workspaces and 10 pending archive
 events. Their schedules remain disabled. Admission and callback probes remain
 `reachable`, and the production monitor still fails closed as `not_armed`.
+
+## Durable store readback — 22 September 2026
+
+At 12:13 UTC, source `9f0a028` exercised the existing production Redis backing
+store through the Vercel integration credential in a fresh synthetic namespace.
+The deployed sensitive monitor credential itself was not exported or tested by
+this probe. Seven checks passed: empty state reports a missing signal; overlapping
+leases are rejected; a wrong lease cannot write/release; a separate store instance
+reads healthy state with the seven-day TTL; pending synthetic notification state
+survives readback; a synthetic accepted notification retains the degraded health
+classification; and stale state reports a missing signal.
+
+The check made 21 bounded Redis HTTP requests. Both owned keys were removed and
+their absence verified. The production namespace was untouched, no notification
+was sent, and the temporary environment download was removed. This is an
+operator-side backing-store check, not a deployed monitor invocation, scheduled
+heartbeat, delivered alert or human acknowledgment. H04 remains open.
