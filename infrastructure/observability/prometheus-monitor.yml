@@ -1,0 +1,22 @@
+# Optional: run outside the monitored Vercel/Render failure domain.
+# Supply an approved Alertmanager separately before claiming active coverage.
+global:
+  scrape_interval: 1m
+  evaluation_interval: 1m
+rule_files:
+  - /etc/prometheus/monitor-alerts.yml
+scrape_configs:
+  - job_name: likerts-monitor-heartbeat
+    scrape_timeout: 15s
+    metrics_path: /probe
+    params:
+      module: [likerts_monitor_heartbeat]
+    static_configs:
+      - targets: ['https://likerts.com/api/monitor-heartbeat']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-monitor:9115
