@@ -38,6 +38,11 @@ non-sensitive evaluation. Unrestricted hosted production is not yet verified.
   now has executable Prometheus/Blackbox configuration, five alert-rule scenarios
   and 19 local TLS/HTTP probes. Failure, missing metrics and recovery passed;
   the watcher is not deployed and no notification was sent.
+- [PR #45](https://github.com/crosstabs/likerts/pull/45) passed both required jobs in
+  [run 35729518230](https://github.com/crosstabs/likerts/actions/runs/35729518230)
+  and merged as `c1320b3`. Its Vercel production deployment
+  `dpl_4cE7p1edXErePkkVZKk4vLrX3imG` is READY. Home, downloads, docs and `llms.txt`
+  returned HTTP 200; the unauthenticated heartbeat returned HTTP 401.
 
 The signup form loads, but the live Clerk configuration is invitation-only.
 Existing-account sign-in cannot prove fresh public registration.
