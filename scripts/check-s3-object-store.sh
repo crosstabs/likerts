@@ -5,15 +5,21 @@ source "$ROOT/scripts/dev-env.sh"
 
 RUN_ID="$(date +%s)-$$"
 CONTAINER="likerts-s3-$RUN_ID"
+IMAGE="likerts-ci-minio:$RUN_ID"
 BUCKET="likerts-test-$RUN_ID"
 ACCESS_KEY="likertstestaccess"
 SECRET_KEY="likertstestsecretvalue"
-cleanup() { docker rm --force "$CONTAINER" >/dev/null 2>&1 || true; }
+cleanup() {
+  docker rm --force "$CONTAINER" >/dev/null 2>&1 || true
+  docker image rm "$IMAGE" >/dev/null 2>&1 || true
+}
 trap cleanup EXIT
 
+docker build --file "$ROOT/infrastructure/ci/minio.Dockerfile" \
+  --tag "$IMAGE" "$ROOT/infrastructure/ci"
 docker run --detach --name "$CONTAINER" --publish 127.0.0.1::9000 \
   --env MINIO_ROOT_USER="$ACCESS_KEY" --env MINIO_ROOT_PASSWORD="$SECRET_KEY" \
-  quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z server /data >/dev/null
+  "$IMAGE" server /data >/dev/null
 PORT="$(docker port "$CONTAINER" 9000/tcp | sed -n 's/.*://p')"
 for _ in $(seq 1 60); do
   if curl --fail --silent "http://127.0.0.1:$PORT/minio/health/ready" >/dev/null; then break; fi
