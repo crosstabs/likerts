@@ -14,5 +14,8 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" }
       ]
     }
+  ],
+  "redirects": [
+    { "source": "/game", "destination": "/", "permanent": true }
   ]
 }

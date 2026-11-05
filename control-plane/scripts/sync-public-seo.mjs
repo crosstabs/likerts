@@ -6,11 +6,11 @@ const socialImageAlt = "Likerts — open-source surveys embedded in web and mobi
 
 const pages = [
   {
-    file: "public/index.html",
-    canonical: "https://likerts.com/",
+    file: "public/surveys/index.html",
+    canonical: "https://likerts.com/surveys",
     title: "Likerts — Open-source in-app surveys",
     description: "Collect in-product feedback on web and mobile. Likerts is free, MIT-licensed survey infrastructure with SDKs, an API, MCP and a CLI. Self-host your data.",
-    breadcrumb: "Home",
+    breadcrumb: "Survey software",
     home: true,
   },
   {
@@ -85,7 +85,7 @@ function structuredData(page) {
       "@graph": [
         {
           "@type": "WebSite",
-          "@id": "https://likerts.com/#website",
+          "@id": "https://likerts.com/surveys#website",
           url: page.canonical,
           name: "Likerts",
           description: page.description,
@@ -93,7 +93,7 @@ function structuredData(page) {
         },
         {
           "@type": "SoftwareApplication",
-          "@id": "https://likerts.com/#software",
+          "@id": "https://likerts.com/surveys#software",
           url: page.canonical,
           name: "Likerts",
           description: page.description,
@@ -115,21 +115,21 @@ function structuredData(page) {
     name: page.title,
     description: page.description,
     inLanguage: "en",
-    isPartOf: { "@id": "https://likerts.com/#website" },
+    isPartOf: { "@id": "https://likerts.com/surveys#website" },
   };
   if (page.schemaType === "TechArticle") {
     pageNode.headline = page.title;
-    pageNode.author = { "@type": "Organization", name: "Likerts", url: "https://likerts.com/" };
+    pageNode.author = { "@type": "Organization", name: "Likerts", url: "https://likerts.com/surveys" };
   }
 
   const breadcrumbs = page.canonical === "https://likerts.com/docs/api"
     ? [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://likerts.com/" },
+        { "@type": "ListItem", position: 1, name: "Survey software", item: "https://likerts.com/surveys" },
         { "@type": "ListItem", position: 2, name: "Documentation", item: "https://likerts.com/docs" },
         { "@type": "ListItem", position: 3, name: page.breadcrumb, item: page.canonical },
       ]
     : [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://likerts.com/" },
+        { "@type": "ListItem", position: 1, name: "Survey software", item: "https://likerts.com/surveys" },
         { "@type": "ListItem", position: 2, name: page.breadcrumb, item: page.canonical },
       ];
 

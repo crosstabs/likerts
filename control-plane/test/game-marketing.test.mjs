@@ -4,10 +4,10 @@ import test from 'node:test';
 import { JSDOM } from 'jsdom';
 
 const publicRoot = new URL('../public/', import.meta.url);
-const html = await readFile(new URL('game/index.html', publicRoot), 'utf8');
+const html = await readFile(new URL('index.html', publicRoot), 'utf8');
 const css = await readFile(new URL('game/marketing.css', publicRoot), 'utf8');
 const origin = 'https://likerts.com';
-const pageURL = `${origin}/game`;
+const pageURL = `${origin}/`;
 const document = new JSDOM(html, { url: pageURL }).window.document;
 
 async function localFile(pathname) {
@@ -19,7 +19,7 @@ async function localFile(pathname) {
   assert.fail(`No public file for ${pathname}`);
 }
 
-test('game marketing media and navigation resolve from the actual clean game URL', async () => {
+test('game marketing media and navigation resolve from the main homepage URL', async () => {
   for (const element of document.querySelectorAll('[href], [src]')) {
     const value = element.getAttribute('href') ?? element.getAttribute('src');
     const url = new URL(value, pageURL);
@@ -73,4 +73,35 @@ test('game marketing has keyboard entry, semantic landmarks and a reduced-motion
   assert.match(css, /:focus-visible/);
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*animation:\s*none\s*!important/);
   assert.doesNotMatch(css, /animation[^;{}]*\binfinite\b/);
+});
+
+
+test('homepage promotion preserves survey entry points and legacy game links', async () => {
+  const config = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'));
+  assert.deepEqual(config.redirects, [{ source: '/game', destination: '/', permanent: true }],
+    'Only the old game landing route redirects; support, assets and survey services retain their paths');
+  assert.equal(document.querySelector('meta[property="og:url"]').content, pageURL);
+  assert.equal(document.querySelector('a[href="/surveys"]').textContent, 'Survey software');
+  const csp = document.querySelector('meta[http-equiv="Content-Security-Policy"]').content;
+  assert.match(csp, /connect-src 'none'/);
+  assert.match(csp, /script-src 'none'/);
+  const survey = new JSDOM(await readFile(await localFile('/surveys'), 'utf8')) .window.document;
+  assert.match(survey.querySelector('h1').textContent, /Feedback belongs/);
+  assert.ok(survey.querySelector('#preview-form'), 'The local survey demo survives relocation');
+  assert.ok(survey.querySelector('a[href="/"]'), 'The survey page keeps a route back to the game');
+  for (const pathname of ['/surveys', '/docs', '/docs/api', '/demo', '/downloads', '/preview', '/app', '/status', '/game/support']) {
+    const target = new JSDOM(await readFile(await localFile(pathname), 'utf8'), { url: `${origin}${pathname}` }).window.document;
+    for (const link of target.querySelectorAll('a[href]')) {
+      const url = new URL(link.href);
+      if (url.origin !== origin) continue;
+      const file = await localFile(url.pathname);
+      if (url.hash) {
+        const linked = new JSDOM(await readFile(file, 'utf8')).window.document;
+        assert.ok(linked.getElementById(decodeURIComponent(url.hash.slice(1))), `${pathname} links to a missing fragment: ${link.href}`);
+      }
+    }
+    if (!pathname.startsWith('/game/')) {
+      assert.equal(target.querySelector('a.wordmark').getAttribute('href'), '/surveys', `${pathname} retains survey navigation`);
+    }
+  }
 });
