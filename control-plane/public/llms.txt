@@ -8,7 +8,7 @@ Survey definitions are published as immutable versions. Collections accept valid
 
 ## Start here
 
-- [Product overview](https://likerts.com/): What Likerts does and who it is for.
+- [Product overview](https://likerts.com/surveys): What Likerts does and who it is for.
 - [Quickstart and integration guides](https://likerts.com/docs): Self-hosting, first response, SDKs and agent setup.
 - [Repository README](https://raw.githubusercontent.com/crosstabs/likerts/main/README.md): Current source installation and local first-response walkthrough.
 - [MIT license](https://raw.githubusercontent.com/crosstabs/likerts/main/LICENSE): Software license terms.

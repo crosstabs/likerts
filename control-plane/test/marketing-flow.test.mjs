@@ -3,10 +3,10 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { JSDOM } from 'jsdom';
 
-const html = await readFile(new URL('../public/index.html', import.meta.url), 'utf8');
+const html = await readFile(new URL('../public/surveys/index.html', import.meta.url), 'utf8');
 const script = await readFile(new URL('../public/marketing.js', import.meta.url), 'utf8');
 function page() {
-  const dom = new JSDOM(html, { runScripts: 'outside-only', url: 'https://likerts.com/' });
+  const dom = new JSDOM(html, { runScripts: 'outside-only', url: 'https://likerts.com/surveys' });
   dom.window.fetch = () => { throw new Error('Marketing previews must not send answers'); };
   dom.window.eval(script);
   return dom;

@@ -34,7 +34,7 @@ test("build emits an exact-origin CSP without wildcard connectivity", async () =
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: clerkKey,
     },
   });
-  const html = await readFile(new URL("../dist/index.html", import.meta.url), "utf8");
+  const html = await readFile(new URL("../dist/surveys/index.html", import.meta.url), "utf8");
   const appHtml = await readFile(new URL("../dist/app/index.html", import.meta.url), "utf8");
   const policy = html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1];
   assert.ok(policy);
@@ -77,7 +77,7 @@ test("build rejects API URLs that are not an exact trusted origin", async () => 
 
 test("marketing site is separate from the authenticated control plane", async () => {
   const app = await readFile(new URL("../public/app.js", import.meta.url), "utf8");
-  const marketingHtml = await readFile(new URL("../public/index.html", import.meta.url), "utf8");
+  const marketingHtml = await readFile(new URL("../public/surveys/index.html", import.meta.url), "utf8");
   const html = await readFile(new URL("../public/app/index.html", import.meta.url), "utf8");
   assert.match(app, /clerk\.mountSignIn/);
   assert.match(app, /clerk\.mountUserButton/);

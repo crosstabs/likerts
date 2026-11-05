@@ -9,7 +9,7 @@ const exec = promisify(execFile);
 const read = path => readFile(new URL(path, import.meta.url), 'utf8');
 
 const indexablePages = [
-  ['../public/index.html', 'https://likerts.com/'],
+  ['../public/surveys/index.html', 'https://likerts.com/surveys'],
   ['../public/docs/index.html', 'https://likerts.com/docs'],
   ['../public/docs/api/index.html', 'https://likerts.com/docs/api'],
   ['../public/demo/index.html', 'https://likerts.com/demo'],
