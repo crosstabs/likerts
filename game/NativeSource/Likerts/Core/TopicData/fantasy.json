@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1901,
+    "topic": "fantasy",
+    "text": "I would offer a small dragon the guest room before asking about its table manners.",
+    "scene": {
+      "primary": "dragon",
+      "secondary": "castle",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a castle doorway to a tiny dragon."
+  },
+  {
+    "id": 1902,
+    "topic": "fantasy",
+    "text": "I would ask a dragon what it enjoys doing instead of assuming it collects treasure.",
+    "scene": {
+      "primary": "dragon",
+      "secondary": "wand",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a dragon while a question-ready wand waits."
+  },
+  {
+    "id": 1903,
+    "topic": "fantasy",
+    "text": "I would choose a dependable magical companion over a room full of treasure.",
+    "scene": {
+      "primary": "dragon",
+      "secondary": "treasure",
+      "relation": "choose"
+    },
+    "sceneSummary": "A dragon is chosen while treasure rests on the other path."
+  },
+  {
+    "id": 1904,
+    "topic": "fantasy",
+    "text": "I would turn a quiet enchanted forest into my regular reading spot.",
+    "scene": {
+      "primary": "dragon",
+      "secondary": "mushroom",
+      "relation": "hide"
+    },
+    "sceneSummary": "A dragon shelters behind a mushroom in a peaceful nook."
+  },
+  {
+    "id": 1905,
+    "topic": "fantasy",
+    "text": "I would take a gentle dragon ride purely to see my house from above.",
+    "scene": {
+      "primary": "dragon",
+      "secondary": "cloud",
+      "relation": "carry"
+    },
+    "sceneSummary": "A dragon carries a totem beside a low cloud."
+  },
+  {
+    "id": 1906,
+    "topic": "fantasy",
+    "text": "I would add a cosy dragon-sized porch before adding a grand throne room.",
+    "scene": {
+      "primary": "castle",
+      "secondary": "dragon",
+      "relation": "build"
+    },
+    "sceneSummary": "A castle is built around a welcoming space for a dragon."
+  },
+  {
+    "id": 1907,
+    "topic": "fantasy",
+    "text": "I would test every mysterious cupboard in a friendly enchanted house.",
+    "scene": {
+      "primary": "castle",
+      "secondary": "wand",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A wand points toward a castle under curious inspection."
+  },
+  {
+    "id": 1908,
+    "topic": "fantasy",
+    "text": "I would rather have a self-tidying cottage than an impressive empty castle.",
+    "scene": {
+      "primary": "castle",
+      "secondary": "treasure",
+      "relation": "balance"
+    },
+    "sceneSummary": "A castle balances against a modest pile of useful treasure."
+  },
+  {
+    "id": 1909,
+    "topic": "fantasy",
+    "text": "I would live in a mushroom house if all my belongings fitted comfortably.",
+    "scene": {
+      "primary": "castle",
+      "secondary": "mushroom",
+      "relation": "choose"
+    },
+    "sceneSummary": "A mushroom home is chosen beside a much larger castle."
+  },
+  {
+    "id": 1910,
+    "topic": "fantasy",
+    "text": "I would give every cloud near my floating home its own nickname.",
+    "scene": {
+      "primary": "castle",
+      "secondary": "cloud",
+      "relation": "orbit"
+    },
+    "sceneSummary": "Clouds orbit a castle like familiar neighbours."
+  },
+  {
+    "id": 1911,
+    "topic": "fantasy",
+    "text": "I would use my first spell to make an animal's day a little easier.",
+    "scene": {
+      "primary": "wand",
+      "secondary": "dragon",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a gentle wand beside a resting dragon."
+  },
+  {
+    "id": 1912,
+    "topic": "fantasy",
+    "text": "I would use magic to finish little chores before attempting anything spectacular.",
+    "scene": {
+      "primary": "wand",
+      "secondary": "castle",
+      "relation": "build"
+    },
+    "sceneSummary": "A wand assembles a tidy little castle room."
+  },
+  {
+    "id": 1913,
+    "topic": "fantasy",
+    "text": "I would read the label on a magical object before trying it.",
+    "scene": {
+      "primary": "wand",
+      "secondary": "treasure",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a wand beside carefully closed treasure."
+  },
+  {
+    "id": 1914,
+    "topic": "fantasy",
+    "text": "I would share a useful spell rather than keep it as my special trick.",
+    "scene": {
+      "primary": "wand",
+      "secondary": "mushroom",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a wand above a mushroom gathering spot."
+  },
+  {
+    "id": 1915,
+    "topic": "fantasy",
+    "text": "I would choose the ability to summon shade over the ability to sparkle.",
+    "scene": {
+      "primary": "wand",
+      "secondary": "cloud",
+      "relation": "choose"
+    },
+    "sceneSummary": "A wand chooses a restful cloud instead of showy decoration."
+  },
+  {
+    "id": 1916,
+    "topic": "fantasy",
+    "text": "I would give a dragon a handmade present instead of something shiny.",
+    "scene": {
+      "primary": "treasure",
+      "secondary": "dragon",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a modest treasure to a tiny dragon."
+  },
+  {
+    "id": 1917,
+    "topic": "fantasy",
+    "text": "I would carry an ordinary keepsake on an extraordinary quest.",
+    "scene": {
+      "primary": "treasure",
+      "secondary": "castle",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a little treasure past a grand castle."
+  },
+  {
+    "id": 1918,
+    "topic": "fantasy",
+    "text": "I would keep one magical convenience secret so visitors would not request it constantly.",
+    "scene": {
+      "primary": "treasure",
+      "secondary": "wand",
+      "relation": "hide"
+    },
+    "sceneSummary": "Treasure hides behind a wand at a quiet enchanted corner."
+  },
+  {
+    "id": 1919,
+    "topic": "fantasy",
+    "text": "I would stop a treasure hunt to investigate a fascinating mushroom.",
+    "scene": {
+      "primary": "treasure",
+      "secondary": "mushroom",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a mushroom while treasure waits untouched."
+  },
+  {
+    "id": 1920,
+    "topic": "fantasy",
+    "text": "I would share the view from a magical discovery before deciding what it is worth.",
+    "scene": {
+      "primary": "treasure",
+      "secondary": "cloud",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share treasure beneath a welcoming cloud."
+  },
+  {
+    "id": 1921,
+    "topic": "fantasy",
+    "text": "I would bring a small dragon a souvenir from every woodland walk.",
+    "scene": {
+      "primary": "mushroom",
+      "secondary": "dragon",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a mushroom keepsake toward a dragon."
+  },
+  {
+    "id": 1922,
+    "topic": "fantasy",
+    "text": "I would build a tiny enchanted village instead of one enormous palace.",
+    "scene": {
+      "primary": "mushroom",
+      "secondary": "castle",
+      "relation": "build"
+    },
+    "sceneSummary": "Mushrooms build a small village around a miniature castle."
+  },
+  {
+    "id": 1923,
+    "topic": "fantasy",
+    "text": "I would ask how a spell affects the garden before using it outside.",
+    "scene": {
+      "primary": "mushroom",
+      "secondary": "wand",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a mushroom beside a cautiously resting wand."
+  },
+  {
+    "id": 1924,
+    "topic": "fantasy",
+    "text": "I would choose a magical garden over a glittering collection.",
+    "scene": {
+      "primary": "mushroom",
+      "secondary": "treasure",
+      "relation": "choose"
+    },
+    "sceneSummary": "A mushroom garden is chosen while treasure waits aside."
+  },
+  {
+    "id": 1925,
+    "topic": "fantasy",
+    "text": "I would enjoy a magical world most if it still had peaceful afternoons.",
+    "scene": {
+      "primary": "mushroom",
+      "secondary": "cloud",
+      "relation": "balance"
+    },
+    "sceneSummary": "A mushroom balances beneath a quiet drifting cloud."
+  },
+  {
+    "id": 1926,
+    "topic": "fantasy",
+    "text": "I would invite friends for a picnic on a friendly cloud.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "dragon",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a cloud seat while a dragon watches nearby."
+  },
+  {
+    "id": 1927,
+    "topic": "fantasy",
+    "text": "I would check whether a floating castle has a sensible place to put muddy boots.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "castle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a cloud-supported castle entrance."
+  },
+  {
+    "id": 1928,
+    "topic": "fantasy",
+    "text": "I would use a floating cloud to carry my things while I walked.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "wand",
+      "relation": "carry"
+    },
+    "sceneSummary": "A cloud carries a wand along a leisurely path."
+  },
+  {
+    "id": 1929,
+    "topic": "fantasy",
+    "text": "I would give someone an impossible view as a present if I could.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "treasure",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a cloud viewpoint beside a tiny treasure."
+  },
+  {
+    "id": 1930,
+    "topic": "fantasy",
+    "text": "I would keep a cosy hideaway in a magical world rather than explore every day.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "mushroom",
+      "relation": "hide"
+    },
+    "sceneSummary": "A cloud shelters a mushroom retreat."
+  },
+  {
+    "id": 1931,
+    "topic": "fantasy",
+    "text": "I would learn a dragon's routine before agreeing to look after it for a weekend.",
+    "scene": {
+      "primary": "dragon",
+      "secondary": "castle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a dragon beside its familiar castle home."
+  },
+  {
+    "id": 1932,
+    "topic": "fantasy",
+    "text": "I would let a magical companion choose the next stop on our adventure.",
+    "scene": {
+      "primary": "dragon",
+      "secondary": "wand",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a wand with a dragon waiting to lead."
+  },
+  {
+    "id": 1933,
+    "topic": "fantasy",
+    "text": "I would make a dragon a puzzle to solve with its favourite shiny objects.",
+    "scene": {
+      "primary": "dragon",
+      "secondary": "treasure",
+      "relation": "build"
+    },
+    "sceneSummary": "A dragon builds a playful arrangement from treasure."
+  },
+  {
+    "id": 1934,
+    "topic": "fantasy",
+    "text": "I would rather befriend a sleepy woodland creature than impress a royal court.",
+    "scene": {
+      "primary": "dragon",
+      "secondary": "mushroom",
+      "relation": "balance"
+    },
+    "sceneSummary": "A dragon balances contentedly beside a simple mushroom."
+  },
+  {
+    "id": 1935,
+    "topic": "fantasy",
+    "text": "I would offer a tired dragon a comfortable place to rest before asking for a ride.",
+    "scene": {
+      "primary": "dragon",
+      "secondary": "cloud",
+      "relation": "offer"
+    },
+    "sceneSummary": "A soft cloud is offered beside a sleepy dragon."
+  },
+  {
+    "id": 1936,
+    "topic": "fantasy",
+    "text": "I would prefer a secret cosy room to a grand balcony everyone could see.",
+    "scene": {
+      "primary": "castle",
+      "secondary": "dragon",
+      "relation": "hide"
+    },
+    "sceneSummary": "A dragon nestles in a hidden corner of the castle."
+  },
+  {
+    "id": 1937,
+    "topic": "fantasy",
+    "text": "I would choose magical warmth in winter over a dramatic entrance hall.",
+    "scene": {
+      "primary": "castle",
+      "secondary": "wand",
+      "relation": "choose"
+    },
+    "sceneSummary": "A wand selects the cosy part of a castle."
+  },
+  {
+    "id": 1938,
+    "topic": "fantasy",
+    "text": "I would explore an enchanted library before checking the royal collection.",
+    "scene": {
+      "primary": "castle",
+      "secondary": "treasure",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a castle wing while treasure waits outside."
+  },
+  {
+    "id": 1939,
+    "topic": "fantasy",
+    "text": "I would invite a tiny forest neighbour to a very large castle party.",
+    "scene": {
+      "primary": "castle",
+      "secondary": "mushroom",
+      "relation": "offer"
+    },
+    "sceneSummary": "A mushroom visitor is offered space at a castle doorway."
+  },
+  {
+    "id": 1940,
+    "topic": "fantasy",
+    "text": "I would happily move my whole home to a nicer view if magic made it easy.",
+    "scene": {
+      "primary": "castle",
+      "secondary": "cloud",
+      "relation": "carry"
+    },
+    "sceneSummary": "A cloud carries a miniature castle toward a new horizon."
+  },
+  {
+    "id": 1941,
+    "topic": "fantasy",
+    "text": "I would practise one reliable small spell instead of collecting impressive tricks.",
+    "scene": {
+      "primary": "wand",
+      "secondary": "dragon",
+      "relation": "balance"
+    },
+    "sceneSummary": "A wand balances beside a patient dragon during practice."
+  },
+  {
+    "id": 1942,
+    "topic": "fantasy",
+    "text": "I would use magic to make shared spaces more comfortable for everyone.",
+    "scene": {
+      "primary": "wand",
+      "secondary": "castle",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a wand beneath a welcoming castle roof."
+  },
+  {
+    "id": 1943,
+    "topic": "fantasy",
+    "text": "I would choose a spell that finds lost socks over one that makes jewels.",
+    "scene": {
+      "primary": "wand",
+      "secondary": "treasure",
+      "relation": "choose"
+    },
+    "sceneSummary": "A practical wand is chosen beside untouched treasure."
+  },
+  {
+    "id": 1944,
+    "topic": "fantasy",
+    "text": "I would create a tiny magical shortcut to my favourite peaceful place.",
+    "scene": {
+      "primary": "wand",
+      "secondary": "mushroom",
+      "relation": "build"
+    },
+    "sceneSummary": "A wand builds a path toward a mushroom retreat."
+  },
+  {
+    "id": 1945,
+    "topic": "fantasy",
+    "text": "I would ask whether a weather spell affects the neighbours before trying it.",
+    "scene": {
+      "primary": "wand",
+      "secondary": "cloud",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a cloud while its wand remains lowered."
+  },
+  {
+    "id": 1946,
+    "topic": "fantasy",
+    "text": "I would let a dragon explain why one ordinary pebble is its greatest treasure.",
+    "scene": {
+      "primary": "treasure",
+      "secondary": "dragon",
+      "relation": "share"
+    },
+    "sceneSummary": "A dragon shares a humble treasure with an attentive totem."
+  },
+  {
+    "id": 1947,
+    "topic": "fantasy",
+    "text": "I would display my quest souvenirs in a slightly ridiculous order.",
+    "scene": {
+      "primary": "treasure",
+      "secondary": "castle",
+      "relation": "stack"
+    },
+    "sceneSummary": "Treasure stacks in an eccentric arrangement beside a castle."
+  },
+  {
+    "id": 1948,
+    "topic": "fantasy",
+    "text": "I would give a friend a helpful enchanted object even if it was not very glamorous.",
+    "scene": {
+      "primary": "mushroom",
+      "secondary": "wand",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a small wand beside a modest mushroom."
+  },
+  {
+    "id": 1949,
+    "topic": "fantasy",
+    "text": "I would choose a calm cloud journey over a dragon ride with lots of loops.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "dragon",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses a cloud route while a dragon waits nearby."
+  },
+  {
+    "id": 1950,
+    "topic": "fantasy",
+    "text": "I would invent a magical neighbourhood where every home had a different shape.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "castle",
+      "relation": "build"
+    },
+    "sceneSummary": "Clouds and a castle form an irregular little neighbourhood."
+  }
+]

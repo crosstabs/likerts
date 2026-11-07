@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1201,
+    "topic": "travel",
+    "text": "I pack my suitcase early and keep adding things until it becomes a puzzle.",
+    "scene": {
+      "primary": "suitcase",
+      "secondary": "sunhat",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem fits a sunhat into the final space in an overfilled suitcase."
+  },
+  {
+    "id": 1202,
+    "topic": "travel",
+    "text": "I would choose a slower train if it had a much better view.",
+    "scene": {
+      "primary": "train",
+      "secondary": "camera",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem turns its camera toward the window of a leisurely toy train."
+  },
+  {
+    "id": 1203,
+    "topic": "travel",
+    "text": "I buy postcards I never send because they make excellent tiny posters.",
+    "scene": {
+      "primary": "postcard",
+      "secondary": "suitcase",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem tucks a collection of postcards into its suitcase."
+  },
+  {
+    "id": 1204,
+    "topic": "travel",
+    "text": "I unfold a paper map even when I already know where I am going.",
+    "scene": {
+      "primary": "map",
+      "secondary": "train",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies a fully unfolded map beside a waiting train."
+  },
+  {
+    "id": 1205,
+    "topic": "travel",
+    "text": "I would wear an enormous sunhat rather than buy a sensible souvenir.",
+    "scene": {
+      "primary": "sunhat",
+      "secondary": "postcard",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses a comically wide sunhat over a neat postcard."
+  },
+  {
+    "id": 1206,
+    "topic": "travel",
+    "text": "I prefer a blurry photo of a great moment to a perfect photo I had to stage.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "postcard",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem examines a candid camera view beside a perfectly posed postcard."
+  },
+  {
+    "id": 1207,
+    "topic": "travel",
+    "text": "I leave space in my suitcase for something I have not discovered yet.",
+    "scene": {
+      "primary": "suitcase",
+      "secondary": "camera",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem guards an empty suitcase corner beside its camera."
+  },
+  {
+    "id": 1208,
+    "topic": "travel",
+    "text": "I would take a train journey with no plans beyond looking out of the window.",
+    "scene": {
+      "primary": "train",
+      "secondary": "map",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem sets its map aside and gazes from the train window."
+  },
+  {
+    "id": 1209,
+    "topic": "travel",
+    "text": "I pick a postcard by imagining who would laugh at it.",
+    "scene": {
+      "primary": "postcard",
+      "secondary": "sunhat",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a funny sunhat postcard to an amused friend."
+  },
+  {
+    "id": 1210,
+    "topic": "travel",
+    "text": "I would follow the map toward an interesting street rather than a famous landmark.",
+    "scene": {
+      "primary": "map",
+      "secondary": "camera",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem points its camera down a small side street marked on a map."
+  },
+  {
+    "id": 1211,
+    "topic": "travel",
+    "text": "I enjoy packing almost as much as arriving.",
+    "scene": {
+      "primary": "suitcase",
+      "secondary": "map",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem arranges its suitcase neatly beneath an unfolded map."
+  },
+  {
+    "id": 1212,
+    "topic": "travel",
+    "text": "I would take a sunhat on a trip where sunshine is only a rumour.",
+    "scene": {
+      "primary": "sunhat",
+      "secondary": "train",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries an optimistic sunhat onto a toy train."
+  },
+  {
+    "id": 1213,
+    "topic": "travel",
+    "text": "I would rather keep one brilliant travel photo than sort through hundreds.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "suitcase",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem holds its camera close while closing a suitcase of keepsakes."
+  },
+  {
+    "id": 1214,
+    "topic": "travel",
+    "text": "I like the tiny ceremony of finding my train seat.",
+    "scene": {
+      "primary": "train",
+      "secondary": "suitcase",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem checks its small train seat with a suitcase beside it."
+  },
+  {
+    "id": 1215,
+    "topic": "travel",
+    "text": "I would write a postcard about an ordinary breakfast in an extraordinary place.",
+    "scene": {
+      "primary": "postcard",
+      "secondary": "camera",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem arranges a postcard and camera around a remembered breakfast view."
+  },
+  {
+    "id": 1216,
+    "topic": "travel",
+    "text": "I put the map away once a place starts to feel familiar.",
+    "scene": {
+      "primary": "map",
+      "secondary": "sunhat",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem folds its map beneath a sunhat before exploring confidently."
+  },
+  {
+    "id": 1217,
+    "topic": "travel",
+    "text": "I would carry a slightly impractical suitcase if its wheels made me happy.",
+    "scene": {
+      "primary": "suitcase",
+      "secondary": "train",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem rolls a cheerful suitcase toward a miniature train."
+  },
+  {
+    "id": 1218,
+    "topic": "travel",
+    "text": "I keep my sunhat on indoors for a moment because arriving feels like a performance.",
+    "scene": {
+      "primary": "sunhat",
+      "secondary": "suitcase",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem poses with its sunhat while carrying a suitcase into a doorway."
+  },
+  {
+    "id": 1219,
+    "topic": "travel",
+    "text": "I would choose the train seat facing backwards if it meant sitting with a friend.",
+    "scene": {
+      "primary": "train",
+      "secondary": "postcard",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share facing train seats with a postcard between them."
+  },
+  {
+    "id": 1220,
+    "topic": "travel",
+    "text": "I take photos of signs that would only be funny to one particular friend.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "sunhat",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem presents its camera to a sunhat-wearing friend with a knowing look."
+  },
+  {
+    "id": 1221,
+    "topic": "travel",
+    "text": "I would frame a scribbled map from a memorable day.",
+    "scene": {
+      "primary": "map",
+      "secondary": "postcard",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem arranges a hand-marked map beside a postcard like a tiny gallery."
+  },
+  {
+    "id": 1222,
+    "topic": "travel",
+    "text": "I unpack my suitcase as soon as I get home rather than living around it.",
+    "scene": {
+      "primary": "suitcase",
+      "secondary": "postcard",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem empties its suitcase and places postcards neatly beside it."
+  },
+  {
+    "id": 1223,
+    "topic": "travel",
+    "text": "I think a train platform is an excellent place to invent stories about strangers.",
+    "scene": {
+      "primary": "train",
+      "secondary": "camera",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A thoughtful totem watches a tiny train platform with its camera resting unused."
+  },
+  {
+    "id": 1224,
+    "topic": "travel",
+    "text": "I would send a postcard even if I expected to arrive before it.",
+    "scene": {
+      "primary": "postcard",
+      "secondary": "train",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem holds out a postcard beside a train already ready to leave."
+  },
+  {
+    "id": 1225,
+    "topic": "travel",
+    "text": "I like being the person who knows which way the map should face.",
+    "scene": {
+      "primary": "map",
+      "secondary": "suitcase",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem confidently orients a map beside the group's suitcase."
+  },
+  {
+    "id": 1226,
+    "topic": "travel",
+    "text": "I would buy a sunhat from a small shop and wear it for the rest of the trip.",
+    "scene": {
+      "primary": "sunhat",
+      "secondary": "camera",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem proudly poses in a new sunhat beside its camera."
+  },
+  {
+    "id": 1227,
+    "topic": "travel",
+    "text": "I would leave the camera in my bag for a day to see what I remember.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "suitcase",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem tucks its camera inside a suitcase before stepping out."
+  },
+  {
+    "id": 1228,
+    "topic": "travel",
+    "text": "I would choose a familiar train route just for my favourite station announcement.",
+    "scene": {
+      "primary": "train",
+      "secondary": "map",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem listens beside a toy train while tracing a familiar map route."
+  },
+  {
+    "id": 1229,
+    "topic": "travel",
+    "text": "I keep postcards from places I might visit someday.",
+    "scene": {
+      "primary": "postcard",
+      "secondary": "map",
+      "relation": "stack"
+    },
+    "sceneSummary": "A totem stacks future-destination postcards on an unfolded map."
+  },
+  {
+    "id": 1230,
+    "topic": "travel",
+    "text": "I can enjoy a trip without bringing anything home besides a good story.",
+    "scene": {
+      "primary": "suitcase",
+      "secondary": "postcard",
+      "relation": "balance"
+    },
+    "sceneSummary": "A totem balances an almost empty suitcase beside a single postcard."
+  },
+  {
+    "id": 1231,
+    "topic": "travel",
+    "text": "I would use a paper map as the centrepiece for planning a group adventure.",
+    "scene": {
+      "primary": "map",
+      "secondary": "sunhat",
+      "relation": "share"
+    },
+    "sceneSummary": "Several totems gather around a map with a sunhat marking the starting point."
+  },
+  {
+    "id": 1232,
+    "topic": "travel",
+    "text": "I think a sunhat with a bent brim has earned its character.",
+    "scene": {
+      "primary": "sunhat",
+      "secondary": "postcard",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies a well-travelled hat beside an immaculate postcard."
+  },
+  {
+    "id": 1233,
+    "topic": "travel",
+    "text": "I would photograph the train itself before photographing where it takes me.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "train",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem points its camera toward a miniature train before boarding."
+  },
+  {
+    "id": 1234,
+    "topic": "travel",
+    "text": "I would let a friend pack one surprise item in my suitcase.",
+    "scene": {
+      "primary": "suitcase",
+      "secondary": "sunhat",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share an open suitcase with a mysterious sunhat inside."
+  },
+  {
+    "id": 1235,
+    "topic": "travel",
+    "text": "I like sending postcards that describe the least famous part of a place.",
+    "scene": {
+      "primary": "postcard",
+      "secondary": "map",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses a tiny unmarked map corner for its postcard story."
+  },
+  {
+    "id": 1236,
+    "topic": "travel",
+    "text": "I would swap a carefully planned afternoon for an unexpected scenic train ride.",
+    "scene": {
+      "primary": "train",
+      "secondary": "sunhat",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem steps toward a train with its sunhat ready for a surprise outing."
+  },
+  {
+    "id": 1237,
+    "topic": "travel",
+    "text": "I enjoy spotting the moment a map stops looking confusing.",
+    "scene": {
+      "primary": "map",
+      "secondary": "camera",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A pleased totem studies a suddenly clear map beside its camera."
+  },
+  {
+    "id": 1238,
+    "topic": "travel",
+    "text": "I would repair a favourite suitcase rather than choose a matching new set.",
+    "scene": {
+      "primary": "suitcase",
+      "secondary": "train",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem examines a well-loved suitcase next to a familiar train."
+  },
+  {
+    "id": 1239,
+    "topic": "travel",
+    "text": "I would lend my sunhat to a friend and accept looking less impressive in the photos.",
+    "scene": {
+      "primary": "sunhat",
+      "secondary": "camera",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers its sunhat to a friend standing beside the camera."
+  },
+  {
+    "id": 1240,
+    "topic": "travel",
+    "text": "I take a final photo of the room before leaving a memorable trip.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "suitcase",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries its camera above a packed suitcase for one last view."
+  },
+  {
+    "id": 1241,
+    "topic": "travel",
+    "text": "I would choose a train table seat so we could spread out a map together.",
+    "scene": {
+      "primary": "train",
+      "secondary": "map",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a train table covered by an unfolded map."
+  },
+  {
+    "id": 1242,
+    "topic": "travel",
+    "text": "I would write a postcard to my future self about a tiny travel victory.",
+    "scene": {
+      "primary": "postcard",
+      "secondary": "suitcase",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem presents a postcard to its own waiting suitcase."
+  },
+  {
+    "id": 1243,
+    "topic": "travel",
+    "text": "I enjoy finding my way back by remembered shop windows rather than retracing the map.",
+    "scene": {
+      "primary": "map",
+      "secondary": "sunhat",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A sunhat-wearing totem circles a miniature street with its map folded."
+  },
+  {
+    "id": 1244,
+    "topic": "travel",
+    "text": "I would pack fewer outfits to make room for a truly excellent sunhat.",
+    "scene": {
+      "primary": "sunhat",
+      "secondary": "suitcase",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem gives a wide sunhat the best space in its suitcase."
+  },
+  {
+    "id": 1245,
+    "topic": "travel",
+    "text": "I like travel photos that include the friend who usually holds the camera.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "train",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a camera position beside the train so both fit the picture."
+  },
+  {
+    "id": 1246,
+    "topic": "travel",
+    "text": "I would pick a postcard with strange colours over a very accurate photograph.",
+    "scene": {
+      "primary": "postcard",
+      "secondary": "camera",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem selects an unusual postcard while a camera waits beside it."
+  },
+  {
+    "id": 1247,
+    "topic": "travel",
+    "text": "I check the train board early enough to enjoy being unnecessarily prepared.",
+    "scene": {
+      "primary": "train",
+      "secondary": "suitcase",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem waits calmly beside the train with its suitcase ready far in advance."
+  },
+  {
+    "id": 1248,
+    "topic": "travel",
+    "text": "I would mark a map with places I enjoyed sitting rather than places I visited.",
+    "scene": {
+      "primary": "map",
+      "secondary": "postcard",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem examines a map covered with tiny rest-stop postcards."
+  },
+  {
+    "id": 1249,
+    "topic": "travel",
+    "text": "I think unpacking a sunhat at home should count as extending the holiday.",
+    "scene": {
+      "primary": "sunhat",
+      "secondary": "suitcase",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem places a sunhat on top of its open suitcase as a miniature holiday shrine."
+  },
+  {
+    "id": 1250,
+    "topic": "travel",
+    "text": "I would make a postcard wall before making a perfectly sorted travel album.",
+    "scene": {
+      "primary": "postcard",
+      "secondary": "camera",
+      "relation": "stack"
+    },
+    "sceneSummary": "A totem stacks postcards into a cheerful display beside its camera."
+  }
+]

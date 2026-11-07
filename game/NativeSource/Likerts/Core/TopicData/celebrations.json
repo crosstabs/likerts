@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1651,
+    "topic": "celebrations",
+    "text": "I would choose an excellent cake over an impressive pile of presents.",
+    "scene": {
+      "primary": "cake",
+      "secondary": "gift",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses cake beside a wrapped gift."
+  },
+  {
+    "id": 1652,
+    "topic": "celebrations",
+    "text": "I bring a small decoration when somebody says they do not want a fuss.",
+    "scene": {
+      "primary": "confetti",
+      "secondary": "ribbon",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries discreet confetti and a ribbon."
+  },
+  {
+    "id": 1653,
+    "topic": "celebrations",
+    "text": "I check how many candles will fit before anyone starts decorating the cake.",
+    "scene": {
+      "primary": "partyhat",
+      "secondary": "candle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects a candle beneath a party hat."
+  },
+  {
+    "id": 1654,
+    "topic": "celebrations",
+    "text": "I enjoy keeping a present secret more than opening one myself.",
+    "scene": {
+      "primary": "gift",
+      "secondary": "cake",
+      "relation": "hide"
+    },
+    "sceneSummary": "A wrapped gift hides behind a celebratory cake."
+  },
+  {
+    "id": 1655,
+    "topic": "celebrations",
+    "text": "I would rather make one sincere wish than give a grand birthday speech.",
+    "scene": {
+      "primary": "candle",
+      "secondary": "partyhat",
+      "relation": "offer"
+    },
+    "sceneSummary": "A candle is offered beside a quiet party hat."
+  },
+  {
+    "id": 1656,
+    "topic": "celebrations",
+    "text": "I think wrapping a present beautifully is part of the present.",
+    "scene": {
+      "primary": "ribbon",
+      "secondary": "confetti",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a ribbon flourish above scattered confetti."
+  },
+  {
+    "id": 1657,
+    "topic": "celebrations",
+    "text": "I volunteer to cut the cake even though the first slice will be awkward.",
+    "scene": {
+      "primary": "cake",
+      "secondary": "candle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects the first cake slice beside a candle."
+  },
+  {
+    "id": 1658,
+    "topic": "celebrations",
+    "text": "I spend longer choosing the wrapping than choosing the actual present.",
+    "scene": {
+      "primary": "gift",
+      "secondary": "ribbon",
+      "relation": "balance"
+    },
+    "sceneSummary": "A gift balances over an elaborate ribbon."
+  },
+  {
+    "id": 1659,
+    "topic": "celebrations",
+    "text": "I prefer a small celebration with good company to a spectacular entrance.",
+    "scene": {
+      "primary": "confetti",
+      "secondary": "partyhat",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a simple hat over flying confetti."
+  },
+  {
+    "id": 1660,
+    "topic": "celebrations",
+    "text": "I would celebrate a friend's tiny achievement as if it deserved a trophy.",
+    "scene": {
+      "primary": "partyhat",
+      "secondary": "gift",
+      "relation": "offer"
+    },
+    "sceneSummary": "A party hat is offered beside a modest gift."
+  },
+  {
+    "id": 1661,
+    "topic": "celebrations",
+    "text": "I would carry a cake very slowly rather than trust someone else's shortcut.",
+    "scene": {
+      "primary": "candle",
+      "secondary": "cake",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries candle and cake with exaggerated care."
+  },
+  {
+    "id": 1662,
+    "topic": "celebrations",
+    "text": "I look for a present that proves I remembered something small about the person.",
+    "scene": {
+      "primary": "ribbon",
+      "secondary": "gift",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character studies a ribbon-wrapped thoughtful gift."
+  },
+  {
+    "id": 1663,
+    "topic": "celebrations",
+    "text": "I insist that a celebration needs something delicious even if it has nothing else.",
+    "scene": {
+      "primary": "cake",
+      "secondary": "confetti",
+      "relation": "share"
+    },
+    "sceneSummary": "Cake is shared above a few scraps of confetti."
+  },
+  {
+    "id": 1664,
+    "topic": "celebrations",
+    "text": "I would ask someone what they want rather than gamble on a surprise.",
+    "scene": {
+      "primary": "gift",
+      "secondary": "partyhat",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a clear gift beside a surprise hat."
+  },
+  {
+    "id": 1665,
+    "topic": "celebrations",
+    "text": "I keep the decorations simple because I know who will be cleaning up.",
+    "scene": {
+      "primary": "confetti",
+      "secondary": "candle",
+      "relation": "hide"
+    },
+    "sceneSummary": "A small confetti pile hides behind one candle."
+  },
+  {
+    "id": 1666,
+    "topic": "celebrations",
+    "text": "I can turn ordinary craft supplies into an occasion when the mood strikes.",
+    "scene": {
+      "primary": "partyhat",
+      "secondary": "ribbon",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a party hat with a ribbon flourish."
+  },
+  {
+    "id": 1667,
+    "topic": "celebrations",
+    "text": "I enjoy celebrating on a convenient day instead of insisting on the exact date.",
+    "scene": {
+      "primary": "candle",
+      "secondary": "gift",
+      "relation": "offer"
+    },
+    "sceneSummary": "A candle is offered alongside a patiently waiting gift."
+  },
+  {
+    "id": 1668,
+    "topic": "celebrations",
+    "text": "I attempt a handmade decoration even when the result will be slightly lopsided.",
+    "scene": {
+      "primary": "ribbon",
+      "secondary": "cake",
+      "relation": "balance"
+    },
+    "sceneSummary": "A crooked ribbon balances beside the cake."
+  },
+  {
+    "id": 1669,
+    "topic": "celebrations",
+    "text": "I save a slice of celebration cake for a quiet moment the next morning.",
+    "scene": {
+      "primary": "cake",
+      "secondary": "partyhat",
+      "relation": "stack"
+    },
+    "sceneSummary": "A cake slice stacks beneath a resting party hat."
+  },
+  {
+    "id": 1670,
+    "topic": "celebrations",
+    "text": "I arrive with a spare little gift in case somebody unexpected joins in.",
+    "scene": {
+      "primary": "gift",
+      "secondary": "confetti",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries an extra gift above confetti."
+  },
+  {
+    "id": 1671,
+    "topic": "celebrations",
+    "text": "I enjoy the moment just before everybody starts cheering.",
+    "scene": {
+      "primary": "confetti",
+      "secondary": "cake",
+      "relation": "orbit"
+    },
+    "sceneSummary": "Confetti waits suspended around a celebration cake."
+  },
+  {
+    "id": 1672,
+    "topic": "celebrations",
+    "text": "I would choose a cosy birthday breakfast over a late evening party.",
+    "scene": {
+      "primary": "partyhat",
+      "secondary": "candle",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses one candle beside a relaxed party hat."
+  },
+  {
+    "id": 1673,
+    "topic": "celebrations",
+    "text": "I notice whether the table looks welcoming before I notice how fancy it looks.",
+    "scene": {
+      "primary": "candle",
+      "secondary": "ribbon",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character studies a candle and neatly placed ribbon."
+  },
+  {
+    "id": 1674,
+    "topic": "celebrations",
+    "text": "I like helping someone else feel celebrated without becoming the centre of attention.",
+    "scene": {
+      "primary": "ribbon",
+      "secondary": "partyhat",
+      "relation": "offer"
+    },
+    "sceneSummary": "A ribbon is offered to a character in a party hat."
+  },
+  {
+    "id": 1675,
+    "topic": "celebrations",
+    "text": "I would bring a homemade cake even if it looked nothing like the recipe picture.",
+    "scene": {
+      "primary": "cake",
+      "secondary": "gift",
+      "relation": "offer"
+    },
+    "sceneSummary": "A character offers an uneven cake beside a gift."
+  },
+  {
+    "id": 1676,
+    "topic": "celebrations",
+    "text": "I would rather hear about a surprise party after it is over than be the surprise.",
+    "scene": {
+      "primary": "confetti",
+      "secondary": "ribbon",
+      "relation": "hide"
+    },
+    "sceneSummary": "Confetti hides beneath a restrained ribbon."
+  },
+  {
+    "id": 1677,
+    "topic": "celebrations",
+    "text": "I ask who likes which flavour before choosing a cake for the group.",
+    "scene": {
+      "primary": "partyhat",
+      "secondary": "cake",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects a cake beneath a thoughtful party hat."
+  },
+  {
+    "id": 1678,
+    "topic": "celebrations",
+    "text": "I make a small occasion feel important with a carefully chosen present.",
+    "scene": {
+      "primary": "gift",
+      "secondary": "candle",
+      "relation": "build"
+    },
+    "sceneSummary": "A gift creates a focal point around a single candle."
+  },
+  {
+    "id": 1679,
+    "topic": "celebrations",
+    "text": "I enjoy a quiet toast to good news as much as a room full of cheering.",
+    "scene": {
+      "primary": "candle",
+      "secondary": "confetti",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share a candle beneath settling confetti."
+  },
+  {
+    "id": 1680,
+    "topic": "celebrations",
+    "text": "I carry a wrapped present from the bottom no matter how strong the handle looks.",
+    "scene": {
+      "primary": "ribbon",
+      "secondary": "gift",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character supports a ribbon-wrapped gift from beneath."
+  },
+  {
+    "id": 1681,
+    "topic": "celebrations",
+    "text": "I would happily have the same favourite cake every birthday.",
+    "scene": {
+      "primary": "cake",
+      "secondary": "candle",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a familiar cake beside its candle."
+  },
+  {
+    "id": 1682,
+    "topic": "celebrations",
+    "text": "I try to open careful wrapping without tearing it apart.",
+    "scene": {
+      "primary": "gift",
+      "secondary": "ribbon",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects a ribbon before opening the gift."
+  },
+  {
+    "id": 1683,
+    "topic": "celebrations",
+    "text": "I join in with a silly tradition if it helps everyone relax.",
+    "scene": {
+      "primary": "confetti",
+      "secondary": "partyhat",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share confetti beneath matching party hats."
+  },
+  {
+    "id": 1684,
+    "topic": "celebrations",
+    "text": "I need a moment to think when everybody watches me open a present.",
+    "scene": {
+      "primary": "partyhat",
+      "secondary": "gift",
+      "relation": "hide"
+    },
+    "sceneSummary": "A party hat shelters behind a waiting gift."
+  },
+  {
+    "id": 1685,
+    "topic": "celebrations",
+    "text": "I care more about enough cake for everybody than a perfect-looking centrepiece.",
+    "scene": {
+      "primary": "candle",
+      "secondary": "cake",
+      "relation": "balance"
+    },
+    "sceneSummary": "A candle balances above generously divided cake."
+  },
+  {
+    "id": 1686,
+    "topic": "celebrations",
+    "text": "I would choose reusable decorations over a dramatic mess.",
+    "scene": {
+      "primary": "ribbon",
+      "secondary": "confetti",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a saved ribbon over loose confetti."
+  },
+  {
+    "id": 1687,
+    "topic": "celebrations",
+    "text": "I add one personal detail to a store-bought cake and call it a collaboration.",
+    "scene": {
+      "primary": "cake",
+      "secondary": "ribbon",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a ribbon detail beside a plain cake."
+  },
+  {
+    "id": 1688,
+    "topic": "celebrations",
+    "text": "I would give a friend an experience we could enjoy together.",
+    "scene": {
+      "primary": "gift",
+      "secondary": "partyhat",
+      "relation": "offer"
+    },
+    "sceneSummary": "A gift is offered between two matching party hats."
+  },
+  {
+    "id": 1689,
+    "topic": "celebrations",
+    "text": "I remember a celebration by one funny little detail more than the big event.",
+    "scene": {
+      "primary": "confetti",
+      "secondary": "candle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects one confetti piece beside a candle."
+  },
+  {
+    "id": 1690,
+    "topic": "celebrations",
+    "text": "I keep a paper decoration from a happy occasion longer than I intended.",
+    "scene": {
+      "primary": "partyhat",
+      "secondary": "ribbon",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries a worn party hat with its ribbon."
+  },
+  {
+    "id": 1691,
+    "topic": "celebrations",
+    "text": "I would spread birthday presents across the whole day rather than open everything at once.",
+    "scene": {
+      "primary": "candle",
+      "secondary": "gift",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses one gift beside a candle, saving the next opening for later."
+  },
+  {
+    "id": 1692,
+    "topic": "celebrations",
+    "text": "I enjoy helping prepare a celebration even if I cannot stay for the whole thing.",
+    "scene": {
+      "primary": "ribbon",
+      "secondary": "cake",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share cake preparation and a ribbon."
+  },
+  {
+    "id": 1693,
+    "topic": "celebrations",
+    "text": "I would offer the guest of honour the least photogenic slice if it was the biggest.",
+    "scene": {
+      "primary": "cake",
+      "secondary": "partyhat",
+      "relation": "offer"
+    },
+    "sceneSummary": "A generous cake slice is offered beside a party hat."
+  },
+  {
+    "id": 1694,
+    "topic": "celebrations",
+    "text": "I remember a brilliantly useful small present more than an impressive one I never used.",
+    "scene": {
+      "primary": "gift",
+      "secondary": "confetti",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character studies a practical gift amid confetti."
+  },
+  {
+    "id": 1695,
+    "topic": "celebrations",
+    "text": "I am happy to celebrate good news that has nothing to do with me.",
+    "scene": {
+      "primary": "confetti",
+      "secondary": "cake",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries confetti towards someone else's cake."
+  },
+  {
+    "id": 1696,
+    "topic": "celebrations",
+    "text": "I let a celebration wind down naturally instead of scheduling a final activity.",
+    "scene": {
+      "primary": "partyhat",
+      "secondary": "candle",
+      "relation": "stack"
+    },
+    "sceneSummary": "A party hat rests above the last candle."
+  },
+  {
+    "id": 1697,
+    "topic": "celebrations",
+    "text": "I would start a new tradition if the old one stopped feeling fun.",
+    "scene": {
+      "primary": "candle",
+      "secondary": "ribbon",
+      "relation": "offer"
+    },
+    "sceneSummary": "A fresh candle is offered beside a familiar ribbon."
+  },
+  {
+    "id": 1698,
+    "topic": "celebrations",
+    "text": "I quietly fix a decoration that keeps falling down during the celebration.",
+    "scene": {
+      "primary": "ribbon",
+      "secondary": "partyhat",
+      "relation": "hide"
+    },
+    "sceneSummary": "A ribbon repair hides behind the party hat."
+  },
+  {
+    "id": 1699,
+    "topic": "celebrations",
+    "text": "I can enjoy a celebration even if the cake arrives late and the wrapping is crooked.",
+    "scene": {
+      "primary": "cake",
+      "secondary": "gift",
+      "relation": "balance"
+    },
+    "sceneSummary": "A late cake balances beside an unevenly wrapped gift."
+  },
+  {
+    "id": 1700,
+    "topic": "celebrations",
+    "text": "I check for leftover confetti before putting celebration supplies away.",
+    "scene": {
+      "primary": "confetti",
+      "secondary": "ribbon",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects confetti caught in a ribbon."
+  }
+]

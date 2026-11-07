@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1751,
+    "topic": "mornings",
+    "text": "I prefer an alarm that gets gradually louder instead of announcing a tiny emergency.",
+    "scene": {
+      "primary": "alarm",
+      "secondary": "mug",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects an alarm beside a still mug, checking for a gentle wake-up."
+  },
+  {
+    "id": 1752,
+    "topic": "mornings",
+    "text": "I would rather eat proper toast than arrive five minutes early.",
+    "scene": {
+      "primary": "alarm",
+      "secondary": "toast",
+      "relation": "balance"
+    },
+    "sceneSummary": "A toast slice outweighs the alarm on a breakfast balance."
+  },
+  {
+    "id": 1753,
+    "topic": "mornings",
+    "text": "I can turn brushing my teeth into a last-minute sprint.",
+    "scene": {
+      "primary": "alarm",
+      "secondary": "toothbrush",
+      "relation": "choose"
+    },
+    "sceneSummary": "The totem chooses between the alarm and a waiting toothbrush."
+  },
+  {
+    "id": 1754,
+    "topic": "mornings",
+    "text": "I would hide my alarm across the room and still bargain with it.",
+    "scene": {
+      "primary": "alarm",
+      "secondary": "slippers",
+      "relation": "hide"
+    },
+    "sceneSummary": "An alarm peeks from behind a pair of slippers."
+  },
+  {
+    "id": 1755,
+    "topic": "mornings",
+    "text": "I think waking before sunrise should earn a small medal.",
+    "scene": {
+      "primary": "alarm",
+      "secondary": "sunrise",
+      "relation": "orbit"
+    },
+    "sceneSummary": "An alarm circles the rising sun like a proud early bird."
+  },
+  {
+    "id": 1756,
+    "topic": "mornings",
+    "text": "I would bring someone a warm drink instead of telling them to hurry.",
+    "scene": {
+      "primary": "mug",
+      "secondary": "alarm",
+      "relation": "offer"
+    },
+    "sceneSummary": "The totem offers a mug to an impatient alarm."
+  },
+  {
+    "id": 1757,
+    "topic": "mornings",
+    "text": "I want breakfast company only if comfortable silence is allowed.",
+    "scene": {
+      "primary": "mug",
+      "secondary": "toast",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a mug-and-toast breakfast without chatter."
+  },
+  {
+    "id": 1758,
+    "topic": "mornings",
+    "text": "I check that I have rinsed my mouth before my first sip.",
+    "scene": {
+      "primary": "mug",
+      "secondary": "toothbrush",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A toothbrush waits while the totem carefully inspects its mug."
+  },
+  {
+    "id": 1759,
+    "topic": "mornings",
+    "text": "I would carry my breakfast to the comfiest corner of the house.",
+    "scene": {
+      "primary": "mug",
+      "secondary": "slippers",
+      "relation": "carry"
+    },
+    "sceneSummary": "A slipper-wearing totem carries its precious mug."
+  },
+  {
+    "id": 1760,
+    "topic": "mornings",
+    "text": "I would trade an extra snooze for a quiet drink by the window.",
+    "scene": {
+      "primary": "mug",
+      "secondary": "sunrise",
+      "relation": "balance"
+    },
+    "sceneSummary": "A mug balances beside the sunrise on a tranquil ledge."
+  },
+  {
+    "id": 1761,
+    "topic": "mornings",
+    "text": "I would prepare breakfast the night before to buy more sleep.",
+    "scene": {
+      "primary": "toast",
+      "secondary": "alarm",
+      "relation": "stack"
+    },
+    "sceneSummary": "Ready toast is stacked neatly above an alarm."
+  },
+  {
+    "id": 1762,
+    "topic": "mornings",
+    "text": "I judge a slow morning by how long my toast stays warm.",
+    "scene": {
+      "primary": "toast",
+      "secondary": "mug",
+      "relation": "inspect"
+    },
+    "sceneSummary": "The totem inspects toast beside a steaming mug."
+  },
+  {
+    "id": 1763,
+    "topic": "mornings",
+    "text": "I always decide whether to brush before or after breakfast all over again.",
+    "scene": {
+      "primary": "toast",
+      "secondary": "toothbrush",
+      "relation": "choose"
+    },
+    "sceneSummary": "Toast and toothbrush face each other at a tiny decision fork."
+  },
+  {
+    "id": 1764,
+    "topic": "mornings",
+    "text": "I would eat breakfast in my slippers even with visitors coming.",
+    "scene": {
+      "primary": "toast",
+      "secondary": "slippers",
+      "relation": "hide"
+    },
+    "sceneSummary": "Toast shelters behind slippers at a relaxed breakfast spot."
+  },
+  {
+    "id": 1765,
+    "topic": "mornings",
+    "text": "I would get up early if somebody promised excellent toast.",
+    "scene": {
+      "primary": "toast",
+      "secondary": "sunrise",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers toast toward the first rays of sunrise."
+  },
+  {
+    "id": 1766,
+    "topic": "mornings",
+    "text": "I sometimes keep getting ready while the alarm is still beeping.",
+    "scene": {
+      "primary": "toothbrush",
+      "secondary": "alarm",
+      "relation": "carry"
+    },
+    "sceneSummary": "The totem carries a toothbrush past a ringing alarm."
+  },
+  {
+    "id": 1767,
+    "topic": "mornings",
+    "text": "I can keep my morning routine going while half my brain is asleep.",
+    "scene": {
+      "primary": "toothbrush",
+      "secondary": "mug",
+      "relation": "balance"
+    },
+    "sceneSummary": "A toothbrush balances across a mug in a sleepy ritual."
+  },
+  {
+    "id": 1768,
+    "topic": "mornings",
+    "text": "I would notice a toast crumb on my shirt before anyone else did.",
+    "scene": {
+      "primary": "toothbrush",
+      "secondary": "toast",
+      "relation": "inspect"
+    },
+    "sceneSummary": "The totem checks a toothbrush beside a crumb-covered toast slice."
+  },
+  {
+    "id": 1769,
+    "topic": "mornings",
+    "text": "I consider brushing my teeth the official end of being in bed mode.",
+    "scene": {
+      "primary": "toothbrush",
+      "secondary": "slippers",
+      "relation": "choose"
+    },
+    "sceneSummary": "A toothbrush marks the boundary beside abandoned slippers."
+  },
+  {
+    "id": 1770,
+    "topic": "mornings",
+    "text": "I would enjoy a morning routine timed by daylight instead of minutes.",
+    "scene": {
+      "primary": "toothbrush",
+      "secondary": "sunrise",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A toothbrush circles a sunrise rather than a clock face."
+  },
+  {
+    "id": 1771,
+    "topic": "mornings",
+    "text": "I check the time from bed before committing even one foot to the floor.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "alarm",
+      "relation": "inspect"
+    },
+    "sceneSummary": "The totem inspects its slippers with an alarm watching nearby."
+  },
+  {
+    "id": 1772,
+    "topic": "mornings",
+    "text": "I would make a visiting friend feel at home before asking about their plans.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "mug",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers slippers beside a welcoming breakfast mug."
+  },
+  {
+    "id": 1773,
+    "topic": "mornings",
+    "text": "I can follow the smell of breakfast without fully opening my eyes.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "toast",
+      "relation": "carry"
+    },
+    "sceneSummary": "Slippers carry a sleepy totem toward waiting toast."
+  },
+  {
+    "id": 1774,
+    "topic": "mornings",
+    "text": "I like my morning essentials lined up in the order I use them.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "toothbrush",
+      "relation": "stack"
+    },
+    "sceneSummary": "Slippers and toothbrush form a tidy routine staircase."
+  },
+  {
+    "id": 1775,
+    "topic": "mornings",
+    "text": "I would close the curtains on a beautiful sunrise for more sleep.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "sunrise",
+      "relation": "hide"
+    },
+    "sceneSummary": "Slippers hide behind the edge of a rising sun."
+  },
+  {
+    "id": 1776,
+    "topic": "mornings",
+    "text": "I trust natural light more than a cheerful alarm tune.",
+    "scene": {
+      "primary": "sunrise",
+      "secondary": "alarm",
+      "relation": "choose"
+    },
+    "sceneSummary": "The sunrise and alarm compete for the totem's attention."
+  },
+  {
+    "id": 1777,
+    "topic": "mornings",
+    "text": "I would wake a friend early to show them a spectacular dawn.",
+    "scene": {
+      "primary": "sunrise",
+      "secondary": "mug",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a sunrise with a single warm mug."
+  },
+  {
+    "id": 1778,
+    "topic": "mornings",
+    "text": "I can spend breakfast watching the sky without needing entertainment.",
+    "scene": {
+      "primary": "sunrise",
+      "secondary": "toast",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies the sunrise while its toast waits."
+  },
+  {
+    "id": 1779,
+    "topic": "mornings",
+    "text": "I would build a tiny daily routine around seeing daylight first.",
+    "scene": {
+      "primary": "sunrise",
+      "secondary": "toothbrush",
+      "relation": "build"
+    },
+    "sceneSummary": "A sunrise frames a small toothbrush routine station."
+  },
+  {
+    "id": 1780,
+    "topic": "mornings",
+    "text": "I enjoy feeling awake before the rest of the house stirs.",
+    "scene": {
+      "primary": "sunrise",
+      "secondary": "slippers",
+      "relation": "balance"
+    },
+    "sceneSummary": "A sunrise balances above slippers in a still room."
+  },
+  {
+    "id": 1781,
+    "topic": "mornings",
+    "text": "I would turn off every morning notification until my drink is finished.",
+    "scene": {
+      "primary": "alarm",
+      "secondary": "mug",
+      "relation": "hide"
+    },
+    "sceneSummary": "A silent alarm hides behind a generously sized mug."
+  },
+  {
+    "id": 1782,
+    "topic": "mornings",
+    "text": "I prefer an extra breakfast course to an extra alarm snooze.",
+    "scene": {
+      "primary": "alarm",
+      "secondary": "toast",
+      "relation": "choose"
+    },
+    "sceneSummary": "The totem chooses toast over the tempting alarm button."
+  },
+  {
+    "id": 1783,
+    "topic": "mornings",
+    "text": "I would make a morning checklist if it stopped me forgetting one thing.",
+    "scene": {
+      "primary": "alarm",
+      "secondary": "toothbrush",
+      "relation": "build"
+    },
+    "sceneSummary": "An alarm and toothbrush form two stations on a routine track."
+  },
+  {
+    "id": 1784,
+    "topic": "mornings",
+    "text": "I can circle my room collecting things instead of leaving on time.",
+    "scene": {
+      "primary": "alarm",
+      "secondary": "slippers",
+      "relation": "orbit"
+    },
+    "sceneSummary": "An alarm orbits a scattered pair of slippers."
+  },
+  {
+    "id": 1785,
+    "topic": "mornings",
+    "text": "I would check whether the birds or my alarm woke me first.",
+    "scene": {
+      "primary": "alarm",
+      "secondary": "sunrise",
+      "relation": "inspect"
+    },
+    "sceneSummary": "The totem inspects an alarm beneath the brightening sunrise."
+  },
+  {
+    "id": 1786,
+    "topic": "mornings",
+    "text": "I enjoy doing the same little steps in exactly the same order each morning.",
+    "scene": {
+      "primary": "mug",
+      "secondary": "alarm",
+      "relation": "stack"
+    },
+    "sceneSummary": "A mug sits above an alarm on a ritual staircase."
+  },
+  {
+    "id": 1787,
+    "topic": "mornings",
+    "text": "I would give someone the last warm slice and make another for myself.",
+    "scene": {
+      "primary": "mug",
+      "secondary": "toast",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers toast across a mug on the breakfast table."
+  },
+  {
+    "id": 1788,
+    "topic": "mornings",
+    "text": "I would tidy the bathroom before making my morning drink.",
+    "scene": {
+      "primary": "mug",
+      "secondary": "toothbrush",
+      "relation": "hide"
+    },
+    "sceneSummary": "A toothbrush is tucked away behind a mug after tidying."
+  },
+  {
+    "id": 1789,
+    "topic": "mornings",
+    "text": "I would choose a slow breakfast over a fully coordinated outfit.",
+    "scene": {
+      "primary": "mug",
+      "secondary": "slippers",
+      "relation": "choose"
+    },
+    "sceneSummary": "The totem chooses its mug while slippers wait at its feet."
+  },
+  {
+    "id": 1790,
+    "topic": "mornings",
+    "text": "I would take a warm drink outside just to hear the morning sounds.",
+    "scene": {
+      "primary": "mug",
+      "secondary": "sunrise",
+      "relation": "carry"
+    },
+    "sceneSummary": "The totem carries a mug toward a small outdoor sunrise."
+  },
+  {
+    "id": 1791,
+    "topic": "mornings",
+    "text": "I think a rushed breakfast can make the whole day feel rushed.",
+    "scene": {
+      "primary": "toast",
+      "secondary": "alarm",
+      "relation": "inspect"
+    },
+    "sceneSummary": "Toast faces a closely inspected alarm at the edge of the table."
+  },
+  {
+    "id": 1792,
+    "topic": "mornings",
+    "text": "I would turn a simple breakfast into a little cafe ritual.",
+    "scene": {
+      "primary": "toast",
+      "secondary": "mug",
+      "relation": "stack"
+    },
+    "sceneSummary": "Toast stacks beside a mug on a miniature cafe counter."
+  },
+  {
+    "id": 1793,
+    "topic": "mornings",
+    "text": "I can leave one tiny chore unfinished without letting it spoil breakfast.",
+    "scene": {
+      "primary": "toast",
+      "secondary": "toothbrush",
+      "relation": "balance"
+    },
+    "sceneSummary": "Toast balances beside a toothbrush waiting for later."
+  },
+  {
+    "id": 1794,
+    "topic": "mornings",
+    "text": "I would happily let everyone eat breakfast wherever they feel cosy.",
+    "scene": {
+      "primary": "toast",
+      "secondary": "slippers",
+      "relation": "share"
+    },
+    "sceneSummary": "Two slipper-wearing totems share toast in separate comfy spots."
+  },
+  {
+    "id": 1795,
+    "topic": "mornings",
+    "text": "I would pack breakfast to eat somewhere with a better view.",
+    "scene": {
+      "primary": "toast",
+      "secondary": "sunrise",
+      "relation": "carry"
+    },
+    "sceneSummary": "The totem carries toast toward a sunrise viewpoint."
+  },
+  {
+    "id": 1796,
+    "topic": "mornings",
+    "text": "I would rather finish getting ready calmly than shave two minutes off.",
+    "scene": {
+      "primary": "toothbrush",
+      "secondary": "alarm",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A toothbrush stands calmly while the totem inspects the alarm."
+  },
+  {
+    "id": 1797,
+    "topic": "mornings",
+    "text": "I would remind a sleepy friend gently instead of announcing the schedule.",
+    "scene": {
+      "primary": "toothbrush",
+      "secondary": "mug",
+      "relation": "offer"
+    },
+    "sceneSummary": "A toothbrush is offered beside a mug with a gentle gesture."
+  },
+  {
+    "id": 1798,
+    "topic": "mornings",
+    "text": "I would design a morning that requires as few decisions as possible.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "alarm",
+      "relation": "build"
+    },
+    "sceneSummary": "Slippers and alarm anchor a simple two-step morning path."
+  },
+  {
+    "id": 1799,
+    "topic": "mornings",
+    "text": "I would watch the dawn from the doorway without changing out of slippers.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "sunrise",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries its slippers to the threshold of sunrise."
+  },
+  {
+    "id": 1800,
+    "topic": "mornings",
+    "text": "I think an ordinary breakfast deserves a tiny celebration when the sky is pink.",
+    "scene": {
+      "primary": "sunrise",
+      "secondary": "toast",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share toast beneath a celebratory sunrise."
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "databases": [
+    {
+      "name": "likerts-live-staging-db",
+      "databaseName": "likerts_live_staging",
+      "user": "likerts_live_staging",
+      "plan": "0.1c-256mb",
+      "region": "singapore",
+      "postgresMajorVersion": "17",
+      "diskSizeGB": 1,
+      "storageAutoscalingEnabled": false,
+      "connectionPool": "none",
+      "ipAllowList": []
+    }
+  ]
+}

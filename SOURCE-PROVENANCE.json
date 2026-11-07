@@ -1,0 +1,30 @@
+{
+  "schema": "likerts.game-source-import.v1",
+  "source": "Tested QuizScenePass handoff, imported without product-source modification",
+  "sourceSnapshots": {
+    "NativeSource": {
+      "fileCount": 369,
+      "aggregateSHA256": "adb5f7a73acbb5a3d9409d06166923c8a97ea49b98eb86941598105b780d4573"
+    },
+    "SharedFixtures": {
+      "fileCount": 3,
+      "aggregateSHA256": "d86f9cc269be38f0b28e5fabebce3431d365cbe3527e9f16eb6f481ddc40fdfb"
+    },
+    "WebSource/live-game": {
+      "fileCount": 138,
+      "aggregateSHA256": "72c2212e2c729a43432a10cd0061b2cac05b608e2e15b4f4e5b6d8d61110a188"
+    }
+  },
+  "sourceArchiveSHA256": "1f33875e0304963bf226f371a2e23327490b7863c436f7c6a026fe0b16564ba4",
+  "historyBaseCommit": "d3d7d2842bf74869b829df74c272d09560d35f31",
+  "archivedProduct": "Obsolete survey implementation is removed from the active branch; prior commits and release tags remain recoverable.",
+  "runtimeAndPrivateExclusions": [
+    "node_modules",
+    ".private",
+    "DerivedData",
+    ".env",
+    "databases",
+    "recordings",
+    "credentials"
+  ]
+}

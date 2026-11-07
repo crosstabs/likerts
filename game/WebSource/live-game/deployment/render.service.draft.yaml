@@ -1,0 +1,33 @@
+{
+  "services": [
+    {
+      "type": "web",
+      "name": "likerts-live-staging",
+      "runtime": "node",
+      "repo": "https://github.com/crosstabs/likerts",
+      "branch": "codex/live-multiplayer-v1",
+      "rootDir": "live-game",
+      "plan": "starter",
+      "region": "singapore",
+      "numInstances": 1,
+      "autoDeployTrigger": "off",
+      "buildCommand": "npm ci --omit=dev --ignore-scripts && node scripts/check-runtime.mjs",
+      "startCommand": "node deployment/render-entry.mjs",
+      "healthCheckPath": "/api/live/health",
+      "maxShutdownDelaySeconds": 30,
+      "envVars": [
+        { "key": "NODE_ENV", "value": "production" },
+        { "key": "NODE_VERSION", "value": "22.23.4" },
+        { "key": "WEB_CONCURRENCY", "value": "1" },
+        { "key": "LIKERTS_LIVE_DATABASE_URL", "sync": false },
+        { "key": "LIKERTS_LIVE_EXPECTED_DATABASE", "value": "likerts_live_staging" },
+        { "key": "LIKERTS_LIVE_MAX_ROOMS", "value": "1" },
+        { "key": "LIKERTS_LIVE_MAX_PLAYERS", "value": "12" },
+        { "key": "LIKERTS_LIVE_MAX_SOCKETS", "value": "32" },
+        { "key": "LIKERTS_LIVE_MAX_SOCKETS_PER_ROOM", "value": "26" },
+        { "key": "LIKERTS_LIVE_MAX_SOCKETS_PER_MEMBER", "value": "2" },
+        { "key": "LIKERTS_LIVE_MAX_REQUESTS", "value": "1000" }
+      ]
+    }
+  ]
+}

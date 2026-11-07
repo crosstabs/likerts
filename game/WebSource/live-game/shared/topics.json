@@ -1,0 +1,242 @@
+[
+  {
+    "id": "snacks",
+    "title": "Snack logic",
+    "props": [
+      "cookie",
+      "popcorn",
+      "pretzel",
+      "bento",
+      "icecream",
+      "fruit"
+    ]
+  },
+  {
+    "id": "kitchen",
+    "title": "Kitchen chaos",
+    "props": [
+      "kettle",
+      "toaster",
+      "spatula",
+      "pancakes",
+      "mixingbowl",
+      "teapot"
+    ]
+  },
+  {
+    "id": "pets",
+    "title": "Pet people",
+    "props": [
+      "dog",
+      "cat",
+      "rabbit",
+      "turtle",
+      "fish",
+      "bird"
+    ]
+  },
+  {
+    "id": "outdoors",
+    "title": "Outside voices",
+    "props": [
+      "tent",
+      "lantern",
+      "boots",
+      "compass",
+      "tree",
+      "campmug"
+    ]
+  },
+  {
+    "id": "travel",
+    "title": "Away we go",
+    "props": [
+      "suitcase",
+      "map",
+      "camera",
+      "train",
+      "sunhat",
+      "postcard"
+    ]
+  },
+  {
+    "id": "home",
+    "title": "Home comforts",
+    "props": [
+      "sofa",
+      "lamp",
+      "plant",
+      "slippers",
+      "pillow",
+      "clock"
+    ]
+  },
+  {
+    "id": "hobbies",
+    "title": "Hobby spiral",
+    "props": [
+      "paintbrush",
+      "yarn",
+      "puzzle",
+      "clay",
+      "camera",
+      "sketchbook"
+    ]
+  },
+  {
+    "id": "music",
+    "title": "Sound opinions",
+    "props": [
+      "headphones",
+      "microphone",
+      "guitar",
+      "piano",
+      "record",
+      "drum"
+    ]
+  },
+  {
+    "id": "movies",
+    "title": "Movie night",
+    "props": [
+      "clapperboard",
+      "popcorn",
+      "ticket",
+      "projector",
+      "sofa",
+      "filmreel"
+    ]
+  },
+  {
+    "id": "books",
+    "title": "One more chapter",
+    "props": [
+      "novel",
+      "bookmark",
+      "booklamp",
+      "teacup",
+      "glasses",
+      "bookstack"
+    ]
+  },
+  {
+    "id": "social",
+    "title": "Social battery",
+    "props": [
+      "invitation",
+      "doormat",
+      "teacup",
+      "chair",
+      "balloon",
+      "conversation"
+    ]
+  },
+  {
+    "id": "games",
+    "title": "Friendly rivalry",
+    "props": [
+      "dice",
+      "controller",
+      "chesspiece",
+      "puzzle",
+      "trophy",
+      "cards"
+    ]
+  },
+  {
+    "id": "style",
+    "title": "Personal style",
+    "props": [
+      "sneaker",
+      "scarf",
+      "sunglasses",
+      "cap",
+      "backpack",
+      "socks"
+    ]
+  },
+  {
+    "id": "celebrations",
+    "title": "Make a moment",
+    "props": [
+      "cake",
+      "gift",
+      "confetti",
+      "partyhat",
+      "candle",
+      "ribbon"
+    ]
+  },
+  {
+    "id": "weather",
+    "title": "Forecast feelings",
+    "props": [
+      "umbrella",
+      "rainboot",
+      "sun",
+      "cloud",
+      "scarf",
+      "snowflake"
+    ]
+  },
+  {
+    "id": "mornings",
+    "title": "Morning person?",
+    "props": [
+      "alarm",
+      "mug",
+      "toast",
+      "toothbrush",
+      "slippers",
+      "sunrise"
+    ]
+  },
+  {
+    "id": "making",
+    "title": "Made by me",
+    "props": [
+      "tape",
+      "scissors",
+      "glue",
+      "cardboard",
+      "buttons",
+      "pencil"
+    ]
+  },
+  {
+    "id": "tinyadventures",
+    "title": "Tiny adventures",
+    "props": [
+      "bike",
+      "kite",
+      "duck",
+      "binoculars",
+      "picnic",
+      "pebble"
+    ]
+  },
+  {
+    "id": "fantasy",
+    "title": "Little legends",
+    "props": [
+      "dragon",
+      "castle",
+      "wand",
+      "treasure",
+      "mushroom",
+      "cloud"
+    ]
+  },
+  {
+    "id": "future",
+    "title": "Future you",
+    "props": [
+      "robot",
+      "rocket",
+      "planet",
+      "hoverboard",
+      "antenna",
+      "star"
+    ]
+  }
+]

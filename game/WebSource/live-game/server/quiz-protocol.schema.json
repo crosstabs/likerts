@@ -1,0 +1,923 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:likerts:live:quiz:protocol:v2",
+  "title": "Likerts shared quiz v2 recipient state",
+  "description": "Strict public projection. Relational constraints (indices, roster identity, score arithmetic and deadlines) are also enforced by client validators and reducer tests.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocolVersion",
+    "mode",
+    "modeVersion",
+    "code",
+    "matchId",
+    "revision",
+    "serverTime",
+    "expiresAt",
+    "role",
+    "self",
+    "phase",
+    "joinLocked",
+    "settings",
+    "hostConnected",
+    "players",
+    "round",
+    "reveal",
+    "leaderboard",
+    "completion",
+    "notice",
+    "quiz"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": 2
+    },
+    "mode": {
+      "const": "quiz"
+    },
+    "modeVersion": {
+      "const": 1
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[A-HJ-NP-Z2-9]{6}$"
+    },
+    "matchId": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "serverTime": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "expiresAt": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "role": {
+      "enum": [
+        "host",
+        "player"
+      ]
+    },
+    "self": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "nickname"
+      ],
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "const": "host"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+            }
+          ]
+        },
+        "nickname": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f\\u2028\\u2029]*$"
+        }
+      }
+    },
+    "phase": {
+      "enum": [
+        "lobby",
+        "answer",
+        "reveal",
+        "finished"
+      ]
+    },
+    "joinLocked": {
+      "type": "boolean"
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capacity"
+      ],
+      "properties": {
+        "capacity": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 50
+        }
+      }
+    },
+    "hostConnected": {
+      "type": "boolean"
+    },
+    "players": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nickname",
+          "avatar",
+          "connected"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+          },
+          "nickname": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f\\u2028\\u2029]*$"
+          },
+          "avatar": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "connected": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "round": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "index",
+            "total",
+            "questionId",
+            "prompt",
+            "answers",
+            "deadline",
+            "submittedCount",
+            "eligibleCount",
+            "ownAnswer"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+            },
+            "index": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30
+            },
+            "total": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30
+            },
+            "questionId": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+            },
+            "prompt": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240,
+              "pattern": "^[^\\u0000-\\u0009\\u000b-\\u001f\\u007f-\\u009f]*$"
+            },
+            "answers": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 4,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100,
+                "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f\\u2028\\u2029]*$"
+              }
+            },
+            "deadline": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "submittedCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 50
+            },
+            "eligibleCount": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 50
+            },
+            "ownAnswer": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 3
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reveal": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "correctAnswer",
+            "explanation",
+            "valid",
+            "reason",
+            "results",
+            "groupAccuracy"
+          ],
+          "properties": {
+            "correctAnswer": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 3
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "explanation": {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 240,
+              "pattern": "^[^\\u0000-\\u0009\\u000b-\\u001f\\u007f-\\u009f]*$"
+            },
+            "valid": {
+              "type": "boolean"
+            },
+            "reason": {
+              "enum": [
+                "answered",
+                "timeout",
+                "host_revealed",
+                "host_ended",
+                "player_left",
+                "player_removed"
+              ]
+            },
+            "results": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 50,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "playerId",
+                  "nickname",
+                  "value",
+                  "points"
+                ],
+                "properties": {
+                  "playerId": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40,
+                    "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f\\u2028\\u2029]*$"
+                  },
+                  "value": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 3
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "points": {
+                    "enum": [
+                      0,
+                      1000
+                    ]
+                  }
+                }
+              }
+            },
+            "groupAccuracy": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "valid": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "valid"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "correctAnswer": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3
+                  },
+                  "reason": {
+                    "enum": [
+                      "answered",
+                      "timeout",
+                      "host_revealed"
+                    ]
+                  },
+                  "groupAccuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "correctAnswer": {
+                    "type": "null"
+                  },
+                  "explanation": {
+                    "const": ""
+                  },
+                  "reason": {
+                    "enum": [
+                      "host_ended",
+                      "player_left",
+                      "player_removed"
+                    ]
+                  },
+                  "groupAccuracy": {
+                    "type": "null"
+                  },
+                  "results": {
+                    "items": {
+                      "properties": {
+                        "points": {
+                          "const": 0
+                        },
+                        "value": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "leaderboard": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "playerId",
+          "nickname",
+          "points",
+          "opportunities",
+          "accuracy",
+          "rank"
+        ],
+        "properties": {
+          "playerId": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+          },
+          "nickname": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f\\u2028\\u2029]*$"
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 30000
+          },
+          "opportunities": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 30
+          },
+          "accuracy": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rank": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 50
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "completion": {
+      "enum": [
+        null,
+        "complete",
+        "incomplete"
+      ]
+    },
+    "notice": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f\\u2028\\u2029]*$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "quiz": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "questionCount"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f\\u2028\\u2029]*$"
+        },
+        "questionCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "lobby"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "properties": {
+          "round": {
+            "type": "null"
+          },
+          "reveal": {
+            "type": "null"
+          },
+          "completion": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "answer"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "properties": {
+          "round": {
+            "type": "object"
+          },
+          "reveal": {
+            "type": "null"
+          },
+          "completion": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "reveal"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "properties": {
+          "round": {
+            "type": "object"
+          },
+          "reveal": {
+            "type": "object"
+          },
+          "completion": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "finished"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "properties": {
+          "round": {
+            "type": "object"
+          },
+          "reveal": {
+            "type": "object"
+          },
+          "completion": {
+            "enum": [
+              "complete",
+              "incomplete"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "role": {
+            "const": "host"
+          }
+        },
+        "required": [
+          "role"
+        ]
+      },
+      "then": {
+        "properties": {
+          "self": {
+            "properties": {
+              "id": {
+                "const": "host"
+              }
+            }
+          },
+          "round": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "ownAnswer": {
+                    "type": "null"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "self": {
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "completion": {
+            "const": "complete"
+          }
+        },
+        "required": [
+          "completion"
+        ]
+      },
+      "then": {
+        "properties": {
+          "leaderboard": {
+            "items": {
+              "properties": {
+                "rank": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 50
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "leaderboard": {
+            "items": {
+              "properties": {
+                "rank": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reveal": {
+            "type": "object",
+            "properties": {
+              "valid": {
+                "const": false
+              }
+            },
+            "required": [
+              "valid"
+            ]
+          }
+        },
+        "required": [
+          "reveal"
+        ]
+      },
+      "then": {
+        "properties": {
+          "round": {
+            "properties": {
+              "ownAnswer": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "round": {
+            "type": "object",
+            "properties": {
+              "answers": {
+                "maxItems": 2
+              }
+            }
+          }
+        },
+        "required": [
+          "round"
+        ]
+      },
+      "then": {
+        "properties": {
+          "round": {
+            "properties": {
+              "ownAnswer": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "reveal": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "correctAnswer": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "results": {
+                    "items": {
+                      "properties": {
+                        "value": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 1
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "round": {
+            "type": "object",
+            "properties": {
+              "answers": {
+                "maxItems": 3
+              }
+            }
+          }
+        },
+        "required": [
+          "round"
+        ]
+      },
+      "then": {
+        "properties": {
+          "round": {
+            "properties": {
+              "ownAnswer": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "reveal": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "correctAnswer": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "results": {
+                    "items": {
+                      "properties": {
+                        "value": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 2
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1301,
+    "topic": "hobbies",
+    "text": "I would photograph my paintbrushes before making a single painting.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "paintbrush",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A camera admires a carefully arranged paintbrush."
+  },
+  {
+    "id": 1302,
+    "topic": "hobbies",
+    "text": "I think a paintbrush jar can be more beautiful than the finished photograph.",
+    "scene": {
+      "primary": "paintbrush",
+      "secondary": "camera",
+      "relation": "choose"
+    },
+    "sceneSummary": "A paintbrush claims attention from a camera."
+  },
+  {
+    "id": 1303,
+    "topic": "hobbies",
+    "text": "I would buy yarn because its colours matched my sketchbook.",
+    "scene": {
+      "primary": "yarn",
+      "secondary": "sketchbook",
+      "relation": "choose"
+    },
+    "sceneSummary": "Yarn selects a colour beside a sketchbook."
+  },
+  {
+    "id": 1304,
+    "topic": "hobbies",
+    "text": "I would sketch a sweater before learning how to make its first stitch.",
+    "scene": {
+      "primary": "sketchbook",
+      "secondary": "yarn",
+      "relation": "build"
+    },
+    "sceneSummary": "A sketchbook plans a yarn sweater."
+  },
+  {
+    "id": 1305,
+    "topic": "hobbies",
+    "text": "I would leave a puzzle unfinished rather than disturb a perfect clay sculpture.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "clay",
+      "relation": "share"
+    },
+    "sceneSummary": "A puzzle shares its table with a clay sculpture."
+  },
+  {
+    "id": 1306,
+    "topic": "hobbies",
+    "text": "I would use spare clay to mark the puzzle pieces I kept losing.",
+    "scene": {
+      "primary": "clay",
+      "secondary": "puzzle",
+      "relation": "build"
+    },
+    "sceneSummary": "Clay makes tiny holders around puzzle pieces."
+  },
+  {
+    "id": 1307,
+    "topic": "hobbies",
+    "text": "I would pack a camera for a craft afternoon and forget my paintbrush.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "paintbrush",
+      "relation": "carry"
+    },
+    "sceneSummary": "A camera travels beside a forgotten paintbrush."
+  },
+  {
+    "id": 1308,
+    "topic": "hobbies",
+    "text": "I would rather paint a slightly wobbly picture than photograph a perfect one.",
+    "scene": {
+      "primary": "paintbrush",
+      "secondary": "camera",
+      "relation": "offer"
+    },
+    "sceneSummary": "A paintbrush presents its work to a camera."
+  },
+  {
+    "id": 1309,
+    "topic": "hobbies",
+    "text": "I would turn a tangled yarn ball into a model for my next clay creature.",
+    "scene": {
+      "primary": "yarn",
+      "secondary": "clay",
+      "relation": "offer"
+    },
+    "sceneSummary": "Yarn poses for a clay creature."
+  },
+  {
+    "id": 1310,
+    "topic": "hobbies",
+    "text": "I would abandon a clay project if a new yarn colour caught my eye.",
+    "scene": {
+      "primary": "clay",
+      "secondary": "yarn",
+      "relation": "choose"
+    },
+    "sceneSummary": "Clay weighs a distracting ball of yarn."
+  },
+  {
+    "id": 1311,
+    "topic": "hobbies",
+    "text": "I would take a photo of each puzzle milestone like it was a major expedition.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "puzzle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A camera documents the puzzle's new edge."
+  },
+  {
+    "id": 1312,
+    "topic": "hobbies",
+    "text": "I would choose a puzzle of a camera before learning to use the real thing.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "camera",
+      "relation": "choose"
+    },
+    "sceneSummary": "A puzzle compares itself with a camera."
+  },
+  {
+    "id": 1313,
+    "topic": "hobbies",
+    "text": "I think a messy sketchbook makes a paintbrush feel welcome.",
+    "scene": {
+      "primary": "sketchbook",
+      "secondary": "paintbrush",
+      "relation": "offer"
+    },
+    "sceneSummary": "A sketchbook opens a messy page for a paintbrush."
+  },
+  {
+    "id": 1314,
+    "topic": "hobbies",
+    "text": "I would keep my best paintbrush away from my experimental sketchbook.",
+    "scene": {
+      "primary": "paintbrush",
+      "secondary": "sketchbook",
+      "relation": "hide"
+    },
+    "sceneSummary": "A prized paintbrush hides behind a closed sketchbook."
+  },
+  {
+    "id": 1315,
+    "topic": "hobbies",
+    "text": "I would knit a tiny cover for my camera before making anything useful.",
+    "scene": {
+      "primary": "yarn",
+      "secondary": "camera",
+      "relation": "build"
+    },
+    "sceneSummary": "Yarn wraps a little camera cover."
+  },
+  {
+    "id": 1316,
+    "topic": "hobbies",
+    "text": "I would bring a camera just to remember where all my yarn was stored.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "yarn",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A camera surveys a sprawling yarn stash."
+  },
+  {
+    "id": 1317,
+    "topic": "hobbies",
+    "text": "I would use a puzzle break to decide what belongs on my next sketchbook page.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "sketchbook",
+      "relation": "offer"
+    },
+    "sceneSummary": "A puzzle offers inspiration to an open sketchbook."
+  },
+  {
+    "id": 1318,
+    "topic": "hobbies",
+    "text": "I would draw the missing puzzle piece instead of looking under the table.",
+    "scene": {
+      "primary": "sketchbook",
+      "secondary": "puzzle",
+      "relation": "build"
+    },
+    "sceneSummary": "A sketchbook invents the puzzle's absent piece."
+  },
+  {
+    "id": 1319,
+    "topic": "hobbies",
+    "text": "I think clay fingerprints are more charming than perfectly smooth brush marks.",
+    "scene": {
+      "primary": "clay",
+      "secondary": "paintbrush",
+      "relation": "choose"
+    },
+    "sceneSummary": "Clay displays fingerprints beside a neat paintbrush."
+  },
+  {
+    "id": 1320,
+    "topic": "hobbies",
+    "text": "I would use a paintbrush handle to give my clay creature a ridiculous hairstyle.",
+    "scene": {
+      "primary": "paintbrush",
+      "secondary": "clay",
+      "relation": "build"
+    },
+    "sceneSummary": "A paintbrush styles a clay creature's hair."
+  },
+  {
+    "id": 1321,
+    "topic": "hobbies",
+    "text": "I would finish a puzzle before starting the yarn project already on my lap.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "yarn",
+      "relation": "choose"
+    },
+    "sceneSummary": "A puzzle wins attention over waiting yarn."
+  },
+  {
+    "id": 1322,
+    "topic": "hobbies",
+    "text": "I would knit a bag only large enough to carry my favourite puzzle piece.",
+    "scene": {
+      "primary": "yarn",
+      "secondary": "puzzle",
+      "relation": "carry"
+    },
+    "sceneSummary": "Yarn forms a tiny bag for a puzzle piece."
+  },
+  {
+    "id": 1323,
+    "topic": "hobbies",
+    "text": "I would let a clay project expand until it covered my sketchbook.",
+    "scene": {
+      "primary": "clay",
+      "secondary": "sketchbook",
+      "relation": "orbit"
+    },
+    "sceneSummary": "Clay projects crowd around a sketchbook."
+  },
+  {
+    "id": 1324,
+    "topic": "hobbies",
+    "text": "I would keep a sketchbook full of clay ideas and make just one.",
+    "scene": {
+      "primary": "sketchbook",
+      "secondary": "clay",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A sketchbook considers one small clay model."
+  },
+  {
+    "id": 1325,
+    "topic": "hobbies",
+    "text": "I would frame a camera photo of my sketchbook instead of tearing out a page.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "sketchbook",
+      "relation": "offer"
+    },
+    "sceneSummary": "A camera offers a picture of the open sketchbook."
+  },
+  {
+    "id": 1326,
+    "topic": "hobbies",
+    "text": "I would sketch a holiday scene before reaching for my camera.",
+    "scene": {
+      "primary": "sketchbook",
+      "secondary": "camera",
+      "relation": "choose"
+    },
+    "sceneSummary": "A sketchbook takes the view before a camera."
+  },
+  {
+    "id": 1327,
+    "topic": "hobbies",
+    "text": "I would make a clay stand so my camera could watch me make more clay stands.",
+    "scene": {
+      "primary": "clay",
+      "secondary": "camera",
+      "relation": "balance"
+    },
+    "sceneSummary": "A clay stand balances a camera."
+  },
+  {
+    "id": 1328,
+    "topic": "hobbies",
+    "text": "I would photograph a clay mistake before deciding whether to fix it.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "clay",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A camera studies a lopsided clay model."
+  },
+  {
+    "id": 1329,
+    "topic": "hobbies",
+    "text": "I would use a paintbrush to untangle yarn if the proper tools were across the room.",
+    "scene": {
+      "primary": "paintbrush",
+      "secondary": "yarn",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A paintbrush works through a yarn tangle."
+  },
+  {
+    "id": 1330,
+    "topic": "hobbies",
+    "text": "I would keep paint-stained yarn because it looked like an artistic choice.",
+    "scene": {
+      "primary": "yarn",
+      "secondary": "paintbrush",
+      "relation": "share"
+    },
+    "sceneSummary": "Yarn shares paint marks with a paintbrush."
+  },
+  {
+    "id": 1331,
+    "topic": "hobbies",
+    "text": "I would turn a puzzle box into a home for my paintbrush collection.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "paintbrush",
+      "relation": "build"
+    },
+    "sceneSummary": "A puzzle box becomes a paintbrush home."
+  },
+  {
+    "id": 1332,
+    "topic": "hobbies",
+    "text": "I would paint my own puzzle even if solving it took longer than making it.",
+    "scene": {
+      "primary": "paintbrush",
+      "secondary": "puzzle",
+      "relation": "build"
+    },
+    "sceneSummary": "A paintbrush creates a puzzle picture."
+  },
+  {
+    "id": 1333,
+    "topic": "hobbies",
+    "text": "I would carry a sketchbook everywhere and only draw my craft supplies.",
+    "scene": {
+      "primary": "sketchbook",
+      "secondary": "yarn",
+      "relation": "carry"
+    },
+    "sceneSummary": "A sketchbook travels with its yarn model."
+  },
+  {
+    "id": 1334,
+    "topic": "hobbies",
+    "text": "I would save a short piece of yarn as a bookmark for a future drawing.",
+    "scene": {
+      "primary": "yarn",
+      "secondary": "sketchbook",
+      "relation": "hide"
+    },
+    "sceneSummary": "Yarn marks a page inside a sketchbook."
+  },
+  {
+    "id": 1335,
+    "topic": "hobbies",
+    "text": "I would rather share a clay-making table than share my puzzle table.",
+    "scene": {
+      "primary": "clay",
+      "secondary": "puzzle",
+      "relation": "offer"
+    },
+    "sceneSummary": "Clay offers a little workspace beside a puzzle."
+  },
+  {
+    "id": 1336,
+    "topic": "hobbies",
+    "text": "I would balance puzzle pieces on a clay tower just to see how high they could go.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "clay",
+      "relation": "balance"
+    },
+    "sceneSummary": "Puzzle pieces balance on a clay tower."
+  },
+  {
+    "id": 1337,
+    "topic": "hobbies",
+    "text": "I would lend my camera before lending the paintbrush that feels exactly right.",
+    "scene": {
+      "primary": "paintbrush",
+      "secondary": "camera",
+      "relation": "hide"
+    },
+    "sceneSummary": "A favourite paintbrush shelters behind a camera."
+  },
+  {
+    "id": 1338,
+    "topic": "hobbies",
+    "text": "I would make camera portraits of people holding their favourite paintbrush.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "paintbrush",
+      "relation": "offer"
+    },
+    "sceneSummary": "A camera welcomes a paintbrush portrait sitter."
+  },
+  {
+    "id": 1339,
+    "topic": "hobbies",
+    "text": "I would trade a neat yarn shelf for more space to spread out a puzzle.",
+    "scene": {
+      "primary": "yarn",
+      "secondary": "puzzle",
+      "relation": "offer"
+    },
+    "sceneSummary": "Yarn gives its shelf space to a puzzle."
+  },
+  {
+    "id": 1340,
+    "topic": "hobbies",
+    "text": "I would sort puzzle pieces into yarn baskets because the colours matched.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "yarn",
+      "relation": "stack"
+    },
+    "sceneSummary": "Puzzle pieces stack in soft yarn baskets."
+  },
+  {
+    "id": 1341,
+    "topic": "hobbies",
+    "text": "I think a sketchbook page deserves the same patience as a clay sculpture.",
+    "scene": {
+      "primary": "sketchbook",
+      "secondary": "clay",
+      "relation": "share"
+    },
+    "sceneSummary": "A sketchbook and clay share a slow afternoon."
+  },
+  {
+    "id": 1342,
+    "topic": "hobbies",
+    "text": "I would make a clay version of my sketchbook to avoid filling the real one.",
+    "scene": {
+      "primary": "clay",
+      "secondary": "sketchbook",
+      "relation": "build"
+    },
+    "sceneSummary": "Clay builds a miniature closed sketchbook."
+  },
+  {
+    "id": 1343,
+    "topic": "hobbies",
+    "text": "I would bring a camera to a puzzle club and end up helping with the edge pieces.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "puzzle",
+      "relation": "share"
+    },
+    "sceneSummary": "A camera joins a puzzle table."
+  },
+  {
+    "id": 1344,
+    "topic": "hobbies",
+    "text": "I would make a puzzle from an intentionally blurry camera picture.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "camera",
+      "relation": "build"
+    },
+    "sceneSummary": "A puzzle grows around a blurry camera image."
+  },
+  {
+    "id": 1345,
+    "topic": "hobbies",
+    "text": "I would keep a paintbrush with a funny shape even if it only made one kind of mark.",
+    "scene": {
+      "primary": "paintbrush",
+      "secondary": "clay",
+      "relation": "balance"
+    },
+    "sceneSummary": "An odd paintbrush balances on a clay rest."
+  },
+  {
+    "id": 1346,
+    "topic": "hobbies",
+    "text": "I would build a clay creature whose entire job was holding a paintbrush.",
+    "scene": {
+      "primary": "clay",
+      "secondary": "paintbrush",
+      "relation": "carry"
+    },
+    "sceneSummary": "A clay creature carries a paintbrush."
+  },
+  {
+    "id": 1347,
+    "topic": "hobbies",
+    "text": "I would make a yarn strap for my camera and spend longer choosing its colour.",
+    "scene": {
+      "primary": "camera",
+      "secondary": "yarn",
+      "relation": "choose"
+    },
+    "sceneSummary": "A camera chooses a colourful yarn strap."
+  },
+  {
+    "id": 1348,
+    "topic": "hobbies",
+    "text": "I would stack finished sketchbooks beside my camera as proof I do things slowly.",
+    "scene": {
+      "primary": "sketchbook",
+      "secondary": "camera",
+      "relation": "stack"
+    },
+    "sceneSummary": "Sketchbooks stack beside a small camera."
+  },
+  {
+    "id": 1349,
+    "topic": "hobbies",
+    "text": "I would use clay to save the shape of an interesting yarn knot.",
+    "scene": {
+      "primary": "clay",
+      "secondary": "yarn",
+      "relation": "inspect"
+    },
+    "sceneSummary": "Clay studies a knotted ball of yarn."
+  },
+  {
+    "id": 1350,
+    "topic": "hobbies",
+    "text": "I would enjoy arranging my paintbrush beside a sketchbook more than starting the page.",
+    "scene": {
+      "primary": "sketchbook",
+      "secondary": "paintbrush",
+      "relation": "balance"
+    },
+    "sceneSummary": "A sketchbook balances a paintbrush across its blank page."
+  }
+]

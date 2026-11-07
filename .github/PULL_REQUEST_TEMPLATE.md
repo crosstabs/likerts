@@ -1,11 +1,11 @@
 ## Problem and change
 
-<!-- What user problem does this solve? What behaves differently? Link a related issue if there is one. -->
+<!-- Concrete user problem and resulting behavior. -->
 
 ## Verification
 
-<!-- Relevant commands/results, reproduction or screenshots. Say what could not be tested. See CONTRIBUTING.md for focused checks. -->
+<!-- Relevant commands, actual gameplay and rendered results; state anything untested. -->
 
 ## Compatibility
 
-<!-- When applicable: public contract, SDK, migration, deployment or generated reference changes. Delete this section when it does not apply. -->
+<!-- When applicable: game protocol, saved quiz files, native clients and deployment configuration. -->

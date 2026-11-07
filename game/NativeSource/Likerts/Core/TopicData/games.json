@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1551,
+    "topic": "games",
+    "text": "I would choose a board game over a video game when friends come over.",
+    "scene": {
+      "primary": "dice",
+      "secondary": "controller",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses dice over a waiting controller."
+  },
+  {
+    "id": 1552,
+    "topic": "games",
+    "text": "I care more about making a clever move than winning the whole game.",
+    "scene": {
+      "primary": "chesspiece",
+      "secondary": "trophy",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character admires a chess piece beside the trophy."
+  },
+  {
+    "id": 1553,
+    "topic": "games",
+    "text": "I like a game where everyone works together more than one where somebody loses.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "cards",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share a puzzle instead of rival cards."
+  },
+  {
+    "id": 1554,
+    "topic": "games",
+    "text": "I pretend not to care about the score until I start doing well.",
+    "scene": {
+      "primary": "trophy",
+      "secondary": "dice",
+      "relation": "hide"
+    },
+    "sceneSummary": "A trophy hides behind an innocent-looking die."
+  },
+  {
+    "id": 1555,
+    "topic": "games",
+    "text": "I happily hand over the controls when someone else wants to try.",
+    "scene": {
+      "primary": "controller",
+      "secondary": "puzzle",
+      "relation": "offer"
+    },
+    "sceneSummary": "A controller is offered beside a cooperative puzzle."
+  },
+  {
+    "id": 1556,
+    "topic": "games",
+    "text": "I learn a new game faster by playing badly than by hearing every rule first.",
+    "scene": {
+      "primary": "cards",
+      "secondary": "chesspiece",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a trial game from cards and chess."
+  },
+  {
+    "id": 1557,
+    "topic": "games",
+    "text": "I check the final score even when we agreed it was just for fun.",
+    "scene": {
+      "primary": "dice",
+      "secondary": "trophy",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects the dice beside a prominent trophy."
+  },
+  {
+    "id": 1558,
+    "topic": "games",
+    "text": "I enjoy thinking for several minutes before making one tiny move.",
+    "scene": {
+      "primary": "chesspiece",
+      "secondary": "puzzle",
+      "relation": "balance"
+    },
+    "sceneSummary": "A chess piece balances above an unfinished puzzle."
+  },
+  {
+    "id": 1559,
+    "topic": "games",
+    "text": "I would rather solve a cosy puzzle than chase a high score.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "controller",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a puzzle over a controller."
+  },
+  {
+    "id": 1560,
+    "topic": "games",
+    "text": "I enjoy celebrating a friend's surprising victory even when it means I lost.",
+    "scene": {
+      "primary": "trophy",
+      "secondary": "cards",
+      "relation": "offer"
+    },
+    "sceneSummary": "A trophy is offered across a small hand of cards."
+  },
+  {
+    "id": 1561,
+    "topic": "games",
+    "text": "I try every button before looking at what the buttons are supposed to do.",
+    "scene": {
+      "primary": "controller",
+      "secondary": "dice",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects a controller beside experimental dice."
+  },
+  {
+    "id": 1562,
+    "topic": "games",
+    "text": "I organise my hand neatly even if it gives away how worried I am.",
+    "scene": {
+      "primary": "cards",
+      "secondary": "puzzle",
+      "relation": "stack"
+    },
+    "sceneSummary": "Cards form a precise stack beside a puzzle."
+  },
+  {
+    "id": 1563,
+    "topic": "games",
+    "text": "I bring a tiny game on a trip in case everybody gets bored.",
+    "scene": {
+      "primary": "dice",
+      "secondary": "chesspiece",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries dice and a chess piece together."
+  },
+  {
+    "id": 1564,
+    "topic": "games",
+    "text": "I keep a good move to myself until the exact dramatic moment.",
+    "scene": {
+      "primary": "chesspiece",
+      "secondary": "cards",
+      "relation": "hide"
+    },
+    "sceneSummary": "A chess piece hides behind a fan of cards."
+  },
+  {
+    "id": 1565,
+    "topic": "games",
+    "text": "I feel a little proud when I finish a puzzle without checking a hint.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "trophy",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects the final puzzle piece beside a trophy."
+  },
+  {
+    "id": 1566,
+    "topic": "games",
+    "text": "I would rather attempt a ridiculous trick than protect a perfect score.",
+    "scene": {
+      "primary": "trophy",
+      "secondary": "controller",
+      "relation": "balance"
+    },
+    "sceneSummary": "A trophy balances precariously above a controller."
+  },
+  {
+    "id": 1567,
+    "topic": "games",
+    "text": "I can enjoy watching somebody else play without needing a turn.",
+    "scene": {
+      "primary": "controller",
+      "secondary": "chesspiece",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters watch a controller beside a chess piece."
+  },
+  {
+    "id": 1568,
+    "topic": "games",
+    "text": "I would teach my favourite game to someone who has never played it.",
+    "scene": {
+      "primary": "cards",
+      "secondary": "dice",
+      "relation": "offer"
+    },
+    "sceneSummary": "A character offers cards with a demonstration die."
+  },
+  {
+    "id": 1569,
+    "topic": "games",
+    "text": "I invent a house rule when the official version feels too slow.",
+    "scene": {
+      "primary": "dice",
+      "secondary": "puzzle",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a new rule from dice and puzzle pieces."
+  },
+  {
+    "id": 1570,
+    "topic": "games",
+    "text": "I prefer a game that gives me time to think before anything happens.",
+    "scene": {
+      "primary": "chesspiece",
+      "secondary": "controller",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses slow chess over an active controller."
+  },
+  {
+    "id": 1571,
+    "topic": "games",
+    "text": "I like receiving one small hint instead of being told the whole solution.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "chesspiece",
+      "relation": "share"
+    },
+    "sceneSummary": "A puzzle piece is shared beside a thoughtful chess piece."
+  },
+  {
+    "id": 1572,
+    "topic": "games",
+    "text": "I would keep an unfinished puzzle on the table for a week.",
+    "scene": {
+      "primary": "trophy",
+      "secondary": "puzzle",
+      "relation": "hide"
+    },
+    "sceneSummary": "A trophy waits behind a sprawling unfinished puzzle."
+  },
+  {
+    "id": 1573,
+    "topic": "games",
+    "text": "I would appoint myself keeper of the rule cards while a friend handles the complicated controller.",
+    "scene": {
+      "primary": "controller",
+      "secondary": "cards",
+      "relation": "carry"
+    },
+    "sceneSummary": "One totem carries the rule cards while another takes charge of the controller."
+  },
+  {
+    "id": 1574,
+    "topic": "games",
+    "text": "I suspect a quiet player has a brilliant plan until proven otherwise.",
+    "scene": {
+      "primary": "cards",
+      "secondary": "trophy",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character studies hidden cards beside the trophy."
+  },
+  {
+    "id": 1575,
+    "topic": "games",
+    "text": "I can talk about my day while playing a game that barely needs my attention.",
+    "scene": {
+      "primary": "dice",
+      "secondary": "controller",
+      "relation": "balance"
+    },
+    "sceneSummary": "A die balances over a relaxed controller."
+  },
+  {
+    "id": 1576,
+    "topic": "games",
+    "text": "I would let a beginner undo a mistake even in the final round.",
+    "scene": {
+      "primary": "chesspiece",
+      "secondary": "trophy",
+      "relation": "offer"
+    },
+    "sceneSummary": "A chess piece offers a second chance beside the trophy."
+  },
+  {
+    "id": 1577,
+    "topic": "games",
+    "text": "I prefer one long game to switching activities every ten minutes.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "cards",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character settles with a puzzle instead of more cards."
+  },
+  {
+    "id": 1578,
+    "topic": "games",
+    "text": "I remember a funny mistake longer than I remember who won.",
+    "scene": {
+      "primary": "trophy",
+      "secondary": "dice",
+      "relation": "orbit"
+    },
+    "sceneSummary": "Characters circle an errant die while the trophy waits."
+  },
+  {
+    "id": 1579,
+    "topic": "games",
+    "text": "I explore every corner of a game before following the obvious path.",
+    "scene": {
+      "primary": "controller",
+      "secondary": "puzzle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character examines a controller beside branching puzzle pieces."
+  },
+  {
+    "id": 1580,
+    "topic": "games",
+    "text": "I can stick to my own plan even when everyone else looks confident.",
+    "scene": {
+      "primary": "cards",
+      "secondary": "chesspiece",
+      "relation": "balance"
+    },
+    "sceneSummary": "A lone chess piece balances beside confident cards."
+  },
+  {
+    "id": 1581,
+    "topic": "games",
+    "text": "I invite a rematch when a game ends on a lucky roll.",
+    "scene": {
+      "primary": "dice",
+      "secondary": "trophy",
+      "relation": "offer"
+    },
+    "sceneSummary": "A fresh die is offered beside the previous trophy."
+  },
+  {
+    "id": 1582,
+    "topic": "games",
+    "text": "I like games that reward making something more than taking something away.",
+    "scene": {
+      "primary": "chesspiece",
+      "secondary": "puzzle",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a puzzle around a chess piece."
+  },
+  {
+    "id": 1583,
+    "topic": "games",
+    "text": "I save the final puzzle piece so I can place it with a little ceremony.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "controller",
+      "relation": "hide"
+    },
+    "sceneSummary": "One puzzle piece hides beneath the resting controller."
+  },
+  {
+    "id": 1584,
+    "topic": "games",
+    "text": "I would keep a silly homemade trophy from a game night.",
+    "scene": {
+      "primary": "trophy",
+      "secondary": "cards",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries a trophy decorated with cards."
+  },
+  {
+    "id": 1585,
+    "topic": "games",
+    "text": "I choose the unusual character even if everyone says it is harder to use.",
+    "scene": {
+      "primary": "controller",
+      "secondary": "dice",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character picks the controller beside an unusual die."
+  },
+  {
+    "id": 1586,
+    "topic": "games",
+    "text": "I enjoy a game night even when we spend longer chatting than playing.",
+    "scene": {
+      "primary": "cards",
+      "secondary": "puzzle",
+      "relation": "share"
+    },
+    "sceneSummary": "Cards are shared over a slowly forming puzzle."
+  },
+  {
+    "id": 1587,
+    "topic": "games",
+    "text": "I read a game's age range and quietly wonder if it is judging me.",
+    "scene": {
+      "primary": "dice",
+      "secondary": "chesspiece",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects oversized dice beside a tiny chess piece."
+  },
+  {
+    "id": 1588,
+    "topic": "games",
+    "text": "I warn a friend when their next move would end the game immediately.",
+    "scene": {
+      "primary": "chesspiece",
+      "secondary": "cards",
+      "relation": "offer"
+    },
+    "sceneSummary": "A chess piece offers guidance across a hand of cards."
+  },
+  {
+    "id": 1589,
+    "topic": "games",
+    "text": "I display a completed puzzle for a while before putting it away.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "trophy",
+      "relation": "stack"
+    },
+    "sceneSummary": "A completed puzzle stands stacked beside its trophy."
+  },
+  {
+    "id": 1590,
+    "topic": "games",
+    "text": "I count a narrow loss against a much better player as a personal victory.",
+    "scene": {
+      "primary": "trophy",
+      "secondary": "controller",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share a trophy above the controller."
+  },
+  {
+    "id": 1591,
+    "topic": "games",
+    "text": "I return to an old favourite instead of starting something unfamiliar.",
+    "scene": {
+      "primary": "controller",
+      "secondary": "chesspiece",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A controller circles a familiar chess piece."
+  },
+  {
+    "id": 1592,
+    "topic": "games",
+    "text": "I pick a game because it fits the group rather than because I am good at it.",
+    "scene": {
+      "primary": "cards",
+      "secondary": "dice",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses friendly cards over competitive dice."
+  },
+  {
+    "id": 1593,
+    "topic": "games",
+    "text": "I quietly hope somebody else volunteers to explain the rules.",
+    "scene": {
+      "primary": "dice",
+      "secondary": "puzzle",
+      "relation": "hide"
+    },
+    "sceneSummary": "A die hides behind a complicated-looking puzzle."
+  },
+  {
+    "id": 1594,
+    "topic": "games",
+    "text": "I will move the whole game to a sunnier spot rather than stop playing.",
+    "scene": {
+      "primary": "chesspiece",
+      "secondary": "controller",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries chess and controller to another table."
+  },
+  {
+    "id": 1595,
+    "topic": "games",
+    "text": "I invite the person watching from the side to help with one move.",
+    "scene": {
+      "primary": "puzzle",
+      "secondary": "chesspiece",
+      "relation": "offer"
+    },
+    "sceneSummary": "A puzzle piece is offered beside a waiting chess piece."
+  },
+  {
+    "id": 1596,
+    "topic": "games",
+    "text": "I would choose a beautiful game even if setting it up took ages.",
+    "scene": {
+      "primary": "trophy",
+      "secondary": "puzzle",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses an elaborate puzzle beside a trophy."
+  },
+  {
+    "id": 1597,
+    "topic": "games",
+    "text": "I tidy every game piece before opening the next game.",
+    "scene": {
+      "primary": "controller",
+      "secondary": "cards",
+      "relation": "stack"
+    },
+    "sceneSummary": "A controller rests above neatly stacked cards."
+  },
+  {
+    "id": 1598,
+    "topic": "games",
+    "text": "I can enjoy a game with a friend who takes winning much more seriously than I do.",
+    "scene": {
+      "primary": "cards",
+      "secondary": "trophy",
+      "relation": "balance"
+    },
+    "sceneSummary": "A small hand of cards balances beside a towering trophy."
+  },
+  {
+    "id": 1599,
+    "topic": "games",
+    "text": "I like taking turns on a single controller more than playing on separate screens.",
+    "scene": {
+      "primary": "dice",
+      "secondary": "controller",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share a controller across a single die."
+  },
+  {
+    "id": 1600,
+    "topic": "games",
+    "text": "I would rather end on a funny round than insist on one final win.",
+    "scene": {
+      "primary": "chesspiece",
+      "secondary": "trophy",
+      "relation": "hide"
+    },
+    "sceneSummary": "A chess piece shelters the trophy after a cheerful finale."
+  }
+]

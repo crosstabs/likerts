@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1951,
+    "topic": "future",
+    "text": "I would choose a robot that folds laundry over a seat on a sightseeing rocket.",
+    "scene": {
+      "primary": "robot",
+      "secondary": "rocket",
+      "relation": "choose"
+    },
+    "sceneSummary": "A helpful robot is chosen while a sightseeing rocket waits."
+  },
+  {
+    "id": 1952,
+    "topic": "future",
+    "text": "I would ask a new robot what it has learned before asking what it can do.",
+    "scene": {
+      "primary": "robot",
+      "secondary": "planet",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a curious robot beside a little planet."
+  },
+  {
+    "id": 1953,
+    "topic": "future",
+    "text": "I would let a robot carry my things while I learned to balance at walking speed.",
+    "scene": {
+      "primary": "robot",
+      "secondary": "hoverboard",
+      "relation": "carry"
+    },
+    "sceneSummary": "A robot carries a small bundle beside a stationary hoverboard."
+  },
+  {
+    "id": 1954,
+    "topic": "future",
+    "text": "I would customise a household robot so it looked less like an appliance.",
+    "scene": {
+      "primary": "robot",
+      "secondary": "antenna",
+      "relation": "build"
+    },
+    "sceneSummary": "A robot is built with a charming decorative antenna."
+  },
+  {
+    "id": 1955,
+    "topic": "future",
+    "text": "I would give a helpful robot a proper thank-you even if it did not require one.",
+    "scene": {
+      "primary": "robot",
+      "secondary": "star",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a star token to a helpful robot."
+  },
+  {
+    "id": 1956,
+    "topic": "future",
+    "text": "I would read every label in a spacecraft before choosing my seat.",
+    "scene": {
+      "primary": "rocket",
+      "secondary": "robot",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a rocket while a robot waits to guide it."
+  },
+  {
+    "id": 1957,
+    "topic": "future",
+    "text": "I would pack a familiar comfort item for a trip to another planet.",
+    "scene": {
+      "primary": "rocket",
+      "secondary": "planet",
+      "relation": "carry"
+    },
+    "sceneSummary": "A rocket carries a small keepsake toward a planet."
+  },
+  {
+    "id": 1958,
+    "topic": "future",
+    "text": "I would choose exploring a future city on foot over trying all its gadgets.",
+    "scene": {
+      "primary": "rocket",
+      "secondary": "hoverboard",
+      "relation": "choose"
+    },
+    "sceneSummary": "A rocket and hoverboard wait at a fork beside a walking totem."
+  },
+  {
+    "id": 1959,
+    "topic": "future",
+    "text": "I would want excellent snacks more than a fancy cabin on a space journey.",
+    "scene": {
+      "primary": "rocket",
+      "secondary": "antenna",
+      "relation": "balance"
+    },
+    "sceneSummary": "A rocket balances beside an antenna marking a modest cabin."
+  },
+  {
+    "id": 1960,
+    "topic": "future",
+    "text": "I could spend a long journey happily watching unfamiliar stars.",
+    "scene": {
+      "primary": "rocket",
+      "secondary": "star",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A rocket orbits a single bright star at an unhurried pace."
+  },
+  {
+    "id": 1961,
+    "topic": "future",
+    "text": "I would introduce a visiting robot to the nicest ordinary place in town.",
+    "scene": {
+      "primary": "planet",
+      "secondary": "robot",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a welcoming planet scene to a small robot."
+  },
+  {
+    "id": 1962,
+    "topic": "future",
+    "text": "I would check the weather on a new planet before planning my first outing.",
+    "scene": {
+      "primary": "planet",
+      "secondary": "rocket",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a planet while its rocket remains parked."
+  },
+  {
+    "id": 1963,
+    "topic": "future",
+    "text": "I would design a future neighbourhood around comfortable places to sit.",
+    "scene": {
+      "primary": "planet",
+      "secondary": "hoverboard",
+      "relation": "build"
+    },
+    "sceneSummary": "A planet and hoverboard form a small walkable neighbourhood."
+  },
+  {
+    "id": 1964,
+    "topic": "future",
+    "text": "I would want a way to send home one tiny daily update from another world.",
+    "scene": {
+      "primary": "planet",
+      "secondary": "antenna",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a planet-side antenna station."
+  },
+  {
+    "id": 1965,
+    "topic": "future",
+    "text": "I would choose a familiar-looking planet over a spectacularly strange one.",
+    "scene": {
+      "primary": "planet",
+      "secondary": "star",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses a calm planet beneath a dramatic star."
+  },
+  {
+    "id": 1966,
+    "topic": "future",
+    "text": "I would ask for the simplest setting on a clever new gadget.",
+    "scene": {
+      "primary": "hoverboard",
+      "secondary": "robot",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a hoverboard with a patient robot nearby."
+  },
+  {
+    "id": 1967,
+    "topic": "future",
+    "text": "I would bring a small local vehicle on a huge trip so I could explore slowly.",
+    "scene": {
+      "primary": "hoverboard",
+      "secondary": "rocket",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a hoverboard toward a waiting rocket."
+  },
+  {
+    "id": 1968,
+    "topic": "future",
+    "text": "I would explore a futuristic place one small neighbourhood at a time.",
+    "scene": {
+      "primary": "hoverboard",
+      "secondary": "planet",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A hoverboard follows a short orbit around a small planet."
+  },
+  {
+    "id": 1969,
+    "topic": "future",
+    "text": "I would switch off a gadget's cheerful sound effects before using it daily.",
+    "scene": {
+      "primary": "hoverboard",
+      "secondary": "antenna",
+      "relation": "choose"
+    },
+    "sceneSummary": "A hoverboard is chosen beside a quiet antenna station."
+  },
+  {
+    "id": 1970,
+    "topic": "future",
+    "text": "I would practise a new skill privately before letting friends watch.",
+    "scene": {
+      "primary": "hoverboard",
+      "secondary": "star",
+      "relation": "balance"
+    },
+    "sceneSummary": "A hoverboard balances beneath a star like a private practice marker."
+  },
+  {
+    "id": 1971,
+    "topic": "future",
+    "text": "I would check what a smart gadget is listening for before giving it a home.",
+    "scene": {
+      "primary": "antenna",
+      "secondary": "robot",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem carefully inspects an antenna beside a household robot."
+  },
+  {
+    "id": 1972,
+    "topic": "future",
+    "text": "I would send an encouraging message to someone beginning a very long journey.",
+    "scene": {
+      "primary": "antenna",
+      "secondary": "rocket",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers an antenna signal toward a departing rocket."
+  },
+  {
+    "id": 1973,
+    "topic": "future",
+    "text": "I would build a quiet corner in the busiest future city.",
+    "scene": {
+      "primary": "antenna",
+      "secondary": "planet",
+      "relation": "build"
+    },
+    "sceneSummary": "An antenna and planet frame a small sheltered corner."
+  },
+  {
+    "id": 1974,
+    "topic": "future",
+    "text": "I would keep one room completely free of clever gadgets.",
+    "scene": {
+      "primary": "antenna",
+      "secondary": "hoverboard",
+      "relation": "hide"
+    },
+    "sceneSummary": "An antenna hides behind a parked hoverboard outside a quiet room."
+  },
+  {
+    "id": 1975,
+    "topic": "future",
+    "text": "I would join a community project to spot an unusual event in the night sky.",
+    "scene": {
+      "primary": "antenna",
+      "secondary": "star",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share an antenna beneath an interesting star."
+  },
+  {
+    "id": 1976,
+    "topic": "future",
+    "text": "I would reward a useful invention with a silly ceremonial ribbon.",
+    "scene": {
+      "primary": "star",
+      "secondary": "robot",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a star award to an unassuming robot."
+  },
+  {
+    "id": 1977,
+    "topic": "future",
+    "text": "I would pause a spectacular space tour to ask one extremely practical question.",
+    "scene": {
+      "primary": "star",
+      "secondary": "rocket",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a star while a rocket guide waits."
+  },
+  {
+    "id": 1978,
+    "topic": "future",
+    "text": "I would rather show a friend a new world than be the first person to see it.",
+    "scene": {
+      "primary": "star",
+      "secondary": "planet",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a star-lit planet viewpoint."
+  },
+  {
+    "id": 1979,
+    "topic": "future",
+    "text": "I would choose a gadget that makes an ordinary day easier over one that looks impressive.",
+    "scene": {
+      "primary": "star",
+      "secondary": "hoverboard",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses a practical hoverboard instead of a showy star display."
+  },
+  {
+    "id": 1980,
+    "topic": "future",
+    "text": "I enjoy imagining what everyday life might look like in a distant future.",
+    "scene": {
+      "primary": "star",
+      "secondary": "antenna",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A star circles an antenna like a daydream around a future home."
+  },
+  {
+    "id": 1981,
+    "topic": "future",
+    "text": "I would help design a tiny helpful machine before attempting a grand invention.",
+    "scene": {
+      "primary": "robot",
+      "secondary": "rocket",
+      "relation": "build"
+    },
+    "sceneSummary": "A robot builds a miniature rocket model at a workbench."
+  },
+  {
+    "id": 1982,
+    "topic": "future",
+    "text": "I would enjoy teaching a visitor the small customs everyone else takes for granted.",
+    "scene": {
+      "primary": "robot",
+      "secondary": "planet",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a planet model with a learning robot."
+  },
+  {
+    "id": 1983,
+    "topic": "future",
+    "text": "I would let a robot recommend a route but still pick my own detour.",
+    "scene": {
+      "primary": "robot",
+      "secondary": "hoverboard",
+      "relation": "choose"
+    },
+    "sceneSummary": "A robot and hoverboard face two possible routes."
+  },
+  {
+    "id": 1984,
+    "topic": "future",
+    "text": "I would give a household robot somewhere tidy to wait between tasks.",
+    "scene": {
+      "primary": "robot",
+      "secondary": "antenna",
+      "relation": "hide"
+    },
+    "sceneSummary": "A robot rests behind an antenna in a neat charging nook."
+  },
+  {
+    "id": 1985,
+    "topic": "future",
+    "text": "I would notice when a gadget quietly did something helpful without announcing it.",
+    "scene": {
+      "primary": "robot",
+      "secondary": "star",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a small star left beside a helpful robot."
+  },
+  {
+    "id": 1986,
+    "topic": "future",
+    "text": "I would want a friendly guide more than an impressive view on my first space trip.",
+    "scene": {
+      "primary": "rocket",
+      "secondary": "robot",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem shares a rocket seat with a welcoming robot."
+  },
+  {
+    "id": 1987,
+    "topic": "future",
+    "text": "I would pick the slower space route if it had more interesting stops.",
+    "scene": {
+      "primary": "rocket",
+      "secondary": "planet",
+      "relation": "choose"
+    },
+    "sceneSummary": "A rocket chooses a winding route toward a little planet."
+  },
+  {
+    "id": 1988,
+    "topic": "future",
+    "text": "I would ask how to store a new gadget before getting excited about its features.",
+    "scene": {
+      "primary": "rocket",
+      "secondary": "hoverboard",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects hoverboard storage beside a rocket."
+  },
+  {
+    "id": 1989,
+    "topic": "future",
+    "text": "I would take a simple way to stay in touch on a very advanced adventure.",
+    "scene": {
+      "primary": "rocket",
+      "secondary": "antenna",
+      "relation": "carry"
+    },
+    "sceneSummary": "A rocket carries a modest antenna toward an unfamiliar horizon."
+  },
+  {
+    "id": 1990,
+    "topic": "future",
+    "text": "I would name a small spacecraft after someone who always encourages me.",
+    "scene": {
+      "primary": "rocket",
+      "secondary": "star",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a star emblem to a freshly named rocket."
+  },
+  {
+    "id": 1991,
+    "topic": "future",
+    "text": "I think a future home should be cosy before it is clever.",
+    "scene": {
+      "primary": "planet",
+      "secondary": "robot",
+      "relation": "balance"
+    },
+    "sceneSummary": "A planet-home balances beside a modest household robot."
+  },
+  {
+    "id": 1992,
+    "topic": "future",
+    "text": "I would design a space station with a garden before adding a grand viewing deck.",
+    "scene": {
+      "primary": "planet",
+      "secondary": "rocket",
+      "relation": "build"
+    },
+    "sceneSummary": "A planet and rocket form a garden-centred station model."
+  },
+  {
+    "id": 1993,
+    "topic": "future",
+    "text": "I would look for the local equivalent of a favourite cafe on another planet.",
+    "scene": {
+      "primary": "planet",
+      "secondary": "hoverboard",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a planet from a parked hoverboard."
+  },
+  {
+    "id": 1994,
+    "topic": "future",
+    "text": "I would choose a quiet view over a constant stream of space news.",
+    "scene": {
+      "primary": "planet",
+      "secondary": "antenna",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses a peaceful planet while the antenna rests aside."
+  },
+  {
+    "id": 1995,
+    "topic": "future",
+    "text": "I would bring a little reminder of home even to an astonishing new world.",
+    "scene": {
+      "primary": "planet",
+      "secondary": "star",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a familiar star keepsake across a small planet."
+  },
+  {
+    "id": 1996,
+    "topic": "future",
+    "text": "I would lend someone a clever gadget after showing them the basic controls.",
+    "scene": {
+      "primary": "hoverboard",
+      "secondary": "robot",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a hoverboard with a robot acting as a gentle guide."
+  },
+  {
+    "id": 1997,
+    "topic": "future",
+    "text": "I think futuristic transport should still have somewhere sensible to put a bag.",
+    "scene": {
+      "primary": "hoverboard",
+      "secondary": "rocket",
+      "relation": "stack"
+    },
+    "sceneSummary": "A hoverboard stacks neatly beside a rocket's small storage space."
+  },
+  {
+    "id": 1998,
+    "topic": "future",
+    "text": "I would enjoy a future city more if friends could explore at their own pace.",
+    "scene": {
+      "primary": "hoverboard",
+      "secondary": "planet",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a planet path beside a leisurely hoverboard."
+  },
+  {
+    "id": 1999,
+    "topic": "future",
+    "text": "I would move a helpful gadget between rooms rather than own one for every room.",
+    "scene": {
+      "primary": "antenna",
+      "secondary": "robot",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries an antenna while a portable robot follows."
+  },
+  {
+    "id": 2000,
+    "topic": "future",
+    "text": "I would make a model of an imaginary future place and keep adding tiny improvements.",
+    "scene": {
+      "primary": "star",
+      "secondary": "planet",
+      "relation": "build"
+    },
+    "sceneSummary": "A star and planet form a gradually growing miniature future world."
+  }
+]

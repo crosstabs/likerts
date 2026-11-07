@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1701,
+    "topic": "weather",
+    "text": "I would rather walk in light rain than wait indoors for a perfect forecast.",
+    "scene": {
+      "primary": "umbrella",
+      "secondary": "rainboot",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses rainboots beside a ready umbrella."
+  },
+  {
+    "id": 1702,
+    "topic": "weather",
+    "text": "I check the sky myself even after looking at the forecast.",
+    "scene": {
+      "primary": "sun",
+      "secondary": "cloud",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects the sun behind a passing cloud."
+  },
+  {
+    "id": 1703,
+    "topic": "weather",
+    "text": "I carry an extra warm layer because cold ears can change my whole mood.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "snowflake",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries a scarf beneath a snowflake."
+  },
+  {
+    "id": 1704,
+    "topic": "weather",
+    "text": "I secretly enjoy a puddle when I am wearing the right shoes.",
+    "scene": {
+      "primary": "rainboot",
+      "secondary": "umbrella",
+      "relation": "hide"
+    },
+    "sceneSummary": "A rainboot hides playfully beneath an umbrella."
+  },
+  {
+    "id": 1705,
+    "topic": "weather",
+    "text": "I like a bright cloudy day more than sunshine that makes me squint.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "sun",
+      "relation": "offer"
+    },
+    "sceneSummary": "A soft cloud offers shade beside the sun."
+  },
+  {
+    "id": 1706,
+    "topic": "weather",
+    "text": "I stop to look closely when the first snowflakes of the year appear.",
+    "scene": {
+      "primary": "snowflake",
+      "secondary": "scarf",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character examines a snowflake above a scarf."
+  },
+  {
+    "id": 1707,
+    "topic": "weather",
+    "text": "I can enjoy a rainy afternoon more when I have nowhere I need to be.",
+    "scene": {
+      "primary": "umbrella",
+      "secondary": "cloud",
+      "relation": "balance"
+    },
+    "sceneSummary": "An umbrella balances peacefully beneath a cloud."
+  },
+  {
+    "id": 1708,
+    "topic": "weather",
+    "text": "I would choose a crisp sunny morning over a hot afternoon.",
+    "scene": {
+      "primary": "sun",
+      "secondary": "scarf",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses gentle sun beside a light scarf."
+  },
+  {
+    "id": 1709,
+    "topic": "weather",
+    "text": "I change my shoes for the weather even when it complicates the outfit.",
+    "scene": {
+      "primary": "rainboot",
+      "secondary": "snowflake",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries rainboots beneath drifting snowflakes."
+  },
+  {
+    "id": 1710,
+    "topic": "weather",
+    "text": "I like the sound of rain more than almost any background music.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "umbrella",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share an umbrella beneath a cloud."
+  },
+  {
+    "id": 1711,
+    "topic": "weather",
+    "text": "I keep a warm layer nearby long after everyone else decides it is summer.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "sun",
+      "relation": "hide"
+    },
+    "sceneSummary": "A scarf shelters behind a confident sun."
+  },
+  {
+    "id": 1712,
+    "topic": "weather",
+    "text": "I would choose a snowy walk over staying warm on the sofa.",
+    "scene": {
+      "primary": "snowflake",
+      "secondary": "rainboot",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a snowflake beside sturdy rainboots."
+  },
+  {
+    "id": 1713,
+    "topic": "weather",
+    "text": "I offer to share an umbrella even when we will both end up slightly damp.",
+    "scene": {
+      "primary": "umbrella",
+      "secondary": "scarf",
+      "relation": "offer"
+    },
+    "sceneSummary": "An umbrella is offered over two scarf-wearing characters."
+  },
+  {
+    "id": 1714,
+    "topic": "weather",
+    "text": "I notice the first dry patch of pavement after several rainy days.",
+    "scene": {
+      "primary": "sun",
+      "secondary": "rainboot",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects a sunlit rainboot on dry ground."
+  },
+  {
+    "id": 1715,
+    "topic": "weather",
+    "text": "I plan an outdoor day with an indoor backup and feel wonderfully prepared.",
+    "scene": {
+      "primary": "rainboot",
+      "secondary": "cloud",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a rainboot shelter beneath a cloud."
+  },
+  {
+    "id": 1716,
+    "topic": "weather",
+    "text": "I watch changing clouds long enough to forget what I was supposed to be doing.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "snowflake",
+      "relation": "orbit"
+    },
+    "sceneSummary": "Clouds circle a character studying a drifting snowflake."
+  },
+  {
+    "id": 1717,
+    "topic": "weather",
+    "text": "I can pack for every possible forecast and still forget the thing I need.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "umbrella",
+      "relation": "balance"
+    },
+    "sceneSummary": "A scarf balances above an awkwardly loaded umbrella."
+  },
+  {
+    "id": 1718,
+    "topic": "weather",
+    "text": "I enjoy a rare sunny winter day enough to rearrange a small plan.",
+    "scene": {
+      "primary": "snowflake",
+      "secondary": "sun",
+      "relation": "share"
+    },
+    "sceneSummary": "A character shares a snowflake with the winter sun."
+  },
+  {
+    "id": 1719,
+    "topic": "weather",
+    "text": "I would choose a shaded picnic over the sunniest seat in the park.",
+    "scene": {
+      "primary": "umbrella",
+      "secondary": "sun",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses umbrella shade beside the sun."
+  },
+  {
+    "id": 1720,
+    "topic": "weather",
+    "text": "I notice when the season changes by the light before I notice the calendar.",
+    "scene": {
+      "primary": "sun",
+      "secondary": "snowflake",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character studies sunlight touching a remaining snowflake."
+  },
+  {
+    "id": 1721,
+    "topic": "weather",
+    "text": "I compare the sound of rain on an umbrella with the sound it makes on my rainboots.",
+    "scene": {
+      "primary": "rainboot",
+      "secondary": "umbrella",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects an umbrella beside a rainboot to compare their rainy rhythms."
+  },
+  {
+    "id": 1722,
+    "topic": "weather",
+    "text": "I postpone a short errand until the rain eases and then forget the errand entirely.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "rainboot",
+      "relation": "hide"
+    },
+    "sceneSummary": "A cloud shelters a pair of waiting rainboots."
+  },
+  {
+    "id": 1723,
+    "topic": "weather",
+    "text": "I take a brisk walk to enjoy autumn air rather than to reach anywhere.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "cloud",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries a scarf beneath a moving cloud."
+  },
+  {
+    "id": 1724,
+    "topic": "weather",
+    "text": "I like a fresh layer of snow before anyone has left footprints in it.",
+    "scene": {
+      "primary": "snowflake",
+      "secondary": "umbrella",
+      "relation": "stack"
+    },
+    "sceneSummary": "Snowflakes stack gently on a closed umbrella."
+  },
+  {
+    "id": 1725,
+    "topic": "weather",
+    "text": "I test whether an umbrella works before the first rainy day of a trip.",
+    "scene": {
+      "primary": "umbrella",
+      "secondary": "rainboot",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects an open umbrella beside rainboots."
+  },
+  {
+    "id": 1726,
+    "topic": "weather",
+    "text": "I choose a seat for the sunshine and move it three times as the light changes.",
+    "scene": {
+      "primary": "sun",
+      "secondary": "cloud",
+      "relation": "balance"
+    },
+    "sceneSummary": "A sun balances above a shifting cloud."
+  },
+  {
+    "id": 1727,
+    "topic": "weather",
+    "text": "I enjoy a cold-weather outing more when a warm stop is part of the plan.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "snowflake",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share a scarf beneath a snowflake."
+  },
+  {
+    "id": 1728,
+    "topic": "weather",
+    "text": "I carry wet shoes separately rather than let them touch anything else in my bag.",
+    "scene": {
+      "primary": "rainboot",
+      "secondary": "umbrella",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries rainboots away from a folded umbrella."
+  },
+  {
+    "id": 1729,
+    "topic": "weather",
+    "text": "I would rather have mild weather all year than four dramatically different seasons.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "sun",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a gentle cloud beside the sun."
+  },
+  {
+    "id": 1730,
+    "topic": "weather",
+    "text": "I invite someone outside to see the snow even if they have seen snow many times before.",
+    "scene": {
+      "primary": "snowflake",
+      "secondary": "scarf",
+      "relation": "offer"
+    },
+    "sceneSummary": "A snowflake is offered above a waiting scarf."
+  },
+  {
+    "id": 1731,
+    "topic": "weather",
+    "text": "I stand under shelter for an extra minute to watch the rain fall.",
+    "scene": {
+      "primary": "umbrella",
+      "secondary": "cloud",
+      "relation": "hide"
+    },
+    "sceneSummary": "An umbrella rests beneath the shelter of a cloud."
+  },
+  {
+    "id": 1732,
+    "topic": "weather",
+    "text": "I would use my scarf as a picnic seat when sunshine returns before the ground has dried.",
+    "scene": {
+      "primary": "sun",
+      "secondary": "scarf",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a scarf toward a newly sunny picnic spot."
+  },
+  {
+    "id": 1733,
+    "topic": "weather",
+    "text": "I inspect a weather forecast more carefully when my favourite shoes are involved.",
+    "scene": {
+      "primary": "rainboot",
+      "secondary": "snowflake",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character studies rainboots beside an uncertain snowflake."
+  },
+  {
+    "id": 1734,
+    "topic": "weather",
+    "text": "I can turn a cancelled picnic into an indoor picnic without feeling cheated.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "umbrella",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a cosy umbrella nook beneath a cloud."
+  },
+  {
+    "id": 1735,
+    "topic": "weather",
+    "text": "I prefer dressing for cool weather to dressing for very warm weather.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "sun",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a scarf over a strong sun."
+  },
+  {
+    "id": 1736,
+    "topic": "weather",
+    "text": "I walk more slowly in interesting weather because there is more to notice.",
+    "scene": {
+      "primary": "snowflake",
+      "secondary": "rainboot",
+      "relation": "balance"
+    },
+    "sceneSummary": "A snowflake balances above a paused rainboot."
+  },
+  {
+    "id": 1737,
+    "topic": "weather",
+    "text": "I notice a borrowed umbrella's pattern every time I open it.",
+    "scene": {
+      "primary": "umbrella",
+      "secondary": "scarf",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects a patterned umbrella beside a scarf."
+  },
+  {
+    "id": 1738,
+    "topic": "weather",
+    "text": "I suggest going outside the moment the weather becomes unexpectedly lovely.",
+    "scene": {
+      "primary": "sun",
+      "secondary": "rainboot",
+      "relation": "offer"
+    },
+    "sceneSummary": "A sun invites waiting rainboots towards an outing."
+  },
+  {
+    "id": 1739,
+    "topic": "weather",
+    "text": "I would choose a muddy path with a good view over a tidy but dull route.",
+    "scene": {
+      "primary": "rainboot",
+      "secondary": "cloud",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses rainboots beneath an adventurous cloud."
+  },
+  {
+    "id": 1740,
+    "topic": "weather",
+    "text": "I try to guess what kind of weather a cloud will bring.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "snowflake",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character examines a cloud above one tentative snowflake."
+  },
+  {
+    "id": 1741,
+    "topic": "weather",
+    "text": "I keep old cold-weather gear because the next chilly day might justify it.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "umbrella",
+      "relation": "hide"
+    },
+    "sceneSummary": "A scarf hides behind an old umbrella."
+  },
+  {
+    "id": 1742,
+    "topic": "weather",
+    "text": "I enjoy days when the weather changes enough to give everyone something to talk about.",
+    "scene": {
+      "primary": "snowflake",
+      "secondary": "sun",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A snowflake circles an unpredictable sun."
+  },
+  {
+    "id": 1743,
+    "topic": "weather",
+    "text": "I offer the shadier seat to a friend before taking it myself.",
+    "scene": {
+      "primary": "umbrella",
+      "secondary": "sun",
+      "relation": "offer"
+    },
+    "sceneSummary": "An umbrella offers shade beside a bright sun."
+  },
+  {
+    "id": 1744,
+    "topic": "weather",
+    "text": "I would choose one memorable snowy day over an extra week of summer.",
+    "scene": {
+      "primary": "sun",
+      "secondary": "snowflake",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a snowflake beside the summer sun."
+  },
+  {
+    "id": 1745,
+    "topic": "weather",
+    "text": "I enjoy comparing how differently friends dress for exactly the same temperature.",
+    "scene": {
+      "primary": "rainboot",
+      "secondary": "scarf",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters compare rainboots and different scarf arrangements."
+  },
+  {
+    "id": 1746,
+    "topic": "weather",
+    "text": "I take a short walk between showers instead of waiting for the whole day to improve.",
+    "scene": {
+      "primary": "cloud",
+      "secondary": "rainboot",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries rainboots beneath a parting cloud."
+  },
+  {
+    "id": 1747,
+    "topic": "weather",
+    "text": "I create a cosy corner when a grey day makes the whole room feel slower.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "cloud",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a scarf nest beneath a grey cloud."
+  },
+  {
+    "id": 1748,
+    "topic": "weather",
+    "text": "I like noticing weather details that are too small to show up in a forecast.",
+    "scene": {
+      "primary": "snowflake",
+      "secondary": "umbrella",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character studies a snowflake on an umbrella edge."
+  },
+  {
+    "id": 1749,
+    "topic": "weather",
+    "text": "I put wet things by the door immediately instead of leaving a trail through the room.",
+    "scene": {
+      "primary": "umbrella",
+      "secondary": "rainboot",
+      "relation": "stack"
+    },
+    "sceneSummary": "An umbrella stacks neatly beside rainboots at the entrance."
+  },
+  {
+    "id": 1750,
+    "topic": "weather",
+    "text": "I send a friend outside to look when the evening sky becomes unusually beautiful.",
+    "scene": {
+      "primary": "sun",
+      "secondary": "cloud",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share a view of sun and cloud."
+  }
+]

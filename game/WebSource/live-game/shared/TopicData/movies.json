@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1401,
+    "topic": "movies",
+    "text": "I finish my popcorn before the projector reaches the opening scene.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "projector",
+      "relation": "choose"
+    },
+    "sceneSummary": "Popcorn races ahead of a waiting projector."
+  },
+  {
+    "id": 1402,
+    "topic": "movies",
+    "text": "I would keep a cinema ticket as a souvenir but never save the popcorn tub.",
+    "scene": {
+      "primary": "ticket",
+      "secondary": "popcorn",
+      "relation": "carry"
+    },
+    "sceneSummary": "A ticket travels home beside an empty popcorn tub."
+  },
+  {
+    "id": 1403,
+    "topic": "movies",
+    "text": "I think the best sofa seat is the one closest to the popcorn.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "popcorn",
+      "relation": "choose"
+    },
+    "sceneSummary": "A sofa selects the nearest popcorn tub."
+  },
+  {
+    "id": 1404,
+    "topic": "movies",
+    "text": "I would test the projector twice before letting anyone settle on the sofa.",
+    "scene": {
+      "primary": "projector",
+      "secondary": "sofa",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A projector checks a waiting sofa."
+  },
+  {
+    "id": 1405,
+    "topic": "movies",
+    "text": "I would use a clapperboard to announce the start of a family movie night.",
+    "scene": {
+      "primary": "clapperboard",
+      "secondary": "sofa",
+      "relation": "offer"
+    },
+    "sceneSummary": "A clapperboard welcomes the sofa audience."
+  },
+  {
+    "id": 1406,
+    "topic": "movies",
+    "text": "I would happily watch a wobbly film reel projection if everyone got a comfy sofa seat.",
+    "scene": {
+      "primary": "filmreel",
+      "secondary": "sofa",
+      "relation": "share"
+    },
+    "sceneSummary": "A film reel shares its show with a sofa."
+  },
+  {
+    "id": 1407,
+    "topic": "movies",
+    "text": "I would buy the ticket first and let the popcorn decision take all evening.",
+    "scene": {
+      "primary": "ticket",
+      "secondary": "popcorn",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A ticket waits through a popcorn inspection."
+  },
+  {
+    "id": 1408,
+    "topic": "movies",
+    "text": "I would give up my favourite sofa corner for an uninterrupted view of the projector screen.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "projector",
+      "relation": "offer"
+    },
+    "sceneSummary": "A sofa offers its best viewing angle to a projector."
+  },
+  {
+    "id": 1409,
+    "topic": "movies",
+    "text": "I think a clapperboard makes even a tiny home projector feel like a premiere.",
+    "scene": {
+      "primary": "clapperboard",
+      "secondary": "projector",
+      "relation": "build"
+    },
+    "sceneSummary": "A clapperboard builds a premiere around a projector."
+  },
+  {
+    "id": 1410,
+    "topic": "movies",
+    "text": "I would rather hear a film reel rattle than hear someone crinkle popcorn during a quiet scene.",
+    "scene": {
+      "primary": "filmreel",
+      "secondary": "popcorn",
+      "relation": "choose"
+    },
+    "sceneSummary": "A film reel wins a quiet contest against popcorn."
+  },
+  {
+    "id": 1411,
+    "topic": "movies",
+    "text": "I would choose a ticket for a mystery screening without reading the title.",
+    "scene": {
+      "primary": "ticket",
+      "secondary": "filmreel",
+      "relation": "choose"
+    },
+    "sceneSummary": "A ticket chooses an unknown film reel."
+  },
+  {
+    "id": 1412,
+    "topic": "movies",
+    "text": "I would keep my projector out all week after one successful sofa cinema night.",
+    "scene": {
+      "primary": "projector",
+      "secondary": "sofa",
+      "relation": "share"
+    },
+    "sceneSummary": "A projector remains beside the sofa after the show."
+  },
+  {
+    "id": 1413,
+    "topic": "movies",
+    "text": "I would hold the popcorn during a tense scene even if I forgot to eat any.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "filmreel",
+      "relation": "inspect"
+    },
+    "sceneSummary": "Popcorn freezes beside a suspenseful film reel."
+  },
+  {
+    "id": 1414,
+    "topic": "movies",
+    "text": "I would use a ticket as a tiny clapperboard for my friends' arrival.",
+    "scene": {
+      "primary": "ticket",
+      "secondary": "clapperboard",
+      "relation": "offer"
+    },
+    "sceneSummary": "A ticket introduces a little clapperboard entrance."
+  },
+  {
+    "id": 1415,
+    "topic": "movies",
+    "text": "I think the person who sets up the projector earns first pick of the popcorn.",
+    "scene": {
+      "primary": "projector",
+      "secondary": "popcorn",
+      "relation": "offer"
+    },
+    "sceneSummary": "A projector presents the first popcorn helping."
+  },
+  {
+    "id": 1416,
+    "topic": "movies",
+    "text": "I would rather watch a familiar film reel again than leave my sofa for a new release.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "filmreel",
+      "relation": "choose"
+    },
+    "sceneSummary": "A sofa chooses its familiar film reel."
+  },
+  {
+    "id": 1417,
+    "topic": "movies",
+    "text": "I would bring a clapperboard to a costume screening and still forget my ticket.",
+    "scene": {
+      "primary": "clapperboard",
+      "secondary": "ticket",
+      "relation": "carry"
+    },
+    "sceneSummary": "A clapperboard travels beside a nearly forgotten ticket."
+  },
+  {
+    "id": 1418,
+    "topic": "movies",
+    "text": "I would share a sofa with too many friends rather than watch the projector alone.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "projector",
+      "relation": "share"
+    },
+    "sceneSummary": "A crowded sofa gathers around a projector."
+  },
+  {
+    "id": 1419,
+    "topic": "movies",
+    "text": "I would protect the last popcorn kernel from a rolling film reel like a tiny treasure.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "filmreel",
+      "relation": "hide"
+    },
+    "sceneSummary": "Popcorn hides from a rolling film reel."
+  },
+  {
+    "id": 1420,
+    "topic": "movies",
+    "text": "I would display a favourite ticket beside a film reel rather than inside a scrapbook.",
+    "scene": {
+      "primary": "filmreel",
+      "secondary": "ticket",
+      "relation": "offer"
+    },
+    "sceneSummary": "A film reel displays a treasured ticket."
+  },
+  {
+    "id": 1421,
+    "topic": "movies",
+    "text": "I would use a clapperboard to settle whose turn it was to choose the popcorn flavour.",
+    "scene": {
+      "primary": "clapperboard",
+      "secondary": "popcorn",
+      "relation": "choose"
+    },
+    "sceneSummary": "A clapperboard judges a popcorn choice."
+  },
+  {
+    "id": 1422,
+    "topic": "movies",
+    "text": "I would arrange the sofa before deciding where the projector could possibly fit.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "projector",
+      "relation": "build"
+    },
+    "sceneSummary": "A sofa sets the plan for a projector corner."
+  },
+  {
+    "id": 1423,
+    "topic": "movies",
+    "text": "I would buy a ticket just to see a favourite film reel projected much bigger.",
+    "scene": {
+      "primary": "ticket",
+      "secondary": "filmreel",
+      "relation": "offer"
+    },
+    "sceneSummary": "A ticket offers a film reel a grander screen."
+  },
+  {
+    "id": 1424,
+    "topic": "movies",
+    "text": "I would rewind a film reel to catch a background joke while everyone waited with popcorn.",
+    "scene": {
+      "primary": "filmreel",
+      "secondary": "popcorn",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A film reel circles back past waiting popcorn."
+  },
+  {
+    "id": 1425,
+    "topic": "movies",
+    "text": "I would let a projector setup delay the film if it gave us more sofa conversation.",
+    "scene": {
+      "primary": "projector",
+      "secondary": "sofa",
+      "relation": "offer"
+    },
+    "sceneSummary": "A projector gives a chatting sofa more time."
+  },
+  {
+    "id": 1426,
+    "topic": "movies",
+    "text": "I would stack ticket stubs behind a clapperboard like trophies from tiny adventures.",
+    "scene": {
+      "primary": "ticket",
+      "secondary": "clapperboard",
+      "relation": "stack"
+    },
+    "sceneSummary": "Tickets stack behind a souvenir clapperboard."
+  },
+  {
+    "id": 1427,
+    "topic": "movies",
+    "text": "I would save the popcorn for the closing credits rather than the opening scene.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "projector",
+      "relation": "hide"
+    },
+    "sceneSummary": "Popcorn waits behind the projector until the end."
+  },
+  {
+    "id": 1428,
+    "topic": "movies",
+    "text": "I would pretend to direct a film reel change with an elaborate clapperboard ceremony.",
+    "scene": {
+      "primary": "clapperboard",
+      "secondary": "filmreel",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A clapperboard oversees a careful film reel change."
+  },
+  {
+    "id": 1429,
+    "topic": "movies",
+    "text": "I would choose the sofa closest to the exit if my ticket promised a very long film.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "ticket",
+      "relation": "choose"
+    },
+    "sceneSummary": "A sofa considers the length on a ticket."
+  },
+  {
+    "id": 1430,
+    "topic": "movies",
+    "text": "I would carry spare projector cables to a screening before remembering the tickets.",
+    "scene": {
+      "primary": "projector",
+      "secondary": "ticket",
+      "relation": "carry"
+    },
+    "sceneSummary": "A projector travels with a bundle of tickets."
+  },
+  {
+    "id": 1431,
+    "topic": "movies",
+    "text": "I think sofa blankets should count as part of the ticket price for a home premiere.",
+    "scene": {
+      "primary": "ticket",
+      "secondary": "sofa",
+      "relation": "build"
+    },
+    "sceneSummary": "A ticket builds a cosy sofa premiere."
+  },
+  {
+    "id": 1432,
+    "topic": "movies",
+    "text": "I would balance the popcorn on my knees rather than move a sleeping friend on the sofa.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "sofa",
+      "relation": "balance"
+    },
+    "sceneSummary": "Popcorn balances above a peaceful sofa."
+  },
+  {
+    "id": 1433,
+    "topic": "movies",
+    "text": "I would use a clapperboard as a tray if it was the only way to share the popcorn.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "clapperboard",
+      "relation": "share"
+    },
+    "sceneSummary": "Popcorn shares a clapperboard tray."
+  },
+  {
+    "id": 1434,
+    "topic": "movies",
+    "text": "I would choose a slightly faded film reel over a projector menu full of choices.",
+    "scene": {
+      "primary": "filmreel",
+      "secondary": "projector",
+      "relation": "choose"
+    },
+    "sceneSummary": "A film reel wins attention from a projector menu."
+  },
+  {
+    "id": 1435,
+    "topic": "movies",
+    "text": "I would label the sofa seats with pretend tickets for an ordinary Tuesday movie.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "ticket",
+      "relation": "offer"
+    },
+    "sceneSummary": "A sofa presents tickets for its reserved seats."
+  },
+  {
+    "id": 1436,
+    "topic": "movies",
+    "text": "I would carry the popcorn across the room before trusting the projector remote to anyone.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "projector",
+      "relation": "carry"
+    },
+    "sceneSummary": "Popcorn travels past a guarded projector."
+  },
+  {
+    "id": 1437,
+    "topic": "movies",
+    "text": "I would film a silly clapperboard introduction instead of taking a photo of my ticket.",
+    "scene": {
+      "primary": "clapperboard",
+      "secondary": "ticket",
+      "relation": "choose"
+    },
+    "sceneSummary": "A clapperboard chooses a playful ticket introduction."
+  },
+  {
+    "id": 1438,
+    "topic": "movies",
+    "text": "I would keep an empty film reel tin on the sofa table purely because it looked cinematic.",
+    "scene": {
+      "primary": "filmreel",
+      "secondary": "sofa",
+      "relation": "balance"
+    },
+    "sceneSummary": "A film reel balances beside the sofa table."
+  },
+  {
+    "id": 1439,
+    "topic": "movies",
+    "text": "I would rather share the last popcorn than keep my ticket as a perfect uncreased souvenir.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "ticket",
+      "relation": "share"
+    },
+    "sceneSummary": "Popcorn shares the space of a creased ticket."
+  },
+  {
+    "id": 1440,
+    "topic": "movies",
+    "text": "I would inspect the projector's focus while everyone else inspected the clapperboard props.",
+    "scene": {
+      "primary": "projector",
+      "secondary": "clapperboard",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A projector studies a clapperboard's sharp edge."
+  },
+  {
+    "id": 1441,
+    "topic": "movies",
+    "text": "I would stay on the sofa through the closing titles if the film reel still had music to offer.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "filmreel",
+      "relation": "share"
+    },
+    "sceneSummary": "A sofa stays with the film reel through the credits."
+  },
+  {
+    "id": 1442,
+    "topic": "movies",
+    "text": "I would put the clapperboard away when a film reel started even if the joke was still funny.",
+    "scene": {
+      "primary": "filmreel",
+      "secondary": "clapperboard",
+      "relation": "hide"
+    },
+    "sceneSummary": "A film reel tucks the clapperboard out of sight."
+  },
+  {
+    "id": 1443,
+    "topic": "movies",
+    "text": "I would bring popcorn to a ticket queue rather than save it for the film.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "ticket",
+      "relation": "carry"
+    },
+    "sceneSummary": "Popcorn accompanies a ticket in the queue."
+  },
+  {
+    "id": 1444,
+    "topic": "movies",
+    "text": "I would let a friend operate the projector so I could claim the middle sofa seat.",
+    "scene": {
+      "primary": "projector",
+      "secondary": "sofa",
+      "relation": "choose"
+    },
+    "sceneSummary": "A projector chooses a friend while the sofa waits."
+  },
+  {
+    "id": 1445,
+    "topic": "movies",
+    "text": "I would make a clapperboard name for every sofa screening we hosted.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "clapperboard",
+      "relation": "build"
+    },
+    "sceneSummary": "A sofa builds a named clapperboard premiere."
+  },
+  {
+    "id": 1446,
+    "topic": "movies",
+    "text": "I would trade a pristine ticket for a closer look at the old film reel booth.",
+    "scene": {
+      "primary": "ticket",
+      "secondary": "filmreel",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A ticket peeks into a film reel booth."
+  },
+  {
+    "id": 1447,
+    "topic": "movies",
+    "text": "I would build a popcorn tower and expect the clapperboard to mark its grand opening.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "clapperboard",
+      "relation": "build"
+    },
+    "sceneSummary": "Popcorn builds a tower beside a clapperboard."
+  },
+  {
+    "id": 1448,
+    "topic": "movies",
+    "text": "I would hide a spare ticket behind the projector so I could surprise a friend.",
+    "scene": {
+      "primary": "ticket",
+      "secondary": "projector",
+      "relation": "hide"
+    },
+    "sceneSummary": "A spare ticket hides behind the projector."
+  },
+  {
+    "id": 1449,
+    "topic": "movies",
+    "text": "I would carry an awkward film reel box if it meant choosing the next sofa movie.",
+    "scene": {
+      "primary": "filmreel",
+      "secondary": "sofa",
+      "relation": "carry"
+    },
+    "sceneSummary": "A film reel arrives at the sofa in a large box."
+  },
+  {
+    "id": 1450,
+    "topic": "movies",
+    "text": "I would clap a clapperboard for the projector working on the very first attempt.",
+    "scene": {
+      "primary": "projector",
+      "secondary": "clapperboard",
+      "relation": "offer"
+    },
+    "sceneSummary": "A projector earns a clapperboard celebration."
+  }
+]

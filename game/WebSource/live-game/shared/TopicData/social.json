@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1501,
+    "topic": "social",
+    "text": "I would rather host six close friends than attend a room full of strangers.",
+    "scene": {
+      "primary": "invitation",
+      "secondary": "doormat",
+      "relation": "choose"
+    },
+    "sceneSummary": "An invitation waits beside a welcoming doormat."
+  },
+  {
+    "id": 1502,
+    "topic": "social",
+    "text": "I can turn a quick cup of tea into a whole afternoon of catching up.",
+    "scene": {
+      "primary": "teacup",
+      "secondary": "chair",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share tea beside a settled chair."
+  },
+  {
+    "id": 1503,
+    "topic": "social",
+    "text": "I become more talkative when somebody else breaks the silence first.",
+    "scene": {
+      "primary": "balloon",
+      "secondary": "conversation",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A balloon draws two characters into conversation."
+  },
+  {
+    "id": 1504,
+    "topic": "social",
+    "text": "I check whether there will be somewhere to sit before accepting a party invite.",
+    "scene": {
+      "primary": "chair",
+      "secondary": "invitation",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character examines a chair beside an invitation."
+  },
+  {
+    "id": 1505,
+    "topic": "social",
+    "text": "I greet a visitor by offering a drink before asking why they came.",
+    "scene": {
+      "primary": "doormat",
+      "secondary": "teacup",
+      "relation": "offer"
+    },
+    "sceneSummary": "Tea is offered across the front doormat."
+  },
+  {
+    "id": 1506,
+    "topic": "social",
+    "text": "I can keep a conversation going while helping decorate the room.",
+    "scene": {
+      "primary": "conversation",
+      "secondary": "balloon",
+      "relation": "balance"
+    },
+    "sceneSummary": "A character balances party decorating with conversation."
+  },
+  {
+    "id": 1507,
+    "topic": "social",
+    "text": "I secretly hope a big gathering becomes a small gathering.",
+    "scene": {
+      "primary": "invitation",
+      "secondary": "chair",
+      "relation": "hide"
+    },
+    "sceneSummary": "A quiet chair shelters behind a large invitation."
+  },
+  {
+    "id": 1508,
+    "topic": "social",
+    "text": "I remember the tiny story someone told me more than their impressive job title.",
+    "scene": {
+      "primary": "teacup",
+      "secondary": "conversation",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character studies a conversation beside cooling tea."
+  },
+  {
+    "id": 1509,
+    "topic": "social",
+    "text": "I bring an extra chair outside when a doorstep chat gets interesting.",
+    "scene": {
+      "primary": "chair",
+      "secondary": "doormat",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries a chair onto the doormat."
+  },
+  {
+    "id": 1510,
+    "topic": "social",
+    "text": "I would invite the new neighbour before knowing whether we have anything in common.",
+    "scene": {
+      "primary": "balloon",
+      "secondary": "invitation",
+      "relation": "offer"
+    },
+    "sceneSummary": "A balloon accompanies an invitation being offered."
+  },
+  {
+    "id": 1511,
+    "topic": "social",
+    "text": "I am comfortable sharing a quiet moment without filling every second with words.",
+    "scene": {
+      "primary": "conversation",
+      "secondary": "teacup",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters rest with tea and a small conversation."
+  },
+  {
+    "id": 1512,
+    "topic": "social",
+    "text": "I prefer an unplanned doorstep chat to a carefully organised dinner.",
+    "scene": {
+      "primary": "doormat",
+      "secondary": "chair",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses the doormat over a formal chair."
+  },
+  {
+    "id": 1513,
+    "topic": "social",
+    "text": "I ask who else is coming before deciding whether to go.",
+    "scene": {
+      "primary": "invitation",
+      "secondary": "conversation",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character examines an invitation through conversation."
+  },
+  {
+    "id": 1514,
+    "topic": "social",
+    "text": "I find the quiet kitchen corner at a noisy celebration.",
+    "scene": {
+      "primary": "teacup",
+      "secondary": "balloon",
+      "relation": "hide"
+    },
+    "sceneSummary": "A teacup shelters behind a wandering party balloon."
+  },
+  {
+    "id": 1515,
+    "topic": "social",
+    "text": "I pull an empty chair into a circle so nobody has to hover.",
+    "scene": {
+      "primary": "chair",
+      "secondary": "conversation",
+      "relation": "offer"
+    },
+    "sceneSummary": "A character offers a chair into the conversation."
+  },
+  {
+    "id": 1516,
+    "topic": "social",
+    "text": "I like arriving early enough to help the host set things up.",
+    "scene": {
+      "primary": "balloon",
+      "secondary": "doormat",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries a balloon over the doormat."
+  },
+  {
+    "id": 1517,
+    "topic": "social",
+    "text": "I can turn a vague suggestion to meet into an actual plan.",
+    "scene": {
+      "primary": "conversation",
+      "secondary": "invitation",
+      "relation": "build"
+    },
+    "sceneSummary": "Conversation builds around a concrete invitation."
+  },
+  {
+    "id": 1518,
+    "topic": "social",
+    "text": "I notice a host's decorations before I notice what they are wearing.",
+    "scene": {
+      "primary": "doormat",
+      "secondary": "balloon",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A visitor inspects a balloon above the doormat."
+  },
+  {
+    "id": 1519,
+    "topic": "social",
+    "text": "I leave a free evening between two social plans whenever I can.",
+    "scene": {
+      "primary": "invitation",
+      "secondary": "teacup",
+      "relation": "balance"
+    },
+    "sceneSummary": "An invitation balances above a restful teacup."
+  },
+  {
+    "id": 1520,
+    "topic": "social",
+    "text": "I take a drink with me when a goodbye moves slowly towards the door.",
+    "scene": {
+      "primary": "teacup",
+      "secondary": "doormat",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries tea across the doormat."
+  },
+  {
+    "id": 1521,
+    "topic": "social",
+    "text": "I choose a seat where I can watch the room instead of being in the middle.",
+    "scene": {
+      "primary": "chair",
+      "secondary": "balloon",
+      "relation": "choose"
+    },
+    "sceneSummary": "A side chair faces a central party balloon."
+  },
+  {
+    "id": 1522,
+    "topic": "social",
+    "text": "I enjoy making a shy guest feel included without putting them on the spot.",
+    "scene": {
+      "primary": "balloon",
+      "secondary": "chair",
+      "relation": "offer"
+    },
+    "sceneSummary": "A character offers a balloon beside an empty chair."
+  },
+  {
+    "id": 1523,
+    "topic": "social",
+    "text": "I say goodbye once and then start another conversation at the door.",
+    "scene": {
+      "primary": "conversation",
+      "secondary": "doormat",
+      "relation": "orbit"
+    },
+    "sceneSummary": "Conversation circles a character stranded on the doormat."
+  },
+  {
+    "id": 1524,
+    "topic": "social",
+    "text": "I sometimes need ten quiet minutes before greeting perfectly lovely people.",
+    "scene": {
+      "primary": "doormat",
+      "secondary": "invitation",
+      "relation": "hide"
+    },
+    "sceneSummary": "A doormat shelters behind a waiting invitation."
+  },
+  {
+    "id": 1525,
+    "topic": "social",
+    "text": "I enjoy planning the gathering almost as much as attending it.",
+    "scene": {
+      "primary": "invitation",
+      "secondary": "balloon",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a celebration around an invitation."
+  },
+  {
+    "id": 1526,
+    "topic": "social",
+    "text": "I can spend a whole visit perched on a chair without ever settling in.",
+    "scene": {
+      "primary": "teacup",
+      "secondary": "chair",
+      "relation": "balance"
+    },
+    "sceneSummary": "A teacup balances beside an awkwardly perched character."
+  },
+  {
+    "id": 1527,
+    "topic": "social",
+    "text": "I give a guest my comfortable seat even when they insist they are fine.",
+    "scene": {
+      "primary": "chair",
+      "secondary": "teacup",
+      "relation": "offer"
+    },
+    "sceneSummary": "A chair is offered beside the guest's teacup."
+  },
+  {
+    "id": 1528,
+    "topic": "social",
+    "text": "I laugh more at a friend's terrible joke because I know it is their favourite.",
+    "scene": {
+      "primary": "balloon",
+      "secondary": "conversation",
+      "relation": "share"
+    },
+    "sceneSummary": "A shared conversation floats beneath a cheerful balloon."
+  },
+  {
+    "id": 1529,
+    "topic": "social",
+    "text": "I can tell when someone wants to leave without them saying it.",
+    "scene": {
+      "primary": "conversation",
+      "secondary": "chair",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character reads the conversation beside a turned chair."
+  },
+  {
+    "id": 1530,
+    "topic": "social",
+    "text": "I can make friends with someone while we are both waiting for the door to open.",
+    "scene": {
+      "primary": "doormat",
+      "secondary": "conversation",
+      "relation": "build"
+    },
+    "sceneSummary": "A conversation grows between characters on a doormat."
+  },
+  {
+    "id": 1531,
+    "topic": "social",
+    "text": "I would happily cross town for a short visit with a good friend.",
+    "scene": {
+      "primary": "invitation",
+      "secondary": "doormat",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries an invitation towards a distant doormat."
+  },
+  {
+    "id": 1532,
+    "topic": "social",
+    "text": "I prefer inviting someone for tea to promising a grand evening out.",
+    "scene": {
+      "primary": "teacup",
+      "secondary": "invitation",
+      "relation": "offer"
+    },
+    "sceneSummary": "A teacup is offered in place of an elaborate invitation."
+  },
+  {
+    "id": 1533,
+    "topic": "social",
+    "text": "I help clear up before the gathering has technically ended.",
+    "scene": {
+      "primary": "chair",
+      "secondary": "balloon",
+      "relation": "stack"
+    },
+    "sceneSummary": "A character stacks chairs beneath the last balloon."
+  },
+  {
+    "id": 1534,
+    "topic": "social",
+    "text": "I would trade a surprise party for a predictable afternoon with two friends.",
+    "scene": {
+      "primary": "balloon",
+      "secondary": "teacup",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses calm tea over a party balloon."
+  },
+  {
+    "id": 1535,
+    "topic": "social",
+    "text": "I rehearse a simple introduction before walking into a new group.",
+    "scene": {
+      "primary": "conversation",
+      "secondary": "invitation",
+      "relation": "hide"
+    },
+    "sceneSummary": "A small conversation hides behind an invitation."
+  },
+  {
+    "id": 1536,
+    "topic": "social",
+    "text": "I enjoy a neighbourly chat even if we never move beyond the doorway.",
+    "scene": {
+      "primary": "doormat",
+      "secondary": "teacup",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share tea across a doormat."
+  },
+  {
+    "id": 1537,
+    "topic": "social",
+    "text": "I invite the person who always says they are too busy anyway.",
+    "scene": {
+      "primary": "invitation",
+      "secondary": "chair",
+      "relation": "offer"
+    },
+    "sceneSummary": "An invitation is offered beside an expectant empty chair."
+  },
+  {
+    "id": 1538,
+    "topic": "social",
+    "text": "I remember to ask about the thing a friend was worried about last time.",
+    "scene": {
+      "primary": "teacup",
+      "secondary": "conversation",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries a familiar conversation alongside tea."
+  },
+  {
+    "id": 1539,
+    "topic": "social",
+    "text": "I am happy being the first guest and the last person helping tidy up.",
+    "scene": {
+      "primary": "chair",
+      "secondary": "doormat",
+      "relation": "balance"
+    },
+    "sceneSummary": "A chair balances between a welcoming and closing doorway."
+  },
+  {
+    "id": 1540,
+    "topic": "social",
+    "text": "I read the start time twice and still wonder whether arriving on time is too early.",
+    "scene": {
+      "primary": "balloon",
+      "secondary": "invitation",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects the invitation beneath a waiting balloon."
+  },
+  {
+    "id": 1541,
+    "topic": "social",
+    "text": "I introduce two friends when I think they would get along.",
+    "scene": {
+      "primary": "conversation",
+      "secondary": "balloon",
+      "relation": "offer"
+    },
+    "sceneSummary": "A conversation is offered between characters under a balloon."
+  },
+  {
+    "id": 1542,
+    "topic": "social",
+    "text": "I like being the house where friends can drop in without an occasion.",
+    "scene": {
+      "primary": "doormat",
+      "secondary": "chair",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a welcoming nook beside the doormat."
+  },
+  {
+    "id": 1543,
+    "topic": "social",
+    "text": "I would rather reschedule honestly than arrive too tired to enjoy a visit.",
+    "scene": {
+      "primary": "invitation",
+      "secondary": "teacup",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character sets an invitation aside for restorative tea."
+  },
+  {
+    "id": 1544,
+    "topic": "social",
+    "text": "I drift between little groups instead of staying with one all evening.",
+    "scene": {
+      "primary": "teacup",
+      "secondary": "balloon",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A character carrying tea circles several party balloons."
+  },
+  {
+    "id": 1545,
+    "topic": "social",
+    "text": "I enjoy hearing how two friends remember the same event differently.",
+    "scene": {
+      "primary": "chair",
+      "secondary": "conversation",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share a chair-side conversation."
+  },
+  {
+    "id": 1546,
+    "topic": "social",
+    "text": "I would happily help prepare a surprise while avoiding the dramatic entrance myself.",
+    "scene": {
+      "primary": "balloon",
+      "secondary": "doormat",
+      "relation": "hide"
+    },
+    "sceneSummary": "A balloon waits discreetly behind the doormat."
+  },
+  {
+    "id": 1547,
+    "topic": "social",
+    "text": "I make better friends over several small chats than one deep conversation.",
+    "scene": {
+      "primary": "conversation",
+      "secondary": "teacup",
+      "relation": "build"
+    },
+    "sceneSummary": "Small conversations gather around a familiar teacup."
+  },
+  {
+    "id": 1548,
+    "topic": "social",
+    "text": "I would deliver an invitation in person if the walk was pleasant.",
+    "scene": {
+      "primary": "doormat",
+      "secondary": "invitation",
+      "relation": "offer"
+    },
+    "sceneSummary": "An invitation is offered across a neighbour's doormat."
+  },
+  {
+    "id": 1549,
+    "topic": "social",
+    "text": "I am happy to let a friend bring someone I have never met.",
+    "scene": {
+      "primary": "invitation",
+      "secondary": "conversation",
+      "relation": "share"
+    },
+    "sceneSummary": "An invitation is shared between three chatting characters."
+  },
+  {
+    "id": 1550,
+    "topic": "social",
+    "text": "I notice when a guest's cup is empty before they ask for anything.",
+    "scene": {
+      "primary": "teacup",
+      "secondary": "chair",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects an empty cup beside the guest chair."
+  }
+]

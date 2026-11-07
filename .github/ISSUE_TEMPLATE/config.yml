@@ -2,7 +2,7 @@ blank_issues_enabled: true
 contact_links:
   - name: Security vulnerability
     url: https://github.com/crosstabs/likerts/security/policy
-    about: Read the private reporting process before sharing vulnerability details.
-  - name: Setup and integration guides
-    url: https://likerts.com/docs
-    about: Start here for local setup, SDK integration and agent connections.
+    about: Use the private reporting process for vulnerability details.
+  - name: Game help
+    url: https://likerts.com/game/support
+    about: Gameplay, room access, content and privacy help.

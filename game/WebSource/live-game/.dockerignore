@@ -1,0 +1,13 @@
+.git
+.private
+node_modules
+test
+test-results
+playwright-report
+coverage
+.env
+.env.*
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.log

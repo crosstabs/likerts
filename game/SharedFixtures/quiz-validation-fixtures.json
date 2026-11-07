@@ -1,0 +1,1048 @@
+{
+  "schema": "likerts.quiz.validation-fixtures.v1",
+  "cases": [
+    {
+      "name": "sample",
+      "valid": true,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      }
+    },
+    {
+      "name": "normalizes-ascii-trim-nfc-and-uppercase-ids",
+      "valid": true,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3FA8-43F4-82BD-6F026933B8E7",
+        "title": "  Café  ",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "  Mars?\n  ",
+            "answers": [
+              " A ",
+              "B"
+            ],
+            "correctAnswer": 0,
+            "explanation": "  First line\nSecond line  ",
+            "timeLimitSeconds": 0
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      }
+    },
+    {
+      "name": "unsupported-version",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 2,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "unsupported_version"
+    },
+    {
+      "name": "unknown-root-key",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ],
+        "answerKey": "not a supported field"
+      },
+      "code": "unknown_field"
+    },
+    {
+      "name": "unknown-question-key",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20,
+            "secret": true
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "unknown_field"
+    },
+    {
+      "name": "empty-title",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": " \n\t",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "empty_title"
+    },
+    {
+      "name": "duplicate-question-id",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "duplicate_id"
+    },
+    {
+      "name": "quiz-id-reused-by-question",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "duplicate_id"
+    },
+    {
+      "name": "noncanonical-uuid",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "{84273658-3fa8-43f4-82bd-6f026933b8e7}",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "invalid_uuid"
+    },
+    {
+      "name": "too-few-answers",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "One"
+            ],
+            "correctAnswer": 0,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "answer_count"
+    },
+    {
+      "name": "duplicate-normalized-answers",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Café",
+              "Café"
+            ],
+            "correctAnswer": 0,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "duplicate_answer"
+    },
+    {
+      "name": "answer-not-selected",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": -1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "answer_required"
+    },
+    {
+      "name": "answer-outside-options",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 4,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "answer_required"
+    },
+    {
+      "name": "fractional-answer",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1.5,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "invalid_type"
+    },
+    {
+      "name": "boolean-version",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": true,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "invalid_type"
+    },
+    {
+      "name": "unsupported-time-limit",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 15
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "invalid_time_limit"
+    },
+    {
+      "name": "single-line-answer",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "A\nB",
+              "C"
+            ],
+            "correctAnswer": 0,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "invalid_answer"
+    },
+    {
+      "name": "control-in-prompt",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Hello\u0000world",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "invalid_prompt"
+    },
+    {
+      "name": "too-many-title-scalars",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "code": "empty_title"
+    },
+    {
+      "name": "empty-question-list",
+      "valid": false,
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questions": []
+      },
+      "code": "question_count"
+    },
+    {
+      "name": "uuid-trailing-newline",
+      "valid": false,
+      "code": "invalid_uuid",
+      "document": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7\n",
+        "title": "Little wonders",
+        "questions": [
+          {
+            "id": "42ab0856-2934-45cc-a720-7421756c873b",
+            "prompt": "Which planet is known as the Red Planet?",
+            "answers": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Mercury"
+            ],
+            "correctAnswer": 1,
+            "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "Two",
+              "Three",
+              "Four",
+              "Five"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A triangle has three straight sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+            "prompt": "Which ocean is the largest?",
+            "answers": [
+              "Atlantic",
+              "Indian",
+              "Pacific",
+              "Arctic"
+            ],
+            "correctAnswer": 2,
+            "explanation": "The Pacific is the largest ocean on Earth.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      }
+    }
+  ]
+}
