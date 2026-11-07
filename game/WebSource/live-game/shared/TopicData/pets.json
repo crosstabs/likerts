@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1101,
+    "topic": "pets",
+    "text": "I greet the dog with a longer speech than I give its human.",
+    "scene": {
+      "primary": "dog",
+      "secondary": "cat",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem bows in welcome to a dog while a cat observes."
+  },
+  {
+    "id": 1102,
+    "topic": "pets",
+    "text": "I would let a cat choose where I sit on the sofa.",
+    "scene": {
+      "primary": "cat",
+      "secondary": "dog",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem waits for a cat to settle while a dog claims the other cushion."
+  },
+  {
+    "id": 1103,
+    "topic": "pets",
+    "text": "I find a turtle taking its time more calming than any motivational poster.",
+    "scene": {
+      "primary": "turtle",
+      "secondary": "bird",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem watches a turtle stroll as a bird perches quietly nearby."
+  },
+  {
+    "id": 1104,
+    "topic": "pets",
+    "text": "I would learn a bird's favourite tune before teaching it my own.",
+    "scene": {
+      "primary": "bird",
+      "secondary": "fish",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem listens to a bird beside a quietly watching fish bowl."
+  },
+  {
+    "id": 1105,
+    "topic": "pets",
+    "text": "I would name a rabbit something more formal than my own nickname.",
+    "scene": {
+      "primary": "rabbit",
+      "secondary": "cat",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem presents a ceremonious welcome to a rabbit with a cat as witness."
+  },
+  {
+    "id": 1106,
+    "topic": "pets",
+    "text": "I can spend an entire visit watching fish instead of joining the conversation.",
+    "scene": {
+      "primary": "fish",
+      "secondary": "dog",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem peers into a fish bowl while a dog waits for attention."
+  },
+  {
+    "id": 1107,
+    "topic": "pets",
+    "text": "I would choose a walk with a curious dog over the quickest route home.",
+    "scene": {
+      "primary": "dog",
+      "secondary": "turtle",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem follows a curious dog while a turtle marks the slower path."
+  },
+  {
+    "id": 1108,
+    "topic": "pets",
+    "text": "I think a cat sitting in an empty box has already improved the box.",
+    "scene": {
+      "primary": "cat",
+      "secondary": "rabbit",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem builds a cosy box nook for a cat beside a rabbit's basket."
+  },
+  {
+    "id": 1109,
+    "topic": "pets",
+    "text": "I would celebrate a turtle reaching a small milestone with a tiny parade.",
+    "scene": {
+      "primary": "turtle",
+      "secondary": "rabbit",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A totem and rabbit circle a turtle in a gentle celebratory procession."
+  },
+  {
+    "id": 1110,
+    "topic": "pets",
+    "text": "I would give a pet bird an unnecessarily grand introduction to guests.",
+    "scene": {
+      "primary": "bird",
+      "secondary": "dog",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem introduces a perched bird as a dog looks up attentively."
+  },
+  {
+    "id": 1111,
+    "topic": "pets",
+    "text": "I prefer pet photos where the animal refuses to cooperate.",
+    "scene": {
+      "primary": "cat",
+      "secondary": "bird",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies a cat looking away while a bird faces the wrong direction."
+  },
+  {
+    "id": 1112,
+    "topic": "pets",
+    "text": "I would arrange my whole room around a comfortable place for the rabbit.",
+    "scene": {
+      "primary": "rabbit",
+      "secondary": "cat",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem builds a roomy rabbit nook with a separate cat cushion nearby."
+  },
+  {
+    "id": 1113,
+    "topic": "pets",
+    "text": "I speak more quietly when I am near an aquarium.",
+    "scene": {
+      "primary": "fish",
+      "secondary": "bird",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem hushes beside a fish bowl and a softly perched bird."
+  },
+  {
+    "id": 1114,
+    "topic": "pets",
+    "text": "I would remember a dog's birthday and forget my own calendar reminder.",
+    "scene": {
+      "primary": "dog",
+      "secondary": "rabbit",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem arranges a tiny birthday scene for a dog with a rabbit guest."
+  },
+  {
+    "id": 1115,
+    "topic": "pets",
+    "text": "I consider a cat choosing my lap a major personal achievement.",
+    "scene": {
+      "primary": "cat",
+      "secondary": "turtle",
+      "relation": "choose"
+    },
+    "sceneSummary": "A proud totem sits still with a cat while a turtle waits beside it."
+  },
+  {
+    "id": 1116,
+    "topic": "pets",
+    "text": "I would watch a bird explore a new toy longer than I watch a new show.",
+    "scene": {
+      "primary": "bird",
+      "secondary": "cat",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem watches a bird investigate while a cat sits on a separate ledge."
+  },
+  {
+    "id": 1117,
+    "topic": "pets",
+    "text": "I like a pet name that makes calling it across the room sound ridiculous.",
+    "scene": {
+      "primary": "rabbit",
+      "secondary": "bird",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem calls toward a rabbit while a bird echoes the cheerful scene."
+  },
+  {
+    "id": 1118,
+    "topic": "pets",
+    "text": "I would take a slower walk if a turtle happened to be going my way.",
+    "scene": {
+      "primary": "turtle",
+      "secondary": "dog",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem and dog pause behind a turtle on a broad path."
+  },
+  {
+    "id": 1119,
+    "topic": "pets",
+    "text": "I enjoy learning which corner of an aquarium each fish prefers.",
+    "scene": {
+      "primary": "fish",
+      "secondary": "turtle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies a fish bowl next to a turtle's quiet corner."
+  },
+  {
+    "id": 1120,
+    "topic": "pets",
+    "text": "I would carry a tired dog's toy home even if it looked enormous.",
+    "scene": {
+      "primary": "dog",
+      "secondary": "bird",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a giant dog toy while a bird watches from above."
+  },
+  {
+    "id": 1121,
+    "topic": "pets",
+    "text": "I accept that a cat will sit on the one thing I am trying to use.",
+    "scene": {
+      "primary": "cat",
+      "secondary": "fish",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem finds its workspace hidden by a cat with a fish bowl nearby."
+  },
+  {
+    "id": 1122,
+    "topic": "pets",
+    "text": "I would build a cardboard rabbit palace before buying a fancy ornament.",
+    "scene": {
+      "primary": "rabbit",
+      "secondary": "dog",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem constructs a roomy cardboard rabbit palace with a dog spectator."
+  },
+  {
+    "id": 1123,
+    "topic": "pets",
+    "text": "I think a bird stretching its wings deserves my full attention.",
+    "scene": {
+      "primary": "bird",
+      "secondary": "turtle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem pauses to watch a bird stretch while a turtle rests below."
+  },
+  {
+    "id": 1124,
+    "topic": "pets",
+    "text": "I would give every fish in an aquarium a different imaginary job.",
+    "scene": {
+      "primary": "fish",
+      "secondary": "rabbit",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem assigns imaginary workstations around a fish bowl beside a rabbit."
+  },
+  {
+    "id": 1125,
+    "topic": "pets",
+    "text": "I would choose the dog-friendly picnic spot even without bringing a dog.",
+    "scene": {
+      "primary": "dog",
+      "secondary": "cat",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses a spacious picnic corner with a dog and a calm cat."
+  },
+  {
+    "id": 1126,
+    "topic": "pets",
+    "text": "I talk a cat through my decisions even when it clearly disagrees.",
+    "scene": {
+      "primary": "cat",
+      "secondary": "bird",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem explains a plan to a cat while a bird perches above the discussion."
+  },
+  {
+    "id": 1127,
+    "topic": "pets",
+    "text": "I would rather meet one very curious rabbit than a room full of gadgets.",
+    "scene": {
+      "primary": "rabbit",
+      "secondary": "fish",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem turns toward a curious rabbit with a fish bowl to one side."
+  },
+  {
+    "id": 1128,
+    "topic": "pets",
+    "text": "I feel proud when a shy pet decides to come a little closer.",
+    "scene": {
+      "primary": "turtle",
+      "secondary": "cat",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem waits quietly as a turtle approaches and a cat watches calmly."
+  },
+  {
+    "id": 1129,
+    "topic": "pets",
+    "text": "I would make up subtitles for a bird looking out of the window.",
+    "scene": {
+      "primary": "bird",
+      "secondary": "rabbit",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies a window-facing bird while a rabbit looks the other way."
+  },
+  {
+    "id": 1130,
+    "topic": "pets",
+    "text": "I can tell a fish story without needing anything dramatic to happen.",
+    "scene": {
+      "primary": "fish",
+      "secondary": "dog",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem tells a calm story beside a fish bowl while a dog listens."
+  },
+  {
+    "id": 1131,
+    "topic": "pets",
+    "text": "I would put muddy dog photos in the family album.",
+    "scene": {
+      "primary": "dog",
+      "secondary": "turtle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem admires a toy dog with muddy paws beside a clean turtle."
+  },
+  {
+    "id": 1132,
+    "topic": "pets",
+    "text": "I leave a little extra space on a shelf in case a cat wants to supervise.",
+    "scene": {
+      "primary": "cat",
+      "secondary": "rabbit",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem shares a wide shelf with a cat while a rabbit rests below."
+  },
+  {
+    "id": 1133,
+    "topic": "pets",
+    "text": "I would spend an afternoon making a rabbit-friendly obstacle course.",
+    "scene": {
+      "primary": "rabbit",
+      "secondary": "turtle",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem arranges low cardboard tunnels for a rabbit with a turtle nearby."
+  },
+  {
+    "id": 1134,
+    "topic": "pets",
+    "text": "I think a turtle has the right idea about rushing to answer every question.",
+    "scene": {
+      "primary": "turtle",
+      "secondary": "bird",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses the turtle's calm pace beneath a lively bird."
+  },
+  {
+    "id": 1135,
+    "topic": "pets",
+    "text": "I would remember a bird's favourite perch when rearranging a room.",
+    "scene": {
+      "primary": "bird",
+      "secondary": "cat",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem builds a high bird perch with a separate cosy cat spot below."
+  },
+  {
+    "id": 1136,
+    "topic": "pets",
+    "text": "I prefer an aquarium with places to explore over one arranged only for display.",
+    "scene": {
+      "primary": "fish",
+      "secondary": "turtle",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem arranges little shelters around a fish bowl beside a turtle nook."
+  },
+  {
+    "id": 1137,
+    "topic": "pets",
+    "text": "I would wear a very silly raincoat if it made a dog's walk more cheerful.",
+    "scene": {
+      "primary": "dog",
+      "secondary": "rabbit",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem in a tiny raincoat carries a dog toy past a sheltered rabbit."
+  },
+  {
+    "id": 1138,
+    "topic": "pets",
+    "text": "I believe a cat's slow blink counts as a proper thank-you note.",
+    "scene": {
+      "primary": "cat",
+      "secondary": "dog",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem returns a cat's slow blink while a dog waits close by."
+  },
+  {
+    "id": 1139,
+    "topic": "pets",
+    "text": "I would choose a quiet rabbit visit over a noisy surprise celebration.",
+    "scene": {
+      "primary": "rabbit",
+      "secondary": "bird",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem settles beside a rabbit while a festive bird perches farther away."
+  },
+  {
+    "id": 1140,
+    "topic": "pets",
+    "text": "I would pause a game to watch a turtle finally reach its destination.",
+    "scene": {
+      "primary": "turtle",
+      "secondary": "fish",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem watches a turtle arrive beside a decorative fish bowl."
+  },
+  {
+    "id": 1141,
+    "topic": "pets",
+    "text": "I find a bird tilting its head a convincing reason to explain myself again.",
+    "scene": {
+      "primary": "bird",
+      "secondary": "dog",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem repeats a story to a head-tilting bird with a dog listening below."
+  },
+  {
+    "id": 1142,
+    "topic": "pets",
+    "text": "I would sketch the same fish every day until I noticed its tiny habits.",
+    "scene": {
+      "primary": "fish",
+      "secondary": "cat",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies a fish bowl while a cat sits at a respectful distance."
+  },
+  {
+    "id": 1143,
+    "topic": "pets",
+    "text": "I would let a dog choose which of two safe paths we explore.",
+    "scene": {
+      "primary": "dog",
+      "secondary": "turtle",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers two broad paths to a dog while a turtle marks the junction."
+  },
+  {
+    "id": 1144,
+    "topic": "pets",
+    "text": "I keep a seat warm for a cat even if it changes its mind.",
+    "scene": {
+      "primary": "cat",
+      "secondary": "turtle",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem reserves a cosy cushion for a cat with a turtle tucked beside it."
+  },
+  {
+    "id": 1145,
+    "topic": "pets",
+    "text": "I would turn rabbit-watching into a very slow competitive sport.",
+    "scene": {
+      "primary": "rabbit",
+      "secondary": "dog",
+      "relation": "inspect"
+    },
+    "sceneSummary": "Two totems quietly watch a rabbit while a dog serves as patient spectator."
+  },
+  {
+    "id": 1146,
+    "topic": "pets",
+    "text": "I would host a tiny award ceremony for the most patient turtle.",
+    "scene": {
+      "primary": "turtle",
+      "secondary": "rabbit",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem presents a harmless ribbon beside a turtle with a rabbit watching."
+  },
+  {
+    "id": 1147,
+    "topic": "pets",
+    "text": "I like hearing a bird start the morning before anyone starts talking.",
+    "scene": {
+      "primary": "bird",
+      "secondary": "fish",
+      "relation": "choose"
+    },
+    "sceneSummary": "A waking totem turns toward a singing bird beside a still fish bowl."
+  },
+  {
+    "id": 1148,
+    "topic": "pets",
+    "text": "I would give an aquarium a dramatic tour even if it has only one fish.",
+    "scene": {
+      "primary": "fish",
+      "secondary": "bird",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem ceremoniously presents a single fish bowl to a perched bird."
+  },
+  {
+    "id": 1149,
+    "topic": "pets",
+    "text": "I think a pet choosing to sit nearby is better than a perfect posed photo.",
+    "scene": {
+      "primary": "dog",
+      "secondary": "cat",
+      "relation": "share"
+    },
+    "sceneSummary": "A relaxed totem sits between an unposed dog and a comfortably distant cat."
+  },
+  {
+    "id": 1150,
+    "topic": "pets",
+    "text": "I would build a whole imaginary friendship between two pets that have never met.",
+    "scene": {
+      "primary": "rabbit",
+      "secondary": "fish",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem places a rabbit beside a fish bowl as an imagined friendly introduction."
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "totem-platform.png": {
+    "source": "NativeSource/Likerts/TotemAssets.xcassets/TotemPlatform.imageset/TotemPlatform.png",
+    "sha256": "1ec23f5dd82f82f49693c911cac36a02680f2097fead15b8b65da1741063dcf8",
+    "width": 2172, "height": 724,
+    "presentationCrop": {"x":47,"y":289,"width":2080,"height":171},
+    "usage": "Original cream platform under decorative quiz cast/guide. Concept purple platform intentionally replaced with original cream pixels."
+  },
+  "totem-background.png": {
+    "source": "NativeSource/Likerts/TotemAssets.xcassets/TotemBackground.imageset/TotemBackground.png",
+    "sha256": "4fe13f3ab70f16338453537d7cd2b2e5d94f58f4fe094ff37b7b63ebe2e4ef8a",
+    "width": 853, "height": 1844,
+    "usage": "Bounded static cream grain inside decorative art area, no text overlay, tiling or panning."
+  },
+  "story-book-library.png": {
+    "source": "NativeSource/Likerts/StoryAssets.xcassets/StoryBookFlagV42.imageset/StoryBookFlagV42-r2.png",
+    "sha256": "5a1bc3c26d0a2559942f2846376dde6bc596cbc602f8e9222db0049d021242b3",
+    "bytes": 1875357, "width": 1536, "height": 1024,
+    "presentationCrop": {"x":0,"y":130,"width":1536,"height":894},
+    "usage": "Static, lazy-loaded library reading scene after primary create/sample controls; never an authored-question illustration."
+  },
+  "motionPolicy": {
+    "durationMs":360,"maximumRisePx":6,"scope":"decorative scene only",
+    "coldImages":"Consume/static if any scene image is not loaded and already decoded. img.decode() only primes a bounded source cache for later scenes, never starts the current consumed entrance, and never delays controls.",
+    "replay":"Within one mounted controller, replaced nodes resume elapsed progress. Reload/recreated controller settles previously observed scenes statically. Recent history retains up to 8 journeys and 128 scenes per journey; older retired journeys may enter anew.",
+    "reducedMotion":"Immediately cancel to final static output and consume current scene; changing the setting back does not replay it."
+  }
+}

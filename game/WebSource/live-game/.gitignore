@@ -1,0 +1,10 @@
+node_modules/
+.playwright-cli/
+output/
+.data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+.env
+.env.*
+!.env.example

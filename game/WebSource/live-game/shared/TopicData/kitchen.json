@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1051,
+    "topic": "kitchen",
+    "text": "I would rather make slightly wonky pancakes than perfectly identical ones.",
+    "scene": {
+      "primary": "pancakes",
+      "secondary": "spatula",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem checks a lopsided pancake against a straight spatula."
+  },
+  {
+    "id": 1052,
+    "topic": "kitchen",
+    "text": "I talk to the kettle while waiting for it to finish.",
+    "scene": {
+      "primary": "kettle",
+      "secondary": "teapot",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem leans toward the kettle while the teapot patiently waits."
+  },
+  {
+    "id": 1053,
+    "topic": "kitchen",
+    "text": "I keep the toaster setting exactly where it worked once.",
+    "scene": {
+      "primary": "toaster",
+      "secondary": "spatula",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem shields its toaster dial with a spatula."
+  },
+  {
+    "id": 1054,
+    "topic": "kitchen",
+    "text": "I would use my nicest teapot on an entirely ordinary Tuesday.",
+    "scene": {
+      "primary": "teapot",
+      "secondary": "pancakes",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem proudly serves its best teapot beside weekday pancakes."
+  },
+  {
+    "id": 1055,
+    "topic": "kitchen",
+    "text": "I wash the mixing bowl before sitting down to eat.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "pancakes",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem reaches for the empty mixing bowl while pancakes wait."
+  },
+  {
+    "id": 1056,
+    "topic": "kitchen",
+    "text": "I would make one enormous pancake instead of flipping six small ones.",
+    "scene": {
+      "primary": "pancakes",
+      "secondary": "mixingbowl",
+      "relation": "build"
+    },
+    "sceneSummary": "A giant pancake spreads above a tiny mixing bowl."
+  },
+  {
+    "id": 1057,
+    "topic": "kitchen",
+    "text": "I need a cup of something warm before I can discuss breakfast.",
+    "scene": {
+      "primary": "teapot",
+      "secondary": "toaster",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem faces the teapot while the toaster quietly waits."
+  },
+  {
+    "id": 1058,
+    "topic": "kitchen",
+    "text": "I would follow a recipe more carefully for a friend than for myself.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "spatula",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem examines its bowl and spatula with unusual concentration."
+  },
+  {
+    "id": 1059,
+    "topic": "kitchen",
+    "text": "I enjoy the sound of toast popping up enough to wait beside it.",
+    "scene": {
+      "primary": "toaster",
+      "secondary": "kettle",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem watches the toaster closely while the kettle sits behind it."
+  },
+  {
+    "id": 1060,
+    "topic": "kitchen",
+    "text": "I would host a pancake breakfast even if my table is too small.",
+    "scene": {
+      "primary": "pancakes",
+      "secondary": "teapot",
+      "relation": "share"
+    },
+    "sceneSummary": "Several totems squeeze around pancakes and a teapot on a tiny table."
+  },
+  {
+    "id": 1061,
+    "topic": "kitchen",
+    "text": "I put every ingredient in a separate little bowl before starting.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "teapot",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A totem circles an orderly group of bowls beside the teapot."
+  },
+  {
+    "id": 1062,
+    "topic": "kitchen",
+    "text": "I would use a spatula as a microphone while breakfast cooks.",
+    "scene": {
+      "primary": "spatula",
+      "secondary": "toaster",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem holds its spatula like a microphone in front of the toaster."
+  },
+  {
+    "id": 1063,
+    "topic": "kitchen",
+    "text": "I like a kitchen that looks as if someone has actually cooked in it.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "toaster",
+      "relation": "share"
+    },
+    "sceneSummary": "A bowl and toaster share a cheerfully busy workspace with a totem."
+  },
+  {
+    "id": 1064,
+    "topic": "kitchen",
+    "text": "I would choose extra pancakes over an extra fancy tea service.",
+    "scene": {
+      "primary": "pancakes",
+      "secondary": "teapot",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem pulls the pancake stack close while the teapot stands aside."
+  },
+  {
+    "id": 1065,
+    "topic": "kitchen",
+    "text": "I warm the teapot even when only I will notice.",
+    "scene": {
+      "primary": "teapot",
+      "secondary": "kettle",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem brings the kettle carefully toward its waiting teapot."
+  },
+  {
+    "id": 1066,
+    "topic": "kitchen",
+    "text": "I would keep a strange-looking spatula if it was excellent at flipping.",
+    "scene": {
+      "primary": "spatula",
+      "secondary": "pancakes",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem tests a crooked spatula underneath a pancake."
+  },
+  {
+    "id": 1067,
+    "topic": "kitchen",
+    "text": "I measure pancake batter by confidence rather than by the markings.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "pancakes",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem tips an oversized bowl toward a small pancake stack."
+  },
+  {
+    "id": 1068,
+    "topic": "kitchen",
+    "text": "I would rearrange the kitchen to give the toaster a better view.",
+    "scene": {
+      "primary": "toaster",
+      "secondary": "teapot",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem moves the toaster to a prominent spot beside the teapot."
+  },
+  {
+    "id": 1069,
+    "topic": "kitchen",
+    "text": "I prefer a long leisurely breakfast to a very impressive dinner.",
+    "scene": {
+      "primary": "pancakes",
+      "secondary": "kettle",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A relaxed totem wanders between warm pancakes and a kettle."
+  },
+  {
+    "id": 1070,
+    "topic": "kitchen",
+    "text": "I would let a guest choose which teapot we use.",
+    "scene": {
+      "primary": "teapot",
+      "secondary": "mixingbowl",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem presents two kitchen vessels as a friendly choice."
+  },
+  {
+    "id": 1071,
+    "topic": "kitchen",
+    "text": "I try to flip pancakes dramatically even when nobody is watching.",
+    "scene": {
+      "primary": "spatula",
+      "secondary": "pancakes",
+      "relation": "balance"
+    },
+    "sceneSummary": "A totem balances a pancake high above a theatrical spatula."
+  },
+  {
+    "id": 1072,
+    "topic": "kitchen",
+    "text": "I leave the mixing bowl to soak as if soaking were a full chore.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "kettle",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem leaves its bowl tucked behind the kettle and strolls away."
+  },
+  {
+    "id": 1073,
+    "topic": "kitchen",
+    "text": "I would choose a compact toaster over a kitchen full of clever gadgets.",
+    "scene": {
+      "primary": "toaster",
+      "secondary": "mixingbowl",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem selects a simple toaster beside a crowded mixing bowl."
+  },
+  {
+    "id": 1074,
+    "topic": "kitchen",
+    "text": "I believe a teapot cosy can have far more personality than necessary.",
+    "scene": {
+      "primary": "teapot",
+      "secondary": "spatula",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem decorates a teapot cosy using a spatula as a tiny stand."
+  },
+  {
+    "id": 1075,
+    "topic": "kitchen",
+    "text": "I would carry pancakes to the table one at a time to keep them warm.",
+    "scene": {
+      "primary": "pancakes",
+      "secondary": "spatula",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carefully transports one pancake on a spatula."
+  },
+  {
+    "id": 1076,
+    "topic": "kitchen",
+    "text": "I get more excited about a good mixing bowl than a complicated recipe.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "teapot",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem hugs a mixing bowl while the teapot sits unchosen."
+  },
+  {
+    "id": 1077,
+    "topic": "kitchen",
+    "text": "I like waiting for the kettle because it gives me a tiny official break.",
+    "scene": {
+      "primary": "kettle",
+      "secondary": "toaster",
+      "relation": "choose"
+    },
+    "sceneSummary": "A resting totem sits with the kettle while the toaster stays busy."
+  },
+  {
+    "id": 1078,
+    "topic": "kitchen",
+    "text": "I would rescue the first wonky pancake from being called a practice one.",
+    "scene": {
+      "primary": "pancakes",
+      "secondary": "toaster",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem shelters an imperfect pancake behind the toaster."
+  },
+  {
+    "id": 1079,
+    "topic": "kitchen",
+    "text": "I keep a spare spatula for the person who suddenly wants to help.",
+    "scene": {
+      "primary": "spatula",
+      "secondary": "mixingbowl",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a second spatula across a shared mixing bowl."
+  },
+  {
+    "id": 1080,
+    "topic": "kitchen",
+    "text": "I keep the teapot on the table so nobody has to ask for a refill.",
+    "scene": {
+      "primary": "teapot",
+      "secondary": "kettle",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a table-side teapot while the ready kettle waits behind it."
+  },
+  {
+    "id": 1081,
+    "topic": "kitchen",
+    "text": "I prefer an old reliable toaster to one with a screen full of choices.",
+    "scene": {
+      "primary": "toaster",
+      "secondary": "teapot",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies a plain toaster next to a decorative teapot."
+  },
+  {
+    "id": 1082,
+    "topic": "kitchen",
+    "text": "I tap the spatula on the bowl as if I am conducting breakfast.",
+    "scene": {
+      "primary": "spatula",
+      "secondary": "mixingbowl",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A totem conducts around a mixing bowl with its raised spatula."
+  },
+  {
+    "id": 1083,
+    "topic": "kitchen",
+    "text": "I would build a pancake stack taller than the teapot just to see if I could.",
+    "scene": {
+      "primary": "pancakes",
+      "secondary": "teapot",
+      "relation": "stack"
+    },
+    "sceneSummary": "A pancake tower rises above the teapot as a totem steadies it."
+  },
+  {
+    "id": 1084,
+    "topic": "kitchen",
+    "text": "I put the kettle on when I cannot decide what to do next.",
+    "scene": {
+      "primary": "kettle",
+      "secondary": "mixingbowl",
+      "relation": "choose"
+    },
+    "sceneSummary": "A thoughtful totem chooses the kettle over an unfinished mixing bowl."
+  },
+  {
+    "id": 1085,
+    "topic": "kitchen",
+    "text": "I like cooking with someone who tidies while I make the mess.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "spatula",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a bowl while one gathers the spatula."
+  },
+  {
+    "id": 1086,
+    "topic": "kitchen",
+    "text": "I would serve breakfast in the mixing bowl if it saved another dish.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "pancakes",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries pancakes to the table inside the mixing bowl."
+  },
+  {
+    "id": 1087,
+    "topic": "kitchen",
+    "text": "I think the person making tea should get to choose the teapot.",
+    "scene": {
+      "primary": "kettle",
+      "secondary": "teapot",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers the kettle handle to a friend choosing the teapot."
+  },
+  {
+    "id": 1088,
+    "topic": "kitchen",
+    "text": "I would wait for properly crisp toast rather than rush breakfast.",
+    "scene": {
+      "primary": "toaster",
+      "secondary": "pancakes",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem sits patiently by the toaster beside ready pancakes."
+  },
+  {
+    "id": 1089,
+    "topic": "kitchen",
+    "text": "I can make a meal feel special by changing where the teapot sits.",
+    "scene": {
+      "primary": "teapot",
+      "secondary": "toaster",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem arranges the teapot as a centrepiece with the toaster tucked back."
+  },
+  {
+    "id": 1090,
+    "topic": "kitchen",
+    "text": "I would rather learn one brilliant pancake recipe than ten acceptable ones.",
+    "scene": {
+      "primary": "pancakes",
+      "secondary": "mixingbowl",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies a single pancake above its well-used mixing bowl."
+  },
+  {
+    "id": 1091,
+    "topic": "kitchen",
+    "text": "I give the spatula a little victory wave after a successful flip.",
+    "scene": {
+      "primary": "spatula",
+      "secondary": "kettle",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem waves the spatula beside a kettle like a tiny victory flag."
+  },
+  {
+    "id": 1092,
+    "topic": "kitchen",
+    "text": "I would use the last clean bowl for batter and deal with breakfast later.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "toaster",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem commits its final bowl to batter while the toaster waits."
+  },
+  {
+    "id": 1093,
+    "topic": "kitchen",
+    "text": "I like my breakfast warm enough that conversation can wait a minute.",
+    "scene": {
+      "primary": "kettle",
+      "secondary": "pancakes",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem brings a warm kettle beside fresh pancakes before friends gather."
+  },
+  {
+    "id": 1094,
+    "topic": "kitchen",
+    "text": "I would happily eat pancakes for a second meal on the same day.",
+    "scene": {
+      "primary": "pancakes",
+      "secondary": "toaster",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem returns to pancakes while leaving the toaster unused."
+  },
+  {
+    "id": 1095,
+    "topic": "kitchen",
+    "text": "I line up cups before making tea as if a tiny audience is arriving.",
+    "scene": {
+      "primary": "teapot",
+      "secondary": "mixingbowl",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem builds a neat tea setting beside a large serving bowl."
+  },
+  {
+    "id": 1096,
+    "topic": "kitchen",
+    "text": "I would name a kitchen gadget after it had saved breakfast twice.",
+    "scene": {
+      "primary": "toaster",
+      "secondary": "spatula",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem ceremoniously presents its toaster with a spatula as a banner."
+  },
+  {
+    "id": 1097,
+    "topic": "kitchen",
+    "text": "I keep mixing after the batter is ready because the motion is satisfying.",
+    "scene": {
+      "primary": "mixingbowl",
+      "secondary": "spatula",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A totem circles its spatula through a bowl of already smooth batter."
+  },
+  {
+    "id": 1098,
+    "topic": "kitchen",
+    "text": "I would lend my favourite kettle only to someone who brings it back with a story.",
+    "scene": {
+      "primary": "kettle",
+      "secondary": "teapot",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a kettle across a teapot set for a long conversation."
+  },
+  {
+    "id": 1099,
+    "topic": "kitchen",
+    "text": "I enjoy carrying a breakfast tray like I run a tiny hotel.",
+    "scene": {
+      "primary": "teapot",
+      "secondary": "pancakes",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a proud tray with a teapot and pancake stack."
+  },
+  {
+    "id": 1100,
+    "topic": "kitchen",
+    "text": "I would set out the breakfast things at night to impress my sleepy future self.",
+    "scene": {
+      "primary": "kettle",
+      "secondary": "toaster",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem builds an orderly breakfast station from the kettle and toaster."
+  }
+]

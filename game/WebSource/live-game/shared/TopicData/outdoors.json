@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1151,
+    "topic": "outdoors",
+    "text": "I would choose a campsite for the view from inside the tent.",
+    "scene": {
+      "primary": "tent",
+      "secondary": "tree",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem peeks through a tent doorway toward a broad tree."
+  },
+  {
+    "id": 1152,
+    "topic": "outdoors",
+    "text": "I put on walking boots before deciding whether I feel like a walk.",
+    "scene": {
+      "primary": "boots",
+      "secondary": "compass",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem proudly carries its compass while trying out oversized boots."
+  },
+  {
+    "id": 1153,
+    "topic": "outdoors",
+    "text": "I think a warm drink outdoors tastes better even from the same old mug.",
+    "scene": {
+      "primary": "campmug",
+      "secondary": "tree",
+      "relation": "share"
+    },
+    "sceneSummary": "A relaxed totem shares a quiet moment with its mug beside a tree."
+  },
+  {
+    "id": 1154,
+    "topic": "outdoors",
+    "text": "I would bring a lantern to a picnic that ends well before sunset.",
+    "scene": {
+      "primary": "lantern",
+      "secondary": "campmug",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a lantern and picnic mug in bright daytime."
+  },
+  {
+    "id": 1155,
+    "topic": "outdoors",
+    "text": "I like choosing the path with the most interesting trees.",
+    "scene": {
+      "primary": "tree",
+      "secondary": "compass",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies a distinctive tree beside its open compass."
+  },
+  {
+    "id": 1156,
+    "topic": "outdoors",
+    "text": "I would decorate my tent doorway as if guests were coming for dinner.",
+    "scene": {
+      "primary": "tent",
+      "secondary": "lantern",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem arranges a lantern as a welcoming tent entrance display."
+  },
+  {
+    "id": 1157,
+    "topic": "outdoors",
+    "text": "I sit down to appreciate a view before taking anything out of my bag.",
+    "scene": {
+      "primary": "tree",
+      "secondary": "boots",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem rests beneath a tree with its walking boots beside it."
+  },
+  {
+    "id": 1158,
+    "topic": "outdoors",
+    "text": "I would learn to read a compass just for the satisfaction of unfolding a map.",
+    "scene": {
+      "primary": "compass",
+      "secondary": "campmug",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies its compass over a picnic surface beside a mug."
+  },
+  {
+    "id": 1159,
+    "topic": "outdoors",
+    "text": "I keep camping boots by the door because they make future plans feel real.",
+    "scene": {
+      "primary": "boots",
+      "secondary": "tent",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem lines its boots up in front of a neatly packed tent."
+  },
+  {
+    "id": 1160,
+    "topic": "outdoors",
+    "text": "I would pick a tiny tent with a cosy corner over one with lots of gadgets.",
+    "scene": {
+      "primary": "tent",
+      "secondary": "campmug",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem settles in a small tent doorway with a single camp mug."
+  },
+  {
+    "id": 1161,
+    "topic": "outdoors",
+    "text": "I would take the scenic loop even after finding the shortest way back.",
+    "scene": {
+      "primary": "compass",
+      "secondary": "tree",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A totem circles a large tree while holding its compass."
+  },
+  {
+    "id": 1162,
+    "topic": "outdoors",
+    "text": "I enjoy the first lantern glow more than the final view of the campsite.",
+    "scene": {
+      "primary": "lantern",
+      "secondary": "tent",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem watches a lantern illuminate a carefully arranged tent."
+  },
+  {
+    "id": 1163,
+    "topic": "outdoors",
+    "text": "I would stop a walk to examine a leaf that looked unusually important.",
+    "scene": {
+      "primary": "tree",
+      "secondary": "boots",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem pauses in its boots to study a leaf beneath a tree."
+  },
+  {
+    "id": 1164,
+    "topic": "outdoors",
+    "text": "I bring a camp mug on short walks because sitting down is part of the plan.",
+    "scene": {
+      "primary": "campmug",
+      "secondary": "boots",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries its mug between boots arranged for a very short walk."
+  },
+  {
+    "id": 1165,
+    "topic": "outdoors",
+    "text": "I would volunteer to organise the tent pegs rather than choose the route.",
+    "scene": {
+      "primary": "tent",
+      "secondary": "compass",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem focuses on a neatly arranged tent while its compass waits aside."
+  },
+  {
+    "id": 1166,
+    "topic": "outdoors",
+    "text": "I think a lantern makes even an ordinary garden feel like an expedition.",
+    "scene": {
+      "primary": "lantern",
+      "secondary": "tree",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem places a lantern beneath a garden tree to create a tiny camp."
+  },
+  {
+    "id": 1167,
+    "topic": "outdoors",
+    "text": "I would rather repeat a favourite woodland walk than tick off a new trail.",
+    "scene": {
+      "primary": "tree",
+      "secondary": "compass",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses the familiar tree-lined path beyond its compass."
+  },
+  {
+    "id": 1168,
+    "topic": "outdoors",
+    "text": "I leave my boots neatly together even when the rest of camp is chaos.",
+    "scene": {
+      "primary": "boots",
+      "secondary": "tent",
+      "relation": "stack"
+    },
+    "sceneSummary": "A totem lines up boots beside a cheerfully untidy tent."
+  },
+  {
+    "id": 1169,
+    "topic": "outdoors",
+    "text": "I would give each camping mug a name so nobody takes the wrong one.",
+    "scene": {
+      "primary": "campmug",
+      "secondary": "lantern",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem introduces a named mug beside a welcoming lantern."
+  },
+  {
+    "id": 1170,
+    "topic": "outdoors",
+    "text": "I like putting a tent up more than packing it away.",
+    "scene": {
+      "primary": "tent",
+      "secondary": "boots",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem proudly raises a tent while its boots wait by the doorway."
+  },
+  {
+    "id": 1171,
+    "topic": "outdoors",
+    "text": "I would carry an extra lantern to lend to someone who forgot theirs.",
+    "scene": {
+      "primary": "lantern",
+      "secondary": "compass",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a spare lantern to a friend holding a compass."
+  },
+  {
+    "id": 1172,
+    "topic": "outdoors",
+    "text": "I choose a picnic spot by testing the shade before unpacking.",
+    "scene": {
+      "primary": "tree",
+      "secondary": "campmug",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem checks a tree's shady patch with its mug still unopened."
+  },
+  {
+    "id": 1173,
+    "topic": "outdoors",
+    "text": "I would take muddy boots as proof that an afternoon went well.",
+    "scene": {
+      "primary": "boots",
+      "secondary": "tree",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem admires its muddy boots beneath a leafy tree."
+  },
+  {
+    "id": 1174,
+    "topic": "outdoors",
+    "text": "I like a campsite where everyone can see the same lantern from their tent.",
+    "scene": {
+      "primary": "lantern",
+      "secondary": "tent",
+      "relation": "share"
+    },
+    "sceneSummary": "Several totems share a lantern placed in the middle of their tents."
+  },
+  {
+    "id": 1175,
+    "topic": "outdoors",
+    "text": "I would pause a conversation to listen to leaves rustling.",
+    "scene": {
+      "primary": "tree",
+      "secondary": "lantern",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem turns from a lantern-lit conversation toward a rustling tree."
+  },
+  {
+    "id": 1176,
+    "topic": "outdoors",
+    "text": "I prefer a camp mug with a chipped-looking pattern to one that stays spotless.",
+    "scene": {
+      "primary": "campmug",
+      "secondary": "tent",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies its patterned mug outside a pristine tent."
+  },
+  {
+    "id": 1177,
+    "topic": "outdoors",
+    "text": "I would plan a walk around a particularly good place to sit.",
+    "scene": {
+      "primary": "compass",
+      "secondary": "tree",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem uses its compass to arrange a route around a broad tree seat."
+  },
+  {
+    "id": 1178,
+    "topic": "outdoors",
+    "text": "I check my boot laces twice even for a gentle stroll.",
+    "scene": {
+      "primary": "boots",
+      "secondary": "compass",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects tied boots while a compass waits on the path."
+  },
+  {
+    "id": 1179,
+    "topic": "outdoors",
+    "text": "I would use a tent in the garden before taking it anywhere adventurous.",
+    "scene": {
+      "primary": "tent",
+      "secondary": "tree",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem builds a small practice camp beneath a familiar garden tree."
+  },
+  {
+    "id": 1180,
+    "topic": "outdoors",
+    "text": "I would choose a lantern with a handle that feels excellent to carry.",
+    "scene": {
+      "primary": "lantern",
+      "secondary": "boots",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem tests a lantern handle with boots ready for an evening stroll."
+  },
+  {
+    "id": 1181,
+    "topic": "outdoors",
+    "text": "I think drinking from a camp mug makes a biscuit break feel official.",
+    "scene": {
+      "primary": "campmug",
+      "secondary": "compass",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem ceremoniously offers its mug beside a compass marking a rest stop."
+  },
+  {
+    "id": 1182,
+    "topic": "outdoors",
+    "text": "I would name a memorable tree so I could ask to visit it again.",
+    "scene": {
+      "primary": "tree",
+      "secondary": "tent",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem presents a friendly tree as the landmark beside its tent."
+  },
+  {
+    "id": 1183,
+    "topic": "outdoors",
+    "text": "I enjoy finding the exact middle of the tent before choosing my spot.",
+    "scene": {
+      "primary": "tent",
+      "secondary": "compass",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem uses a compass to examine the centre of its tent floor."
+  },
+  {
+    "id": 1184,
+    "topic": "outdoors",
+    "text": "I would keep walking slowly if the path had lots of tiny things to notice.",
+    "scene": {
+      "primary": "boots",
+      "secondary": "tree",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A totem in walking boots takes a slow circle around a tree's roots."
+  },
+  {
+    "id": 1185,
+    "topic": "outdoors",
+    "text": "I like a lantern bright enough to read by but soft enough to feel cosy.",
+    "scene": {
+      "primary": "lantern",
+      "secondary": "campmug",
+      "relation": "balance"
+    },
+    "sceneSummary": "A totem balances a softly glowing lantern beside its bedtime mug."
+  },
+  {
+    "id": 1186,
+    "topic": "outdoors",
+    "text": "I would carry the mugs if someone else carried the folded tent.",
+    "scene": {
+      "primary": "campmug",
+      "secondary": "tent",
+      "relation": "carry"
+    },
+    "sceneSummary": "Two totems divide carrying duties between mugs and a folded tent."
+  },
+  {
+    "id": 1187,
+    "topic": "outdoors",
+    "text": "I would choose a broad old tree as the meeting point for a group.",
+    "scene": {
+      "primary": "tree",
+      "secondary": "compass",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem points its compass toward a prominent meeting tree."
+  },
+  {
+    "id": 1188,
+    "topic": "outdoors",
+    "text": "I unpack my boots first because they are the beginning of the outing.",
+    "scene": {
+      "primary": "boots",
+      "secondary": "campmug",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem reaches for boots before unpacking its camp mug."
+  },
+  {
+    "id": 1189,
+    "topic": "outdoors",
+    "text": "I would rather hear a camping story beside the lantern than be its hero.",
+    "scene": {
+      "primary": "lantern",
+      "secondary": "tent",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem settles by a lantern while a storyteller stands at the tent."
+  },
+  {
+    "id": 1190,
+    "topic": "outdoors",
+    "text": "I enjoy making a tiny outdoor routine that feels like a secret ritual.",
+    "scene": {
+      "primary": "campmug",
+      "secondary": "tree",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem arranges its mug at the same cosy spot beneath a tree."
+  },
+  {
+    "id": 1191,
+    "topic": "outdoors",
+    "text": "I would check the compass after reaching a familiar landmark just to feel capable.",
+    "scene": {
+      "primary": "compass",
+      "secondary": "boots",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem checks its compass beside boots at a familiar trail stop."
+  },
+  {
+    "id": 1192,
+    "topic": "outdoors",
+    "text": "I prefer an imperfectly pitched tent with a lovely view to a flawless one facing a wall.",
+    "scene": {
+      "primary": "tent",
+      "secondary": "tree",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A slightly wonky tent faces a beautiful tree as a totem checks the doorway."
+  },
+  {
+    "id": 1193,
+    "topic": "outdoors",
+    "text": "I would polish my walking boots and immediately feel more adventurous.",
+    "scene": {
+      "primary": "boots",
+      "secondary": "lantern",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem examines freshly polished boots beside a packed lantern."
+  },
+  {
+    "id": 1194,
+    "topic": "outdoors",
+    "text": "I like a lantern that reminds me of a particular trip more than a newer one.",
+    "scene": {
+      "primary": "lantern",
+      "secondary": "compass",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem chooses a well-loved lantern next to an unused compass."
+  },
+  {
+    "id": 1195,
+    "topic": "outdoors",
+    "text": "I would sit under a tree long enough to notice its shadow move.",
+    "scene": {
+      "primary": "tree",
+      "secondary": "campmug",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A totem moves its mug slowly around a tree's changing shade."
+  },
+  {
+    "id": 1196,
+    "topic": "outdoors",
+    "text": "I would lend my favourite camp mug to the newest person in the group.",
+    "scene": {
+      "primary": "campmug",
+      "secondary": "lantern",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem shares its mug with a newcomer beside the group lantern."
+  },
+  {
+    "id": 1197,
+    "topic": "outdoors",
+    "text": "I consider a well-folded tent a small engineering triumph.",
+    "scene": {
+      "primary": "tent",
+      "secondary": "boots",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A proud totem inspects a neatly folded tent beside compact boots."
+  },
+  {
+    "id": 1198,
+    "topic": "outdoors",
+    "text": "I would pick a slow woodland wander over a walk with a step-count target.",
+    "scene": {
+      "primary": "tree",
+      "secondary": "boots",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems stroll together beneath a tree with their boots at an easy pace."
+  },
+  {
+    "id": 1199,
+    "topic": "outdoors",
+    "text": "I would lay out tomorrow's compass and mug before settling into the tent.",
+    "scene": {
+      "primary": "compass",
+      "secondary": "campmug",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem builds a tidy morning station from its compass and mug."
+  },
+  {
+    "id": 1200,
+    "topic": "outdoors",
+    "text": "I think the best outdoor souvenir is a story about something very small.",
+    "scene": {
+      "primary": "campmug",
+      "secondary": "tree",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies a tiny leaf beside its mug under a large tree."
+  }
+]

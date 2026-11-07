@@ -1,53 +1,11 @@
 # Contributing to Likerts
 
-Help make it easier to put feedback inside a product. Useful contributions include a reproducible bug report, a clearer installation step, a working framework example, a keyboard-accessibility fix or a focused SDK improvement. You do not need to install every mobile toolchain to contribute.
+Help improve shared gameplay, quiz creation, accessibility or a reproducible bug. Search existing issues and use synthetic players and quizzes. Keep credentials, private room access, personal answers, build products and databases out of issues and commits. Follow the [Code of Conduct](CODE_OF_CONDUCT.md); security reports use the [private reporting path](SECURITY.md).
 
-Start with the [browser demo](https://likerts.com/demo), or follow the [local first-response walkthrough](README.md#run-the-api-locally). The browser demo keeps answers in page memory; the local walkthrough exercises the API and verifies a stored response.
+Use Node 22.23.4 for browser/server work. From `game/WebSource/live-game`, run `npm ci` and `npm test`. An explicit disposable PostgreSQL test URL enables integration cases; follow the game README. From `control-plane`, run `npm ci` and `npm run check` for website changes. Native development uses `game/NativeSource/Likerts.xcodeproj` and the shared fixtures beside it.
 
-## Pick a change
+Use focused checks appropriate to your change. Gameplay changes should exercise both host and player, correct/wrong/missing answers, reveal, recovery and confirmed Leave/Close. Rendered UI changes should be inspected at mobile and desktop widths, including reduced motion and readable text sizes. State checks that were not run. Never run destructive tests against a real room or production database.
 
-- Search [existing issues](https://github.com/crosstabs/likerts/issues) before opening one. Include a small reproduction and the behavior you expected.
-- For a small fix, send a focused pull request. Discuss a new question type, public contract change or significant dependency in an issue first so compatibility work can be planned together.
-- To take an issue, leave a short comment describing your approach. Ask for missing context; you do not need a complete design to get started.
-- See the [roadmap](docs/community/ROADMAP.md) for priorities. These are opportunities, not release-date promises.
+A pull request should explain the user problem, changed behavior and relevant verification. Include screenshots for visual changes and a concrete reproduction for regressions. Keep the existing required CI checks meaningful; do not weaken branch protection to make a change pass.
 
-Security reports belong in the [private reporting path](SECURITY.md). Please follow our [Code of Conduct](CODE_OF_CONDUCT.md).
-
-## Work locally
-
-Fork the repository, clone your fork and create a descriptive branch. Commands below run from the repository root. Node.js work needs Node 22.12+ and npm; Rust work needs stable Rust. `source scripts/dev-env.sh` makes an existing local toolchain available without installing one.
-
-Choose checks for the area you changed:
-
-| Area | Focused checks |
-| --- | --- |
-| Landing page or public docs | `npm ci --prefix control-plane`, then `npm run check --prefix control-plane`; open the changed page at desktop and mobile widths and exercise its controls |
-| Rust API/domain | `cargo test --manifest-path backend/Cargo.toml --locked` and `cargo fmt --manifest-path backend/Cargo.toml --check` |
-| Rust CLI | `cargo test --manifest-path tools/cli/Cargo.toml --locked` and `cargo fmt --manifest-path tools/cli/Cargo.toml --check` |
-| MCP adapter | `npm ci --prefix tools/mcp`, `npm run build --prefix tools/mcp`, `npm test --prefix tools/mcp` |
-| Web SDK | `npm ci --prefix sdks/web`, `npm run build --prefix sdks/web`, `node --test sdks/web/test/*.test.mjs` |
-| React Native SDK | `npm ci --prefix sdks/react-native`, `npm run check --prefix sdks/react-native`, `npm test --prefix sdks/react-native` |
-| iOS SDK | `swift test --package-path sdks/ios`; see [iOS setup](sdks/ios/README.md) for simulator/UI work |
-| Android SDK | With the [Android prerequisites](sdks/android/README.md), `gradle --no-daemon -p sdks/android testDebugUnitTest` |
-| Flutter SDK | With Flutter installed, run `flutter pub get`, `flutter analyze`, `flutter test` from `sdks/flutter` |
-| Vue/Svelte hosts | `npm ci`, `npm run build` and `npm run check` with `--prefix examples/vue-feedback` or `--prefix examples/svelte-feedback`; each README documents Chromium prerequisites |
-| Markdown links and client harness | `node scripts/check-markdown-links.mjs` and `node --test scripts/check-markdown-links.test.mjs scripts/bounded-client-command.test.mjs` |
-| Contracts/examples | `node contracts/check.mjs` and `node contracts/generate-examples.mjs --check` |
-
-Public-reference checks need a built Web SDK. If they report missing or stale SDK output, run `npm ci --prefix sdks/web` and `npm run build --prefix sdks/web`. When deliberately changing the API reference or SDK snapshot, run `node control-plane/scripts/sync-public-reference.mjs` and include the corresponding source change.
-
-For a PostgreSQL storage or isolation change, also run `bash scripts/check-postgres.sh` with Docker available. Web renderer changes should run `bash scripts/check-web-browsers.sh` for Chromium, Firefox and WebKit keyboard/RTL submission after installing those engines with `node sdks/web/node_modules/playwright/cli.js install --with-deps chromium firefox webkit`. Interface changes should run `bash scripts/check.sh`, which covers API/MCP/CLI parity. A change spanning all SDKs requires the matching [SDK matrix checks](sdks/README.md); maintainers can help with platforms you cannot run locally.
-
-A prose-only change needs a careful read and working links, not the full build matrix. Mention checks you could not run and why. CI and maintainer review provide broader coverage before merge.
-
-## Send a reviewable pull request
-
-Explain the user problem, what changes and how you verified it. Link the issue when there is one. Include a screenshot for visible UI changes and a before/after request example for changed API behavior. Add tests for a new behavior or regression where they prove something useful.
-
-Keep generated files paired with their source. Do not commit credentials, real survey responses, build directories or private validation evidence. Use synthetic examples and collection-scoped tokens in client code; never put management credentials in a browser or mobile bundle.
-
-Maintainers review scope and compatibility, run relevant checks and may ask for a smaller change before merging. We do not promise response times. See the [maintainer workflow](docs/community/MAINTAINERS.md).
-
-## License
-
-By contributing, you agree that your contribution is licensed under the repository's [MIT License](LICENSE). Preserve applicable third-party notices and attribute borrowed material. There is no separate contributor license agreement.
+By contributing, you agree that your contribution is licensed under the repository's [MIT License](LICENSE). Preserve applicable third-party notices and asset attribution. Publishing code does not authorize paid provider, signing, DNS or production-data changes.

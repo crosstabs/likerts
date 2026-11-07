@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1801,
+    "topic": "making",
+    "text": "I measure craft materials twice and still cut the wrong piece.",
+    "scene": {
+      "primary": "tape",
+      "secondary": "scissors",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects tape beside carefully placed scissors."
+  },
+  {
+    "id": 1802,
+    "topic": "making",
+    "text": "I would rather see a little tape than wait for glue to dry.",
+    "scene": {
+      "primary": "tape",
+      "secondary": "glue",
+      "relation": "choose"
+    },
+    "sceneSummary": "Tape and glue await a decision at the workbench."
+  },
+  {
+    "id": 1803,
+    "topic": "making",
+    "text": "I see an empty box as the beginning of a very important invention.",
+    "scene": {
+      "primary": "tape",
+      "secondary": "cardboard",
+      "relation": "build"
+    },
+    "sceneSummary": "Tape joins cardboard into a tiny invented machine."
+  },
+  {
+    "id": 1804,
+    "topic": "making",
+    "text": "I would keep a wonky decoration because I made it myself.",
+    "scene": {
+      "primary": "tape",
+      "secondary": "buttons",
+      "relation": "balance"
+    },
+    "sceneSummary": "Buttons balance on a charmingly uneven tape pedestal."
+  },
+  {
+    "id": 1805,
+    "topic": "making",
+    "text": "I would bring a repair kit to a craft afternoon just in case.",
+    "scene": {
+      "primary": "tape",
+      "secondary": "pencil",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries tape with a pencil tucked beside it."
+  },
+  {
+    "id": 1806,
+    "topic": "making",
+    "text": "I would help rescue a friend's project before finishing my own.",
+    "scene": {
+      "primary": "scissors",
+      "secondary": "tape",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers tape across safely closed scissors."
+  },
+  {
+    "id": 1807,
+    "topic": "making",
+    "text": "I lay everything out before starting a project that looks simple.",
+    "scene": {
+      "primary": "scissors",
+      "secondary": "glue",
+      "relation": "inspect"
+    },
+    "sceneSummary": "Scissors and glue sit under a meticulous inspection."
+  },
+  {
+    "id": 1808,
+    "topic": "making",
+    "text": "I would keep cutting until an uneven edge becomes a much smaller project.",
+    "scene": {
+      "primary": "scissors",
+      "secondary": "cardboard",
+      "relation": "choose"
+    },
+    "sceneSummary": "Scissors face two sizes of cardboard at a decision fork."
+  },
+  {
+    "id": 1809,
+    "topic": "making",
+    "text": "I hide spare craft supplies so well that I eventually buy more.",
+    "scene": {
+      "primary": "scissors",
+      "secondary": "buttons",
+      "relation": "hide"
+    },
+    "sceneSummary": "Closed scissors rest behind a secret pile of buttons."
+  },
+  {
+    "id": 1810,
+    "topic": "making",
+    "text": "I enjoy making things alongside someone without working on the same thing.",
+    "scene": {
+      "primary": "scissors",
+      "secondary": "pencil",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a bench with scissors and pencil in separate spots."
+  },
+  {
+    "id": 1811,
+    "topic": "making",
+    "text": "I think a neat repair is satisfying even when nobody will ever see it.",
+    "scene": {
+      "primary": "glue",
+      "secondary": "tape",
+      "relation": "balance"
+    },
+    "sceneSummary": "Glue and tape balance in a carefully aligned repair station."
+  },
+  {
+    "id": 1812,
+    "topic": "making",
+    "text": "I would move my whole project to a better patch of daylight.",
+    "scene": {
+      "primary": "glue",
+      "secondary": "scissors",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries glue past scissors toward a brighter work area."
+  },
+  {
+    "id": 1813,
+    "topic": "making",
+    "text": "I would make a miniature room before reorganising my actual room.",
+    "scene": {
+      "primary": "glue",
+      "secondary": "cardboard",
+      "relation": "build"
+    },
+    "sceneSummary": "Glue assembles cardboard into a tiny cosy room."
+  },
+  {
+    "id": 1814,
+    "topic": "making",
+    "text": "I check whether something is dry by touching it much too soon.",
+    "scene": {
+      "primary": "glue",
+      "secondary": "buttons",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a button fixed with still-shiny glue."
+  },
+  {
+    "id": 1815,
+    "topic": "making",
+    "text": "I prefer trying an idea immediately to drawing a perfect plan.",
+    "scene": {
+      "primary": "glue",
+      "secondary": "pencil",
+      "relation": "choose"
+    },
+    "sceneSummary": "Glue sits on the chosen path while a planning pencil waits."
+  },
+  {
+    "id": 1816,
+    "topic": "making",
+    "text": "I keep useful boxes nested inside other useful boxes.",
+    "scene": {
+      "primary": "cardboard",
+      "secondary": "tape",
+      "relation": "stack"
+    },
+    "sceneSummary": "Cardboard boxes stack with a tape roll supporting the pile."
+  },
+  {
+    "id": 1817,
+    "topic": "making",
+    "text": "I would turn a delivery box into a toy before putting it away.",
+    "scene": {
+      "primary": "cardboard",
+      "secondary": "scissors",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers transformed cardboard beside closed scissors."
+  },
+  {
+    "id": 1818,
+    "topic": "making",
+    "text": "I would build something ambitious on a table that is slightly too small.",
+    "scene": {
+      "primary": "cardboard",
+      "secondary": "glue",
+      "relation": "balance"
+    },
+    "sceneSummary": "Cardboard balances above a glue bottle on a crowded workbench."
+  },
+  {
+    "id": 1819,
+    "topic": "making",
+    "text": "I would give a homemade model tiny details that no one asked for.",
+    "scene": {
+      "primary": "cardboard",
+      "secondary": "buttons",
+      "relation": "build"
+    },
+    "sceneSummary": "Buttons become windows in a carefully built cardboard model."
+  },
+  {
+    "id": 1820,
+    "topic": "making",
+    "text": "I would sketch a grand invention on the nearest scrap of packaging.",
+    "scene": {
+      "primary": "cardboard",
+      "secondary": "pencil",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects pencil plans across a cardboard scrap."
+  },
+  {
+    "id": 1821,
+    "topic": "making",
+    "text": "I would pick the charming odd button over five perfectly matching ones.",
+    "scene": {
+      "primary": "buttons",
+      "secondary": "tape",
+      "relation": "choose"
+    },
+    "sceneSummary": "Buttons face a tape-marked selection line with one odd favourite."
+  },
+  {
+    "id": 1822,
+    "topic": "making",
+    "text": "I sort my supplies by colour even when sorting takes longer than making.",
+    "scene": {
+      "primary": "buttons",
+      "secondary": "scissors",
+      "relation": "stack"
+    },
+    "sceneSummary": "Buttons form orderly stacks beside closed scissors."
+  },
+  {
+    "id": 1823,
+    "topic": "making",
+    "text": "I would let a friend add one completely unexpected detail to my project.",
+    "scene": {
+      "primary": "buttons",
+      "secondary": "glue",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a button toward a glue-ready project."
+  },
+  {
+    "id": 1824,
+    "topic": "making",
+    "text": "I like little secret compartments in things I make.",
+    "scene": {
+      "primary": "buttons",
+      "secondary": "cardboard",
+      "relation": "hide"
+    },
+    "sceneSummary": "Buttons disappear into a hidden cardboard compartment."
+  },
+  {
+    "id": 1825,
+    "topic": "making",
+    "text": "I can get distracted choosing colours before I have chosen what to make.",
+    "scene": {
+      "primary": "buttons",
+      "secondary": "pencil",
+      "relation": "orbit"
+    },
+    "sceneSummary": "Buttons orbit a waiting pencil in a cloud of possibilities."
+  },
+  {
+    "id": 1826,
+    "topic": "making",
+    "text": "I would test a craft trick on scrap before trusting it on the real thing.",
+    "scene": {
+      "primary": "pencil",
+      "secondary": "tape",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A pencil points to a small tape test on the workbench."
+  },
+  {
+    "id": 1827,
+    "topic": "making",
+    "text": "I would follow a rough drawing more happily than a page of written steps.",
+    "scene": {
+      "primary": "pencil",
+      "secondary": "scissors",
+      "relation": "choose"
+    },
+    "sceneSummary": "A pencil sketch is chosen beside safely resting scissors."
+  },
+  {
+    "id": 1828,
+    "topic": "making",
+    "text": "I would happily explain my entire making process to an interested friend.",
+    "scene": {
+      "primary": "pencil",
+      "secondary": "glue",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a pencil plan beside a glue bottle."
+  },
+  {
+    "id": 1829,
+    "topic": "making",
+    "text": "I would make a full-size paper pattern for something very small.",
+    "scene": {
+      "primary": "pencil",
+      "secondary": "cardboard",
+      "relation": "build"
+    },
+    "sceneSummary": "A pencil outlines an oversized cardboard pattern."
+  },
+  {
+    "id": 1830,
+    "topic": "making",
+    "text": "I collect small design ideas for projects I may never begin.",
+    "scene": {
+      "primary": "pencil",
+      "secondary": "buttons",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a pencil with a trail of inspiration buttons."
+  },
+  {
+    "id": 1831,
+    "topic": "making",
+    "text": "I would stop everything to find the proper end of a tape roll.",
+    "scene": {
+      "primary": "tape",
+      "secondary": "scissors",
+      "relation": "hide"
+    },
+    "sceneSummary": "Scissors wait while a tape end hides around the roll."
+  },
+  {
+    "id": 1832,
+    "topic": "making",
+    "text": "I would lend my favourite supplies if someone promised to return them.",
+    "scene": {
+      "primary": "tape",
+      "secondary": "glue",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a tape roll and glue at the table."
+  },
+  {
+    "id": 1833,
+    "topic": "making",
+    "text": "I enjoy figuring out how packaging folds together before taking it apart.",
+    "scene": {
+      "primary": "tape",
+      "secondary": "cardboard",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects tape seams around a cardboard structure."
+  },
+  {
+    "id": 1834,
+    "topic": "making",
+    "text": "I would decorate a plain parcel even if the wrapping gets removed immediately.",
+    "scene": {
+      "primary": "tape",
+      "secondary": "buttons",
+      "relation": "offer"
+    },
+    "sceneSummary": "A tape-wrapped parcel receives an offered button decoration."
+  },
+  {
+    "id": 1835,
+    "topic": "making",
+    "text": "I think a slightly crooked homemade label has more character.",
+    "scene": {
+      "primary": "tape",
+      "secondary": "pencil",
+      "relation": "balance"
+    },
+    "sceneSummary": "A pencil label balances on a tape roll at a jaunty angle."
+  },
+  {
+    "id": 1836,
+    "topic": "making",
+    "text": "I would create a tiny tool station to avoid searching for things every minute.",
+    "scene": {
+      "primary": "scissors",
+      "secondary": "tape",
+      "relation": "build"
+    },
+    "sceneSummary": "Scissors and tape form a compact organised tool station."
+  },
+  {
+    "id": 1837,
+    "topic": "making",
+    "text": "I prefer a craft with a clear finish line to an endless improvement project.",
+    "scene": {
+      "primary": "scissors",
+      "secondary": "glue",
+      "relation": "choose"
+    },
+    "sceneSummary": "Scissors and glue wait on two differently sized project paths."
+  },
+  {
+    "id": 1838,
+    "topic": "making",
+    "text": "I examine a finished craft from every angle before showing anyone.",
+    "scene": {
+      "primary": "scissors",
+      "secondary": "cardboard",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a trimmed cardboard shape beside scissors."
+  },
+  {
+    "id": 1839,
+    "topic": "making",
+    "text": "I would save the nicest materials for a project made as a gift.",
+    "scene": {
+      "primary": "scissors",
+      "secondary": "buttons",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers the best buttons beside neatly closed scissors."
+  },
+  {
+    "id": 1840,
+    "topic": "making",
+    "text": "I can enjoy a project even when my version looks unlike the example.",
+    "scene": {
+      "primary": "scissors",
+      "secondary": "pencil",
+      "relation": "balance"
+    },
+    "sceneSummary": "A pencil and scissors balance around an intentionally unusual outline."
+  },
+  {
+    "id": 1841,
+    "topic": "making",
+    "text": "I would disguise a repair with decoration and call it a design choice.",
+    "scene": {
+      "primary": "glue",
+      "secondary": "tape",
+      "relation": "hide"
+    },
+    "sceneSummary": "Tape conceals a glue repair beneath a playful decorative fold."
+  },
+  {
+    "id": 1842,
+    "topic": "making",
+    "text": "I like borrowing somebody's technique more than copying their finished design.",
+    "scene": {
+      "primary": "glue",
+      "secondary": "scissors",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share glue and scissors while making different shapes."
+  },
+  {
+    "id": 1843,
+    "topic": "making",
+    "text": "I would keep a failed prototype because it shows how the idea changed.",
+    "scene": {
+      "primary": "glue",
+      "secondary": "cardboard",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem inspects a wonky cardboard prototype with visible glue joins."
+  },
+  {
+    "id": 1844,
+    "topic": "making",
+    "text": "I would make a custom game piece instead of using a spare coin.",
+    "scene": {
+      "primary": "glue",
+      "secondary": "buttons",
+      "relation": "build"
+    },
+    "sceneSummary": "Glue fixes buttons into a tiny handmade playing piece."
+  },
+  {
+    "id": 1845,
+    "topic": "making",
+    "text": "I can turn one small creative task into an entire afternoon of experiments.",
+    "scene": {
+      "primary": "glue",
+      "secondary": "pencil",
+      "relation": "stack"
+    },
+    "sceneSummary": "Pencil sketches stack around a growing line of glue experiments."
+  },
+  {
+    "id": 1846,
+    "topic": "making",
+    "text": "I would transport a fragile homemade gift like it was a royal visitor.",
+    "scene": {
+      "primary": "cardboard",
+      "secondary": "tape",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carefully carries taped cardboard packaging."
+  },
+  {
+    "id": 1847,
+    "topic": "making",
+    "text": "I like wrapping a small present inside an unnecessarily elaborate box.",
+    "scene": {
+      "primary": "cardboard",
+      "secondary": "scissors",
+      "relation": "hide"
+    },
+    "sceneSummary": "A small shape hides inside a layered cardboard box beside scissors."
+  },
+  {
+    "id": 1848,
+    "topic": "making",
+    "text": "I would show a friend my unfinished project to ask what it could become.",
+    "scene": {
+      "primary": "cardboard",
+      "secondary": "glue",
+      "relation": "offer"
+    },
+    "sceneSummary": "An open cardboard model is offered beside an uncapped glue bottle."
+  },
+  {
+    "id": 1849,
+    "topic": "making",
+    "text": "I would keep a collaborative craft even if our styles do not match.",
+    "scene": {
+      "primary": "buttons",
+      "secondary": "cardboard",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems share a cardboard mosaic decorated with contrasting buttons."
+  },
+  {
+    "id": 1850,
+    "topic": "making",
+    "text": "I would sign and date a tiny thing I made just for myself.",
+    "scene": {
+      "primary": "pencil",
+      "secondary": "buttons",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A pencil signs a small button artwork under careful inspection."
+  }
+]

@@ -1,0 +1,27 @@
+/* Original cream platform/background, within decorative art areas only. */
+.quiz-scene{position:relative;isolation:isolate;overflow:hidden;min-width:0;max-width:100%;pointer-events:none;border-radius:22px}
+.quiz-scene-background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.65;z-index:0}
+.quiz-scene-platform{position:absolute;z-index:1;width:94.358974359%;aspect-ratio:2080/171;left:2.820512821%;bottom:0;overflow:hidden}
+.quiz-scene-platform>img{position:absolute;width:104.423076923%;height:423.391812865%;left:-2.259615385%;top:-169.005847953%;max-width:none}
+.quiz-scene-actors{position:relative;z-index:2;min-width:0;padding-bottom:5.515384615%}
+.quiz-scene.is-cast{width:100%;max-width:620px}
+.quiz-scene .quiz-celebration,.quiz-scene .quiz-cast-hold{position:relative;overflow:hidden;width:100%;max-width:none;margin:0}
+.quiz-scene .quiz-celebration{aspect-ratio:1909/538}
+.quiz-scene .quiz-celebration>img{position:absolute;width:103.8763750655%;height:147.3977695167%;max-width:none;left:-2.0953378732%;top:-26.7657992565%}
+.quiz-scene .quiz-cast-hold{aspect-ratio:1888/547}
+.quiz-scene .quiz-cast-hold>img{position:absolute;width:105.031779661%;height:144.972577697%;max-width:none;left:-2.754237288%;top:-25.228519196%}
+.quiz-scene.is-neutral{width:110px;flex:none}
+.quiz-scene.is-neutral .quiz-scene-actors{height:82px;width:74px;padding:0;margin:0 auto 6px}
+.quiz-scene .art-shell{display:flex;align-items:flex-end;justify-content:center;width:100%;height:100%;margin:0}
+.quiz-scene .clay{display:block;position:relative;height:100%;width:auto;aspect-ratio:var(--ratio);overflow:hidden;flex:none}
+.quiz-scene .clay>img{position:absolute;width:var(--w);height:var(--h);left:var(--x);top:var(--y);max-width:none}
+.quiz-scene .clay-1{--ratio:913/985;--w:137.34939759036143%;--h:127.30964467005077%;--x:-20.153340635268346%;--y:-14.01015228426396%}
+.quiz-scene .clay-2{--ratio:826/902;--w:151.81598062953995%;--h:139.02439024390242%;--x:-25.423728813559322%;--y:-23.28159645232816%}
+.quiz-scene .clay-3{--ratio:756/1025;--w:165.87301587301587%;--h:122.34146341463415%;--x:-35.714285714285715%;--y:-11.902439024390244%}
+.quiz-scene .clay-4{--ratio:598/1105;--w:209.6989966555184%;--h:113.4841628959276%;--x:-57.52508361204013%;--y:-6.60633484162896%}
+.quiz-scene .clay-5{--ratio:1008/963;--w:124.40476190476191%;--h:130.21806853582552%;--x:-12.698412698412698%;--y:-16.71858774662513%}
+.quiz-scene.is-compact{width:64px;border-radius:12px}
+.quiz-scene.is-compact .quiz-scene-actors{height:46px;width:38px;margin-bottom:4px}
+.quiz-library-scene{position:relative;overflow:hidden;aspect-ratio:1536/894;width:min(100%,344px);max-width:100%;margin:24px 0 0;pointer-events:none}
+.quiz-library-scene>img{position:absolute;width:100%;height:114.541387025%;max-width:none;left:0;top:-14.541387025%}
+@media(prefers-reduced-motion:reduce){.quiz-scene{transform:none!important;opacity:1!important}}

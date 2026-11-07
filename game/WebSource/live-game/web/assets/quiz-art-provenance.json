@@ -1,0 +1,25 @@
+{
+  "story-cast-hold.png": {
+    "source": "NativeSource/Likerts/StoryAssets.xcassets/StoryCastHold.imageset/StoryCastHold.png",
+    "sha256": "3912352397546757237bb7824fde075962d3682538570684c24c6bfcea18b606",
+    "bytes": 1022731,
+    "width": 1983,
+    "height": 793,
+    "presentationCrop": { "x": 52, "y": 138, "width": 1888, "height": 547 },
+    "usage": "Welcoming original five-character neutral holding cast in quiz lobby before reveal. CSS presentation crop only, byte-identical original raster."
+  },
+  "story-cast-celebrate.png": {
+    "source": "NativeSource/Likerts/StoryAssets.xcassets/StoryCastCelebrate.imageset/StoryCastCelebrate.png",
+    "sha256": "7d46bc9111d108237b6168aa8437f53f7b1f06e8c1c8a0281f8b7d9ba31a1cab",
+    "bytes": 1040898,
+    "width": 1983,
+    "height": 793,
+    "presentationCrop": { "x": 40, "y": 144, "width": 1909, "height": 538 },
+    "usage": "Complete celebration cast on correct reveal or completed results; CSS presentation crop only, byte-identical original raster."
+  },
+  "totem-3.png": {
+    "source": "NativeSource/Likerts/TotemAssets.xcassets/Totem3.imageset/Totem3.png",
+    "presentationCrop": { "x": 270, "y": 122, "width": 756, "height": 1025 },
+    "usage": "Neutral library/editor guide, never an authored-question illustration."
+  }
+}

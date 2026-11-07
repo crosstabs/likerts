@@ -1,0 +1,130 @@
+{
+  "scope": "Unmodified native reviewed catalogue and original clay PNG copies; no scene animation parity claim.",
+  "files": [
+    {
+      "source": "Likerts/Core/TopicData/books.json",
+      "path": "shared/TopicData/books.json",
+      "sha256": "328573168bb53d37648905e266e4604c8b8094ac09db9ff061deb4144bcecb8c"
+    },
+    {
+      "source": "Likerts/Core/TopicData/celebrations.json",
+      "path": "shared/TopicData/celebrations.json",
+      "sha256": "4736e7963c10053950e9370471be1a4f964e28f0611bf5bc445881ccb35b197d"
+    },
+    {
+      "source": "Likerts/Core/TopicData/fantasy.json",
+      "path": "shared/TopicData/fantasy.json",
+      "sha256": "3485a666ed62f12234e4ba58c4c2827aa2ea5cbfb2455be99628a5fb2b2d6d55"
+    },
+    {
+      "source": "Likerts/Core/TopicData/future.json",
+      "path": "shared/TopicData/future.json",
+      "sha256": "f378e95ba807cfa3f259fe0a6546da25dce5f5573976a8d01f9c43b7a7b282a4"
+    },
+    {
+      "source": "Likerts/Core/TopicData/games.json",
+      "path": "shared/TopicData/games.json",
+      "sha256": "c351a28f390ca8c4bef5b1673c7d96166c3175ac1b53aa1736e75c373adb059b"
+    },
+    {
+      "source": "Likerts/Core/TopicData/hobbies.json",
+      "path": "shared/TopicData/hobbies.json",
+      "sha256": "af086fd5d81428aca4756b44461e9312dc9772eb0e9f8f71aff2782a3425c5ba"
+    },
+    {
+      "source": "Likerts/Core/TopicData/home.json",
+      "path": "shared/TopicData/home.json",
+      "sha256": "56bea8c8653413e68160ea210f0d74e071b41b451643235d6743fed5cc450752"
+    },
+    {
+      "source": "Likerts/Core/TopicData/kitchen.json",
+      "path": "shared/TopicData/kitchen.json",
+      "sha256": "d964477bfd73cc72ced5ce8a4db0e3aa4f0c2d6e896e2a073d18187da02c07d7"
+    },
+    {
+      "source": "Likerts/Core/TopicData/making.json",
+      "path": "shared/TopicData/making.json",
+      "sha256": "524d3c1eeaa6337c1a4475a306a3def7f54e3401e79ab4a80f482f9d209116ec"
+    },
+    {
+      "source": "Likerts/Core/TopicData/mornings.json",
+      "path": "shared/TopicData/mornings.json",
+      "sha256": "ca5be217ce09e9a5f4686f5f593832622e50d5921cc83163503ec9a020423374"
+    },
+    {
+      "source": "Likerts/Core/TopicData/movies.json",
+      "path": "shared/TopicData/movies.json",
+      "sha256": "9c9c21600eaabd201e7e3f94d3abb5d1ba3881b6e0eb8deb948f834b3c45ac70"
+    },
+    {
+      "source": "Likerts/Core/TopicData/music.json",
+      "path": "shared/TopicData/music.json",
+      "sha256": "0884f8218c56ae78b5d76ac6636435d1607fbbdc0067034da8043817cf1777f6"
+    },
+    {
+      "source": "Likerts/Core/TopicData/outdoors.json",
+      "path": "shared/TopicData/outdoors.json",
+      "sha256": "c43969f13b57358087741c6b541146b92cd665efd38e1d6d3169f2233fbc6c96"
+    },
+    {
+      "source": "Likerts/Core/TopicData/pets.json",
+      "path": "shared/TopicData/pets.json",
+      "sha256": "d938c9ba8cb714e54bc7f5e69e7dc7f4cf9e2f35b9b3c589a392367e6c7ffcd0"
+    },
+    {
+      "source": "Likerts/Core/TopicData/snacks.json",
+      "path": "shared/TopicData/snacks.json",
+      "sha256": "5051f68072a73bc83d21bd81e746869dcda056e280ac594bbee1cc96576d1f80"
+    },
+    {
+      "source": "Likerts/Core/TopicData/social.json",
+      "path": "shared/TopicData/social.json",
+      "sha256": "1da6eec3858dc10a5dbbfa663469a3ed117dc65b64bbb1e7e54a1fec53867f9f"
+    },
+    {
+      "source": "Likerts/Core/TopicData/style.json",
+      "path": "shared/TopicData/style.json",
+      "sha256": "e647c24596c2ad4fad7e1b25d346a4a05f2d2a411123736cae45f866fdb7423b"
+    },
+    {
+      "source": "Likerts/Core/TopicData/tinyadventures.json",
+      "path": "shared/TopicData/tinyadventures.json",
+      "sha256": "6f79ba5a6aa1558458bb836940840fc798123f8d1d0686214af604e697535b2f"
+    },
+    {
+      "source": "Likerts/Core/TopicData/travel.json",
+      "path": "shared/TopicData/travel.json",
+      "sha256": "00282d62cf551e49b2baece27c232928f1d7573e0d19bbaae7d20f1c48e86bde"
+    },
+    {
+      "source": "Likerts/Core/TopicData/weather.json",
+      "path": "shared/TopicData/weather.json",
+      "sha256": "f643f2788b46f5e4fc55218c18d3fbc9bb40778f913f9041816782aeaeb5b684"
+    },
+    {
+      "source": "Likerts/TotemAssets.xcassets/Totem1.imageset/Totem1.png",
+      "path": "web/assets/totem-1.png",
+      "sha256": "0a22a2251b0634f510ff628a03b71d299d0558223efd80bf9cf8ec913fff7226"
+    },
+    {
+      "source": "Likerts/TotemAssets.xcassets/Totem2.imageset/Totem2.png",
+      "path": "web/assets/totem-2.png",
+      "sha256": "7c7987188ed4547c2bd5d1b2eea9bd7c7bc437dbd25d13d65740a5b1d77b7bca"
+    },
+    {
+      "source": "Likerts/TotemAssets.xcassets/Totem3.imageset/Totem3.png",
+      "path": "web/assets/totem-3.png",
+      "sha256": "a52f1d2b7058946a5f23c91e723fc6d1627836f5185187dc40c2713117cbc52a"
+    },
+    {
+      "source": "Likerts/TotemAssets.xcassets/Totem4.imageset/Totem4.png",
+      "path": "web/assets/totem-4.png",
+      "sha256": "856ac86ec06623319cc4062bcb76d292ff3b0248a3138dbab03aea5198c1d893"
+    },
+    {
+      "source": "Likerts/TotemAssets.xcassets/Totem5.imageset/Totem5.png",
+      "path": "web/assets/totem-5.png",
+      "sha256": "c6bb4cabae3c1968136d82296f8495e3b5e25bde46af334a22708a84198b2b54"
+    }
+  ]
+}

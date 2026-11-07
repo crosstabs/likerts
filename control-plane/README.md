@@ -1,13 +1,9 @@
-# Likerts control plane
+# Likerts game website
 
-This is the minimal Vercel project for the operator surface. It is a static, framework-independent shell plus one public health function, so it can replace the older site without coupling the survey API to Vercel Functions.
+The existing Likerts game homepage, artwork and support page are preserved. This project now builds only the game marketing pages. It has no account service, survey SDK, export store, legacy monitor or data API.
 
-The browser receives only `LIKERTS_PUBLIC_API_ORIGIN` and `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`. The build validates the publishable key, derives its Clerk frontend domain, and mounts Clerk's sign-in component or user button. Likerts does not render a password form. `CLERK_SECRET_KEY`, object-store credentials and the database URL belong only on the API. Exports continue through the authenticated Likerts download endpoint; the control plane never proxies or signs stored objects.
+Run `npm ci`, `npm test`, then `npm run build`. Vercel Root Directory is `control-plane`; build output is `dist`. The build refuses an unassigned live-game redirect target. `vercel.json` redirects `/play` and its descendants to the assigned Render HTTPS origin with temporary 307 redirects, preserving query parameters. Actual game HTTP and WebSocket traffic stays on that Render origin; no WebSocket proxy or cross-origin game API is introduced.
 
-The build also validates `LIKERTS_PUBLIC_API_ORIGIN` as one exact HTTPS origin (with loopback HTTP allowed only for local development) and writes that origin into the page's `connect-src` policy. It derives and admits only a Clerk-owned frontend origin or the configured `clerk.likerts.com` custom frontend origin encoded in the publishable key. Wildcards, URL credentials, paths, queries and fragments fail the build.
+Obsolete product pages and API functions are absent and return404 with a game-only noindex error page. No replacement server function or data API is introduced. Git history preserves the former implementation. Retiring these routes does not delete historical database, identity, object-store or monitoring data.
 
-After sign-in, the page obtains the active Clerk session token in memory and calls `POST /v1/browser/bootstrap` with `credentials: omit`. It displays accepted-response counts and lets an owner issue scoped service credentials. The page never stores the session token or receives an API, Clerk secret, object-store or database credential.
-
-Run `npm test` and `npm run build` without credentials. Before deployment, configure the two public variables in `.env.example` and verify Clerk email OTP on Preview. A successful local build does not prove identity, API, custom-domain or production connectivity.
-
-The existing `crosstabs/likerts` Vercel project currently tracks the older private repository. The authorized replacement sequence is: preserve its history, import this workspace into that repository, review the resulting diff, connect this directory as the Vercel project root, configure Preview first, verify it, and only then promote Production. No push or deployment is performed by the local gate.
+Before promotion, verify the public Play link, a query-bearing room link, a full hosted game, the footer and all retired endpoints. The public support recipient remains the existing `support@crosstabs.com`; no mailbox or delivery guarantee is created by this source change.

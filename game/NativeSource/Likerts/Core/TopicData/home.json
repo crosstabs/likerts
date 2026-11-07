@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1251,
+    "topic": "home",
+    "text": "I would move the sofa to catch the last patch of lamplight.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "lamp",
+      "relation": "choose"
+    },
+    "sceneSummary": "A sofa turns toward a waiting lamp."
+  },
+  {
+    "id": 1252,
+    "topic": "home",
+    "text": "I think a reading lamp deserves the best seat on the sofa.",
+    "scene": {
+      "primary": "lamp",
+      "secondary": "sofa",
+      "relation": "offer"
+    },
+    "sceneSummary": "A lamp receives the sofa's centre seat."
+  },
+  {
+    "id": 1253,
+    "topic": "home",
+    "text": "I would let a sprawling plant claim half my sofa.",
+    "scene": {
+      "primary": "plant",
+      "secondary": "sofa",
+      "relation": "share"
+    },
+    "sceneSummary": "A plant and a guest divide the sofa."
+  },
+  {
+    "id": 1254,
+    "topic": "home",
+    "text": "I would rearrange the whole room for one happy plant.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "plant",
+      "relation": "carry"
+    },
+    "sceneSummary": "A sofa moves aside for the plant."
+  },
+  {
+    "id": 1255,
+    "topic": "home",
+    "text": "I put my slippers on before checking what time it is.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "clock",
+      "relation": "choose"
+    },
+    "sceneSummary": "Slippers wait in front of the clock."
+  },
+  {
+    "id": 1256,
+    "topic": "home",
+    "text": "I would give my slippers a bedtime before giving myself one.",
+    "scene": {
+      "primary": "clock",
+      "secondary": "slippers",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A clock checks slippers tucked in for the night."
+  },
+  {
+    "id": 1257,
+    "topic": "home",
+    "text": "I believe a sofa needs one pillow more than it can comfortably hold.",
+    "scene": {
+      "primary": "pillow",
+      "secondary": "sofa",
+      "relation": "stack"
+    },
+    "sceneSummary": "A pillow pile overflows the sofa."
+  },
+  {
+    "id": 1258,
+    "topic": "home",
+    "text": "I would remove every sofa pillow before sitting down.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "pillow",
+      "relation": "offer"
+    },
+    "sceneSummary": "A sofa presents its unwanted pillow."
+  },
+  {
+    "id": 1259,
+    "topic": "home",
+    "text": "I would keep a crooked clock if it made the lamp look stylish.",
+    "scene": {
+      "primary": "clock",
+      "secondary": "lamp",
+      "relation": "balance"
+    },
+    "sceneSummary": "A tilted clock balances beside a straight lamp."
+  },
+  {
+    "id": 1260,
+    "topic": "home",
+    "text": "I like lamplight that makes the clock difficult to read.",
+    "scene": {
+      "primary": "lamp",
+      "secondary": "clock",
+      "relation": "hide"
+    },
+    "sceneSummary": "A lamp softly conceals the clock face."
+  },
+  {
+    "id": 1261,
+    "topic": "home",
+    "text": "I would name my plant before deciding where the lamp belongs.",
+    "scene": {
+      "primary": "plant",
+      "secondary": "lamp",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A plant examines its new lamp neighbour."
+  },
+  {
+    "id": 1262,
+    "topic": "home",
+    "text": "I would buy a second lamp just to flatter my favourite plant.",
+    "scene": {
+      "primary": "lamp",
+      "secondary": "plant",
+      "relation": "offer"
+    },
+    "sceneSummary": "A lamp offers the plant its warm light."
+  },
+  {
+    "id": 1263,
+    "topic": "home",
+    "text": "I consider slippers under the sofa an acceptable storage plan.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "sofa",
+      "relation": "hide"
+    },
+    "sceneSummary": "Slippers peek from beneath the sofa."
+  },
+  {
+    "id": 1264,
+    "topic": "home",
+    "text": "I would search under the sofa before admitting my slippers are on my feet.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "slippers",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A sofa is inspected for missing slippers."
+  },
+  {
+    "id": 1265,
+    "topic": "home",
+    "text": "I would rescue a pillow from a spill before rescuing my slippers.",
+    "scene": {
+      "primary": "pillow",
+      "secondary": "slippers",
+      "relation": "carry"
+    },
+    "sceneSummary": "A pillow is carried past abandoned slippers."
+  },
+  {
+    "id": 1266,
+    "topic": "home",
+    "text": "I would use a pillow as a throne for brand-new slippers.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "pillow",
+      "relation": "balance"
+    },
+    "sceneSummary": "Pristine slippers balance on a pillow throne."
+  },
+  {
+    "id": 1267,
+    "topic": "home",
+    "text": "I think a cushion fort counts as a sensible use of sofa space.",
+    "scene": {
+      "primary": "pillow",
+      "secondary": "sofa",
+      "relation": "build"
+    },
+    "sceneSummary": "Pillows form a fort around the sofa."
+  },
+  {
+    "id": 1268,
+    "topic": "home",
+    "text": "I would rather have a sofa nap than a perfectly punctual afternoon.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "clock",
+      "relation": "choose"
+    },
+    "sceneSummary": "A sofa wins a contest against the clock."
+  },
+  {
+    "id": 1269,
+    "topic": "home",
+    "text": "I set the clock where I can check it without leaving the sofa.",
+    "scene": {
+      "primary": "clock",
+      "secondary": "sofa",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A clock circles the lounging sofa."
+  },
+  {
+    "id": 1270,
+    "topic": "home",
+    "text": "I would turn a spare pillow into a sunny seat for a plant.",
+    "scene": {
+      "primary": "pillow",
+      "secondary": "plant",
+      "relation": "offer"
+    },
+    "sceneSummary": "A pillow becomes a cushion for the plant."
+  },
+  {
+    "id": 1271,
+    "topic": "home",
+    "text": "I check on my plant before fluffing the guest pillows.",
+    "scene": {
+      "primary": "plant",
+      "secondary": "pillow",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A plant receives attention beside unfluffed pillows."
+  },
+  {
+    "id": 1272,
+    "topic": "home",
+    "text": "I would match my slippers to the lamp rather than to my clothes.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "lamp",
+      "relation": "choose"
+    },
+    "sceneSummary": "Slippers select a coordinating lamp."
+  },
+  {
+    "id": 1273,
+    "topic": "home",
+    "text": "I would let one dramatic lamp dictate the whole room.",
+    "scene": {
+      "primary": "lamp",
+      "secondary": "slippers",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A grand lamp presides over tiny slippers."
+  },
+  {
+    "id": 1274,
+    "topic": "home",
+    "text": "I would prop a clock on a pillow if it stopped the ticking rattle.",
+    "scene": {
+      "primary": "pillow",
+      "secondary": "clock",
+      "relation": "balance"
+    },
+    "sceneSummary": "A pillow steadies a wobbling clock."
+  },
+  {
+    "id": 1275,
+    "topic": "home",
+    "text": "I think seeing the clock from my pillow ruins a lazy morning.",
+    "scene": {
+      "primary": "clock",
+      "secondary": "pillow",
+      "relation": "hide"
+    },
+    "sceneSummary": "A clock hides behind a sleepy pillow."
+  },
+  {
+    "id": 1276,
+    "topic": "home",
+    "text": "I would sacrifice my favourite slippers to protect the plant pot.",
+    "scene": {
+      "primary": "plant",
+      "secondary": "slippers",
+      "relation": "balance"
+    },
+    "sceneSummary": "A plant pot balances above protective slippers."
+  },
+  {
+    "id": 1277,
+    "topic": "home",
+    "text": "I would relocate a plant that keeps dropping leaves into my slippers.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "plant",
+      "relation": "carry"
+    },
+    "sceneSummary": "Slippers carry leaves away from a plant."
+  },
+  {
+    "id": 1278,
+    "topic": "home",
+    "text": "I would build a nest of pillows around the brightest lamp.",
+    "scene": {
+      "primary": "lamp",
+      "secondary": "pillow",
+      "relation": "build"
+    },
+    "sceneSummary": "A lamp lights a cosy pillow nest."
+  },
+  {
+    "id": 1279,
+    "topic": "home",
+    "text": "I think a pillow in front of the lamp creates excellent evening lighting.",
+    "scene": {
+      "primary": "pillow",
+      "secondary": "lamp",
+      "relation": "hide"
+    },
+    "sceneSummary": "A pillow partly shields the evening lamp."
+  },
+  {
+    "id": 1280,
+    "topic": "home",
+    "text": "I would choose a tiny sofa with excellent lighting over a giant dark one.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "lamp",
+      "relation": "balance"
+    },
+    "sceneSummary": "A small sofa balances proudly beside a lamp."
+  },
+  {
+    "id": 1281,
+    "topic": "home",
+    "text": "I save the sofa's sunny spot for my plant even when guests arrive.",
+    "scene": {
+      "primary": "plant",
+      "secondary": "sofa",
+      "relation": "choose"
+    },
+    "sceneSummary": "A plant claims the sofa's sunny seat."
+  },
+  {
+    "id": 1282,
+    "topic": "home",
+    "text": "I would keep decorative slippers beside the sofa and wear my old ones.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "slippers",
+      "relation": "share"
+    },
+    "sceneSummary": "A sofa displays slippers beside its arm."
+  },
+  {
+    "id": 1283,
+    "topic": "home",
+    "text": "I would bring my own pillow to a sofa-shopping trip.",
+    "scene": {
+      "primary": "pillow",
+      "secondary": "sofa",
+      "relation": "carry"
+    },
+    "sceneSummary": "A pillow accompanies a sofa inspection."
+  },
+  {
+    "id": 1284,
+    "topic": "home",
+    "text": "I think a clock above a sofa should be slightly out of easy sight.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "clock",
+      "relation": "hide"
+    },
+    "sceneSummary": "A sofa shelters beneath a hidden clock."
+  },
+  {
+    "id": 1285,
+    "topic": "home",
+    "text": "I would rotate the plant every time I changed the clock.",
+    "scene": {
+      "primary": "clock",
+      "secondary": "plant",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A clock marks a plant's little turn."
+  },
+  {
+    "id": 1286,
+    "topic": "home",
+    "text": "I would let plant-watering time become a whole household ceremony.",
+    "scene": {
+      "primary": "plant",
+      "secondary": "clock",
+      "relation": "offer"
+    },
+    "sceneSummary": "A plant presents a clock for its ceremony."
+  },
+  {
+    "id": 1287,
+    "topic": "home",
+    "text": "I would arrange slippers neatly even if the pillow pile was chaos.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "pillow",
+      "relation": "stack"
+    },
+    "sceneSummary": "Tidy slippers line up beside piled pillows."
+  },
+  {
+    "id": 1288,
+    "topic": "home",
+    "text": "I would leave a pillow on the floor if it made the lamp corner cosier.",
+    "scene": {
+      "primary": "lamp",
+      "secondary": "pillow",
+      "relation": "share"
+    },
+    "sceneSummary": "A lamp shares its corner with a floor pillow."
+  },
+  {
+    "id": 1289,
+    "topic": "home",
+    "text": "I would take a lamp from room to room instead of turning on the ceiling lights.",
+    "scene": {
+      "primary": "lamp",
+      "secondary": "sofa",
+      "relation": "carry"
+    },
+    "sceneSummary": "A travelling lamp passes the sofa."
+  },
+  {
+    "id": 1290,
+    "topic": "home",
+    "text": "I judge a sofa by whether my slippers disappear beneath it.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "sofa",
+      "relation": "inspect"
+    },
+    "sceneSummary": "Slippers measure the gap beneath the sofa."
+  },
+  {
+    "id": 1291,
+    "topic": "home",
+    "text": "I would turn a broken clock into a plant-pot stand.",
+    "scene": {
+      "primary": "clock",
+      "secondary": "plant",
+      "relation": "build"
+    },
+    "sceneSummary": "A clock becomes a little stand for the plant."
+  },
+  {
+    "id": 1292,
+    "topic": "home",
+    "text": "I keep a pillow beside my plant so I can sit and watch it do nothing.",
+    "scene": {
+      "primary": "plant",
+      "secondary": "pillow",
+      "relation": "share"
+    },
+    "sceneSummary": "A plant shares a quiet moment with a pillow."
+  },
+  {
+    "id": 1293,
+    "topic": "home",
+    "text": "I would move the clock rather than move my favourite lamp.",
+    "scene": {
+      "primary": "lamp",
+      "secondary": "clock",
+      "relation": "choose"
+    },
+    "sceneSummary": "A lamp keeps its place as the clock departs."
+  },
+  {
+    "id": 1294,
+    "topic": "home",
+    "text": "I would slide a pillow under my slippers to keep my feet extra warm.",
+    "scene": {
+      "primary": "pillow",
+      "secondary": "slippers",
+      "relation": "share"
+    },
+    "sceneSummary": "A pillow and slippers make a foot nest."
+  },
+  {
+    "id": 1295,
+    "topic": "home",
+    "text": "I would give up the sofa to a plant that finally bloomed.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "plant",
+      "relation": "offer"
+    },
+    "sceneSummary": "A sofa offers its seat to a blooming plant."
+  },
+  {
+    "id": 1296,
+    "topic": "home",
+    "text": "I think matching pillows matter less than a lamp that makes everyone glow.",
+    "scene": {
+      "primary": "pillow",
+      "secondary": "lamp",
+      "relation": "choose"
+    },
+    "sceneSummary": "A pillow yields the spotlight to a lamp."
+  },
+  {
+    "id": 1297,
+    "topic": "home",
+    "text": "I would put slippers beside the clock as a reminder to slow down.",
+    "scene": {
+      "primary": "clock",
+      "secondary": "slippers",
+      "relation": "share"
+    },
+    "sceneSummary": "A clock and slippers wait together quietly."
+  },
+  {
+    "id": 1298,
+    "topic": "home",
+    "text": "I could spend an afternoon choosing between two places for one sofa lamp.",
+    "scene": {
+      "primary": "lamp",
+      "secondary": "sofa",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A lamp tests the sofa's two corners."
+  },
+  {
+    "id": 1299,
+    "topic": "home",
+    "text": "I would trade a perfect pillow arrangement for space to stretch on the sofa.",
+    "scene": {
+      "primary": "sofa",
+      "secondary": "pillow",
+      "relation": "choose"
+    },
+    "sceneSummary": "A sofa chooses open space over a pillow."
+  },
+  {
+    "id": 1300,
+    "topic": "home",
+    "text": "I would hide my untidy slippers behind the biggest plant before guests arrive.",
+    "scene": {
+      "primary": "slippers",
+      "secondary": "plant",
+      "relation": "hide"
+    },
+    "sceneSummary": "Slippers tuck behind a broad plant pot."
+  }
+]

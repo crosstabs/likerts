@@ -1,0 +1,2471 @@
+{
+  "note": "Deterministic synthetic examples generated from actual quiz reducer projections. No running room or production capability exists. Creator createRequest includes its answer key; recipient states omit undisclosed keys and future questions.",
+  "createRequest": {
+    "admissionId": "00000000-0000-4000-8000-000000000037",
+    "recoverySecret": "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+    "mode": "quiz",
+    "modeVersion": 1,
+    "quiz": {
+      "format": "likerts.quiz",
+      "version": 1,
+      "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+      "title": "Little wonders",
+      "questions": [
+        {
+          "id": "42ab0856-2934-45cc-a720-7421756c873b",
+          "prompt": "Which planet is known as the Red Planet?",
+          "answers": [
+            "Venus",
+            "Mars",
+            "Jupiter",
+            "Mercury"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+          "timeLimitSeconds": 20
+        },
+        {
+          "id": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+          "prompt": "How many sides does a triangle have?",
+          "answers": [
+            "Two",
+            "Three",
+            "Four",
+            "Five"
+          ],
+          "correctAnswer": 1,
+          "explanation": "A triangle has three straight sides.",
+          "timeLimitSeconds": 20
+        },
+        {
+          "id": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+          "prompt": "Which ocean is the largest?",
+          "answers": [
+            "Atlantic",
+            "Indian",
+            "Pacific",
+            "Arctic"
+          ],
+          "correctAnswer": 2,
+          "explanation": "The Pacific is the largest ocean on Earth.",
+          "timeLimitSeconds": 0
+        }
+      ]
+    },
+    "settings": {
+      "capacity": 12
+    }
+  },
+  "joinRequest": {
+    "admissionId": "00000000-0000-4000-8000-000000000038",
+    "recoverySecret": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+    "nickname": "Ari",
+    "acceptRoomSharing": true
+  },
+  "authenticateFrame": {
+    "type": "authenticate",
+    "code": "ABCDEF",
+    "token": "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+  },
+  "recoverRequest": {
+    "admissionId": "00000000-0000-4000-8000-000000000039",
+    "recoverySecret": "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
+  },
+  "actionRequest": {
+    "requestId": "00000000-0000-4000-8000-000000000040",
+    "matchId": "00000000-0000-4000-8000-000000000002",
+    "roundId": "00000000-0000-4000-8000-000000000007",
+    "action": "quiz-answer",
+    "value": 1
+  },
+  "revealRequest": {
+    "requestId": "00000000-0000-4000-8000-000000000041",
+    "matchId": "00000000-0000-4000-8000-000000000002",
+    "roundId": "00000000-0000-4000-8000-000000000015",
+    "action": "quiz-reveal"
+  },
+  "closeResponse": {
+    "state": null,
+    "closed": true
+  },
+  "leaveResponse": {
+    "state": null,
+    "left": true
+  },
+  "errorResponse": {
+    "error": {
+      "code": "stale_round",
+      "message": "Refresh the current round before trying again."
+    }
+  },
+  "states": {
+    "lobbyHost": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 4,
+      "serverTime": 1794009600000,
+      "expiresAt": 1794016800000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "lobby",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": null,
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "lobbyPlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 4,
+      "serverTime": 1794009600000,
+      "expiresAt": 1794016800000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "nickname": "Ari"
+      },
+      "phase": "lobby",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": null,
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "answerHost": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 5,
+      "serverTime": 1794009600000,
+      "expiresAt": 1794016800000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "answer",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000007",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": 1794009620000,
+        "submittedCount": 0,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "answerPlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 5,
+      "serverTime": 1794009600000,
+      "expiresAt": 1794016800000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "nickname": "Ari"
+      },
+      "phase": "answer",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000007",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": 1794009620000,
+        "submittedCount": 0,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "answeredPlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 6,
+      "serverTime": 1794009600000,
+      "expiresAt": 1794016800000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "nickname": "Ari"
+      },
+      "phase": "answer",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000007",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": 1794009620000,
+        "submittedCount": 1,
+        "eligibleCount": 3,
+        "ownAnswer": 1
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "waitingOtherPlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 6,
+      "serverTime": 1794009600000,
+      "expiresAt": 1794016800000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000004",
+        "nickname": "Bo"
+      },
+      "phase": "answer",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000007",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": 1794009620000,
+        "submittedCount": 1,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "revealHost": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 8,
+      "serverTime": 1794009600000,
+      "expiresAt": 1794016800000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "reveal",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000007",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": null,
+        "submittedCount": 3,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": 1,
+        "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+        "valid": true,
+        "reason": "answered",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": 1,
+            "points": 1000
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": 0,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": 1,
+            "points": 1000
+          }
+        ],
+        "groupAccuracy": 66.66666666666666
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 1000,
+          "opportunities": 1,
+          "accuracy": 100,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 1000,
+          "opportunities": 1,
+          "accuracy": 100,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 1,
+          "accuracy": 0,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "revealPlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 8,
+      "serverTime": 1794009600000,
+      "expiresAt": 1794016800000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "nickname": "Ari"
+      },
+      "phase": "reveal",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000007",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": null,
+        "submittedCount": 3,
+        "eligibleCount": 3,
+        "ownAnswer": 1
+      },
+      "reveal": {
+        "correctAnswer": 1,
+        "explanation": "Iron-rich dust gives Mars its reddish appearance.",
+        "valid": true,
+        "reason": "answered",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": 1,
+            "points": 1000
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": 0,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": 1,
+            "points": 1000
+          }
+        ],
+        "groupAccuracy": 66.66666666666666
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 1000,
+          "opportunities": 1,
+          "accuracy": 100,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 1000,
+          "opportunities": 1,
+          "accuracy": 100,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 1,
+          "accuracy": 0,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "timeoutHost": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 11,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794016800000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "reveal",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000012",
+        "index": 2,
+        "total": 3,
+        "questionId": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+        "prompt": "How many sides does a triangle have?",
+        "answers": [
+          "Two",
+          "Three",
+          "Four",
+          "Five"
+        ],
+        "deadline": null,
+        "submittedCount": 1,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": 1,
+        "explanation": "A triangle has three straight sides.",
+        "valid": true,
+        "reason": "timeout",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": 1,
+            "points": 1000
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": 33.33333333333333
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 2000,
+          "opportunities": 2,
+          "accuracy": 100,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 1000,
+          "opportunities": 2,
+          "accuracy": 50,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 2,
+          "accuracy": 0,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "timeoutPlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 11,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794016800000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000004",
+        "nickname": "Bo"
+      },
+      "phase": "reveal",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000012",
+        "index": 2,
+        "total": 3,
+        "questionId": "71e627b1-95dd-493e-83fb-10ff3b5a32b5",
+        "prompt": "How many sides does a triangle have?",
+        "answers": [
+          "Two",
+          "Three",
+          "Four",
+          "Five"
+        ],
+        "deadline": null,
+        "submittedCount": 1,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": 1,
+        "explanation": "A triangle has three straight sides.",
+        "valid": true,
+        "reason": "timeout",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": 1,
+            "points": 1000
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": 33.33333333333333
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 2000,
+          "opportunities": 2,
+          "accuracy": 100,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 1000,
+          "opportunities": 2,
+          "accuracy": 50,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 2,
+          "accuracy": 0,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "untimedHost": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 12,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794016820000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "answer",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000015",
+        "index": 3,
+        "total": 3,
+        "questionId": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+        "prompt": "Which ocean is the largest?",
+        "answers": [
+          "Atlantic",
+          "Indian",
+          "Pacific",
+          "Arctic"
+        ],
+        "deadline": null,
+        "submittedCount": 0,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 2000,
+          "opportunities": 2,
+          "accuracy": 100,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 1000,
+          "opportunities": 2,
+          "accuracy": 50,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 2,
+          "accuracy": 0,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "untimedPlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 12,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794016820000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "nickname": "Ari"
+      },
+      "phase": "answer",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000015",
+        "index": 3,
+        "total": 3,
+        "questionId": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+        "prompt": "Which ocean is the largest?",
+        "answers": [
+          "Atlantic",
+          "Indian",
+          "Pacific",
+          "Arctic"
+        ],
+        "deadline": null,
+        "submittedCount": 0,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 2000,
+          "opportunities": 2,
+          "accuracy": 100,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 1000,
+          "opportunities": 2,
+          "accuracy": 50,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 2,
+          "accuracy": 0,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "earlyRevealHost": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 14,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794016820000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "reveal",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000015",
+        "index": 3,
+        "total": 3,
+        "questionId": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+        "prompt": "Which ocean is the largest?",
+        "answers": [
+          "Atlantic",
+          "Indian",
+          "Pacific",
+          "Arctic"
+        ],
+        "deadline": null,
+        "submittedCount": 1,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": 2,
+        "explanation": "The Pacific is the largest ocean on Earth.",
+        "valid": true,
+        "reason": "host_revealed",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": 2,
+            "points": 1000
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": 33.33333333333333
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 3000,
+          "opportunities": 3,
+          "accuracy": 100,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 1000,
+          "opportunities": 3,
+          "accuracy": 33.333333333333336,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 3,
+          "accuracy": 0,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "finishedHost": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 15,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794010520000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "finished",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000015",
+        "index": 3,
+        "total": 3,
+        "questionId": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+        "prompt": "Which ocean is the largest?",
+        "answers": [
+          "Atlantic",
+          "Indian",
+          "Pacific",
+          "Arctic"
+        ],
+        "deadline": null,
+        "submittedCount": 1,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": 2,
+        "explanation": "The Pacific is the largest ocean on Earth.",
+        "valid": true,
+        "reason": "host_revealed",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": 2,
+            "points": 1000
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": 33.33333333333333
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 3000,
+          "opportunities": 3,
+          "accuracy": 100,
+          "rank": 1
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 1000,
+          "opportunities": 3,
+          "accuracy": 33.333333333333336,
+          "rank": 2
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 3,
+          "accuracy": 0,
+          "rank": 3
+        }
+      ],
+      "completion": "complete",
+      "notice": "Quiz complete.",
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "finishedPlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 15,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794010520000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "nickname": "Ari"
+      },
+      "phase": "finished",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000015",
+        "index": 3,
+        "total": 3,
+        "questionId": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+        "prompt": "Which ocean is the largest?",
+        "answers": [
+          "Atlantic",
+          "Indian",
+          "Pacific",
+          "Arctic"
+        ],
+        "deadline": null,
+        "submittedCount": 1,
+        "eligibleCount": 3,
+        "ownAnswer": 2
+      },
+      "reveal": {
+        "correctAnswer": 2,
+        "explanation": "The Pacific is the largest ocean on Earth.",
+        "valid": true,
+        "reason": "host_revealed",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": 2,
+            "points": 1000
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": 33.33333333333333
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 3000,
+          "opportunities": 3,
+          "accuracy": 100,
+          "rank": 1
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 1000,
+          "opportunities": 3,
+          "accuracy": 33.333333333333336,
+          "rank": 2
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 3,
+          "accuracy": 0,
+          "rank": 3
+        }
+      ],
+      "completion": "complete",
+      "notice": "Quiz complete.",
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "finished": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000002",
+      "revision": 15,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794010520000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "finished",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000015",
+        "index": 3,
+        "total": 3,
+        "questionId": "9da982b8-39a2-43ef-a57d-1c69c686e6ce",
+        "prompt": "Which ocean is the largest?",
+        "answers": [
+          "Atlantic",
+          "Indian",
+          "Pacific",
+          "Arctic"
+        ],
+        "deadline": null,
+        "submittedCount": 1,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": 2,
+        "explanation": "The Pacific is the largest ocean on Earth.",
+        "valid": true,
+        "reason": "host_revealed",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": 2,
+            "points": 1000
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": 33.33333333333333
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 3000,
+          "opportunities": 3,
+          "accuracy": 100,
+          "rank": 1
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 1000,
+          "opportunities": 3,
+          "accuracy": 33.333333333333336,
+          "rank": 2
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 3,
+          "accuracy": 0,
+          "rank": 3
+        }
+      ],
+      "completion": "complete",
+      "notice": "Quiz complete.",
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "rematchLobby": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000020",
+      "revision": 16,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794016820000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "lobby",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": null,
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null,
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "incompleteHost": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000020",
+      "revision": 19,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794010520000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "finished",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000022",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": null,
+        "submittedCount": 0,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": null,
+        "explanation": "",
+        "valid": false,
+        "reason": "host_ended",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": null
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": "incomplete",
+      "notice": "Incomplete quiz. Results are provisional.",
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "incompletePlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000020",
+      "revision": 19,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794010520000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "nickname": "Ari"
+      },
+      "phase": "finished",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000022",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": null,
+        "submittedCount": 0,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": null,
+        "explanation": "",
+        "valid": false,
+        "reason": "host_ended",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": null
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": "incomplete",
+      "notice": "Incomplete quiz. Results are provisional.",
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "playerLeftHost": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000026",
+      "revision": 23,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794010520000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "finished",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000028",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": null,
+        "submittedCount": 0,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": null,
+        "explanation": "",
+        "valid": false,
+        "reason": "player_left",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": null
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": "incomplete",
+      "notice": "Incomplete quiz. Results are provisional.",
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "playerLeftPlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000026",
+      "revision": 23,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794010520000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "nickname": "Ari"
+      },
+      "phase": "finished",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000028",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": null,
+        "submittedCount": 0,
+        "eligibleCount": 3,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": null,
+        "explanation": "",
+        "valid": false,
+        "reason": "player_left",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000005",
+            "nickname": "Cam",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": null
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000005",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": "incomplete",
+      "notice": "Incomplete quiz. Results are provisional.",
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "playerRemovedHost": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000032",
+      "revision": 27,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794010520000,
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "finished",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000034",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": null,
+        "submittedCount": 0,
+        "eligibleCount": 2,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": null,
+        "explanation": "",
+        "valid": false,
+        "reason": "player_removed",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": null
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": "incomplete",
+      "notice": "Incomplete quiz. Results are provisional.",
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    },
+    "playerRemovedPlayer": {
+      "protocolVersion": 2,
+      "mode": "quiz",
+      "modeVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "00000000-0000-4000-8000-000000000032",
+      "revision": 27,
+      "serverTime": 1794009620000,
+      "expiresAt": 1794010520000,
+      "role": "player",
+      "self": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "nickname": "Ari"
+      },
+      "phase": "finished",
+      "joinLocked": false,
+      "settings": {
+        "capacity": 12
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "00000000-0000-4000-8000-000000000034",
+        "index": 1,
+        "total": 3,
+        "questionId": "42ab0856-2934-45cc-a720-7421756c873b",
+        "prompt": "Which planet is known as the Red Planet?",
+        "answers": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Mercury"
+        ],
+        "deadline": null,
+        "submittedCount": 0,
+        "eligibleCount": 2,
+        "ownAnswer": null
+      },
+      "reveal": {
+        "correctAnswer": null,
+        "explanation": "",
+        "valid": false,
+        "reason": "player_removed",
+        "results": [
+          {
+            "playerId": "00000000-0000-4000-8000-000000000003",
+            "nickname": "Ari",
+            "value": null,
+            "points": 0
+          },
+          {
+            "playerId": "00000000-0000-4000-8000-000000000004",
+            "nickname": "Bo",
+            "value": null,
+            "points": 0
+          }
+        ],
+        "groupAccuracy": null
+      },
+      "leaderboard": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": "incomplete",
+      "notice": "Incomplete quiz. Results are provisional.",
+      "quiz": {
+        "id": "84273658-3fa8-43f4-82bd-6f026933b8e7",
+        "title": "Little wonders",
+        "questionCount": 3
+      }
+    }
+  }
+}

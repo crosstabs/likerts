@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /api$
 Disallow: /api/
-
 Sitemap: https://likerts.com/sitemap.xml

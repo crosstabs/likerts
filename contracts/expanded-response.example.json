@@ -1,5 +1,0 @@
-{
- "idempotencyKey":"expanded-response-0001",
- "answers":{"recommend":9,"easy":4,"return":"yes","improvements":["speed","payment"]},
- "metadata":{"placement":"checkout"}
-}

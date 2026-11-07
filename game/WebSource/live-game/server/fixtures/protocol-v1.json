@@ -1,0 +1,992 @@
+{
+  "note": "Synthetic local protocol examples generated from the actual reducer; not a running room or valid production credential.",
+  "createRequest": {
+    "admissionId": "aff6c1b1-c7ff-4f93-84e4-3fca20d2a9e7",
+    "recoverySecret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "settings": {
+      "topic": "mix",
+      "cycles": 1,
+      "capacity": 12,
+      "answerSeconds": 60,
+      "predictSeconds": 60
+    }
+  },
+  "joinRequest": {
+    "admissionId": "56b8e4e2-fc05-4306-aee2-414ca21bba68",
+    "recoverySecret": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+    "nickname": "Ari",
+    "acceptRoomSharing": true
+  },
+  "authenticateFrame": {
+    "type": "authenticate",
+    "code": "ABCDEF",
+    "token": "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+  },
+  "recoverRequest": {
+    "admissionId": "baef0bd6-db05-4f12-a4ea-fc64677ef0ba",
+    "recoverySecret": "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+  },
+  "actionRequest": {
+    "requestId": "18e8c18b-f21f-4369-ac2e-de848573be7e",
+    "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+    "roundId": "ea23f11b-a07b-4074-8fc3-ab22f44c4bdd",
+    "action": "answer",
+    "value": 4
+  },
+  "closeResponse": {
+    "state": null,
+    "closed": true
+  },
+  "leaveResponse": {
+    "state": null,
+    "left": true
+  },
+  "errorResponse": {
+    "error": {
+      "code": "stale_round",
+      "message": "Refresh the current round before trying again."
+    }
+  },
+  "states": {
+    "lobbyHost": {
+      "protocolVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+      "revision": 4,
+      "serverTime": 1793923200000,
+      "expiresAt": 1793930400000,
+      "catalogVersion": 1,
+      "catalogHash": "28f342b2cfe60f611573de432173b20e0f71d4699a0d2fd9de910b011dc15aea",
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "lobby",
+      "joinLocked": false,
+      "settings": {
+        "topic": "mix",
+        "cycles": 1,
+        "capacity": 12,
+        "answerSeconds": 0,
+        "predictSeconds": 0
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": null,
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null
+    },
+    "lobbyPlayer": {
+      "protocolVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+      "revision": 4,
+      "serverTime": 1793923200000,
+      "expiresAt": 1793930400000,
+      "catalogVersion": 1,
+      "catalogHash": "28f342b2cfe60f611573de432173b20e0f71d4699a0d2fd9de910b011dc15aea",
+      "role": "player",
+      "self": {
+        "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+        "nickname": "Ari"
+      },
+      "phase": "lobby",
+      "joinLocked": false,
+      "settings": {
+        "topic": "mix",
+        "cycles": 1,
+        "capacity": 12,
+        "answerSeconds": 0,
+        "predictSeconds": 0
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": null,
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null
+    },
+    "answerHost": {
+      "protocolVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+      "revision": 5,
+      "serverTime": 1793923200000,
+      "expiresAt": 1793930400000,
+      "catalogVersion": 1,
+      "catalogHash": "28f342b2cfe60f611573de432173b20e0f71d4699a0d2fd9de910b011dc15aea",
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "answer",
+      "joinLocked": false,
+      "settings": {
+        "topic": "mix",
+        "cycles": 1,
+        "capacity": 12,
+        "answerSeconds": 0,
+        "predictSeconds": 0
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "ea23f11b-a07b-4074-8fc3-ab22f44c4bdd",
+        "index": 1,
+        "total": 3,
+        "subjectId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+        "subjectName": "Bo",
+        "prompt": {
+          "id": 1208,
+          "text": "I would take a train journey with no plans beyond looking out of the window.",
+          "topic": "travel",
+          "sceneSummary": "A totem sets its map aside and gazes from the train window."
+        },
+        "deadline": null,
+        "paused": false,
+        "answerLocked": false,
+        "submittedCount": 0,
+        "eligibleCount": 2,
+        "ownAnswer": null,
+        "ownGuess": null
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null
+    },
+    "answerSubject": {
+      "protocolVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+      "revision": 5,
+      "serverTime": 1793923200000,
+      "expiresAt": 1793930400000,
+      "catalogVersion": 1,
+      "catalogHash": "28f342b2cfe60f611573de432173b20e0f71d4699a0d2fd9de910b011dc15aea",
+      "role": "player",
+      "self": {
+        "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+        "nickname": "Bo"
+      },
+      "phase": "answer",
+      "joinLocked": false,
+      "settings": {
+        "topic": "mix",
+        "cycles": 1,
+        "capacity": 12,
+        "answerSeconds": 0,
+        "predictSeconds": 0
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "ea23f11b-a07b-4074-8fc3-ab22f44c4bdd",
+        "index": 1,
+        "total": 3,
+        "subjectId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+        "subjectName": "Bo",
+        "prompt": {
+          "id": 1208,
+          "text": "I would take a train journey with no plans beyond looking out of the window.",
+          "topic": "travel",
+          "sceneSummary": "A totem sets its map aside and gazes from the train window."
+        },
+        "deadline": null,
+        "paused": false,
+        "answerLocked": false,
+        "submittedCount": 0,
+        "eligibleCount": 2,
+        "ownAnswer": null,
+        "ownGuess": null
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null
+    },
+    "predictHost": {
+      "protocolVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+      "revision": 6,
+      "serverTime": 1793923200000,
+      "expiresAt": 1793930400000,
+      "catalogVersion": 1,
+      "catalogHash": "28f342b2cfe60f611573de432173b20e0f71d4699a0d2fd9de910b011dc15aea",
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "predict",
+      "joinLocked": false,
+      "settings": {
+        "topic": "mix",
+        "cycles": 1,
+        "capacity": 12,
+        "answerSeconds": 0,
+        "predictSeconds": 0
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "ea23f11b-a07b-4074-8fc3-ab22f44c4bdd",
+        "index": 1,
+        "total": 3,
+        "subjectId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+        "subjectName": "Bo",
+        "prompt": {
+          "id": 1208,
+          "text": "I would take a train journey with no plans beyond looking out of the window.",
+          "topic": "travel",
+          "sceneSummary": "A totem sets its map aside and gazes from the train window."
+        },
+        "deadline": null,
+        "paused": false,
+        "answerLocked": true,
+        "submittedCount": 0,
+        "eligibleCount": 2,
+        "ownAnswer": null,
+        "ownGuess": null
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null
+    },
+    "predictSubject": {
+      "protocolVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+      "revision": 6,
+      "serverTime": 1793923200000,
+      "expiresAt": 1793930400000,
+      "catalogVersion": 1,
+      "catalogHash": "28f342b2cfe60f611573de432173b20e0f71d4699a0d2fd9de910b011dc15aea",
+      "role": "player",
+      "self": {
+        "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+        "nickname": "Bo"
+      },
+      "phase": "predict",
+      "joinLocked": false,
+      "settings": {
+        "topic": "mix",
+        "cycles": 1,
+        "capacity": 12,
+        "answerSeconds": 0,
+        "predictSeconds": 0
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "ea23f11b-a07b-4074-8fc3-ab22f44c4bdd",
+        "index": 1,
+        "total": 3,
+        "subjectId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+        "subjectName": "Bo",
+        "prompt": {
+          "id": 1208,
+          "text": "I would take a train journey with no plans beyond looking out of the window.",
+          "topic": "travel",
+          "sceneSummary": "A totem sets its map aside and gazes from the train window."
+        },
+        "deadline": null,
+        "paused": false,
+        "answerLocked": true,
+        "submittedCount": 0,
+        "eligibleCount": 2,
+        "ownAnswer": 4,
+        "ownGuess": null
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null
+    },
+    "predictGuest": {
+      "protocolVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+      "revision": 7,
+      "serverTime": 1793923200000,
+      "expiresAt": 1793930400000,
+      "catalogVersion": 1,
+      "catalogHash": "28f342b2cfe60f611573de432173b20e0f71d4699a0d2fd9de910b011dc15aea",
+      "role": "player",
+      "self": {
+        "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+        "nickname": "Ari"
+      },
+      "phase": "predict",
+      "joinLocked": false,
+      "settings": {
+        "topic": "mix",
+        "cycles": 1,
+        "capacity": 12,
+        "answerSeconds": 0,
+        "predictSeconds": 0
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "ea23f11b-a07b-4074-8fc3-ab22f44c4bdd",
+        "index": 1,
+        "total": 3,
+        "subjectId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+        "subjectName": "Bo",
+        "prompt": {
+          "id": 1208,
+          "text": "I would take a train journey with no plans beyond looking out of the window.",
+          "topic": "travel",
+          "sceneSummary": "A totem sets its map aside and gazes from the train window."
+        },
+        "deadline": null,
+        "paused": false,
+        "answerLocked": true,
+        "submittedCount": 1,
+        "eligibleCount": 2,
+        "ownAnswer": null,
+        "ownGuess": 3
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null
+    },
+    "predictOtherGuest": {
+      "protocolVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+      "revision": 7,
+      "serverTime": 1793923200000,
+      "expiresAt": 1793930400000,
+      "catalogVersion": 1,
+      "catalogHash": "28f342b2cfe60f611573de432173b20e0f71d4699a0d2fd9de910b011dc15aea",
+      "role": "player",
+      "self": {
+        "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+        "nickname": "Cam"
+      },
+      "phase": "predict",
+      "joinLocked": false,
+      "settings": {
+        "topic": "mix",
+        "cycles": 1,
+        "capacity": 12,
+        "answerSeconds": 0,
+        "predictSeconds": 0
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "ea23f11b-a07b-4074-8fc3-ab22f44c4bdd",
+        "index": 1,
+        "total": 3,
+        "subjectId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+        "subjectName": "Bo",
+        "prompt": {
+          "id": 1208,
+          "text": "I would take a train journey with no plans beyond looking out of the window.",
+          "topic": "travel",
+          "sceneSummary": "A totem sets its map aside and gazes from the train window."
+        },
+        "deadline": null,
+        "paused": false,
+        "answerLocked": true,
+        "submittedCount": 1,
+        "eligibleCount": 2,
+        "ownAnswer": null,
+        "ownGuess": null
+      },
+      "reveal": null,
+      "leaderboard": [
+        {
+          "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        },
+        {
+          "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null
+    },
+    "revealHost": {
+      "protocolVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+      "revision": 8,
+      "serverTime": 1793923200000,
+      "expiresAt": 1793930400000,
+      "catalogVersion": 1,
+      "catalogHash": "28f342b2cfe60f611573de432173b20e0f71d4699a0d2fd9de910b011dc15aea",
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "reveal",
+      "joinLocked": false,
+      "settings": {
+        "topic": "mix",
+        "cycles": 1,
+        "capacity": 12,
+        "answerSeconds": 0,
+        "predictSeconds": 0
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "ea23f11b-a07b-4074-8fc3-ab22f44c4bdd",
+        "index": 1,
+        "total": 3,
+        "subjectId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+        "subjectName": "Bo",
+        "prompt": {
+          "id": 1208,
+          "text": "I would take a train journey with no plans beyond looking out of the window.",
+          "topic": "travel",
+          "sceneSummary": "A totem sets its map aside and gazes from the train window."
+        },
+        "deadline": null,
+        "paused": false,
+        "answerLocked": true,
+        "submittedCount": 2,
+        "eligibleCount": 2,
+        "ownAnswer": null,
+        "ownGuess": null
+      },
+      "reveal": {
+        "answer": 4,
+        "valid": true,
+        "reason": "all_locked",
+        "guesses": [
+          {
+            "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+            "nickname": "Ari",
+            "value": 3,
+            "points": 75
+          },
+          {
+            "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+            "nickname": "Cam",
+            "value": 4,
+            "points": 100
+          }
+        ],
+        "groupAccuracy": 87.5
+      },
+      "leaderboard": [
+        {
+          "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "points": 100,
+          "opportunities": 1,
+          "accuracy": 100,
+          "rank": null
+        },
+        {
+          "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "points": 75,
+          "opportunities": 1,
+          "accuracy": 75,
+          "rank": null
+        },
+        {
+          "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "points": 0,
+          "opportunities": 0,
+          "accuracy": null,
+          "rank": null
+        }
+      ],
+      "completion": null,
+      "notice": null
+    },
+    "finishedHost": {
+      "protocolVersion": 1,
+      "code": "ABCDEF",
+      "matchId": "f819a44b-b769-41f1-9a63-d2ee2b68ee96",
+      "revision": 17,
+      "serverTime": 1793923200000,
+      "expiresAt": 1793924100000,
+      "catalogVersion": 1,
+      "catalogHash": "28f342b2cfe60f611573de432173b20e0f71d4699a0d2fd9de910b011dc15aea",
+      "role": "host",
+      "self": {
+        "id": "host",
+        "nickname": "Host"
+      },
+      "phase": "finished",
+      "joinLocked": false,
+      "settings": {
+        "topic": "mix",
+        "cycles": 1,
+        "capacity": 12,
+        "answerSeconds": 0,
+        "predictSeconds": 0
+      },
+      "hostConnected": true,
+      "players": [
+        {
+          "id": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "avatar": 1,
+          "connected": true
+        },
+        {
+          "id": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "avatar": 2,
+          "connected": true
+        },
+        {
+          "id": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "avatar": 3,
+          "connected": true
+        }
+      ],
+      "round": {
+        "id": "8f9226d0-d4a0-43b1-ba2a-2657e3afebb8",
+        "index": 3,
+        "total": 3,
+        "subjectId": "04525cce-d28e-4081-9c74-902598e4bbac",
+        "subjectName": "Cam",
+        "prompt": {
+          "id": 1783,
+          "text": "I would make a morning checklist if it stopped me forgetting one thing.",
+          "topic": "mornings",
+          "sceneSummary": "An alarm and toothbrush form two stations on a routine track."
+        },
+        "deadline": null,
+        "paused": false,
+        "answerLocked": true,
+        "submittedCount": 2,
+        "eligibleCount": 2,
+        "ownAnswer": null,
+        "ownGuess": null
+      },
+      "reveal": {
+        "answer": 4,
+        "valid": true,
+        "reason": "all_locked",
+        "guesses": [
+          {
+            "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+            "nickname": "Ari",
+            "value": 4,
+            "points": 100
+          },
+          {
+            "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+            "nickname": "Bo",
+            "value": 4,
+            "points": 100
+          }
+        ],
+        "groupAccuracy": 100
+      },
+      "leaderboard": [
+        {
+          "playerId": "9bf7c1c8-e0df-47f1-b242-354c25927a1c",
+          "nickname": "Bo",
+          "points": 200,
+          "opportunities": 2,
+          "accuracy": 100,
+          "rank": 1
+        },
+        {
+          "playerId": "04525cce-d28e-4081-9c74-902598e4bbac",
+          "nickname": "Cam",
+          "points": 200,
+          "opportunities": 2,
+          "accuracy": 100,
+          "rank": 1
+        },
+        {
+          "playerId": "4d7ac68b-2665-41b2-944c-dcb46061470b",
+          "nickname": "Ari",
+          "points": 175,
+          "opportunities": 2,
+          "accuracy": 87.5,
+          "rank": 3
+        }
+      ],
+      "completion": "complete",
+      "notice": "Match complete."
+    }
+  }
+}

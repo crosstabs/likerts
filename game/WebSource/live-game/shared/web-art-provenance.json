@@ -1,0 +1,46 @@
+{
+  "files": [
+    {
+      "webPath": "web/assets/favicon.png",
+      "nativePath": "LikertsMessages/Assets.xcassets/iMessage App Icon.stickersiconset/Messages-iphone-29x29@2x.png",
+      "bytes": 4971,
+      "sha256": "ba3540cc147d09dccd61c2df75e0df9bd546c583ae1e447b37ee1793c5ee5fc8",
+      "transformation": "none; exact native file copy"
+    },
+    {
+      "webPath": "web/assets/totem-1.png",
+      "nativePath": "Likerts/TotemAssets.xcassets/Totem1.imageset/Totem1.png",
+      "bytes": 1172835,
+      "sha256": "0a22a2251b0634f510ff628a03b71d299d0558223efd80bf9cf8ec913fff7226",
+      "transformation": "none; exact native file copy"
+    },
+    {
+      "webPath": "web/assets/totem-2.png",
+      "nativePath": "Likerts/TotemAssets.xcassets/Totem2.imageset/Totem2.png",
+      "bytes": 901232,
+      "sha256": "7c7987188ed4547c2bd5d1b2eea9bd7c7bc437dbd25d13d65740a5b1d77b7bca",
+      "transformation": "none; exact native file copy"
+    },
+    {
+      "webPath": "web/assets/totem-3.png",
+      "nativePath": "Likerts/TotemAssets.xcassets/Totem3.imageset/Totem3.png",
+      "bytes": 822881,
+      "sha256": "a52f1d2b7058946a5f23c91e723fc6d1627836f5185187dc40c2713117cbc52a",
+      "transformation": "none; exact native file copy"
+    },
+    {
+      "webPath": "web/assets/totem-4.png",
+      "nativePath": "Likerts/TotemAssets.xcassets/Totem4.imageset/Totem4.png",
+      "bytes": 980709,
+      "sha256": "856ac86ec06623319cc4062bcb76d292ff3b0248a3138dbab03aea5198c1d893",
+      "transformation": "none; exact native file copy"
+    },
+    {
+      "webPath": "web/assets/totem-5.png",
+      "nativePath": "Likerts/TotemAssets.xcassets/Totem5.imageset/Totem5.png",
+      "bytes": 1159517,
+      "sha256": "c6bb4cabae3c1968136d82296f8495e3b5e25bde46af334a22708a84198b2b54",
+      "transformation": "none; exact native file copy"
+    }
+  ]
+}

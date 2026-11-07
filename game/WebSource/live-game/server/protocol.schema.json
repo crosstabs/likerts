@@ -1,0 +1,516 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:likerts:live:protocol:v1",
+  "title": "Likerts Live v1 projected state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocolVersion",
+    "code",
+    "matchId",
+    "revision",
+    "serverTime",
+    "expiresAt",
+    "catalogVersion",
+    "catalogHash",
+    "role",
+    "self",
+    "phase",
+    "joinLocked",
+    "settings",
+    "hostConnected",
+    "players",
+    "round",
+    "reveal",
+    "leaderboard",
+    "completion",
+    "notice"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": 1
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[A-HJ-NP-Z2-9]{6}$"
+    },
+    "matchId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "serverTime": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "expiresAt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "catalogVersion": {
+      "const": 1
+    },
+    "catalogHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "role": {
+      "enum": [
+        "host",
+        "player"
+      ]
+    },
+    "self": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "nickname"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        }
+      }
+    },
+    "phase": {
+      "enum": [
+        "lobby",
+        "answer",
+        "predict",
+        "reveal",
+        "finished"
+      ]
+    },
+    "joinLocked": {
+      "type": "boolean"
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "topic",
+        "cycles",
+        "capacity",
+        "answerSeconds",
+        "predictSeconds"
+      ],
+      "properties": {
+        "topic": {
+          "type": "string"
+        },
+        "cycles": {
+          "enum": [
+            1,
+            2,
+            3
+          ]
+        },
+        "capacity": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 50
+        },
+        "answerSeconds": {
+          "enum": [
+            0,
+            30,
+            60,
+            120
+          ]
+        },
+        "predictSeconds": {
+          "enum": [
+            0,
+            30,
+            60,
+            120
+          ]
+        }
+      }
+    },
+    "hostConnected": {
+      "type": "boolean"
+    },
+    "players": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nickname",
+          "avatar",
+          "connected"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "connected": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "round": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "index",
+            "total",
+            "subjectId",
+            "subjectName",
+            "prompt",
+            "deadline",
+            "paused",
+            "answerLocked",
+            "submittedCount",
+            "eligibleCount",
+            "ownAnswer",
+            "ownGuess"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "index": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "total": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 150
+            },
+            "subjectId": {
+              "type": "string"
+            },
+            "subjectName": {
+              "type": "string"
+            },
+            "prompt": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "text",
+                "topic",
+                "sceneSummary"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "text": {
+                  "type": "string"
+                },
+                "topic": {
+                  "type": "string"
+                },
+                "sceneSummary": {
+                  "type": "string"
+                }
+              }
+            },
+            "deadline": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "paused": {
+              "type": "boolean"
+            },
+            "answerLocked": {
+              "type": "boolean"
+            },
+            "submittedCount": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "eligibleCount": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ownAnswer": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "ownGuess": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reveal": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "answer",
+            "valid",
+            "reason",
+            "guesses",
+            "groupAccuracy"
+          ],
+          "properties": {
+            "answer": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "valid": {
+              "type": "boolean"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "guesses": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "playerId",
+                  "nickname",
+                  "value",
+                  "points"
+                ],
+                "properties": {
+                  "playerId": {
+                    "type": "string"
+                  },
+                  "nickname": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 5
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "points": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              }
+            },
+            "groupAccuracy": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "leaderboard": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "playerId",
+          "nickname",
+          "points",
+          "opportunities",
+          "accuracy",
+          "rank"
+        ],
+        "properties": {
+          "playerId": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "opportunities": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "accuracy": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rank": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 50
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "completion": {
+      "enum": [
+        null,
+        "complete",
+        "incomplete"
+      ]
+    },
+    "notice": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "catalogueMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "sha256",
+        "locale",
+        "topics"
+      ],
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "locale": {
+          "const": "en"
+        },
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "title"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "maxPlayers",
+            "defaultCapacity"
+          ],
+          "properties": {
+            "maxPlayers": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 50
+            },
+            "defaultCapacity": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 12
+            }
+          }
+        }
+      }
+    }
+  }
+}

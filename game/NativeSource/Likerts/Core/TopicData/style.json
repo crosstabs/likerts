@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1601,
+    "topic": "style",
+    "text": "I choose comfortable shoes even when they do not quite match the outfit.",
+    "scene": {
+      "primary": "sneaker",
+      "secondary": "socks",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects a comfortable sneaker beside mismatched socks."
+  },
+  {
+    "id": 1602,
+    "topic": "style",
+    "text": "I would rather be a little overdressed than wonder whether I made an effort.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "sunglasses",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a dramatic scarf beside sunglasses."
+  },
+  {
+    "id": 1603,
+    "topic": "style",
+    "text": "I keep a spare hat in my bag for an entirely hypothetical bad hair day.",
+    "scene": {
+      "primary": "cap",
+      "secondary": "backpack",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries a cap inside an open backpack."
+  },
+  {
+    "id": 1604,
+    "topic": "style",
+    "text": "I wear my most ridiculous socks under otherwise very sensible clothes.",
+    "scene": {
+      "primary": "socks",
+      "secondary": "sneaker",
+      "relation": "hide"
+    },
+    "sceneSummary": "Bright socks hide inside a serious-looking sneaker."
+  },
+  {
+    "id": 1605,
+    "topic": "style",
+    "text": "I treat choosing accessories as the interesting part of getting dressed.",
+    "scene": {
+      "primary": "sunglasses",
+      "secondary": "scarf",
+      "relation": "balance"
+    },
+    "sceneSummary": "Sunglasses balance above a carefully arranged scarf."
+  },
+  {
+    "id": 1606,
+    "topic": "style",
+    "text": "I check how many pockets something has before deciding whether I like it.",
+    "scene": {
+      "primary": "backpack",
+      "secondary": "cap",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character examines backpack pockets beside a cap."
+  },
+  {
+    "id": 1607,
+    "topic": "style",
+    "text": "I would wear the same favourite outfit twice in a week without hesitation.",
+    "scene": {
+      "primary": "sneaker",
+      "secondary": "scarf",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a familiar sneaker and scarf."
+  },
+  {
+    "id": 1608,
+    "topic": "style",
+    "text": "I enjoy giving someone a compliment about a tiny outfit detail.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "socks",
+      "relation": "share"
+    },
+    "sceneSummary": "A scarf and patterned socks are admired together."
+  },
+  {
+    "id": 1609,
+    "topic": "style",
+    "text": "I try an accessory on twice because I cannot decide if it is brilliant or ridiculous.",
+    "scene": {
+      "primary": "cap",
+      "secondary": "sunglasses",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A cap circles a character wearing uncertain sunglasses."
+  },
+  {
+    "id": 1610,
+    "topic": "style",
+    "text": "I pack more socks than any reasonable trip could require.",
+    "scene": {
+      "primary": "socks",
+      "secondary": "backpack",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries overflowing socks above a backpack."
+  },
+  {
+    "id": 1611,
+    "topic": "style",
+    "text": "I own something fashionable that I am still waiting for the courage to wear.",
+    "scene": {
+      "primary": "sunglasses",
+      "secondary": "sneaker",
+      "relation": "hide"
+    },
+    "sceneSummary": "Sunglasses hide behind a well-worn sneaker."
+  },
+  {
+    "id": 1612,
+    "topic": "style",
+    "text": "I choose a practical bag over one that looks better but holds almost nothing.",
+    "scene": {
+      "primary": "backpack",
+      "secondary": "scarf",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a roomy backpack beside a scarf."
+  },
+  {
+    "id": 1613,
+    "topic": "style",
+    "text": "I ask a friend's opinion even when I have already decided what to wear.",
+    "scene": {
+      "primary": "sneaker",
+      "secondary": "cap",
+      "relation": "offer"
+    },
+    "sceneSummary": "A sneaker is offered for judgment beside a cap."
+  },
+  {
+    "id": 1614,
+    "topic": "style",
+    "text": "I bring an extra layer even when the forecast says I will not need it.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "backpack",
+      "relation": "balance"
+    },
+    "sceneSummary": "A scarf balances on top of a full backpack."
+  },
+  {
+    "id": 1615,
+    "topic": "style",
+    "text": "I can spot when a friend has tried a completely new look.",
+    "scene": {
+      "primary": "cap",
+      "secondary": "socks",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character studies a new cap beside unfamiliar socks."
+  },
+  {
+    "id": 1616,
+    "topic": "style",
+    "text": "I put together an outfit around one small colourful detail.",
+    "scene": {
+      "primary": "socks",
+      "secondary": "scarf",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds an outfit around socks and a scarf."
+  },
+  {
+    "id": 1617,
+    "topic": "style",
+    "text": "I carry sunglasses all day and remember them only after the sun goes down.",
+    "scene": {
+      "primary": "sunglasses",
+      "secondary": "backpack",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries forgotten sunglasses above a backpack."
+  },
+  {
+    "id": 1618,
+    "topic": "style",
+    "text": "I look for signs that an item will survive everyday use before buying it.",
+    "scene": {
+      "primary": "backpack",
+      "secondary": "sneaker",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character examines a sturdy backpack beside a worn sneaker."
+  },
+  {
+    "id": 1619,
+    "topic": "style",
+    "text": "I enjoy matching one small part of my outfit with a friend.",
+    "scene": {
+      "primary": "sneaker",
+      "secondary": "sunglasses",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share matching sneakers beneath sunglasses."
+  },
+  {
+    "id": 1620,
+    "topic": "style",
+    "text": "I keep accessories neatly organised until the morning I actually need them.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "cap",
+      "relation": "stack"
+    },
+    "sceneSummary": "A tidy scarf stack sits below a hurriedly displaced cap."
+  },
+  {
+    "id": 1621,
+    "topic": "style",
+    "text": "I dress for where I am walking rather than how I will look when I arrive.",
+    "scene": {
+      "primary": "cap",
+      "secondary": "sneaker",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a walking sneaker beside a cap."
+  },
+  {
+    "id": 1622,
+    "topic": "style",
+    "text": "I would happily receive a very silly pair of socks as a present.",
+    "scene": {
+      "primary": "socks",
+      "secondary": "sunglasses",
+      "relation": "offer"
+    },
+    "sceneSummary": "Socks are offered with oversized celebratory sunglasses."
+  },
+  {
+    "id": 1623,
+    "topic": "style",
+    "text": "I try on a new look in the mirror and then change back at the last second.",
+    "scene": {
+      "primary": "sunglasses",
+      "secondary": "cap",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character studies sunglasses beside a rejected cap."
+  },
+  {
+    "id": 1624,
+    "topic": "style",
+    "text": "I keep a tiny emergency outfit solution in my bag.",
+    "scene": {
+      "primary": "backpack",
+      "secondary": "socks",
+      "relation": "hide"
+    },
+    "sceneSummary": "A pair of backup socks hides inside a backpack."
+  },
+  {
+    "id": 1625,
+    "topic": "style",
+    "text": "I tolerate one odd sock more easily than a tiny stone in my shoe.",
+    "scene": {
+      "primary": "sneaker",
+      "secondary": "socks",
+      "relation": "balance"
+    },
+    "sceneSummary": "A sneaker balances beside one wayward sock."
+  },
+  {
+    "id": 1626,
+    "topic": "style",
+    "text": "I carry an accessory rather than wear it when I cannot make it feel right.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "sunglasses",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries a scarf and unused sunglasses."
+  },
+  {
+    "id": 1627,
+    "topic": "style",
+    "text": "I lend a favourite accessory even when I suspect I will have to ask for it back.",
+    "scene": {
+      "primary": "cap",
+      "secondary": "backpack",
+      "relation": "offer"
+    },
+    "sceneSummary": "A cap is offered over a waiting backpack."
+  },
+  {
+    "id": 1628,
+    "topic": "style",
+    "text": "I get dressed faster when I decide on my shoes first.",
+    "scene": {
+      "primary": "socks",
+      "secondary": "sneaker",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a sneaker before reaching for socks."
+  },
+  {
+    "id": 1629,
+    "topic": "style",
+    "text": "I notice an interesting colour combination and want to try it immediately.",
+    "scene": {
+      "primary": "sunglasses",
+      "secondary": "scarf",
+      "relation": "orbit"
+    },
+    "sceneSummary": "Sunglasses orbit a striking folded scarf."
+  },
+  {
+    "id": 1630,
+    "topic": "style",
+    "text": "I enjoy finding new ways to use something I already own.",
+    "scene": {
+      "primary": "backpack",
+      "secondary": "cap",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a fresh arrangement from backpack and cap."
+  },
+  {
+    "id": 1631,
+    "topic": "style",
+    "text": "I check whether a new item works with my old favourites before keeping it.",
+    "scene": {
+      "primary": "sneaker",
+      "secondary": "scarf",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character compares a new sneaker with a familiar scarf."
+  },
+  {
+    "id": 1632,
+    "topic": "style",
+    "text": "I save a favourite item for special occasions until I forget what occasion it needs.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "socks",
+      "relation": "hide"
+    },
+    "sceneSummary": "A special scarf shelters behind everyday socks."
+  },
+  {
+    "id": 1633,
+    "topic": "style",
+    "text": "I would join friends in wearing a silly matching accessory for a day out.",
+    "scene": {
+      "primary": "cap",
+      "secondary": "sunglasses",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters share a cap and oversized sunglasses."
+  },
+  {
+    "id": 1634,
+    "topic": "style",
+    "text": "I roll socks into tiny bundles before putting them in a bag.",
+    "scene": {
+      "primary": "socks",
+      "secondary": "backpack",
+      "relation": "stack"
+    },
+    "sceneSummary": "Rolled socks form a neat stack beside a backpack."
+  },
+  {
+    "id": 1635,
+    "topic": "style",
+    "text": "I would rather look slightly unusual than feel exactly like everybody else.",
+    "scene": {
+      "primary": "sunglasses",
+      "secondary": "sneaker",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses unusual sunglasses beside a familiar sneaker."
+  },
+  {
+    "id": 1636,
+    "topic": "style",
+    "text": "I lend someone an extra layer before they admit they are cold.",
+    "scene": {
+      "primary": "backpack",
+      "secondary": "scarf",
+      "relation": "offer"
+    },
+    "sceneSummary": "A scarf is offered from an open backpack."
+  },
+  {
+    "id": 1637,
+    "topic": "style",
+    "text": "I bring a second pair of shoes if there is even a chance of a long walk.",
+    "scene": {
+      "primary": "sneaker",
+      "secondary": "cap",
+      "relation": "carry"
+    },
+    "sceneSummary": "A character carries a spare sneaker above a cap."
+  },
+  {
+    "id": 1638,
+    "topic": "style",
+    "text": "I check that an accessory can fit in my bag before I take it out.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "backpack",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character measures a scarf against a backpack."
+  },
+  {
+    "id": 1639,
+    "topic": "style",
+    "text": "I can enjoy a fancy event more when one part of my outfit feels familiar.",
+    "scene": {
+      "primary": "cap",
+      "secondary": "socks",
+      "relation": "balance"
+    },
+    "sceneSummary": "A familiar cap balances above formal-looking socks."
+  },
+  {
+    "id": 1640,
+    "topic": "style",
+    "text": "I think a handmade accessory is more special when its tiny imperfections show.",
+    "scene": {
+      "primary": "socks",
+      "secondary": "scarf",
+      "relation": "offer"
+    },
+    "sceneSummary": "Handmade socks are offered beside an uneven scarf."
+  },
+  {
+    "id": 1641,
+    "topic": "style",
+    "text": "I put something away carefully and immediately forget which pocket I used.",
+    "scene": {
+      "primary": "sunglasses",
+      "secondary": "backpack",
+      "relation": "hide"
+    },
+    "sceneSummary": "Sunglasses hide among the pockets of a backpack."
+  },
+  {
+    "id": 1642,
+    "topic": "style",
+    "text": "I prefer travelling light even if it means wearing the same shoes every day.",
+    "scene": {
+      "primary": "backpack",
+      "secondary": "sneaker",
+      "relation": "carry"
+    },
+    "sceneSummary": "A small backpack is carried beside one reliable sneaker."
+  },
+  {
+    "id": 1643,
+    "topic": "style",
+    "text": "I can make an old outfit feel new by changing just one thing.",
+    "scene": {
+      "primary": "sneaker",
+      "secondary": "sunglasses",
+      "relation": "build"
+    },
+    "sceneSummary": "A character builds a new look around sneaker and sunglasses."
+  },
+  {
+    "id": 1644,
+    "topic": "style",
+    "text": "I choose an accessory because it reminds me of a good day.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "cap",
+      "relation": "choose"
+    },
+    "sceneSummary": "A character chooses a memory-filled scarf beside a cap."
+  },
+  {
+    "id": 1645,
+    "topic": "style",
+    "text": "I notice when my favourite everyday item finally looks too worn to ignore.",
+    "scene": {
+      "primary": "cap",
+      "secondary": "sneaker",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character inspects a weathered cap beside a sneaker."
+  },
+  {
+    "id": 1646,
+    "topic": "style",
+    "text": "I keep a bright accessory for days when I need a small confidence boost.",
+    "scene": {
+      "primary": "socks",
+      "secondary": "sunglasses",
+      "relation": "hide"
+    },
+    "sceneSummary": "Cheerful socks wait discreetly behind sunglasses."
+  },
+  {
+    "id": 1647,
+    "topic": "style",
+    "text": "I encourage a friend to try the bold option when they ask for styling help.",
+    "scene": {
+      "primary": "sunglasses",
+      "secondary": "cap",
+      "relation": "offer"
+    },
+    "sceneSummary": "Bold sunglasses are offered beside a cautious cap."
+  },
+  {
+    "id": 1648,
+    "topic": "style",
+    "text": "I would compare useful pockets with a friend as enthusiastically as any fancy outfit.",
+    "scene": {
+      "primary": "backpack",
+      "secondary": "socks",
+      "relation": "share"
+    },
+    "sceneSummary": "Two characters compare backpacks with neatly stored socks."
+  },
+  {
+    "id": 1649,
+    "topic": "style",
+    "text": "I line up my shoes when I want the room to feel instantly tidier.",
+    "scene": {
+      "primary": "sneaker",
+      "secondary": "socks",
+      "relation": "stack"
+    },
+    "sceneSummary": "Sneakers line up above a tidy sock stack."
+  },
+  {
+    "id": 1650,
+    "topic": "style",
+    "text": "I would try a style I used to dislike if someone made it look unexpectedly fun.",
+    "scene": {
+      "primary": "scarf",
+      "secondary": "sunglasses",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A character reconsiders a scarf beside surprising sunglasses."
+  }
+]

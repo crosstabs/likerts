@@ -1,0 +1,552 @@
+[
+  {
+    "id": 1001,
+    "topic": "snacks",
+    "text": "I would trade the last cookie for a whole bowl of popcorn.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "popcorn",
+      "relation": "offer"
+    },
+    "sceneSummary": "A coral totem offers its final cookie toward an overflowing popcorn bowl."
+  },
+  {
+    "id": 1002,
+    "topic": "snacks",
+    "text": "I save the chocolate part of a cookie until my popcorn is gone.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "popcorn",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem tucks a cookie behind the popcorn bowl for later."
+  },
+  {
+    "id": 1003,
+    "topic": "snacks",
+    "text": "I like a snack plate that has exactly as much fruit as cookies.",
+    "scene": {
+      "primary": "fruit",
+      "secondary": "cookie",
+      "relation": "balance"
+    },
+    "sceneSummary": "A totem steadies equal portions of fruit and cookies on opposite sides."
+  },
+  {
+    "id": 1004,
+    "topic": "snacks",
+    "text": "I would rather eat a messy ice cream than a perfectly tidy bento.",
+    "scene": {
+      "primary": "icecream",
+      "secondary": "bento",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem leans toward a drippy cone while leaving a neat bento aside."
+  },
+  {
+    "id": 1005,
+    "topic": "snacks",
+    "text": "I count pretzels before splitting them with someone.",
+    "scene": {
+      "primary": "pretzel",
+      "secondary": "bento",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem carefully checks pretzels beside a bento divided into portions."
+  },
+  {
+    "id": 1006,
+    "topic": "snacks",
+    "text": "I would put popcorn in my lunch box and call it a complete plan.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "bento",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem fills the bento with a small popcorn tower."
+  },
+  {
+    "id": 1007,
+    "topic": "snacks",
+    "text": "I prefer a warm cookie to ice cream even on a sunny day.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "icecream",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem reaches for a cookie while the ice cream waits nearby."
+  },
+  {
+    "id": 1008,
+    "topic": "snacks",
+    "text": "I take fruit on a journey and buy a pretzel on the way anyway.",
+    "scene": {
+      "primary": "fruit",
+      "secondary": "pretzel",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries fruit with a newly acquired pretzel perched on top."
+  },
+  {
+    "id": 1009,
+    "topic": "snacks",
+    "text": "I would build a cookie bridge over a bowl of ice cream.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "icecream",
+      "relation": "build"
+    },
+    "sceneSummary": "Two totems arrange cookies as a tiny bridge above the cone cup."
+  },
+  {
+    "id": 1010,
+    "topic": "snacks",
+    "text": "I can hear popcorn being opened from farther away than my own name.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "fruit",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A totem circles the popcorn while an untouched fruit bowl sits behind it."
+  },
+  {
+    "id": 1011,
+    "topic": "snacks",
+    "text": "I would swap my fancy bento for a friend's enormous pretzel.",
+    "scene": {
+      "primary": "bento",
+      "secondary": "pretzel",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem holds out its bento in exchange for a comically large pretzel."
+  },
+  {
+    "id": 1012,
+    "topic": "snacks",
+    "text": "I think fruit tastes better when someone else has arranged it nicely.",
+    "scene": {
+      "primary": "fruit",
+      "secondary": "bento",
+      "relation": "stack"
+    },
+    "sceneSummary": "A totem admires neatly layered fruit rising from a bento box."
+  },
+  {
+    "id": 1013,
+    "topic": "snacks",
+    "text": "I would share my popcorn but keep the cookie with the best chocolate chips.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "cookie",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem pushes popcorn toward a friend while keeping a cookie close."
+  },
+  {
+    "id": 1014,
+    "topic": "snacks",
+    "text": "I like pretzel crunch in my ice cream more than another scoop.",
+    "scene": {
+      "primary": "pretzel",
+      "secondary": "icecream",
+      "relation": "stack"
+    },
+    "sceneSummary": "A totem balances a crunchy pretzel atop an ice cream cone."
+  },
+  {
+    "id": 1015,
+    "topic": "snacks",
+    "text": "I pick a bento for its tiny compartments before checking the food.",
+    "scene": {
+      "primary": "bento",
+      "secondary": "fruit",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem peers into the empty bento dividers beside a waiting fruit bowl."
+  },
+  {
+    "id": 1016,
+    "topic": "snacks",
+    "text": "I would carry a cookie in a special box so it stays unbroken.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "bento",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carefully transports a single cookie in an open bento."
+  },
+  {
+    "id": 1017,
+    "topic": "snacks",
+    "text": "I need a salty pretzel after sweet fruit to feel finished snacking.",
+    "scene": {
+      "primary": "pretzel",
+      "secondary": "fruit",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem reaches past fruit for a final pretzel."
+  },
+  {
+    "id": 1018,
+    "topic": "snacks",
+    "text": "I would make a popcorn necklace just to keep my snack nearby.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "pretzel",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem threads popcorn and a pretzel into a wearable snack chain."
+  },
+  {
+    "id": 1019,
+    "topic": "snacks",
+    "text": "I offer a bite of ice cream even when it is my favourite flavour.",
+    "scene": {
+      "primary": "icecream",
+      "secondary": "cookie",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem presents its cone to a friend holding a cookie."
+  },
+  {
+    "id": 1020,
+    "topic": "snacks",
+    "text": "I would choose a picnic with great snacks over a picnic with a great view.",
+    "scene": {
+      "primary": "bento",
+      "secondary": "cookie",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem settles beside an open bento and cookie picnic."
+  },
+  {
+    "id": 1021,
+    "topic": "snacks",
+    "text": "I break cookies over popcorn so every handful gets a surprise.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "popcorn",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem sprinkles cookie pieces into a popcorn bowl."
+  },
+  {
+    "id": 1022,
+    "topic": "snacks",
+    "text": "I think a fruit bowl should include at least one ridiculous tiny fork.",
+    "scene": {
+      "primary": "fruit",
+      "secondary": "pretzel",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem scrutinizes fruit with a tiny pretzel-shaped fork nearby."
+  },
+  {
+    "id": 1023,
+    "topic": "snacks",
+    "text": "I would eat a pretzel in little loops before touching the middle.",
+    "scene": {
+      "primary": "pretzel",
+      "secondary": "cookie",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem studies the loops of a pretzel beside a round cookie."
+  },
+  {
+    "id": 1024,
+    "topic": "snacks",
+    "text": "I enjoy arranging snacks almost as much as eating them.",
+    "scene": {
+      "primary": "bento",
+      "secondary": "popcorn",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem carefully places popcorn into a patterned bento arrangement."
+  },
+  {
+    "id": 1025,
+    "topic": "snacks",
+    "text": "I would wait for ice cream instead of accepting a perfectly good cookie now.",
+    "scene": {
+      "primary": "icecream",
+      "secondary": "cookie",
+      "relation": "choose"
+    },
+    "sceneSummary": "A patient totem faces the ice cream while a cookie waits at its side."
+  },
+  {
+    "id": 1026,
+    "topic": "snacks",
+    "text": "I put the best fruit at the bottom of the bowl to reward my future self.",
+    "scene": {
+      "primary": "fruit",
+      "secondary": "icecream",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem hides a favourite fruit beneath a fruit-topped ice cream cup."
+  },
+  {
+    "id": 1027,
+    "topic": "snacks",
+    "text": "I would take a bento to a movie if everyone promised not to stare.",
+    "scene": {
+      "primary": "bento",
+      "secondary": "popcorn",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a bento into a popcorn-lined miniature viewing area."
+  },
+  {
+    "id": 1028,
+    "topic": "snacks",
+    "text": "I prefer tiny cookies because eating five feels like an event.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "fruit",
+      "relation": "stack"
+    },
+    "sceneSummary": "A totem stacks miniature cookies beside a single piece of fruit."
+  },
+  {
+    "id": 1029,
+    "topic": "snacks",
+    "text": "I would share a giant pretzel with someone who bites the wrong side.",
+    "scene": {
+      "primary": "pretzel",
+      "secondary": "popcorn",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems approach opposite sides of one pretzel beside popcorn."
+  },
+  {
+    "id": 1030,
+    "topic": "snacks",
+    "text": "I let ice cream soften while I carefully choose a topping.",
+    "scene": {
+      "primary": "icecream",
+      "secondary": "pretzel",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem examines a pretzel topping beside a slightly melting cone."
+  },
+  {
+    "id": 1031,
+    "topic": "snacks",
+    "text": "I would pack an entire bento just for the walk to the park.",
+    "scene": {
+      "primary": "bento",
+      "secondary": "fruit",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem proudly carries a full bento with fruit tucked under its arm."
+  },
+  {
+    "id": 1032,
+    "topic": "snacks",
+    "text": "I think the unpopped kernels deserve their own tiny bowl.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "bento",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem sorts small kernels into a separate bento compartment."
+  },
+  {
+    "id": 1033,
+    "topic": "snacks",
+    "text": "I would turn fruit into a face before offering it to a guest.",
+    "scene": {
+      "primary": "fruit",
+      "secondary": "cookie",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem arranges fruit eyes and a cookie smile for a friend."
+  },
+  {
+    "id": 1034,
+    "topic": "snacks",
+    "text": "I take the smallest cookie first so nobody thinks I studied the plate.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "pretzel",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem discreetly chooses a tiny cookie behind a large pretzel."
+  },
+  {
+    "id": 1035,
+    "topic": "snacks",
+    "text": "I would choose popcorn over cake at my own celebration.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "icecream",
+      "relation": "choose"
+    },
+    "sceneSummary": "A celebratory totem hugs a popcorn bowl while ice cream waits nearby."
+  },
+  {
+    "id": 1036,
+    "topic": "snacks",
+    "text": "I like an ice cream cone even when it requires a very serious napkin plan.",
+    "scene": {
+      "primary": "icecream",
+      "secondary": "bento",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem carries a cone above a bento used as a tidy drip catcher."
+  },
+  {
+    "id": 1037,
+    "topic": "snacks",
+    "text": "I would add a pretzel to a balanced lunch purely because it fits.",
+    "scene": {
+      "primary": "pretzel",
+      "secondary": "bento",
+      "relation": "balance"
+    },
+    "sceneSummary": "A totem wedges one pretzel into the final gap in a bento."
+  },
+  {
+    "id": 1038,
+    "topic": "snacks",
+    "text": "I save fruit stickers longer than I save the fruit.",
+    "scene": {
+      "primary": "fruit",
+      "secondary": "cookie",
+      "relation": "hide"
+    },
+    "sceneSummary": "A totem keeps a fruit sticker behind a cookie while fruit sits in front."
+  },
+  {
+    "id": 1039,
+    "topic": "snacks",
+    "text": "I would let a friend choose my snack if I could choose theirs.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "pretzel",
+      "relation": "offer"
+    },
+    "sceneSummary": "Two totems exchange a cookie and a pretzel with exaggerated ceremony."
+  },
+  {
+    "id": 1040,
+    "topic": "snacks",
+    "text": "I think popcorn belongs in a bowl large enough to need both hands.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "icecream",
+      "relation": "carry"
+    },
+    "sceneSummary": "A totem uses both arms for a popcorn bowl beside a tiny cone."
+  },
+  {
+    "id": 1041,
+    "topic": "snacks",
+    "text": "I would mix fruit into ice cream even if it spoils the perfect swirl.",
+    "scene": {
+      "primary": "fruit",
+      "secondary": "icecream",
+      "relation": "build"
+    },
+    "sceneSummary": "A totem nestles colourful fruit into a once-perfect ice cream swirl."
+  },
+  {
+    "id": 1042,
+    "topic": "snacks",
+    "text": "I would rather split two different snacks than have one all to myself.",
+    "scene": {
+      "primary": "pretzel",
+      "secondary": "cookie",
+      "relation": "share"
+    },
+    "sceneSummary": "Two totems divide a cookie and a pretzel into a shared spread."
+  },
+  {
+    "id": 1043,
+    "topic": "snacks",
+    "text": "I judge a lunch box by how well it protects the crunchy snacks.",
+    "scene": {
+      "primary": "bento",
+      "secondary": "pretzel",
+      "relation": "inspect"
+    },
+    "sceneSummary": "A totem tests how securely a bento holds an intact pretzel."
+  },
+  {
+    "id": 1044,
+    "topic": "snacks",
+    "text": "I would eat the ice cream before photographing the beautiful snack table.",
+    "scene": {
+      "primary": "icecream",
+      "secondary": "fruit",
+      "relation": "choose"
+    },
+    "sceneSummary": "A totem reaches for its cone in front of a carefully arranged fruit display."
+  },
+  {
+    "id": 1045,
+    "topic": "snacks",
+    "text": "I gather popcorn into one last handful instead of making several tiny trips.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "cookie",
+      "relation": "stack"
+    },
+    "sceneSummary": "A totem piles popcorn high beside a cookie awaiting the final handful."
+  },
+  {
+    "id": 1046,
+    "topic": "snacks",
+    "text": "I would take cookies as a thank-you gift and hope one comes back to me.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "bento",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem offers a cookie-filled bento while glancing at the last cookie."
+  },
+  {
+    "id": 1047,
+    "topic": "snacks",
+    "text": "I think a pretzel needs company even when I said I wanted a small snack.",
+    "scene": {
+      "primary": "pretzel",
+      "secondary": "fruit",
+      "relation": "share"
+    },
+    "sceneSummary": "A totem sets fruit alongside a supposedly solitary pretzel."
+  },
+  {
+    "id": 1048,
+    "topic": "snacks",
+    "text": "I would make a tiny fruit picnic for someone having a dull afternoon.",
+    "scene": {
+      "primary": "fruit",
+      "secondary": "bento",
+      "relation": "offer"
+    },
+    "sceneSummary": "A totem presents an open fruit-filled bento to a waiting friend."
+  },
+  {
+    "id": 1049,
+    "topic": "snacks",
+    "text": "I rotate a cookie while eating so the last bite has the best edge.",
+    "scene": {
+      "primary": "cookie",
+      "secondary": "icecream",
+      "relation": "orbit"
+    },
+    "sceneSummary": "A totem turns a cookie carefully beside a steadily shrinking cone."
+  },
+  {
+    "id": 1050,
+    "topic": "snacks",
+    "text": "I prefer snacks that can be eaten while holding a very important imaginary trophy.",
+    "scene": {
+      "primary": "popcorn",
+      "secondary": "pretzel",
+      "relation": "balance"
+    },
+    "sceneSummary": "A totem balances popcorn beside a pretzel held like a tiny trophy."
+  }
+]
