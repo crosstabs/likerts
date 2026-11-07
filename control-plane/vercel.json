@@ -35,7 +35,7 @@
     },
     {
       "source": "/play/:path*",
-      "destination": "https://pending-live-origin.onrender.com/play/:path*",
+      "destination": "https://likerts-live.onrender.com/play/:path*",
       "permanent": false
     }
   ]
