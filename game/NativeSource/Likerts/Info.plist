@@ -10,6 +10,7 @@
 <key>CFBundleVersion</key><string>$(CURRENT_PROJECT_VERSION)</string>
 <key>LikertsPrivacyPolicyURL</key><string>$(LIKERTS_PRIVACY_POLICY_URL)</string>
 <key>LikertsSupportURL</key><string>$(LIKERTS_SUPPORT_URL)</string>
+<key>LikertsLiveBaseURL</key><string>$(LIKERTS_LIVE_BASE_URL)</string>
 <key>ITSAppUsesNonExemptEncryption</key><false/>
 <key>UILaunchScreen</key><dict/>
 <key>UISupportedInterfaceOrientations</key><array><string>UIInterfaceOrientationPortrait</string></array>

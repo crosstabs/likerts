@@ -30,6 +30,8 @@ The [game README](game/WebSource/live-game/README.md) documents server configura
 
 Open `game/NativeSource/Likerts.xcodeproj`. The project includes the app, native Messages extension and tests. The iPhone and App Store release is separate from the live browser release. Distribution signing and device qualification are not implied by publishing source. `project.yml` is the XcodeGen source.
 
+Release builds use the reviewed HTTPS live origin configured by `LIKERTS_LIVE_BASE_URL`; an unrecognized origin disables live play. Debug builds stay offline unless launched with `-live-testing -live-base-url <loopback-origin>`. Optional live play uploads room and gameplay information, including a hosted quiz's answer key. The [privacy policy](https://likerts.com/game/privacy) describes sharing and retention. The app's privacy manifest and App Store Connect privacy responses must both reflect these optional features before distribution.
+
 ## Development and deployment
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md) and the [website README](control-plane/README.md). CI retains the required `interfaces-and-database` and `container` checks with game-specific validation.
