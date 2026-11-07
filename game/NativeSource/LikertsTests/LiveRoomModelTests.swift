@@ -110,6 +110,23 @@ final class LiveRoomModelTests: XCTestCase {
         for name in ["Ari", "Zoë", "李", "O’Neil", "A_B-2"] { XCTAssertTrue(LiveRoomState.validNickname(name), name) }
         for name in ["", "---", "<script>", "A\nB", "a\u{202e}b", "name@example.com", String(repeating: "x", count: 21)] { XCTAssertFalse(LiveRoomState.validNickname(name), name) }
     }
+    func testProductionServiceAcceptsOnlyTheReviewedExactHTTPSOrigin() throws {
+        for value in ["https://likerts-live.onrender.com", "https://likerts-live.onrender.com/"] {
+            let config = try XCTUnwrap(LiveRoomConfiguration.production(baseURL: try XCTUnwrap(URL(string: value))))
+            XCTAssertEqual(config.apiBaseURL.absoluteString, "https://likerts-live.onrender.com/api/live")
+            XCTAssertEqual(config.socketURL.absoluteString, "wss://likerts-live.onrender.com/api/live/socket")
+            XCTAssertEqual(config.inviteURL(code: "ABCDEF")?.absoluteString, "https://likerts-live.onrender.com/play?room=ABCDEF")
+            XCTAssertNil(config.inviteURL(code: "LK3-private"))
+        }
+    }
+    func testProductionServiceRejectsInsecureForeignAndCredentialBearingURLs() throws {
+        for value in ["http://likerts-live.onrender.com", "https://example.com", "https://likerts-live.onrender.com.evil.example",
+                      "https://likerts-live.onrender.com:443", "https://user:pass@likerts-live.onrender.com",
+                      "https://likerts-live.onrender.com/play", "https://likerts-live.onrender.com?token=secret",
+                      "https://likerts-live.onrender.com#secret", "http://localhost:8080", "file:///tmp/test"] {
+            XCTAssertNil(LiveRoomConfiguration.production(baseURL: try XCTUnwrap(URL(string: value))), value)
+        }
+    }
     #if DEBUG
     func testDebugServiceCanOnlyBeExplicitLoopbackAndInvitesCarryCodeOnly() throws {
         for url in ["https://example.com", "http://user:pass@localhost:8080", "http://127.0.0.1:8080?token=secret", "http://localhost:8080/path", "file:///tmp/test", "http://localhost:8080#secret"] {

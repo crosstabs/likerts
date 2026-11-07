@@ -6,6 +6,7 @@ const read=path=>readFile(new URL(path,root),'utf8');
 const config=JSON.parse(await read('vercel.json'));
 const home=await read('public/index.html');
 const support=await read('public/game/support.html');
+const privacy=await read('public/game/privacy.html');
 const errorPage=await read('public/404.html');
 
 test('home offers actual browser entry and local quizzes without the retired product',()=>{
@@ -26,6 +27,14 @@ test('privacy discloses server uploads, reveal, providers and separate backup re
   assert.match(home,/six hours/);assert.match(home,/two hours idle/);assert.match(home,/ten-minute/);
   assert.doesNotMatch(home,/no game account, app-operated game server/i);
 });
+test('standalone policy is discoverable and distinguishes leaving from erasing a live room',()=>{
+  assert.match(privacy, /<title>Privacy policy · Likerts game<\/title>/);
+  assert.match(privacy, /rel="canonical" href="https:\/\/likerts\.com\/game\/privacy"/);
+  for(const html of [home,support]) assert.match(html, /href="\/game\/privacy"/);
+  for(const copy of ['CROSSTABS PTY LTD','support@crosstabs.com','answer key','until reveal','provider logs and backups','does not erase earlier revealed answers','ten-minute','six hours','on-device AI']) assert.ok(privacy.includes(copy),copy);
+  assert.match(privacy, /does not close a server room/);
+  assert.match(privacy, /Contact us|contact us/);
+});
 test('play redirects retain paths through a temporary HTTPS Render redirect',()=>{
   const play=config.redirects.find(route=>route.source==='/play/:path*');assert.ok(play);
   assert.equal(play.permanent,false);
@@ -35,10 +44,11 @@ test('play redirects retain paths through a temporary HTTPS Render redirect',()=
   assert.doesNotMatch(url.hostname,/pending|placeholder|replace/);
   assert.ok(!config.rewrites,'No survey/API proxy or serverless replacement');
 });
-test('public asset and stylesheet references resolve within this static site',async()=>{
-  for(const html of [home,support,errorPage])for(const match of html.matchAll(/(?:src|href)="(\/[^"?#]+)(?:[?#][^"]*)?"/g)){
-    const path=match[1];if(['/','/play','/play/quizzes','/game/support'].includes(path))continue;
-    const file=new URL('public'+path,root);assert.ok((await stat(file)).isFile(),path);
+test('public asset and page references resolve within this static site',async()=>{
+  for(const html of [home,support,privacy,errorPage])for(const match of html.matchAll(/(?:src|href)="(\/[^"?#]+)(?:[?#][^"]*)?"/g)){
+    const path=match[1];if(['/','/play','/play/quizzes'].includes(path))continue;
+    const suffix=['/game/support','/game/privacy'].includes(path)?'.html':'';
+    const file=new URL('public'+path+suffix,root);assert.ok((await stat(file)).isFile(),path);
   }
 });
 test('the website has no old executable product API or pages',async()=>{
@@ -52,9 +62,10 @@ test('missing routes use a noindex game-only page and published discovery is gam
   const discovery=(await read('public/sitemap.xml'))+(await read('public/llms.txt'));
   assert.doesNotMatch(discovery,/surveys?|\/docs|\/downloads|\/demo/i);
   assert.match(discovery,/https:\/\/likerts\.com\/game\/support/);
+  assert.match(discovery,/https:\/\/likerts\.com\/game\/privacy/);
 });
 test('marketing source has no analytics scripts, forms or secret placeholders',()=>{
-  for(const html of [home,support,errorPage]){
+  for(const html of [home,support,privacy,errorPage]){
     assert.doesNotMatch(html,/<script\b|<form\b|CLERK|BLOB_READ_WRITE_TOKEN|STRIPE_SECRET|__LIKERTS_/i);
     assert.match(html,/Content-Security-Policy/);
   }

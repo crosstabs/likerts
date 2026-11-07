@@ -1,6 +1,6 @@
 import Foundation
 
-/// Release is deliberately unconfigured until the service and remote-data policy are approved.
+/// Release connects only to the reviewed HTTPS game origin. Debug QA stays explicit and local.
 struct LiveRoomConfiguration: Equatable, Sendable {
     let apiBaseURL: URL
     let inviteBaseURL: URL
@@ -13,8 +13,20 @@ struct LiveRoomConfiguration: Equatable, Sendable {
               args.indices.contains(i + 1), let url = URL(string: args[i + 1]) else { return nil }
         return debugLoopback(baseURL: url)
         #else
-        return nil
+        guard let value = Bundle.main.object(forInfoDictionaryKey: "LikertsLiveBaseURL") as? String,
+              let url = URL(string: value) else { return nil }
+        return production(baseURL: url)
         #endif
+    }
+
+    static func production(baseURL: URL) -> LiveRoomConfiguration? {
+        let origin = "https://likerts-live.onrender.com"
+        guard baseURL.absoluteString == origin || baseURL.absoluteString == origin + "/",
+              baseURL.scheme == "https", baseURL.host == "likerts-live.onrender.com",
+              baseURL.port == nil, baseURL.user == nil, baseURL.password == nil,
+              baseURL.query == nil, baseURL.fragment == nil else { return nil }
+        return LiveRoomConfiguration(apiBaseURL: baseURL.appendingPathComponent("api/live"),
+                                     inviteBaseURL: baseURL.appendingPathComponent("play"))
     }
 
     #if DEBUG

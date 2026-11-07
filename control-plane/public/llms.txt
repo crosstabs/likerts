@@ -6,4 +6,4 @@ Likerts is a social mind-reading and quiz game. Play Live in a browser, or creat
 - [Play Live](https://likerts.com/play)
 - [Create or practice quizzes](https://likerts.com/play/quizzes)
 - [Support](https://likerts.com/game/support)
-- [Privacy basics](https://likerts.com/#privacy)
+- [Privacy policy](https://likerts.com/game/privacy)
