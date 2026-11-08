@@ -1,6 +1,7 @@
 import { QUIZ_LIMITS, QuizValidationError, encodeQuiz, makeQuestion, makeQuiz, normalizeQuiz, starterQuizDocuments } from './quiz-document.mjs';
 import { QuizRun } from './quiz-run.mjs';
 import { QuizLibraryError } from './quiz-library.mjs';
+import { QuizDraftError } from './quiz-draft.mjs';
 import { totem } from './art.mjs';
 import { companionScene, castScene, libraryScene, partyGuide, guideScene, partyCastPresentation } from './quiz-scene.mjs';
 import { createQuizMotionController } from './quiz-motion.mjs';
@@ -8,7 +9,7 @@ import { createQuizMotionController } from './quiz-motion.mjs';
 const ANSWER_KEY_NOTE = 'Quiz files include correct answers. Share them with hosts.';
 const scalarCount = value => [...value].length;
 const copy = value => structuredClone(value);
-const friendlyError = error => error instanceof QuizValidationError || error instanceof QuizLibraryError
+const friendlyError = error => error instanceof QuizValidationError || error instanceof QuizLibraryError || error instanceof QuizDraftError
   ? error.message : 'Something interrupted this quiz. Try again.';
 const shortPrompt = question => question.prompt.trim() || 'Untitled question';
 
@@ -27,13 +28,15 @@ export async function readQuizFile(file) {
   catch (cause) { throw new QuizLibraryError('invalid_encoding', 'This quiz file is not valid UTF-8 text.', cause); }
 }
 
-export function mountQuizApp({ root, library, window: win = globalThis.window, now = () => Date.now(), download, hostQuiz, liveAccess = () => null, recoverLive, entryIntent = null } = {}) {
+export function mountQuizApp({ root, library, draftStore = null, window: win = globalThis.window, now = () => Date.now(), download, hostQuiz, liveAccess = () => null, recoverLive, entryIntent = null } = {}) {
   if (!root || !library || !win) throw new Error('A quiz root, local library and window are required.');
   const document = root.ownerDocument;
   const motion = createQuizMotionController({window:win});
   const model = { screen: 'library', draft: null, baseline: '', questionIndex: 0, editError: '', editorNotice: '', editorConflict: false, feedback: '', error: '',
-    confirm: null, busy: false, busyMessage: '', run: null, practiceOriginalQuiz: null, practiceIsRetry: false, practiceReviewOpen: false, practiceOrigin: 'library', selection: null, focusAfter: null };
+    confirm: null, busy: false, busyMessage: '', run: null, practiceOriginalQuiz: null, practiceIsRetry: false, practiceReviewOpen: false, practiceOrigin: 'library', selection: null, focusAfter: null,
+    draftID: null, draftRevision: null, sourceQuiz: null, draftStatus: '', draftSaveError: null };
   let disposed = false, importOperation = null;
+  let draftGeneration = 0, lastDraftSnapshot = '', pendingDraft = undefined, autosaveRunning = false, autosaveTail = Promise.resolve();
   const urls = new Set(), questionLabels = new Map();
   const dirty = () => !!model.draft && JSON.stringify(model.draft) !== model.baseline;
   const activePractice = () => model.screen === 'practice' && model.run?.phase !== 'finished';
@@ -68,6 +71,115 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
   }
   const iconButton = (kind, label, action, options = {}) => button(icon(kind), action, { className: 'q-icon-button', 'aria-label': label, title: label, ...options });
 
+  function showDraftStatus(message, error = null) {
+    model.draftStatus = message; model.draftSaveError = error;
+    // Input autosaves do not replace the editor or disturb its caret/IME state.
+    const status = root.querySelector('#quiz-draft-status');
+    if (status) {
+      if (error) status.setAttribute('role', 'alert'); else status.removeAttribute('role');
+      status.textContent = message; status.parentElement.classList.toggle('is-error', !!error);
+    }
+    const retry = root.querySelector('#quiz-retry-draft-save');
+    if (retry) { retry.hidden = !error || !draftStore?.canWrite; retry.disabled = !error || !draftStore?.canWrite || model.busy; }
+  }
+  function draftSnapshot() {
+    return { draftID: model.draftID, quiz: copy(model.draft), sourceQuiz: copy(model.sourceQuiz), questionIndex: model.questionIndex };
+  }
+  function queueDraftSave() {
+    if (!draftStore || !model.draft || !model.draftID || disposed) return;
+    const value = draftSnapshot(), changed = dirty(), signature = draftGeneration + ':' + changed + ':' + JSON.stringify(value);
+    if (signature === lastDraftSnapshot) return;
+    lastDraftSnapshot = signature;
+    pendingDraft = { generation: draftGeneration, value, dirty: changed };
+    showDraftStatus('Keeping your unfinished quiz…');
+    if (autosaveRunning) return;
+    autosaveRunning = true;
+    autosaveTail = (async () => {
+      while (pendingDraft) {
+        const job = pendingDraft; pendingDraft = undefined;
+        if (job.generation !== draftGeneration) continue;
+        try {
+          if (!job.dirty) {
+            if (model.draftRevision) await draftStore.clear(model.draftRevision);
+            if (job.generation === draftGeneration) { model.draftRevision = null; showDraftStatus('No unsaved changes.'); }
+          } else {
+            const saved = await draftStore.save(job.value);
+            if (job.generation === draftGeneration) { model.draftRevision = saved.revision; showDraftStatus('Unfinished quiz kept on this browser.'); }
+          }
+        } catch (error) {
+          if (job.generation === draftGeneration) showDraftStatus(friendlyError(error), error);
+        }
+      }
+    })().finally(() => {
+      autosaveRunning = false;
+      if (pendingDraft && !disposed) { lastDraftSnapshot = ''; queueDraftSave(); }
+    });
+  }
+  async function flushDraftWrites() {
+    do { const tail = autosaveTail; await tail; if (tail === autosaveTail && !pendingDraft) break; }
+    while (autosaveRunning || pendingDraft);
+  }
+  async function discardEditor(action) {
+    if (!draftStore) { action(); return; }
+    model.busy = true; model.busyMessage = 'Discarding unfinished changes…'; render();
+    await flushDraftWrites();
+    try {
+      if (model.draftRevision) await draftStore.clear(model.draftRevision);
+      draftGeneration++; pendingDraft = undefined; model.draftID = null; model.draftRevision = null; model.sourceQuiz = null;
+      model.busy = false; model.busyMessage = ''; action();
+    } catch (error) {
+      if (error.code === 'storage_changed') {
+        // Explicitly discard this tab's memory, but never another tab's record.
+        draftStore.reload(); draftGeneration++; pendingDraft = undefined;
+        model.draftID = null; model.draftRevision = null; model.sourceQuiz = null;
+        model.busy = false; model.busyMessage = ''; action();
+        model.feedback = 'This tab’s changes were discarded. Any other unfinished quiz was left as it was.'; render({ focus: 'quiz-draft-heading' });
+      } else {
+        model.busy = false; model.busyMessage = ''; showDraftStatus(friendlyError(error), error); render({ focus: 'quiz-draft-status' });
+      }
+    }
+  }
+  function sourceChanged(source) {
+    if (!source) return !!model.draft && library.quizzes.some(quiz => quiz.id === model.draft.id);
+    const current = library.quizzes.find(quiz => quiz.id === source.id);
+    return !current || encodeQuiz(current) !== encodeQuiz(source);
+  }
+  function restoreDraft() {
+    const saved = draftStore?.current;
+    if (!saved || model.busy) return;
+    draftGeneration++; model.draftID = saved.draftID; model.draftRevision = saved.revision;
+    model.draft = saved.quiz; model.sourceQuiz = saved.sourceQuiz; model.baseline = '';
+    model.questionIndex = saved.questionIndex; model.screen = 'editor'; model.editError = ''; model.error = ''; model.feedback = '';
+    model.editorConflict = library.blocked || sourceChanged(saved.sourceQuiz);
+    model.editorNotice = library.blocked ? 'Your saved library needs attention. These unfinished edits are kept separately; reload the library before saving.' : model.editorConflict
+      ? 'These unfinished edits need a new copy before saving. Finish editing, then reload the library and keep a new copy.'
+      : 'Your unfinished quiz is back. Save quiz when it is ready.';
+    showDraftStatus(draftStore.lastError?.message || 'Unfinished quiz kept on this browser.', draftStore.lastError);
+    render({ focus: 'quiz-prompt' });
+  }
+  function recoveryCard() {
+    if (!draftStore || model.draft) return null;
+    const saved = draftStore.current;
+    const confirmedRevision = saved?.revision ?? null, confirmedSnapshot = draftStore.snapshotToken;
+    if (!saved && !draftStore.hasStoredValue && !draftStore.blocked) return null;
+    const failed = !saved;
+    return el('section', { class: 'q-message' + (failed ? ' is-error' : ''), 'aria-labelledby': 'quiz-draft-heading' },
+      el('h2', { id: 'quiz-draft-heading', tabindex: '-1' }, failed ? 'Your unfinished quiz needs attention' : 'Continue your unfinished quiz'),
+      text(saved ? (saved.quiz.title.trim() || 'Untitled quiz') + ' · ' + saved.quiz.questions.length + (saved.quiz.questions.length === 1 ? ' question' : ' questions')
+        : draftStore.lastError?.message || 'The unfinished quiz could not be read.'),
+      text('This unfinished draft is separate from your saved quizzes and stays on this browser.', 'q-muted'),
+      el('div', { class: 'q-action-row' }, saved && button('Continue draft', restoreDraft, { id: 'quiz-restore-draft', className: 'q-button lime' }),
+        failed && button('Try reading draft again', () => { draftStore.reload(); render({ focus: 'quiz-draft-heading' }); }, { id: 'quiz-reload-draft', className: 'q-button quiet' }),
+        draftStore.hasStoredValue && button('Discard unfinished draft', () => ask('Discard this unfinished quiz?',
+          'This removes only the unfinished recovery copy from this browser. Your saved quizzes will stay as they are.', 'Discard draft', async () => {
+            model.busy = true; model.busyMessage = 'Discarding unfinished quiz…'; render();
+            try { await draftStore.clear(confirmedRevision, confirmedSnapshot); model.feedback = 'Unfinished draft discarded.'; }
+            catch (error) { model.error = friendlyError(error); draftStore.reload(); }
+            finally { model.busy = false; model.busyMessage = ''; render({ focus: 'quiz-page-title' }); }
+          }, { destructive: true, cancelLabel: 'Keep draft' }),
+          { id: 'quiz-discard-draft', className: 'q-button quiet', disabled: !draftStore.writeSupported })));
+  }
+
   function report(error) { model.error = friendlyError(error); model.feedback = ''; render(); }
   function editFailure(error) {
     model.editError = friendlyError(error);
@@ -82,9 +194,10 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
     const focus = model.confirm?.returnFocus; model.confirm = null; render({ focus });
   }
   function leaveFor(action) {
-    if (dirty()) ask('Discard these quiz changes?', 'Your saved quiz will stay as it was. Keep editing to save this version.', 'Discard changes', action, { destructive: true, cancelLabel: 'Keep editing' });
-    else if (activePractice()) ask('Leave this practice?', 'Your practice progress will be lost. Your saved quiz will stay in the library.', 'Leave practice', action);
-    else action();
+    const leave = () => model.draft ? void discardEditor(action) : action();
+    if (dirty()) ask('Discard these quiz changes?', 'Your saved quiz will stay as it was. Keep editing to save this version.', 'Discard changes', leave, { destructive: true, cancelLabel: 'Keep editing' });
+    else if (activePractice()) ask('Leave this practice?', 'Your practice progress will be lost. Your saved quiz will stay in the library.', 'Leave practice', leave);
+    else leave();
   }
   function goLibrary() {
     leaveFor(() => { model.screen = 'library'; model.draft = null; model.run = null; model.practiceOriginalQuiz = null; model.practiceIsRetry = false; model.practiceReviewOpen = false; model.editError = ''; model.error = ''; render({ focus: 'quiz-page-title' }); });
@@ -115,13 +228,20 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
         { destructive: true }), { className: 'q-text-button', id: 'quiz-reset-library' })));
   }
   function startEditor(value, { copyAsNew = false } = {}) {
+    if (draftStore?.hasStoredValue) {
+      model.feedback = 'Continue or discard the unfinished quiz before starting another.'; render({ focus: 'quiz-draft-heading' }); return;
+    }
     try {
+      draftGeneration++; model.draftID = crypto.randomUUID(); model.draftRevision = null;
       model.draft = value ? (copyAsNew ? library.freshCopy(value) : copy(value)) : makeQuiz();
+      model.sourceQuiz = value && !copyAsNew && library.quizzes.some(quiz => quiz.id === value.id) ? copy(value) : null;
       model.baseline = JSON.stringify(model.draft); model.questionIndex = 0; model.screen = 'editor';
+      showDraftStatus(draftStore?.lastError?.message || (draftStore ? 'Your changes will be kept on this browser.' : ''), draftStore?.lastError);
       model.editError = ''; model.editorNotice = ''; model.editorConflict = false; model.error = ''; model.feedback = ''; render({ focus: 'quiz-prompt' });
     } catch (error) { report(error); }
   }
   function markDirty() {
+    queueDraftSave();
     model.editError = ''; const error = root.querySelector('#quiz-edit-error'); if (error) { error.hidden = true; error.textContent = ''; }
     for (const [index, question] of (model.draft?.questions ?? []).entries()) {
       const node = questionLabels.get(question.id); if (node) {
@@ -133,9 +253,18 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
   async function saveDraft() {
     if (model.busy || model.editorConflict) return;
     const draft = copy(model.draft); model.busy = true; model.busyMessage = 'Saving your quiz…'; model.editError = ''; render();
+    let recoveryWarning = '';
     try {
+      await flushDraftWrites();
+      if (sourceChanged(model.sourceQuiz)) { model.editorConflict = true; throw new QuizLibraryError('storage_changed', 'These edits cannot replace the saved version safely. Reload the library and keep a new copy.'); }
       const saved = await library.save(draft); model.draft = saved; model.baseline = JSON.stringify(saved);
-      model.screen = 'library'; model.draft = null; model.editError = ''; model.feedback = 'Quiz saved on this browser.'; model.error = '';
+      draftGeneration++; pendingDraft = undefined;
+      if (draftStore && model.draftRevision) {
+        try { await draftStore.clear(model.draftRevision); }
+        catch (error) { draftStore.reload(); recoveryWarning = 'Quiz saved. The unfinished recovery copy could not be removed; review it below.'; }
+      }
+      model.draftID = null; model.draftRevision = null; model.sourceQuiz = null;
+      model.screen = 'library'; model.draft = null; model.editError = ''; model.feedback = recoveryWarning || 'Quiz saved on this browser.'; model.error = '';
     } catch (error) { model.editError = friendlyError(error); if (library.blocked) model.editorConflict = true; }
     finally { model.busy = false; model.busyMessage = ''; if (!disposed) render({ focus: model.screen === 'editor' ? 'quiz-edit-error' : 'quiz-page-title' }); }
   }
@@ -150,6 +279,7 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
     if (!library.reload()) { model.editError = library.lastError?.message || 'Saved quizzes could not be read.'; render({ focus: 'quiz-edit-error' }); return; }
     try {
       model.draft = library.freshCopy(model.draft); model.baseline = '';
+      model.sourceQuiz = null; queueDraftSave();
       model.editorConflict = false; model.editError = '';
       model.editorNotice = 'Saved quizzes reloaded. Your edits are kept as a new copy. Save quiz to keep this version.';
       render({ focus: 'quiz-title' });
@@ -276,7 +406,7 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
           button('Create quiz', () => startEditor(), { id: 'quiz-create', disabled: library.blocked }))),
       text(hostQuiz ? 'Host a quiz. Make one. Bring your people.' : 'Make a quiz. Find out what you know.', 'q-lede'),
       text('Saved on this browser. Export a quiz file to use it in another browser.', 'q-muted'),
-      messageBlocks(), liveRecovery(), storageWarning(), file, model.busy && el('p', { role: 'status', class: 'q-message' }, model.busyMessage),
+      messageBlocks(), liveRecovery(), recoveryCard(), storageWarning(), file, model.busy && el('p', { role: 'status', class: 'q-message' }, model.busyMessage),
       gatheringGuide(), starterCollection(),
       el('section', { class: 'q-saved-quizzes', 'aria-labelledby': 'quiz-saved-heading' },
         el('h2', { id: 'quiz-saved-heading', class: 'q-section-heading' }, 'Your quizzes'),
@@ -358,6 +488,10 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
         el('div', { class: 'q-action-row' }, button('Cancel', goLibrary, { className: 'q-button quiet', id: 'quiz-editor-cancel' }),
           button('Save quiz', saveDraft, { id: 'quiz-save', disabled: !library.canWrite || model.editorConflict }))),
       !library.writeSupported && el('div', { class: 'q-message', role: 'status' }, text('Saving is not available in this browser. You can keep this quiz by exporting its file.')),
+      draftStore && el('div', { class: 'q-message' + (model.draftSaveError ? ' is-error' : '') },
+        el('p', { id: 'quiz-draft-status', tabindex: '-1', role: model.draftSaveError ? 'alert' : null }, model.draftStatus),
+        button('Try keeping draft again', () => { lastDraftSnapshot = ''; queueDraftSave(); },
+          { id: 'quiz-retry-draft-save', className: 'q-text-button', hidden: !model.draftSaveError || !draftStore.canWrite, disabled: !model.draftSaveError || !draftStore.canWrite })),
       model.editorNotice && el('div', { class: 'q-message', role: 'status' }, text(model.editorNotice)),
       model.busy && el('p', { class: 'q-message', role: 'status' }, model.busyMessage),
       el('div', { class: 'q-edit-error q-message is-error', id: 'quiz-edit-error', role: 'alert', tabindex: '-1', hidden: !model.editError }, model.editError),
@@ -472,6 +606,7 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
   }
   function render({ focus } = {}) {
     if (disposed) return;
+    if (model.draft) queueDraftSave();
     const h = header(), main = model.screen === 'editor' ? editorScreen() : model.screen === 'practice' ? practiceScreen() : libraryScreen(), dialog = confirmation();
     root.replaceChildren(h, main, ...(dialog ? [dialog] : []));
     if (model.busy) for (const node of main.querySelectorAll('input,textarea,select')) node.disabled = true;
@@ -493,18 +628,27 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
   const timer = win.setInterval(tick, 250);
   const beforeUnload = event => { if (dirty()) { event.preventDefault(); event.returnValue = ''; } };
   const onVisibility = () => { if (document.visibilityState !== 'hidden') tick(); };
+  const onDraftStorage = event => {
+    if (!draftStore || (event.key !== null && event.key !== draftStore.key) || disposed) return;
+    if (model.draft) {
+      if (draftStore.checkForChange()) showDraftStatus(draftStore.lastError.message, draftStore.lastError);
+    } else { draftStore.reload(); render(); }
+  };
   win.addEventListener('beforeunload', beforeUnload); win.addEventListener('focus', tick); document.addEventListener('visibilitychange', onVisibility);
+  win.addEventListener('storage', onDraftStorage);
   // Entry hints apply once, before the first screen. They never perform a
   // library write or admission, and existing room recovery takes priority.
   const requestedEntry = entryIntent === 'create' || entryIntent === 'host' ? entryIntent : null;
   const recovering = requestedEntry && liveAccess();
-  if (requestedEntry === 'create' && !recovering && !library.blocked) startEditor();
+  const unfinished = draftStore && (draftStore.hasStoredValue || draftStore.blocked);
+  if (requestedEntry === 'create' && !recovering && !unfinished && !library.blocked) startEditor();
   else render({ focus: recovering ? 'quiz-recover-live'
+    : requestedEntry && unfinished ? 'quiz-draft-heading'
     : requestedEntry === 'create' && library.blocked ? 'quiz-storage-heading'
       : requestedEntry === 'host' ? 'quiz-starters-heading' : undefined });
   return {
-    dispose() { disposed = true; importOperation = null; motion.dispose(); win.clearInterval(timer); win.removeEventListener('beforeunload', beforeUnload); win.removeEventListener('focus', tick); document.removeEventListener('visibilitychange', onVisibility); for (const url of urls) win.URL.revokeObjectURL(url); urls.clear(); },
-    tick, importFile,
+    dispose() { disposed = true; importOperation = null; motion.dispose(); win.clearInterval(timer); win.removeEventListener('beforeunload', beforeUnload); win.removeEventListener('focus', tick); win.removeEventListener('storage', onDraftStorage); document.removeEventListener('visibilitychange', onVisibility); for (const url of urls) win.URL.revokeObjectURL(url); urls.clear(); },
+    tick, importFile, flushDraft: flushDraftWrites,
     get screen() { return model.screen; },
   };
 }

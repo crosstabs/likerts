@@ -7,7 +7,8 @@
   "git": {
     "deploymentEnabled": {
       "codex/web-quality-release-20261108": false,
-      "codex/free-quiz-entry-20261108": false
+      "codex/free-quiz-entry-20261108": false,
+      "codex/quiz-draft-recovery-20261108": false
     }
   },
   "headers": [
