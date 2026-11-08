@@ -243,7 +243,7 @@ export class LiveClient {
       this.setStatus('offline');throw error;
     } finally {this.endAdmissionOperation(context);}
   }
-  clearPendingAdmission(){this.pendingAdmission=null;write(this.storage,ADMISSION_KEY,null);}
+  clearPendingAdmission(){this.pendingAdmission=null;return write(this.storage,ADMISSION_KEY,null);}
   acceptAdmission(a,generation,pending) {
     this.assertCurrent(generation);
     const credential={version:1,code:a.code,token:a.token,memberId:a.memberId,expiresAt:a.state?.expiresAt};
@@ -270,7 +270,9 @@ export class LiveClient {
     if (this.state && this.state.code === s.code && this.state.revision > s.revision) return;
     if(this.state&&this.state.code===s.code&&this.state.revision===s.revision&&this.state.serverTime>s.serverTime)return;
     const pending=this.pendingAction;
-    const settled=pending&&(pending.matchId!==s.matchId||(pending.roundId&&pending.roundId!==s.round?.id)
+    // Appearance may already match before this command, and a new match cannot
+    // acknowledge an earlier choice. Only its exact HTTP reply/replay settles it.
+    const settled=pending&&pending.action!=='choose-avatar'&&(pending.matchId!==s.matchId||(pending.roundId&&pending.roundId!==s.round?.id)
       ||(pending.action==='answer'&&s.round?.ownAnswer===pending.value)
       ||(pending.action==='quiz-answer'&&s.round?.ownAnswer===pending.value)
       ||(s.protocolVersion===2&&((pending.action==='quiz-reveal'&&s.phase!=='answer')||(pending.action==='next'&&s.phase==='finished')))
@@ -306,47 +308,57 @@ export class LiveClient {
     const generation = this.generation, credential = this.credential;
     try {
       const data = await this.request('/rooms/'+credential.code,{credential});
-      if (generation !== this.generation || this.disposed) return;
+      if (generation !== this.generation || this.disposed || this.actionOperation?.terminalReceipt) return;
       this.acceptState(data.state);
       if (!this.socket || this.socket.readyState !== 1) this.setStatus('syncing');
     } catch (error) {
-      if (generation !== this.generation || this.disposed) return;
+      if (generation !== this.generation || this.disposed || this.actionOperation?.terminalReceipt) return;
       if ([401,403,404,410].includes(error.status)) { this.clearLocal(); this.onError(error); }
       else {this.setStatus('offline');if(error.code==='invalid_state')this.onError(error);}
     } finally { this.refreshing = false; }
   }
-  async action(action,values = {}) {
+  async action(action,values = {},options = {}) {
     if (!this.state || !this.credential) throw new LiveError('not_joined','Join a room first.');
     if (this.pendingAction) throw new LiveError('choice_pending','Confirm the previous request before making another choice.');
     const body = {requestId:this.crypto.randomUUID(),matchId:this.state.matchId,action,...values};
     if (roundActions.has(action)) body.roundId = this.state.round?.id;
-    this.pendingAction = body; return this.retryAction();
+    this.pendingAction = body; return this.retryAction(options);
   }
-  async retryAction() {
+  async retryAction({terminalReceipt = false} = {}) {
     this.assertCurrent(this.generation);
     if(!this.pendingAction||!this.credential)throw new LiveError('no_pending_request','There is no request to retry.');
     if(this.busy)throw new LiveError('request_pending','Wait for the current request to be confirmed.');
     const body=this.pendingAction,credential=this.credential,generation=this.generation;
     let confirm;const confirmed=new Promise(resolve=>{confirm=resolve;});
-    const operation={body,generation,controller:new AbortController(),confirm};
+    // This local option is never sent to the server. Ordinary actions keep their
+    // existing return contract; only an exact close reply can issue a receipt.
+    const wantsReceipt=terminalReceipt===true&&body.action==='close';
+    const operation={body,generation,controller:new AbortController(),confirm,terminalReceipt:wantsReceipt};
     this.actionOperation=operation;this.busy=true;
+    if(wantsReceipt)this.stopTransport();
     try {
       const result=await Promise.race([this.request('/rooms/'+credential.code+'/actions',{method:'POST',body,credential,controller:operation.controller}),confirmed]);
       this.assertCurrent(generation);
+      if(wantsReceipt){
+        if(!record(result,['state','closed'])||result.closed!==true||result.state!==null)
+          throw new LiveError('invalid_response','The room did not confirm closing. Retry the request to check its outcome.');
+        const accessCleared=this.clearLocal();
+        return Object.freeze({action:'close',code:credential.code,matchId:body.matchId,requestId:body.requestId,closed:true,accessCleared});
+      }
       if(result.closed||result.left){this.pendingAction=null;this.clearLocal();return null;}
       this.acceptState(result.state);if(this.pendingAction===body)this.pendingAction=null;return this.state;
     } catch(error) {
       this.assertCurrent(generation);
       // A newer recipient projection can settle this action before a lost HTTP reply.
       // Never replay work from an earlier round into the current one.
-      if(this.pendingAction!==body&&this.state&&![401,403,404,410].includes(error.status))return this.state;
+      if(!wantsReceipt&&this.pendingAction!==body&&this.state&&![401,403,404,410].includes(error.status))return this.state;
       if((body.action==='close'&&[404,410].includes(error.status))||(body.action==='leave'&&[401,403,404,410].includes(error.status))){
         this.clearLocal();return null;
       }
       if(error.status>=400&&error.status<500&&![408,429].includes(error.status)&&this.pendingAction===body)this.pendingAction=null;
       if([401,403,404,410].includes(error.status))this.clearLocal();
       throw error;
-    } finally {if(generation===this.generation&&this.actionOperation===operation){this.busy=false;this.actionOperation=null;}}
+    } finally {if(generation===this.generation&&this.actionOperation===operation){this.busy=false;this.actionOperation=null;if(wantsReceipt&&this.credential&&!this.disposed)this.connect();}}
   }
   connect() {
     if (!this.credential || this.disposed) return;
@@ -366,7 +378,7 @@ export class LiveClient {
       socket.send(JSON.stringify({type:'authenticate',code:credential.code,token:credential.token}));
     };
     socket.onmessage = event => {
-      if (generation !== this.generation || this.disposed) return;
+      if (generation !== this.generation || this.disposed || this.actionOperation?.terminalReceipt) return;
       try {
         const message = JSON.parse(event.data);
         if (message.type === 'state') { this.acceptState(message.state); this.retryCount = 0; this.setStatus('connected'); }
@@ -401,7 +413,8 @@ export class LiveClient {
   }
   clearLocal() {
     this.generation++; this.admissionOperation=null;this.actionOperation?.controller.abort();this.actionOperation=null;this.busy=false; this.stopTransport(); this.credential = null; this.state = null; this.pendingAction = null;
-    this.clearPendingAdmission(); write(this.storage,RESUME_KEY,null); this.setStatus('idle'); this.onState(null);
+    const removedAdmission=this.clearPendingAdmission(),removedResume=write(this.storage,RESUME_KEY,null); this.setStatus('idle'); this.onState(null);
+    return removedAdmission&&removedResume;
   }
   dispose() { this.disposed = true; this.admissionOperation=null;this.actionOperation=null;this.busy=false;this.generation++; this.stopTransport(); for (const c of this.controllers) c.abort(); this.controllers.clear(); }
 }

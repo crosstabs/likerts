@@ -1,8 +1,8 @@
-import { QUIZ_LIMITS, QuizValidationError, encodeQuiz, makeQuestion, makeQuiz, normalizeQuiz, sampleQuizDocument } from './quiz-document.mjs';
+import { QUIZ_LIMITS, QuizValidationError, encodeQuiz, makeQuestion, makeQuiz, normalizeQuiz, starterQuizDocuments } from './quiz-document.mjs';
 import { QuizRun } from './quiz-run.mjs';
 import { QuizLibraryError } from './quiz-library.mjs';
 import { totem } from './art.mjs';
-import { companionScene, castScene, libraryScene } from './quiz-scene.mjs';
+import { companionScene, castScene, libraryScene, partyGuide, guideScene, partyCastPresentation } from './quiz-scene.mjs';
 import { createQuizMotionController } from './quiz-motion.mjs';
 
 const ANSWER_KEY_NOTE = 'Quiz files include correct answers. Share them with hosts.';
@@ -32,7 +32,7 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
   const document = root.ownerDocument;
   const motion = createQuizMotionController({window:win});
   const model = { screen: 'library', draft: null, baseline: '', questionIndex: 0, editError: '', editorNotice: '', editorConflict: false, feedback: '', error: '',
-    confirm: null, busy: false, busyMessage: '', run: null, practiceOrigin: 'library', selection: null, focusAfter: null };
+    confirm: null, busy: false, busyMessage: '', run: null, practiceOriginalQuiz: null, practiceIsRetry: false, practiceReviewOpen: false, practiceOrigin: 'library', selection: null, focusAfter: null };
   let disposed = false, importOperation = null;
   const urls = new Set(), questionLabels = new Map();
   const dirty = () => !!model.draft && JSON.stringify(model.draft) !== model.baseline;
@@ -87,14 +87,14 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
     else action();
   }
   function goLibrary() {
-    leaveFor(() => { model.screen = 'library'; model.draft = null; model.run = null; model.editError = ''; model.error = ''; render({ focus: 'quiz-page-title' }); });
+    leaveFor(() => { model.screen = 'library'; model.draft = null; model.run = null; model.practiceOriginalQuiz = null; model.practiceIsRetry = false; model.practiceReviewOpen = false; model.editError = ''; model.error = ''; render({ focus: 'quiz-page-title' }); });
   }
   function header() {
     return el('header', { class: 'q-topbar' }, el('div', { class: 'q-wordmark', 'aria-label': 'Likerts' }, 'likerts', el('span', { 'aria-hidden': 'true' }, '.')),
       el('nav', { 'aria-label': 'Game modes' }, button('Quizzes', goLibrary, { className: 'q-mode is-current', id: 'quiz-nav-library', 'aria-current': 'page' }),
         el('a', { class: 'q-mode', href: '/play', id: 'quiz-nav-mindreading', onclick: event => {
           if (dirty() || activePractice()) { event.preventDefault(); leaveFor(() => win.location.assign('/play')); }
-        } }, 'Mind-reading')), model.screen!=='practice'&&totem(el,3,'q-neutral-guide'));
+        } }, 'Join or host live')), model.screen!=='practice'&&totem(el,3,'q-neutral-guide'));
   }
   function messageBlocks() {
     return [model.feedback && el('div', { class: 'q-message', role: 'status', 'aria-live': 'polite' }, text(model.feedback)),
@@ -118,7 +118,7 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
     try {
       model.draft = value ? (copyAsNew ? library.freshCopy(value) : copy(value)) : makeQuiz();
       model.baseline = JSON.stringify(model.draft); model.questionIndex = 0; model.screen = 'editor';
-      model.editError = ''; model.editorNotice = ''; model.editorConflict = false; model.error = ''; model.feedback = ''; render({ focus: 'quiz-title' });
+      model.editError = ''; model.editorNotice = ''; model.editorConflict = false; model.error = ''; model.feedback = ''; render({ focus: 'quiz-prompt' });
     } catch (error) { report(error); }
   }
   function markDirty() {
@@ -157,14 +157,23 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
   }
   function startPractice(value, origin = 'library') {
     try {
-      model.run = new QuizRun(normalizeQuiz(value), { now: now() }); model.selection = null;
-      model.practiceMotionId = globalThis.crypto.randomUUID();
-      model.practiceOrigin = origin; model.screen = 'practice'; model.error = ''; model.editError = ''; model.feedback = '';
-      render({ focus: 'quiz-practice-heading' });
+      const run = new QuizRun(normalizeQuiz(value), { now: now() });
+      model.practiceOriginalQuiz = run.quiz; model.practiceOrigin = origin; beginPracticeAttempt(run, false);
     } catch (error) { origin === 'editor' ? editFailure(error) : report(error); }
   }
+  function beginPracticeAttempt(run, retry) {
+    model.run = run; model.practiceIsRetry = retry; model.practiceReviewOpen = false; model.selection = null;
+    model.practiceMotionId = globalThis.crypto.randomUUID();
+    model.screen = 'practice'; model.error = ''; model.editError = ''; model.feedback = '';
+    render({ focus: 'quiz-practice-heading' });
+    if (typeof win.scrollTo === 'function') win.scrollTo(0, 0);
+  }
+  function retryPracticeMisses() {
+    try { const retry = model.run?.retryMissed({ now: now() }); if (retry) beginPracticeAttempt(retry, true); }
+    catch (error) { report(error); }
+  }
   function returnToEditor() {
-    const action = () => { model.screen = 'editor'; model.run = null; model.selection = null; render({ focus: 'quiz-question-heading' }); };
+    const action = () => { model.screen = 'editor'; model.run = null; model.practiceOriginalQuiz = null; model.practiceIsRetry = false; model.practiceReviewOpen = false; model.selection = null; render({ focus: 'quiz-question-heading' }); };
     if (activePractice()) ask('Return to your quiz?', 'This practice run will end. Your editor changes are kept.', 'Return to editor', action);
     else action();
   }
@@ -201,8 +210,8 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
     return el('article', { class: 'q-library-row', 'aria-labelledby': 'quiz-name-' + quiz.id },
       el('div', { class: 'q-quiz-info' }, el('h2', { id: 'quiz-name-' + quiz.id }, quiz.title), text(quiz.questions.length + (quiz.questions.length === 1 ? ' question' : ' questions'), 'q-muted')),
       el('div', { class: 'q-library-actions' },
-        hostQuiz && button('Host live', () => confirmHost(quiz), { 'aria-label': 'Host ' + quiz.title + ' live', 'data-quiz-host': quiz.id }),
-        button('Practice', () => startPractice(quiz), { className: 'q-button lime', 'aria-label': 'Practice ' + quiz.title, 'data-quiz-practice': quiz.id }),
+        hostQuiz && button('Host live', () => confirmHost(quiz), { className: 'q-button lime', 'aria-label': 'Host ' + quiz.title + ' live', 'data-quiz-host': quiz.id }),
+        button('Practice', () => startPractice(quiz), { className: hostQuiz ? 'q-button quiet' : 'q-button lime', 'aria-label': 'Practice ' + quiz.title, 'data-quiz-practice': quiz.id }),
         button('Edit', () => startEditor(quiz), { className: 'q-button quiet', 'aria-label': 'Edit ' + quiz.title, 'data-quiz-edit': quiz.id }),
         button('Duplicate', () => updateLibrary(() => library.duplicate(quiz), 'A new quiz copy was saved.'),
           { className: 'q-text-button', 'aria-label': 'Duplicate ' + quiz.title, 'data-quiz-duplicate': quiz.id, disabled: !library.canWrite }),
@@ -211,27 +220,68 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
           () => updateLibrary(() => library.remove(quiz.id), 'Quiz deleted from this browser.'),
           { destructive: true }), { className: 'q-text-button is-danger', id: 'quiz-delete-' + quiz.id, 'aria-label': 'Delete ' + quiz.title, 'data-quiz-delete': quiz.id, disabled: !library.canWrite })));
   }
+  function gatheringGuide() {
+    if (!hostQuiz) return null;
+    const guide = partyGuide('gather');
+    const art = guideScene(el, guide.beat, 'q-party-guide-scene');
+    art.removeAttribute('data-quiz-entrance');
+    return el('aside', { class: 'q-party-guide', 'aria-label': 'Party guide', 'data-party-beat': guide.beat },
+      art,
+      el('div', {}, text(guide.characterName + ' · ' + guide.role, 'q-guide-name'),
+        text(guide.title, 'q-guide-title'), text(guide.cue, 'q-muted')));
+  }
+  function starterCollection() {
+    return el('section', { class: 'q-starters', 'aria-labelledby': 'quiz-starters-heading' },
+      el('h2', { id: 'quiz-starters-heading', class: 'q-section-heading' }, hostQuiz ? 'Pick tonight’s quiz.' : 'Try a starter.'),
+      text('Short quizzes, ready to play. Make a copy to add your own twist.', 'q-muted'),
+      el('div', { class: 'q-starter-grid' }, starterQuizDocuments().map((quiz, index) => {
+        const actionId = action => index === 0 ? 'quiz-' + action + '-sample' : 'quiz-' + action + '-starter-' + quiz.id;
+        const headingId = index === 0 ? 'quiz-sample-heading' : 'quiz-starter-heading-' + quiz.id;
+        return el('article', { class: 'q-starter-card', 'aria-labelledby': headingId, 'data-starter-id': quiz.id },
+          el('h3', { id: headingId }, 'Try ' + quiz.title),
+          text(quiz.questions.length + ' questions', 'q-muted'),
+          el('div', { class: 'q-action-row' },
+            hostQuiz && button('Host live', () => confirmHost(quiz),
+              { className: 'q-button lime', id: actionId('host'), 'aria-label': 'Host ' + quiz.title + ' live', 'data-starter-host': quiz.id }),
+            button('Practice', () => startPractice(quiz),
+              { className: hostQuiz ? 'q-button quiet' : 'q-button lime', id: actionId('practice'), 'aria-label': 'Practice ' + quiz.title, 'data-starter-practice': quiz.id }),
+            button('Make a copy', () => startEditor(quiz, { copyAsNew: true }),
+              { className: 'q-text-button', id: actionId('copy'), 'aria-label': 'Make a copy of ' + quiz.title, 'data-starter-copy': quiz.id, disabled: library.blocked })));
+      })));
+  }
+  function meetTheCast() {
+    const beats = ['gather', 'question', 'locked', 'reveal', 'finished'];
+    return el('details', { id: 'quiz-meet-cast', class: 'q-cast-disclosure' },
+      el('summary', { id: 'quiz-meet-cast-summary' }, 'Meet the cast'),
+      el('div', { class: 'q-cast-body' },
+        el('h2', {}, 'Meet your party guides.'),
+        text(partyCastPresentation.intro, 'q-muted'),
+        text(partyCastPresentation.arc, 'q-cast-arc'),
+        el('ol', { class: 'q-cast-list' }, beats.map(beat => {
+          const guide = partyGuide(beat);
+          return el('li', { class: 'q-cast-row' }, guideScene(el, beat),
+            el('div', {}, el('h3', {}, guide.characterName + ' · ' + guide.role),
+              text('“' + guide.voiceLine + '”', 'q-cast-voice'), text(guide.castDescription, 'q-muted')));
+        })),
+        text(partyCastPresentation.closing, 'q-cast-closing')));
+  }
   function libraryScreen() {
     const quizzes = library.quizzes;
     const file = el('input', { type: 'file', accept: '.json,application/json', id: 'quiz-import-file', class: 'q-file-input', 'aria-label': 'Choose a Likerts quiz file', disabled: model.busy || !library.canWrite,
       onchange: event => { const selected = event.target.files?.[0]; event.target.value = ''; void importFile(selected); } });
     return el('main', { id: 'main', class: 'q-library', tabindex: '-1' },
       el('div', { class: 'q-page-heading' }, el('h1', { id: 'quiz-page-title', tabindex: '-1' }, 'Quizzes'),
-        el('div', { class: 'q-action-row' }, button('Import quiz', () => file.click(), { className: 'q-button quiet', id: 'quiz-import', disabled: !library.canWrite }),
+        el('div', { class: 'q-action-row' }, el('a', { class: 'q-button quiet', id: 'quiz-join-room', href: '/play' }, 'Join a room'),
+          button('Import quiz', () => file.click(), { className: 'q-button quiet', id: 'quiz-import', disabled: !library.canWrite }),
           button('Create quiz', () => startEditor(), { id: 'quiz-create', disabled: library.blocked }))),
-      text('Your questions. Your people. A little curiosity together.', 'q-lede'),
+      text(hostQuiz ? 'Host a quiz. Make one. Bring your people.' : 'Make a quiz. Find out what you know.', 'q-lede'),
       text('Saved on this browser. Export a quiz file to move it between web and iPhone.', 'q-muted'),
       messageBlocks(), liveRecovery(), storageWarning(), file, model.busy && el('p', { role: 'status', class: 'q-message' }, model.busyMessage),
+      gatheringGuide(), starterCollection(),
       el('section', { class: 'q-saved-quizzes', 'aria-labelledby': 'quiz-saved-heading' },
         el('h2', { id: 'quiz-saved-heading', class: 'q-section-heading' }, 'Your quizzes'),
         quizzes.length ? quizzes.map(quizRow) : text(library.blocked ? 'Saved quizzes are unavailable until the library can be read.' : 'Your first quiz starts with a good question.', 'q-empty')),
-      el('section', { class: 'q-sample', 'aria-labelledby': 'quiz-sample-heading' },
-        el('div', { class: 'q-sample-copy' }, companionScene(el,3,'q-sample-scene'),
-          el('div', {}, el('h2', { id: 'quiz-sample-heading' }, 'Try Little wonders'), text('Three questions. A little curiosity.', 'q-muted'))),
-        el('div', { class: 'q-action-row' }, button('Practice sample', () => startPractice(sampleQuizDocument()), { className: 'q-button lime', id: 'quiz-practice-sample' }),
-          hostQuiz && button('Host sample live', () => confirmHost(sampleQuizDocument()), { id: 'quiz-host-sample' }),
-          button('Make a copy', () => startEditor(sampleQuizDocument(), { copyAsNew: true }), { className: 'q-button quiet', id: 'quiz-copy-sample', disabled: library.blocked }))),
-      libraryScene(el),
+      meetTheCast(), libraryScene(el),
       text(ANSWER_KEY_NOTE, 'q-sharing-note'), text(hostQuiz ? 'Host a live quiz for web and iPhone players. Practice stays on this device.' : 'Quiz practice stays on this device.', 'q-muted q-scope-note'));
   }
   function liveRecovery() {
@@ -310,16 +360,10 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
       !library.writeSupported && el('div', { class: 'q-message', role: 'status' }, text('Saving is not available in this browser. You can keep this quiz by exporting its file.')),
       model.editorNotice && el('div', { class: 'q-message', role: 'status' }, text(model.editorNotice)),
       model.busy && el('p', { class: 'q-message', role: 'status' }, model.busyMessage),
-      field('Quiz title', titleId, el('input', { id: titleId, type: 'text', value: quiz.title, maxlength: QUIZ_LIMITS.title * 2, autocomplete: 'off',
-        oninput: event => updateText(event.target.value, value => { quiz.title = value; }, titleId, QUIZ_LIMITS.title) }), { count: scalarCount(quiz.title), maximum: QUIZ_LIMITS.title }),
       el('div', { class: 'q-edit-error q-message is-error', id: 'quiz-edit-error', role: 'alert', tabindex: '-1', hidden: !model.editError }, model.editError),
       model.editorConflict && button('Reload library and keep a copy', reloadForCopy, { className: 'q-button quiet', id: 'quiz-reload-for-copy' }),
-      el('div', { class: 'q-editor-layout' }, rail, el('section', { class: 'q-question-form', 'aria-labelledby': 'quiz-question-heading' },
-        el('div', { class: 'q-question-heading-row' }, el('h2', { id: 'quiz-question-heading', tabindex: '-1' }, 'Question ' + (model.questionIndex + 1)),
-          el('div', { class: 'q-action-row q-question-tools' },
-            iconButton('up', 'Move question up', () => moveQuestion(-1), { id: 'quiz-move-up', disabled: model.questionIndex === 0 }),
-            iconButton('down', 'Move question down', () => moveQuestion(1), { id: 'quiz-move-down', disabled: model.questionIndex === quiz.questions.length - 1 }),
-            iconButton('trash', 'Remove question', removeQuestion, { id: 'quiz-remove-question', disabled: quiz.questions.length <= 1 }))),
+      el('div', { class: 'q-editor-layout' }, el('section', { class: 'q-question-form', 'aria-labelledby': 'quiz-question-heading' },
+        el('div', { class: 'q-question-heading-row' }, el('h2', { id: 'quiz-question-heading', tabindex: '-1' }, 'Question ' + (model.questionIndex + 1))),
         field('Question', promptId, el('textarea', { id: promptId, rows: 2, value: question.prompt, maxlength: QUIZ_LIMITS.prompt * 2,
           oninput: event => updateText(event.target.value, value => { question.prompt = value; }, promptId, QUIZ_LIMITS.prompt) }), { count: scalarCount(question.prompt), maximum: QUIZ_LIMITS.prompt }),
         el('fieldset', { class: 'q-answer-fieldset' }, el('legend', { class: 'q-visually-hidden' }, 'Answers and correct answer'),
@@ -329,26 +373,63 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
             { className: 'q-text-button', id: 'quiz-add-answer', disabled: question.answers.length >= 4 }),
           button('Remove last answer', () => { const removed = question.answers.length - 1; question.answers.pop(); if (question.correctAnswer === removed) question.correctAnswer = -1; model.editError = ''; render({ focus: 'quiz-add-answer' }); },
             { className: 'q-text-button', id: 'quiz-remove-answer', disabled: question.answers.length <= 2 })),
+        el('div', { class: 'q-action-row q-question-tools q-question-management', role: 'group', 'aria-label': 'Manage this question' },
+          iconButton('up', 'Move question up', () => moveQuestion(-1), { id: 'quiz-move-up', disabled: model.questionIndex === 0 }),
+          iconButton('down', 'Move question down', () => moveQuestion(1), { id: 'quiz-move-down', disabled: model.questionIndex === quiz.questions.length - 1 }),
+          iconButton('trash', 'Remove question', removeQuestion, { id: 'quiz-remove-question', disabled: quiz.questions.length <= 1 })),
         field('Time limit', 'quiz-time-limit', el('select', { id: 'quiz-time-limit', value: String(question.timeLimitSeconds), onchange: event => { question.timeLimitSeconds = Number(event.target.value); markDirty(); } },
           [0, 10, 20, 30, 60, 120].map(seconds => el('option', { value: seconds, selected: seconds === question.timeLimitSeconds }, seconds === 0 ? 'No timer' : seconds + ' seconds')))),
         field('Explanation', explanationId, el('textarea', { id: explanationId, rows: 2, value: question.explanation, maxlength: QUIZ_LIMITS.explanation * 2,
           oninput: event => updateText(event.target.value, value => { question.explanation = value; }, explanationId, QUIZ_LIMITS.explanation) }), { count: scalarCount(question.explanation), maximum: QUIZ_LIMITS.explanation }),
+        field('Quiz title', titleId, el('input', { id: titleId, type: 'text', value: quiz.title, maxlength: QUIZ_LIMITS.title * 2, autocomplete: 'off',
+          oninput: event => updateText(event.target.value, value => { quiz.title = value; }, titleId, QUIZ_LIMITS.title) }), { count: scalarCount(quiz.title), maximum: QUIZ_LIMITS.title }),
         button('Practice quiz', () => startPractice(quiz, 'editor'), { className: 'q-button lime', id: 'quiz-practice-draft' }),
         button('Export quiz file', () => exportQuiz(quiz), { className: 'q-text-button q-export-draft', id: 'quiz-export-draft' }),
-        text(ANSWER_KEY_NOTE, 'q-sharing-note'))));
+        text(ANSWER_KEY_NOTE, 'q-sharing-note')), rail));
+  }
+  function missedPracticeReview(run) {
+    const ids = new Set(run.missedQuestionIDs);
+    if (!ids.size) return null;
+    const results = new Map(run.results.map(result => [result.questionID, result]));
+    const attempt = model.practiceMotionId;
+    const details = el('details', { id: 'quiz-missed-review', class: 'q-missed-review', open: model.practiceReviewOpen, 'data-practice-attempt': attempt,
+      ontoggle: event => { if (event.currentTarget.isConnected && model.run === run && model.practiceMotionId === attempt) model.practiceReviewOpen = event.currentTarget.open; } },
+      el('summary', { id: 'quiz-missed-review-summary' }, 'Review ' + ids.size + ' missed ' + (ids.size === 1 ? 'question' : 'questions')),
+      el('ol', { class: 'q-missed-list' }, run.quiz.questions.filter(question => ids.has(question.id)).map(question => {
+        const result = results.get(question.id);
+        return el('li', {}, el('h3', {}, question.prompt),
+          el('dl', {}, el('dt', {}, 'Your answer'), el('dd', {}, result.answer === null ? 'No answer locked' : question.answers[result.answer]),
+            el('dt', {}, 'Correct answer'), el('dd', {}, question.answers[question.correctAnswer])),
+          question.explanation && text(question.explanation, 'q-explanation'));
+      })));
+    const previous = document.getElementById('quiz-missed-review');
+    if (previous?.isConnected && previous.dataset.practiceAttempt === attempt) {
+      model.practiceReviewOpen = previous.open; details.open = previous.open;
+    }
+    return details;
+  }
+  function practiceRetryGuide() {
+    const guide = partyGuide('finished');
+    return el('aside', { class: 'q-party-guide q-practice-retry-guide', 'aria-label': 'Practice guide' },
+      guideScene(el, 'finished', 'q-party-guide-scene'), el('div', {}, text(guide.characterName + ' · ' + guide.role, 'q-guide-name'),
+        text('A little more practice?', 'q-guide-title'), text('Try the questions you missed, with a fresh score.', 'q-muted')));
   }
   function practiceScreen() {
     const run = model.run;
+    const missed = run.missedQuestionIDs.length;
     if (run.phase === 'finished') return el('main', { id: 'main', class: 'q-results', tabindex: '-1' },
-      text(run.quiz.title, 'q-practice-title'), el('h1', { id: 'quiz-practice-heading', tabindex: '-1' }, 'Quiz complete'),
+      text(run.quiz.title, 'q-practice-title'), el('h1', { id: 'quiz-practice-heading', tabindex: '-1' }, model.practiceIsRetry ? 'Retry complete' : 'Quiz complete'), messageBlocks(),
       el('section', { class: 'q-result-summary', 'aria-labelledby': 'quiz-result-label' },
-        el('h2', { id: 'quiz-result-label' }, 'Your total'),
+        el('h2', { id: 'quiz-result-label' }, model.practiceIsRetry ? 'This attempt' : 'Your total'),
         el('p', { class: 'q-total-points' }, run.score.toLocaleString('en') + ' points'),
         el('p', { class: 'q-result-score' }, run.correctCount + ' of ' + run.quiz.questions.length + ' correct')),
-      el('div', { class: 'q-action-row' }, button('Replay', () => startPractice(run.quiz, model.practiceOrigin), { className: 'q-button lime', id: 'quiz-replay' }),
+      el('div', { class: 'q-action-row' },
+        missed > 0 && button('Retry ' + missed + ' missed ' + (missed === 1 ? 'question' : 'questions'), retryPracticeMisses, { className: 'q-button lime', id: 'quiz-retry-missed' }),
+        button('Replay full quiz', () => startPractice(model.practiceOriginalQuiz ?? run.quiz, model.practiceOrigin), { className: missed ? 'q-button quiet' : 'q-button lime', id: 'quiz-replay' }),
         button(model.practiceOrigin === 'editor' ? 'Back to editor' : 'Library', model.practiceOrigin === 'editor' ? returnToEditor : goLibrary,
           { className: 'q-button quiet', id: 'quiz-result-back' })),
-      text('Your quiz stays on this browser. This practice score isn’t saved.', 'q-muted'),
+      missed > 0 && missedPracticeReview(run), missed > 0 && practiceRetryGuide(),
+      text(model.practiceIsRetry ? 'This retry has a fresh score. Practice scores aren’t saved.' : 'Your quiz stays on this browser. This practice score isn’t saved.', 'q-muted'),
       el('div', { class: 'q-result-art' }, castScene(el,run.correctCount > 0)));
     const question = run.currentQuestion, revealed = run.phase === 'reveal', result = run.results.at(-1);
     const revealTitle = result?.timedOut ? 'Time’s up' : result?.correct ? 'That’s right' : 'Not this time';
@@ -356,6 +437,8 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
       el('div', { class: 'q-practice-top' }, text(run.quiz.title, 'q-practice-title'), companionScene(el,3,'is-compact q-question-companion'),
         button(model.practiceOrigin === 'editor' ? 'Back to editor' : 'Library', model.practiceOrigin === 'editor' ? returnToEditor : goLibrary,
           { className: 'q-button quiet', id: 'quiz-practice-back' })),
+      model.practiceIsRetry && el('div', { class: 'q-practice-attempt' }, text('Retry missed questions', 'q-attempt-badge'), text('This attempt has only the questions you missed.', 'q-muted')),
+      messageBlocks(),
       el('div', { class: 'q-practice-progress' }, text('Question ' + (run.index + 1) + ' of ' + run.quiz.questions.length),
         question.timeLimitSeconds > 0 && el('p', { id: 'quiz-countdown', class: 'q-countdown', 'aria-label': 'Time remaining' }, revealed ? 'Answer locked' : run.remainingSeconds(now()) + ' seconds left')),
       el('h1', { id: 'quiz-practice-heading', tabindex: '-1' }, question.prompt),

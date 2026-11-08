@@ -30,6 +30,15 @@ main{outline:none}
 .text-button{border:0;background:none;min-height:44px;padding:8px 4px;font-size:16px;font-weight:750;text-decoration:underline;text-underline-offset:.25em;color:var(--muted)}
 .text-button:hover{color:var(--ink)}
 .quiz-library-link{display:inline-flex;align-items:center;min-height:44px}
+.companion-picker{margin-top:24px;padding:22px;border:1px solid var(--border);border-radius:22px;background:var(--surface);min-width:0}
+.companion-picker h2{font-size:25px;line-height:1.2;letter-spacing:-.025em;overflow-wrap:anywhere}
+.companion-note{margin-top:10px;overflow-wrap:anywhere}.companion-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:10px;margin-top:18px}
+.companion-choice{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;min-height:132px;min-width:0;padding:12px 8px;border:1.5px solid var(--border);border-radius:18px;background:var(--surface);color:var(--ink);font-size:17px;font-weight:800;line-height:1.3;touch-action:manipulation}
+.companion-choice[aria-pressed=true]{background:var(--lavender);border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.companion-choice:disabled{color:var(--muted);cursor:default}.companion-portrait{max-width:100%;margin:0!important}
+.companion-name{max-width:100%;overflow-wrap:anywhere}.companion-choice-state{font-size:13px;font-weight:750;min-height:18px}
+.companion-current{font-weight:800;margin-top:14px;overflow-wrap:anywhere}.companion-pending{margin-top:8px;overflow-wrap:anywhere}
+@media(max-width:760px){.companion-picker{padding:18px}.companion-options{grid-template-columns:repeat(2,minmax(0,1fr))}.companion-picker h2{font-size:23px}}
 .arrow{width:28px;height:28px;flex:none}
 .lede{font-size:22px;line-height:1.4;color:var(--muted);margin-top:16px}
 .small,.scoring-note{font-size:16px;line-height:1.45;color:var(--muted)}

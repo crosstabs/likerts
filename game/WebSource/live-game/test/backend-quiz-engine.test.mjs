@@ -137,6 +137,53 @@ test('End, leave and kick invalidate unfinished choices; leave retains its exact
   }
 });
 
+test('Quiz lobby removal locks new admission until an explicit host unlock', () => {
+  let { room, members } = fixture();
+  const removed = members[1], original = structuredClone(room);
+  room = act(room, 'host', 'kick', { playerId: removed.memberId });
+  assert.equal(original.joinLocked, false); assert.equal(original.players.length, 2);
+  assert.equal(room.joinLocked, true); assert.equal(room.players.length, 1);
+  assert.throws(() => identify(room, removed.token), { code: 'unauthorized' });
+  assert.equal(identify(room, members[0].token), members[0].memberId);
+  assert.throws(() => joinRoom(room, { nickname: 'Another name', acceptRoomSharing: true }, { now: timestamp }), { code: 'room_locked' });
+  room = act(room, 'host', 'lock', { locked: false });
+  const replacement = joinRoom(room, { nickname: 'Bo', acceptRoomSharing: true }, { now: timestamp });
+  assert.notEqual(replacement.memberId, removed.memberId);
+  assert.throws(() => identify(replacement.room, removed.token), { code: 'unauthorized' });
+});
+
+test('Quiz removal preserves earned points, prevents rematch readmission and cannot replay into an unlock', () => {
+  let { room, members } = fixture(); room = act(room, 'host', 'start');
+  for (const member of members) room = act(room, member.memberId, 'quiz-answer', { value: room.quizSnapshot.questions[0].correctAnswer });
+  room = act(room, 'host', 'next');
+  const kick = command(room, 'kick', { playerId: members[1].memberId });
+  room = reduceRoom(room, 'host', kick, { now: timestamp }).room;
+  assert.equal(room.joinLocked, true); assert.equal(room.completion, 'incomplete');
+  assert.equal(room.scores[members[0].memberId].points, 1000);
+  const beforeRetry = structuredClone(room), retry = reduceRoom(room, 'host', kick, { now: timestamp });
+  assert.equal(retry.replayed, true); assert.deepEqual(retry.room, beforeRetry);
+  const remaining = room.players.map(player => player.id);
+  room = act(room, 'host', 'rematch');
+  assert.equal(room.joinLocked, true); assert.deepEqual(room.players.map(player => player.id), remaining);
+  assert.deepEqual(room.scores, {});
+  assert.throws(() => joinRoom(room, { nickname: 'Bo', acceptRoomSharing: true }, { now: timestamp }), { code: 'room_locked' });
+  room = act(room, 'host', 'lock', { locked: false });
+  const unlocked = structuredClone(room), replay = reduceRoom(room, 'host', kick, { now: timestamp });
+  assert.equal(replay.replayed, true); assert.deepEqual(replay.room, unlocked);
+  assert.throws(() => reduceRoom(room, 'host', { ...kick, playerId: members[0].memberId }, { now: timestamp }), { code: 'request_conflict' });
+  const joined = joinRoom(replay.room, { nickname: 'Bo', acceptRoomSharing: true }, { now: timestamp });
+  assert.notEqual(joined.memberId, members[1].memberId); assert.equal(joined.room.players.length, 2);
+});
+
+test('Quiz participants cannot use host controls or change room admission', () => {
+  let { room, members } = fixture(); room = act(room, 'host', 'start');
+  const original = structuredClone(room), actor = members[0].memberId;
+  for (const action of ['start', 'next', 'pause', 'resume', 'skip', 'quiz-reveal', 'end', 'rematch', 'close']) assert.throws(() => act(room, actor, action), { code: 'forbidden' }, action);
+  assert.throws(() => act(room, actor, 'kick', { playerId: members[1].memberId }), { code: 'forbidden' });
+  for (const locked of [false, true]) assert.throws(() => act(room, actor, 'lock', { locked }), { code: 'forbidden' });
+  assert.deepEqual(room, original);
+});
+
 test('All thirty questions can complete at 30000 points with shared tied ranks', () => {
   const quiz = sampleQuizDocument();
   quiz.questions = Array.from({ length: 30 }, () => ({ ...structuredClone(quiz.questions[0]), id: randomUUID() }));

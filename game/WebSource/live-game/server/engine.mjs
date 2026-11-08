@@ -164,13 +164,15 @@ export function advance(room, now) {
 
 export function validateCommand(command) {
   if (!object(command) || !uuid(command.requestId) || !uuid(command.matchId) || typeof command.action !== 'string') fail('invalid_command', 'Use a valid command and request identifier.');
-  const fields = { start: [], next: [], pause: [], resume: [], skip: [], lock: ['locked'], kick: ['playerId'], end: [], rematch: [], close: [], answer: ['value'], guess: ['value'], 'quiz-answer': ['value'], 'quiz-reveal': [], leave: [], heartbeat: [] };
+  const fields = { start: [], next: [], pause: [], resume: [], skip: [], lock: ['locked'], kick: ['playerId'], end: [], rematch: [], close: [], answer: ['value'], guess: ['value'], 'quiz-answer': ['value'], 'quiz-reveal': [], 'choose-avatar': ['value'], leave: [], heartbeat: [] };
   if (!Object.hasOwn(fields, command.action)) fail('invalid_action', 'This action is not supported.');
   if (Object.keys(command).some(key => !['requestId', 'matchId', 'roundId', 'expectedRevision', 'action', ...fields[command.action]].includes(key))) fail('invalid_command', 'This command contains unsupported fields.');
+  if (command.action === 'choose-avatar' && Object.hasOwn(command, 'roundId')) fail('invalid_command', 'Choose a character from the lobby without a round identifier.');
   if (['answer', 'guess', 'quiz-answer', 'quiz-reveal', 'next', 'pause', 'resume', 'skip'].includes(command.action) && !uuid(command.roundId)) fail('invalid_round', 'Use the current round identifier.', 409);
   if (command.expectedRevision !== undefined && (!Number.isSafeInteger(command.expectedRevision) || command.expectedRevision < 0)) fail('invalid_revision', 'Use a valid revision.');
   if (['answer', 'guess'].includes(command.action) && (!Number.isSafeInteger(command.value) || command.value < 1 || command.value > 5)) fail('invalid_value', 'Choose one of the five takes.');
   if (command.action === 'quiz-answer' && (!Number.isSafeInteger(command.value) || command.value < 0 || command.value > 3)) fail('invalid_value', 'Choose an answer from this question.');
+  if (command.action === 'choose-avatar' && (!Number.isSafeInteger(command.value) || command.value < 1 || command.value > 5)) fail('invalid_value', 'Choose one of the five characters.');
   if (command.action === 'lock' && typeof command.locked !== 'boolean') fail('invalid_command', 'Choose whether to lock this room.');
   if (command.action === 'kick' && !uuid(command.playerId)) fail('invalid_player', 'Choose a current player.');
   return command;
@@ -208,6 +210,11 @@ export function reduceRoom(room, actorId, command, { catalogue, now = Date.now()
   const active = ['answer', 'predict'].includes(next.phase);
   const round = next.round;
   switch (command.action) {
+    case 'choose-avatar':
+      if (actorId === 'host') fail('forbidden', 'Only a player can choose their own character.', 403);
+      if (next.phase !== 'lobby') fail('wrong_phase', 'Choose your character from the lobby.', 409);
+      next.players.find(player => player.id === actorId).avatar = command.value;
+      break;
     case 'start':
       if (next.phase !== 'lobby' || next.players.length < 2) fail('not_ready', 'Start from a lobby with at least two players.', 409);
       if (quiz) {
@@ -256,7 +263,9 @@ export function reduceRoom(room, actorId, command, { catalogue, now = Date.now()
       const removed = next.players.find(player => player.id === command.playerId);
       if (!removed) fail('invalid_player', 'Choose a current player.', 404);
       if (['answer', 'predict', 'reveal'].includes(next.phase)) finish(next, now, 'player_removed');
-      next.players = next.players.filter(player => player.id !== command.playerId); break;
+      next.players = next.players.filter(player => player.id !== command.playerId);
+      next.joinLocked = true;
+      break;
     }
     case 'leave':
       if (actorId === 'host') fail('forbidden', 'The host can close the room.', 403);
@@ -269,7 +278,8 @@ export function reduceRoom(room, actorId, command, { catalogue, now = Date.now()
       finish(next, now, 'host_ended'); break;
     case 'rematch':
       if (next.phase !== 'finished') fail('wrong_phase', 'Finish this match before a rematch.', 409);
-      next.matchId = randomUUID(); next.phase = 'lobby'; next.joinLocked = false; next.round = null; next.roster = []; next.subjectOrder = []; next.roundIndex = 0; next.totalRounds = 0; next.scores = {}; next.completion = null; next.hadIncomplete = false; next.finishedAt = null; next.notice = null; break;
+      // Admission stays locked across matches until the host explicitly unlocks it.
+      next.matchId = randomUUID(); next.phase = 'lobby'; next.round = null; next.roster = []; next.subjectOrder = []; next.roundIndex = 0; next.totalRounds = 0; next.scores = {}; next.completion = null; next.hadIncomplete = false; next.finishedAt = null; next.notice = null; break;
     case 'close': return { room: null, replayed: false, closed: true, recordReceipt: false };
     case 'heartbeat': break;
   }

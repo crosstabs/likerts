@@ -1,10 +1,67 @@
-import { companionScene, castScene } from './quiz-scene.mjs';
+import { companionScene, castScene, partyGuide, guideScene } from './quiz-scene.mjs';
+import { quizAnswerBreakdown } from './quiz-answer-breakdown.mjs';
 
 /** Quiz-only views consume safe recipient state and the shared room shell. */
 export function quizLiveView(state, ui) {
-  const { el, text, button, act, confirm, invitation, playerList, standingsAvatar, clock, errorBlock, client, model, deadlinePassed } = ui;
+  const { el, text, button, act, confirm, chooseAnotherQuiz, companionPicker, invitation, playerList, standingsAvatar, clock, errorBlock, client, model, deadlinePassed } = ui;
   const host = state.role === 'host', r = state.round;
+  const breakdown = quizAnswerBreakdown(state);
+  const detailsScope = state.phase === 'finished' && breakdown ? state.code + ':' + state.matchId + ':' + r.id : null;
+  if (model.quizLastQuestionDetails?.scope !== detailsScope) model.quizLastQuestionDetails = detailsScope ? { scope: detailsScope, open: false } : null;
   const scoring = () => text('1,000 points for a correct answer. No speed bonus.', 'scoring-note');
+  function answerBreakdown(id = 'quiz-answer-breakdown-title') {
+    if (!breakdown) return null;
+    const row = (label, count, { index, correct = false } = {}) => el('li', { class: 'quiz-breakdown-row' + (correct ? ' is-correct' : ''), 'data-answer-index': index },
+      el('div', { class: 'quiz-breakdown-label' }, el('span', { class: 'quiz-breakdown-answer' }, label),
+        correct && el('span', { class: 'quiz-breakdown-correct' }, el('span', { 'aria-hidden': 'true' }, '✓ '), 'Correct answer'),
+        el('span', { class: 'quiz-breakdown-count' }, count + (count === 1 ? ' player' : ' players'))),
+      el('meter', { class: 'quiz-breakdown-bar', min: 0, max: breakdown.total, value: count, 'aria-hidden': 'true' }));
+    return el('section', { class: 'quiz-answer-breakdown', 'aria-labelledby': id },
+      el('h2', { id }, 'How the room answered'),
+      text(breakdown.correctCount + ' of ' + breakdown.total + ' correct', 'quiz-breakdown-summary'),
+      el('ol', { class: 'quiz-breakdown-list' },
+        r.answers.map((answer, index) => row(String.fromCharCode(65 + index) + ' · ' + answer, breakdown.counts[index], { index, correct: index === state.reveal.correctAnswer })),
+        row('No answer locked', breakdown.unansweredCount)));
+  }
+  function lastQuestionDetails() {
+    if (!detailsScope) return null;
+    const details = el('details', { class: 'quiz-last-question-details', 'data-last-question-scope': detailsScope, open: model.quizLastQuestionDetails.open,
+      ontoggle: event => {
+        if (!event.currentTarget.isConnected || model.quizLastQuestionDetails?.scope !== detailsScope) return;
+        model.quizLastQuestionDetails.open = event.currentTarget.open;
+      } },
+    el('summary', { id: 'quiz-last-question-summary' }, 'Last question details'),
+    el('div', { class: 'quiz-last-question-copy' },
+      text('Last question · Question ' + r.index + ' of ' + r.total, 'round-progress'),
+      el('h2', { class: 'question' }, r.prompt),
+      el('div', { class: 'quiz-correct-answer' }, text('Correct answer', 'small'), el('strong', {}, r.answers[state.reveal.correctAnswer])),
+      state.reveal.explanation && text(state.reveal.explanation, 'quiz-explanation'),
+      answerBreakdown('quiz-last-question-breakdown-title')));
+    // Native toggle events are queued. Read the connected disclosure before its
+    // replacement so a status render cannot lose a just-opened or closed state.
+    const previous = details.ownerDocument.getElementById('quiz-last-question-summary')?.parentElement;
+    if (previous?.isConnected && previous.dataset.lastQuestionScope === detailsScope) {
+      model.quizLastQuestionDetails.open = previous.open;
+      details.open = previous.open;
+    }
+    return details;
+  }
+  function guide(beat) {
+    const value = partyGuide(beat);
+    const art = guideScene(el, beat, 'live-party-guide-scene');
+    // A changing guide must not consume or restart the question's entrance.
+    art.removeAttribute('data-quiz-entrance');
+    const confirming = beat === 'question' && !host && (model.busy || client.pendingAction?.action === 'quiz-answer');
+    const expired = beat === 'question' && deadlinePassed(state);
+    const title = confirming ? 'Confirming your choice.' : expired ? 'Waiting for the reveal.' : value.title;
+    const cue = confirming ? 'Keep this tab open. Your answer is not confirmed yet.'
+      : expired ? 'Time is up. The room is confirming this question.'
+      : host && beat === 'question' ? 'Read it out. Your people choose and lock; you control the reveal.' : value.cue;
+    return el('aside', { class: 'live-party-guide', 'aria-label': 'Party guide', 'data-party-beat': beat },
+      art,
+      el('div', {}, text(value.characterName + ' · ' + value.role, 'party-guide-name'),
+        text(title, 'party-guide-title'), text(cue, 'party-guide-cue')));
+  }
   const earlyEnd = () => button('Finish early', () => confirm('Finish this quiz early?',
     'Completed questions keep their points. This quiz will have provisional standings and no winner.', 'Finish quiz', () => act('end')), { className: 'text-button', id: 'finish-early' });
   function board() {
@@ -30,6 +87,8 @@ export function quizLiveView(state, ui) {
         castScene(el), host ? invitation(state) : text('You’re in, ' + state.self.nickname + '. Room ' + state.code, 'quiz-joined'),
         text(host ? 'Invite 2–' + state.settings.capacity + ' players on web or iPhone. You control the questions.' : 'Waiting for the host to start.', 'small'),
         text('The quiz is hosted from a fixed copy. ' + (host ? 'Players’ answers stay private until reveal.' : 'Your answer is private until the question is revealed.'), 'small'),
+        !host && companionPicker(state),
+        guide('gather'),
         !state.hostConnected && text('Your host is reconnecting. Keep this tab open.', 'message')),
       el('section', { class: 'room-panel', 'aria-labelledby': 'roster-title' }, el('h2', { id: 'roster-title' }, 'In the room'),
         text(state.players.length + (state.players.length === 1 ? ' player' : ' players'), 'roster-count'),
@@ -69,7 +128,8 @@ export function quizLiveView(state, ui) {
           { className: 'button outlined', id: 'reveal-question', disabled: deadlinePassed(state) }), earlyEnd()))
           : answerChoices(),
         !host && text(r.submittedCount + ' of ' + r.eligibleCount + ' answers locked.', 'quiz-submitted'),
-        !state.hostConnected && text('Your host is reconnecting. Your locked answer is saved in the room.', 'message'),
+        guide(!host && r.ownAnswer !== null ? 'locked' : 'question'),
+        !state.hostConnected && text('Host disconnected. Timed questions continue on the server.', 'message'),
         errorBlock(), scoring()),
       host && el('aside', { class: 'round-sidebar' }, el('h2', {}, 'Your people'), playerList(state, { moderation: true })));
   }
@@ -81,7 +141,9 @@ export function quizLiveView(state, ui) {
         el('h2', { class: 'question' }, r.prompt),
         el('div', { class: 'quiz-correct-answer' }, text('Correct answer', 'small'), el('strong', {}, r.answers[v.correctAnswer])),
         v.explanation && text(v.explanation, 'quiz-explanation'),
+        answerBreakdown(),
         !host && text((own?.points ?? 0).toLocaleString('en') + ' points' + (own?.value === null ? ' · No answer locked' : ' · You chose ' + r.answers[own.value]), 'quiz-own-result'),
+        guide('reveal'),
         (host ? v.results.some(result => result.points === 1000) : own?.points === 1000) ? castScene(el,true)
           : el('div', { class: 'quiz-neutral-reveal' }, companionScene(el,state.players.find(p => p.id === state.self.id)?.avatar ?? 3)),
         el('ul', { class: 'guess-list quiz-result-list' }, v.results.map(result => el('li', {}, el('strong', {}, result.nickname),
@@ -102,8 +164,11 @@ export function quizLiveView(state, ui) {
           el('p', { id: 'quiz-result-correct', class: 'quiz-result-correct' }, opportunities ? (points / 1000) + ' of ' + opportunities + ' correct' : 'No scored questions'),
           text(complete ? state.quiz.questionCount + (state.quiz.questionCount === 1 ? ' question, answered together.' : ' questions, answered together.')
             : 'Provisional total from ' + opportunities + (opportunities === 1 ? ' scored question.' : ' scored questions.') + ' There is no final winner.', 'quiz-result-note')),
-        el('div', { class: 'quiz-finished-actions' }, host ? button('Back to lobby for a rematch', () => act('rematch'), { id: 'rematch', className: 'button full' })
+        el('div', { class: 'quiz-finished-actions' }, host ? [button('Back to lobby for a rematch', () => act('rematch'), { id: 'rematch', className: 'button full' }),
+          button('Choose another quiz', chooseAnotherQuiz, { id: 'choose-another-quiz', className: 'text-button', disabled: client.busy })]
           : text('Waiting for the host to make the next move.', 'small')),
+        lastQuestionDetails(),
+        guide('finished'),
         errorBlock(), el('div', { class: 'quiz-finished-art' }, castScene(el,complete))), board());
   }
   return state.phase === 'lobby' ? lobby() : state.phase === 'answer' ? question() : state.phase === 'reveal' ? reveal() : finished();

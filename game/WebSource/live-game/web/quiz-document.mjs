@@ -118,3 +118,155 @@ const SAMPLE = {
 };
 export const sampleQuiz = freeze(normalizeQuiz(SAMPLE));
 export const sampleQuizDocument = () => structuredClone(sampleQuiz);
+
+// Editorial starter collection; each document is still the portable v1 format.
+// SharedFixtures/starter-quizzes.json is the native/web parity contract.
+const ADDITIONAL_STARTERS = freeze([
+  {
+    "format": "likerts.quiz",
+    "version": 1,
+    "id": "b277a7f1-6bb2-5662-b3ff-1b49fb697847",
+    "title": "Sky high",
+    "questions": [
+      {
+        "id": "a3a79541-d548-534d-a1e1-64d2d6dc50b1",
+        "prompt": "What kind of object is the Sun?",
+        "answers": [
+          "A planet",
+          "A star",
+          "A moon",
+          "A comet"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The Sun is the star at the centre of our solar system.",
+        "timeLimitSeconds": 20
+      },
+      {
+        "id": "770da3a0-086e-58d9-b6ca-9680d8a8aa3a",
+        "prompt": "Counting outward from the Sun, which number is Earth?",
+        "answers": [
+          "First",
+          "Second",
+          "Third",
+          "Fourth"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Mercury and Venus come before Earth.",
+        "timeLimitSeconds": 20
+      },
+      {
+        "id": "9a20197b-a468-5f39-a1f6-763ee346481c",
+        "prompt": "Which is the largest planet in our solar system?",
+        "answers": [
+          "Earth",
+          "Saturn",
+          "Neptune",
+          "Jupiter"
+        ],
+        "correctAnswer": 3,
+        "explanation": "Jupiter is bigger than every other planet in our solar system.",
+        "timeLimitSeconds": 20
+      },
+      {
+        "id": "4eeece0b-cebc-5dd8-9e3c-e5cbf0f2439b",
+        "prompt": "Of the eight planets, which is farthest from the Sun?",
+        "answers": [
+          "Neptune",
+          "Uranus",
+          "Saturn",
+          "Mars"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Our eight-planet line-up ends with Neptune, beyond Uranus.",
+        "timeLimitSeconds": 20
+      },
+      {
+        "id": "9ce7e3dd-7186-5fa3-9b4d-f20826be9037",
+        "prompt": "What makes the Moon look bright to us?",
+        "answers": [
+          "Its own sunlight",
+          "Reflected sunlight",
+          "A fiery surface",
+          "City lights"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Its familiar glow is sunlight bouncing off its surface.",
+        "timeLimitSeconds": 20
+      }
+    ]
+  },
+  {
+    "format": "likerts.quiz",
+    "version": 1,
+    "id": "dd5739d6-faee-5a3e-bba1-a4cd0053998d",
+    "title": "Wild world",
+    "questions": [
+      {
+        "id": "86d11e09-439b-569c-80a4-6cf831e8fb27",
+        "prompt": "How many hearts does an octopus have?",
+        "answers": [
+          "One",
+          "Two",
+          "Three",
+          "Four"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Two hearts move blood through the gills; the third supplies the rest of the body.",
+        "timeLimitSeconds": 20
+      },
+      {
+        "id": "6a06afd6-1555-52e7-be3e-dcf66a554d87",
+        "prompt": "Which living land animal is tallest?",
+        "answers": [
+          "Elephant",
+          "Ostrich",
+          "Camel",
+          "Giraffe"
+        ],
+        "correctAnswer": 3,
+        "explanation": "A giraffe’s long legs and neck put its head above other land animals.",
+        "timeLimitSeconds": 20
+      },
+      {
+        "id": "e655b942-2ba5-529f-b73a-3610e1c32363",
+        "prompt": "Which living animal is largest by mass?",
+        "answers": [
+          "Blue whale",
+          "African elephant",
+          "Giraffe",
+          "Whale shark"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Blue whales outweigh every other living animal.",
+        "timeLimitSeconds": 20
+      },
+      {
+        "id": "c4d3ac96-0c7c-56ce-b356-a0a9fc12d72b",
+        "prompt": "How many legs does a honeybee have?",
+        "answers": [
+          "Four",
+          "Six",
+          "Eight",
+          "Ten"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Bees are insects, and insects have six legs.",
+        "timeLimitSeconds": 20
+      },
+      {
+        "id": "e82358c9-8908-5127-bc8c-35992ba3ba2b",
+        "prompt": "Which animal group do penguins belong to?",
+        "answers": [
+          "Fish",
+          "Mammals",
+          "Birds",
+          "Reptiles"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Penguins are flightless birds adapted to swimming.",
+        "timeLimitSeconds": 20
+      }
+    ]
+  }
+]);
+export const starterQuizDocuments = () => [sampleQuizDocument(), ...ADDITIONAL_STARTERS.map(value => structuredClone(value))];

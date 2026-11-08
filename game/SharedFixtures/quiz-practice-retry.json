@@ -1,0 +1,621 @@
+{
+  "schemaVersion": 1,
+  "baseMilliseconds": 1000000,
+  "retryOffsetMilliseconds": 120000,
+  "timeReference": "Add every OffsetMilliseconds field to baseMilliseconds. Null deadlineOffsetMilliseconds means untimed or no active deadline.",
+  "cases": [
+    {
+      "name": "mixed-correct-wrong-timeout",
+      "quiz": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "10000000-0000-4000-8000-000000000000",
+        "title": "Retry fixture",
+        "questions": [
+          {
+            "id": "10000000-0000-4000-8000-000000000001",
+            "prompt": "Which number is even?",
+            "answers": [
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 0,
+            "explanation": "Two is divisible by two.",
+            "timeLimitSeconds": 10
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000002",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "One",
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 2,
+            "explanation": "A triangle has three sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000003",
+            "prompt": "Which season follows autumn?",
+            "answers": [
+              "Spring",
+              "Summer",
+              "Autumn",
+              "Winter"
+            ],
+            "correctAnswer": 3,
+            "explanation": "Winter follows autumn.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "events": [
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 1000,
+          "expectedReturn": true,
+          "value": 0
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 2000,
+          "expectedReturn": true
+        },
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 3000,
+          "expectedReturn": true,
+          "value": 1
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 4000,
+          "expectedReturn": true
+        },
+        {
+          "action": "advance",
+          "nowOffsetMilliseconds": 34000,
+          "expectedReturn": true
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 35000,
+          "expectedReturn": true
+        }
+      ],
+      "expected": {
+        "phase": "finished",
+        "index": 2,
+        "score": 1000,
+        "correctCount": 1,
+        "selectedAnswer": null,
+        "resultsCount": 3,
+        "deadlineOffsetMilliseconds": null,
+        "missedQuestionIDs": [
+          "10000000-0000-4000-8000-000000000002",
+          "10000000-0000-4000-8000-000000000003"
+        ],
+        "retry": {
+          "questionIDs": [
+            "10000000-0000-4000-8000-000000000002",
+            "10000000-0000-4000-8000-000000000003"
+          ],
+          "phase": "answer",
+          "index": 0,
+          "score": 0,
+          "correctCount": 0,
+          "selectedAnswer": null,
+          "resultsCount": 0,
+          "deadlineOffsetMilliseconds": 140000
+        }
+      }
+    },
+    {
+      "name": "perfect-first-and-last-answer-indices",
+      "quiz": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "10000000-0000-4000-8000-000000000000",
+        "title": "Retry fixture",
+        "questions": [
+          {
+            "id": "10000000-0000-4000-8000-000000000001",
+            "prompt": "Which number is even?",
+            "answers": [
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 0,
+            "explanation": "Two is divisible by two.",
+            "timeLimitSeconds": 10
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000002",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "One",
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 2,
+            "explanation": "A triangle has three sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000003",
+            "prompt": "Which season follows autumn?",
+            "answers": [
+              "Spring",
+              "Summer",
+              "Autumn",
+              "Winter"
+            ],
+            "correctAnswer": 3,
+            "explanation": "Winter follows autumn.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "events": [
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 1000,
+          "expectedReturn": true,
+          "value": 0
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 2000,
+          "expectedReturn": true
+        },
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 3000,
+          "expectedReturn": true,
+          "value": 2
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 4000,
+          "expectedReturn": true
+        },
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 5000,
+          "expectedReturn": true,
+          "value": 3
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 6000,
+          "expectedReturn": true
+        }
+      ],
+      "expected": {
+        "phase": "finished",
+        "index": 2,
+        "score": 3000,
+        "correctCount": 3,
+        "selectedAnswer": null,
+        "resultsCount": 3,
+        "deadlineOffsetMilliseconds": null,
+        "missedQuestionIDs": [],
+        "retry": null
+      }
+    },
+    {
+      "name": "all-wrong",
+      "quiz": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "10000000-0000-4000-8000-000000000000",
+        "title": "Retry fixture",
+        "questions": [
+          {
+            "id": "10000000-0000-4000-8000-000000000001",
+            "prompt": "Which number is even?",
+            "answers": [
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 0,
+            "explanation": "Two is divisible by two.",
+            "timeLimitSeconds": 10
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000002",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "One",
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 2,
+            "explanation": "A triangle has three sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000003",
+            "prompt": "Which season follows autumn?",
+            "answers": [
+              "Spring",
+              "Summer",
+              "Autumn",
+              "Winter"
+            ],
+            "correctAnswer": 3,
+            "explanation": "Winter follows autumn.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "events": [
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 1000,
+          "expectedReturn": true,
+          "value": 1
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 2000,
+          "expectedReturn": true
+        },
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 3000,
+          "expectedReturn": true,
+          "value": 0
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 4000,
+          "expectedReturn": true
+        },
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 5000,
+          "expectedReturn": true,
+          "value": 2
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 6000,
+          "expectedReturn": true
+        }
+      ],
+      "expected": {
+        "phase": "finished",
+        "index": 2,
+        "score": 0,
+        "correctCount": 0,
+        "selectedAnswer": null,
+        "resultsCount": 3,
+        "deadlineOffsetMilliseconds": null,
+        "missedQuestionIDs": [
+          "10000000-0000-4000-8000-000000000001",
+          "10000000-0000-4000-8000-000000000002",
+          "10000000-0000-4000-8000-000000000003"
+        ],
+        "retry": {
+          "questionIDs": [
+            "10000000-0000-4000-8000-000000000001",
+            "10000000-0000-4000-8000-000000000002",
+            "10000000-0000-4000-8000-000000000003"
+          ],
+          "phase": "answer",
+          "index": 0,
+          "score": 0,
+          "correctCount": 0,
+          "selectedAnswer": null,
+          "resultsCount": 0,
+          "deadlineOffsetMilliseconds": 130000
+        }
+      }
+    },
+    {
+      "name": "all-timeout-at-deadline",
+      "quiz": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "10000000-0000-4000-8000-000000000000",
+        "title": "Retry fixture",
+        "questions": [
+          {
+            "id": "10000000-0000-4000-8000-000000000001",
+            "prompt": "Which number is even?",
+            "answers": [
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 0,
+            "explanation": "Two is divisible by two.",
+            "timeLimitSeconds": 10
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000002",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "One",
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 2,
+            "explanation": "A triangle has three sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000003",
+            "prompt": "Which season follows autumn?",
+            "answers": [
+              "Spring",
+              "Summer",
+              "Autumn",
+              "Winter"
+            ],
+            "correctAnswer": 3,
+            "explanation": "Winter follows autumn.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "events": [
+        {
+          "action": "advance",
+          "nowOffsetMilliseconds": 10000,
+          "expectedReturn": true
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 11000,
+          "expectedReturn": true
+        },
+        {
+          "action": "advance",
+          "nowOffsetMilliseconds": 31000,
+          "expectedReturn": true
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 32000,
+          "expectedReturn": true
+        },
+        {
+          "action": "advance",
+          "nowOffsetMilliseconds": 62000,
+          "expectedReturn": true
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 63000,
+          "expectedReturn": true
+        }
+      ],
+      "expected": {
+        "phase": "finished",
+        "index": 2,
+        "score": 0,
+        "correctCount": 0,
+        "selectedAnswer": null,
+        "resultsCount": 3,
+        "deadlineOffsetMilliseconds": null,
+        "missedQuestionIDs": [
+          "10000000-0000-4000-8000-000000000001",
+          "10000000-0000-4000-8000-000000000002",
+          "10000000-0000-4000-8000-000000000003"
+        ],
+        "retry": {
+          "questionIDs": [
+            "10000000-0000-4000-8000-000000000001",
+            "10000000-0000-4000-8000-000000000002",
+            "10000000-0000-4000-8000-000000000003"
+          ],
+          "phase": "answer",
+          "index": 0,
+          "score": 0,
+          "correctCount": 0,
+          "selectedAnswer": null,
+          "resultsCount": 0,
+          "deadlineOffsetMilliseconds": 130000
+        }
+      }
+    },
+    {
+      "name": "one-untimed-wrong",
+      "quiz": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "10000000-0000-4000-8000-000000000010",
+        "title": "Untimed retry fixture",
+        "questions": [
+          {
+            "id": "10000000-0000-4000-8000-000000000011",
+            "prompt": "Which number is odd?",
+            "answers": [
+              "Three",
+              "Four"
+            ],
+            "correctAnswer": 0,
+            "explanation": "Three is not divisible by two.",
+            "timeLimitSeconds": 0
+          }
+        ]
+      },
+      "events": [
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 60000,
+          "expectedReturn": true,
+          "value": 1
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 61000,
+          "expectedReturn": true
+        }
+      ],
+      "expected": {
+        "phase": "finished",
+        "index": 0,
+        "score": 0,
+        "correctCount": 0,
+        "selectedAnswer": null,
+        "resultsCount": 1,
+        "deadlineOffsetMilliseconds": null,
+        "missedQuestionIDs": [
+          "10000000-0000-4000-8000-000000000011"
+        ],
+        "retry": {
+          "questionIDs": [
+            "10000000-0000-4000-8000-000000000011"
+          ],
+          "phase": "answer",
+          "index": 0,
+          "score": 0,
+          "correctCount": 0,
+          "selectedAnswer": null,
+          "resultsCount": 0,
+          "deadlineOffsetMilliseconds": null
+        }
+      }
+    },
+    {
+      "name": "active-with-earlier-miss-has-no-retry",
+      "quiz": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "10000000-0000-4000-8000-000000000000",
+        "title": "Retry fixture",
+        "questions": [
+          {
+            "id": "10000000-0000-4000-8000-000000000001",
+            "prompt": "Which number is even?",
+            "answers": [
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 0,
+            "explanation": "Two is divisible by two.",
+            "timeLimitSeconds": 10
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000002",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "One",
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 2,
+            "explanation": "A triangle has three sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000003",
+            "prompt": "Which season follows autumn?",
+            "answers": [
+              "Spring",
+              "Summer",
+              "Autumn",
+              "Winter"
+            ],
+            "correctAnswer": 3,
+            "explanation": "Winter follows autumn.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "events": [
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 1000,
+          "expectedReturn": true,
+          "value": 1
+        },
+        {
+          "action": "next",
+          "nowOffsetMilliseconds": 2000,
+          "expectedReturn": true
+        }
+      ],
+      "expected": {
+        "phase": "answer",
+        "index": 1,
+        "score": 0,
+        "correctCount": 0,
+        "selectedAnswer": null,
+        "resultsCount": 1,
+        "deadlineOffsetMilliseconds": 22000,
+        "missedQuestionIDs": [],
+        "retry": null
+      }
+    },
+    {
+      "name": "reveal-with-miss-has-no-retry",
+      "quiz": {
+        "format": "likerts.quiz",
+        "version": 1,
+        "id": "10000000-0000-4000-8000-000000000000",
+        "title": "Retry fixture",
+        "questions": [
+          {
+            "id": "10000000-0000-4000-8000-000000000001",
+            "prompt": "Which number is even?",
+            "answers": [
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 0,
+            "explanation": "Two is divisible by two.",
+            "timeLimitSeconds": 10
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000002",
+            "prompt": "How many sides does a triangle have?",
+            "answers": [
+              "One",
+              "Two",
+              "Three"
+            ],
+            "correctAnswer": 2,
+            "explanation": "A triangle has three sides.",
+            "timeLimitSeconds": 20
+          },
+          {
+            "id": "10000000-0000-4000-8000-000000000003",
+            "prompt": "Which season follows autumn?",
+            "answers": [
+              "Spring",
+              "Summer",
+              "Autumn",
+              "Winter"
+            ],
+            "correctAnswer": 3,
+            "explanation": "Winter follows autumn.",
+            "timeLimitSeconds": 30
+          }
+        ]
+      },
+      "events": [
+        {
+          "action": "submit",
+          "nowOffsetMilliseconds": 1000,
+          "expectedReturn": true,
+          "value": 1
+        }
+      ],
+      "expected": {
+        "phase": "reveal",
+        "index": 0,
+        "score": 0,
+        "correctCount": 0,
+        "selectedAnswer": 1,
+        "resultsCount": 1,
+        "deadlineOffsetMilliseconds": null,
+        "missedQuestionIDs": [],
+        "retry": null
+      }
+    }
+  ]
+}

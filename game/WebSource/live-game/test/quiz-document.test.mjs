@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { QUIZ_LIMITS, QuizValidationError, normalizeQuiz, parseQuiz, encodeQuiz, makeQuiz, makeQuestion, duplicateQuiz, sampleQuiz, sampleQuizDocument } from '../web/quiz-document.mjs';
+import { QuizRun } from '../web/quiz-run.mjs';
+import { QUIZ_LIMITS, QuizValidationError, normalizeQuiz, parseQuiz, encodeQuiz, makeQuiz, makeQuestion, duplicateQuiz, sampleQuiz, sampleQuizDocument, starterQuizDocuments } from '../web/quiz-document.mjs';
 
 const fixtures = JSON.parse(await readFile(new URL('../../../SharedFixtures/quiz-validation-fixtures.json', import.meta.url), 'utf8'));
 const sharedSample = JSON.parse(await readFile(new URL('../../../SharedFixtures/sample-quiz.json', import.meta.url), 'utf8'));
@@ -101,4 +102,31 @@ test('question and answer cardinalities are enforced and exported documents roun
   assert.equal(parseQuiz(encodeQuiz(document)).questions.length, 30);
   document.questions.push({ ...makeQuestion(), prompt: 'One too many', answers: ['First', 'Second'], correctAnswer: 0 });
   rejects(() => normalizeQuiz(document), 'question_count');
+});
+
+
+test('curated starters match the shared collection, stay detached and play with the existing rules', async () => {
+  const shared = JSON.parse(await readFile(new URL('../../../SharedFixtures/starter-quizzes.json', import.meta.url), 'utf8'));
+  const starters = starterQuizDocuments();
+  assert.deepEqual(starters, shared);
+  assert.deepEqual(starters[0], sampleQuizDocument());
+  assert.deepEqual(starters.map(quiz => quiz.questions.length), [3, 5, 5]);
+  const identifiers = starters.flatMap(quiz => [quiz.id, ...quiz.questions.map(question => question.id)]);
+  assert.equal(new Set(identifiers).size, 16);
+  for (const quiz of starters) {
+    assert.deepEqual(parseQuiz(encodeQuiz(quiz)), quiz);
+    let clock = 1_000;
+    const run = new QuizRun(quiz, { now: clock });
+    for (const question of quiz.questions) {
+      assert.equal(run.submit(question.correctAnswer, ++clock), true);
+      assert.equal(run.results.at(-1).points, 1000);
+      assert.equal(run.next(++clock), true);
+    }
+    assert.equal(run.phase, 'finished');
+    assert.equal(run.correctCount, quiz.questions.length);
+    assert.equal(run.score, quiz.questions.length * 1000);
+  }
+  starters[1].questions[0].answers[0] = 'An edited local answer';
+  starters[0].title = 'An edited local sample';
+  assert.deepEqual(starterQuizDocuments(), shared);
 });

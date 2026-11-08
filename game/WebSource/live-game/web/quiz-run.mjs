@@ -22,6 +22,16 @@ export class QuizRun {
   get results() { return this.#results; }
   get score() { return this.#results.reduce((total, result) => total + result.points, 0); }
   get correctCount() { return this.#results.filter(result => result.correct).length; }
+  get missedQuestionIDs() {
+    if (this.#phase !== 'finished') return Object.freeze([]);
+    const missed = new Set(this.#results.filter(result => !result.correct).map(result => result.questionID));
+    return Object.freeze(this.#quiz.questions.filter(question => missed.has(question.id)).map(question => question.id));
+  }
+  retryMissed({ now = Date.now() } = {}) {
+    const missed = new Set(this.missedQuestionIDs);
+    if (!missed.size) return null;
+    return new QuizRun({ ...this.#quiz, questions: this.#quiz.questions.filter(question => missed.has(question.id)) }, { now });
+  }
   get deadline() { return this.#deadline; }
   remainingSeconds(now = Date.now()) {
     if (!validTime(now) || this.#deadline === null || this.#phase !== 'answer') return null;

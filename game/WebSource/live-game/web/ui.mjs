@@ -3,20 +3,21 @@ import { createNavigationScrollSettler } from './navigation-scroll.mjs';
 import { totem } from './art.mjs';
 import { quizLiveView } from './quiz-live-ui.mjs';
 import { createQuizMotionController } from './quiz-motion.mjs';
+import { partyGuide, guideScene } from './quiz-scene.mjs';
 const labels = ['Not me','A little','Depends','Mostly me','So me'];
 const topicNames = {mix:'A bit of everything'};
 const crop = [[184,138,913,985],[210,210,826,902],[270,122,756,1025],[344,73,598,1105],[128,161,1008,963]];
 const roundLabel = r => r ? 'Round '+r.index+' of '+r.total : '';
 const percent = n => n === null || n === undefined ? '—' : new Intl.NumberFormat('en',{minimumFractionDigits:1,maximumFractionDigits:1}).format(n)+'%';
 
-export function mountLiveApp({root,client,window:win = globalThis.window} = {}) {
+export function mountLiveApp({root,client,window:win = globalThis.window,navigate = path => win.location.assign(path)} = {}) {
   const document = root.ownerDocument;
   const motion = createQuizMotionController({window:win});
   const model = {entry:'landing',name:'',code:'',consent:false,selection:null,busy:false,error:'',
     toast:'',topics:[],maximumPlayers:12,catalogueReady:false,catalogueError:'',settings:{topic:'mix',cycles:1,capacity:12,answerSeconds:60,predictSeconds:60},
     confirm:null,clockOffset:client.state?client.state.serverTime-Date.now():0,previousScreen:'',focusAfter:null,deadlineExpired:false,
     lastRound:client.state?.round?.id,lastMatch:client.state?.matchId,lastPhase:client.state?.phase};
-  let disposed = false,operation=null,catalogueGeneration=0;
+  let disposed = false,operation=null,catalogueGeneration=0,chooseQuizIntent=null,closedQuizCleanup=false;
   const navigationScroll=createNavigationScrollSettler({window:win,document,heading:()=>root.querySelector('main h1')});
   const publicAvatars=new Map();let avatarScope=null;
   function rememberPublicAvatars(state) {
@@ -78,15 +79,58 @@ export function mountLiveApp({root,client,window:win = globalThis.window} = {}) 
   }
   function fail(error) { model.error=error instanceof Error ? error.message : 'Something interrupted the room. Try again.';render(); }
   async function run(fn) {
-    if (model.busy) return;
+    if (model.busy) return {ok:false};
     const owner={match:client.state?.matchId,round:client.state?.round?.id,phase:client.state?.phase};operation=owner;
     model.busy=true;model.error='';model.toast='';render();
-    try { await fn(); } catch(error) { if(operation===owner&&!disposed)model.error=error instanceof Error?error.message:'The room could not confirm that request.'; }
+    try { return {ok:true,value:await fn()}; } catch(error) { if(operation===owner&&!disposed)model.error=error instanceof Error?error.message:'The room could not confirm that request.'; return {ok:false,error}; }
     finally { if(operation===owner){operation=null;model.busy=false;}if(!disposed)render(); }
   }
-  const act=(action,values={})=>run(()=>client.action(action,values));
+  const act=(action,values={})=>{
+    const room=client.state;
+    if(action==='lock'&&values.locked===false&&room?.joinLocked){
+      confirm('Unlock this room?','Anyone with the code can join an unlocked lobby, including someone you removed.','Unlock room',()=>{
+        if(client.state?.code!==room.code||client.state?.matchId!==room.matchId||client.state?.phase!=='lobby'||client.state?.role!=='host'||!client.state.joinLocked){
+          model.error='The room changed. Check its lock before unlocking.';render();return;
+        }
+        return run(()=>client.action(action,values));
+      });
+      return;
+    }
+    return run(()=>client.action(action,values));
+  };
   function confirm(title,body,label,action) { model.confirm={title,body,label,action,openerId:document.activeElement?.id};render(); }
-  function dismissConfirmation() { model.focusAfter=model.confirm?.openerId;model.confirm=null;render(); }
+  function dismissConfirmation() { chooseQuizIntent=null;model.focusAfter=model.confirm?.openerId;model.confirm=null;render(); }
+  function chooseAnotherQuiz() {
+    const room=client.state;
+    const eligible=state=>state?.protocolVersion===2&&state.role==='host'&&state.phase==='finished';
+    if(!eligible(room))return;
+    confirm('Choose another quiz?','This closes the current room. Everyone will rejoin your new quiz with a new code.','Close room and choose quiz',async()=>{
+      const current=client.state;
+      if(!eligible(current)||current.code!==room.code||current.matchId!==room.matchId||client.pendingAction||client.busy){
+        fail(new Error('The room changed. Check the current room before choosing another quiz.'));return;
+      }
+      let intent;
+      const outcome=await run(()=>{
+        intent={code:room.code,matchId:room.matchId,requestId:null};chooseQuizIntent=intent;
+        const closing=client.action('close',{}, {terminalReceipt:true});
+        intent.requestId=client.pendingAction?.requestId;
+        render();
+        return closing;
+      });
+      if(disposed||!intent||chooseQuizIntent!==intent)return;
+      chooseQuizIntent=null;
+      if(!outcome.ok){if(outcome.error)fail(outcome.error);return;}
+      const receipt=outcome.value;
+      if(receipt?.closed!==true||receipt.action!=='close'||receipt.code!==intent.code||receipt.matchId!==intent.matchId||!intent.requestId||receipt.requestId!==intent.requestId){
+        fail(new Error('The room could not confirm closing. Check your room access before choosing another quiz.'));return;
+      }
+      if(!receipt.accessCleared||client.state||client.credential||client.pendingAction||client.pendingAdmission||client.pendingAdmissionHint||client.resumeHint){
+        closedQuizCleanup=!client.state&&!client.credential&&!client.pendingAction;
+        fail(new Error('The room closed, but this tab could not remove saved access. Use this tab’s access controls or your browser’s site-data controls before choosing another quiz.'));return;
+      }
+      navigate('/play/quizzes');
+    });
+  }
   function confirmExit() {
     const state=client.state;
     if (!state) return;
@@ -104,11 +148,20 @@ export function mountLiveApp({root,client,window:win = globalThis.window} = {}) 
         state&&button(state.role==='host'?(state.protocolVersion===2?'Close room':'End room'):'Leave room',confirmExit,{className:'button quiet',id:'room-exit'})));
   }
   function errorBlock() {
+    if(chooseQuizIntent)return el('div',{class:'message',role:'status','aria-live':'polite'},
+      text('The room may still close. Stay here instead of opening Quizzes.'),
+      el('button',{type:'button',class:'text-button',id:'stay-after-quiz-close',onclick:()=>{
+        chooseQuizIntent=null;model.toast='This tab will stay here. The room may still close.';render();
+      }},'Stay here'));
     if(!model.error&&!client.pendingAction)return null;
     const inFlight=!!client.pendingAction&&(model.busy||client.busy);
     if(!model.error&&inFlight)return el('div',{class:'message',role:'status','aria-live':'polite'},text('Confirming…'));
     return el('div',{class:'message error',role:'alert'},text(model.error||'Confirm your previous request to keep playing.'),
-      client.pendingAction&&!inFlight&&button('Retry last request',()=>run(()=>client.retryAction()),{className:'text-button',id:'retry-action',allowPending:true}),
+      closedQuizCleanup&&!client.state&&!client.credential&&!client.pendingAction&&button('Clear saved access',()=>run(()=>{
+        client.forgetSavedAccess();closedQuizCleanup=false;
+      }),{className:'text-button',id:'clear-closed-quiz-access'}),
+      client.pendingAction&&!inFlight&&button('Retry last request',()=>client.pendingAction?.action==='choose-avatar'&&client.state?.phase==='lobby'
+        ?characterRequest(client.state,'retry-action',()=>client.retryAction()):run(()=>client.retryAction()),{className:'text-button',id:'retry-action',allowPending:true}),
       !client.pendingAction&&client.state&&button('Reconnect',()=>run(()=>client.refresh()),{className:'text-button',id:'retry-connection'}));
   }
   function privacy() {
@@ -138,7 +191,7 @@ export function mountLiveApp({root,client,window:win = globalThis.window} = {}) 
       button('Resume room',()=>run(()=>client.resume()),{className:'button full',id:'resume-room'}),
       button('Forget this tab’s access',()=>confirm('Forget saved room access?',
         'This removes your reconnect access from this tab. It does not leave a remote seat or close a room. Resume first if you want to leave or close it.',
-        'Forget access',()=>run(()=>client.forgetSavedAccess())),{className:'text-button',id:'forget-room'}),privacy());
+        'Forget access',()=>run(()=>{client.forgetSavedAccess();closedQuizCleanup=false;})),{className:'text-button',id:'forget-room'}),privacy());
   }
   function landing() {
     const resume=client.resumeHint;
@@ -195,7 +248,55 @@ export function mountLiveApp({root,client,window:win = globalThis.window} = {}) 
   function playerList(state,{moderation=false}={}) {
     return el('ul',{class:'player-list'},state.players.map(p=>el('li',{class:'player-row'},clay(p.avatar,'avatar'),
       el('span',{class:'player-name'},p.nickname,el('small',{},p.connected?'In the room':'Reconnecting…')),
-      moderation&&button('Remove',()=>confirm('Remove '+p.nickname+'?',state.phase==='lobby'?'Their current room access will be revoked. Lock the room to prevent new joins.':'Removing a player ends the match as incomplete.','Remove player',()=>act('kick',{playerId:p.id})),{className:'text-button remove','aria-label':'Remove '+p.nickname}))));
+      moderation&&button('Remove',()=>confirm('Remove '+p.nickname+' and lock the room?','Their current room access will be revoked and the room will lock to new players. A running match ends as incomplete. Keep it locked to prevent rejoining; unlocking lets anyone with the code join again.','Remove and lock room',()=>act('kick',{playerId:p.id})),{className:'text-button remove','aria-label':'Remove '+p.nickname}))));
+  }
+  async function characterRequest(state,origin,request) {
+    const focused=document.activeElement?.id===origin;
+    let restoreFocus=focused,outcome;
+    const movedFocus=event=>{if(event.target.id!=='retry-action'&&!event.target.closest?.('.companion-picker'))restoreFocus=false;};
+    if(focused)document.addEventListener('focusin',movedFocus);
+    try{
+      outcome=await run(async()=>{
+        try{return await request();}
+        catch(error){
+          if(error?.code==='invalid_action')throw new LiveError('companion_unavailable','This room does not support character choices yet. You can keep playing with your current character.');
+          throw error;
+        }
+      });
+    }finally{if(focused)document.removeEventListener('focusin',movedFocus);}
+    const room=client.state;
+    if(restoreFocus&&!disposed&&room?.code===state.code&&room.matchId===state.matchId&&room.phase==='lobby'&&room.role==='player'&&room.self.id===state.self.id
+      &&document.activeElement===document.body){
+      const current=room.players.find(player=>player.id===room.self.id)?.avatar;
+      model.focusAfter=client.pendingAction?.action==='choose-avatar'?'retry-action':origin==='retry-action'?'companion-choice-'+current:origin;render();
+    }
+    return outcome;
+  }
+  function companionPicker(state) {
+    if(state.role!=='player'||state.phase!=='lobby')return null;
+    const own=state.players.find(player=>player.id===state.self.id);
+    const companions=['gather','question','locked','reveal','finished'].map(partyGuide);
+    const current=companions.find(guide=>guide.characterValue===own?.avatar);
+    if(!current)return null;
+    const pending=client.pendingAction?.action==='choose-avatar';
+    const choose=value=>{
+      const room=client.state;
+      if(room?.code!==state.code||room.matchId!==state.matchId||room.role!=='player'||room.phase!=='lobby'||room.self.id!==state.self.id){
+        fail(new Error('The room changed. Choose a character from the current lobby.'));return;
+      }
+      return characterRequest(state,'companion-choice-'+value,()=>{
+        const request=client.action('choose-avatar',{value});render();return request;
+      });
+    };
+    return el('section',{class:'companion-picker','aria-labelledby':'companion-heading'},
+      el('h2',{id:'companion-heading'},'Choose your character'),
+      text('Visible to this room. Every character uses the same rules.','small companion-note'),
+      el('div',{class:'companion-options',role:'group','aria-labelledby':'companion-heading'},companions.map(guide=>button([
+        guideScene(el,guide.beat,'companion-portrait'),el('span',{class:'companion-name'},guide.characterName),
+        el('span',{class:'companion-choice-state'},own.avatar===guide.characterValue?'✓ Selected':'Choose')],()=>choose(guide.characterValue),
+      {id:'companion-choice-'+guide.characterValue,className:'companion-choice','aria-label':'Choose '+guide.characterName,'aria-pressed':own.avatar===guide.characterValue,disabled:client.busy}))),
+      text('Current character: '+current.characterName+'.','small companion-current'),
+      pending&&el('p',{class:'small companion-pending',role:'status','aria-live':'polite'},'Confirming your character choice. Keep this tab open; retry the same request if the connection is interrupted.'));
   }
   async function copy(value) {
     try { await win.navigator.clipboard.writeText(value);model.toast='Copied.'; }
@@ -219,13 +320,13 @@ export function mountLiveApp({root,client,window:win = globalThis.window} = {}) 
         host?invitation(state):el('div',{class:'guest-code'},text('Room '+state.code,'small'),clay(state.players.find(p=>p.id===state.self.id)?.avatar??3,'guest-pal')),
         host&&text('Invite 2–'+state.settings.capacity+' friends. Anyone with the link can join until you lock the room.','small'),
         host&&text('Want to play? Join on your phone.','small'),
-        host&&cast(),!host&&privacy()),
+        host&&cast(),!host&&companionPicker(state),!host&&privacy()),
       el('section',{class:'room-panel','aria-labelledby':'roster-title'},
         el('h2',{id:'roster-title'},'In the room'),text(state.players.length+' '+(state.players.length===1?'friend':'friends'),'roster-count'),
         state.players.length?playerList(state,{moderation:host}):text('Your friends appear here when they join.','empty'),
         host&&el('div',{class:'lobby-controls'},
           el('label',{class:'lock-row',for:'lock-room'},el('span',{},el('strong',{},'Lock room'),el('small',{},'Stop new friends joining')),
-            el('input',{id:'lock-room',type:'checkbox',role:'switch',checked:state.joinLocked,disabled:model.busy,
+            el('input',{id:'lock-room',type:'checkbox',role:'switch',checked:state.joinLocked,disabled:model.busy||!!client.pendingAction,
               onchange:e=>void act('lock',{locked:e.target.checked})})),
           button(['Start game',arrow()],()=>act('start'),{className:'button full',id:'start-game',disabled:state.players.length<2}),
           text(state.players.length<2?'You need at least two friends to begin.':'Subjects rotate. Everyone gets a turn.','small centered')),
@@ -340,7 +441,7 @@ export function mountLiveApp({root,client,window:win = globalThis.window} = {}) 
     model.deadlineExpired=deadlinePassed(client.state);
     const state=client.state,screen=screenKey(state),changed=screen!==model.previousScreen;
     if(changed)navigationScroll.cancel();
-    const body=state?state.protocolVersion===2?quizLiveView(state,{el,text,button,act,confirm,invitation,playerList,cast,clay,standingsAvatar,clock,errorBlock,client,model,deadlinePassed,render})
+    const body=state?state.protocolVersion===2?quizLiveView(state,{el,text,button,act,confirm,chooseAnotherQuiz,companionPicker,invitation,playerList,cast,clay,standingsAvatar,clock,errorBlock,client,model,deadlinePassed,render})
       :state.phase==='lobby'?lobby(state):state.phase==='reveal'?revealView(state):state.phase==='finished'?finished(state):roundView(state)
       :client.resumeHint?savedRoom():model.entry==='join'?joinForm():model.entry==='host'?hostForm():landing();
     root.replaceChildren(...[header(state),body,state&&!client.persisted&&text('Keep this tab open. Your browser could not save room access for a reload.','message'),el('div',{class:'toast',role:'status','aria-live':'polite'},model.toast),modal()].filter(Boolean));
@@ -354,6 +455,8 @@ export function mountLiveApp({root,client,window:win = globalThis.window} = {}) 
   }
   client.onState=state=>{
     if(disposed)return;
+    if(state)closedQuizCleanup=false;
+    if(chooseQuizIntent&&state&&(state.code!==chooseQuizIntent.code||state.matchId!==chooseQuizIntent.matchId||state.protocolVersion!==2||state.role!=='host'||state.phase!=='finished'))chooseQuizIntent=null;
     rememberPublicAvatars(state);
     if(state)model.clockOffset=state.serverTime-Date.now();
     if(operation?.match&&(operation.match!==state?.matchId||operation.round!==state?.round?.id||operation.phase!==state?.phase)){
@@ -384,5 +487,5 @@ export function mountLiveApp({root,client,window:win = globalThis.window} = {}) 
   }
   void loadCatalogue();
   const timer=setInterval(()=>{if(deadlinePassed(client.state)!==model.deadlineExpired){render();return;}const label=clockText(client.state);for(const node of root.querySelectorAll('[data-clock]'))if(node.textContent!==label)node.textContent=label;},1000);
-  return {render,model,dispose(){disposed=true;operation=null;publicAvatars.clear();avatarScope=null;navigationScroll.dispose();motion.dispose();clearInterval(timer);client.dispose();}};
+  return {render,model,dispose(){disposed=true;operation=null;chooseQuizIntent=null;closedQuizCleanup=false;publicAvatars.clear();avatarScope=null;navigationScroll.dispose();motion.dispose();clearInterval(timer);client.dispose();}};
 }
