@@ -159,3 +159,31 @@ h1 span { display: block; white-space: nowrap; }
   .world .section-heading { font-size: 39px; }
   .closing h2 { font-size: 44px; }
 }
+
+/* The three quiz entry paths share the existing cast and colour palette. */
+.entry-actions { display: flex; flex-wrap: wrap; gap: 12px; max-width: 620px; }
+.entry-actions .cta { justify-content: center; min-height: 60px; padding: 16px 22px; border: 2px solid transparent; font-size: 19px; }
+.entry-actions .cta-secondary { background: var(--cream); border-color: var(--ink); }
+.hero-copy .mode-note { max-width: 44ch; margin-top: 20px; font-size: 15px; line-height: 1.5; color: var(--muted); letter-spacing: 0; }
+.mode-note a { display: inline-block; min-height: 44px; align-content: center; font-weight: 750; }
+#live .section-heading { margin-bottom: 24px; }
+#live .intro { max-width: 58ch; margin: 0 auto 36px; font-size: 21px; line-height: 1.5; text-align: center; }
+.entry-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; list-style: none; padding: 0; margin: 0; }
+.entry-steps li { padding: 24px; border: 1px solid #28223d33; border-radius: 24px; }
+.entry-steps h3 { margin: 0 0 14px; font-size: 28px; line-height: 1.1; letter-spacing: -.04em; }
+.entry-steps p { margin: 0; font-size: 18px; line-height: 1.5; }
+.entry-guide-link { margin: 32px 0 24px; text-align: center; }
+#live .small { max-width: 70ch; margin: 12px auto; font-size: 16px; line-height: 1.6; text-align: center; }
+@media (max-width: 760px) {
+  .hero-copy .entry-actions { order: 2; display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; margin-top: 22px; }
+  .hero-copy .entry-actions .cta { width: 100%; min-height: 56px; padding: 15px 24px; }
+  .hero-copy .availability { order: 3; }
+  .hero-art { order: 4; margin-top: 12px; }
+  .hero-copy .mode-note { order: 5; max-width: none; margin-top: 0; font-size: 15px; }
+  #live .intro, #live .small, .entry-guide-link { text-align: left; }
+  #live .intro { font-size: 18px; margin-bottom: 28px; }
+  .entry-steps { grid-template-columns: 1fr; gap: 16px; }
+  .entry-steps li { padding: 22px; }
+  .entry-steps h3 { font-size: 26px; }
+  .entry-steps p { font-size: 17px; }
+}

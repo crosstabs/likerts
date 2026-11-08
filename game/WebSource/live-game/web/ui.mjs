@@ -10,7 +10,7 @@ const crop = [[184,138,913,985],[210,210,826,902],[270,122,756,1025],[344,73,598
 const roundLabel = r => r ? 'Round '+r.index+' of '+r.total : '';
 const percent = n => n === null || n === undefined ? '—' : new Intl.NumberFormat('en',{minimumFractionDigits:1,maximumFractionDigits:1}).format(n)+'%';
 
-export function mountLiveApp({root,client,window:win = globalThis.window,navigate = path => win.location.assign(path)} = {}) {
+export function mountLiveApp({root,client,window:win = globalThis.window,navigate = path => win.location.assign(path),entryIntent = null} = {}) {
   const document = root.ownerDocument;
   const motion = createQuizMotionController({window:win});
   const model = {entry:'landing',name:'',code:'',consent:false,selection:null,busy:false,error:'',
@@ -35,7 +35,8 @@ export function mountLiveApp({root,client,window:win = globalThis.window,navigat
     }
   }
   rememberPublicAvatars(client.state);
-  try { const code = new URL(win.location.href).searchParams.get('room'); if (code) { model.entry='join'; model.code=normalizeCode(code); } }
+  try { const code = new URL(win.location.href).searchParams.get('room'); if (code) { model.entry='join'; model.code=normalizeCode(code); }
+    else if (entryIntent==='join'&&!client.state&&!client.resumeHint&&!client.pendingAdmissionHint) model.entry='join'; }
   catch (error) { model.entry='join'; model.error=error.message; }
   function el(tag,attrs = {},...children) {
     const node=document.createElement(tag);
@@ -197,10 +198,10 @@ export function mountLiveApp({root,client,window:win = globalThis.window,navigat
     const resume=client.resumeHint;
     return el('main',{id:'main',tabindex:'-1',class:'entry landing'},
       el('div',{class:'entry-copy'},el('h1',{},'Your people. ',el('br'),'Your wavelength.'),
-        text('Host a room. Send a code. Find out who gets you.','lede'),
+        text('Host a mind-reading game. Send a code. Find out who gets you.','lede'),
         el('div',{class:'entry-actions'},
           button(['Join a room',arrow()],()=>{model.entry='join';model.error='';render();},{className:'button lime',id:'choose-join'}),
-          button('Host a live game',()=>{model.entry='host';model.error='';render();},{className:'button outlined',id:'choose-host'})),
+          button('Host mind-reading',()=>{model.entry='host';model.error='';render();},{className:'button outlined',id:'choose-host'})),
         text('2–'+model.maximumPlayers+' friends. A browser is all they need.','small'),
         el('p',{class:'small'},el('a',{href:'/play/quizzes',id:'open-quiz-library',class:'text-button quiz-library-link'},'Make and practice your own quizzes')),
         resume&&el('div',{class:'resume'},text('Room '+resume.code+' is saved on this tab.'),

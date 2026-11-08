@@ -56,7 +56,7 @@ test('hosting is the primary saved-quiz action but still requires an explicit up
   const practice = f.root.querySelector('[data-quiz-practice="' + quiz.id + '"]');
   assert.equal(host().classList.contains('lime'), true);
   assert.equal(practice.classList.contains('quiet'), true);
-  assert.equal(f.get('quiz-join-room').getAttribute('href'), '/play');
+  assert.equal(f.get('quiz-join-room').getAttribute('href'), '/play?intent=join');
   const guide = f.root.querySelector('.q-party-guide');
   assert.match(guide.textContent, /Ember · The Spark/); assert.equal(guide.querySelector('[data-quiz-entrance]'), null);
   await f.clickNode(host()); assert.match(f.root.querySelector('#quiz-confirm-message').textContent, /answer key/);

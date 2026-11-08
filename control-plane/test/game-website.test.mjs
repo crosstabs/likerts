@@ -15,6 +15,23 @@ test('home offers actual browser entry and local quizzes without the retired pro
   assert.match(home, /browser/i);
   assert.match(home, /coming soon/i);
 });
+test('quiz-first entry uses three explicit UI-only destinations and preserves mind-reading',()=>{
+  const hero=home.match(/<section class="hero[\s\S]*?<\/section>/)[0];
+  for(const [label,path] of [['Create quiz','/play/quizzes?intent=create'],['Host quiz','/play/quizzes?intent=host'],['Join game','/play?intent=join']]){
+    assert.ok(hero.includes('href="'+path+'">'+label+'</a>'),label);
+  }
+  assert.match(hero,/Free to play\. No game account needed/);
+  assert.match(hero,/2–12 players/);
+  assert.match(hero,/href="\/play">Or read each other’s minds/);
+  assert.match(hero,/likerts-game-icon\.png/);
+  assert.doesNotMatch(home,/unlimited players|50 players|free forever/i);
+});
+test('the local entry branch disables its own Vercel Git preview without changing play routing',()=>{
+  assert.equal(config.git.deploymentEnabled['codex/free-quiz-entry-20261108'],false);
+  assert.equal(config.git.deploymentEnabled['codex/web-quality-release-20261108'],false);
+  assert.equal(config.redirects.find(route=>route.source==='/play/:path*').destination,'https://likerts-live.onrender.com/play/:path*');
+  assert.equal(config.git.deploymentEnabled.main,undefined);
+});
 test('support keeps the established private contact and separates live room from native challenge codes',()=>{
   assert.match(support, /support@crosstabs\.com/);
   assert.match(support, /six-character room code/);

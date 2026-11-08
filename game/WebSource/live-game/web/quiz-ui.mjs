@@ -27,7 +27,7 @@ export async function readQuizFile(file) {
   catch (cause) { throw new QuizLibraryError('invalid_encoding', 'This quiz file is not valid UTF-8 text.', cause); }
 }
 
-export function mountQuizApp({ root, library, window: win = globalThis.window, now = () => Date.now(), download, hostQuiz, liveAccess = () => null, recoverLive } = {}) {
+export function mountQuizApp({ root, library, window: win = globalThis.window, now = () => Date.now(), download, hostQuiz, liveAccess = () => null, recoverLive, entryIntent = null } = {}) {
   if (!root || !library || !win) throw new Error('A quiz root, local library and window are required.');
   const document = root.ownerDocument;
   const motion = createQuizMotionController({window:win});
@@ -105,7 +105,7 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
       el('h2', {}, 'Saving is not available here'), text('You can still edit, export and practice quiz files in this browser.'));
     if (!library.blocked) return null;
     return el('section', { class: 'q-message is-error', 'aria-labelledby': 'quiz-storage-heading' },
-      el('h2', { id: 'quiz-storage-heading' }, 'Your saved quizzes need attention'), text(library.lastError?.message || 'This browser cannot save quizzes.'),
+      el('h2', { id: 'quiz-storage-heading', tabindex: '-1' }, 'Your saved quizzes need attention'), text(library.lastError?.message || 'This browser cannot save quizzes.'),
       el('div', { class: 'q-action-row' }, button('Try reading again', () => {
         library.reload(); model.error = ''; render({ focus: library.blocked ? 'quiz-storage-heading' : 'quiz-page-title' });
       }, { className: 'q-button quiet', id: 'quiz-retry-storage' }),
@@ -232,7 +232,7 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
   }
   function starterCollection() {
     return el('section', { class: 'q-starters', 'aria-labelledby': 'quiz-starters-heading' },
-      el('h2', { id: 'quiz-starters-heading', class: 'q-section-heading' }, hostQuiz ? 'Pick tonight’s quiz.' : 'Try a starter.'),
+      el('h2', { id: 'quiz-starters-heading', class: 'q-section-heading', tabindex: '-1' }, hostQuiz ? 'Pick tonight’s quiz.' : 'Try a starter.'),
       text('Short quizzes, ready to play. Make a copy to add your own twist.', 'q-muted'),
       el('div', { class: 'q-starter-grid' }, starterQuizDocuments().map((quiz, index) => {
         const actionId = action => index === 0 ? 'quiz-' + action + '-sample' : 'quiz-' + action + '-starter-' + quiz.id;
@@ -271,18 +271,18 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
       onchange: event => { const selected = event.target.files?.[0]; event.target.value = ''; void importFile(selected); } });
     return el('main', { id: 'main', class: 'q-library', tabindex: '-1' },
       el('div', { class: 'q-page-heading' }, el('h1', { id: 'quiz-page-title', tabindex: '-1' }, 'Quizzes'),
-        el('div', { class: 'q-action-row' }, el('a', { class: 'q-button quiet', id: 'quiz-join-room', href: '/play' }, 'Join a room'),
+        el('div', { class: 'q-action-row' }, el('a', { class: 'q-button quiet', id: 'quiz-join-room', href: '/play?intent=join' }, 'Join a room'),
           button('Import quiz', () => file.click(), { className: 'q-button quiet', id: 'quiz-import', disabled: !library.canWrite }),
           button('Create quiz', () => startEditor(), { id: 'quiz-create', disabled: library.blocked }))),
       text(hostQuiz ? 'Host a quiz. Make one. Bring your people.' : 'Make a quiz. Find out what you know.', 'q-lede'),
-      text('Saved on this browser. Export a quiz file to move it between web and iPhone.', 'q-muted'),
+      text('Saved on this browser. Export a quiz file to use it in another browser.', 'q-muted'),
       messageBlocks(), liveRecovery(), storageWarning(), file, model.busy && el('p', { role: 'status', class: 'q-message' }, model.busyMessage),
       gatheringGuide(), starterCollection(),
       el('section', { class: 'q-saved-quizzes', 'aria-labelledby': 'quiz-saved-heading' },
         el('h2', { id: 'quiz-saved-heading', class: 'q-section-heading' }, 'Your quizzes'),
         quizzes.length ? quizzes.map(quizRow) : text(library.blocked ? 'Saved quizzes are unavailable until the library can be read.' : 'Your first quiz starts with a good question.', 'q-empty')),
       meetTheCast(), libraryScene(el),
-      text(ANSWER_KEY_NOTE, 'q-sharing-note'), text(hostQuiz ? 'Host a live quiz for web and iPhone players. Practice stays on this device.' : 'Quiz practice stays on this device.', 'q-muted q-scope-note'));
+      text(ANSWER_KEY_NOTE, 'q-sharing-note'), text(hostQuiz ? 'Host a live quiz for friends in their browsers. Practice stays on this device.' : 'Quiz practice stays on this device.', 'q-muted q-scope-note'));
   }
   function liveRecovery() {
     const access = liveAccess();
@@ -494,7 +494,14 @@ export function mountQuizApp({ root, library, window: win = globalThis.window, n
   const beforeUnload = event => { if (dirty()) { event.preventDefault(); event.returnValue = ''; } };
   const onVisibility = () => { if (document.visibilityState !== 'hidden') tick(); };
   win.addEventListener('beforeunload', beforeUnload); win.addEventListener('focus', tick); document.addEventListener('visibilitychange', onVisibility);
-  render();
+  // Entry hints apply once, before the first screen. They never perform a
+  // library write or admission, and existing room recovery takes priority.
+  const requestedEntry = entryIntent === 'create' || entryIntent === 'host' ? entryIntent : null;
+  const recovering = requestedEntry && liveAccess();
+  if (requestedEntry === 'create' && !recovering && !library.blocked) startEditor();
+  else render({ focus: recovering ? 'quiz-recover-live'
+    : requestedEntry === 'create' && library.blocked ? 'quiz-storage-heading'
+      : requestedEntry === 'host' ? 'quiz-starters-heading' : undefined });
   return {
     dispose() { disposed = true; importOperation = null; motion.dispose(); win.clearInterval(timer); win.removeEventListener('beforeunload', beforeUnload); win.removeEventListener('focus', tick); document.removeEventListener('visibilitychange', onVisibility); for (const url of urls) win.URL.revokeObjectURL(url); urls.clear(); },
     tick, importFile,
