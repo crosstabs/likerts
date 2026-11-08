@@ -1,0 +1,52 @@
+[
+  {
+    "beat": "gather",
+    "characterValue": 1,
+    "characterName": "Ember",
+    "role": "The Spark",
+    "title": "Bring your people.",
+    "cue": "One code brings the room together. Everyone plays by the same rules.",
+    "voiceLine": "Who’s coming?",
+    "castDescription": "Gets the room together."
+  },
+  {
+    "beat": "question",
+    "characterValue": 2,
+    "characterName": "Loop",
+    "role": "The Questioner",
+    "title": "Make your call.",
+    "cue": "Choose, then lock. Keep your take private until the room reveals.",
+    "voiceLine": "What’s your take?",
+    "castDescription": "Makes room for a little curiosity."
+  },
+  {
+    "beat": "locked",
+    "characterValue": 3,
+    "characterName": "Twist",
+    "role": "The Keeper",
+    "title": "Your take is sealed.",
+    "cue": "Your answer is saved. Now let the room catch up.",
+    "voiceLine": "No peeking yet.",
+    "castDescription": "Holds the pause between lock and reveal."
+  },
+  {
+    "beat": "reveal",
+    "characterValue": 4,
+    "characterName": "Blu",
+    "role": "The Guide",
+    "title": "See what landed.",
+    "cue": "The answer and points are in. Take a look at the room.",
+    "voiceLine": "Let’s see what landed.",
+    "castDescription": "Helps the room make sense of the reveal."
+  },
+  {
+    "beat": "finished",
+    "characterValue": 5,
+    "characterName": "Moss",
+    "role": "The Cheerleader",
+    "title": "One more together?",
+    "cue": "Look back at the standings, then rematch or bring a new quiz.",
+    "voiceLine": "One more together?",
+    "castDescription": "Cheers everyone who played."
+  }
+]

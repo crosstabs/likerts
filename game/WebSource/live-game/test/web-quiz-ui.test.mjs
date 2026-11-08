@@ -1,19 +1,20 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { JSDOM } from 'jsdom';
-import { encodeQuiz, parseQuiz, sampleQuizDocument } from '../web/quiz-document.mjs';
+import { encodeQuiz, parseQuiz, sampleQuizDocument, starterQuizDocuments } from '../web/quiz-document.mjs';
 import { QUIZ_LIBRARY_KEY, QuizLibrary } from '../web/quiz-library.mjs';
 import { mountQuizApp, readQuizFile } from '../web/quiz-ui.mjs';
 import { createStorage } from './web-quiz-test-support.mjs';
+import { partyGuide } from '../web/quiz-scene.mjs';
 const flush = () => new Promise(resolve => setImmediate(resolve));
 
 const bytes = value => new TextEncoder().encode(value);
 const file = value => { const data = bytes(value); return { size: data.length, arrayBuffer: async () => data.buffer }; };
-function fixture(t, { data = createStorage(), unavailable = false, noLocks = false } = {}) {
+function fixture(t, { data = createStorage(), unavailable = false, noLocks = false, hostQuiz } = {}) {
   const dom = new JSDOM('<!doctype html><html lang="en"><body><div id="app"></div></body></html>', { url: 'https://quiz-test.invalid/play/quizzes' });
   const window = dom.window, root = window.document.querySelector('#app'), library = new QuizLibrary({ storage: unavailable ? null : data, locks: noLocks ? null : data.locks });
   let clock = 0; const downloads = [];
-  const app = mountQuizApp({ root, library, window, now: () => clock, download: (source, name) => downloads.push({ source, name }) });
+  const app = mountQuizApp({ root, library, window, now: () => clock, download: (source, name) => downloads.push({ source, name }), hostQuiz });
   t.after(() => { app.dispose(); window.close(); });
   const get = id => root.querySelector('#' + id);
   const clickNode = async node => { assert.ok(node, 'Expected a quiz control'); node.click(); await flush(); };
@@ -44,6 +45,107 @@ test('web creator saves, reloads, edits, exports, imports a new copy and confirm
   assert.equal(second.window.document.activeElement.id, 'quiz-delete-' + imported);
   await second.clickNode(second.root.querySelector('[data-quiz-delete="' + imported + '"]')); await second.click('quiz-confirm-action'); assert.equal(second.library.quizzes.length, 2);
   assert.equal(new QuizLibrary({ storage: first.data, locks: first.data.locks }).quizzes.length, 2);
+});
+
+test('hosting is the primary saved-quiz action but still requires an explicit upload confirmation', async t => {
+  const data = createStorage(), library = new QuizLibrary({ storage: data, locks: data.locks });
+  const quiz = await library.save(sampleQuizDocument()), hosted = [];
+  const f = fixture(t, { data, hostQuiz: value => { hosted.push(value); } });
+  const host = () => f.root.querySelector('[data-quiz-host="' + quiz.id + '"]');
+  const practice = f.root.querySelector('[data-quiz-practice="' + quiz.id + '"]');
+  assert.equal(host().classList.contains('lime'), true);
+  assert.equal(practice.classList.contains('quiet'), true);
+  assert.equal(f.get('quiz-join-room').getAttribute('href'), '/play');
+  const guide = f.root.querySelector('.q-party-guide');
+  assert.match(guide.textContent, /Ember · The Spark/); assert.equal(guide.querySelector('[data-quiz-entrance]'), null);
+  await f.clickNode(host()); assert.match(f.root.querySelector('#quiz-confirm-message').textContent, /answer key/);
+  assert.equal(hosted.length, 0); await f.click('quiz-confirm-cancel'); assert.equal(hosted.length, 0);
+  await f.clickNode(host()); await f.click('quiz-confirm-action');
+  assert.equal(hosted.length, 1); assert.equal(hosted[0].id, quiz.id);
+  const offline = fixture(t, { data });
+  assert.equal(offline.root.querySelector('[data-quiz-host]'), null);
+  assert.equal(offline.root.querySelector('[data-quiz-practice]').classList.contains('lime'), true);
+  await offline.clickNode(offline.root.querySelector('[data-quiz-practice]'));
+  assert.equal(offline.app.screen, 'practice');
+});
+
+test('all starters stay ahead of a full local library and can be tried or copied without saving or uploading', async t => {
+  const data = createStorage(), library = new QuizLibrary({ storage: data, locks: data.locks });
+  await library.save(sampleQuizDocument());
+  for (let index = 1; index < 25; index++) await library.duplicate(library.quizzes[0]);
+  const hosted = [], f = fixture(t, { data, hostQuiz: quiz => { hosted.push(quiz); } });
+  const starters = starterQuizDocuments(), section = f.root.querySelector('.q-starters'), saved = f.root.querySelector('.q-saved-quizzes');
+  assert.equal(f.library.quizzes.length, 25); assert.equal(f.root.querySelectorAll('.q-library-row').length, 25);
+  assert.equal(section.querySelectorAll('.q-starter-card').length, 3);
+  assert.ok(section.compareDocumentPosition(saved) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  for (const quiz of starters) {
+    const host = section.querySelector('[data-starter-host="' + quiz.id + '"]'), practice = section.querySelector('[data-starter-practice="' + quiz.id + '"]');
+    assert.equal(host.textContent, 'Host live'); assert.equal(host.getAttribute('aria-label'), 'Host ' + quiz.title + ' live');
+    assert.equal(practice.textContent, 'Practice'); assert.equal(practice.getAttribute('aria-label'), 'Practice ' + quiz.title);
+    assert.ok(section.querySelector('[data-starter-copy="' + quiz.id + '"]'));
+  }
+  const writes = data.writes;
+  await f.clickNode(section.querySelector('[data-starter-practice="' + starters[1].id + '"]'));
+  assert.equal(f.app.screen, 'practice'); assert.match(f.root.textContent, /Sky high/); assert.match(f.root.textContent, /Question 1 of 5/);
+  await f.click('quiz-practice-back'); await f.click('quiz-confirm-action');
+  await f.clickNode(f.root.querySelector('[data-starter-copy="' + starters[2].id + '"]'));
+  assert.equal(f.app.screen, 'editor'); assert.match(f.get('quiz-title').value, /Wild world/);
+  assert.equal(f.root.querySelectorAll('.q-question-tab').length, 5);
+  assert.equal(data.writes, writes); assert.equal(f.library.quizzes.length, 25); assert.equal(hosted.length, 0);
+});
+
+test('Meet the cast is an optional native disclosure after all library play controls, with no play or storage side effects', async t => {
+  const data = createStorage(), library = new QuizLibrary({ storage: data, locks: data.locks });
+  await library.save(sampleQuizDocument());
+  for (let index = 1; index < 25; index++) await library.duplicate(library.quizzes[0]);
+  let hosted = 0;
+  const f = fixture(t, { data, hostQuiz: () => { hosted++; } });
+  const disclosure = f.get('quiz-meet-cast'), summary = f.get('quiz-meet-cast-summary');
+  assert.equal(disclosure.tagName, 'DETAILS'); assert.equal(disclosure.open, false);
+  assert.equal(disclosure.firstElementChild, summary); assert.equal(summary.tagName, 'SUMMARY');
+  assert.equal(summary.textContent, 'Meet the cast'); assert.equal(summary.hasAttribute('tabindex'), false);
+  assert.equal(disclosure.querySelector('button,a,input,select,textarea,[tabindex]'), null);
+  assert.equal(f.root.querySelectorAll('.q-library-row').length, 25);
+  for (const control of f.root.querySelectorAll('main button,main a,main input')) {
+    assert.ok(control.compareDocumentPosition(disclosure) & f.window.Node.DOCUMENT_POSITION_FOLLOWING, control.id || control.textContent);
+  }
+  const starters = f.root.querySelector('.q-starters'), saved = f.root.querySelector('.q-saved-quizzes');
+  assert.ok(starters.compareDocumentPosition(saved) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  const rows = [...disclosure.querySelectorAll('.q-cast-row')];
+  assert.equal(rows.length, 5);
+  for (const [index, beat] of ['gather', 'question', 'locked', 'reveal', 'finished'].entries()) {
+    const guide = partyGuide(beat), row = rows[index], portrait = row.querySelector('.quiz-guide-character');
+    assert.equal(row.querySelector('h3').textContent, guide.characterName + ' · ' + guide.role);
+    assert.equal(row.querySelector('.q-cast-voice').textContent, '“' + guide.voiceLine + '”');
+    assert.equal(row.querySelector('.q-muted').textContent, guide.castDescription);
+    assert.equal(portrait.getAttribute('aria-hidden'), 'true');
+    assert.equal(portrait.dataset.guideCharacter, String(index + 1));
+    assert.equal(row.querySelector('[data-quiz-entrance],.quiz-celebration'), null);
+  }
+  assert.match(disclosure.textContent, /Five guides\. One room\. Same rules for everyone\./);
+  assert.match(disclosure.textContent, /Gather → Choose → Keep it sealed → Reveal → Go again\./);
+  assert.equal(disclosure.querySelector('.q-cast-closing').textContent, 'Quizzes ask what you know. Mind-reading asks how well you know each other. Either way, bring your people.');
+  const writes = data.writes, savedSource = data.getItem(QUIZ_LIBRARY_KEY);
+  summary.focus(); assert.equal(f.window.document.activeElement, summary);
+  await f.clickNode(summary); assert.equal(disclosure.open, true); assert.equal(f.window.document.activeElement, summary);
+  await f.clickNode(summary); assert.equal(disclosure.open, false); assert.equal(f.window.document.activeElement, summary);
+  assert.equal(f.app.screen, 'library'); assert.equal(f.library.quizzes.length, 25);
+  assert.equal(data.writes, writes); assert.equal(data.getItem(QUIZ_LIBRARY_KEY), savedSource);
+  assert.equal(hosted, 0); assert.equal(f.downloads.length, 0); assert.equal(f.root.querySelector('dialog'), null);
+});
+
+test('the editor starts with the question and keeps question management after its answers', async t => {
+  const f = fixture(t); await f.click('quiz-copy-sample');
+  assert.equal(f.window.document.activeElement.id, 'quiz-prompt');
+  for (const id of ['quiz-title', 'quiz-add-question', 'quiz-move-up', 'quiz-move-down', 'quiz-remove-question']) {
+    assert.ok(f.get('quiz-prompt').compareDocumentPosition(f.get(id)) & f.window.Node.DOCUMENT_POSITION_FOLLOWING, id);
+    assert.ok(f.get('quiz-answer-0').compareDocumentPosition(f.get(id)) & f.window.Node.DOCUMENT_POSITION_FOLLOWING, id);
+  }
+  f.input('quiz-prompt', 'A question worth asking?');
+  await f.click('quiz-add-question'); assert.equal(f.window.document.activeElement.id, 'quiz-prompt');
+  assert.equal(f.get('quiz-question-heading').textContent, 'Question 4');
+  await f.click('quiz-question-tab-0'); assert.equal(f.get('quiz-prompt').value, 'A question worth asking?');
+  assert.equal(f.get('quiz-question-tab-0').getAttribute('aria-current'), 'step');
 });
 
 test('practice locks answers, reveals correctness, scores and starts a fresh replay', async t => {

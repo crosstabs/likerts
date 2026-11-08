@@ -207,6 +207,34 @@ test('quiz lobby identifies content, uses the original neutral cast and only hos
   host.click('start-game');await flush();assert.deepEqual(host.client.calls,[{action:'start',values:{}}]);
 });
 
+test('Quiz removal uses the same explicit remove-and-lock confirmation',async t=>{
+  const g=game(),f=await liveUI(t,g.get()),target=f.client.state.players[0];
+  const remove=()=>[...f.root.querySelectorAll('button')].find(node=>node.getAttribute('aria-label')==='Remove '+target.nickname).click();
+  remove();
+  assert.match(f.root.querySelector('dialog').textContent,/room will lock to new players/);
+  assert.equal(f.get('confirm-accept').textContent,'Remove and lock room');
+  assert.deepEqual(f.client.calls,[]);f.click('confirm-cancel');assert.deepEqual(f.client.calls,[]);
+  remove();f.click('confirm-accept');await flush();
+  assert.deepEqual(f.client.calls,[{action:'kick',values:{playerId:target.id}}]);
+});
+
+test('Quiz lobby unlocking requires confirmation and cannot carry across a rematch',async t=>{
+  const g=game();g.act('host','lock',{locked:true});
+  const f=await liveUI(t,g.get());
+  const requestUnlock=()=>{const control=f.get('lock-room');control.checked=false;control.dispatchEvent(new f.dom.window.Event('change',{bubbles:true}));};
+  requestUnlock();assert.match(f.root.querySelector('dialog').textContent,/including someone you removed/);
+  assert.equal(f.get('lock-room').checked,true);assert.deepEqual(f.client.calls,[]);
+  f.click('confirm-cancel');assert.equal(f.get('lock-room').checked,true);assert.deepEqual(f.client.calls,[]);
+  requestUnlock();f.click('confirm-accept');await flush();
+  assert.deepEqual(f.client.calls,[{action:'lock',values:{locked:false}}]);
+  assert.equal(f.get('lock-room').checked,true);
+  f.client.calls.length=0;requestUnlock();
+  g.act('host','start');g.act('host','end');g.act('host','rematch');f.client.emit(g.get());
+  f.click('confirm-accept');await flush();
+  assert.deepEqual(f.client.calls,[]);assert.equal(f.get('lock-room').checked,true);
+  assert.match(f.root.querySelector('[role=alert]').textContent,/room changed/);
+});
+
 test('quiz answer selection never submits before Lock and index zero survives reconnect and confirmed lock',async t=>{
   const g=game();g.act('host','start');const f=await liveUI(t,g.get(g.players[0]));assert.equal(f.root.querySelectorAll('.quiz-live-choice').length,4);assert.equal(f.get('lock-choice').disabled,true);
   f.click('quiz-choice-0');assert.equal(f.client.calls.length,0);assert.equal(f.get('quiz-choice-0').getAttribute('aria-pressed'),'true');

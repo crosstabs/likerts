@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
-import { advance, createRoom, joinRoom, normalizeNickname, project, reduceRoom, replayLeft, validateCatalogue, validateCommand, validateSettings } from '../server/engine.mjs';
+import { advance, createRoom, identify, joinRoom, normalizeNickname, project, reduceRoom, replayLeft, validateCatalogue, validateCommand, validateSettings } from '../server/engine.mjs';
 
 const catalogue = validateCatalogue(JSON.parse(await readFile(new URL('../shared/catalogue.json', import.meta.url), 'utf8')));
 const timestamp = 1_793_923_200_000;
@@ -145,4 +145,68 @@ test('Unsupported properties, fractional choices and malformed request identitie
   const { room } = lobby();
   for (const extra of [{ value: 1.1 }, { value: 0 }, { value: 6 }, { value: '3' }, { answer: 4 }]) assert.throws(() => validateCommand(command(room, 'answer', { roundId: randomUUID(), value: 3, ...extra })));
   assert.throws(() => validateCommand({ ...command(room, 'start'), requestId: 'not-a-uuid' }), { code: 'invalid_command' });
+});
+
+test('Removing a lobby player atomically locks new admission and revokes only the removed seat', () => {
+  const { room: initial, members } = lobby();
+  const original = structuredClone(initial), removed = members[0];
+  const room = act(initial, 'host', 'kick', { playerId: removed.id });
+  assert.deepEqual(initial, original, 'The prior room is unchanged before persistence');
+  assert.equal(room.joinLocked, true);
+  assert.deepEqual(room.players.map(player => player.id), members.slice(1).map(member => member.id));
+  assert.throws(() => identify(room, removed.token), { code: 'unauthorized' });
+  for (const member of members.slice(1)) assert.equal(identify(room, member.token), member.id);
+  assert.throws(() => joinRoom(room, { nickname: 'Different name', acceptRoomSharing: true }, { now: timestamp }), { code: 'room_locked' });
+  assert.equal(view(room, 'host').joinLocked, true);
+});
+
+test('Every host control remains forbidden to participants, including removal and unlocking', () => {
+  let { room, members } = lobby(); room = act(room, 'host', 'start');
+  const before = structuredClone(room);
+  for (const actor of members) {
+    for (const action of ['start', 'next', 'pause', 'resume', 'skip', 'quiz-reveal', 'end', 'rematch', 'close']) {
+      assert.throws(() => act(room, actor.id, action), { code: 'forbidden' }, action);
+    }
+    assert.throws(() => act(room, actor.id, 'kick', { playerId: members.find(member => member.id !== actor.id).id }), { code: 'forbidden' });
+    for (const locked of [false, true]) assert.throws(() => act(room, actor.id, 'lock', { locked }), { code: 'forbidden' });
+  }
+  assert.deepEqual(room, before);
+});
+
+test('Removal stays locked across rematch until the host explicitly allows a fresh admission', () => {
+  let { room, members } = lobby(); room = act(room, 'host', 'start');
+  const removed = members[0], kick = command(room, 'kick', { playerId: removed.id });
+  room = reduceRoom(room, 'host', kick, { catalogue, now: timestamp }).room;
+  assert.equal(room.phase, 'finished'); assert.equal(room.completion, 'incomplete');
+  assert.equal(room.joinLocked, true);
+  const remaining = room.players.map(player => player.id), oldMatch = room.matchId;
+  room = act(room, 'host', 'rematch');
+  assert.notEqual(room.matchId, oldMatch); assert.equal(room.joinLocked, true);
+  assert.deepEqual(room.players.map(player => player.id), remaining, 'Rematch never recreates a removed seat');
+  assert.throws(() => joinRoom(room, { nickname: 'Player 1', acceptRoomSharing: true }, { now: timestamp }), { code: 'room_locked' });
+  room = act(room, 'host', 'lock', { locked: false });
+  const beforeReplay = structuredClone(room), replay = reduceRoom(room, 'host', kick, { catalogue, now: timestamp });
+  assert.equal(replay.replayed, true); assert.deepEqual(replay.room, beforeReplay, 'An old removal receipt cannot relock a later lobby');
+  room = replay.room;
+  const joined = joinRoom(room, { nickname: 'Player 1', acceptRoomSharing: true }, { now: timestamp });
+  assert.notEqual(joined.memberId, removed.id); assert.equal(joined.room.players.length, remaining.length + 1);
+  assert.throws(() => identify(joined.room, removed.token), { code: 'unauthorized' });
+});
+
+test('Rejected removal leaves both admission lock and roster unchanged', () => {
+  const { room, members } = lobby(), original = structuredClone(room);
+  assert.throws(() => act(room, 'host', 'kick', { playerId: randomUUID() }), { code: 'invalid_player' });
+  assert.throws(() => act(room, 'host', 'kick', { playerId: members[0].id, expectedRevision: room.revision + 1 }), { code: 'stale_revision' });
+  assert.deepEqual(room, original); assert.equal(room.joinLocked, false);
+});
+
+test('Rematch preserves either an explicit room lock or the default unlocked admission', () => {
+  for (const locked of [false, true]) {
+    let { room } = lobby();
+    assert.equal(room.joinLocked, false);
+    if (locked) room = act(room, 'host', 'lock', { locked: true });
+    room = act(room, 'host', 'start'); room = act(room, 'host', 'end');
+    room = act(room, 'host', 'rematch');
+    assert.equal(room.joinLocked, locked);
+  }
 });

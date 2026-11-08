@@ -25,3 +25,11 @@
 .quiz-library-scene{position:relative;overflow:hidden;aspect-ratio:1536/894;width:min(100%,344px);max-width:100%;margin:24px 0 0;pointer-events:none}
 .quiz-library-scene>img{position:absolute;width:100%;height:114.541387025%;max-width:none;left:0;top:-14.541387025%}
 @media(prefers-reduced-motion:reduce){.quiz-scene{transform:none!important;opacity:1!important}}
+/* Friendly original hold poses, fitted without stretching or creating new pixels. */
+.quiz-guide-character{display:flex;align-items:flex-end;justify-content:center;width:64px;height:72px;max-width:100%;flex:none;pointer-events:none}
+.quiz-guide-sprite{display:block;flex:none;width:var(--guide-width);height:var(--guide-height);aspect-ratio:var(--guide-ratio);background-image:url('/play/assets/story-cast-hold.png');background-repeat:no-repeat;background-size:var(--guide-size);background-position:var(--guide-position)}
+.quiz-guide-character[data-guide-character="1"]>.quiz-guide-sprite{--guide-ratio:382/393;--guide-width:64px;--guide-height:65.8429319372px;--guide-size:519.109947644% 201.7811704835%;--guide-position:3.2479700187% 71.5%}
+.quiz-guide-character[data-guide-character="2"]>.quiz-guide-sprite{--guide-ratio:385/407;--guide-width:64px;--guide-height:67.6571428571px;--guide-size:515.0649350649% 194.8402948403%;--guide-position:28.0350438048% 70.725388601%;clip-path:polygon(0 0,95.8441558442% 0,95.8441558442% 11.0565110565%,100% 11.0565110565%,100% 100%,0 100%)}
+.quiz-guide-character[data-guide-character="3"]>.quiz-guide-sprite{--guide-ratio:387/517;--guide-width:53.8955512573px;--guide-height:72px;--guide-size:512.4031007752% 153.3849129594%;--guide-position:51.1904761905% 60.8695652174%;clip-path:polygon(0 0,100% 0,100% 100%,0 100%,0 88.7814313346%,4.1343669251% 88.7814313346%,4.1343669251% 69.4390715667%,0 69.4390715667%)}
+.quiz-guide-character[data-guide-character="4"]>.quiz-guide-sprite{--guide-ratio:309/545;--guide-width:40.8220183486px;--guide-height:72px;--guide-size:641.7475728155% 145.504587156%;--guide-position:72.2222222222% 55.6451612903%}
+.quiz-guide-character[data-guide-character="5"]>.quiz-guide-sprite{--guide-ratio:400/388;--guide-width:64px;--guide-height:62.08px;--guide-size:495.75% 204.381443299%;--guide-position:97.2836386608% 73.0864197531%}

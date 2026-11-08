@@ -446,3 +446,45 @@ test('Phase2 denied Forget keeps the recovery screen and explains that access wa
   assert.ok(f.get('resume-room'));assert.ok(f.root.querySelector('[role=alert]').textContent.includes('could not remove'));
   assert.equal(f.client.calls.clearLocal,0);assert.equal(f.client.calls.actions.length,0);
 });
+
+test('Host removal explains the admission lock and only sends after confirmation',async t=>{
+  const f=await fixture(t,{state:state('lobbyHost')}),target=f.client.state.players[0];
+  const remove=()=>[...f.root.querySelectorAll('button')].find(node=>node.getAttribute('aria-label')==='Remove '+target.nickname).click();
+  remove();
+  assert.match(f.root.querySelector('dialog').textContent,/room will lock to new players/);
+  assert.match(f.root.querySelector('dialog').textContent,/unlocking lets anyone with the code join again/i);
+  assert.equal(f.get('confirm-accept').textContent,'Remove and lock room');
+  assert.deepEqual(f.client.calls.actions,[]);
+  f.click('confirm-cancel');assert.deepEqual(f.client.calls.actions,[]);
+  remove();f.click('confirm-accept');await flush();
+  assert.deepEqual(f.client.calls.actions,[{name:'kick',values:{playerId:target.id}}]);
+});
+
+test('Unlocking requires explicit confirmation and waits for authoritative lock state',async t=>{
+  const locked=state('lobbyHost');locked.joinLocked=true;
+  const f=await fixture(t,{state:locked});
+  const requestUnlock=()=>{const control=f.get('lock-room');control.focus();control.checked=false;control.dispatchEvent(new f.window.Event('change',{bubbles:true}));};
+  requestUnlock();
+  assert.match(f.root.querySelector('dialog').textContent,/including someone you removed/);
+  assert.equal(f.get('lock-room').checked,true,'The confirmation must not optimistically unlock the room');
+  assert.deepEqual(f.client.calls.actions,[]);
+  f.click('confirm-cancel');assert.equal(f.get('lock-room').checked,true);
+  assert.equal(f.document.activeElement,f.get('lock-room'));assert.deepEqual(f.client.calls.actions,[]);
+  requestUnlock();f.click('confirm-accept');await flush();
+  assert.deepEqual(f.client.calls.actions,[{name:'lock',values:{locked:false}}]);
+  assert.equal(f.get('lock-room').checked,true,'Only a confirmed server update changes the lock');
+  f.client.emit({...f.client.state,revision:f.client.state.revision+1,joinLocked:false});
+  assert.equal(f.get('lock-room').checked,false);
+});
+
+test('A stale unlock dialog cannot unlock a rematch and pending actions disable the switch',async t=>{
+  const locked=state('lobbyHost');locked.joinLocked=true;
+  const f=await fixture(t,{state:locked});
+  const control=f.get('lock-room');control.checked=false;control.dispatchEvent(new f.window.Event('change',{bubbles:true}));
+  f.client.emit({...f.client.state,matchId:'338cfe5c-3ec8-4ab6-9a24-8f644c469fc0',revision:f.client.state.revision+1});
+  f.click('confirm-accept');await flush();
+  assert.deepEqual(f.client.calls.actions,[]);assert.equal(f.get('lock-room').checked,true);
+  assert.match(f.root.querySelector('[role=alert]').textContent,/room changed/);
+  f.client.pendingAction={requestId:'synthetic-pending-action',action:'heartbeat'};f.client.connection('syncing');
+  assert.equal(f.get('lock-room').disabled,true);assert.deepEqual(f.client.calls.actions,[]);
+});
