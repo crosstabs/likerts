@@ -67,7 +67,7 @@ export function quizLiveView(state, ui) {
   function board() {
     const provisional = state.phase === 'finished' && state.completion !== 'complete';
     return el('section', { class: 'standings room-panel quiz-standings', 'aria-labelledby': 'standings-title' },
-      el('h2', { id: 'standings-title' }, 'Your people'),
+      el('h2', { id: 'standings-title' }, 'Standings'),
       text(provisional ? 'Provisional standings' : state.phase === 'finished' ? 'Final standings' : 'Standings so far', 'roster-count'),
       state.leaderboard.length ? el('ol', { class: 'leaderboard' }, state.leaderboard.map(row => el('li', { class: 'leader-row' },
         el('span', { class: 'rank', 'aria-label': row.rank === null ? 'Unranked' : 'Rank ' + row.rank }, row.rank ?? '—'),
@@ -82,43 +82,52 @@ export function quizLiveView(state, ui) {
   }
   function lobby() {
     return el('main', { id: 'main', tabindex: '-1', class: 'lobby quiz-lobby ' + (host ? 'host-layout' : 'guest-layout') },
-      el('section', { class: 'lobby-copy' }, el('h1', {}, state.quiz.title),
-        text(state.quiz.questionCount + (state.quiz.questionCount === 1 ? ' question. ' : ' questions. ') + 'One room. Everyone plays.', 'lede'),
-        castScene(el), host ? invitation(state) : text('You’re in, ' + state.self.nickname + '. Room ' + state.code, 'quiz-joined'),
-        text(host ? 'Invite 2–' + state.settings.capacity + ' players on web or iPhone. You control the questions.' : 'Waiting for the host to start.', 'small'),
-        text('The quiz is hosted from a fixed copy. ' + (host ? 'Players’ answers stay private until reveal.' : 'Your answer is private until the question is revealed.'), 'small'),
-        !host && companionPicker(state),
-        guide('gather'),
-        !state.hostConnected && text('Your host is reconnecting. Keep this tab open.', 'message')),
-      el('section', { class: 'room-panel', 'aria-labelledby': 'roster-title' }, el('h2', { id: 'roster-title' }, 'In the room'),
-        text(state.players.length + (state.players.length === 1 ? ' player' : ' players'), 'roster-count'),
-        state.players.length ? playerList(state, { moderation: host }) : text('Players appear here when they join.', 'empty'),
-        host && el('div', { class: 'lobby-controls' },
+      el('section', { class: 'quiz-lobby-stage' }, el('div', { class: 'quiz-room-inner' },
+        el('header', { class: 'quiz-room-heading' }, el('h1', {}, state.quiz.title),
+          text(state.quiz.questionCount + (state.quiz.questionCount === 1 ? ' question. ' : ' questions. ') + 'One room. Everyone plays.', 'lede')),
+        el('div', { class: 'quiz-code-command' }, host ? invitation(state) : el('div', { class: 'quiz-joined' },
+          text('Room code', 'invite-label'), el('strong', { class: 'room-code', 'aria-label': 'Room code ' + state.code.split('').join(' ') }, state.code),
+          text('You’re in, ' + state.self.nickname + '.', 'small'))),
+        el('section', { class: 'quiz-roster-stage' + (state.players.length <= 4 ? ' is-small-room' : ''), 'aria-labelledby': 'roster-title' },
+          el('div', { class: 'quiz-roster-count' }, el('h2', { id: 'roster-title' }, 'In the room'),
+            text(state.players.length + (state.players.length === 1 ? ' player' : ' players'), 'roster-count')),
+          state.players.length ? playerList(state, { moderation: host }) : el('div', { class: 'quiz-empty-stage' },
+            castScene(el), text('Players appear here when they join.', 'empty'))),
+        host && el('div', { class: 'lobby-controls quiz-start-dock' },
           el('label', { class: 'lock-row', for: 'lock-room' }, el('span', {}, el('strong', {}, 'Lock room'), el('small', {}, 'Stop new players joining')),
             el('input', { id: 'lock-room', type: 'checkbox', role: 'switch', checked: state.joinLocked, disabled: model.busy || !!client.pendingAction,
               onchange: event => void act('lock', { locked: event.target.checked }) })),
-          button('Start quiz', () => act('start'), { className: 'button full', id: 'start-game', disabled: state.players.length < 2 }),
-          text(state.players.length < 2 ? 'You need at least two players to begin.' : 'Everyone answers each question together.', 'small centered')),
-        scoring()), errorBlock());
+          el('div', { class: 'quiz-start-action' },
+            button('Start quiz', () => act('start'), { className: 'button lime full', id: 'start-game', disabled: state.players.length < 2 }),
+            text(state.players.length < 2 ? 'You need at least two players to begin.' : 'Everyone answers each question together.', 'small centered'))))),
+      el('div', { class: 'quiz-room-inner quiz-lobby-after' },
+        el('div', { class: 'quiz-room-promises' },
+          text(host ? 'Invite 2–' + state.settings.capacity + ' players. You control the questions.' : 'Waiting for the host to start.', 'small'),
+          text(host ? 'Players’ answers stay private until reveal.' : 'Your answer is private until the question is revealed.', 'small'), scoring()),
+        !host && companionPicker(state), guide('gather'),
+        !state.hostConnected && text('Your host is reconnecting. Keep this tab open.', 'message'), errorBlock()));
   }
   function answerChoices() {
     const selected = r.ownAnswer ?? model.selection, locked = r.ownAnswer !== null, expired = deadlinePassed(state);
     return el('div', { class: 'quiz-answer-area' },
-      el('div', { class: 'quiz-live-answers', role: 'group', 'aria-label': 'Choose your answer' }, r.answers.map((answer, index) => button([
+      el('div', { class: 'quiz-live-answers' + (r.answers.some(answer => Array.from(answer).length > 48) ? ' has-long-answers' : ''), role: 'group', 'aria-label': 'Choose your answer' }, r.answers.map((answer, index) => button([
         el('span', { class: 'quiz-choice-letter', 'aria-hidden': 'true' }, String.fromCharCode(65 + index)),
-        el('span', { class: 'quiz-choice-text' }, answer)], () => { model.selection = index; ui.render(); }, {
+        el('span', { class: 'quiz-choice-text' }, answer),
+        selected === index && el('span', { class: 'quiz-choice-selected', 'aria-hidden': 'true' }, '✓')], () => { model.selection = index; ui.render(); }, {
           className: 'quiz-live-choice' + (selected === index ? ' is-selected' : ''), id: 'quiz-choice-' + index,
           disabled: locked || expired || !!client.pendingAction, 'aria-pressed': selected === index, 'aria-label': String.fromCharCode(65 + index) + ' · ' + answer }))),
       locked ? el('div', { class: 'locked-message', role: 'status' }, 'Answer locked: ' + r.answers[r.ownAnswer])
-        : button('Lock answer', () => act('quiz-answer', { value: model.selection }), { className: 'button full', id: 'lock-choice', disabled: model.selection === null || expired }),
+        : button('Lock answer', () => act('quiz-answer', { value: model.selection }), { className: 'button full quiz-lock-answer', id: 'lock-choice', disabled: model.selection === null || expired }),
       text(locked ? 'Waiting for the room to reveal the answer.' : expired ? 'Time has ended. Confirming the question…' : 'Choose, then lock. Your answer stays private until reveal.', 'small centered'));
   }
   function question() {
     const player = state.players.find(p => p.id === state.self.id);
     return el('main', { id: 'main', tabindex: '-1', class: 'quiz-question-screen' + (host ? ' is-host' : '') },
-      el('section', { class: 'quiz-question-content' },
-        el('div', { class: 'quiz-live-heading' }, el('div', {}, text(state.quiz.title, 'quiz-live-title'), text('Question ' + r.index + ' of ' + r.total, 'round-progress')),
-          companionScene(el,player?.avatar??3,'is-compact quiz-player-avatar')),
+      el('div', { class: 'quiz-room-inner quiz-question-layout' }, el('section', { class: 'quiz-question-content' },
+        el('div', { class: 'quiz-live-heading' }, companionScene(el,player?.avatar??3,'is-compact quiz-player-avatar'),
+          el('div', { class: 'quiz-question-meta' }, text(state.quiz.title, 'quiz-live-title'),
+            el('div', { class: 'quiz-progress-pill' }, text('Question ' + r.index + ' of ' + r.total, 'round-progress'),
+              el('progress', { class: 'quiz-round-progress', max: r.total, value: r.index, 'aria-hidden': 'true' })))),
         el('h1', {}, r.prompt), clock(state),
         host ? el('div', { class: 'quiz-host-question' }, el('ol', { class: 'quiz-observer-answers' }, r.answers.map((answer, index) => el('li', {},
           el('span', { class: 'quiz-choice-letter', 'aria-hidden': 'true' }, String.fromCharCode(65 + index)), el('span', {}, answer)))),
@@ -131,24 +140,29 @@ export function quizLiveView(state, ui) {
         guide(!host && r.ownAnswer !== null ? 'locked' : 'question'),
         !state.hostConnected && text('Host disconnected. Timed questions continue on the server.', 'message'),
         errorBlock(), scoring()),
-      host && el('aside', { class: 'round-sidebar' }, el('h2', {}, 'Your people'), playerList(state, { moderation: true })));
+      host && el('aside', { class: 'round-sidebar' }, el('h2', {}, 'Your people'), playerList(state, { moderation: true }))));
   }
   function reveal() {
     const v = state.reveal, own = v.results.find(result => result.playerId === state.self.id);
-    const title = host ? 'The answer is in.' : own?.points === 1000 ? 'That’s right.' : own?.value === null ? 'Time to find out.' : 'A little wiser.';
+    const title = host ? 'The answer is in.' : own?.points === 1000 ? 'You got it!' : own?.value === null ? 'Time to find out.' : 'A little wiser.';
     return el('main', { id: 'main', tabindex: '-1', class: 'reveal-layout quiz-reveal-layout' },
-      el('section', { class: 'reveal-copy' }, text('Question ' + r.index + ' of ' + r.total, 'round-progress'), el('h1', {}, title),
-        el('h2', { class: 'question' }, r.prompt),
-        el('div', { class: 'quiz-correct-answer' }, text('Correct answer', 'small'), el('strong', {}, r.answers[v.correctAnswer])),
-        v.explanation && text(v.explanation, 'quiz-explanation'),
-        answerBreakdown(),
-        !host && text((own?.points ?? 0).toLocaleString('en') + ' points' + (own?.value === null ? ' · No answer locked' : ' · You chose ' + r.answers[own.value]), 'quiz-own-result'),
-        guide('reveal'),
-        (host ? v.results.some(result => result.points === 1000) : own?.points === 1000) ? castScene(el,true)
-          : el('div', { class: 'quiz-neutral-reveal' }, companionScene(el,state.players.find(p => p.id === state.self.id)?.avatar ?? 3)),
+      el('div', { class: 'quiz-room-inner quiz-reveal-grid' },
+      el('section', { class: 'reveal-copy' },
+        el('div', { class: 'quiz-reveal-hero' }, text('Question ' + r.index + ' of ' + r.total, 'round-progress'), el('h1', {}, title),
+          el('div', { class: 'quiz-outcome-art' }, (host ? v.results.some(result => result.points === 1000) : own?.points === 1000) ? castScene(el,true)
+            : el('div', { class: 'quiz-neutral-reveal' }, companionScene(el,state.players.find(p => p.id === state.self.id)?.avatar ?? 3))),
+          !host && el('p', { class: 'quiz-own-result' },
+            el('strong', { class: 'quiz-earned-points' },
+              el('span', { class: 'quiz-earned-value' }, (own?.points ?? 0).toLocaleString('en')),
+              el('span', { class: 'quiz-earned-unit' }, ' points')),
+            el('span', { class: 'quiz-own-choice' }, own?.value === null ? ' No answer locked' : ' You chose ' + r.answers[own.value]))),
+        el('div', { class: 'quiz-reveal-answer' }, el('h2', { class: 'question' }, r.prompt),
+          el('div', { class: 'quiz-correct-answer' }, text('Correct answer', 'small'), el('strong', {}, r.answers[v.correctAnswer])),
+          v.explanation && text(v.explanation, 'quiz-explanation')),
+        answerBreakdown(), guide('reveal'),
         el('ul', { class: 'guess-list quiz-result-list' }, v.results.map(result => el('li', {}, el('strong', {}, result.nickname),
           el('span', {}, result.value === null ? 'No answer' : r.answers[result.value]), el('strong', { class: 'points' }, result.points.toLocaleString('en') + ' points'))))),
-      el('div', { class: 'board-column' }, board(), next(), host && earlyEnd(), errorBlock()));
+      el('div', { class: 'board-column' }, board(), next(), host && earlyEnd(), errorBlock())));
   }
   function finished() {
     const complete = state.completion === 'complete';
@@ -156,20 +170,23 @@ export function quizLiveView(state, ui) {
       : state.leaderboard.find(item => item.playerId === state.self.id);
     const points = row?.points ?? 0, opportunities = row?.opportunities ?? 0;
     const totalLabel = host ? complete ? 'Top score' : 'Highest provisional score' : 'Your total';
-    return el('main', { id: 'main', tabindex: '-1', class: 'finished-layout quiz-finished' },
-      el('section', { class: 'quiz-finished-copy' }, text(state.quiz.title, 'quiz-live-title'), el('h1', {}, complete ? 'Quiz complete' : 'Quiz ended · incomplete'),
+    return el('main', { id: 'main', tabindex: '-1', class: 'finished-layout quiz-finished ' + (host ? 'is-host' : 'is-player') },
+      el('div', { class: 'quiz-room-inner quiz-finished-layout' },
+        el('header', { class: 'quiz-finished-heading' }, text(state.quiz.title, 'quiz-live-title'), el('h1', {}, complete ? 'Quiz complete' : 'Quiz ended · incomplete')),
+        el('div', { class: 'quiz-finished-art' }, castScene(el,complete)),
         el('section', { class: 'quiz-result-summary' + (complete ? '' : ' is-provisional'), 'aria-labelledby': 'quiz-result-label' },
           el('h2', { id: 'quiz-result-label' }, totalLabel),
-          el('p', { id: 'quiz-result-total', class: 'quiz-result-total' }, points.toLocaleString('en') + ' points'),
+          el('p', { id: 'quiz-result-total', class: 'quiz-result-total' },
+            el('span', { class: 'quiz-total-value' }, points.toLocaleString('en')), el('span', { class: 'quiz-total-unit' }, ' points')),
           el('p', { id: 'quiz-result-correct', class: 'quiz-result-correct' }, opportunities ? (points / 1000) + ' of ' + opportunities + ' correct' : 'No scored questions'),
           text(complete ? state.quiz.questionCount + (state.quiz.questionCount === 1 ? ' question, answered together.' : ' questions, answered together.')
             : 'Provisional total from ' + opportunities + (opportunities === 1 ? ' scored question.' : ' scored questions.') + ' There is no final winner.', 'quiz-result-note')),
-        el('div', { class: 'quiz-finished-actions' }, host ? [button('Back to lobby for a rematch', () => act('rematch'), { id: 'rematch', className: 'button full' }),
+        board(),
+        el('div', { class: 'quiz-finished-actions' }, host ? [button('Rematch', () => act('rematch'), { id: 'rematch', className: 'button lime full' }),
           button('Choose another quiz', chooseAnotherQuiz, { id: 'choose-another-quiz', className: 'text-button', disabled: client.busy })]
           : text('Waiting for the host to make the next move.', 'small')),
         lastQuestionDetails(),
-        guide('finished'),
-        errorBlock(), el('div', { class: 'quiz-finished-art' }, castScene(el,complete))), board());
+        guide('finished'), errorBlock()));
   }
   return state.phase === 'lobby' ? lobby() : state.phase === 'answer' ? question() : state.phase === 'reveal' ? reveal() : finished();
 }

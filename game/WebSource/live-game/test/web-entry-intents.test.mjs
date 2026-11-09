@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { JSDOM } from 'jsdom';
 import { readEntryIntent } from '../web/entry-intent.mjs';
-import { sampleQuizDocument } from '../web/quiz-document.mjs';
+import { sampleQuizDocument, starterQuizDocuments } from '../web/quiz-document.mjs';
+import { QuizDraftStore, QUIZ_DRAFT_KEY } from '../web/quiz-draft.mjs';
 import { QuizLibrary, QUIZ_LIBRARY_KEY } from '../web/quiz-library.mjs';
 import { mountQuizApp } from '../web/quiz-ui.mjs';
 import { mountLiveApp } from '../web/ui.mjs';
@@ -26,7 +27,7 @@ function controls(dom, root) {
   };
 }
 
-async function quizFixture(t, { url = quizURL('create'), data = createStorage(), unavailable = false, noLocks = false, access = null, seed = null } = {}) {
+async function quizFixture(t, { url = quizURL('create'), data = createStorage(), unavailable = false, noLocks = false, access = null, seed = null, draftStore = null } = {}) {
   const dom = new JSDOM('<div id="app"></div>', { url });
   dom.window.scrollTo = () => {};
   const root = dom.window.document.getElementById('app');
@@ -34,7 +35,7 @@ async function quizFixture(t, { url = quizURL('create'), data = createStorage(),
   if (seed) await library.save(seed);
   const before = { writes: data.writes, raw: data.values.get(QUIZ_LIBRARY_KEY), quizzes: library.quizzes };
   const calls = { hosted: [], recovered: 0 };
-  const app = mountQuizApp({ root, library, window: dom.window, entryIntent: readEntryIntent(url),
+  const app = mountQuizApp({ root, library, draftStore, window: dom.window, entryIntent: readEntryIntent(url),
     hostQuiz: async quiz => { calls.hosted.push(structuredClone(quiz)); },
     liveAccess: () => access,
     recoverLive: async () => { calls.recovered++; },
@@ -332,4 +333,74 @@ test('leaving an intent-selected join form stays on the landing screen after lat
   assert.equal(f.get('room-code'), null);
   assert.equal(new URL(f.dom.window.location.href).searchParams.get('intent'), 'join');
   assertNoAdmission(f);
+});
+
+
+test('known starter cover hints open the matching explicit preview without admission or saved-library writes', async t => {
+  for (const quiz of starterQuizDocuments()) await t.test(quiz.title, async t => {
+    const f = await quizFixture(t, { url: quizURL('host') + '&starter=' + quiz.id });
+    assert.equal(f.app.screen, 'library');
+    assert.ok(f.get('quiz-confirm-title')); assert.match(f.get('quiz-confirm-title').textContent, new RegExp(quiz.title));
+    assert.match(f.get('quiz-confirm-message').textContent, /answer key.*uploaded.*server/i);
+    assert.equal(f.dom.window.document.activeElement.id, 'quiz-confirm-cancel');
+    assertQuizUntouched(f);
+    await f.click('quiz-confirm-action');
+    assert.equal(f.calls.hosted.length, 1); assert.deepEqual(f.calls.hosted[0], quiz);
+    assert.equal(f.data.writes, f.before.writes); assert.equal(f.calls.recovered, 0);
+  });
+});
+
+test('cancelling a starter cover preview stays in the library without reopening or hosting', async t => {
+  const quiz = starterQuizDocuments()[1];
+  const f = await quizFixture(t, { url: quizURL('host') + '&starter=' + quiz.id });
+  assert.ok(f.get('quiz-confirm-title')); await f.click('quiz-confirm-cancel');
+  assert.equal(f.get('quiz-confirm-title'), null); assert.equal(f.app.screen, 'library');
+  assert.equal(f.dom.window.document.activeElement.id, 'quiz-starters-heading');
+  f.library.reload(); await flush();
+  assert.equal(f.get('quiz-confirm-title'), null); assertQuizUntouched(f);
+});
+
+test('unknown duplicate and invitation-bearing starter cover hints never trigger an upload preview', async t => {
+  const id = starterQuizDocuments()[0].id;
+  for (const suffix of [
+    '&starter=unknown', '&starter=', '&starter=' + id + '&starter=' + id,
+    '&starter=' + id + '&%73tarter=' + id, '&starter=' + id + '&intent=host',
+    '&starter=' + id + '&room=ABCDEF', '&starter=' + id + '&room=', '&starter=%3Cscript%3E',
+  ]) await t.test(suffix, async t => {
+    const f = await quizFixture(t, { url: quizURL('host') + suffix });
+    assert.equal(f.get('quiz-confirm-title'), null); assert.equal(f.app.screen, 'library'); assertQuizUntouched(f);
+  });
+});
+
+test('saved pending and unfinished recovery override a known starter cover preview', async t => {
+  const url = quizURL('host') + '&starter=' + starterQuizDocuments()[0].id;
+  for (const pending of [true, false]) await t.test('live pending=' + pending, async t => {
+    const f = await quizFixture(t, { url, access: { pending } });
+    assert.equal(f.get('quiz-confirm-title'), null); assert.equal(f.dom.window.document.activeElement.id, 'quiz-recover-live'); assertQuizUntouched(f);
+  });
+  await t.test('unfinished editor', async t => {
+    const data = createStorage(), draftStore = new QuizDraftStore({ storage: data, locks: data.locks });
+    await draftStore.save({ draftID: crypto.randomUUID(), quiz: sampleQuizDocument(), sourceQuiz: null, questionIndex: 1 });
+    const raw = data.getItem(QUIZ_DRAFT_KEY);
+    const f = await quizFixture(t, { url, data, draftStore });
+    assert.equal(f.get('quiz-confirm-title'), null); assert.equal(f.dom.window.document.activeElement.id, 'quiz-draft-heading');
+    assert.equal(data.getItem(QUIZ_DRAFT_KEY), raw); assertQuizUntouched(f);
+  });
+  await t.test('blocked saved library', async t => {
+    const data = createStorage(); data.values.set(QUIZ_LIBRARY_KEY, '{broken');
+    const f = await quizFixture(t, { url, data });
+    assert.equal(f.get('quiz-confirm-title'), null); assert.ok(f.get('quiz-storage-heading')); assertQuizUntouched(f);
+  });
+});
+
+test('the library code entry preserves typed code focus and caret through an unrelated draft storage update', async t => {
+  const data = createStorage(), draftStore = new QuizDraftStore({ storage: data, locks: data.locks });
+  const f = await quizFixture(t, { url: quizURL('host'), data, draftStore });
+  f.input('quiz-room-code', 'ab-cd-ef');
+  const field = f.get('quiz-room-code'); field.focus(); field.setSelectionRange(3, 5);
+  f.dom.window.dispatchEvent(new f.dom.window.StorageEvent('storage', { key: QUIZ_DRAFT_KEY })); await flush();
+  assert.equal(f.get('quiz-room-code').value, 'ab-cd-ef');
+  assert.equal(f.dom.window.document.activeElement.id, 'quiz-room-code');
+  assert.equal(f.get('quiz-room-code').selectionStart, 3); assert.equal(f.get('quiz-room-code').selectionEnd, 5);
+  assertQuizUntouched(f);
 });

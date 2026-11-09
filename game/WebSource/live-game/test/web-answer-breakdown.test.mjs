@@ -119,7 +119,7 @@ test('both roles see accurate mixed counts only after reveal, before individual 
     assert.ok(panel.compareDocumentPosition(f.root.querySelector('.quiz-result-list')) & order);
     assert.equal(f.requests, 0);
   }
-  assert.equal(player.root.querySelector('.quiz-celebration'), null); assert.match(player.root.textContent, /0 points · You chose Option C/);
+  assert.equal(player.root.querySelector('.quiz-celebration'), null); assert.match(player.root.textContent, /0 points You chose Option C/);
 });
 
 test('an all-missing deadline reveal keeps every player in the denominator and the missing row visible', async t => {

@@ -56,7 +56,11 @@ test('hosting is the primary saved-quiz action but still requires an explicit up
   const practice = f.root.querySelector('[data-quiz-practice="' + quiz.id + '"]');
   assert.equal(host().classList.contains('lime'), true);
   assert.equal(practice.classList.contains('quiet'), true);
-  assert.equal(f.get('quiz-join-room').getAttribute('href'), '/play?intent=join');
+  assert.equal(f.get('quiz-join-room').tagName, 'FORM');
+  assert.equal(f.get('quiz-join-room').getAttribute('action'), '/play');
+  assert.equal(f.get('quiz-join-room').getAttribute('method'), 'get');
+  assert.equal(f.get('quiz-room-code').name, 'room');
+  assert.equal(f.get('quiz-room-code').required, true);
   const guide = f.root.querySelector('.q-party-guide');
   assert.match(guide.textContent, /Ember · The Spark/); assert.equal(guide.querySelector('[data-quiz-entrance]'), null);
   await f.clickNode(host()); assert.match(f.root.querySelector('#quiz-confirm-message').textContent, /answer key/);
@@ -81,7 +85,7 @@ test('all starters stay ahead of a full local library and can be tried or copied
   assert.ok(section.compareDocumentPosition(saved) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
   for (const quiz of starters) {
     const host = section.querySelector('[data-starter-host="' + quiz.id + '"]'), practice = section.querySelector('[data-starter-practice="' + quiz.id + '"]');
-    assert.equal(host.textContent, 'Host live'); assert.equal(host.getAttribute('aria-label'), 'Host ' + quiz.title + ' live');
+    assert.equal(host.textContent, 'Play quiz'); assert.equal(host.getAttribute('aria-label'), 'Play quiz: ' + quiz.title + ' live');
     assert.equal(practice.textContent, 'Practice'); assert.equal(practice.getAttribute('aria-label'), 'Practice ' + quiz.title);
     assert.ok(section.querySelector('[data-starter-copy="' + quiz.id + '"]'));
   }
@@ -135,13 +139,15 @@ test('Meet the cast is an optional native disclosure after all library play cont
   assert.equal(hosted, 0); assert.equal(f.downloads.length, 0); assert.equal(f.root.querySelector('dialog'), null);
 });
 
-test('the editor starts with the question and keeps question management after its answers', async t => {
+test('the editor presents metadata, question rail, form and settings while focusing the actual question', async t => {
   const f = fixture(t); await f.click('quiz-copy-sample');
   assert.equal(f.window.document.activeElement.id, 'quiz-prompt');
-  for (const id of ['quiz-title', 'quiz-add-question', 'quiz-move-up', 'quiz-move-down', 'quiz-remove-question']) {
-    assert.ok(f.get('quiz-prompt').compareDocumentPosition(f.get(id)) & f.window.Node.DOCUMENT_POSITION_FOLLOWING, id);
-    assert.ok(f.get('quiz-answer-0').compareDocumentPosition(f.get(id)) & f.window.Node.DOCUMENT_POSITION_FOLLOWING, id);
-  }
+  assert.ok(f.get('quiz-title').compareDocumentPosition(f.get('quiz-prompt')) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  const rail = f.root.querySelector('.q-question-rail'), form = f.root.querySelector('.q-question-form'), settings = f.root.querySelector('.q-question-settings');
+  assert.ok(rail.compareDocumentPosition(form) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  assert.ok(form.compareDocumentPosition(settings) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  for (const id of ['quiz-add-question', 'quiz-move-up', 'quiz-move-down', 'quiz-remove-question']) assert.ok(rail.contains(f.get(id)), id);
+  assert.ok(settings.contains(f.get('quiz-time-limit'))); assert.ok(settings.contains(f.get('quiz-explanation')));
   f.input('quiz-prompt', 'A question worth asking?');
   await f.click('quiz-add-question'); assert.equal(f.window.document.activeElement.id, 'quiz-prompt');
   assert.equal(f.get('quiz-question-heading').textContent, 'Question 4');
@@ -162,14 +168,14 @@ test('practice locks answers, reveals correctness, scores and starts a fresh rep
   const art = f.root.querySelector('.q-result-art');
   assert.match(art.querySelector('.quiz-scene-actors img').getAttribute('src'), /story-cast-celebrate.png$/);
   assert.equal(art.querySelector('.quiz-celebration').getAttribute('aria-hidden'), 'true'); assert.equal(art.querySelector('img').alt, '');
-  assert.ok(f.root.querySelector('.q-result-summary').compareDocumentPosition(art) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
-  assert.ok(f.get('quiz-replay').compareDocumentPosition(art) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
-  assert.ok(f.get('quiz-result-back').compareDocumentPosition(art) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  assert.ok(art.compareDocumentPosition(f.root.querySelector('.q-result-summary')) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  assert.ok(art.compareDocumentPosition(f.get('quiz-replay')) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  assert.ok(art.compareDocumentPosition(f.get('quiz-result-back')) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
   await f.click('quiz-replay'); assert.match(f.root.textContent, /Question 1 of 3/); assert.equal(f.get('quiz-lock-answer').disabled, true);
   assert.equal(f.root.querySelector('.q-result-art'), null); assert.equal(f.root.querySelector('.q-result-summary'), null);
 });
 
-test('all-timeout practice ends with an accurate zero total and neutral original cast after the actions', async t => {
+test('all-timeout practice ends with an accurate zero total and neutral original cast before its truthful score and actions', async t => {
   const f = fixture(t); await f.click('quiz-practice-sample');
   for (const deadline of [20_000, 40_000, 70_000]) { f.setClock(deadline); f.app.tick(); await f.click('quiz-next'); }
   assert.equal(f.get('quiz-practice-heading').textContent, 'Quiz complete');
@@ -177,7 +183,7 @@ test('all-timeout practice ends with an accurate zero total and neutral original
   const art = f.root.querySelector('.q-result-art'); assert.equal(art.querySelector('.quiz-celebration'), null);
   assert.match(art.querySelector('.quiz-scene-actors img').getAttribute('src'), /story-cast-hold.png$/); assert.equal(art.querySelector('img').alt, '');
   assert.equal(art.querySelector('.quiz-cast-hold').getAttribute('aria-hidden'), 'true');
-  assert.ok(f.get('quiz-result-back').compareDocumentPosition(art) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  assert.ok(art.compareDocumentPosition(f.get('quiz-result-back')) & f.window.Node.DOCUMENT_POSITION_FOLLOWING);
   assert.match(f.root.textContent, /This practice score isn’t saved/);
 });
 

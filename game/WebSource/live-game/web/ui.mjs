@@ -144,8 +144,12 @@ export function mountLiveApp({root,client,window:win = globalThis.window,navigat
     const status={idle:'',connecting:'Connecting…',connected:'Connected',syncing:'Connected · syncing',reconnecting:'Reconnecting…',offline:'Connection interrupted'}[client.status]??'Connecting…';
     return el('header',{class:'topbar'},
       el('div',{class:'wordmark','aria-label':'Likerts'},'likerts',el('span',{class:'brand-dot','aria-hidden':'true'},'.')),
-      el('div',{class:'header-actions'},status&&el('span',{class:'connection '+(['connected','syncing'].includes(client.status)?'is-connected':''),
-        role:'status','aria-live':'polite'},el('span',{class:'connection-dot','aria-hidden':'true'}),status),
+      !state&&!client.resumeHint&&!client.pendingAdmissionHint&&el('nav',{class:'entry-mode-nav','aria-label':'Game pages'},
+        el('a',{href:'/play/quizzes'},'Quizzes'),
+        el('a',{href:'https://likerts.com/game/support',class:'entry-support'},'Support')),
+      el('div',{class:'header-actions'},state?.protocolVersion===2&&el('span',{class:'room-code-mini','aria-label':'Room code '+state.code},state.code),
+        status&&el('span',{class:'connection '+(['connected','syncing'].includes(client.status)?'is-connected':''),title:status,
+        role:'status','aria-live':'polite'},el('span',{class:'connection-dot','aria-hidden':'true'}),el('span',{class:'connection-label'},status)),
         state&&button(state.role==='host'?(state.protocolVersion===2?'Close room':'End room'):'Leave room',confirmExit,{className:'button quiet',id:'room-exit'})));
   }
   function errorBlock() {
@@ -210,9 +214,10 @@ export function mountLiveApp({root,client,window:win = globalThis.window,navigat
       el('div',{class:'entry-art'},cast()));
   }
   function joinForm() {
-    return el('main',{id:'main',tabindex:'-1',class:'entry single'},
+    return el('main',{id:'main',tabindex:'-1',class:'entry single room-join'},
       button('Back',()=>{model.entry='landing';model.error='';render();},{className:'text-button back',id:'entry-back'}),
-      el('h1',{},'Join your people.'),text('A code. A name. A quiz or a little mind-reading.','lede'),
+      el('div',{class:'join-welcome'},el('div',{},el('h1',{},'Join your people.'),text('A code. A name. A quiz or a little mind-reading.','lede')),
+        el('div',{class:'join-character','aria-hidden':'true'},clay(3))),
       pendingAdmission(),errorBlock(),
       el('form',{onsubmit:e=>{e.preventDefault();void run(()=>client.join(model.code,model.name,model.consent));}},
         formField('Room code','room-code',el('input',{id:'room-code',name:'room-code',value:model.code,required:true,maxlength:16,disabled:model.busy||!!client.pendingAdmissionHint,
@@ -441,6 +446,8 @@ export function mountLiveApp({root,client,window:win = globalThis.window,navigat
     const active=document.activeElement,id=active?.id,headingFocused=active?.tagName==='H1'&&root.contains(active),selection=typeof active?.selectionStart==='number'?[active.selectionStart,active.selectionEnd]:null;
     model.deadlineExpired=deadlinePassed(client.state);
     const state=client.state,screen=screenKey(state),changed=screen!==model.previousScreen;
+    root.classList.toggle('is-quiz-room',state?.protocolVersion===2);
+    document.title=state?.protocolVersion===2?'Likerts · '+(state.quiz?.title||'Live quiz'):'Likerts Live · Your people. Your wavelength.';
     if(changed)navigationScroll.cancel();
     const body=state?state.protocolVersion===2?quizLiveView(state,{el,text,button,act,confirm,chooseAnotherQuiz,companionPicker,invitation,playerList,cast,clay,standingsAvatar,clock,errorBlock,client,model,deadlinePassed,render})
       :state.phase==='lobby'?lobby(state):state.phase==='reveal'?revealView(state):state.phase==='finished'?finished(state):roundView(state)

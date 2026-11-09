@@ -190,7 +190,10 @@ test('saved and sample Host live require explicit upload confirmation and preser
   f.click('#quiz-confirm-cancel');assert.equal(f.calls.length,0);f.click('[data-quiz-host]');f.click('#quiz-confirm-action');await flush();
   assert.equal(f.calls.length,1);assert.equal(f.calls[0].title,'Little wonders');assert.notEqual(f.calls[0],f.library.quizzes[0]);
   f.click('#quiz-host-sample');f.click('#quiz-confirm-action');await flush();assert.equal(f.calls.length,2);
-  assert.match(f.root.querySelector('.q-neutral-guide img').getAttribute('src'),/totem-3.png$/);
+  const welcome=f.root.querySelector('.q-hero-cast .quiz-celebration');
+  assert.equal(welcome.getAttribute('aria-hidden'),'true');
+  assert.match(welcome.querySelector('img').getAttribute('src'),/story-cast-celebrate.png$/);
+  assert.equal(welcome.querySelector('img').alt,'');
 });
 
 test('failed hosting offers recovery without losing the library or creating another room',async t=>{
@@ -200,10 +203,21 @@ test('failed hosting offers recovery without losing the library or creating anot
   f.click('[data-quiz-host]');assert.equal(f.root.querySelector('dialog'),null);assert.equal(attempts,1);f.click('#quiz-recover-live');await flush();assert.equal(recoveries,1);assert.equal(f.library.quizzes.length,1);
 });
 
-test('quiz lobby identifies content, uses the original neutral cast and only hosts see start/moderation',async t=>{
+test('quiz lobby stages actual players with original characters and only hosts see start/moderation',async t=>{
   const g=game(),host=await liveUI(t,g.get()),player=await liveUI(t,g.get(g.players[0]));
-  for(const f of [host,player]){assert.equal(f.root.querySelector('h1').textContent,'Little wonders');assert.match(f.root.querySelector('.quiz-cast-hold img').getAttribute('src'),/story-cast-hold.png$/);assert.equal(f.root.querySelector('.quiz-celebration'),null);}
+  for(const f of [host,player]){
+    assert.equal(f.root.querySelector('h1').textContent,'Little wonders');
+    const rows=[...f.root.querySelectorAll('.quiz-roster-stage .player-row')];
+    assert.equal(rows.length,g.players.length);
+    assert.deepEqual(rows.map(row=>row.querySelector('.player-name').firstChild.textContent),g.get().players.map(p=>p.nickname));
+    for(const row of rows)assert.match(row.querySelector('.art-shell.avatar img').getAttribute('src'),/totem-[1-5]\.png$/);
+    assert.equal(f.root.querySelector('.quiz-celebration,.quiz-live-choice,.quiz-correct-answer'),null);
+  }
   assert.ok(host.get('start-game'));assert.ok(host.get('lock-room'));assert.equal(player.get('start-game'),null);assert.equal(player.get('lock-room'),null);
+  const created=createQuizRoom(sampleQuizDocument(),{capacity:12},{now:g.now}),empty=await liveUI(t,project(created.room,'host',{now:g.now}));
+  assert.match(empty.root.querySelector('.quiz-cast-hold img').getAttribute('src'),/story-cast-hold.png$/);
+  assert.equal(empty.root.querySelectorAll('.quiz-roster-stage .player-row').length,0);
+  assert.equal(empty.get('start-game').disabled,true);
   host.click('start-game');await flush();assert.deepEqual(host.client.calls,[{action:'start',values:{}}]);
 });
 
@@ -293,7 +307,7 @@ test('correct reveal displays explanation, authoritative points and original cel
   const g=game();g.act('host','start');g.act(g.players[0],'quiz-answer',{value:1});g.act(g.players[1],'quiz-answer',{value:0});
   const correct=await liveUI(t,g.get(g.players[0])),wrong=await liveUI(t,g.get(g.players[1]));
   assert.match(correct.root.textContent,/Iron-rich dust/);assert.match(correct.root.textContent,/1,000 points/);assert.match(correct.root.querySelector('.quiz-celebration img').getAttribute('src'),/story-cast-celebrate.png$/);
-  assert.equal(wrong.root.querySelector('.quiz-celebration'),null);assert.ok(wrong.root.querySelector('.quiz-neutral-reveal img'));assert.match(wrong.root.textContent,/0 points · You chose Venus/);
+  assert.equal(wrong.root.querySelector('.quiz-celebration'),null);assert.ok(wrong.root.querySelector('.quiz-neutral-reveal img'));assert.match(wrong.root.textContent,/0 points You chose Venus/);
   assert.equal(correct.get('next-round'),null);
 });
 
@@ -305,7 +319,7 @@ test('timeout reveal explains missing answer and final complete/incomplete scree
   assert.match(incomplete.root.textContent,/Provisional standings/);assert.equal(incomplete.root.querySelector('.quiz-celebration'),null);
 });
 
-test('completed live summary shows the authenticated player total before artwork and the host top score',async t=>{
+test('completed live stage shows original artwork, authenticated totals and a host-only primary Rematch after standings',async t=>{
   const g=completeGame(game(),(current,player)=>player===current.players[0]||current.room.round.index===2
     ?current.room.quizSnapshot.questions[current.room.round.index-1].correctAnswer:0);
   const player=await liveUI(t,g.get(g.players[1])),host=await liveUI(t,g.get());
@@ -317,9 +331,12 @@ test('completed live summary shows the authenticated player total before artwork
   assert.equal(host.get('quiz-result-total').textContent,'3,000 points');
   assert.equal(host.get('quiz-result-correct').textContent,'3 of 3 correct');
   const order=player.dom.window.Node.DOCUMENT_POSITION_FOLLOWING;
-  assert.ok(player.root.querySelector('.quiz-result-summary').compareDocumentPosition(player.root.querySelector('.quiz-finished-art'))&order);
-  assert.ok(host.get('rematch').compareDocumentPosition(host.root.querySelector('.quiz-finished-art'))&order);
-  assert.equal(host.get('rematch').textContent,'Back to lobby for a rematch');
+  assert.ok(player.root.querySelector('.quiz-finished-art').compareDocumentPosition(player.root.querySelector('.quiz-result-summary'))&order);
+  assert.ok(host.root.querySelector('.quiz-standings').compareDocumentPosition(host.get('rematch'))&order);
+  assert.equal(host.get('rematch').textContent,'Rematch');
+  assert.equal(player.get('rematch'),null);
+  assert.ok(host.root.querySelector('main.quiz-finished.is-host'));
+  assert.ok(player.root.querySelector('main.quiz-finished.is-player'));
   host.click('rematch');await flush();assert.deepEqual(host.client.calls,[{action:'rematch',values:{}}]);
 });
 

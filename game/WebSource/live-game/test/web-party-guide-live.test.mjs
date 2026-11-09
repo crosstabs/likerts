@@ -55,7 +55,7 @@ test('party guides change from the real room state, never from a selected or pen
   resolveReply({ ok: true, status: 200, json: async () => ({ state: locked }) }); await flush();
   g.act(g.players[1], 'quiz-answer', { value: 1 }); f.client.acceptState(g.state());
   assert.equal(f.guide().dataset.partyBeat, 'reveal'); assert.match(f.guide().textContent, /Blu · The Guide/);
-  assert.equal(f.root.querySelector('.quiz-celebration'), null); assert.match(f.root.textContent, /0 points · You chose Venus/);
+  assert.equal(f.root.querySelector('.quiz-celebration'), null); assert.match(f.root.textContent, /0 points You chose Venus/);
   g.act('host', 'end'); f.client.acceptState(g.state());
   assert.equal(f.guide().dataset.partyBeat, 'finished'); assert.match(f.guide().textContent, /Moss · The Cheerleader/);
   assert.equal(f.root.querySelector('.quiz-celebration'), null); assert.match(f.root.textContent, /Provisional standings/);

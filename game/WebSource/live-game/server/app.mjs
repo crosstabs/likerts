@@ -308,7 +308,7 @@ export async function createLiveServer({ store, catalogue, origins = [], allowNo
       : pathname === '/play/quizzes' || pathname === '/play/quizzes/' ? 'quizzes.html'
       : decodeURIComponent(pathname.slice('/play/'.length)); } catch { fail('not_found', 'This page is unavailable.', 404); }
     if (!relative || relative.includes('\0') || relative.split(/[\\/]/).some(part => part.startsWith('.')) || relative.includes('\\')) fail('not_found', 'This page is unavailable.', 404);
-    const type = { '.html': 'text/html', '.css': 'text/css', '.mjs': 'text/javascript', '.js': 'text/javascript', '.png': 'image/png', '.svg': 'image/svg+xml', '.webp': 'image/webp' }[extname(relative)];
+    const type = { '.html': 'text/html', '.css': 'text/css', '.mjs': 'text/javascript', '.js': 'text/javascript', '.png': 'image/png', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.woff2': 'font/woff2' }[extname(relative)];
     if (!type) fail('not_found', 'This page is unavailable.', 404);
     let file;
     try {
@@ -316,7 +316,7 @@ export async function createLiveServer({ store, catalogue, origins = [], allowNo
       if (!file.startsWith(base + sep) || !(await stat(file)).isFile() || (await stat(file)).size > 8 * 1024 * 1024) fail('not_found', 'This page is unavailable.', 404);
     } catch { fail('not_found', 'This page is unavailable.', 404); }
     const websocketOrigin = (publicOrigin ?? listenOrigin)?.replace(/^http/, 'ws');
-    response.writeHead(200, { ...headers(), 'Content-Type': `${type}; charset=utf-8`, 'Content-Security-Policy': `default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'${websocketOrigin ? ` ${websocketOrigin}` : ''}; base-uri 'none'; form-action 'self'; frame-ancestors 'none'` });
+    response.writeHead(200, { ...headers(), 'Content-Type': `${type}; charset=utf-8`, 'Content-Security-Policy': `default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self'${websocketOrigin ? ` ${websocketOrigin}` : ''}; base-uri 'none'; form-action 'self'; frame-ancestors 'none'` });
     response.end(request.method === 'HEAD' ? undefined : await readFile(file));
   }
 

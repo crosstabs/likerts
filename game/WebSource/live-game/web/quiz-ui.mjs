@@ -2,7 +2,7 @@ import { QUIZ_LIMITS, QuizValidationError, encodeQuiz, makeQuestion, makeQuiz, n
 import { QuizRun } from './quiz-run.mjs';
 import { QuizLibraryError } from './quiz-library.mjs';
 import { QuizDraftError } from './quiz-draft.mjs';
-import { totem } from './art.mjs';
+import { celebration } from './art.mjs';
 import { companionScene, castScene, libraryScene, partyGuide, guideScene, partyCastPresentation } from './quiz-scene.mjs';
 import { createQuizMotionController } from './quiz-motion.mjs';
 
@@ -34,7 +34,7 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
   const motion = createQuizMotionController({window:win});
   const model = { screen: 'library', draft: null, baseline: '', questionIndex: 0, editError: '', editorNotice: '', editorConflict: false, feedback: '', error: '',
     confirm: null, busy: false, busyMessage: '', run: null, practiceOriginalQuiz: null, practiceIsRetry: false, practiceReviewOpen: false, practiceOrigin: 'library', selection: null, focusAfter: null,
-    draftID: null, draftRevision: null, sourceQuiz: null, draftStatus: '', draftSaveError: null };
+    draftID: null, draftRevision: null, sourceQuiz: null, draftStatus: '', draftSaveError: null, joinCode: '' };
   let disposed = false, importOperation = null;
   let draftGeneration = 0, lastDraftSnapshot = '', pendingDraft = undefined, autosaveRunning = false, autosaveTail = Promise.resolve();
   const urls = new Set(), questionLabels = new Map();
@@ -65,7 +65,7 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
     const path = document.createElementNS(svg.namespaceURI, 'path');
     path.setAttribute('d', { up: 'M12 19V5m-6 6 6-6 6 6', down: 'M12 5v14m-6-6 6 6 6-6',
       trash: 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5',
-      plus: 'M12 5v14M5 12h14', check: 'm5 12 4 4L19 6', back: 'M20 12H4m6-6-6 6 6 6' }[kind]);
+      plus: 'M12 5v14M5 12h14', check: 'm5 12 4 4L19 6', back: 'M20 12H4m6-6-6 6 6 6', clock: 'M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0'  }[kind]);
     for (const [key, value] of Object.entries({ fill: 'none', stroke: 'currentColor', 'stroke-width': 1.9, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })) path.setAttribute(key, value);
     svg.append(path); return svg;
   }
@@ -203,11 +203,14 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
     leaveFor(() => { model.screen = 'library'; model.draft = null; model.run = null; model.practiceOriginalQuiz = null; model.practiceIsRetry = false; model.practiceReviewOpen = false; model.editError = ''; model.error = ''; render({ focus: 'quiz-page-title' }); });
   }
   function header() {
-    return el('header', { class: 'q-topbar' }, el('div', { class: 'q-wordmark', 'aria-label': 'Likerts' }, 'likerts', el('span', { 'aria-hidden': 'true' }, '.')),
-      el('nav', { 'aria-label': 'Game modes' }, button('Quizzes', goLibrary, { className: 'q-mode is-current', id: 'quiz-nav-library', 'aria-current': 'page' }),
-        el('a', { class: 'q-mode', href: '/play', id: 'quiz-nav-mindreading', onclick: event => {
+    return el('header', { class: 'q-topbar' },
+      button(['likerts', el('span', { 'aria-hidden': 'true' }, '.')], goLibrary, { className: 'q-wordmark', 'aria-label': 'Likerts quiz home' }),
+      el('nav', { 'aria-label': 'Game modes' },
+        button('Quizzes', goLibrary, { className: 'q-mode is-current', id: 'quiz-nav-library', 'aria-current': 'page' }),
+        el('a', { class: 'q-mode q-secondary-mode', href: '/play', id: 'quiz-nav-mindreading', onclick: event => {
           if (dirty() || activePractice()) { event.preventDefault(); leaveFor(() => win.location.assign('/play')); }
-        } }, 'Join or host live')), model.screen!=='practice'&&totem(el,3,'q-neutral-guide'));
+        } }, 'Mind-reading')),
+      el('a', { class: 'q-support-link', href: 'https://likerts.com/game/support', target: '_blank', rel: 'noopener noreferrer' }, 'Support'));
   }
   function messageBlocks() {
     return [model.feedback && el('div', { class: 'q-message', role: 'status', 'aria-live': 'polite' }, text(model.feedback)),
@@ -340,7 +343,7 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
     return el('article', { class: 'q-library-row', 'aria-labelledby': 'quiz-name-' + quiz.id },
       el('div', { class: 'q-quiz-info' }, el('h2', { id: 'quiz-name-' + quiz.id }, quiz.title), text(quiz.questions.length + (quiz.questions.length === 1 ? ' question' : ' questions'), 'q-muted')),
       el('div', { class: 'q-library-actions' },
-        hostQuiz && button('Host live', () => confirmHost(quiz), { className: 'q-button lime', 'aria-label': 'Host ' + quiz.title + ' live', 'data-quiz-host': quiz.id }),
+        hostQuiz && button('Play quiz', () => confirmHost(quiz), { className: 'q-button lime', id: 'quiz-host-' + quiz.id, 'aria-label': 'Play quiz: ' + quiz.title + ' live', 'data-quiz-host': quiz.id }),
         button('Practice', () => startPractice(quiz), { className: hostQuiz ? 'q-button quiet' : 'q-button lime', 'aria-label': 'Practice ' + quiz.title, 'data-quiz-practice': quiz.id }),
         button('Edit', () => startEditor(quiz), { className: 'q-button quiet', 'aria-label': 'Edit ' + quiz.title, 'data-quiz-edit': quiz.id }),
         button('Duplicate', () => updateLibrary(() => library.duplicate(quiz), 'A new quiz copy was saved.'),
@@ -360,23 +363,29 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
       el('div', {}, text(guide.characterName + ' · ' + guide.role, 'q-guide-name'),
         text(guide.title, 'q-guide-title'), text(guide.cue, 'q-muted')));
   }
+  function starterCover(index) {
+    return el('div', { class: 'q-starter-cover q-cover-' + index, 'aria-hidden': 'true' },
+      index === 0 ? el('img', { class: 'q-book-cover', src: '/play/assets/story-book-library.png', alt: '', width: 1536, height: 1024, loading: 'lazy', decoding: 'async' })
+        : guideScene(el, index === 1 ? 'gather' : 'question', 'q-cover-guide'));
+  }
   function starterCollection() {
     return el('section', { class: 'q-starters', 'aria-labelledby': 'quiz-starters-heading' },
-      el('h2', { id: 'quiz-starters-heading', class: 'q-section-heading', tabindex: '-1' }, hostQuiz ? 'Pick tonight’s quiz.' : 'Try a starter.'),
-      text('Short quizzes, ready to play. Make a copy to add your own twist.', 'q-muted'),
+      el('h2', { id: 'quiz-starters-heading', class: 'q-section-heading', tabindex: '-1' }, 'Ready to play'),
       el('div', { class: 'q-starter-grid' }, starterQuizDocuments().map((quiz, index) => {
         const actionId = action => index === 0 ? 'quiz-' + action + '-sample' : 'quiz-' + action + '-starter-' + quiz.id;
         const headingId = index === 0 ? 'quiz-sample-heading' : 'quiz-starter-heading-' + quiz.id;
         return el('article', { class: 'q-starter-card', 'aria-labelledby': headingId, 'data-starter-id': quiz.id },
-          el('h3', { id: headingId }, 'Try ' + quiz.title),
-          text(quiz.questions.length + ' questions', 'q-muted'),
-          el('div', { class: 'q-action-row' },
-            hostQuiz && button('Host live', () => confirmHost(quiz),
-              { className: 'q-button lime', id: actionId('host'), 'aria-label': 'Host ' + quiz.title + ' live', 'data-starter-host': quiz.id }),
-            button('Practice', () => startPractice(quiz),
-              { className: hostQuiz ? 'q-button quiet' : 'q-button lime', id: actionId('practice'), 'aria-label': 'Practice ' + quiz.title, 'data-starter-practice': quiz.id }),
-            button('Make a copy', () => startEditor(quiz, { copyAsNew: true }),
-              { className: 'q-text-button', id: actionId('copy'), 'aria-label': 'Make a copy of ' + quiz.title, 'data-starter-copy': quiz.id, disabled: library.blocked })));
+          starterCover(index),
+          el('div', { class: 'q-starter-body' },
+            el('h3', { id: headingId }, quiz.title),
+            text(quiz.questions.length + ' questions', 'q-muted'),
+            hostQuiz && button('Play quiz', () => confirmHost(quiz),
+              { className: 'q-button lime q-starter-play', id: actionId('host'), 'aria-label': 'Play quiz: ' + quiz.title + ' live', 'data-starter-host': quiz.id }),
+            el('div', { class: 'q-starter-secondary' },
+              button('Practice', () => startPractice(quiz),
+                { className: hostQuiz ? 'q-text-button quiet' : 'q-button lime', id: actionId('practice'), 'aria-label': 'Practice ' + quiz.title, 'data-starter-practice': quiz.id }),
+              button('Make a copy', () => startEditor(quiz, { copyAsNew: true }),
+                { className: 'q-text-button', id: actionId('copy'), 'aria-label': 'Make a copy of ' + quiz.title, 'data-starter-copy': quiz.id, disabled: library.blocked }))));
       })));
   }
   function meetTheCast() {
@@ -397,22 +406,38 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
   }
   function libraryScreen() {
     const quizzes = library.quizzes;
+    const liveNotice = liveRecovery(), draftNotice = recoveryCard();
     const file = el('input', { type: 'file', accept: '.json,application/json', id: 'quiz-import-file', class: 'q-file-input', 'aria-label': 'Choose a Likerts quiz file', disabled: model.busy || !library.canWrite,
       onchange: event => { const selected = event.target.files?.[0]; event.target.value = ''; void importFile(selected); } });
-    return el('main', { id: 'main', class: 'q-library', tabindex: '-1' },
-      el('div', { class: 'q-page-heading' }, el('h1', { id: 'quiz-page-title', tabindex: '-1' }, 'Quizzes'),
-        el('div', { class: 'q-action-row' }, el('a', { class: 'q-button quiet', id: 'quiz-join-room', href: '/play?intent=join' }, 'Join a room'),
-          button('Import quiz', () => file.click(), { className: 'q-button quiet', id: 'quiz-import', disabled: !library.canWrite }),
-          button('Create quiz', () => startEditor(), { id: 'quiz-create', disabled: library.blocked }))),
-      text(hostQuiz ? 'Host a quiz. Make one. Bring your people.' : 'Make a quiz. Find out what you know.', 'q-lede'),
-      text('Saved on this browser. Export a quiz file to use it in another browser.', 'q-muted'),
-      messageBlocks(), liveRecovery(), recoveryCard(), storageWarning(), file, model.busy && el('p', { role: 'status', class: 'q-message' }, model.busyMessage),
-      gatheringGuide(), starterCollection(),
-      el('section', { class: 'q-saved-quizzes', 'aria-labelledby': 'quiz-saved-heading' },
-        el('h2', { id: 'quiz-saved-heading', class: 'q-section-heading' }, 'Your quizzes'),
-        quizzes.length ? quizzes.map(quizRow) : text(library.blocked ? 'Saved quizzes are unavailable until the library can be read.' : 'Your first quiz starts with a good question.', 'q-empty')),
-      meetTheCast(), libraryScene(el),
-      text(ANSWER_KEY_NOTE, 'q-sharing-note'), text(hostQuiz ? 'Host a live quiz for friends in their browsers. Practice stays on this device.' : 'Quiz practice stays on this device.', 'q-muted q-scope-note'));
+    const codeForm = el('form', { class: 'q-hero-join', id: 'quiz-join-room', action: '/play', method: 'get', 'aria-label': 'Join a live room' },
+      el('label', { for: 'quiz-room-code' }, 'Game code'),
+      el('div', { class: 'q-hero-join-fields' },
+        el('input', { id: 'quiz-room-code', name: 'room', type: 'text', value: model.joinCode, required: true, maxlength: 16, placeholder: 'ABCDEF', autocomplete: 'off', autocapitalize: 'characters', spellcheck: 'false', oninput: event => { model.joinCode = event.target.value.slice(0, 16); } }),
+        el('button', { class: 'q-button q-join-button', type: 'submit', disabled: model.busy }, 'Join game')));
+    return el('main', { id: 'main', class: 'q-library q-room-main' + (liveNotice || draftNotice ? ' has-recovery' : ''), tabindex: '-1' },
+      el('section', { class: 'q-library-hero', 'aria-labelledby': 'quiz-page-title' },
+        el('div', { class: 'q-library-hero-inner' },
+          el('div', { class: 'q-hero-copy' },
+            el('h1', { id: 'quiz-page-title', tabindex: '-1' }, 'Pick tonight’s quiz.'),
+            text('Short quizzes, ready to play. Make a copy to add your own twist.', 'q-lede'),
+            el('div', { class: 'q-action-row q-hero-actions' },
+              button('Create quiz', () => startEditor(), { id: 'quiz-create', className: 'q-button lime', disabled: library.blocked }),
+              button('Import quiz', () => file.click(), { className: 'q-text-button', id: 'quiz-import', disabled: !library.canWrite }))),
+          el('div', { class: 'q-hero-cast' }, celebration(el)), codeForm)),
+      el('div', { class: 'q-library-content' },
+        messageBlocks(), liveNotice, draftNotice, storageWarning(), file,
+        model.busy && el('p', { role: 'status', class: 'q-message' }, model.busyMessage),
+        starterCollection(),
+        el('section', { class: 'q-saved-quizzes', 'aria-labelledby': 'quiz-saved-heading' },
+          el('div', { class: 'q-saved-heading' }, el('h2', { id: 'quiz-saved-heading', class: 'q-section-heading' }, 'Your quizzes'),
+            text('Saved on this browser. Export a quiz file to use it in another browser.', 'q-muted')),
+          quizzes.length ? quizzes.map(quizRow) : el('div', { class: 'q-library-empty' },
+            libraryScene(el),
+            el('div', {}, el('h3', {}, library.blocked ? 'Your saved quizzes need attention.' : 'Your first quiz starts with a good question.'),
+              library.blocked ? text('Saved quizzes are unavailable until the library can be read.', 'q-empty')
+                : button('Create your first quiz', () => startEditor(), { className: 'q-text-button', id: 'quiz-create-first', disabled: library.blocked })))),
+        gatheringGuide(), el('p', { class: 'q-library-secondary' }, el('a', { href: '/play', id: 'quiz-secondary-mindreading' }, 'Try Mind-reading')), meetTheCast(), text(ANSWER_KEY_NOTE, 'q-sharing-note'),
+        text(hostQuiz ? 'Host a live quiz for friends in their browsers. Practice stays on this device.' : 'Quiz practice stays on this device.', 'q-muted q-scope-note')));
   }
   function liveRecovery() {
     const access = liveAccess();
@@ -461,7 +486,7 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
   }
   function answerField(question, answer, index) {
     const selected = question.correctAnswer === index, id = 'quiz-answer-' + index;
-    return el('div', { class: 'q-answer-editor' + (selected ? ' is-correct' : '') },
+    return el('div', { class: 'q-answer-editor q-answer-tone-' + index + (selected ? ' is-correct' : '') },
       el('label', { class: 'q-correct-toggle', title: 'Mark answer ' + (index + 1) + ' as correct' },
         el('input', { type: 'radio', name: 'correct-answer', id: 'quiz-correct-' + index, checked: selected, 'aria-label': 'Mark answer ' + (index + 1) + ' correct',
           onchange: () => { question.correctAnswer = index; model.editError = ''; render({ focus: 'quiz-correct-' + index }); } }),
@@ -482,44 +507,50 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
           { className: 'q-question-tab' + (index === model.questionIndex ? ' is-selected' : ''), id: 'quiz-question-tab-' + index,
             'aria-label': 'Question ' + (index + 1) + ': ' + shortPrompt(item), 'aria-current': index === model.questionIndex ? 'step' : null }));
       })), button([icon('plus'), 'Add question'], () => { quiz.questions.push(makeQuestion()); model.questionIndex = quiz.questions.length - 1; model.editError = ''; render({ focus: 'quiz-prompt' }); },
-        { className: 'q-button lime q-add-question', id: 'quiz-add-question', disabled: quiz.questions.length >= QUIZ_LIMITS.questions }));
-    return el('main', { id: 'main', class: 'q-editor', tabindex: '-1' },
+        { className: 'q-button quiet q-add-question', id: 'quiz-add-question', disabled: quiz.questions.length >= QUIZ_LIMITS.questions }),
+      el('div', { class: 'q-action-row q-question-tools q-question-management', role: 'group', 'aria-label': 'Manage this question' },
+        iconButton('up', 'Move question up', () => moveQuestion(-1), { id: 'quiz-move-up', disabled: model.questionIndex === 0 }),
+        iconButton('down', 'Move question down', () => moveQuestion(1), { id: 'quiz-move-down', disabled: model.questionIndex === quiz.questions.length - 1 }),
+        iconButton('trash', 'Remove question', removeQuestion, { id: 'quiz-remove-question', disabled: quiz.questions.length <= 1 })),
+      guideScene(el, 'reveal', 'q-editor-guide'));
+    const settings = el('aside', { class: 'q-question-settings', 'aria-label': 'Question settings' },
+      field('Time limit', 'quiz-time-limit', el('select', { id: 'quiz-time-limit', value: String(question.timeLimitSeconds), onchange: event => { question.timeLimitSeconds = Number(event.target.value); markDirty(); } },
+        [0, 10, 20, 30, 60, 120].map(seconds => el('option', { value: seconds, selected: seconds === question.timeLimitSeconds }, seconds === 0 ? 'No timer' : seconds + ' seconds')))),
+      field('Explanation', explanationId, el('textarea', { id: explanationId, rows: 5, value: question.explanation, maxlength: QUIZ_LIMITS.explanation * 2,
+        oninput: event => updateText(event.target.value, value => { question.explanation = value; }, explanationId, QUIZ_LIMITS.explanation) }), { count: scalarCount(question.explanation), maximum: QUIZ_LIMITS.explanation }));
+    return el('main', { id: 'main', class: 'q-editor q-content-main', tabindex: '-1' },
       el('div', { class: 'q-page-heading' }, el('h1', { id: 'quiz-page-title', tabindex: '-1' }, 'Make a quiz'),
         el('div', { class: 'q-action-row' }, button('Cancel', goLibrary, { className: 'q-button quiet', id: 'quiz-editor-cancel' }),
-          button('Save quiz', saveDraft, { id: 'quiz-save', disabled: !library.canWrite || model.editorConflict }))),
+          button('Save quiz', saveDraft, { className: 'q-button lime', id: 'quiz-save', disabled: !library.canWrite || model.editorConflict }))),
+      el('div', { class: 'q-editor-title-row' },
+        field('Quiz title', titleId, el('input', { id: titleId, type: 'text', value: quiz.title, placeholder: 'Quiz title', maxlength: QUIZ_LIMITS.title * 2, autocomplete: 'off',
+          oninput: event => updateText(event.target.value, value => { quiz.title = value; }, titleId, QUIZ_LIMITS.title) }), { count: scalarCount(quiz.title), maximum: QUIZ_LIMITS.title }),
+        draftStore && el('div', { class: 'q-editor-save-status' + (model.draftSaveError ? ' is-error' : '') },
+          el('p', { id: 'quiz-draft-status', tabindex: '-1', role: model.draftSaveError ? 'alert' : null }, model.draftStatus),
+          button('Try keeping draft again', () => { lastDraftSnapshot = ''; queueDraftSave(); },
+            { id: 'quiz-retry-draft-save', className: 'q-text-button', hidden: !model.draftSaveError || !draftStore.canWrite, disabled: !model.draftSaveError || !draftStore.canWrite }))),
       !library.writeSupported && el('div', { class: 'q-message', role: 'status' }, text('Saving is not available in this browser. You can keep this quiz by exporting its file.')),
-      draftStore && el('div', { class: 'q-message' + (model.draftSaveError ? ' is-error' : '') },
-        el('p', { id: 'quiz-draft-status', tabindex: '-1', role: model.draftSaveError ? 'alert' : null }, model.draftStatus),
-        button('Try keeping draft again', () => { lastDraftSnapshot = ''; queueDraftSave(); },
-          { id: 'quiz-retry-draft-save', className: 'q-text-button', hidden: !model.draftSaveError || !draftStore.canWrite, disabled: !model.draftSaveError || !draftStore.canWrite })),
       model.editorNotice && el('div', { class: 'q-message', role: 'status' }, text(model.editorNotice)),
       model.busy && el('p', { class: 'q-message', role: 'status' }, model.busyMessage),
       el('div', { class: 'q-edit-error q-message is-error', id: 'quiz-edit-error', role: 'alert', tabindex: '-1', hidden: !model.editError }, model.editError),
       model.editorConflict && button('Reload library and keep a copy', reloadForCopy, { className: 'q-button quiet', id: 'quiz-reload-for-copy' }),
-      el('div', { class: 'q-editor-layout' }, el('section', { class: 'q-question-form', 'aria-labelledby': 'quiz-question-heading' },
-        el('div', { class: 'q-question-heading-row' }, el('h2', { id: 'quiz-question-heading', tabindex: '-1' }, 'Question ' + (model.questionIndex + 1))),
-        field('Question', promptId, el('textarea', { id: promptId, rows: 2, value: question.prompt, maxlength: QUIZ_LIMITS.prompt * 2,
-          oninput: event => updateText(event.target.value, value => { question.prompt = value; }, promptId, QUIZ_LIMITS.prompt) }), { count: scalarCount(question.prompt), maximum: QUIZ_LIMITS.prompt }),
-        el('fieldset', { class: 'q-answer-fieldset' }, el('legend', { class: 'q-visually-hidden' }, 'Answers and correct answer'),
-          el('div', { class: 'q-answer-grid' }, question.answers.map((answer, index) => answerField(question, answer, index)))),
-        el('div', { class: 'q-answer-tools' },
-          button('Add answer', () => { question.answers.push(''); model.editError = ''; render({ focus: 'quiz-answer-' + (question.answers.length - 1) }); },
-            { className: 'q-text-button', id: 'quiz-add-answer', disabled: question.answers.length >= 4 }),
-          button('Remove last answer', () => { const removed = question.answers.length - 1; question.answers.pop(); if (question.correctAnswer === removed) question.correctAnswer = -1; model.editError = ''; render({ focus: 'quiz-add-answer' }); },
-            { className: 'q-text-button', id: 'quiz-remove-answer', disabled: question.answers.length <= 2 })),
-        el('div', { class: 'q-action-row q-question-tools q-question-management', role: 'group', 'aria-label': 'Manage this question' },
-          iconButton('up', 'Move question up', () => moveQuestion(-1), { id: 'quiz-move-up', disabled: model.questionIndex === 0 }),
-          iconButton('down', 'Move question down', () => moveQuestion(1), { id: 'quiz-move-down', disabled: model.questionIndex === quiz.questions.length - 1 }),
-          iconButton('trash', 'Remove question', removeQuestion, { id: 'quiz-remove-question', disabled: quiz.questions.length <= 1 })),
-        field('Time limit', 'quiz-time-limit', el('select', { id: 'quiz-time-limit', value: String(question.timeLimitSeconds), onchange: event => { question.timeLimitSeconds = Number(event.target.value); markDirty(); } },
-          [0, 10, 20, 30, 60, 120].map(seconds => el('option', { value: seconds, selected: seconds === question.timeLimitSeconds }, seconds === 0 ? 'No timer' : seconds + ' seconds')))),
-        field('Explanation', explanationId, el('textarea', { id: explanationId, rows: 2, value: question.explanation, maxlength: QUIZ_LIMITS.explanation * 2,
-          oninput: event => updateText(event.target.value, value => { question.explanation = value; }, explanationId, QUIZ_LIMITS.explanation) }), { count: scalarCount(question.explanation), maximum: QUIZ_LIMITS.explanation }),
-        field('Quiz title', titleId, el('input', { id: titleId, type: 'text', value: quiz.title, maxlength: QUIZ_LIMITS.title * 2, autocomplete: 'off',
-          oninput: event => updateText(event.target.value, value => { quiz.title = value; }, titleId, QUIZ_LIMITS.title) }), { count: scalarCount(quiz.title), maximum: QUIZ_LIMITS.title }),
-        button('Practice quiz', () => startPractice(quiz, 'editor'), { className: 'q-button lime', id: 'quiz-practice-draft' }),
-        button('Export quiz file', () => exportQuiz(quiz), { className: 'q-text-button q-export-draft', id: 'quiz-export-draft' }),
-        text(ANSWER_KEY_NOTE, 'q-sharing-note')), rail));
+      el('div', { class: 'q-editor-layout' }, rail,
+        el('section', { class: 'q-question-form', 'aria-labelledby': 'quiz-question-heading' },
+          el('div', { class: 'q-question-heading-row' }, el('h2', { id: 'quiz-question-heading', tabindex: '-1' }, 'Question ' + (model.questionIndex + 1))),
+          field('Question', promptId, el('textarea', { id: promptId, rows: 4, value: question.prompt, placeholder: 'Write your question', maxlength: QUIZ_LIMITS.prompt * 2,
+            oninput: event => updateText(event.target.value, value => { question.prompt = value; }, promptId, QUIZ_LIMITS.prompt) }), { count: scalarCount(question.prompt), maximum: QUIZ_LIMITS.prompt }),
+          el('fieldset', { class: 'q-answer-fieldset' }, el('legend', {}, 'Answers and correct answer'),
+            text('Choose the correct answer.', 'q-answer-instruction'),
+            el('div', { class: 'q-answer-grid' }, question.answers.map((answer, index) => answerField(question, answer, index)))),
+          el('div', { class: 'q-answer-tools' },
+            button('Add answer', () => { question.answers.push(''); model.editError = ''; render({ focus: 'quiz-answer-' + (question.answers.length - 1) }); },
+              { className: 'q-text-button', id: 'quiz-add-answer', disabled: question.answers.length >= 4 }),
+            button('Remove last answer', () => { const removed = question.answers.length - 1; question.answers.pop(); if (question.correctAnswer === removed) question.correctAnswer = -1; model.editError = ''; render({ focus: 'quiz-add-answer' }); },
+              { className: 'q-text-button', id: 'quiz-remove-answer', disabled: question.answers.length <= 2 }))), settings),
+      el('footer', { class: 'q-editor-footer' }, text(ANSWER_KEY_NOTE, 'q-sharing-note'),
+        el('div', { class: 'q-action-row' },
+          button('Practice quiz', () => startPractice(quiz, 'editor'), { className: 'q-button quiet', id: 'quiz-practice-draft' }),
+          button('Export quiz file', () => exportQuiz(quiz), { className: 'q-button quiet q-export-draft', id: 'quiz-export-draft' }))));
   }
   function missedPracticeReview(run) {
     const ids = new Set(run.missedQuestionIDs);
@@ -551,8 +582,9 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
   function practiceScreen() {
     const run = model.run;
     const missed = run.missedQuestionIDs.length;
-    if (run.phase === 'finished') return el('main', { id: 'main', class: 'q-results', tabindex: '-1' },
+    if (run.phase === 'finished') return el('main', { id: 'main', class: 'q-results q-content-main', tabindex: '-1' },
       text(run.quiz.title, 'q-practice-title'), el('h1', { id: 'quiz-practice-heading', tabindex: '-1' }, model.practiceIsRetry ? 'Retry complete' : 'Quiz complete'), messageBlocks(),
+      el('div', { class: 'q-result-art' }, castScene(el,run.correctCount > 0)),
       el('section', { class: 'q-result-summary', 'aria-labelledby': 'quiz-result-label' },
         el('h2', { id: 'quiz-result-label' }, model.practiceIsRetry ? 'This attempt' : 'Your total'),
         el('p', { class: 'q-total-points' }, run.score.toLocaleString('en') + ' points'),
@@ -561,38 +593,52 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
         missed > 0 && button('Retry ' + missed + ' missed ' + (missed === 1 ? 'question' : 'questions'), retryPracticeMisses, { className: 'q-button lime', id: 'quiz-retry-missed' }),
         button('Replay full quiz', () => startPractice(model.practiceOriginalQuiz ?? run.quiz, model.practiceOrigin), { className: missed ? 'q-button quiet' : 'q-button lime', id: 'quiz-replay' }),
         button(model.practiceOrigin === 'editor' ? 'Back to editor' : 'Library', model.practiceOrigin === 'editor' ? returnToEditor : goLibrary,
-          { className: 'q-button quiet', id: 'quiz-result-back' })),
+          { className: 'q-text-button quiet', id: 'quiz-result-back' })),
       missed > 0 && missedPracticeReview(run), missed > 0 && practiceRetryGuide(),
-      text(model.practiceIsRetry ? 'This retry has a fresh score. Practice scores aren’t saved.' : 'Your quiz stays on this browser. This practice score isn’t saved.', 'q-muted'),
-      el('div', { class: 'q-result-art' }, castScene(el,run.correctCount > 0)));
+      text(model.practiceIsRetry ? 'This retry has a fresh score. Practice scores aren’t saved.' : 'Your quiz stays on this browser. This practice score isn’t saved.', 'q-muted'));
     const question = run.currentQuestion, revealed = run.phase === 'reveal', result = run.results.at(-1);
     const revealTitle = result?.timedOut ? 'Time’s up' : result?.correct ? 'That’s right' : 'Not this time';
-    return el('main', { id: 'main', class: 'q-practice', tabindex: '-1' },
-      el('div', { class: 'q-practice-top' }, text(run.quiz.title, 'q-practice-title'), companionScene(el,3,'is-compact q-question-companion'),
-        button(model.practiceOrigin === 'editor' ? 'Back to editor' : 'Library', model.practiceOrigin === 'editor' ? returnToEditor : goLibrary,
-          { className: 'q-button quiet', id: 'quiz-practice-back' })),
-      model.practiceIsRetry && el('div', { class: 'q-practice-attempt' }, text('Retry missed questions', 'q-attempt-badge'), text('This attempt has only the questions you missed.', 'q-muted')),
-      messageBlocks(),
-      el('div', { class: 'q-practice-progress' }, text('Question ' + (run.index + 1) + ' of ' + run.quiz.questions.length),
-        question.timeLimitSeconds > 0 && el('p', { id: 'quiz-countdown', class: 'q-countdown', 'aria-label': 'Time remaining' }, revealed ? 'Answer locked' : run.remainingSeconds(now()) + ' seconds left')),
-      el('h1', { id: 'quiz-practice-heading', tabindex: '-1' }, question.prompt),
-      el('div', { class: 'q-practice-answers', role: 'group', 'aria-label': 'Choose your answer' }, question.answers.map((answer, index) => {
-        const chosen = revealed ? run.selectedAnswer === index : model.selection === index;
-        const correct = revealed && index === question.correctAnswer;
-        return button([el('span', { class: 'q-choice-letter', 'aria-hidden': 'true' }, String.fromCharCode(65 + index)), el('span', { class: 'q-choice-text' }, answer),
-          revealed && (correct || chosen) && el('span', { class: 'q-choice-result' }, correct ? 'Correct answer' : 'Your answer')],
-          () => { model.selection = index; render({ focus: 'quiz-play-answer-' + index }); }, {
-            className: 'q-practice-choice' + (chosen ? ' is-selected' : '') + (correct ? ' is-correct' : '') + (revealed && chosen && !correct ? ' is-incorrect' : ''),
-            id: 'quiz-play-answer-' + index, 'aria-pressed': chosen, disabled: revealed,
-          });
-      })),
-      revealed ? el('section', { class: 'q-reveal' + (result?.correct ? ' is-correct' : ''), 'aria-labelledby': 'quiz-reveal-heading', 'aria-live': 'polite' },
-        el('h2', { id: 'quiz-reveal-heading', tabindex: '-1' }, revealTitle), text((result?.points || 0).toLocaleString('en') + ' points', 'q-reveal-points'),
-        text('Correct answer: ' + question.answers[question.correctAnswer]), question.explanation && text(question.explanation, 'q-explanation'),
+    const progress = el('div', { class: 'q-practice-progress' },
+      text('Question ' + (run.index + 1) + ' of ' + run.quiz.questions.length),
+      el('span', { class: 'q-progress-dots', 'aria-hidden': 'true' }, run.quiz.questions.map((_, index) => el('span', { class: index <= run.index ? 'is-complete' : '' }))));
+    const top = el('div', { class: 'q-practice-top' }, text(run.quiz.title, 'q-practice-title'),
+      button(model.practiceOrigin === 'editor' ? 'Back to editor' : 'Library', model.practiceOrigin === 'editor' ? returnToEditor : goLibrary,
+        { className: 'q-text-button quiet', id: 'quiz-practice-back' }));
+    const retryLabel = model.practiceIsRetry && el('div', { class: 'q-practice-attempt' }, text('Retry missed questions', 'q-attempt-badge'), text('This attempt has only the questions you missed.', 'q-muted'));
+    const choices = () => el('div', { class: 'q-practice-answers' + (revealed ? ' is-review' : ''), role: 'group', 'aria-label': revealed ? 'Revealed answers' : 'Choose your answer' }, question.answers.map((answer, index) => {
+      const chosen = revealed ? run.selectedAnswer === index : model.selection === index;
+      const correct = revealed && index === question.correctAnswer;
+      return button([el('span', { class: 'q-choice-letter', 'aria-hidden': 'true' }, String.fromCharCode(65 + index)), el('span', { class: 'q-choice-text' }, answer),
+        !revealed && chosen && el('span', { class: 'q-choice-selection', 'aria-hidden': 'true' }, icon('check')),
+        revealed && (correct || chosen) && el('span', { class: 'q-choice-result' }, correct ? 'Correct answer' : 'Your answer')],
+        () => { model.selection = index; render({ focus: 'quiz-play-answer-' + index }); }, {
+          className: 'q-practice-choice' + (chosen ? ' is-selected' : '') + (correct ? ' is-correct' : '') + (revealed && chosen && !correct ? ' is-incorrect' : ''),
+          id: 'quiz-play-answer-' + index, 'aria-pressed': chosen, disabled: revealed,
+        });
+    }));
+    if (revealed) return el('main', { id: 'main', class: 'q-practice q-content-main is-revealed', tabindex: '-1' },
+      top, retryLabel, messageBlocks(), el('div', { class: 'q-reveal-progress' }, progress),
+      el('section', { class: 'q-reveal' + (result?.correct ? ' is-correct' : ''), 'aria-labelledby': 'quiz-reveal-heading', 'aria-live': 'polite' },
+        el('h1', { id: 'quiz-reveal-heading', tabindex: '-1' }, revealTitle),
+        result?.correct ? castScene(el,true,'q-practice-reveal-art') : companionScene(el,3,'q-practice-neutral-result'),
+        text((result?.points || 0).toLocaleString('en') + ' points', 'q-reveal-points'),
+        el('h2', { id: 'quiz-practice-heading', class: 'q-revealed-prompt', tabindex: '-1' }, question.prompt),
+        el('div', { class: 'q-practice-correct-answer' }, text('Correct answer', 'q-muted'), el('strong', {}, question.answers[question.correctAnswer])),
+        question.explanation && text(question.explanation, 'q-explanation'),
+        text(run.selectedAnswer === null ? 'No answer locked.' : 'Your answer: ' + question.answers[run.selectedAnswer], 'q-practice-own-answer'),
+        choices(),
         button(run.index === run.quiz.questions.length - 1 ? 'See results' : 'Next question', () => { run.next(now()); model.selection = null; render({ focus: 'quiz-practice-heading' }); },
-          { className: 'q-button', id: 'quiz-next' })) :
-        button('Lock answer', () => { run.submit(model.selection, now()); render({ focus: run.phase === 'reveal' ? 'quiz-reveal-heading' : 'quiz-practice-heading' }); },
-          { className: 'q-button', id: 'quiz-lock-answer', disabled: model.selection === null }),
+          { className: 'q-button lime', id: 'quiz-next' })),
+      text('1,000 points for each correct answer. No speed bonus.', 'q-muted q-scoring'));
+    return el('main', { id: 'main', class: 'q-practice q-content-main', tabindex: '-1' },
+      top, retryLabel, messageBlocks(),
+      el('div', { class: 'q-question-stage' }, companionScene(el,3,'is-compact q-question-companion'), progress),
+      el('h1', { id: 'quiz-practice-heading', tabindex: '-1' }, question.prompt),
+      question.timeLimitSeconds > 0 && el('div', { class: 'q-practice-clock' }, icon('clock'),
+        el('p', { id: 'quiz-countdown', class: 'q-countdown', 'aria-label': 'Time remaining' }, run.remainingSeconds(now()) + ' seconds left')),
+      choices(),
+      button('Lock answer', () => { run.submit(model.selection, now()); render({ focus: run.phase === 'reveal' ? 'quiz-reveal-heading' : 'quiz-practice-heading' }); },
+        { className: 'q-button', id: 'quiz-lock-answer', disabled: model.selection === null }),
       text('1,000 points for each correct answer. No speed bonus.', 'q-muted q-scoring'));
   }
   function confirmation() {
@@ -606,6 +652,8 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
   }
   function render({ focus } = {}) {
     if (disposed) return;
+    const codeField = document.activeElement?.id === 'quiz-room-code' ? document.activeElement : null;
+    const codeSelection = codeField ? [codeField.selectionStart, codeField.selectionEnd] : null;
     if (model.draft) queueDraftSave();
     const h = header(), main = model.screen === 'editor' ? editorScreen() : model.screen === 'practice' ? practiceScreen() : libraryScreen(), dialog = confirmation();
     root.replaceChildren(h, main, ...(dialog ? [dialog] : []));
@@ -614,8 +662,11 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
       if (typeof dialog.showModal === 'function') { try { dialog.showModal(); } catch { dialog.setAttribute('open', ''); } }
       else { dialog.setAttribute('open', ''); h.setAttribute('inert', ''); main.setAttribute('inert', ''); }
     }
-    const target = focus && root.querySelector('#' + focus);
-    if (target) target.focus({ preventScroll: false });
+    const target = (focus || codeField) && root.querySelector('#' + (focus || 'quiz-room-code'));
+    if (target && !target.disabled) {
+      target.focus({ preventScroll: !focus && !!codeField });
+      if (!focus && codeSelection && typeof target.setSelectionRange === 'function') target.setSelectionRange(...codeSelection);
+    }
     motion.bind(root,model.screen==='practice'?((model.run.currentQuestion?.id??'results')+':'+model.run.phase):model.screen==='library'?'library':null,
       model.screen==='practice'?'practice:'+model.practiceMotionId:'creator');
   }
@@ -641,8 +692,23 @@ export function mountQuizApp({ root, library, draftStore = null, window: win = g
   const requestedEntry = entryIntent === 'create' || entryIntent === 'host' ? entryIntent : null;
   const recovering = requestedEntry && liveAccess();
   const unfinished = draftStore && (draftStore.hasStoredValue || draftStore.blocked);
+  let requestedStarter = null;
+  if (requestedEntry === 'host' && typeof hostQuiz === 'function') {
+    try {
+      const query = new URL(win.location.href).searchParams;
+      const values = query.getAll('starter'), intents = query.getAll('intent');
+      if (!query.has('room') && intents.length === 1 && intents[0] === 'host' && values.length === 1) {
+        requestedStarter = starterQuizDocuments().find(quiz => quiz.id === values[0]) ?? null;
+      }
+    } catch { /* A malformed hint leaves the ordinary chooser available. */ }
+  }
   if (requestedEntry === 'create' && !recovering && !unfinished && !library.blocked) startEditor();
-  else render({ focus: recovering ? 'quiz-recover-live'
+  else if (requestedStarter && !recovering && !unfinished && !library.blocked) {
+    render({ focus: 'quiz-starters-heading' });
+    // A selected cover opens the same explicit answer-key upload preview.
+    // No room, library write or admission occurs until its confirmation.
+    confirmHost(requestedStarter);
+  } else render({ focus: recovering ? 'quiz-recover-live'
     : requestedEntry && unfinished ? 'quiz-draft-heading'
     : requestedEntry === 'create' && library.blocked ? 'quiz-storage-heading'
       : requestedEntry === 'host' ? 'quiz-starters-heading' : undefined });
